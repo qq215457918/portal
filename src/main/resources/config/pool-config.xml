@@ -1,0 +1,96 @@
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd" default-lazy-init="false" default-autowire="byName">
+        
+<!--     <context:property-placeholder location="classpath:/config/jdbc.properties" /> -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="ignoreResourceNotFound" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:/config/jdbc.properties</value>
+				<value>classpath:/config/config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 定义 druid 数据库 连接池  -->
+    <bean id="mysqlDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+        <property name="initialSize" value="${jdbc.initialSize}" />
+        <property name="maxIdle" value="${jdbc.maxIdle}" />
+        <property name="minIdle" value="${jdbc.minIdle}" />
+        <property name="maxActive" value="${jdbc.maxActive}" />
+        <property name="maxWait" value="${jdbc.maxWait}" />
+        <property name="testOnBorrow" value="${jdbc.testOnBorrow}" />
+        <property name="validationQuery" value="${jdbc.validationQuery}" />
+        <property name="testOnReturn" value="${jdbc.testOnReturn}" />
+        <property name="testWhileIdle" value="${jdbc.testWhileIdle}" />
+        <property name="minEvictableIdleTimeMillis" value="${jdbc.minEvictableIdleTimeMillis}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${jdbc.timeBetweenEvictionRunsMillis}" />
+        <property name="removeAbandoned" value="${jdbc.removeAbandoned}" />
+        <property name="removeAbandonedTimeout" value="${jdbc.removeAbandonedTimeout}" />
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+        <property name="poolPreparedStatements" value="${jdbc.poolPreparedStatements}" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="${jdbc.maxPoolPreparedStatementPerConnectionSize}" />
+		<!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="${jdbc.filters}" />
+        <property name="proxyFilters">
+	        <list>
+	            <ref bean="stat-filter" />
+	            <ref bean="wall-filter"/>
+	        </list>
+	    </property>
+	    <!-- 合并多个DruidDataSource的监控数据 -->
+	    <property name="useGlobalDataSourceStat" value="true" />
+    </bean>
+
+    <!-- 记录慢SQL到log -->
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+	    <property name="slowSqlMillis" value="10000" />
+	    <property name="logSlowSql" value="true" />
+	</bean>
+	
+	<!-- 配置防御SQL注入攻击 -->
+    <bean id="wall-filter" class="com.alibaba.druid.wall.WallFilter">
+        <property name="dbType" value="mysql" />
+        <property name="config" ref="wall-filter-config" />
+        <!-- 对被认为是攻击的SQL进行LOG.error输出 -->
+        <property name="logViolation" value="true" />
+        <!-- 对被认为是攻击的SQL抛出SQLExcepton -->
+        <property name="throwException" value="false" />
+    </bean>
+    
+	<bean id="wall-filter-config" class="com.alibaba.druid.wall.WallConfig" init-method="init">
+    	<!-- 指定配置装载的目录  -->
+    	<property name="dir" value="META-INF/druid/wall/mysql" />
+    </bean>
+    
+    <bean id="druid-stat-interceptor" class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut" scope="prototype">
+	    <property name="patterns">
+	        <list>
+	            <value>com.portal.service.*</value>
+	            <value>com.portal.dao.*</value>
+	        </list>
+	    </property>
+	</bean>
+	<aop:config>
+	    <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+	
+</beans>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"  
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:util="http://www.springframework.org/schema/util" 
+	xmlns:task="http://www.springframework.org/schema/task"  
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd  
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd  
+        http://www.springframework.org/schema/mvc 
+        http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd  
+        http://www.springframework.org/schema/tx 
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd  
+        http://www.springframework.org/schema/util 
+        http://www.springframework.org/schema/util/spring-util-4.3.xsd  
+        http://www.springframework.org/schema/task   
+        http://www.springframework.org/schema/task/spring-task-4.3.xsd" default-lazy-init="false" default-autowire="byName">
+	<!-- 扫描类包，将标注Spring注解的类自动转化Bean，同时完成Bean的注入 -->
+	<context:component-scan base-package="com.portal;" annotation-config="true"/>
+
+	<!-- 注解驱动 -->
+	<context:annotation-config />
+	<mvc:annotation-driven />
+	
+	<!-- task任务扫描注解   -->  
+	<task:annotation-driven/>  
+	<context:component-scan base-package="com.portal.task"></context:component-scan>  
+	
+	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" 
+		p:dataSource-ref="mysqlDataSource"
+    	p:configLocation="classpath:/config/mybatis-config.xml"
+        p:mapperLocations="classpath:com/portal/mapper/**/*.xml"/>
+	
+	<!-- 数据连接事务-->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="mysqlDataSource" />
+		
+	<!-- 配置自动mapper -->
+	<bean name="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer" p:basePackage="com.portal.dao"
+		p:annotationClass="org.springframework.stereotype.Repository"
+		p:sqlSessionFactoryBeanName="mybatisSqlSessionFactory"/>
+	
+	<!-- 开启事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 事务传播方式 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="del*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="batch*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+    
+	<!-- 配置事务生效的类和方法 -->
+	<aop:config>
+		<aop:pointcut id="allManagerMethod" expression="execution(* com.portal.service..*.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="allManagerMethod" />
+	</aop:config>
+	
+	<!-- 配置使Spring采用CGLIB代理 -->  
+    <aop:aspectj-autoproxy proxy-target-class="true"/>  
+
+	<!-- 只搜索@Controller 标注的类 不搜索其他标注的类 -->
+    <context:component-scan base-package="com.portal" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+   
+    <!-- 对某些静态资源，如css,图片等进行过滤 -->
+    <mvc:resources location="/*.html" mapping="/**.html" />  
+    <mvc:resources location="/css/*" mapping="/css/**" />  
+    <mvc:resources location="/js/*" mapping="/js/**" />  
+    <mvc:resources location="/images/*" mapping="/images/**" /> 
+    
+    <!-- jsp视图 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+	    p:viewClass="org.springframework.web.servlet.view.JstlView"
+	    p:prefix="/WEB-INF/jsp/"
+	    p:suffix=".jsp"/>
+	    
+    <!-- 针对类、方法级别的权限拦截器 -->
+<!-- 	<mvc:interceptors> -->
+<!-- 		<bean class="com.portal.commond.interceptor.AuthenticatorInterceptor"></bean> -->
+<!-- 	</mvc:interceptors> -->
+		
+	<import resource="classpath:/config/pool-config.xml" />
+</beans>
