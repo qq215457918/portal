@@ -93,4 +93,5 @@
 <!-- 	</mvc:interceptors> -->
 		
 	<import resource="classpath:/config/pool-config.xml" />
+	<import resource="classpath:/config/shiro-config.xml" />
 </beans>

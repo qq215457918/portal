@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.portal.dao.TestUserDao;
 import com.portal.service.TestUserService;
 
-//@Service
-//@Transactional
+@Service
+@Transactional
 public class TestUserServiceImpl implements TestUserService {
 	
 	@Autowired

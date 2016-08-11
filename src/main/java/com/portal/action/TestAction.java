@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.portal.service.TestUserService;
 
-//@Controller
+@Controller
 public class TestAction {
 	
 	@Autowired
