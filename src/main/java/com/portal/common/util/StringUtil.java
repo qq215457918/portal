@@ -1400,48 +1400,6 @@ public class StringUtil {
 		}
 	}
 
-	public static String getAppPath(Class<?> cls) {
-		if (cls == null)
-			throw new java.lang.IllegalArgumentException("");
-		ClassLoader loader = cls.getClassLoader();
-		String clsName = cls.getName() + ".class";
-		Package pack = cls.getPackage();
-		String path = "";
-		if (pack != null) {
-			String packName = pack.getName();
-			if (packName.startsWith("java.") || packName.startsWith("javax."))
-				throw new java.lang.IllegalArgumentException("");
-			clsName = clsName.substring(packName.length() + 1);
-			if (packName.indexOf(".") < 0)
-				path = packName + "/";
-			else {
-				int start = 0, end = 0;
-				end = packName.indexOf(".");
-				while (end != -1) {
-					path = path + packName.substring(start, end) + "/";
-					start = end + 1;
-					end = packName.indexOf(".", start);
-				}
-				path = path + packName.substring(start) + "/";
-			}
-		}
-		java.net.URL url = loader.getResource(path + clsName);
-		String realPath = url.getPath();
-		int pos = realPath.indexOf("file:");
-		if (pos > -1)
-			realPath = realPath.substring(pos + 5);
-		pos = realPath.indexOf(path + clsName);
-		realPath = realPath.substring(0, pos - 1);
-		if (realPath.endsWith("!"))
-			realPath = realPath.substring(0, realPath.lastIndexOf("/"));
-		try {
-			realPath = java.net.URLDecoder.decode(realPath, "utf-8");
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		return realPath;
-	}
-
 	/**
 	 * 解析URL返回指定的参数值
 	 * 
@@ -1574,26 +1532,6 @@ public class StringUtil {
 		big = big.setScale(xsw, BigDecimal.ROUND_HALF_UP);
 		return big.toString();
 	}
-
-	/**
-	 * 计算
-	 * 
-	 * @param expr
-	 * @return
-	 */
-//	public static String calc(String expr) {
-//		SimpleEvaluationContext context = new SimpleEvaluationContext();
-//		try {
-//			Expr e = ExprParser.parse(expr);
-//			Exprs.toUpperCase(e);
-//			if (e instanceof ExprEvaluatable) {
-//				e = ((ExprEvaluatable) e).evaluate(context);
-//			}
-//			return e.toString();
-//		} catch (Exception e) {
-//			return null;
-//		}
-//	}
 
 	/**
 	 * 将字符串中的指定内容全部替换成指定的大小写形式 如将ABC、abc、Abc、aBc统一替换成"abc"可使用此方法
