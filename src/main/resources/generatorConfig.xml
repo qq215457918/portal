@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 配置Run As Maven build : Goals 参数 : mybatis-generator:generate -Dmybatis.generator.overwrite=true -->
+<generatorConfiguration>
+
+	<context id="Mybatis3" targetRuntime="Mybatis3">
+		<plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+		<!-- 生成dao层的共通类 -->
+		<plugin type="org.mybatis.generator.plugins.MybatisCriteriaPlugin" />
+		<!-- 生成service层 -->
+		<plugin type="org.mybatis.generator.plugins.MybatisServicePlugin">
+			<property name="targetPackage" value="com.portal.service" />
+			<property name="implementationPackage" value="com.portal.service.impl" />
+			<property name="targetProject" value="E:/generator" />
+			<property name="enableInsert" value="true" />
+			<property name="enableUpdateByExampleSelective" value="true" />
+			<property name="enableInsertSelective" value="true" />
+			<property name="enableUpdateByPrimaryKey" value="true" />
+			<property name="enableDeleteByPrimaryKey" value="true" />
+			<property name="enableDeleteByExample" value="true" />
+			<property name="enableUpdateByPrimaryKeySelective" value="true" />
+			<property name="enableUpdateByExample" value="true" />
+		</plugin>
+
+		<!-- 数据库连接信息 -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+		                       connectionURL="jdbc:mysql://localhost:3306/crm?useSSL=false"
+			                   userId="root"
+			                   password="root" />
+
+		<!-- java实体类 -->
+		<javaModelGenerator targetPackage="com.portal.bean" targetProject="E:/generator">
+			<property name="enableSubPackages" value="true" />
+		</javaModelGenerator>
+
+        <!--生成xml mapper文件 路径 -->
+		<sqlMapGenerator targetPackage="com.portal.mapper" targetProject="E:/generator">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<!-- 生成的Dao接口 的包路径 -->
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.portal.dao" targetProject="E:/generator">
+		</javaClientGenerator>
+		
+		<table tableName="user_info"></table>
+
+	</context>
+</generatorConfiguration>
