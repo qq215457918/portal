@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.CustomerInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.CustomerInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="season2" property="season2" jdbcType="VARCHAR" />
+    <result column="season3" property="season3" jdbcType="VARCHAR" />
+    <result column="season4" property="season4" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="phone2" property="phone2" jdbcType="VARCHAR" />
+    <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="msn" property="msn" jdbcType="VARCHAR" />
+    <result column="site" property="site" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="product" property="product" jdbcType="VARCHAR" />
+    <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
+    <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
+    <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
+    <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.type != null" >
+         and type = #{condition.type,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.season2 != null" >
+         and season2 = #{condition.season2,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.season3 != null" >
+         and season3 = #{condition.season3,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.season4 != null" >
+         and season4 = #{condition.season4,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.name != null" >
+         and name = #{condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffId != null" >
+         and phone_staff_id = #{condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.businessPhone != null" >
+         and business_phone = #{condition.businessPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phone != null" >
+         and phone = #{condition.phone,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.visitDate != null" >
+         and visit_date = #{condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.area != null" >
+         and area = #{condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phone2 != null" >
+         and phone2 = #{condition.phone2,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.relationId != null" >
+         and relation_id = #{condition.relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.qq != null" >
+         and qq = #{condition.qq,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.msn != null" >
+         and msn = #{condition.msn,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.site != null" >
+         and site = #{condition.site,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.idCard != null" >
+         and id_card = #{condition.idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.product != null" >
+         and product = #{condition.product,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.transactionAmount != null" >
+         and transaction_amount = #{condition.transactionAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.recentVisitDate != null" >
+         and recent_visit_date = #{condition.recentVisitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.recentExportDate != null" >
+         and recent_export_date = #{condition.recentExportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.blacklistFlag != null" >
+         and blacklist_flag = #{condition.blacklistFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateFlag != null" >
+         and update_flag = #{condition.updateFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.type != null" >
+         and type = #{example.condition.type,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.season2 != null" >
+         and season2 = #{example.condition.season2,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.season3 != null" >
+         and season3 = #{example.condition.season3,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.season4 != null" >
+         and season4 = #{example.condition.season4,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.name != null" >
+         and name = #{example.condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phoneStaffId != null" >
+         and phone_staff_id = #{example.condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverStaffId != null" >
+         and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.businessPhone != null" >
+         and business_phone = #{example.condition.businessPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phone != null" >
+         and phone = #{example.condition.phone,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.visitDate != null" >
+         and visit_date = #{example.condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.area != null" >
+         and area = #{example.condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phone2 != null" >
+         and phone2 = #{example.condition.phone2,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.relationId != null" >
+         and relation_id = #{example.condition.relationId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.qq != null" >
+         and qq = #{example.condition.qq,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.msn != null" >
+         and msn = #{example.condition.msn,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.site != null" >
+         and site = #{example.condition.site,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.idCard != null" >
+         and id_card = #{example.condition.idCard,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.product != null" >
+         and product = #{example.condition.product,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.transactionAmount != null" >
+         and transaction_amount = #{example.condition.transactionAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.recentVisitDate != null" >
+         and recent_visit_date = #{example.condition.recentVisitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.recentExportDate != null" >
+         and recent_export_date = #{example.condition.recentExportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.blacklistFlag != null" >
+         and blacklist_flag = #{example.condition.blacklistFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateDate != null" >
+         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.updateFlag != null" >
+         and update_flag = #{example.condition.updateFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
+    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
+    recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.CustomerInfo" >
+    insert into customer_info (id, type, season2, 
+      season3, season4, name, 
+      phone_staff_id, receiver_staff_id, business_phone, 
+      phone, visit_date, area, 
+      phone2, relation_id, qq, 
+      msn, site, id_card, 
+      product, transaction_amount, recent_visit_date, 
+      recent_export_date, blacklist_flag, update_date, 
+      update_flag)
+    values (#{id,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{season2,jdbcType=VARCHAR}, 
+      #{season3,jdbcType=VARCHAR}, #{season4,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{phoneStaffId,jdbcType=VARCHAR}, #{receiverStaffId,jdbcType=VARCHAR}, #{businessPhone,jdbcType=VARCHAR}, 
+      #{phone,jdbcType=VARCHAR}, #{visitDate,jdbcType=TIMESTAMP}, #{area,jdbcType=VARCHAR}, 
+      #{phone2,jdbcType=VARCHAR}, #{relationId,jdbcType=VARCHAR}, #{qq,jdbcType=VARCHAR}, 
+      #{msn,jdbcType=VARCHAR}, #{site,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, 
+      #{product,jdbcType=VARCHAR}, #{transactionAmount,jdbcType=DECIMAL}, #{recentVisitDate,jdbcType=TIMESTAMP}, 
+      #{recentExportDate,jdbcType=TIMESTAMP}, #{blacklistFlag,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{updateFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.CustomerInfo" >
+    insert into customer_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="season2 != null" >
+        season2,
+      </if>
+      <if test="season3 != null" >
+        season3,
+      </if>
+      <if test="season4 != null" >
+        season4,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="phoneStaffId != null" >
+        phone_staff_id,
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id,
+      </if>
+      <if test="businessPhone != null" >
+        business_phone,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="visitDate != null" >
+        visit_date,
+      </if>
+      <if test="area != null" >
+        area,
+      </if>
+      <if test="phone2 != null" >
+        phone2,
+      </if>
+      <if test="relationId != null" >
+        relation_id,
+      </if>
+      <if test="qq != null" >
+        qq,
+      </if>
+      <if test="msn != null" >
+        msn,
+      </if>
+      <if test="site != null" >
+        site,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="product != null" >
+        product,
+      </if>
+      <if test="transactionAmount != null" >
+        transaction_amount,
+      </if>
+      <if test="recentVisitDate != null" >
+        recent_visit_date,
+      </if>
+      <if test="recentExportDate != null" >
+        recent_export_date,
+      </if>
+      <if test="blacklistFlag != null" >
+        blacklist_flag,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateFlag != null" >
+        update_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="season2 != null" >
+        #{season2,jdbcType=VARCHAR},
+      </if>
+      <if test="season3 != null" >
+        #{season3,jdbcType=VARCHAR},
+      </if>
+      <if test="season4 != null" >
+        #{season4,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffId != null" >
+        #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPhone != null" >
+        #{businessPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null" >
+        #{visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="phone2 != null" >
+        #{phone2,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="msn != null" >
+        #{msn,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null" >
+        #{product,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null" >
+        #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="recentVisitDate != null" >
+        #{recentVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recentExportDate != null" >
+        #{recentExportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blacklistFlag != null" >
+        #{blacklistFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateFlag != null" >
+        #{updateFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from customer_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.season2 != null" >
+        season2 = #{record.season2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.season3 != null" >
+        season3 = #{record.season3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.season4 != null" >
+        season4 = #{record.season4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneStaffId != null" >
+        phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverStaffId != null" >
+        receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessPhone != null" >
+        business_phone = #{record.businessPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visitDate != null" >
+        visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.area != null" >
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone2 != null" >
+        phone2 = #{record.phone2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.relationId != null" >
+        relation_id = #{record.relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qq != null" >
+        qq = #{record.qq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msn != null" >
+        msn = #{record.msn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.site != null" >
+        site = #{record.site,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null" >
+        id_card = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.product != null" >
+        product = #{record.product,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionAmount != null" >
+        transaction_amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.recentVisitDate != null" >
+        recent_visit_date = #{record.recentVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.recentExportDate != null" >
+        recent_export_date = #{record.recentExportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.blacklistFlag != null" >
+        blacklist_flag = #{record.blacklistFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateFlag != null" >
+        update_flag = #{record.updateFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      season2 = #{record.season2,jdbcType=VARCHAR},
+      season3 = #{record.season3,jdbcType=VARCHAR},
+      season4 = #{record.season4,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      business_phone = #{record.businessPhone,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
+      area = #{record.area,jdbcType=VARCHAR},
+      phone2 = #{record.phone2,jdbcType=VARCHAR},
+      relation_id = #{record.relationId,jdbcType=VARCHAR},
+      qq = #{record.qq,jdbcType=VARCHAR},
+      msn = #{record.msn,jdbcType=VARCHAR},
+      site = #{record.site,jdbcType=VARCHAR},
+      id_card = #{record.idCard,jdbcType=VARCHAR},
+      product = #{record.product,jdbcType=VARCHAR},
+      transaction_amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      recent_visit_date = #{record.recentVisitDate,jdbcType=TIMESTAMP},
+      recent_export_date = #{record.recentExportDate,jdbcType=TIMESTAMP},
+      blacklist_flag = #{record.blacklistFlag,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_flag = #{record.updateFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.CustomerInfo" >
+    update customer_info
+    <set >
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="season2 != null" >
+        season2 = #{season2,jdbcType=VARCHAR},
+      </if>
+      <if test="season3 != null" >
+        season3 = #{season3,jdbcType=VARCHAR},
+      </if>
+      <if test="season4 != null" >
+        season4 = #{season4,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffId != null" >
+        phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="businessPhone != null" >
+        business_phone = #{businessPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null" >
+        visit_date = #{visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="area != null" >
+        area = #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="phone2 != null" >
+        phone2 = #{phone2,jdbcType=VARCHAR},
+      </if>
+      <if test="relationId != null" >
+        relation_id = #{relationId,jdbcType=VARCHAR},
+      </if>
+      <if test="qq != null" >
+        qq = #{qq,jdbcType=VARCHAR},
+      </if>
+      <if test="msn != null" >
+        msn = #{msn,jdbcType=VARCHAR},
+      </if>
+      <if test="site != null" >
+        site = #{site,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="product != null" >
+        product = #{product,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null" >
+        transaction_amount = #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="recentVisitDate != null" >
+        recent_visit_date = #{recentVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="recentExportDate != null" >
+        recent_export_date = #{recentExportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="blacklistFlag != null" >
+        blacklist_flag = #{blacklistFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateFlag != null" >
+        update_flag = #{updateFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.CustomerInfo" >
+    update customer_info
+    set type = #{type,jdbcType=VARCHAR},
+      season2 = #{season2,jdbcType=VARCHAR},
+      season3 = #{season3,jdbcType=VARCHAR},
+      season4 = #{season4,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      business_phone = #{businessPhone,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      visit_date = #{visitDate,jdbcType=TIMESTAMP},
+      area = #{area,jdbcType=VARCHAR},
+      phone2 = #{phone2,jdbcType=VARCHAR},
+      relation_id = #{relationId,jdbcType=VARCHAR},
+      qq = #{qq,jdbcType=VARCHAR},
+      msn = #{msn,jdbcType=VARCHAR},
+      site = #{site,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      product = #{product,jdbcType=VARCHAR},
+      transaction_amount = #{transactionAmount,jdbcType=DECIMAL},
+      recent_visit_date = #{recentVisitDate,jdbcType=TIMESTAMP},
+      recent_export_date = #{recentExportDate,jdbcType=TIMESTAMP},
+      blacklist_flag = #{blacklistFlag,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_flag = #{updateFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

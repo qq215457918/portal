@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.CustomerCultureInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.CustomerCultureInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="culture_name" property="cultureName" jdbcType="VARCHAR" />
+    <result column="account_date" property="accountDate" jdbcType="TIMESTAMP" />
+    <result column="bank_flag" property="bankFlag" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.cultureName != null" >
+         and culture_name = #{condition.cultureName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.accountDate != null" >
+         and account_date = #{condition.accountDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.bankFlag != null" >
+         and bank_flag = #{condition.bankFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerName != null" >
+         and customer_name = #{condition.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phone != null" >
+         and phone = #{condition.phone,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.code != null" >
+         and code = #{condition.code,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateFlag != null" >
+         and update_flag = #{condition.updateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.cultureName != null" >
+         and culture_name = #{example.condition.cultureName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.accountDate != null" >
+         and account_date = #{example.condition.accountDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.bankFlag != null" >
+         and bank_flag = #{example.condition.bankFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerName != null" >
+         and customer_name = #{example.condition.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phone != null" >
+         and phone = #{example.condition.phone,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.code != null" >
+         and code = #{example.condition.code,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateFlag != null" >
+         and update_flag = #{example.condition.updateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateDate != null" >
+         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, culture_name, account_date, bank_flag, customer_name, phone, code, update_flag, 
+    update_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from customer_culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_culture_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer_culture_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from customer_culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.CustomerCultureInfo" >
+    insert into customer_culture_info (id, culture_name, account_date, 
+      bank_flag, customer_name, phone, 
+      code, update_flag, update_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{cultureName,jdbcType=VARCHAR}, #{accountDate,jdbcType=TIMESTAMP}, 
+      #{bankFlag,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{updateFlag,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.CustomerCultureInfo" >
+    insert into customer_culture_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="cultureName != null" >
+        culture_name,
+      </if>
+      <if test="accountDate != null" >
+        account_date,
+      </if>
+      <if test="bankFlag != null" >
+        bank_flag,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="updateFlag != null" >
+        update_flag,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureName != null" >
+        #{cultureName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountDate != null" >
+        #{accountDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankFlag != null" >
+        #{bankFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null" >
+        #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from customer_culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update customer_culture_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cultureName != null" >
+        culture_name = #{record.cultureName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountDate != null" >
+        account_date = #{record.accountDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bankFlag != null" >
+        bank_flag = #{record.bankFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null" >
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateFlag != null" >
+        update_flag = #{record.updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update customer_culture_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      culture_name = #{record.cultureName,jdbcType=VARCHAR},
+      account_date = #{record.accountDate,jdbcType=TIMESTAMP},
+      bank_flag = #{record.bankFlag,jdbcType=VARCHAR},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      update_flag = #{record.updateFlag,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.CustomerCultureInfo" >
+    update customer_culture_info
+    <set >
+      <if test="cultureName != null" >
+        culture_name = #{cultureName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountDate != null" >
+        account_date = #{accountDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bankFlag != null" >
+        bank_flag = #{bankFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="updateFlag != null" >
+        update_flag = #{updateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.CustomerCultureInfo" >
+    update customer_culture_info
+    set culture_name = #{cultureName,jdbcType=VARCHAR},
+      account_date = #{accountDate,jdbcType=TIMESTAMP},
+      bank_flag = #{bankFlag,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      update_flag = #{updateFlag,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

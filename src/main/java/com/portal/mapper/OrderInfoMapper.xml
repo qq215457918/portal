@@ -1,0 +1,579 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.OrderInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.OrderInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+    <result column="actual_price" property="actualPrice" jdbcType="DECIMAL" />
+    <result column="finance_flag" property="financeFlag" jdbcType="VARCHAR" />
+    <result column="finance_type" property="financeType" jdbcType="VARCHAR" />
+    <result column="finance_operator_id" property="financeOperatorId" jdbcType="VARCHAR" />
+    <result column="finance_date" property="financeDate" jdbcType="TIMESTAMP" />
+    <result column="warehouse_flag" property="warehouseFlag" jdbcType="VARCHAR" />
+    <result column="warehouse_operator_id" property="warehouseOperatorId" jdbcType="VARCHAR" />
+    <result column="warehouse_date" property="warehouseDate" jdbcType="TIMESTAMP" />
+    <result column="culture_flag" property="cultureFlag" jdbcType="VARCHAR" />
+    <result column="culture_operator_id" property="cultureOperatorId" jdbcType="VARCHAR" />
+    <result column="culture_date" property="cultureDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.customerId != null" >
+         and customer_id = #{condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffId != null" >
+         and phone_staff_id = #{condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.status != null" >
+         and status = #{condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderType != null" >
+         and order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payType != null" >
+         and pay_type = #{condition.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payPrice != null" >
+         and pay_price = #{condition.payPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.actualPrice != null" >
+         and actual_price = #{condition.actualPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.financeFlag != null" >
+         and finance_flag = #{condition.financeFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeType != null" >
+         and finance_type = #{condition.financeType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeOperatorId != null" >
+         and finance_operator_id = #{condition.financeOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeDate != null" >
+         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.warehouseFlag != null" >
+         and warehouse_flag = #{condition.warehouseFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.warehouseOperatorId != null" >
+         and warehouse_operator_id = #{condition.warehouseOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.warehouseDate != null" >
+         and warehouse_date = #{condition.warehouseDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.cultureFlag != null" >
+         and culture_flag = #{condition.cultureFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.cultureOperatorId != null" >
+         and culture_operator_id = #{condition.cultureOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.cultureDate != null" >
+         and culture_date = #{condition.cultureDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createId != null" >
+         and create_id = #{condition.createId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateId != null" >
+         and update_id = #{condition.updateId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.customerId != null" >
+         and customer_id = #{example.condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phoneStaffId != null" >
+         and phone_staff_id = #{example.condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverStaffId != null" >
+         and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.status != null" >
+         and status = #{example.condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.orderType != null" >
+         and order_type = #{example.condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.payType != null" >
+         and pay_type = #{example.condition.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.payPrice != null" >
+         and pay_price = #{example.condition.payPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.actualPrice != null" >
+         and actual_price = #{example.condition.actualPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.financeFlag != null" >
+         and finance_flag = #{example.condition.financeFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.financeType != null" >
+         and finance_type = #{example.condition.financeType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.financeOperatorId != null" >
+         and finance_operator_id = #{example.condition.financeOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.financeDate != null" >
+         and finance_date = #{example.condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.warehouseFlag != null" >
+         and warehouse_flag = #{example.condition.warehouseFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.warehouseOperatorId != null" >
+         and warehouse_operator_id = #{example.condition.warehouseOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.warehouseDate != null" >
+         and warehouse_date = #{example.condition.warehouseDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.cultureFlag != null" >
+         and culture_flag = #{example.condition.cultureFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.cultureOperatorId != null" >
+         and culture_operator_id = #{example.condition.cultureOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.cultureDate != null" >
+         and culture_date = #{example.condition.cultureDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.createId != null" >
+         and create_id = #{example.condition.createId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateDate != null" >
+         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.updateId != null" >
+         and update_id = #{example.condition.updateId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customer_id, phone_staff_id, receiver_staff_id, status, order_type, pay_type, 
+    pay_price, actual_price, finance_flag, finance_type, finance_operator_id, finance_date, 
+    warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, culture_operator_id, 
+    culture_date, create_date, create_id, update_date, update_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.OrderInfo" >
+    insert into order_info (id, customer_id, phone_staff_id, 
+      receiver_staff_id, status, order_type, 
+      pay_type, pay_price, actual_price, 
+      finance_flag, finance_type, finance_operator_id, 
+      finance_date, warehouse_flag, warehouse_operator_id, 
+      warehouse_date, culture_flag, culture_operator_id, 
+      culture_date, create_date, create_id, 
+      update_date, update_id)
+    values (#{id,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{phoneStaffId,jdbcType=VARCHAR}, 
+      #{receiverStaffId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, 
+      #{payType,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
+      #{financeFlag,jdbcType=VARCHAR}, #{financeType,jdbcType=VARCHAR}, #{financeOperatorId,jdbcType=VARCHAR}, 
+      #{financeDate,jdbcType=TIMESTAMP}, #{warehouseFlag,jdbcType=VARCHAR}, #{warehouseOperatorId,jdbcType=VARCHAR}, 
+      #{warehouseDate,jdbcType=TIMESTAMP}, #{cultureFlag,jdbcType=VARCHAR}, #{cultureOperatorId,jdbcType=VARCHAR}, 
+      #{cultureDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.OrderInfo" >
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="phoneStaffId != null" >
+        phone_staff_id,
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="orderType != null" >
+        order_type,
+      </if>
+      <if test="payType != null" >
+        pay_type,
+      </if>
+      <if test="payPrice != null" >
+        pay_price,
+      </if>
+      <if test="actualPrice != null" >
+        actual_price,
+      </if>
+      <if test="financeFlag != null" >
+        finance_flag,
+      </if>
+      <if test="financeType != null" >
+        finance_type,
+      </if>
+      <if test="financeOperatorId != null" >
+        finance_operator_id,
+      </if>
+      <if test="financeDate != null" >
+        finance_date,
+      </if>
+      <if test="warehouseFlag != null" >
+        warehouse_flag,
+      </if>
+      <if test="warehouseOperatorId != null" >
+        warehouse_operator_id,
+      </if>
+      <if test="warehouseDate != null" >
+        warehouse_date,
+      </if>
+      <if test="cultureFlag != null" >
+        culture_flag,
+      </if>
+      <if test="cultureOperatorId != null" >
+        culture_operator_id,
+      </if>
+      <if test="cultureDate != null" >
+        culture_date,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createId != null" >
+        create_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateId != null" >
+        update_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffId != null" >
+        #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="actualPrice != null" >
+        #{actualPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="financeFlag != null" >
+        #{financeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="financeType != null" >
+        #{financeType,jdbcType=VARCHAR},
+      </if>
+      <if test="financeOperatorId != null" >
+        #{financeOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="financeDate != null" >
+        #{financeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseFlag != null" >
+        #{warehouseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseOperatorId != null" >
+        #{warehouseOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseDate != null" >
+        #{warehouseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cultureFlag != null" >
+        #{cultureFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureOperatorId != null" >
+        #{cultureOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureDate != null" >
+        #{cultureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from order_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneStaffId != null" >
+        phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverStaffId != null" >
+        receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payType != null" >
+        pay_type = #{record.payType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payPrice != null" >
+        pay_price = #{record.payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.actualPrice != null" >
+        actual_price = #{record.actualPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.financeFlag != null" >
+        finance_flag = #{record.financeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeType != null" >
+        finance_type = #{record.financeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeOperatorId != null" >
+        finance_operator_id = #{record.financeOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeDate != null" >
+        finance_date = #{record.financeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.warehouseFlag != null" >
+        warehouse_flag = #{record.warehouseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseOperatorId != null" >
+        warehouse_operator_id = #{record.warehouseOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.warehouseDate != null" >
+        warehouse_date = #{record.warehouseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.cultureFlag != null" >
+        culture_flag = #{record.cultureFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cultureOperatorId != null" >
+        culture_operator_id = #{record.cultureOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cultureDate != null" >
+        culture_date = #{record.cultureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createId != null" >
+        create_id = #{record.createId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateId != null" >
+        update_id = #{record.updateId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
+      phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=VARCHAR},
+      pay_type = #{record.payType,jdbcType=VARCHAR},
+      pay_price = #{record.payPrice,jdbcType=DECIMAL},
+      actual_price = #{record.actualPrice,jdbcType=DECIMAL},
+      finance_flag = #{record.financeFlag,jdbcType=VARCHAR},
+      finance_type = #{record.financeType,jdbcType=VARCHAR},
+      finance_operator_id = #{record.financeOperatorId,jdbcType=VARCHAR},
+      finance_date = #{record.financeDate,jdbcType=TIMESTAMP},
+      warehouse_flag = #{record.warehouseFlag,jdbcType=VARCHAR},
+      warehouse_operator_id = #{record.warehouseOperatorId,jdbcType=VARCHAR},
+      warehouse_date = #{record.warehouseDate,jdbcType=TIMESTAMP},
+      culture_flag = #{record.cultureFlag,jdbcType=VARCHAR},
+      culture_operator_id = #{record.cultureOperatorId,jdbcType=VARCHAR},
+      culture_date = #{record.cultureDate,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_id = #{record.createId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_id = #{record.updateId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.OrderInfo" >
+    update order_info
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffId != null" >
+        phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="payType != null" >
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="payPrice != null" >
+        pay_price = #{payPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="actualPrice != null" >
+        actual_price = #{actualPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="financeFlag != null" >
+        finance_flag = #{financeFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="financeType != null" >
+        finance_type = #{financeType,jdbcType=VARCHAR},
+      </if>
+      <if test="financeOperatorId != null" >
+        finance_operator_id = #{financeOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="financeDate != null" >
+        finance_date = #{financeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseFlag != null" >
+        warehouse_flag = #{warehouseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseOperatorId != null" >
+        warehouse_operator_id = #{warehouseOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseDate != null" >
+        warehouse_date = #{warehouseDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cultureFlag != null" >
+        culture_flag = #{cultureFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureOperatorId != null" >
+        culture_operator_id = #{cultureOperatorId,jdbcType=VARCHAR},
+      </if>
+      <if test="cultureDate != null" >
+        culture_date = #{cultureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createId != null" >
+        create_id = #{createId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateId != null" >
+        update_id = #{updateId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.OrderInfo" >
+    update order_info
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
+      pay_type = #{payType,jdbcType=VARCHAR},
+      pay_price = #{payPrice,jdbcType=DECIMAL},
+      actual_price = #{actualPrice,jdbcType=DECIMAL},
+      finance_flag = #{financeFlag,jdbcType=VARCHAR},
+      finance_type = #{financeType,jdbcType=VARCHAR},
+      finance_operator_id = #{financeOperatorId,jdbcType=VARCHAR},
+      finance_date = #{financeDate,jdbcType=TIMESTAMP},
+      warehouse_flag = #{warehouseFlag,jdbcType=VARCHAR},
+      warehouse_operator_id = #{warehouseOperatorId,jdbcType=VARCHAR},
+      warehouse_date = #{warehouseDate,jdbcType=TIMESTAMP},
+      culture_flag = #{cultureFlag,jdbcType=VARCHAR},
+      culture_operator_id = #{cultureOperatorId,jdbcType=VARCHAR},
+      culture_date = #{cultureDate,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_id = #{createId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_id = #{updateId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

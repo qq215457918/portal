@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.GoodsInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.GoodsInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sort_id" property="sortId" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="trusteeship_flag" property="trusteeshipFlag" jdbcType="VARCHAR" />
+    <result column="repurchase_flag" property="repurchaseFlag" jdbcType="VARCHAR" />
+    <result column="repurchase_info" property="repurchaseInfo" jdbcType="VARCHAR" />
+    <result column="repurchase_starttime" property="repurchaseStarttime" jdbcType="TIMESTAMP" />
+    <result column="repurchase_endtime" property="repurchaseEndtime" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="create_userid" property="createUserid" jdbcType="VARCHAR" />
+    <result column="update_userid" property="updateUserid" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.sortId != null" >
+         and sort_id = #{condition.sortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.type != null" >
+         and type = #{condition.type,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.code != null" >
+         and code = #{condition.code,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.name != null" >
+         and name = #{condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.amount != null" >
+         and amount = #{condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="condition.trusteeshipFlag != null" >
+         and trusteeship_flag = #{condition.trusteeshipFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.repurchaseFlag != null" >
+         and repurchase_flag = #{condition.repurchaseFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.repurchaseInfo != null" >
+         and repurchase_info = #{condition.repurchaseInfo,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.repurchaseStarttime != null" >
+         and repurchase_starttime = #{condition.repurchaseStarttime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.repurchaseEndtime != null" >
+         and repurchase_endtime = #{condition.repurchaseEndtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createUserid != null" >
+         and create_userid = #{condition.createUserid,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateUserid != null" >
+         and update_userid = #{condition.updateUserid,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.sortId != null" >
+         and sort_id = #{example.condition.sortId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.type != null" >
+         and type = #{example.condition.type,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.code != null" >
+         and code = #{example.condition.code,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.name != null" >
+         and name = #{example.condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.amount != null" >
+         and amount = #{example.condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.trusteeshipFlag != null" >
+         and trusteeship_flag = #{example.condition.trusteeshipFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.repurchaseFlag != null" >
+         and repurchase_flag = #{example.condition.repurchaseFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.repurchaseInfo != null" >
+         and repurchase_info = #{example.condition.repurchaseInfo,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.repurchaseStarttime != null" >
+         and repurchase_starttime = #{example.condition.repurchaseStarttime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.repurchaseEndtime != null" >
+         and repurchase_endtime = #{example.condition.repurchaseEndtime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.updateDate != null" >
+         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.createUserid != null" >
+         and create_userid = #{example.condition.createUserid,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateUserid != null" >
+         and update_userid = #{example.condition.updateUserid,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.deleteFlag != null" >
+         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sort_id, type, code, name, amount, trusteeship_flag, repurchase_flag, repurchase_info, 
+    repurchase_starttime, repurchase_endtime, create_date, update_date, create_userid, 
+    update_userid, delete_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from goods_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from goods_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.GoodsInfo" >
+    insert into goods_info (id, sort_id, type, 
+      code, name, amount, 
+      trusteeship_flag, repurchase_flag, repurchase_info, 
+      repurchase_starttime, repurchase_endtime, 
+      create_date, update_date, create_userid, 
+      update_userid, delete_flag)
+    values (#{id,jdbcType=VARCHAR}, #{sortId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, 
+      #{trusteeshipFlag,jdbcType=VARCHAR}, #{repurchaseFlag,jdbcType=VARCHAR}, #{repurchaseInfo,jdbcType=VARCHAR}, 
+      #{repurchaseStarttime,jdbcType=TIMESTAMP}, #{repurchaseEndtime,jdbcType=TIMESTAMP}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=VARCHAR}, 
+      #{updateUserid,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.GoodsInfo" >
+    insert into goods_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sortId != null" >
+        sort_id,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="trusteeshipFlag != null" >
+        trusteeship_flag,
+      </if>
+      <if test="repurchaseFlag != null" >
+        repurchase_flag,
+      </if>
+      <if test="repurchaseInfo != null" >
+        repurchase_info,
+      </if>
+      <if test="repurchaseStarttime != null" >
+        repurchase_starttime,
+      </if>
+      <if test="repurchaseEndtime != null" >
+        repurchase_endtime,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="createUserid != null" >
+        create_userid,
+      </if>
+      <if test="updateUserid != null" >
+        update_userid,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sortId != null" >
+        #{sortId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="trusteeshipFlag != null" >
+        #{trusteeshipFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseFlag != null" >
+        #{repurchaseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseInfo != null" >
+        #{repurchaseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseStarttime != null" >
+        #{repurchaseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repurchaseEndtime != null" >
+        #{repurchaseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserid != null" >
+        #{createUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserid != null" >
+        #{updateUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from goods_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update goods_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortId != null" >
+        sort_id = #{record.sortId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.trusteeshipFlag != null" >
+        trusteeship_flag = #{record.trusteeshipFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repurchaseFlag != null" >
+        repurchase_flag = #{record.repurchaseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repurchaseInfo != null" >
+        repurchase_info = #{record.repurchaseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.repurchaseStarttime != null" >
+        repurchase_starttime = #{record.repurchaseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.repurchaseEndtime != null" >
+        repurchase_endtime = #{record.repurchaseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserid != null" >
+        create_userid = #{record.createUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateUserid != null" >
+        update_userid = #{record.updateUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update goods_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      sort_id = #{record.sortId,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=INTEGER},
+      trusteeship_flag = #{record.trusteeshipFlag,jdbcType=VARCHAR},
+      repurchase_flag = #{record.repurchaseFlag,jdbcType=VARCHAR},
+      repurchase_info = #{record.repurchaseInfo,jdbcType=VARCHAR},
+      repurchase_starttime = #{record.repurchaseStarttime,jdbcType=TIMESTAMP},
+      repurchase_endtime = #{record.repurchaseEndtime,jdbcType=TIMESTAMP},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      create_userid = #{record.createUserid,jdbcType=VARCHAR},
+      update_userid = #{record.updateUserid,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.GoodsInfo" >
+    update goods_info
+    <set >
+      <if test="sortId != null" >
+        sort_id = #{sortId,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="trusteeshipFlag != null" >
+        trusteeship_flag = #{trusteeshipFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseFlag != null" >
+        repurchase_flag = #{repurchaseFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseInfo != null" >
+        repurchase_info = #{repurchaseInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="repurchaseStarttime != null" >
+        repurchase_starttime = #{repurchaseStarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repurchaseEndtime != null" >
+        repurchase_endtime = #{repurchaseEndtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserid != null" >
+        create_userid = #{createUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="updateUserid != null" >
+        update_userid = #{updateUserid,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.GoodsInfo" >
+    update goods_info
+    set sort_id = #{sortId,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=INTEGER},
+      trusteeship_flag = #{trusteeshipFlag,jdbcType=VARCHAR},
+      repurchase_flag = #{repurchaseFlag,jdbcType=VARCHAR},
+      repurchase_info = #{repurchaseInfo,jdbcType=VARCHAR},
+      repurchase_starttime = #{repurchaseStarttime,jdbcType=TIMESTAMP},
+      repurchase_endtime = #{repurchaseEndtime,jdbcType=TIMESTAMP},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      create_userid = #{createUserid,jdbcType=VARCHAR},
+      update_userid = #{updateUserid,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
