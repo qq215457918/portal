@@ -43,7 +43,20 @@
 		<javaClientGenerator type="XMLMAPPER" targetPackage="com.portal.dao" targetProject="E:/generator">
 		</javaClientGenerator>
 		
-		<table tableName="user_info"></table>
-
+		<table tableName="customer_culture_info"></table>
+		<table tableName="customer_info"></table>
+		<table tableName="employee_info"></table>
+		<table tableName="goods_info"></table>
+		<table tableName="goods_sort"></table>
+		<table tableName="group_info"></table>
+		<table tableName="order_detail_info"></table>
+		<table tableName="order_info"></table>
+		<table tableName="permission_info"></table>
+		<table tableName="reception_info"></table>
+		<table tableName="report_good"></table>
+		<table tableName="report_track"></table>
+		<table tableName="role_info"></table>
+		<table tableName="role_permission"></table>
+		<table tableName="user_role"></table>
 	</context>
 </generatorConfiguration>
