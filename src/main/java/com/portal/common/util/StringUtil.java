@@ -15,16 +15,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +31,6 @@ import org.apache.commons.lang3.StringUtils;
  * 字符串、时间等基础应用处理
  * 
  */
-@SuppressWarnings("unchecked")
 public class StringUtil {
 
 	/**
@@ -1654,4 +1649,15 @@ public class StringUtil {
 		}
 		return fileSizeString;
 	}
+	
+	/**
+     *方法名:getUUID
+     *返回值:String
+     *作     用:获得uuid生成的id
+     *作     者:夏政委
+     *日     期:2014年12月2日 上午9:07:23
+     */
+    public static String getUUID(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }

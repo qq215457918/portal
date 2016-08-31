@@ -1,7 +1,5 @@
 package com.portal.common;
 
-import java.util.List;
-import javax.annotation.Resource;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;

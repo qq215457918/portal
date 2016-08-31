@@ -76,10 +76,7 @@
     </context:component-scan>
    
     <!-- 对某些静态资源，如css,图片等进行过滤 -->
-    <mvc:resources location="/*.html" mapping="/**.html" />  
-    <mvc:resources location="/css/*" mapping="/css/**" />  
-    <mvc:resources location="/js/*" mapping="/js/**" />  
-    <mvc:resources location="/images/*" mapping="/images/**" /> 
+    <mvc:resources location="/resources/" mapping="/resources/**"/>
     
     <!-- jsp视图 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
