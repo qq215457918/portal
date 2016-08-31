@@ -12,7 +12,7 @@ import com.portal.service.TestUserService;
 
 @Controller
 public class TestAction {
-	
+
 	@Autowired
 	private TestUserService testUserService;
 	
