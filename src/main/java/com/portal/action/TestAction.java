@@ -21,7 +21,7 @@ public class TestAction {
 	    //获取项目基础路径
         String basePath = WebUtils.getBasePath(request, response);
         //供页面和后台引用项目路径使用
-        request.getSession().setAttribute("basePath", basePath);
+        request.getSession().setAttribute("basePath", basePath); 
 	    return "index";
 		//testUserService.insertUserInfo();
 	}
