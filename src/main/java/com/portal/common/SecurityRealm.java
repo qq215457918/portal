@@ -25,6 +25,7 @@ import org.springframework.stereotype.Component;
 @Component(value = "securityRealm")
 public class SecurityRealm extends AuthorizingRealm {
 
+	
     /**
      * 权限检查
      */
