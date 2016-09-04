@@ -26,7 +26,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
    */
     
     public CustomerInfo selectByPhone(String phone) {
-        return this.customerInfoExtraDao.selectByPhone(phone);
+        return customerInfoExtraDao.selectByPhone(phone);
     }
     
     public int countByExample(Criteria example) {

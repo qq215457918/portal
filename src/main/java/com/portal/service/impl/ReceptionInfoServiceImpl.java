@@ -4,6 +4,8 @@ import com.portal.bean.Criteria;
 import com.portal.bean.ReceptionInfo;
 import com.portal.dao.ReceptionInfoDao;
 import com.portal.service.ReceptionInfoService;
+
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,20 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(ReceptionInfoServiceImpl.class);
 
+    /**
+     * 记录开始接待时间
+     * @return
+     */
+    public boolean recordReceptionTime(String customerId, String receiverStaffId){
+    	ReceptionInfo receptionInfo = new ReceptionInfo();
+    	receptionInfo.setCustomerId(customerId);
+    	receptionInfo.setReceiverStaffId(receiverStaffId);
+    	receptionInfo.setCreateDate(new Date());
+    	receptionInfo.setStartTime(new Date());
+    	int result = insert(receptionInfo);
+    	return result>0 ? true:false;
+    }
+    
     public int countByExample(Criteria example) {
         int count = this.receptionInfoDao.countByExample(example);
         logger.debug("count: {}", count);
