@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.CustomerInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.CustomerInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="season2" property="season2" jdbcType="VARCHAR" />
+    <result column="season3" property="season3" jdbcType="VARCHAR" />
+    <result column="season4" property="season4" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="phone2" property="phone2" jdbcType="VARCHAR" />
+    <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
+    <result column="qq" property="qq" jdbcType="VARCHAR" />
+    <result column="msn" property="msn" jdbcType="VARCHAR" />
+    <result column="site" property="site" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="product" property="product" jdbcType="VARCHAR" />
+    <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
+    <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
+    <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
+    <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
+    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
+    recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_info
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+</mapper>

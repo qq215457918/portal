@@ -3,6 +3,7 @@ package com.portal.service.impl;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.dao.CustomerInfoDao;
+import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import java.util.List;
 import org.slf4j.Logger;
@@ -14,9 +15,20 @@ import org.springframework.stereotype.Service;
 public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Autowired
     private CustomerInfoDao customerInfoDao;
+    
+    @Autowired
+    private CustomerInfoExtraDao customerInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerInfoServiceImpl.class);
 
+  /**
+   * 通过电话号码查询客户信息
+   */
+    
+    public CustomerInfo selectByPhone(String phone) {
+        return this.customerInfoExtraDao.selectByPhone(phone);
+    }
+    
     public int countByExample(Criteria example) {
         int count = this.customerInfoDao.countByExample(example);
         logger.debug("count: {}", count);
