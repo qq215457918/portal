@@ -16,5 +16,12 @@ public interface ReceptionInfoExtraDao {
 	 * @return
 	 */
 	List<ReceptionInfoFrom> queryRecordListbyId(String customerId);
+	
+	/**
+	 * 查询为完成的拜访记录
+	 * by meng.yue
+	 * @return
+	 */
+	ReceptionInfoFrom queryRecordBeginbyId(String customerId);
 
 }

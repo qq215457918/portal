@@ -25,4 +25,18 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
+    <select id="queryRecordListbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from reception_info
+    where end_time =null
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
 </mapper>

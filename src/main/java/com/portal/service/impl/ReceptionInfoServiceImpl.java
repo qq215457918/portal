@@ -6,6 +6,7 @@ import com.portal.bean.result.ReceptionInfoFrom;
 import com.portal.dao.ReceptionInfoDao;
 import com.portal.dao.extra.ReceptionInfoExtraDao;
 import com.portal.service.ReceptionInfoService;
+import com.sun.org.apache.bcel.internal.generic.ReturnaddressType;
 
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitterReturnValueHandler;
 
 @Service
 public class ReceptionInfoServiceImpl implements ReceptionInfoService {
@@ -37,6 +39,20 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     	receptionInfo.setStartTime(new Date());
     	int result = insert(receptionInfo);
     	return result>0 ? true:false;
+    }
+    
+    /**
+     * 记录结束接待时间
+     * by meng.yue
+     * @return
+     */
+    public boolean endReceptionTime(String customerId, String receiverStaffId){
+    	
+    	return false;
+    }
+    
+    public ReceptionInfo queryRecordbyId(String customerId){
+    	return null;
     }
     
     /**

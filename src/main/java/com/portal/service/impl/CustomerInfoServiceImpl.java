@@ -21,13 +21,35 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerInfoServiceImpl.class);
 
-  /**
-   * 通过电话号码查询客户信息
-   */
-    
+    /**
+     * 通过电话号码查询客户信息
+     * by meng.yue
+     * @param phone
+     * @return
+     */
     public CustomerInfo selectByPhone(String phone) {
         return customerInfoExtraDao.selectByPhone(phone);
     }
+    
+    /**
+     * 判断是否是已经记录的用户
+     * by meng.yue
+     * @param phone
+     * @return
+     */
+    public boolean isCustomer(String phone){
+        return	selectByPhone(phone)== null?false:true;
+    }
+    
+
+    /**
+     * 查询用户信息
+     * by meng.yue
+     */
+    public int insertSelective(CustomerInfo record) {
+        return this.customerInfoDao.insertSelective(record);
+    }
+    
     
     public int countByExample(Criteria example) {
         int count = this.customerInfoDao.countByExample(example);
@@ -71,7 +93,4 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         return this.customerInfoDao.insert(record);
     }
 
-    public int insertSelective(CustomerInfo record) {
-        return this.customerInfoDao.insertSelective(record);
-    }
 }

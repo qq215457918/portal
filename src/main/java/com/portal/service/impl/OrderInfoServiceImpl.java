@@ -17,6 +17,42 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
+    /**
+     * 查询商品订单 by customerId
+     * by meng.yue
+     * @return
+     */
+    public List<OrderInfo> queryGoodsInfo(String customerId){
+    	return null;
+    } 
+    
+    /**
+     * 撤销定金订单
+     * @param customerId
+     * @return
+     */
+    public List<OrderInfo> queryRevokeDepositInfo(String customerId){
+    	return null;
+    } 
+    
+    /**
+     * 缴纳定金订单
+     * @param customerId
+     * @return
+     */
+    public List<OrderInfo> queryPayDepositInfo(String customerId){
+    	return null;
+    } 
+    
+    /**
+     * 退换货订单
+     * @param customerId
+     * @return
+     */
+    public List<OrderInfo> queryReturnGoodsInfo(String customerId){
+    	return null;
+    } 
+    
     public int countByExample(Criteria example) {
         int count = this.orderInfoDao.countByExample(example);
         logger.debug("count: {}", count);
