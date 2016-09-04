@@ -2,7 +2,9 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.ReceptionInfo;
+import com.portal.bean.result.ReceptionInfoFrom;
 import com.portal.dao.ReceptionInfoDao;
+import com.portal.dao.extra.ReceptionInfoExtraDao;
 import com.portal.service.ReceptionInfoService;
 
 import java.util.Date;
@@ -16,11 +18,15 @@ import org.springframework.stereotype.Service;
 public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     @Autowired
     private ReceptionInfoDao receptionInfoDao;
+    
+    @Autowired
+    private ReceptionInfoExtraDao receptionInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(ReceptionInfoServiceImpl.class);
 
     /**
      * 记录开始接待时间
+     * by meng.yue
      * @return
      */
     public boolean recordReceptionTime(String customerId, String receiverStaffId){
@@ -31,6 +37,16 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     	receptionInfo.setStartTime(new Date());
     	int result = insert(receptionInfo);
     	return result>0 ? true:false;
+    }
+    
+    /**
+     * 查询客户的拜访记录byID
+     * by meng.yue
+     * @return
+     */
+    public List<ReceptionInfoFrom> queryRecordListbyId(String customerId){
+    	List<ReceptionInfoFrom> receptionInfoFromList = receptionInfoExtraDao.queryRecordListbyId(customerId);
+    	return receptionInfoFromList;
     }
     
     public int countByExample(Criteria example) {
