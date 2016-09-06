@@ -3,7 +3,7 @@ package com.portal.bean.result;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ReceptionInfoFrom implements Serializable {
+public class ReceptionInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;

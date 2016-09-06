@@ -2,7 +2,7 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.ReceptionInfo;
-import com.portal.bean.result.ReceptionInfoFrom;
+import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.dao.ReceptionInfoDao;
 import com.portal.dao.extra.ReceptionInfoExtraDao;
 import com.portal.service.ReceptionInfoService;
@@ -52,6 +52,7 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     }
     
     public ReceptionInfo queryRecordbyId(String customerId){
+    	
     	return null;
     }
     
@@ -60,8 +61,8 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
      * by meng.yue
      * @return
      */
-    public List<ReceptionInfoFrom> queryRecordListbyId(String customerId){
-    	List<ReceptionInfoFrom> receptionInfoFromList = receptionInfoExtraDao.queryRecordListbyId(customerId);
+    public List<ReceptionInfoForm> queryRecordListbyId(String customerId){
+    	List<ReceptionInfoForm> receptionInfoFromList = receptionInfoExtraDao.queryRecordListbyId(customerId);
     	return receptionInfoFromList;
     }
     

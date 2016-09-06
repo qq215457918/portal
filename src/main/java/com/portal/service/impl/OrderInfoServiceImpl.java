@@ -1,10 +1,17 @@
 package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoForm;
+import com.portal.dao.OrderDetailInfoDao;
 import com.portal.dao.OrderInfoDao;
 import com.portal.service.OrderInfoService;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +21,9 @@ import org.springframework.stereotype.Service;
 public class OrderInfoServiceImpl implements OrderInfoService {
     @Autowired
     private OrderInfoDao orderInfoDao;
+    
+    @Autowired
+    private OrderDetailInfoDao orderInfoDetailDao;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
@@ -21,8 +31,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * 查询商品订单 by customerId
      * by meng.yue
      * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
      */
-    public List<OrderInfo> queryGoodsInfo(String customerId){
+    public OrderInfoForm queryGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException{
+    	OrderInfoForm orderInfoForm = new OrderInfoForm();
+
+    	Criteria example = new Criteria();
+    	example.put("customer_id", customerId);
+    	List<OrderInfo> orderInfoList = orderInfoDao.selectByExample(example);
+    	BeanUtils.copyProperties(orderInfoForm, orderInfoList.get(0));
+    	orderInfoForm.setOrderDetailInfoList(queryDetaiInfo(orderInfoList.get(0).getId()));
     	return null;
     } 
     
@@ -31,7 +50,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param customerId
      * @return
      */
-    public List<OrderInfo> queryRevokeDepositInfo(String customerId){
+    public List<OrderInfoForm> queryRevokeDepositInfo(String customerId){
     	return null;
     } 
     
@@ -40,7 +59,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param customerId
      * @return
      */
-    public List<OrderInfo> queryPayDepositInfo(String customerId){
+    public List<OrderInfoForm> queryPayDepositInfo(String customerId){
     	return null;
     } 
     
@@ -49,9 +68,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param customerId
      * @return
      */
-    public List<OrderInfo> queryReturnGoodsInfo(String customerId){
+    public List<OrderInfoForm> queryReturnGoodsInfo(String customerId){
     	return null;
     } 
+    
+    /**
+     * 获取 订单详情信息
+     * @param orderId
+     * @return
+     */
+    public List<OrderDetailInfo> queryDetaiInfo(String orderId){
+    	Criteria example = new Criteria();
+    	example.put("order_id", orderId);
+    	return orderInfoDetailDao.selectByExample(example);
+    }
     
     public int countByExample(Criteria example) {
         int count = this.orderInfoDao.countByExample(example);

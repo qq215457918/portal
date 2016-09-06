@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.portal.bean.result.ReceptionInfoFrom;
+import com.portal.bean.result.ReceptionInfoForm;
 
 @Repository
 public interface ReceptionInfoExtraDao {
@@ -15,13 +15,13 @@ public interface ReceptionInfoExtraDao {
 	 * @param customerId
 	 * @return
 	 */
-	List<ReceptionInfoFrom> queryRecordListbyId(String customerId);
+	List<ReceptionInfoForm> queryRecordListbyId(String customerId);
 	
 	/**
 	 * 查询为完成的拜访记录
 	 * by meng.yue
 	 * @return
 	 */
-	ReceptionInfoFrom queryRecordBeginbyId(String customerId);
+	ReceptionInfoForm queryRecordBeginbyId(String customerId);
 
 }
