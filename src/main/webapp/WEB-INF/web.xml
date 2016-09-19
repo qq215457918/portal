@@ -40,6 +40,11 @@
     <listener>
         <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
     </listener>
+    
+    <!-- 配置session -->
+    <listener>
+        <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
 	
 	<!-- 字符集和过滤 -->
 	<filter>
