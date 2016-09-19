@@ -27,6 +27,24 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
+    
+    public Criteria getCriteria(String customerId,int status,int orderType ,int payType){
+    	Criteria example = new Criteria();
+    	example.put("customer_id", customerId);
+    	example.put("status", status);
+    	example.put("order_type", orderType);
+    	example.put("pay_type", payType);
+    	return example;
+    }
+    
+   public OrderInfoForm getOrderInfo(String customerId,int orderType ,int payType) throws IllegalAccessException, InvocationTargetException{
+   	OrderInfoForm orderInfoForm = new OrderInfoForm();
+   	List<OrderInfo> orderInfoList = orderInfoDao.selectByExample(getCriteria(customerId,1,orderType,payType));
+   	BeanUtils.copyProperties(orderInfoForm, orderInfoList.get(0));
+   	orderInfoForm.setOrderDetailInfoList(queryDetaiInfo(orderInfoList.get(0).getId()));
+	   
+	   return orderInfoForm;
+   }
     /**
      * 查询商品订单 by customerId
      * by meng.yue
@@ -35,41 +53,42 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws IllegalAccessException 
      */
     public OrderInfoForm queryGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException{
-    	OrderInfoForm orderInfoForm = new OrderInfoForm();
 
-    	Criteria example = new Criteria();
-    	example.put("customer_id", customerId);
-    	List<OrderInfo> orderInfoList = orderInfoDao.selectByExample(example);
-    	BeanUtils.copyProperties(orderInfoForm, orderInfoList.get(0));
-    	orderInfoForm.setOrderDetailInfoList(queryDetaiInfo(orderInfoList.get(0).getId()));
-    	return null;
+    	return getOrderInfo(customerId,1,0);
     } 
     
     /**
      * 撤销定金订单
      * @param customerId
      * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
      */
-    public List<OrderInfoForm> queryRevokeDepositInfo(String customerId){
-    	return null;
+    public OrderInfoForm queryRevokeDepositInfo(String customerId) throws IllegalAccessException, InvocationTargetException{
+    	return getOrderInfo(customerId,1,1);
     } 
     
     /**
-     * 缴纳定金订单
+     * 退货订单
      * @param customerId
      * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
      */
-    public List<OrderInfoForm> queryPayDepositInfo(String customerId){
-    	return null;
+    public OrderInfoForm queryReturnGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException{
+    	return getOrderInfo(customerId,2,1);
     } 
     
+    
     /**
-     * 退换货订单
+     * 换货订单
      * @param customerId
      * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
      */
-    public List<OrderInfoForm> queryReturnGoodsInfo(String customerId){
-    	return null;
+    public OrderInfoForm xchangeReturnGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException{
+    	return getOrderInfo(customerId,3,1);
     } 
     
     /**
