@@ -73,5 +73,5 @@
 <script type="text/javascript" src="${basePath}resources/js/jquery.sparkline.min.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/main.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/respond.js"></script>
-
 <script type="text/javascript" src="${basePath}resources/js/masonry.min.js"></script>
+<script type="text/javascript" src="resources/js/datatable_chinese.js"></script>

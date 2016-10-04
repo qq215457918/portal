@@ -18,6 +18,8 @@ public class CustomerInfo implements Serializable {
 	 * 
      */
     private String type;
+    
+    private String typeName;
 
     private String season2;
 
@@ -91,6 +93,10 @@ public class CustomerInfo implements Serializable {
     public String getType() {
         return type;
     }
+    
+    public String getTypeName() {
+        return typeName;
+    }
 
     /**
      * @param type 
@@ -104,6 +110,18 @@ public class CustomerInfo implements Serializable {
      */
     public void setType(String type) {
         this.type = type;
+        
+        if("0".equals(type)){
+        	typeName = "空白客户";
+        }else if("1".equals(type)){
+        	typeName = "重复登门";
+        }else if("2".equals(type)){
+        	typeName = "说明会";
+        }else if("3".equals(type)){
+        	typeName = "成单";
+        }else if("4".equals(type)){
+        	typeName = "锁定";
+        }
     }
 
     public String getSeason2() {

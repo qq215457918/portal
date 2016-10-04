@@ -3,6 +3,10 @@ package com.portal.bean;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.portal.common.util.StringUtil;
+
 /**
  * 公用条件查询类
  */
@@ -53,6 +57,9 @@ public class Criteria {
 	 *            查询的值
      */
     public Criteria put(String condition, Object value) {
+    	if(StringUtil.isNull(value)){
+    		return (Criteria) this;
+    	}
         this.condition.put(condition, value);
         return (Criteria) this;
     }

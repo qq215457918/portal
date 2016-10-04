@@ -707,7 +707,8 @@ body.login2 {
 .dataTable th {
   padding-right: 20px;
   position: relative;
-  font-weight: normal; }
+  font-weight: bolder;
+  color: #000; }
   .dataTable th.sorting {
     color: #007aff;
     cursor: pointer; }
