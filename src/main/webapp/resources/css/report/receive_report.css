@@ -1,0 +1,25 @@
+
+/*
+  图表左侧图标样式
+*/
+#dlPicture {
+	position: absolute;
+    left: 13%;
+    z-index: 1;
+    margin-top: 0.8%;
+}
+
+#dlPicture:hover {
+	cursor: pointer;
+}
+
+#syPicture {
+	position: absolute;
+    left: 62%;
+    z-index: 1;
+    margin-top: 0.8%;
+}
+
+#syPicture:hover {
+	cursor: pointer;
+}

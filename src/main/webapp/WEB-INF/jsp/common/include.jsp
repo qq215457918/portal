@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="${basePath}resources/css/bootstrap-switch.css" />
 <link rel="stylesheet" href="${basePath}resources/css/bootstrap.min.css" />
 <link rel="stylesheet" href="${basePath}resources/css/colorpicker.css" />
-<link rel="stylesheet" href="${basePath}resources/css/datatables.css" />
+<link rel="stylesheet" href="${basePath}resources/css/datatables.min.css" />
 <link rel="stylesheet" href="${basePath}resources/css/datepicker.css" />
 <link rel="stylesheet" href="${basePath}resources/css/daterange-picker.css" />
 <link rel="stylesheet" href="${basePath}resources/css/font-awesome.css" />
@@ -74,4 +74,4 @@
 <script type="text/javascript" src="${basePath}resources/js/main.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/respond.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/masonry.min.js"></script>
-<script type="text/javascript" src="resources/js/datatable_chinese.js"></script>
+<script type="text/javascript" src="${basePath}resources/js/datatable_chinese.js"></script>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.VisitEverydayInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.VisitEverydayInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_type" property="customerType" jdbcType="VARCHAR" />
+    <result column="customer_area" property="customerArea" jdbcType="VARCHAR" />
+    <result column="custom_service_id" property="customServiceId" jdbcType="VARCHAR" />
+    <result column="custom_service_name" property="customServiceName" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
+    <result column="exercise" property="exercise" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="out_or_indent" property="outOrIndent" jdbcType="VARCHAR" />
+    <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
+    <result column="condition" property="condition" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.customerId != null" >
+         and customer_id = #{condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerName != null" >
+         and customer_name = #{condition.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerType != null" >
+         and customer_type = #{condition.customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerArea != null" >
+         and customer_area = #{condition.customerArea,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customServiceId != null" >
+         and custom_service_id = #{condition.customServiceId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customServiceName != null" >
+         and custom_service_name = #{condition.customServiceName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffName != null" >
+         and receiver_staff_name = #{condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.transactionAmount != null" >
+         and transaction_amount = #{condition.transactionAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.exercise != null" >
+         and exercise = #{condition.exercise,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodsName != null" >
+         and goods_name = #{condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.outOrIndent != null" >
+         and out_or_indent = #{condition.outOrIndent,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.visitDate != null" >
+         and visit_date = #{condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.condition != null" >
+         and condition = #{condition.condition,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.customerId != null" >
+         and customer_id = #{example.condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerName != null" >
+         and customer_name = #{example.condition.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerType != null" >
+         and customer_type = #{example.condition.customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerArea != null" >
+         and customer_area = #{example.condition.customerArea,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customServiceId != null" >
+         and custom_service_id = #{example.condition.customServiceId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customServiceName != null" >
+         and custom_service_name = #{example.condition.customServiceName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverStaffId != null" >
+         and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverStaffName != null" >
+         and receiver_staff_name = #{example.condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.transactionAmount != null" >
+         and transaction_amount = #{example.condition.transactionAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.exercise != null" >
+         and exercise = #{example.condition.exercise,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodsName != null" >
+         and goods_name = #{example.condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.outOrIndent != null" >
+         and out_or_indent = #{example.condition.outOrIndent,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.visitDate != null" >
+         and visit_date = #{example.condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.condition != null" >
+         and condition = #{example.condition.condition,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, customer_id, customer_name, customer_type, customer_area, custom_service_id, 
+    custom_service_name, receiver_staff_id, receiver_staff_name, transaction_amount, 
+    exercise, goods_name, out_or_indent, visit_date, condition
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from visit_everyday_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from visit_everyday_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from visit_everyday_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from visit_everyday_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.VisitEverydayInfo" >
+    insert into visit_everyday_info (id, customer_id, customer_name, 
+      customer_type, customer_area, custom_service_id, 
+      custom_service_name, receiver_staff_id, receiver_staff_name, 
+      transaction_amount, exercise, goods_name, 
+      out_or_indent, visit_date, condition
+      )
+    values (#{id,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
+      #{customerType,jdbcType=VARCHAR}, #{customerArea,jdbcType=VARCHAR}, #{customServiceId,jdbcType=VARCHAR}, 
+      #{customServiceName,jdbcType=VARCHAR}, #{receiverStaffId,jdbcType=VARCHAR}, #{receiverStaffName,jdbcType=VARCHAR}, 
+      #{transactionAmount,jdbcType=DECIMAL}, #{exercise,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{outOrIndent,jdbcType=VARCHAR}, #{visitDate,jdbcType=TIMESTAMP}, #{condition,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.VisitEverydayInfo" >
+    insert into visit_everyday_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="customerType != null" >
+        customer_type,
+      </if>
+      <if test="customerArea != null" >
+        customer_area,
+      </if>
+      <if test="customServiceId != null" >
+        custom_service_id,
+      </if>
+      <if test="customServiceName != null" >
+        custom_service_name,
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id,
+      </if>
+      <if test="receiverStaffName != null" >
+        receiver_staff_name,
+      </if>
+      <if test="transactionAmount != null" >
+        transaction_amount,
+      </if>
+      <if test="exercise != null" >
+        exercise,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="outOrIndent != null" >
+        out_or_indent,
+      </if>
+      <if test="visitDate != null" >
+        visit_date,
+      </if>
+      <if test="condition != null" >
+        condition,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerType != null" >
+        #{customerType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerArea != null" >
+        #{customerArea,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceId != null" >
+        #{customServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceName != null" >
+        #{customServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffName != null" >
+        #{receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null" >
+        #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="exercise != null" >
+        #{exercise,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrIndent != null" >
+        #{outOrIndent,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null" >
+        #{visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="condition != null" >
+        #{condition,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from visit_everyday_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update visit_everyday_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerId != null" >
+        customer_id = #{record.customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerName != null" >
+        customer_name = #{record.customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerType != null" >
+        customer_type = #{record.customerType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerArea != null" >
+        customer_area = #{record.customerArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customServiceId != null" >
+        custom_service_id = #{record.customServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customServiceName != null" >
+        custom_service_name = #{record.customServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverStaffId != null" >
+        receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverStaffName != null" >
+        receiver_staff_name = #{record.receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactionAmount != null" >
+        transaction_amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.exercise != null" >
+        exercise = #{record.exercise,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outOrIndent != null" >
+        out_or_indent = #{record.outOrIndent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.visitDate != null" >
+        visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.condition != null" >
+        condition = #{record.condition,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update visit_everyday_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      customer_id = #{record.customerId,jdbcType=VARCHAR},
+      customer_name = #{record.customerName,jdbcType=VARCHAR},
+      customer_type = #{record.customerType,jdbcType=VARCHAR},
+      customer_area = #{record.customerArea,jdbcType=VARCHAR},
+      custom_service_id = #{record.customServiceId,jdbcType=VARCHAR},
+      custom_service_name = #{record.customServiceName,jdbcType=VARCHAR},
+      receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      receiver_staff_name = #{record.receiverStaffName,jdbcType=VARCHAR},
+      transaction_amount = #{record.transactionAmount,jdbcType=DECIMAL},
+      exercise = #{record.exercise,jdbcType=VARCHAR},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      out_or_indent = #{record.outOrIndent,jdbcType=VARCHAR},
+      visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
+      condition = #{record.condition,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.VisitEverydayInfo" >
+    update visit_everyday_info
+    <set >
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerType != null" >
+        customer_type = #{customerType,jdbcType=VARCHAR},
+      </if>
+      <if test="customerArea != null" >
+        customer_area = #{customerArea,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceId != null" >
+        custom_service_id = #{customServiceId,jdbcType=VARCHAR},
+      </if>
+      <if test="customServiceName != null" >
+        custom_service_name = #{customServiceName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffName != null" >
+        receiver_staff_name = #{receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionAmount != null" >
+        transaction_amount = #{transactionAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="exercise != null" >
+        exercise = #{exercise,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="outOrIndent != null" >
+        out_or_indent = #{outOrIndent,jdbcType=VARCHAR},
+      </if>
+      <if test="visitDate != null" >
+        visit_date = #{visitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="condition != null" >
+        condition = #{condition,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.VisitEverydayInfo" >
+    update visit_everyday_info
+    set customer_id = #{customerId,jdbcType=VARCHAR},
+      customer_name = #{customerName,jdbcType=VARCHAR},
+      customer_type = #{customerType,jdbcType=VARCHAR},
+      customer_area = #{customerArea,jdbcType=VARCHAR},
+      custom_service_id = #{customServiceId,jdbcType=VARCHAR},
+      custom_service_name = #{customServiceName,jdbcType=VARCHAR},
+      receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      receiver_staff_name = #{receiverStaffName,jdbcType=VARCHAR},
+      transaction_amount = #{transactionAmount,jdbcType=DECIMAL},
+      exercise = #{exercise,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      out_or_indent = #{outOrIndent,jdbcType=VARCHAR},
+      visit_date = #{visitDate,jdbcType=TIMESTAMP},
+      condition = #{condition,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

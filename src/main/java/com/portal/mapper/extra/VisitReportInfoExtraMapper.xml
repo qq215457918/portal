@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.VisitReportInfoExtDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.VisitReportInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="receiver_area" property="receiverArea" jdbcType="VARCHAR" />
+    <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
+    <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
+    <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
+    <result column="roadshow_counts" property="roadshowCounts" jdbcType="INTEGER" />
+    <result column="finish_order_counts" property="finishOrderCounts" jdbcType="INTEGER" />
+    <result column="locked_counts" property="lockedCounts" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.reportDate != null" >
+         and report_date = #{condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.startReportDate != null" >
+      	 <![CDATA[and report_date >= #{condition.startReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endReportDate != null" >
+      	 <![CDATA[and report_date <= #{condition.endReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffName != null" >
+         and receiver_staff_name = #{condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewStaffName != null" >
+         and receiver_staff_name like CONCAT("%", #{condition.viewStaffName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.receiverArea != null" >
+         and receiver_area = #{condition.receiverArea,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerCounts != null" >
+         and customer_counts = #{condition.customerCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.newCounts != null" >
+         and new_counts = #{condition.newCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.repeatCounts != null" >
+         and repeat_counts = #{condition.repeatCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.roadshowCounts != null" >
+         and roadshow_counts = #{condition.roadshowCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.finishOrderCounts != null" >
+         and finish_order_counts = #{condition.finishOrderCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.lockedCounts != null" >
+         and locked_counts = #{condition.lockedCounts,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
+    new_counts, repeat_counts, roadshow_counts, finish_order_counts, locked_counts
+  </sql>
+  
+  <!-- 根据条件查询数据总条数 -->
+  <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from visit_report_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- 根据条件查询数据 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	SELECT 
+  		receiver_staff_id,
+		receiver_staff_name,
+		SUM(locked_counts) as locked_counts,
+		SUM(finish_order_counts) as finish_order_counts,
+		SUM(roadshow_counts) as roadshow_counts,
+		SUM(repeat_counts) as repeat_counts,
+		SUM(new_counts) as new_counts
+    from visit_report_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by receiver_staff_id
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <!-- 根据条件查询对应客户数量 -->
+  <select id="getCustomerCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select sum(customer_counts) as total_counts,
+	  	(select sum(customer_counts) from visit_report_info
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	  	and receiver_area = '1') as dl_counts,
+	  	(select sum(customer_counts) from visit_report_info
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    and receiver_area = '0') as sy_counts
+	 from visit_report_info
+	 <if test="_parameter != null" >
+		<include refid="Example_Where_Clause" />
+     </if>
+  </select>
+  
+  <!-- 获取所有各种分类对应的客户数量 -->
+  <select id="getAllCategoryCustomer" parameterType="java.lang.Integer" resultType="java.util.Map">
+  	select SUM(r.locked_counts) as '锁定',
+		SUM(r.new_counts) as '新客户',
+		SUM(r.repeat_counts) as '重复登门',
+		SUM(r.roadshow_counts) as '说明会',
+		SUM(r.finish_order_counts) as '成单'
+		from visit_report_info r
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+  </select>
+  
+  
+</mapper>
