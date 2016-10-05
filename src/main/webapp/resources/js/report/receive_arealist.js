@@ -15,6 +15,23 @@ $(function() {
 	
 	// 查询功能
 	$(".btn-success").click(function(){
+		// 查询数据
+		$('#receiveCustomer').dataTable().fnDraw();
+	});
+	
+	// 接待人输入框回车事件
+	$("#receiverStaffName").keyup(function(event){
+		if(event.keyCode == 13) {
+			// 查询数据
+			$('#receiveCustomer').dataTable().fnDraw();
+		}
+	});
+	
+	// 接待人所属区域变化事件
+	$("#receiverArea").change(function(){
+		// 清空接待人查询条件
+		$("#receiverStaffName").val('');
+		// 查询数据
 		$('#receiveCustomer').dataTable().fnDraw();
 	});
 	
