@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.VisitReportInfo;
+import com.portal.bean.result.VisitReportInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
 import com.portal.dao.VisitReportInfoDao;
@@ -175,7 +176,7 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         // 获取总记录数
         int totalRecord = visitReportExtDao.countByCondition(criteria);
         // 获取数据集
-        List<VisitReportInfo> list = visitReportExtDao.selectByCondition(criteria);
+        List<VisitReportInfoForm> list = visitReportExtDao.selectByCondition(criteria);
         
         JSONObject resultJson =  new JSONObject();
         resultJson.put("sEcho", request.getParameter("sEcho"));
@@ -184,7 +185,5 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
-
-    
     
 }

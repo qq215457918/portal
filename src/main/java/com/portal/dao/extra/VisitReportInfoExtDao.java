@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.portal.bean.Criteria;
-import com.portal.bean.VisitReportInfo;
+import com.portal.bean.result.VisitReportInfoForm;
 
 @Repository
 public interface VisitReportInfoExtDao {
@@ -15,7 +15,7 @@ public interface VisitReportInfoExtDao {
      * @Title: getCustomerCounts 
      * @Description: 根据起始日期条件查询接待客户数量
      * @param example
-     * @return int
+     * @return Map<String,Integer>
      * @throws
      */
     Map<String, Integer> getCustomerCounts(Criteria example);
@@ -23,8 +23,8 @@ public interface VisitReportInfoExtDao {
     /**
      * @Title: getAllCategoryCustomer 
      * @Description: 获取所有各种分类对应的客户数量
-     * @param area  客户所属地区
-     * @return Map<String,Integer>
+     * @param example
+     * @return Map<String,Object>
      * @throws
      */
     Map<String, Object> getAllCategoryCustomer(Criteria example);
@@ -37,6 +37,6 @@ public interface VisitReportInfoExtDao {
     /**
      * 根据条件查询记录集
      */
-    List<VisitReportInfo> selectByCondition(Criteria example);
+    List<VisitReportInfoForm> selectByCondition(Criteria example);
     
 }

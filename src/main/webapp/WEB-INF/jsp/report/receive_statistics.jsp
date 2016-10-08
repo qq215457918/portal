@@ -3,7 +3,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<title>登门统计</title>
+<title>接待统计</title>
 <base href="${basePath}">
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/plugins/highcharts/highcharts.js"></script>
@@ -14,18 +14,33 @@
   <div class="container-fluid main-content">
 	<div class="row">
 	  <div class="form-group" style="margin-left: 9.2%;">
-		<div class="col-md-3" style="width: 20.7%; float: left;">
-		  <div class="input-group date datepicker">
-            <input class="form-control" type="text" id="startReportDate" value="${startReportDate }"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+	    <div style="height: 50px; float: left; width: 30%;">
+		  <div style="width: 35%; float: left;">
+			<label class="control-label col-md-2" style="width: 100%;">统计日期</label>
           </div>
+          <div style="width: 65%; float: left;">
+         	<div class="col-md-3" style="width: 100%;">
+			  <div class="input-group date datepicker">
+	            <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+	          </div>
+	        </div>
+		  </div>
         </div>
-        <label class="control-label col-md-2" style="width: 3%; margin-top: 0.5%; float: left;">至</label>
-        <div class="col-md-3" style="width: 20.7%; float: left;">
-          <div class="input-group date datepicker">
-            <input class="form-control" type="text" id="endReportDate" value="${endReportDate }"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+	  	<div style="height: 50px; float: left; width: 30%;">
+		  <div style="width: 35%; float: left;">
+			<label class="control-label col-md-2" style="width: 100%;">至</label>
           </div>
+          <div style="width: 65%; float: left;">
+         	<div class="col-md-3" style="width: 100%;">
+	          <div class="input-group date datepicker">
+	            <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+	          </div>
+	        </div>
+		  </div>
         </div>
-        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
+	    <div style="height: 50px; float: left; width: 30%;">
+      	  <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
+      	</div>
 	  </div>
 	  <div style="clear: both;"></div>
 	  

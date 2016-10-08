@@ -22,7 +22,7 @@ public class VisitEverydayInfo implements Serializable {
     private String customerName;
 
     /**
-     * 客户分类 0--空白客户  1--重复登门  2--说明会  3--成单  4--锁定
+     * 客户分类 0--空白客户  1--重复登门  2--说明会  3--成单  4--锁定  5--转介绍
      */
     private String customerType;
 
@@ -76,7 +76,10 @@ public class VisitEverydayInfo implements Serializable {
      */
     private Date visitDate;
 
-    private String condition;
+    /**
+     * 情况/备注
+     */
+    private String remark;
 
     /**
      * @return 主键ID
@@ -288,11 +291,18 @@ public class VisitEverydayInfo implements Serializable {
         this.visitDate = visitDate;
     }
 
-    public String getCondition() {
-        return condition;
+    /**
+     * @return 情况/备注
+     */
+    public String getRemark() {
+        return remark;
     }
 
-    public void setCondition(String condition) {
-        this.condition = condition;
+    /**
+     * @param remark 
+     *            情况/备注
+     */
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

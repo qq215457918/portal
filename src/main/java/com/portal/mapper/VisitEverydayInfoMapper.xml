@@ -16,7 +16,7 @@
     <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
     <result column="out_or_indent" property="outOrIndent" jdbcType="VARCHAR" />
     <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
-    <result column="condition" property="condition" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -59,8 +59,8 @@
       <if test="condition.visitDate != null" >
          and visit_date = #{condition.visitDate,jdbcType=TIMESTAMP}
       </if>
-      <if test="condition.condition != null" >
-         and condition = #{condition.condition,jdbcType=VARCHAR}
+      <if test="condition.remark != null" >
+         and remark = #{condition.remark,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -105,15 +105,15 @@
       <if test="example.condition.visitDate != null" >
          and visit_date = #{example.condition.visitDate,jdbcType=TIMESTAMP}
       </if>
-      <if test="example.condition.condition != null" >
-         and condition = #{example.condition.condition,jdbcType=VARCHAR}
+      <if test="example.condition.remark != null" >
+         and remark = #{example.condition.remark,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
     id, customer_id, customer_name, customer_type, customer_area, custom_service_id, 
     custom_service_name, receiver_staff_id, receiver_staff_name, transaction_amount, 
-    exercise, goods_name, out_or_indent, visit_date, condition
+    exercise, goods_name, out_or_indent, visit_date, remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -151,13 +151,13 @@
       customer_type, customer_area, custom_service_id, 
       custom_service_name, receiver_staff_id, receiver_staff_name, 
       transaction_amount, exercise, goods_name, 
-      out_or_indent, visit_date, condition
+      out_or_indent, visit_date, remark
       )
     values (#{id,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{customerName,jdbcType=VARCHAR}, 
       #{customerType,jdbcType=VARCHAR}, #{customerArea,jdbcType=VARCHAR}, #{customServiceId,jdbcType=VARCHAR}, 
       #{customServiceName,jdbcType=VARCHAR}, #{receiverStaffId,jdbcType=VARCHAR}, #{receiverStaffName,jdbcType=VARCHAR}, 
       #{transactionAmount,jdbcType=DECIMAL}, #{exercise,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
-      #{outOrIndent,jdbcType=VARCHAR}, #{visitDate,jdbcType=TIMESTAMP}, #{condition,jdbcType=VARCHAR}
+      #{outOrIndent,jdbcType=VARCHAR}, #{visitDate,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.VisitEverydayInfo" >
@@ -205,8 +205,8 @@
       <if test="visitDate != null" >
         visit_date,
       </if>
-      <if test="condition != null" >
-        condition,
+      <if test="remark != null" >
+        remark,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -252,8 +252,8 @@
       <if test="visitDate != null" >
         #{visitDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="condition != null" >
-        #{condition,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -308,8 +308,8 @@
       <if test="record.visitDate != null" >
         visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.condition != null" >
-        condition = #{record.condition,jdbcType=VARCHAR},
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -332,7 +332,7 @@
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
       out_or_indent = #{record.outOrIndent,jdbcType=VARCHAR},
       visit_date = #{record.visitDate,jdbcType=TIMESTAMP},
-      condition = #{record.condition,jdbcType=VARCHAR}
+      remark = #{record.remark,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -379,8 +379,8 @@
       <if test="visitDate != null" >
         visit_date = #{visitDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="condition != null" >
-        condition = #{condition,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -400,7 +400,7 @@
       goods_name = #{goodsName,jdbcType=VARCHAR},
       out_or_indent = #{outOrIndent,jdbcType=VARCHAR},
       visit_date = #{visitDate,jdbcType=TIMESTAMP},
-      condition = #{condition,jdbcType=VARCHAR}
+      remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

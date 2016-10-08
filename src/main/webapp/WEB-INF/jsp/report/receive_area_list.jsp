@@ -16,32 +16,52 @@
 	    <div class="widget-container fluid-height clearfix">
 	      <div class="heading" style="color:#666666; font-weight: bold;">
 	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
-	    	<select id="receiverArea" class="form-control" style="width: 13%; float: left;">
+	    	<select id="receiverArea" class="form-control" style="width: 18%; float: left;">
 	    		<option value="1" <c:if test="${receiverArea == '1'}">selected="selected"</c:if> >大连接待客户统计</option>
 	    		<option value="0" <c:if test="${receiverArea == '0'}">selected="selected"</c:if> >沈阳接待客户统计</option>
 	    	</select>
 	      </div>
 	      <div class="widget-content padded">
 	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
-	          <label class="control-label col-md-2" style=" width: 7%; margin-top: 0.7%;">接待人</label>
-	          <div class="col-md-7" style="width: 20.7%; float: left;">
-	            <input class="form-control" placeholder="接待人姓名" id="receiverStaffName" type="text" style="width: 90%;">
+	          <div style="height: 50px; float: left; width: 30%;">
+	          	<div style="width: 35%; float: left;">
+	          		<label class="control-label col-md-2" style=" width: 100%;">接待人</label>
+	          	</div>
+	          	<div style="width: 65%; float: left;">
+	          	  <div class="col-md-7" style="width: 100%;">
+		            <input class="form-control" placeholder="接待人姓名" id="receiverStaffName" type="text" style="width: 100%;">
+		          </div>
+	          	</div>
 	          </div>
-	          <label class="control-label col-md-2" style=" width: 7%; margin-top: 0.7%;">统计日期</label>
-			  <div class="col-md-3" style="width: 20.7%; float: left;">
-			    <div class="input-group date datepicker">
-	              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }"><span class="input-group-addon"><i class="icon-calendar"></i></span>
-	            </div>
+	          <div style="height: 50px; float: left; width: 30%;">
+	          	<div style="width: 35%; float: left;">
+	          		<label class="control-label col-md-2" style=" width: 100%;">统计日期</label>
+	          	</div>
+	          	<div style="width: 65%; float: left;">
+	          	  <div class="col-md-3" style="width: 100%;">
+				    <div class="input-group date datepicker">
+		              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		            </div>
+		          </div>
+	          	</div>
 	          </div>
-	          <label class="control-label col-md-2" style="width: 3%; margin-top: 0.7%;">至</label>
-	          <div class="col-md-3" style="width: 20.7%; float: left;">
-	            <div class="input-group date datepicker">
-	              <input class="form-control" type="text" id="endReportDate" value="${endReportDate }"><span class="input-group-addon"><i class="icon-calendar"></i></span>
-	            </div>
+	          <div style="height: 50px; float: left; width: 30%;">
+	          	<div style="width: 35%; float: left;">
+	          	  <label class="control-label col-md-2" style="width: 100%;">至</label>
+	          	</div>
+	          	<div style="width: 65%; float: left;">
+	          	  <div class="col-md-3" style="width: 100%;">
+		            <div class="input-group date datepicker">
+		              <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		            </div>
+			      </div>
+	          	</div>
+	          </div>
+	          <div style="height: 50px; float: left; width: 30%;">
+		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
+		        <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
+		        <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>
 		      </div>
-		      <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
-		      <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
-		      <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>
 			</div>
 			<div style="clear: both;"></div>
 			

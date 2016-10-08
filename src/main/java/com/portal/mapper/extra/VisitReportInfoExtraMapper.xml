@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.portal.dao.extra.VisitReportInfoExtDao" >
-  <resultMap id="BaseResultMap" type="com.portal.bean.VisitReportInfo" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.VisitReportInfoForm" >
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
@@ -113,7 +113,7 @@
   </select>
   
   <!-- 获取所有各种分类对应的客户数量 -->
-  <select id="getAllCategoryCustomer" parameterType="java.lang.Integer" resultType="java.util.Map">
+  <select id="getAllCategoryCustomer" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
   	select SUM(r.locked_counts) as '锁定',
 		SUM(r.new_counts) as '新客户',
 		SUM(r.repeat_counts) as '重复登门',

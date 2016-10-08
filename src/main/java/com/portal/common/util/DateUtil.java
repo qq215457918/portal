@@ -325,7 +325,7 @@ public class DateUtil {
     /**
      * @Title: getNowWeekMonday 
      * @Description: 获取本周一
-     * @param date
+     * @param date  指定日期
      * @return Date
      * @throws
      */
@@ -338,9 +338,26 @@ public class DateUtil {
     }
     
     /**
+     * @Title: getNowWeekSunday 
+     * @Description: 获取本周日
+     * @param date  指定日期
+     * @return Date
+     * @throws
+     */
+    public static Date getNowWeekSunday(Date date) { 
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        // 这种输出的是上个星期周日的日期，因为老外那边把周日当成第一天
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        // 增加一个星期，才是我们中国人理解的本周日的日期
+        cal.add(Calendar.WEEK_OF_YEAR, 1);
+        return cal.getTime();    
+    }
+    
+    /**
      * @Title: getLastWeekMonday 
      * @Description: 获取上周一
-     * @param date
+     * @param date  指定日期
      * @return Date
      * @throws
      */
@@ -356,7 +373,7 @@ public class DateUtil {
     /**
      * @Title: getLastWeekSunday 
      * @Description: 获取上周日
-     * @param date
+     * @param date  指定日期
      * @return Date
      * @throws
      */
@@ -366,6 +383,20 @@ public class DateUtil {
        cal.setTime(a);    
        cal.set(Calendar.DAY_OF_WEEK, 1);      
        return cal.getTime();    
+    }
+    
+    /**
+     * @Title: getYesterday 
+     * @Description: 获取日期的前一天 
+     * @param date
+     * @return Date
+     * @throws
+     */
+    public static Date getYesterday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);//把当前时间赋给日历
+        calendar.add(Calendar.DAY_OF_MONTH, -1);  //设置为前一天
+        return calendar.getTime();   //得到前一天的时间
     }
     
 }
