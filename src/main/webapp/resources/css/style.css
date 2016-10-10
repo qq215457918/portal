@@ -707,7 +707,8 @@ body.login2 {
 .dataTable th {
   padding-right: 20px;
   position: relative;
-  font-weight: normal; }
+  font-weight: bolder;
+  color: #000; }
   .dataTable th.sorting {
     color: #007aff;
     cursor: pointer; }
@@ -792,7 +793,7 @@ th:active {
   display: none; }
 
 .table > thead > tr > th {
-  border-bottom: 2px solid #dddddd; }
+  border-bottom: 1px solid #dddddd; }
 
 .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
   vertical-align: middle; }

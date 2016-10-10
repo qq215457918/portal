@@ -1,8 +1,10 @@
 package com.portal.common.util;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONArray;
@@ -129,6 +131,25 @@ public class JsonUtils {
 		return JSONArray.fromObject(list);
 	}
 	
-
-	
+	/**
+	 * @Title: resultJson 
+	 * @Description: datatable返回页面方法
+	 * @param list
+	 * @param totalCount
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	public static void resultJson(List<?> list,int totalCount, HttpServletResponse response, HttpServletRequest request){
+		try {
+			JSONObject resultJson =  new JSONObject();
+			resultJson.put("sEcho", request.getParameter("sEcho"));
+			resultJson.put("iTotalRecords", totalCount);
+			resultJson.put("iTotalDisplayRecords", null!=list&&list.size()>0?list.size():0);
+			resultJson.put("aaData", list);
+			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

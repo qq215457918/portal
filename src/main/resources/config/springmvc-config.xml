@@ -84,6 +84,13 @@
 	    p:prefix="/WEB-INF/jsp/"
 	    p:suffix=".jsp"/>
 	    
+	<!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+        p:defaultEncoding="UTF-8"
+        p:maxUploadSize="1048576000"
+        p:maxInMemorySize="20480"
+        p:resolveLazily="true" />
+	    
     <!-- 针对类、方法级别的权限拦截器 -->
 <!-- 	<mvc:interceptors> -->
 <!-- 		<bean class="com.portal.commond.interceptor.AuthenticatorInterceptor"></bean> -->

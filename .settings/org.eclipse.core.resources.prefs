@@ -3,5 +3,6 @@ encoding//src/main/java=UTF-8
 encoding//src/main/resources=UTF-8
 encoding//src/main/resources/config/config.properties=UTF-8
 encoding//src/main/resources/config/jdbc.properties=UTF-8
+encoding//src/main/webapp/WEB-INF/jsp/report/receive_statistics.jsp=UTF-8
 encoding//src/test/java=UTF-8
 encoding/<project>=UTF-8

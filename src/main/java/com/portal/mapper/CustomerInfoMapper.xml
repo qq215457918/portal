@@ -102,6 +102,17 @@
       <if test="condition.updateFlag != null" >
          and update_flag = #{condition.updateFlag,jdbcType=VARCHAR}
       </if>
+      <!-- 号码段条件 -->
+      <if test="condition.phoneStage != null" >
+         and left(phone, length(#{condition.phoneStage,jdbcType=VARCHAR})) = #{condition.phoneStage,jdbcType=VARCHAR}
+      </if>
+      <!-- 登门时间段 -->
+      <if test="condition.startTime != null" >
+         and visit_date >= date_format(#{condition.startTime,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s') 
+      </if>
+      <if test="condition.endTime != null" >
+         and visit_date <![CDATA[<=]]> date_format(#{condition.endTime,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s') 
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >

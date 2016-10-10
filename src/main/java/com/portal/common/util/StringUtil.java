@@ -1660,4 +1660,37 @@ public class StringUtil {
     public static String getUUID(){
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
+    
+    /**
+     * 将指定字符串转换成int值
+     * @param number 字符串值
+     * @return int 对应的int值
+     */
+    public static int getIntValue(String number) {
+        // 判断参数是不是空的
+        if (StringUtils.isNotBlank(number)) {
+            try {
+                // 如果参数不为空 强制转换类型
+                return Integer.parseInt(number);
+            } catch (Exception e) {
+                return -1;
+            }
+        }
+        // 如果参数为空 则返回0
+        return 0;
+    }
+    
+    /**
+     * @Title: isNotBlank 
+     * @Description: 判断字符串是否为空
+     * @param text  字符串
+     * @return boolean
+     */
+    public static boolean isNotBlank(String text) {
+        if(StringUtils.isNotBlank(text)) {
+            return true;
+        }else {
+            return false;
+        }
+    }
 }

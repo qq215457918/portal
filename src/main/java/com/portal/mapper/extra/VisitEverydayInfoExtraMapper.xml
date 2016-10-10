@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.VisitEverydayInfoExtDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.VisitEverydayInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_type" property="customerType" jdbcType="VARCHAR" />
+    <result column="customer_area" property="customerArea" jdbcType="VARCHAR" />
+    <result column="custom_service_id" property="customServiceId" jdbcType="VARCHAR" />
+    <result column="custom_service_name" property="customServiceName" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
+    <result column="exercise" property="exercise" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="out_or_indent" property="outOrIndent" jdbcType="VARCHAR" />
+    <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.customerId != null" >
+         and customer_id = #{condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerName != null" >
+         and customer_name = #{condition.customerName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewCustomerName != null" >
+         and customer_name like CONCAT("%", #{condition.viewCustomerName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.customerType != null" >
+         and customer_type = #{condition.customerType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerArea != null" >
+         and customer_area = #{condition.customerArea,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customServiceId != null" >
+         and custom_service_id = #{condition.customServiceId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customServiceName != null" >
+         and custom_service_name = #{condition.customServiceName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewServiceName != null" >
+         and custom_service_name like CONCAT("%", #{condition.viewServiceName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffName != null" >
+         and receiver_staff_name = #{condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewReceiverName != null" >
+         and receiver_staff_name like CONCAT("%", #{condition.viewReceiverName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.transactionAmount != null" >
+         and transaction_amount = #{condition.transactionAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.exercise != null" >
+         and exercise = #{condition.exercise,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodsName != null" >
+         and goods_name = #{condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.outOrIndent != null" >
+         and out_or_indent = #{condition.outOrIndent,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.visitDate != null" >
+         and visit_date = #{condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.startVisitDate != null" >
+      	 <![CDATA[and visit_date >= #{condition.startVisitDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endVisitDate != null" >
+      	 <![CDATA[and visit_date <= #{condition.endVisitDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.remark != null" >
+         and remark = #{condition.remark,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, customer_id, customer_name, customer_type, customer_area, custom_service_id, 
+    custom_service_name, receiver_staff_id, receiver_staff_name, transaction_amount, 
+    exercise, goods_name, out_or_indent, visit_date, remark
+  </sql>
+  
+  <!-- 根据条件查询记录总数 -->
+  <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from visit_everyday_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- 根据条件查询记录集 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from visit_everyday_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <!-- 根据条件查询对应登门数量 -->
+  <select id="getVisitCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select count(1) as total_counts,
+	  	(select count(1) from visit_everyday_info
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	  	and customer_area = '1') as dl_counts,
+	  	(select count(1) from visit_everyday_info
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    and customer_area = '0') as sy_counts
+	 from visit_everyday_info
+	 <if test="_parameter != null" >
+		<include refid="Example_Where_Clause" />
+     </if>
+  </select>
+  
+  <!-- 获取星期（周）对应的登门数量 -->
+  <select id="getWeekVisitCounts" parameterType="java.lang.String" resultType="java.util.Map">
+  	select distinct
+  		(select DATE_ADD(#{startVisitDate},INTERVAL +0 day)) as Monday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +0 day), "%") and customer_area = #{customerArea}) as Monday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +1 day)) as Tuesday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +1 day), "%") and customer_area = #{customerArea}) as Tuesday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +2 day)) as Wednesday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +2 day), "%") and customer_area = #{customerArea}) as Wednesday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +3 day)) as Thursday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +3 day), "%") and customer_area = #{customerArea}) as Thursday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +4 day)) as Friday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +4 day), "%") and customer_area = #{customerArea}) as Friday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +5 day)) as Saturday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +5 day), "%") and customer_area = #{customerArea}) as Saturday,
+		(select DATE_ADD(#{startVisitDate},INTERVAL +6 day)) as Sunday_Day,
+		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +6 day), "%") and customer_area = #{customerArea}) as Sunday
+	from visit_report_info
+  </select>
+  
+  
+</mapper>

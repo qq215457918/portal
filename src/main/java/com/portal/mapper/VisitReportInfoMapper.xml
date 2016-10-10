@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.VisitReportInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.VisitReportInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="receiver_area" property="receiverArea" jdbcType="VARCHAR" />
+    <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
+    <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
+    <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
+    <result column="roadshow_counts" property="roadshowCounts" jdbcType="INTEGER" />
+    <result column="finish_order_counts" property="finishOrderCounts" jdbcType="INTEGER" />
+    <result column="locked_counts" property="lockedCounts" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.reportDate != null" >
+         and report_date = #{condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffName != null" >
+         and receiver_staff_name = #{condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverArea != null" >
+         and receiver_area = #{condition.receiverArea,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerCounts != null" >
+         and customer_counts = #{condition.customerCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.newCounts != null" >
+         and new_counts = #{condition.newCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.repeatCounts != null" >
+         and repeat_counts = #{condition.repeatCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.roadshowCounts != null" >
+         and roadshow_counts = #{condition.roadshowCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.finishOrderCounts != null" >
+         and finish_order_counts = #{condition.finishOrderCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.lockedCounts != null" >
+         and locked_counts = #{condition.lockedCounts,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.reportDate != null" >
+         and report_date = #{example.condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.receiverStaffId != null" >
+         and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverStaffName != null" >
+         and receiver_staff_name = #{example.condition.receiverStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiverArea != null" >
+         and receiver_area = #{example.condition.receiverArea,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerCounts != null" >
+         and customer_counts = #{example.condition.customerCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.newCounts != null" >
+         and new_counts = #{example.condition.newCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.repeatCounts != null" >
+         and repeat_counts = #{example.condition.repeatCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.roadshowCounts != null" >
+         and roadshow_counts = #{example.condition.roadshowCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.finishOrderCounts != null" >
+         and finish_order_counts = #{example.condition.finishOrderCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.lockedCounts != null" >
+         and locked_counts = #{example.condition.lockedCounts,jdbcType=INTEGER}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
+    new_counts, repeat_counts, roadshow_counts, finish_order_counts, locked_counts
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from visit_report_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from visit_report_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from visit_report_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from visit_report_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.VisitReportInfo" >
+    insert into visit_report_info (id, report_date, receiver_staff_id, 
+      receiver_staff_name, receiver_area, customer_counts, 
+      new_counts, repeat_counts, roadshow_counts, 
+      finish_order_counts, locked_counts)
+    values (#{id,jdbcType=VARCHAR}, #{reportDate,jdbcType=TIMESTAMP}, #{receiverStaffId,jdbcType=VARCHAR}, 
+      #{receiverStaffName,jdbcType=VARCHAR}, #{receiverArea,jdbcType=VARCHAR}, #{customerCounts,jdbcType=INTEGER}, 
+      #{newCounts,jdbcType=INTEGER}, #{repeatCounts,jdbcType=INTEGER}, #{roadshowCounts,jdbcType=INTEGER}, 
+      #{finishOrderCounts,jdbcType=INTEGER}, #{lockedCounts,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.VisitReportInfo" >
+    insert into visit_report_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportDate != null" >
+        report_date,
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id,
+      </if>
+      <if test="receiverStaffName != null" >
+        receiver_staff_name,
+      </if>
+      <if test="receiverArea != null" >
+        receiver_area,
+      </if>
+      <if test="customerCounts != null" >
+        customer_counts,
+      </if>
+      <if test="newCounts != null" >
+        new_counts,
+      </if>
+      <if test="repeatCounts != null" >
+        repeat_counts,
+      </if>
+      <if test="roadshowCounts != null" >
+        roadshow_counts,
+      </if>
+      <if test="finishOrderCounts != null" >
+        finish_order_counts,
+      </if>
+      <if test="lockedCounts != null" >
+        locked_counts,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null" >
+        #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiverStaffId != null" >
+        #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffName != null" >
+        #{receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverArea != null" >
+        #{receiverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCounts != null" >
+        #{customerCounts,jdbcType=INTEGER},
+      </if>
+      <if test="newCounts != null" >
+        #{newCounts,jdbcType=INTEGER},
+      </if>
+      <if test="repeatCounts != null" >
+        #{repeatCounts,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowCounts != null" >
+        #{roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="finishOrderCounts != null" >
+        #{finishOrderCounts,jdbcType=INTEGER},
+      </if>
+      <if test="lockedCounts != null" >
+        #{lockedCounts,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from visit_report_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update visit_report_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportDate != null" >
+        report_date = #{record.reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receiverStaffId != null" >
+        receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverStaffName != null" >
+        receiver_staff_name = #{record.receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiverArea != null" >
+        receiver_area = #{record.receiverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerCounts != null" >
+        customer_counts = #{record.customerCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.newCounts != null" >
+        new_counts = #{record.newCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.repeatCounts != null" >
+        repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.roadshowCounts != null" >
+        roadshow_counts = #{record.roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishOrderCounts != null" >
+        finish_order_counts = #{record.finishOrderCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockedCounts != null" >
+        locked_counts = #{record.lockedCounts,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update visit_report_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      report_date = #{record.reportDate,jdbcType=TIMESTAMP},
+      receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
+      receiver_staff_name = #{record.receiverStaffName,jdbcType=VARCHAR},
+      receiver_area = #{record.receiverArea,jdbcType=VARCHAR},
+      customer_counts = #{record.customerCounts,jdbcType=INTEGER},
+      new_counts = #{record.newCounts,jdbcType=INTEGER},
+      repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
+      roadshow_counts = #{record.roadshowCounts,jdbcType=INTEGER},
+      finish_order_counts = #{record.finishOrderCounts,jdbcType=INTEGER},
+      locked_counts = #{record.lockedCounts,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.VisitReportInfo" >
+    update visit_report_info
+    <set >
+      <if test="reportDate != null" >
+        report_date = #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiverStaffId != null" >
+        receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverStaffName != null" >
+        receiver_staff_name = #{receiverStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiverArea != null" >
+        receiver_area = #{receiverArea,jdbcType=VARCHAR},
+      </if>
+      <if test="customerCounts != null" >
+        customer_counts = #{customerCounts,jdbcType=INTEGER},
+      </if>
+      <if test="newCounts != null" >
+        new_counts = #{newCounts,jdbcType=INTEGER},
+      </if>
+      <if test="repeatCounts != null" >
+        repeat_counts = #{repeatCounts,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowCounts != null" >
+        roadshow_counts = #{roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="finishOrderCounts != null" >
+        finish_order_counts = #{finishOrderCounts,jdbcType=INTEGER},
+      </if>
+      <if test="lockedCounts != null" >
+        locked_counts = #{lockedCounts,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.VisitReportInfo" >
+    update visit_report_info
+    set report_date = #{reportDate,jdbcType=TIMESTAMP},
+      receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
+      receiver_staff_name = #{receiverStaffName,jdbcType=VARCHAR},
+      receiver_area = #{receiverArea,jdbcType=VARCHAR},
+      customer_counts = #{customerCounts,jdbcType=INTEGER},
+      new_counts = #{newCounts,jdbcType=INTEGER},
+      repeat_counts = #{repeatCounts,jdbcType=INTEGER},
+      roadshow_counts = #{roadshowCounts,jdbcType=INTEGER},
+      finish_order_counts = #{finishOrderCounts,jdbcType=INTEGER},
+      locked_counts = #{lockedCounts,jdbcType=INTEGER}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

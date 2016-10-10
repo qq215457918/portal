@@ -11,6 +11,9 @@
     <result column="end_time" property="endTime" jdbcType="TIME" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    id, customer_id, receiver_staff_id, start_time, end_time, create_date
+  </sql>
   <select id="queryRecordListbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >
@@ -25,7 +28,7 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
-    <select id="queryRecordListbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    <select id="queryRecordBeginbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >
       distinct

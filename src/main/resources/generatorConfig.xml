@@ -12,7 +12,7 @@
 		<plugin type="org.mybatis.generator.plugins.MybatisServicePlugin">
 			<property name="targetPackage" value="com.portal.service" />
 			<property name="implementationPackage" value="com.portal.service.impl" />
-			<property name="targetProject" value="E:/generator" />
+			<property name="targetProject" value="D:\escape_workspace\portal\src\test" />
 			<property name="enableInsert" value="true" />
 			<property name="enableUpdateByExampleSelective" value="true" />
 			<property name="enableInsertSelective" value="true" />
@@ -30,20 +30,20 @@
 			                   password="root" />
 
 		<!-- java实体类 -->
-		<javaModelGenerator targetPackage="com.portal.bean" targetProject="E:/generator">
+		<javaModelGenerator targetPackage="com.portal.bean" targetProject="D:\escape_workspace\portal\src\test">
 			<property name="enableSubPackages" value="true" />
 		</javaModelGenerator>
 
         <!--生成xml mapper文件 路径 -->
-		<sqlMapGenerator targetPackage="com.portal.mapper" targetProject="E:/generator">
+		<sqlMapGenerator targetPackage="com.portal.mapper" targetProject="D:\escape_workspace\portal\src\test">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<!-- 生成的Dao接口 的包路径 -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.portal.dao" targetProject="E:/generator">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.portal.dao" targetProject="D:\escape_workspace\portal\src\test">
 		</javaClientGenerator>
 		
-		<table tableName="customer_culture_info"></table>
+		<!-- <table tableName="customer_culture_info"></table>
 		<table tableName="customer_info"></table>
 		<table tableName="employee_info"></table>
 		<table tableName="goods_info"></table>
@@ -57,6 +57,9 @@
 		<table tableName="report_track"></table>
 		<table tableName="role_info"></table>
 		<table tableName="role_permission"></table>
-		<table tableName="user_role"></table>
+		<table tableName="user_role"></table> -->
+		<table tableName="visit_everyday_info"></table>
+		<table tableName="visit_report_info"></table>
+		
 	</context>
 </generatorConfiguration>
