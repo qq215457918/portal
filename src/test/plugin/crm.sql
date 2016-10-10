@@ -41,7 +41,7 @@ CREATE TABLE `customer_culture_info` (
 DROP TABLE IF EXISTS `customer_info`;
 CREATE TABLE `customer_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
-  `type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '客户分类\n0 空白客户\n1 重复登门\n2说明会\n3成单\n4锁定\n',
+  `type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '客户分类\n0 空白客户\n1 重复登门\n2说明会\n3成单\n4锁定\n5转介绍',
   `season2` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '客户分类二级 无用',
   `season3` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '客户分类三级 无用',
   `season4` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '客户分类四级 无用',
