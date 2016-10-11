@@ -78,8 +78,8 @@ CREATE TABLE `customer_info` (
 DROP TABLE IF EXISTS `employee_info`;
 CREATE TABLE `employee_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键',
-  `group_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '组ID',
-  `department_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '部门ID',
+  `group_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '组ID',
+  `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
   `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
   `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
   `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
