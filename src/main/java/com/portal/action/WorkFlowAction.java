@@ -3,21 +3,32 @@ package com.portal.action;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.portal.bean.EmployeeInfo;
+import com.portal.common.util.JsonUtils;
 import com.portal.service.WorkFlowService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/workflow")
@@ -25,6 +36,30 @@ public class WorkFlowAction {
 	
 	@Autowired
 	private WorkFlowService workFlowService;
+	
+	/**
+	 * @Title: flowInfoIndex 
+	 * @Description: 流程部署页面
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/flowInfoIndex")
+	public String flowInfoIndex(){
+		return "flow/flow_info_index";
+	}
+	
+	/**
+	 * @Title: flowInfoIndex 
+	 * @Description: 流程部署页面
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/achieveExamList")
+	public String achieveExamList(){
+		return "flow/achieve_exam_list";
+	}
 	
 	/**
 	 * @Title: insertFlowZip 
@@ -38,35 +73,87 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("/insertFlowZip")
 	public String insertFlowZip(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="flowFile", required=false) MultipartFile flowFile) {
-		
-		String fileName = flowFile.getName();
+			@RequestParam(value="flowFile", required=false) MultipartFile flowFile,
+			@RequestParam(value="fileName", required=false) String fileName) {
 		
 		workFlowService.insertFlowZip(flowFile, fileName);
 		
-		return "insert_flow_zip_list";
+		return "redirect:flowInfoIndex";
 	}
 	
 	/**
-	 * @Title: selectFlowInfo 
-	 * @Description: 查询流程部署和定义列表
+	 * @Title: selectFlowDepInfo 
+	 * @Description: 查询流程部署列表
 	 * @param request
 	 * @param response
 	 * @return 
 	 * @return String
 	 * @throws
 	 */
-	@RequestMapping("/selectFlowInfo")
-	public String selectFlowInfo(HttpServletRequest request, HttpServletResponse response){
+	@RequestMapping("/selectFlowDepInfo")
+	public void selectFlowDepInfo(HttpServletRequest request, HttpServletResponse response){
 		// 获取流程部署列表（act_re_deployment表）
 		List<Deployment> depList = workFlowService.selectDeployList();
+		// 直接转报错 ，转换为 拼接json对象
+		JSONArray result = new JSONArray();
+		for(Deployment deployment : depList){
+			JSONObject temp = new JSONObject();
+			temp.put("depId", deployment.getId());
+			temp.put("name", deployment.getName());
+			temp.put("deploymentTime", deployment.getDeploymentTime());
+			result.add(temp);
+		}
+		
+		try {
+			JSONObject resultJson =  new JSONObject();
+			resultJson.put("sEcho", request.getParameter("sEcho"));
+			resultJson.put("iTotalRecords", 0);
+			resultJson.put("iTotalDisplayRecords", 0);
+			resultJson.put("aaData", result.toString());
+			response.setContentType("text/json;charset=UTF-8");
+			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @Title: selectFlowPdInfo 
+	 * @Description: 查询流程定义列表
+	 * @param request
+	 * @param response
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/selectFlowPdInfo")
+	public void selectFlowPdInfo(HttpServletRequest request, HttpServletResponse response){
 		// 获取流程定义列表（act_re_procdef表）
 		List<ProcessDefinition> pdList = workFlowService.selectProcessDefinitionList();
-		
-		request.setAttribute("depList", depList);
-		request.setAttribute("pdList", pdList);
-		
-		return "select_flow_info";
+		// 直接转报错 ，转换为 拼接json对象
+		JSONArray result = new JSONArray();
+		for(ProcessDefinition pd : pdList){
+			JSONObject temp = new JSONObject();
+			temp.put("pdId", pd.getId());
+			temp.put("name", pd.getName());
+			temp.put("key", pd.getKey());
+			temp.put("version", pd.getVersion());
+			temp.put("resourceName", pd.getResourceName());
+			temp.put("diagramResourceName", pd.getDiagramResourceName());
+			temp.put("deploymentId", pd.getDeploymentId());
+			result.add(temp);
+		}
+		try {
+			JSONObject resultJson =  new JSONObject();
+			resultJson.put("sEcho", request.getParameter("sEcho"));
+			resultJson.put("iTotalRecords", 0);
+			resultJson.put("iTotalDisplayRecords", 0);
+			resultJson.put("aaData", result.toString());
+			response.setContentType("text/json;charset=UTF-8");
+			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -108,23 +195,101 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("delDeployment")
-	public String delDeployment(HttpServletRequest request, HttpServletResponse response){
+	public void delDeployment(HttpServletRequest request, HttpServletResponse response){
 		// 获取流程id
 		String deploymentId = request.getParameter("deploymentId");
 		// 使用部署对象id，删除流程定义
 		workFlowService.delProcessDefinitionById(deploymentId);
-		return "select_flow_info";
 	}
 	
+	/**
+	 * @Title: selectTaskListById 
+	 * @Description: 通过用户id 获取正在执行的任务列表
+	 * @param request
+	 * @param response
+	 * @return String
+	 * @throws
+	 */
 	@RequestMapping("/selectTaskListById")
-	public String selectTaskListById(HttpServletRequest request, HttpServletResponse response){
+	public void selectTaskListById(HttpServletRequest request, HttpServletResponse response){
 		//获取当前用户id
-		String userId = request.getSession().getAttribute("user").toString();
+//		String userId = request.getSession().getAttribute("user").toString();
+		String userId = "1";
+		String defKey = request.getParameter("defKey");
 		
-		List<Task> list = workFlowService.selectTaskListById(userId);
+		List<Task> list = workFlowService.selectTaskListById(userId, defKey);
 		
-		request.setAttribute("taskList", list);
+		JsonUtils.resultJson(list, list.size(), response, request);
+	}
+	
+	/**
+	 * @Title: clerkEverydayAchievenment 
+	 * @Description: 员工每日业绩查看
+	 * @param request
+	 * @param response
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("clerkEverydayAchievenment")
+	public String clerkEverydayAchievenment(HttpServletRequest request, HttpServletResponse response){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
-		return "task_list_by_id";
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+//		paramMap.put("userId", ((EmployeeInfo)request.getSession().getAttribute("user")).getId());
+		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
+		paramMap.put("userId", 1);
+		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
+		
+		request.setAttribute("result", result);
+		
+		return "flow/clerk_everyday_achievement";
+	}
+	
+	/**
+	 * @Title: toAchieveExam 
+	 * @Description: 开始审批流程
+	 * @param request
+	 * @param response
+	 * @throws
+	 */
+	@RequestMapping("toAchieveExam")
+	public void toAchieveExam(HttpServletRequest request, HttpServletResponse response){
+		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		paramMap.put("dateInfo", sdf.format(new Date()));
+		ProcessInstance pi = workFlowService.startProcess("leaderApprove", sdf.format(new Date())+userId, paramMap);
+		
+		request.setAttribute("piId", pi.getProcessInstanceId());
+		
+		achieveExam(request, response);
+	}
+	
+	/**
+	 * @Title: achieveExam 
+	 * @Description: 审批流程
+	 * @param request
+	 * @param response
+	 * @throws
+	 */
+	@RequestMapping("achieveExam")
+	public void achieveExam(HttpServletRequest request, HttpServletResponse response){
+		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+		
+		String processInstanceId = request.getParameter("processInstanceId");
+		if(StringUtils.isBlank(processInstanceId)){
+			processInstanceId = (String) request.getAttribute("piId");
+		}
+		
+		Task task = workFlowService.findTaskByProcInstId(processInstanceId);
+		
+		Map<String, String> pm = new HashMap<String, String>();
+		pm.put("taskId", task.getId());
+		pm.put("outcome", "提交");
+		pm.put("comment", "提交审核");
+		pm.put("userId", userId);
+				
+		workFlowService.saveSubmitTask(pm);
 	}
 }

@@ -90,7 +90,7 @@ public interface WorkFlowService {
 	 * @return List<Task>
 	 * @throws
 	 */
-	public List<Task> selectTaskListById(String userId);
+	public List<Task> selectTaskListById(String userId, String defKey);
 	
 	/**
      * @Title: findOutComeListByTaskId 
@@ -112,7 +112,7 @@ public interface WorkFlowService {
 	public void saveSubmitTask(Map<String, String> paramMap);
 	
 	 /**
-     * @Title: findCommentByLeaveBillId 
+     * @Title: findCommentByOrderId 
      * @Description: 根据订单id 查询历史审批信息
      * @param id
      * @return 
@@ -267,5 +267,15 @@ public interface WorkFlowService {
 	 * @throws
 	 */
 	public ProcessDefinition findProcessDefinitionByPrcDefId(String processDefinitionId);
+
+	/**
+	 * @Title: selectlerkEverydayAchievenment 
+	 * @Description: 员工每日业绩查看
+	 * @param paramMap
+	 * @return 
+	 * @return Map<String, Object>
+	 * @throws
+	 */
+	public Map<String, Object> selectlerkEverydayAchievenment(Map<String, Object> paramMap);
 
 }

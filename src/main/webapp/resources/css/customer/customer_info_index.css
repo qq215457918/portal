@@ -5,3 +5,18 @@
 .ml10 {
 	margin-left: 10px;
 }
+
+.w20 {
+	width: 20%;
+}
+
+@media ( max-width : 979px) {
+	.stats-container {
+		height: 600px;
+	}
+	.stats-container [class^="col-"], .stats-container [class*="col-"] {
+		border-bottom: 1px solid #e6e6e6;
+		padding-bottom: 12px;
+		height: auto;
+	}
+}

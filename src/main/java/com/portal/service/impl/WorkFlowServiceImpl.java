@@ -36,6 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.bean.OrderInfo;
+import com.portal.dao.extra.WorkFlowDao;
 import com.portal.service.WorkFlowService;
 
 /**
@@ -62,6 +63,9 @@ public class WorkFlowServiceImpl implements WorkFlowService {
      
     @Autowired
     private HistoryService historyService;
+    
+    @Autowired
+    private WorkFlowDao workFlowDao;
     
     /**
 	 * @Title: insertFlowZip 
@@ -164,8 +168,9 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	 * @throws
 	 */
     @Override
-    public List<Task> selectTaskListById(String userId) {
+    public List<Task> selectTaskListById(String userId, String defKey) {
     	return taskService.createTaskQuery()
+    					.taskDefinitionKey(defKey)
     					.taskAssignee(userId)
     					.orderByTaskCreateTime()
     					.desc().list();
@@ -596,5 +601,28 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     @Override
     public void claimTask(String taskId,String operator) {
          taskService.claim(taskId, operator);
+    }
+    
+    /**
+	 * @Title: selectlerkEverydayAchievenment 
+	 * @Description: 员工每日业绩查看
+	 * @param paramMap
+	 * @return 
+	 * @return Map<String, Object>
+	 * @throws
+	 */
+    @Override
+    public Map<String, Object> selectlerkEverydayAchievenment(Map<String, Object> paramMap) {
+    	Map<String, Object> map1 = workFlowDao.selectlerkEverydayAchievenment(paramMap);
+    	Map<String, Object> map2 = workFlowDao.selectlerkEverydayReception(paramMap);
+    	
+    	if(null == map1){
+    		map1 = new HashMap<String, Object>();
+    	}
+    	if(null != map2){
+    		map1.putAll(map2);
+    	}
+    	
+    	return map1;
     }
 }

@@ -21,6 +21,7 @@ import com.portal.service.CustomerInfoService;
  * @date 2016年9月25日 下午2:35:32
  */
 @Controller
+@RequestMapping("customerInfo")
 public class CustomerInfoAction {
 	
 	@Autowired
@@ -29,13 +30,27 @@ public class CustomerInfoAction {
 	/**
 	 * @Title: selectCostomerInfoList 
 	 * @Description: 用户信息首页
+	 * @param request
 	 * @return 
 	 * @return String
 	 * @throws
 	 */
 	@RequestMapping("costomerInfoIndex")
-	public String costomerInfoIndex(){
-		return "customer/customer_info_index";
+	public String costomerInfoIndex(HttpServletRequest request){
+		String type = request.getParameter("type");
+		
+		if("0".equals(type)){
+			return "customer/blank_info_index";
+		}else if("1".equals(type)){
+			return "customer/back_info_index";
+		}else if("2".equals(type)){
+			return "customer/explanation_info_index";
+		}else if("3".equals(type)){
+			return "customer/complete_info_index";
+		}else if("4".equals(type)){
+			return "customer/lock_info_index";
+		}
+		return null;
 	}
 	
 	/**
@@ -52,14 +67,46 @@ public class CustomerInfoAction {
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 		
+		criteria.put("type", request.getParameter("type"));
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("type", request.getParameter("type"));
 		criteria.put("updateDate", request.getParameter("updateDate"));
+		criteria.put("startTime", request.getParameter("startTime"));
+		criteria.put("endTime", request.getParameter("endTime"));
+		criteria.put("backCountS", request.getParameter("backCountS"));
+		criteria.put("backCountE", request.getParameter("backCountE"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectByExample(criteria);
 		
 		int count = customerInfoService.countByExample(criteria);
+		
+		JsonUtils.resultJson(resultList, count, response, request);
+	}
+	
+	/**
+	 * @Title: selectCustomerInfoList 
+	 * @Description: 查询列表
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectCustomerExList")
+	public void selectCustomerExList(HttpServletRequest request, HttpServletResponse response){
+		Criteria criteria = new Criteria();
+		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+		
+		criteria.put("type", request.getParameter("type"));
+		criteria.put("payPriceS", request.getParameter("payPriceS"));
+		criteria.put("payPriceE", request.getParameter("payPriceE"));
+		criteria.put("createDateS", request.getParameter("createDateS"));
+		criteria.put("createDateE", request.getParameter("createDateE"));
+		
+		List<CustomerInfo> resultList = customerInfoService.selectCustomerExList(criteria);
+		
+		int count = customerInfoService.countCustomerEx(criteria);
 		
 		JsonUtils.resultJson(resultList, count, response, request);
 	}

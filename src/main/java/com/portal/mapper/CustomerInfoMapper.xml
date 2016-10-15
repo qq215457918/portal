@@ -27,6 +27,8 @@
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="recent_create_date" property="recentCreateDate" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -108,10 +110,17 @@
       </if>
       <!-- 登门时间段 -->
       <if test="condition.startTime != null" >
-         and visit_date >= date_format(#{condition.startTime,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s') 
+         and visit_date >= date_format(#{condition.startTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
       </if>
       <if test="condition.endTime != null" >
-         and visit_date <![CDATA[<=]]> date_format(#{condition.endTime,jdbcType=VARCHAR}, '%Y-%m-%d %H:%i:%s') 
+         and visit_date <![CDATA[<=]]> date_format(#{condition.endTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      </if>
+       <!-- 登门次数 -->
+      <if test="condition.backCountS != null" >
+         and transaction_amount >= #{condition.backCountS, jdbcType=DECIMAL}
+      </if>
+      <if test="condition.backCountE != null" >
+         and transaction_amount <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
       </if>
     </trim>
   </sql>
@@ -630,4 +639,77 @@
       update_flag = #{updateFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <sql id="Columnex_List" >
+    ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.phone_staff_id, ci.receiver_staff_id, ci.business_phone, 
+    ci.phone, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount, 
+    ci.recent_visit_date, ci.recent_export_date, ci.blacklist_flag, ci.update_date, ci.update_flag,a.recent_create_date, a.pay_price
+  </sql>
+  <select id="selectCustomerExList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select  
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Columnex_List" />
+    from customer_info ci
+    left join (
+    	select 
+    	sum(pay_price) pay_price,
+    	max(create_date) recent_create_date,
+    	customer_id 
+    	from order_info group by customer_id)a on ci.id = a.customer_id
+    <if test="_parameter != null" >
+      <trim prefix="where" prefixOverrides="and|or" >
+        <if test="condition.type != null" >
+        	and type = #{condition.type,jdbcType=VARCHAR}
+      	</if>
+      	<if test="condition.payPriceS != null" >
+        	and a.pay_price >= #{condition.payPriceS,jdbcType=DECIMAL}
+      	</if>
+      	<if test="condition.payPriceE != null" >
+        	and a.pay_price <![CDATA[<=]]> #{condition.payPriceE,jdbcType=DECIMAL}
+      	</if>
+      	<if test="condition.createDateS != null" >
+        	and a.recent_create_date >= date_format(#{condition.createDateS,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      	</if>
+      	<if test="condition.createDateE != null" >
+        	and a.recent_create_date <![CDATA[<=]]> date_format(#{condition.createDateE,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      	</if>
+      </trim>
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="countCustomerEx" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer">
+    select count(1)
+    from customer_info ci
+    left join (
+    	select 
+    	sum(pay_price) pay_price,
+    	max(create_date) recent_create_date,
+    	customer_id 
+    	from order_info group by customer_id)a on ci.id = a.customer_id
+    <if test="_parameter != null" >
+      <trim prefix="where" prefixOverrides="and|or" >
+      	<if test="condition.type != null" >
+        	and type = #{condition.type,jdbcType=VARCHAR}
+      	</if>
+      	<if test="condition.payPriceS != null" >
+        	and a.pay_price >= #{condition.payPriceS,jdbcType=DECIMAL}
+      	</if>
+      	<if test="condition.payPriceE != null" >
+        	and a.pay_price <![CDATA[<=]]> #{condition.payPriceE,jdbcType=DECIMAL}
+      	</if>
+      	<if test="condition.createDateS != null" >
+        	and a.recent_create_date >= date_format(#{condition.createDateS,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      	</if>
+      	<if test="condition.createDateE != null" >
+        	and a.recent_create_date <![CDATA[<=]]> date_format(#{condition.createDateE,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      	</if>
+      </trim>
+    </if>
+  </select>
 </mapper>

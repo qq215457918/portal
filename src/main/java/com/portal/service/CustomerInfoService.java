@@ -35,4 +35,7 @@ public interface CustomerInfoService {
 
     int insert(CustomerInfo record);
 
+    public List<CustomerInfo> selectCustomerExList(Criteria criteria);
+
+	public int countCustomerEx(Criteria criteria);
 }

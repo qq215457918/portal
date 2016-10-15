@@ -147,6 +147,7 @@ public class JsonUtils {
 			resultJson.put("iTotalRecords", totalCount);
 			resultJson.put("iTotalDisplayRecords", null!=list&&list.size()>0?list.size():0);
 			resultJson.put("aaData", list);
+			response.setContentType("text/json;charset=UTF-8");
 			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
 		} catch (IOException e) {
 			e.printStackTrace();

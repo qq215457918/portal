@@ -72,6 +72,16 @@ public class CustomerInfo implements Serializable {
      * 是否更新标志
      */
     private String updateFlag;
+    
+    /**
+     * 最近成单时间
+     */
+    private String recentCreateDate;
+    
+    /**
+     * 成单总额
+     */
+    private String payPrice;
 
     public String getId() {
         return id;
@@ -321,4 +331,22 @@ public class CustomerInfo implements Serializable {
     public void setUpdateFlag(String updateFlag) {
         this.updateFlag = updateFlag;
     }
+
+	public String getRecentCreateDate() {
+		return recentCreateDate;
+	}
+
+	public void setRecentCreateDate(String recentCreateDate) {
+		this.recentCreateDate = recentCreateDate;
+	}
+
+	public String getPayPrice() {
+		return payPrice;
+	}
+
+	public void setPayPrice(String payPrice) {
+		this.payPrice = payPrice;
+	}
+    
+    
 }

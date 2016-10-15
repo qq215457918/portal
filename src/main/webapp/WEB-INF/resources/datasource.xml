@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasourceManager xmlVersion="20131111" releaseVersion="7.0.5">
+	<ConnectionMap>
+		<Connection name="localhost" class="com.fr.data.impl.JDBCDatabaseConnection">
+			<DatabaseAttr/>
+			<JDBCDatabaseAttr url="jdbc:mysql://localhost:3306/crm" driver="com.mysql.jdbc.Driver" user="root" password="root" encryptPassword="true">
+				<DBCPAttr/>
+			</JDBCDatabaseAttr>
+		</Connection>
+	</ConnectionMap>
+</DatasourceManager>

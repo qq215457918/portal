@@ -107,4 +107,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         return this.customerInfoDao.insert(record);
     }
 
+    @Override
+    public List<CustomerInfo> selectCustomerExList(Criteria criteria) {
+    	return customerInfoDao.selectCustomerExList(criteria);
+    }
+    
+    @Override
+    public int countCustomerEx(Criteria criteria) {
+    	return customerInfoDao.countCustomerEx(criteria);
+    }
 }
