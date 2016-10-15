@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.DeptPerformanceInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.DeptPerforInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="DECIMAL" />
+    <result column="order_amounts" property="orderAmounts" jdbcType="INTEGER" />
+    <result column="new_customer_counts" property="newCustomerCounts" jdbcType="INTEGER" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+    
+    <result column="organization_name" property="organizationName" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="employee_name" property="employeeName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.employeeId != null" >
+         and dp.employee_id = #{condition.employeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.performance != null" >
+         and dp.performance = #{condition.performance,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.orderAmounts != null" >
+         and dp.order_amounts = #{condition.orderAmounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.newCustomerCounts != null" >
+         and dp.new_customer_counts = #{condition.newCustomerCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.reportDate != null" >
+         and dp.report_date = #{condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.startReportDate != null" >
+      	 <![CDATA[and dp.report_date >= #{condition.startReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endReportDate != null" >
+      	 <![CDATA[and dp.report_date <= #{condition.endReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.employeeName != null" >
+         and e.name like CONCAT("%", #{condition.employeeName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.organiId != null" >
+         and e.organization_id = #{condition.organiId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startDate != null" >
+      	 <![CDATA[and dp.report_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endDate != null" >
+      	 <![CDATA[and dp.report_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, organization_id, organization_name, department_id, department_name, group_id, 
+    group_name, employee_id, employee_name, performance, order_amounts, new_customer_counts, 
+    report_date
+  </sql>
+  
+  <!-- 报表系统中查询部门业绩总条数 -->
+  <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+  	select count(1) from
+  	(
+	  	select
+	 		dp.id, 
+			dp.employee_id,
+			e.`name` as employee_name,
+			(select g.`name` from group_info g where g.id = e.group_id) as group_name,
+			(select g.`name` from group_info g where g.id = e.department_id) as department_name,
+			(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
+			sum(dp.performance) as performance,
+			sum(dp.order_amounts) as order_amounts,
+			sum(dp.new_customer_counts) as new_customer_counts
+		from dept_performance_info dp
+		left join employee_info e on dp.employee_id = e.id
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		group by dp.employee_id
+		order by employee_name
+  	) a
+  </select>
+  
+  <!-- 报表系统中查询部门业绩 -->
+  <select id="seleteByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select
+ 		dp.id, 
+		dp.employee_id,
+		e.`name` as employee_name,
+		(select g.`name` from group_info g where g.id = e.group_id) as group_name,
+		(select g.`name` from group_info g where g.id = e.department_id) as department_name,
+		(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
+		sum(dp.performance) as performance,
+		sum(dp.order_amounts) as order_amounts,
+		sum(dp.new_customer_counts) as new_customer_counts
+	from dept_performance_info dp
+	left join employee_info e on dp.employee_id = e.id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	group by dp.employee_id
+	order by employee_name
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <!-- 查询个人业绩排名数据 -->
+  <select id="getIndividualByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select
+ 		dp.id, 
+		dp.employee_id,
+		e.`name` as employee_name,
+		(select g.`name` from group_info g where g.id = e.group_id) as group_name,
+		(select g.`name` from group_info g where g.id = e.department_id) as department_name,
+		(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
+		sum(dp.performance) as performance,
+		sum(dp.order_amounts) as order_amounts,
+		sum(dp.new_customer_counts) as new_customer_counts
+	from dept_performance_info dp
+	left join employee_info e on dp.employee_id = e.id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	group by dp.employee_id
+	order by performance desc
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+</mapper>

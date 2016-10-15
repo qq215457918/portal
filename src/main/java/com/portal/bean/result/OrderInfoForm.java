@@ -90,6 +90,21 @@ public class OrderInfoForm implements Serializable {
     //订单详情列表
     private List<OrderDetailInfo> OrderDetailInfoList;
     
+    /**
+     * 报表系统中统计业绩--机构名称
+     */
+    private String viewOrganiName;
+    
+    /**
+     * 报表系统中统计业绩--业绩值
+     */
+    private String performance;
+    
+    /**
+     * 报表系统中统计业绩--新客户数量
+     */
+    private String newCustomerCount;
+    
 
     public List<OrderDetailInfo> getOrderDetailInfoList() {
 		return OrderDetailInfoList;
@@ -355,4 +370,29 @@ public class OrderInfoForm implements Serializable {
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
     }
+
+    public String getViewOrganiName() {
+        return viewOrganiName;
+    }
+
+    public void setViewOrganiName(String viewOrganiName) {
+        this.viewOrganiName = viewOrganiName;
+    }
+
+    public String getPerformance() {
+        return performance;
+    }
+
+    public void setPerformance(String performance) {
+        this.performance = performance;
+    }
+
+    public String getNewCustomerCount() {
+        return newCustomerCount;
+    }
+
+    public void setNewCustomerCount(String newCustomerCount) {
+        this.newCustomerCount = newCustomerCount;
+    }
+    
 }

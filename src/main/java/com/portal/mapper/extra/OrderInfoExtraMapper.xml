@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.OrderInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.OrderInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+    <result column="actual_price" property="actualPrice" jdbcType="DECIMAL" />
+    <result column="finance_flag" property="financeFlag" jdbcType="VARCHAR" />
+    <result column="finance_type" property="financeType" jdbcType="VARCHAR" />
+    <result column="finance_operator_id" property="financeOperatorId" jdbcType="VARCHAR" />
+    <result column="finance_date" property="financeDate" jdbcType="TIMESTAMP" />
+    <result column="warehouse_flag" property="warehouseFlag" jdbcType="VARCHAR" />
+    <result column="warehouse_operator_id" property="warehouseOperatorId" jdbcType="VARCHAR" />
+    <result column="warehouse_date" property="warehouseDate" jdbcType="TIMESTAMP" />
+    <result column="culture_flag" property="cultureFlag" jdbcType="VARCHAR" />
+    <result column="culture_operator_id" property="cultureOperatorId" jdbcType="VARCHAR" />
+    <result column="culture_date" property="cultureDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    
+    <!-- 新增报表系统中需要的字段内容 -->
+    <result column="organi_name" property="viewOrganiName" jdbcType="VARCHAR" />
+    <result column="dept_name" property="viewDeptName" jdbcType="VARCHAR" />
+    <result column="group_name" property="viewGroupName" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="VARCHAR" />
+    <result column="new_customers" property="newCustomerCount" jdbcType="VARCHAR" />
+    
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.customerId != null" >
+         and customer_id = #{condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffId != null" >
+         and phone_staff_id = #{condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiverStaffId != null" >
+         and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.status != null" >
+         and status = #{condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderType != null" >
+         and order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payType != null" >
+         and pay_type = #{condition.payType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payPrice != null" >
+         and pay_price = #{condition.payPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.actualPrice != null" >
+         and actual_price = #{condition.actualPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.financeFlag != null" >
+         and finance_flag = #{condition.financeFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeType != null" >
+         and finance_type = #{condition.financeType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeOperatorId != null" >
+         and finance_operator_id = #{condition.financeOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeDate != null" >
+         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.warehouseFlag != null" >
+         and warehouse_flag = #{condition.warehouseFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.warehouseOperatorId != null" >
+         and warehouse_operator_id = #{condition.warehouseOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.warehouseDate != null" >
+         and warehouse_date = #{condition.warehouseDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.cultureFlag != null" >
+         and culture_flag = #{condition.cultureFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.cultureOperatorId != null" >
+         and culture_operator_id = #{condition.cultureOperatorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.cultureDate != null" >
+         and culture_date = #{condition.cultureDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createId != null" >
+         and create_id = #{condition.createId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateId != null" >
+         and update_id = #{condition.updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startCreateDate != null" >
+      	 <![CDATA[and o.create_date >= #{condition.startCreateDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endCreateDate != null" >
+      	 <![CDATA[and o.create_date <= #{condition.endCreateDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, customer_id, phone_staff_id, receiver_staff_id, status, order_type, pay_type, 
+    pay_price, actual_price, finance_flag, finance_type, finance_operator_id, finance_date, 
+    warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, culture_operator_id, 
+    culture_date, create_date, create_id, update_date, update_id
+  </sql>
+  
+  <!-- 报表系统中查询机构业绩总条数 -->
+  <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+  	select count(1) from 
+  	(
+		select 
+			sum(o.actual_price) as performance,
+			g.`name` as organi_name,
+			(select count(1) from customer_info c where c.receiver_staff_id = e.id) as new_customers
+		from order_info o
+		left join employee_info e on o.receiver_staff_id = e.id
+		left join group_info g on e.organization_id = g.id
+		<!-- where o.finance_flag = '1' -->
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		group by g.`name`
+	) a
+  </select>
+  
+  <!-- 报表系统中查询机构业绩 -->
+  <select id="getOrganiPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+	select 
+		sum(o.actual_price) as performance,
+		g.`name` as organi_name,
+		(select count(1) from customer_info c where c.receiver_staff_id = e.id) as new_customers
+	from order_info o
+	left join employee_info e on o.receiver_staff_id = e.id
+	left join group_info g on e.organization_id = g.id
+	<!-- where o.finance_flag = '1' --> 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by g.`name`
+    order by g.`name`
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+</mapper>

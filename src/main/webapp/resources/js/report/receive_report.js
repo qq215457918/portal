@@ -1,3 +1,9 @@
+/**
+ * 文件名：receive_report
+ * 用途：接待统计图表页相关js
+ * 作者：Xia ZhengWei
+ * 时间: 2016-10-04
+ */
 // base:项目根路径, title:图表标题, series:图标数据
 var base, title, series;
 // json:图标容器
@@ -23,7 +29,7 @@ $(function() {
 	var plotOptions = {
 		pie: {
         	allowPointSelect: false,	// 是否可以选中
-        	cursor: 'pointer',
+        	cursor: 'default',
         	dataLabels: {
         		enabled: false,	// 是否启用数据指引
         		style: {

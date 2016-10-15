@@ -16,6 +16,10 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * 
+ * 修改：修改默认日期格式(1012行)
+ * 日期：2016-10-12
+ * 修改人：Xia ZhengWei
  * ========================================================= */
 
 
@@ -1005,7 +1009,7 @@
 		daysOfWeekDisabled: [],
 		endDate: Infinity,
 		forceParse: true,
-		format: 'mm/dd/yyyy',
+		format: 'yyyy-mm-dd',	// 默认日期格式
 		keyboardNavigation: true,
 		language: 'en',
 		minViewMode: 0,
