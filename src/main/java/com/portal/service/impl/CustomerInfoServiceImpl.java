@@ -2,9 +2,11 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.dao.CustomerInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
+import com.portal.service.EmployeeInfoService;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,10 @@ import org.springframework.stereotype.Service;
 public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Autowired
     private CustomerInfoDao customerInfoDao;
-    
+
+    @Autowired
+    EmployeeInfoService EmployeeInfoService;
+
     @Autowired
     private CustomerInfoExtraDao customerInfoExtraDao;
 
@@ -30,27 +35,36 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public CustomerInfo selectByPhone(String phone) {
         return customerInfoExtraDao.selectByPhone(phone);
     }
-    
+
     /**
      * 判断是否是已经记录的用户
      * by meng.yue
      * @param phone
      * @return
      */
-    public boolean isCustomer(String phone){
-        return	selectByPhone(phone)== null?false:true;
+    public boolean isCustomer(String phone) {
+        return selectByPhone(phone) == null ? false : true;
     }
-    
 
-    /**
-     * 查询用户信息
-     * by meng.yue
-     */
+    public CustomerSimpleInfoForm getFristQueryInfo(String phone) {
+        CustomerSimpleInfoForm cSimpleForm = new CustomerSimpleInfoForm();
+        CustomerInfo cInfo = selectByPhone(phone);
+        cSimpleForm.setId(cInfo.getId());
+        cSimpleForm.setName(cInfo.getName());
+        cSimpleForm.setEncryptPhone(cInfo.getPhone());
+        cSimpleForm.setPhoneStaffId(cInfo.getPhoneStaffId());
+        cSimpleForm
+                .setPhoneStaffName(EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
+        cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
+        cSimpleForm.setReceiverStaffName(
+                EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
+        return cSimpleForm;
+    }
+
     public int insertSelective(CustomerInfo record) {
         return this.customerInfoDao.insertSelective(record);
     }
-    
-    
+
     public int countByExample(Criteria example) {
         int count = this.customerInfoDao.countByExample(example);
         logger.debug("count: {}", count);
@@ -58,7 +72,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     public CustomerInfo selectByPrimaryKey(String id) {
-        return this.customerInfoDao.selectByPrimaryKey(id);
+        return customerInfoDao.selectByPrimaryKey(id);
     }
 
     public List<CustomerInfo> selectByExample(Criteria example) {
