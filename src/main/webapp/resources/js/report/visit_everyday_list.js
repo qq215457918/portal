@@ -1,3 +1,9 @@
+/**
+ * 文件名：visit_everyday
+ * 用途：每日登门统计列表页相关js
+ * 作者：Xia ZhengWei
+ * 时间: 2016-10-08
+ */
 // base:项目根路径
 var base;
 // json:图标容器

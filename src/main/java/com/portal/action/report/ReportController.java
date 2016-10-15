@@ -1,6 +1,7 @@
 package com.portal.action.report;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,9 +13,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.GroupInfo;
+import com.portal.common.exception.SystemException;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.JsonUtils;
+import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;
+import com.portal.service.DeptPerformanceInfoService;
+import com.portal.service.GroupInfoService;
+import com.portal.service.OrderInfoService;
 import com.portal.service.VisitEverydayInfoService;
 import com.portal.service.VisitReportInfoService;
 
@@ -40,6 +47,18 @@ public class ReportController {
 	// 每日登门Service
 	@Autowired
 	private VisitEverydayInfoService visitEveryService;
+	
+	// 订单Service
+	@Autowired
+	private OrderInfoService orderService;
+	
+	// 部门业绩Service
+	@Autowired
+	private DeptPerformanceInfoService deptPerforService;
+	
+	// 组织机构Service
+	@Autowired
+	private GroupInfoService groupService;
 	
 	// 公共查询条件类
 	Criteria criteria = new Criteria();
@@ -193,5 +212,133 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
 	
+	// ------------------------- 机构业绩统计 入口：toVisitEveryDay ---------------------------------
+	
+	/**
+	 * @Title: toOrganiPerformance 
+	 * @Description: 进入机构业绩统计页面
+	 * @param request
+	 * @param response
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/toOrganiPerformance")
+    public String toOrganiPerformance(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/organi_performance";
+    }
+	
+	/**
+     * @Title: ajaxOrganiPerforList 
+     * @Description: 异步获取机构业绩 
+     * @param request
+     * @param response 
+     * @return void
+     * @throws
+     */
+    @RequestMapping("/ajaxOrganiPerforList")
+    public void ajaxOrganiPerforList(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = orderService.getOrganiPerformance(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    /**
+     * @Title: toDeptPerformance 
+     * @Description: 进入部门业绩统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @throws
+     */
+    @RequestMapping("/toDeptPerformance")
+    public String toDeptPerformance(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startReportDate", request.getParameter("startCreateDate"));
+        request.setAttribute("endReportDate", request.getParameter("endCreateDate"));
+        String organiName = request.getParameter("organiName");
+        // 根据机构名称查询对应的ID, 存储到Request域
+        if(StringUtil.isNotBlank(organiName)) {
+            criteria.put("name", organiName);
+            List<GroupInfo> list = groupService.selectByExample(criteria);
+            if(list != null && list.size() > 0) {
+                request.setAttribute("organiId", list.get(0).getId());
+            }else {
+                // 进入404页面
+                throw new SystemException("参数错误");
+            }
+        }else {
+            // 进入404页面
+            throw new SystemException("参数错误");
+        }
+        return "report/dept_performance";
+    }
+    
+    /**
+     * @Title: ajaxDeptPerformance 
+     * @Description: 异步获取部门业绩数据
+     * @param request
+     * @param response 
+     * @return void
+     * @throws
+     */
+    @RequestMapping("/ajaxDeptPerformance")
+    public void ajaxDeptPerformance(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = deptPerforService.ajaxPerformanceData(request, response);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    /**
+     * @Title: toIndividualRanking 
+     * @Description: 进入个人业绩排名
+     * @param request
+     * @param response
+     * @return String
+     * @throws
+     */
+    @RequestMapping("/toIndividualRanking")
+    public String toIndividualRanking(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/individual_ranking";
+    }
+    
+    /**
+     * @Title: ajaxIndividualRanking 
+     * @Description: 异步获取个人业绩排名数据
+     * @param request
+     * @param response 
+     * @return void
+     * @throws
+     */
+    @RequestMapping("/ajaxIndividualRanking")
+    public void ajaxIndividualRanking(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = deptPerforService.ajaxIndividualRanking(request, response);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+ // ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
+    
+    /*select 
+        count(r.customer_id) as visitCount,
+        count(o.id) as outOrder,
+        sum(o.actual_price) as outPrices,
+        round((count(r.customer_id)/count(o.id))*100,2)
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id*/
+    // 进入筛选客户类型页面
+    public String toFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
+        
+        return "report/individual_ranking";
+    }
 
 }

@@ -1,21 +1,29 @@
 package com.portal.service.impl;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.OrderDetailInfo;
-import com.portal.bean.OrderInfo;
-import com.portal.bean.result.OrderInfoForm;
-import com.portal.dao.OrderDetailInfoDao;
-import com.portal.dao.OrderInfoDao;
-import com.portal.service.OrderInfoService;
-
 import java.lang.reflect.InvocationTargetException;
+import java.util.Date;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.portal.bean.Criteria;
+import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoForm;
+import com.portal.common.util.DateUtil;
+import com.portal.common.util.StringUtil;
+import com.portal.dao.OrderDetailInfoDao;
+import com.portal.dao.OrderInfoDao;
+import com.portal.dao.extra.OrderInfoExtraDao;
+import com.portal.service.OrderInfoService;
+
+import net.sf.json.JSONObject;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -24,8 +32,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     
     @Autowired
     private OrderDetailInfoDao orderInfoDetailDao;
+    
+    @Autowired
+    private OrderInfoExtraDao orderInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
+    
+    // 公共查询条件类
+    private Criteria criteria = new Criteria();
 
     
     public Criteria getCriteria(String customerId,int status,int orderType ,int payType){
@@ -146,5 +160,51 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     public int insertSelective(OrderInfo record) {
         return this.orderInfoDao.insertSelective(record);
+    }
+
+    public int countByCondition(Criteria criteria) {
+        int count = this.orderInfoExtraDao.countByCondition(criteria);
+        logger.debug("count: {}", count);
+        return count;
+    }
+
+    public JSONObject getOrganiPerformance(HttpServletRequest request) {
+        // 查询机构业绩（默认查询上一周的数据）
+        // 请求开始页
+        int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
+        // 每页显示几条
+        int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
+        // 开始日期
+        String startCreateDate = request.getParameter("startCreateDate");
+        // 结束日期
+        String endCreateDate = request.getParameter("endCreateDate");
+        
+        criteria.clear();
+        // 分页参数
+        criteria.setMysqlOffset(currentPage);
+        criteria.setMysqlLength(perpage);
+        // 已支付
+        criteria.put("financeFlag", "1");
+        if(StringUtil.isNotBlank(startCreateDate)){
+            criteria.put("startCreateDate", startCreateDate);
+        }else {
+            criteria.put("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        }
+        if(StringUtil.isNotBlank(endCreateDate)){
+            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.parseDate(endCreateDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        }
+        // 获取总记录数
+        int totalRecord = orderInfoExtraDao.countByCondition(criteria);
+        // 获取数据集
+        List<OrderInfoForm> performanceList = orderInfoExtraDao.getOrganiPerformance(criteria);
+        
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", request.getParameter("sEcho"));
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", performanceList);
+        return resultJson;
     }
 }
