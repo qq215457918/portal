@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.StorehouseOperateInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.StorehouseOperateInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_detail_id" property="orderDetailId" jdbcType="VARCHAR" />
+    <result column="good_sort_id" property="goodSortId" jdbcType="VARCHAR" />
+    <result column="good_sort_name" property="goodSortName" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="operate_flag" property="operateFlag" jdbcType="VARCHAR" />
+    <result column="operate_date" property="operateDate" jdbcType="TIMESTAMP" />
+    <result column="operate_id" property="operateId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderId != null" >
+         and order_id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderDetailId != null" >
+         and order_detail_id = #{condition.orderDetailId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortId != null" >
+         and good_sort_id = #{condition.goodSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortName != null" >
+         and good_sort_name = #{condition.goodSortName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodId != null" >
+         and good_id = #{condition.goodId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodType != null" >
+         and good_type = #{condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodName != null" >
+         and good_name = #{condition.goodName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.price != null" >
+         and price = #{condition.price,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.amount != null" >
+         and amount = #{condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="condition.operateFlag != null" >
+         and operate_flag = #{condition.operateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.operateDate != null" >
+         and operate_date = #{condition.operateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.operateId != null" >
+         and operate_id = #{condition.operateId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.orderId != null" >
+         and order_id = #{example.condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.orderDetailId != null" >
+         and order_detail_id = #{example.condition.orderDetailId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodSortId != null" >
+         and good_sort_id = #{example.condition.goodSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodSortName != null" >
+         and good_sort_name = #{example.condition.goodSortName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodId != null" >
+         and good_id = #{example.condition.goodId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodType != null" >
+         and good_type = #{example.condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodName != null" >
+         and good_name = #{example.condition.goodName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.price != null" >
+         and price = #{example.condition.price,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.amount != null" >
+         and amount = #{example.condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.operateFlag != null" >
+         and operate_flag = #{example.condition.operateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.operateDate != null" >
+         and operate_date = #{example.condition.operateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.operateId != null" >
+         and operate_id = #{example.condition.operateId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_id, order_detail_id, good_sort_id, good_sort_name, good_id, good_type, 
+    good_name, price, amount, operate_flag, operate_date, operate_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from storehouse_operate_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from storehouse_operate_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from storehouse_operate_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from storehouse_operate_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.StorehouseOperateInfo" >
+    insert into storehouse_operate_info (id, order_id, order_detail_id, 
+      good_sort_id, good_sort_name, good_id, 
+      good_type, good_name, price, 
+      amount, operate_flag, operate_date, 
+      operate_id)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{orderDetailId,jdbcType=VARCHAR}, 
+      #{goodSortId,jdbcType=VARCHAR}, #{goodSortName,jdbcType=VARCHAR}, #{goodId,jdbcType=VARCHAR}, 
+      #{goodType,jdbcType=VARCHAR}, #{goodName,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=INTEGER}, #{operateFlag,jdbcType=VARCHAR}, #{operateDate,jdbcType=TIMESTAMP}, 
+      #{operateId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.StorehouseOperateInfo" >
+    insert into storehouse_operate_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orderDetailId != null" >
+        order_detail_id,
+      </if>
+      <if test="goodSortId != null" >
+        good_sort_id,
+      </if>
+      <if test="goodSortName != null" >
+        good_sort_name,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="goodType != null" >
+        good_type,
+      </if>
+      <if test="goodName != null" >
+        good_name,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="operateFlag != null" >
+        operate_flag,
+      </if>
+      <if test="operateDate != null" >
+        operate_date,
+      </if>
+      <if test="operateId != null" >
+        operate_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDetailId != null" >
+        #{orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodSortId != null" >
+        #{goodSortId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodSortName != null" >
+        #{goodSortName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodType != null" >
+        #{goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="operateFlag != null" >
+        #{operateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateId != null" >
+        #{operateId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from storehouse_operate_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update storehouse_operate_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null" >
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderDetailId != null" >
+        order_detail_id = #{record.orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodSortId != null" >
+        good_sort_id = #{record.goodSortId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodSortName != null" >
+        good_sort_name = #{record.goodSortName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodId != null" >
+        good_id = #{record.goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodType != null" >
+        good_type = #{record.goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodName != null" >
+        good_name = #{record.goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.operateFlag != null" >
+        operate_flag = #{record.operateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateDate != null" >
+        operate_date = #{record.operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.operateId != null" >
+        operate_id = #{record.operateId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update storehouse_operate_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      order_detail_id = #{record.orderDetailId,jdbcType=VARCHAR},
+      good_sort_id = #{record.goodSortId,jdbcType=VARCHAR},
+      good_sort_name = #{record.goodSortName,jdbcType=VARCHAR},
+      good_id = #{record.goodId,jdbcType=VARCHAR},
+      good_type = #{record.goodType,jdbcType=VARCHAR},
+      good_name = #{record.goodName,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      amount = #{record.amount,jdbcType=INTEGER},
+      operate_flag = #{record.operateFlag,jdbcType=VARCHAR},
+      operate_date = #{record.operateDate,jdbcType=TIMESTAMP},
+      operate_id = #{record.operateId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.StorehouseOperateInfo" >
+    update storehouse_operate_info
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderDetailId != null" >
+        order_detail_id = #{orderDetailId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodSortId != null" >
+        good_sort_id = #{goodSortId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodSortName != null" >
+        good_sort_name = #{goodSortName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodType != null" >
+        good_type = #{goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="goodName != null" >
+        good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="operateFlag != null" >
+        operate_flag = #{operateFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="operateDate != null" >
+        operate_date = #{operateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="operateId != null" >
+        operate_id = #{operateId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.StorehouseOperateInfo" >
+    update storehouse_operate_info
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      order_detail_id = #{orderDetailId,jdbcType=VARCHAR},
+      good_sort_id = #{goodSortId,jdbcType=VARCHAR},
+      good_sort_name = #{goodSortName,jdbcType=VARCHAR},
+      good_id = #{goodId,jdbcType=VARCHAR},
+      good_type = #{goodType,jdbcType=VARCHAR},
+      good_name = #{goodName,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      amount = #{amount,jdbcType=INTEGER},
+      operate_flag = #{operateFlag,jdbcType=VARCHAR},
+      operate_date = #{operateDate,jdbcType=TIMESTAMP},
+      operate_id = #{operateId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

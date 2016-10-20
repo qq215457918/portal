@@ -40,7 +40,7 @@
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-3" style="width: 100%;">
 				    <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="startDate" value="${startDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 		          </div>
 	          	</div>
@@ -52,7 +52,7 @@
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-3" style="width: 100%;">
 		            <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="endDate" value="${endDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 			      </div>
 	          	</div>

@@ -1,8 +1,13 @@
 package com.portal.service;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderDetailInfo;
-import java.util.List;
+
+import net.sf.json.JSONObject;
 
 public interface OrderDetailInfoService {
     int countByExample(Criteria example);
@@ -26,4 +31,15 @@ public interface OrderDetailInfoService {
     int insert(OrderDetailInfo record);
 
     int insertSelective(OrderDetailInfo record);
+    
+    /**
+     * @Title: ajaxOutOrderDetail 
+     * @Description: 报表统计数据--异步获取登门出单详细数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月17日 下午11:40:32 
+     * @version V1.0
+     */
+    JSONObject ajaxOutOrderDetail(HttpServletRequest request);
 }

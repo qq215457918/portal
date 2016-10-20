@@ -13,8 +13,8 @@ $(function() {
 	base = $("base").attr('href');
 	
 	// 绑定日期事件
-	$('#startCreateDate').datepicker({format: 'yyyy-mm-dd'});
-	$('#endCreateDate').datepicker({format: 'yyyy-mm-dd'});
+	$('#startReportDate').datepicker({format: 'yyyy-mm-dd'});
+	$('#endReportDate').datepicker({format: 'yyyy-mm-dd'});
 	
 	// 页面初始化加载数据
 	initData();
@@ -25,22 +25,6 @@ $(function() {
 		$('#organiPerformance').dataTable().fnDraw();
 	});
 	
-	/*// 接待人输入框回车事件
-	$("#receiverStaffName").keyup(function(event){
-		if(event.keyCode == 13) {
-			// 查询数据
-			$('#receiveCustomer').dataTable().fnDraw();
-		}
-	});
-	
-	// 接待人所属区域变化事件
-	$("#receiverArea").change(function(){
-		// 清空接待人查询条件
-		$("#receiverStaffName").val('');
-		// 查询数据
-		$('#receiveCustomer').dataTable().fnDraw();
-	});*/
-
 });
 
 // 初始获取数据
@@ -59,18 +43,18 @@ function initData() {
 		"sAjaxSource": "report/ajaxOrganiPerforList", // 地址
 		"aoColumns": [ 
 		            {"mData": null, "target": 0},	//序列号         
-		            {"mData": "viewOrganiName"},
+		            {"mData": "organizationName"},
 		            {"mData": "performance"},
-		            {"mData": "newCustomerCount"}
+		            {"mData": "newCustomerCounts"}
 		           ],
 		// 自定义第一列的字段内容, 格式化为a标签
 		"aoColumnDefs": [{"aTargets":[1],"mRender":function(data,type,full){
-            return '<a href="report/toDeptPerformance?organiName=' + data + '&startCreateDate=' + $('#startCreateDate').val() + '&endCreateDate=' + $('#endCreateDate').val() + '" data-toggle="modal">' + data + '</a>';
+            return '<a href="report/toDeptPerformance?organiName=' + data + '&startReportDate=' + $('#startReportDate').val() + '&endReportDate=' + $('#endReportDate').val() + '" data-toggle="modal">' + data + '</a>';
         }}],
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var startCreateDate = $('#startCreateDate').val();
-							var endCreateDate = $('#endCreateDate').val();
-							aoData.push({'name':'startCreateDate','value':startCreateDate},{'name':'endCreateDate','value':endCreateDate});
+							var startReportDate = $('#startReportDate').val();
+							var endReportDate = $('#endReportDate').val();
+							aoData.push({'name':'startReportDate','value':startReportDate},{'name':'endReportDate','value':endReportDate});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

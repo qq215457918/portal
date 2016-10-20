@@ -4,9 +4,9 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<title>机构业绩</title>
+<title>出库明细统计</title>
 <base href="${basePath}">
-<script type="text/javascript" src="resources/js/report/organi_performance.js"></script>
+<script type="text/javascript" src="resources/js/report/out_warehouse_detail.js"></script>
 <jsp:include page="/WEB-INF/jsp/common/head.jsp" />
 </head>
 <body>
@@ -14,6 +14,13 @@
 	<div class="row">
 	  <div class="col-lg-12">
 	    <div class="widget-container fluid-height clearfix">
+	      <div class="heading" style="color:#666666; font-weight: bold;">
+	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
+	    	<select id="area" class="form-control" style="width: 9%; float: left;">
+	    		<option value="1" <c:if test="${area == '1'}">selected="selected"</c:if> >大连</option>
+	    		<option value="0" <c:if test="${area == '0'}">selected="selected"</c:if> >沈阳</option>
+	    	</select>
+	      </div>
 	      <div class="widget-content padded">
 	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
 	          <div style="height: 50px; float: left; width: 30%;">
@@ -23,7 +30,7 @@
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-3" style="width: 100%;">
 				    <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="startDate" value="${startDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 		          </div>
 	          	</div>
@@ -35,7 +42,7 @@
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-3" style="width: 100%;">
 		            <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="endDate" value="${endDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 			      </div>
 	          	</div>
@@ -48,12 +55,13 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="organiPerformance">
+			<table class="table table-bordered" id="OutWarehouse">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
-                   	<th>机&nbsp;&nbsp;构</th>
-                   	<th>业&nbsp;&nbsp;绩</th>
-                   	<th>新客户数量</th>
+                   	<th>商品分类</th>
+					<th>商品名称</th>
+                   	<th>商品类型</th>
+                   	<th>商品价格</th>
+                   	<th>数&nbsp;&nbsp;量</th>
 				</thead>
 				<tbody>
 				</tbody>

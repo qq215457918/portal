@@ -44,12 +44,6 @@
       <if test="condition.organiId != null" >
          and e.organization_id = #{condition.organiId,jdbcType=VARCHAR}
       </if>
-      <if test="condition.startDate != null" >
-      	 <![CDATA[and dp.report_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
-      </if>
-      <if test="condition.endDate != null" >
-      	 <![CDATA[and dp.report_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
-      </if>
     </trim>
   </sql>
   
@@ -58,6 +52,43 @@
     group_name, employee_id, employee_name, performance, order_amounts, new_customer_counts, 
     report_date
   </sql>
+  
+  <!-- 报表系统中查询机构业绩总条数 -->
+  <select id="getCountsByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+  	select count(1) from 
+  	(
+		select
+			sum(dp.performance) as performance,
+			g.`name` as organization_name,
+		 	sum(dp.new_customer_counts) as new_customer_counts
+		from dept_performance_info dp
+		left join employee_info e on dp.employee_id = e.id
+		left join group_info g on e.organization_id = g.id
+		<!-- where o.finance_flag = '1' -->
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		group by g.`name`
+	) a
+  </select>
+  
+  <!-- 报表系统中查询机构业绩 -->
+  <select id="getOrganiPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+	select
+			sum(dp.performance) as performance,
+			g.`name` as organization_name,
+		 	sum(dp.new_customer_counts) as new_customer_counts
+		from dept_performance_info dp
+		left join employee_info e on dp.employee_id = e.id
+		left join group_info g on e.organization_id = g.id
+	<!-- where o.finance_flag = '1' --> 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by g.`name`
+	order by performance desc
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
   
   <!-- 报表系统中查询部门业绩总条数 -->
   <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >

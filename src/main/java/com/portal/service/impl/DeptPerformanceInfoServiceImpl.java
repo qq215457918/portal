@@ -81,6 +81,46 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
     public int insertSelective(DeptPerformanceInfo record) {
         return this.deptPerformanceInfoDao.insertSelective(record);
     }
+    
+    public JSONObject ajaxOrganiPerformance(HttpServletRequest request) {
+        // 查询机构业绩（默认查询上一周的数据）
+        // 请求开始页
+        int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
+        // 每页显示几条
+        int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
+        // 开始日期
+        String startCreateDate = request.getParameter("startCreateDate");
+        // 结束日期
+        String endCreateDate = request.getParameter("endCreateDate");
+        
+        criteria.clear();
+        // 分页参数
+        criteria.setMysqlOffset(currentPage);
+        criteria.setMysqlLength(perpage);
+        // 已支付
+        criteria.put("financeFlag", "1");
+        if(StringUtil.isNotBlank(startCreateDate)){
+            criteria.put("startCreateDate", startCreateDate);
+        }else {
+            criteria.put("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        }
+        if(StringUtil.isNotBlank(endCreateDate)){
+            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.parseDate(endCreateDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        }
+        // 获取总记录数
+        int totalRecord = deptPerformanceInfoExtraDao.getCountsByCondition(criteria);
+        // 获取数据集
+        List<DeptPerforInfoForm> performanceList = deptPerformanceInfoExtraDao.getOrganiPerformance(criteria);
+        
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", request.getParameter("sEcho"));
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", performanceList);
+        return resultJson;
+    }
 
     public JSONObject ajaxPerformanceData(HttpServletRequest request, HttpServletResponse response) {
         // 查询部门业绩（默认查询上一周的数据）
@@ -137,9 +177,9 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
         // 每页显示几条
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         // 开始日期
-        String startDate = request.getParameter("startDate");
+        String startReportDate = request.getParameter("startReportDate");
         // 结束日期
-        String endDate = request.getParameter("endDate");
+        String endReportDate = request.getParameter("endReportDate");
         // 人员名称
         String employeeName = request.getParameter("employeeName");
         // 机构ID
@@ -149,15 +189,15 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
         
-        if(StringUtil.isNotBlank(startDate)){
-            criteria.put("startDate", startDate);
+        if(StringUtil.isNotBlank(startReportDate)){
+            criteria.put("startReportDate", startReportDate);
         }else {
-            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+            criteria.put("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endDate)){
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        if(StringUtil.isNotBlank(endReportDate)){
+            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.parseDate(endReportDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         }else {
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         if(StringUtil.isNotBlank(employeeName)){
             criteria.put("employeeName", employeeName);

@@ -3,6 +3,8 @@ package com.portal.bean.result;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.portal.common.util.StringUtil;
+
 public class CustomerSimpleInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -38,6 +40,36 @@ public class CustomerSimpleInfoForm implements Serializable {
     private Date recentExportDate;
 
     private String blacklistFlag;
+    
+    /**
+     * 筛选客户类型--客户类型
+     */
+    private String viewType;
+    
+    /**
+     * 筛选客户类型--登门量
+     */
+    private int visitCount;
+    
+    /**
+     * 筛选客户类型--出单量
+     */
+    private int outOrderCount;
+    
+    /**
+     * 筛选客户类型--出单金额
+     */
+    private Long outPrices;
+    
+    /**
+     * 筛选客户类型--出单率
+     */
+    private String outRate;
+    
+    /**
+     * 筛选客户类型--占总业绩百分比
+     */
+    private String totalPerforPercentage;
 
 	public String getId() {
 		return id;
@@ -134,5 +166,77 @@ public class CustomerSimpleInfoForm implements Serializable {
 	public void setBlacklistFlag(String blacklistFlag) {
 		this.blacklistFlag = blacklistFlag;
 	}
+	
+	public String getViewType() {
+        if(StringUtil.isNotBlank(this.type)) {
+            if("1".equals(this.type)) {
+                return "重复登门";
+            }else if("2".equals(this.type)) {
+                return "说明会";
+            }else if("3".equals(this.type)) {
+                return "成单";
+            }else if("4".equals(this.type)) {
+                return "锁定";
+            }else if("5".equals(this.type)) {
+                return "转介绍";
+            }
+        }
+        return viewType;            
+    }
 
+    public void setViewType(String viewType) {
+        this.viewType = viewType;
+    }
+
+    public int getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(int visitCount) {
+        this.visitCount = visitCount;
+    }
+
+    public int getOutOrderCount() {
+        return outOrderCount;
+    }
+
+    public void setOutOrderCount(int outOrderCount) {
+        this.outOrderCount = outOrderCount;
+    }
+
+    public Long getOutPrices() {
+        if(null == this.outPrices) {
+            return 0L; 
+        }else {
+            return outPrices;            
+        }
+    }
+
+    public void setOutPrices(Long outPrices) {
+        this.outPrices = outPrices;
+    }
+
+    public String getOutRate() {
+        if(StringUtil.isNotBlank(this.outRate)) {
+            return outRate;            
+        }else {
+            return "0";
+        }
+    }
+
+    public void setOutRate(String outRate) {
+        this.outRate = outRate;
+    }
+
+    public String getTotalPerforPercentage() {
+        if(StringUtil.isNotBlank(this.totalPerforPercentage)) {
+            return totalPerforPercentage;            
+        }else {
+            return "0";
+        }
+    }
+
+    public void setTotalPerforPercentage(String totalPerforPercentage) {
+        this.totalPerforPercentage = totalPerforPercentage;
+    }
 }
