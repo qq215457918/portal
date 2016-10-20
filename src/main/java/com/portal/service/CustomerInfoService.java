@@ -1,36 +1,41 @@
 package com.portal.service;
 
-import java.util.List;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.result.CustomerSimpleInfoForm;
+import java.util.List;
 
 public interface CustomerInfoService {
 
-	 public CustomerInfo selectByPhone(String phone);
-	
-	 public boolean isCustomer(String phone);
-	 
-	 public int insertSelective(CustomerInfo record) ;
-	 
-	 int countByExample(Criteria example);
+    public CustomerSimpleInfoForm getFristQueryInfo(String id);
 
-	 CustomerInfo selectByPrimaryKey(String id);
+    public CustomerInfo selectByPhone(String phone);
 
-	 List<CustomerInfo> selectByExample(Criteria example);
+    public boolean isCustomer(String phone);
 
-	 int deleteByPrimaryKey(String id);
+    public int insertSelective(CustomerInfo record);
 
-	 int updateByPrimaryKeySelective(CustomerInfo record);
+    int countByExample(Criteria example);
 
-	 int updateByPrimaryKey(CustomerInfo record);
+    CustomerInfo selectByPrimaryKey(String id);
 
-	 int deleteByExample(Criteria example);
+    List<CustomerInfo> selectByExample(Criteria example);
 
-	 int updateByExampleSelective(CustomerInfo record, Criteria example);
+    int deleteByPrimaryKey(String id);
 
-	 int updateByExample(CustomerInfo record, Criteria example);
+    int updateByPrimaryKeySelective(CustomerInfo record);
 
-	 int insert(CustomerInfo record);
-	
+    int updateByPrimaryKey(CustomerInfo record);
+
+    int deleteByExample(Criteria example);
+
+    int updateByExampleSelective(CustomerInfo record, Criteria example);
+
+    int updateByExample(CustomerInfo record, Criteria example);
+
+    int insert(CustomerInfo record);
+
+    public List<CustomerInfo> selectCustomerExList(Criteria criteria);
+
+	public int countCustomerEx(Criteria criteria);
 }

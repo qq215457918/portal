@@ -78,7 +78,9 @@ CREATE TABLE `customer_info` (
 DROP TABLE IF EXISTS `employee_info`;
 CREATE TABLE `employee_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键',
-  `group_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '组织机构id',
+  `group_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '组ID',
+  `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
+  `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
   `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
   `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
   `password` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录密码',
@@ -283,7 +285,7 @@ CREATE TABLE `report_track` (
   `order_price` decimal(10,0) DEFAULT NULL COMMENT '成单金额',
   `new_change_customer` int(11) DEFAULT NULL COMMENT '新客户总数',
   `create_date` datetime DEFAULT NULL,
-  `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '审核状态 : 0未审核 1已审核'
+  `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '审核状态 : 0未审核 1已审核',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='每日业绩报表';
 
@@ -335,3 +337,49 @@ CREATE TABLE `user_role` (
 -- ----------------------------
 -- Records of user_role
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for visit_everyday_info
+-- ----------------------------
+DROP TABLE IF EXISTS `visit_everyday_info`;
+CREATE TABLE `visit_everyday_info` (
+  `id` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '主键ID',
+  `customer_id` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '客户ID',
+  `customer_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '客户名称',
+  `customer_type` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '客户分类 0--空白客户  1--重复登门  2--说明会  3--成单  4--锁定  5--转介绍',
+  `customer_area` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '用户所在地区：0--沈阳  1--大连',
+  `custom_service_id` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '客服ID',
+  `custom_service_name` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '客户名称',
+  `receiver_staff_id` varchar(16) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '接待者ID',
+  `receiver_staff_name` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '接待者名称',
+  `transaction_amount` decimal(10,0) DEFAULT NULL COMMENT '成单金额',
+  `exercise` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '活动：0--无  1--HZ  2--4DS  3--QB  4--回款  5--DS  6--LY  7--LY+HZ  8--XY  9--HZ+38国家  10--3B',
+  `goods_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '商品名称',
+  `out_or_indent` varchar(1) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '出单或订单：1--出单  2--订单',
+  `visit_date` datetime NOT NULL COMMENT '登门日期',
+  `remark` varchar(200) DEFAULT NULL COMMENT '情况/备注',
+  PRIMARY KEY (`id`),
+  KEY `idx_customer_id` (`customer_id`) USING BTREE,
+  KEY `idx_custom_service_id` (`custom_service_id`) USING BTREE,
+  KEY `idx_receiver_staff_id` (`receiver_staff_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='每日登门表';
+
+-- ----------------------------
+-- Table structure for visit_report_info
+-- ----------------------------
+DROP TABLE IF EXISTS `visit_report_info`;
+CREATE TABLE `visit_report_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键ID',
+  `report_date` datetime NOT NULL COMMENT '统计日期',
+  `receiver_staff_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '接待者ID',
+  `receiver_staff_name` varchar(8) COLLATE utf8_bin NOT NULL COMMENT '接待者名称',
+  `receiver_area` varchar(1) COLLATE utf8_bin NOT NULL COMMENT '接待者所属区域 0--沈阳 1--大连',
+  `customer_counts` int(11) NOT NULL COMMENT '客户总数量',
+  `new_counts` int(11) NOT NULL DEFAULT '0' COMMENT '空白客户数量',
+  `repeat_counts` int(11) NOT NULL DEFAULT '0' COMMENT '重复登门客户数量',
+  `roadshow_counts` int(11) NOT NULL DEFAULT '0' COMMENT '说明会客户数量',
+  `finish_order_counts` int(11) NOT NULL DEFAULT '0' COMMENT '成单客户数量',
+  `locked_counts` int(11) NOT NULL DEFAULT '0' COMMENT '锁定客户数量',
+  PRIMARY KEY (`id`),
+  KEY `idx_report_date` (`report_date`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='接待统计表';

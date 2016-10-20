@@ -62,4 +62,14 @@ public interface CustomerInfoDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(CustomerInfo record);
+
+    /**
+     * 查询列表（带成交金额和最近成交时间）
+     */
+	List<CustomerInfo> selectCustomerExList(Criteria criteria);
+
+	/**
+     * 查询列表条数（带成交金额和最近成交时间）
+     */
+	int countCustomerEx(Criteria criteria);
 }

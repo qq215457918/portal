@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.WorkFlowDao">
+	<select id="selectlerkEverydayAchievenment" resultType="map"
+		parameterType="map">
+		select
+		COUNT(1) achieveCount,
+		SUM(pay_price) payPrice,
+		SUM(actual_price) actualPrice
+		from order_info
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="userId != null">
+				and receiver_staff_id = #{userId}
+			</if>
+			<if test="userList != null">
+				and receiver_staff_id in
+				<foreach collection="userList" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dateInfo != null">
+				and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo}
+			</if>
+		</trim>
+		GROUP BY receiver_staff_id;
+	</select>
+
+	<select id="selectlerkEverydayReception" resultType="map"
+		parameterType="map">
+		select
+		count(1) receptionCount,
+		(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time)) stateTime
+		from reception_info
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="userId != null">
+				and receiver_staff_id = #{userId}
+			</if>
+			<if test="userList != null">
+				and receiver_staff_id in
+				<foreach collection="userList" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dateInfo != null">
+				and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo}
+			</if>
+		</trim>
+		GROUP BY receiver_staff_id;
+	</select>
+</mapper>

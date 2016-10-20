@@ -301,6 +301,22 @@
 			<version>1.0.23</version>
 		</dependency>
 		
+		<!-- finereport -->
+		<dependency>
+			<groupId>fr</groupId>
+			<artifactId>fr-server</artifactId>
+			<version>7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>fr</groupId>
+			<artifactId>fr-designer</artifactId>
+			<version>7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>fr</groupId>
+			<artifactId>fr-third</artifactId>
+			<version>7.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

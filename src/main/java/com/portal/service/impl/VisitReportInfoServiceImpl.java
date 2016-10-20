@@ -98,7 +98,7 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
             criteria.put("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
         if(StringUtil.isNotBlank(endReportDate)){
-            criteria.put("endReportDate", endReportDate);
+            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.parseDate(endReportDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         }else {
             criteria.put("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }

@@ -4,7 +4,7 @@ $(document).ready(function(){
 	$('#searchCustomer').click(function(){
 		if('' == $('#phone').val() &&
 			'' == $('#phoneStage').val() &&
-			'' == $('#type:selected').val() &&
+			'' == $('#type option:selected').val() &&
 			'' == $('#updateDate').val()){
 			return;
 		}
@@ -20,7 +20,7 @@ function initData(){
 		"bProcessing": true, //显示正在处理
 		"bServerSide": true, // 后台请求
 		"bRetrieve": true,
-		"sAjaxSource": "selectCustomerInfoList", // 地址
+		"sAjaxSource": "customerInfo/selectCustomerInfoList", // 地址
 		"aoColumns": [ 
 		            {"mData": "phone"},
 		            {"mData": "phone2"},
@@ -32,7 +32,7 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var phone = $('#phone').val();
 							var phoneStage = $('#phoneStage').val();
-							var type = $('#type:selected').val();
+							var type = $('#type option:selected').val();
 							var updateDate = $('#updateDate').val();
 							aoData.push({'name':'phone','value':phone},{'name':'phoneStage','value':phoneStage},{'name':'type','value':type});
 							$.ajax({
