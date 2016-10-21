@@ -2,9 +2,12 @@ package com.portal.dao.extra;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.result.StorehouseOperateInfoForm;
 
+@Repository
 public interface StorehouseOperateInfoExtraDao {
     
     /**

@@ -8,10 +8,24 @@ public class OrderInfo implements Serializable {
 
     private String id;
 
+    /**
+     * 订单号
+     */
+    private String orderNumber;
+
+    /**
+     * 客户id
+     */
     private String customerId;
 
+    /**
+     * 客服id
+     */
     private String phoneStaffId;
 
+    /**
+     * 接待人员id
+     */
     private String receiverStaffId;
 
     /**
@@ -57,6 +71,9 @@ public class OrderInfo implements Serializable {
      */
     private String financeOperatorId;
 
+    /**
+     * 财务审批日期
+     */
     private Date financeDate;
 
     /**
@@ -66,14 +83,31 @@ public class OrderInfo implements Serializable {
      */
     private String warehouseFlag;
 
+    /**
+     * 仓库人员id
+     */
     private String warehouseOperatorId;
 
+    /**
+     * 财务审批日期
+     */
     private Date warehouseDate;
 
+    /**
+     * 文交所审批标志 <br>
+	 * 0未审核<br>
+	 * 1 已审核
+     */
     private String cultureFlag;
 
+    /**
+     * 文交所人员id
+     */
     private String cultureOperatorId;
 
+    /**
+     * 文交所审批日期
+     */
     private Date cultureDate;
 
     private Date createDate;
@@ -84,6 +118,8 @@ public class OrderInfo implements Serializable {
 
     private String updateId;
 
+    private String deleteFlag;
+
     public String getId() {
         return id;
     }
@@ -92,26 +128,62 @@ public class OrderInfo implements Serializable {
         this.id = id;
     }
 
+    /**
+     * @return 订单号
+     */
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    /**
+     * @param orderNumber 
+	 *            订单号
+     */
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
+
+    /**
+     * @return 客户id
+     */
     public String getCustomerId() {
         return customerId;
     }
 
+    /**
+     * @param customerId 
+	 *            客户id
+     */
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
     }
 
+    /**
+     * @return 客服id
+     */
     public String getPhoneStaffId() {
         return phoneStaffId;
     }
 
+    /**
+     * @param phoneStaffId 
+	 *            客服id
+     */
     public void setPhoneStaffId(String phoneStaffId) {
         this.phoneStaffId = phoneStaffId;
     }
 
+    /**
+     * @return 接待人员id
+     */
     public String getReceiverStaffId() {
         return receiverStaffId;
     }
 
+    /**
+     * @param receiverStaffId 
+	 *            接待人员id
+     */
     public void setReceiverStaffId(String receiverStaffId) {
         this.receiverStaffId = receiverStaffId;
     }
@@ -242,10 +314,17 @@ public class OrderInfo implements Serializable {
         this.financeOperatorId = financeOperatorId;
     }
 
+    /**
+     * @return 财务审批日期
+     */
     public Date getFinanceDate() {
         return financeDate;
     }
 
+    /**
+     * @param financeDate 
+	 *            财务审批日期
+     */
     public void setFinanceDate(Date financeDate) {
         this.financeDate = financeDate;
     }
@@ -269,42 +348,81 @@ public class OrderInfo implements Serializable {
         this.warehouseFlag = warehouseFlag;
     }
 
+    /**
+     * @return 仓库人员id
+     */
     public String getWarehouseOperatorId() {
         return warehouseOperatorId;
     }
 
+    /**
+     * @param warehouseOperatorId 
+	 *            仓库人员id
+     */
     public void setWarehouseOperatorId(String warehouseOperatorId) {
         this.warehouseOperatorId = warehouseOperatorId;
     }
 
+    /**
+     * @return 财务审批日期
+     */
     public Date getWarehouseDate() {
         return warehouseDate;
     }
 
+    /**
+     * @param warehouseDate 
+	 *            财务审批日期
+     */
     public void setWarehouseDate(Date warehouseDate) {
         this.warehouseDate = warehouseDate;
     }
 
+    /**
+     * @return 文交所审批标志 <br>
+	 * 0未审核<br>
+	 * 1 已审核
+     */
     public String getCultureFlag() {
         return cultureFlag;
     }
 
+    /**
+     * @param cultureFlag 
+	 *            文交所审批标志 <br>
+	 * 0未审核<br>
+	 * 1 已审核
+     */
     public void setCultureFlag(String cultureFlag) {
         this.cultureFlag = cultureFlag;
     }
 
+    /**
+     * @return 文交所人员id
+     */
     public String getCultureOperatorId() {
         return cultureOperatorId;
     }
 
+    /**
+     * @param cultureOperatorId 
+	 *            文交所人员id
+     */
     public void setCultureOperatorId(String cultureOperatorId) {
         this.cultureOperatorId = cultureOperatorId;
     }
 
+    /**
+     * @return 文交所审批日期
+     */
     public Date getCultureDate() {
         return cultureDate;
     }
 
+    /**
+     * @param cultureDate 
+	 *            文交所审批日期
+     */
     public void setCultureDate(Date cultureDate) {
         this.cultureDate = cultureDate;
     }
@@ -339,5 +457,13 @@ public class OrderInfo implements Serializable {
 
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
+    }
+
+    public String getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
     }
 }

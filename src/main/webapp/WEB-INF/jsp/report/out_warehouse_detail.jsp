@@ -25,7 +25,17 @@
 	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
 	          <div style="height: 50px; float: left; width: 30%;">
 	          	<div style="width: 35%; float: left;">
-	          		<label class="control-label col-md-2" style=" width: 100%;">统计日期</label>
+	          		<label class="control-label col-md-2" style=" width: 100%;">订单号</label>
+	          	</div>
+	          	<div style="width: 65%; float: left;">
+	          		<div class="col-md-7" style="width: 100%;">
+		              <input class="form-control" placeholder="订单号" id="orderNumber" type="text" style="width: 100%;">
+		            </div>
+	          	</div>
+	          </div>
+	          <div style="height: 50px; float: left; width: 30%;">
+	          	<div style="width: 35%; float: left;">
+	          		<label class="control-label col-md-2" style=" width: 100%;">开始日期</label>
 	          	</div>
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-3" style="width: 100%;">
@@ -49,19 +59,20 @@
 	          </div>
 	          <div style="height: 50px; float: left; width: 30%;">
 		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
-		        <!-- <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button> -->
-		        <!-- <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button> -->
+		        <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>
 			
 			<table class="table table-bordered" id="OutWarehouse">
 				<thead>
+					<th>订单号</th>
                    	<th>商品分类</th>
 					<th>商品名称</th>
                    	<th>商品类型</th>
                    	<th>商品价格</th>
                    	<th>数&nbsp;&nbsp;量</th>
+                   	<th>出库日期</th>
 				</thead>
 				<tbody>
 				</tbody>

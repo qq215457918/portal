@@ -184,6 +184,7 @@ CREATE TABLE `order_detail_info` (
 DROP TABLE IF EXISTS `order_info`;
 CREATE TABLE `order_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
+  `order_number` varchar(14) COLLATE utf8_bin DEFAULT NULL COMMENT '订单号',
   `customer_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客户id',
   `phone_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客服id',
   `receiver_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '接待人员id',
@@ -384,7 +385,24 @@ CREATE TABLE `visit_report_info` (
   KEY `idx_report_date` (`report_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='接待统计表';
 
+-- ----------------------------
+-- Table structure for dept_performance_info
+-- ----------------------------
+DROP TABLE IF EXISTS `dept_performance_info`;
+CREATE TABLE `dept_performance_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键ID',
+  `employee_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '员工ID',
+  `performance` decimal(10,0) NOT NULL COMMENT '业绩',
+  `order_amounts` int(11) NOT NULL COMMENT '件数',
+  `new_customer_counts` int(11) NOT NULL COMMENT '新客户数量',
+  `report_date` datetime NOT NULL COMMENT '统计时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_employee_id` (`employee_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='部门业绩统计表';
 
+-- ----------------------------
+-- Table structure for storehouse_operate_info
+-- ----------------------------
 DROP TABLE IF EXISTS `storehouse_operate_info`;
 CREATE TABLE `storehouse_operate_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
@@ -403,24 +421,9 @@ CREATE TABLE `storehouse_operate_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='仓库操作详情表';
 
-DROP TABLE IF EXISTS `storehouse_operate_info`;
-CREATE TABLE `storehouse_operate_info` (
-  `id` varchar(16) COLLATE utf8_bin NOT NULL,
-  `order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '订单ID',  
-  `order_detail_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '订单详情ID',
-  `good_sort_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类ID',
-  `good_sort_name` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类名称',
-  `good_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '商品ID',
-  `good_type` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '商品类型（同good_info type）',
-  `good_name` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '商品名称',
-  `price` decimal(10,0) DEFAULT NULL COMMENT '价格',
-  `amount` int(11) DEFAULT NULL COMMENT '数量 如果退货数量为负',
-  `operate_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '操作标志 0入库 1已库',
-  `operate_date` datetime DEFAULT NULL COMMENT '更新日期',
-  `operate_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '更新人员id',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='仓库操作详情表';
-
+-- ----------------------------
+-- Table structure for exchange_operate_info
+-- ----------------------------
 DROP TABLE IF EXISTS `exchange_operate_info`;
 CREATE TABLE `exchange_operate_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
@@ -438,3 +441,4 @@ CREATE TABLE `exchange_operate_info` (
   `operate_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '更新人员id',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='文交所操作详情表';
+

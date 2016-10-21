@@ -86,27 +86,39 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
         // 每页显示几条
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
+        // 订单号
+        String orderNumber = request.getParameter("orderNumber");
+        // 所属区域
+        String area = request.getParameter("area");
         // 开始日期
-        String startCreateDate = request.getParameter("startCreateDate");
+        String startDate = request.getParameter("startDate");
         // 结束日期
-        String endCreateDate = request.getParameter("endCreateDate");
+        String endDate = request.getParameter("endDate");
         
         criteria.clear();
         // 分页参数
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
+        
         // 已支付
         criteria.put("financeFlag", "1");
-        if(StringUtil.isNotBlank(startCreateDate)){
-            criteria.put("startCreateDate", startCreateDate);
-        }else {
-            criteria.put("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        if(StringUtil.isNotBlank(orderNumber)){
+            criteria.put("orderNumber", orderNumber);
         }
-        if(StringUtil.isNotBlank(endCreateDate)){
-            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.parseDate(endCreateDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        }else {
-            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if(StringUtil.isNotBlank(area)){
+            criteria.put("area", area);
         }
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+        }else {
+            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        }
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        }
+        
         // 获取总记录数
         int totalRecord = storehouseOperateInfoExtraDao.getCountsByCondition(criteria);
         // 获取数据集

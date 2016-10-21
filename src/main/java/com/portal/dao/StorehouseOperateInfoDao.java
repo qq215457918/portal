@@ -4,7 +4,9 @@ import com.portal.bean.Criteria;
 import com.portal.bean.StorehouseOperateInfo;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface StorehouseOperateInfoDao {
     /**
      * 根据条件查询记录总数

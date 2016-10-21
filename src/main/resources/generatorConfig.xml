@@ -61,8 +61,8 @@
 		<table tableName="visit_everyday_info"></table>
 		<table tableName="visit_report_info"></table>
 		<table tableName="dept_performance_info"></table>
-		<table tableName="storehouse_operate_info"></table> -->
-		<table tableName="exchange_operate_info"></table>
+		<table tableName="storehouse_operate_info"></table>
+		<table tableName="exchange_operate_info"></table> -->
 		
 	</context>
 </generatorConfiguration>
