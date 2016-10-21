@@ -13,8 +13,8 @@ $(function() {
 	base = $("base").attr('href');
 	
 	// 绑定日期事件
-	$('#startDate').datepicker({format: 'yyyy-mm-dd'});
-	$('#endDate').datepicker({format: 'yyyy-mm-dd'});
+	$('#startReportDate').datepicker({format: 'yyyy-mm-dd'});
+	$('#endReportDate').datepicker({format: 'yyyy-mm-dd'});
 	
 	// 页面初始化加载数据
 	initData();
@@ -66,9 +66,9 @@ function initData() {
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							//var organiId = $('#organiId').val();
 							var employeeName = $('#employeeName').val();
-							var startDate = $('#startDate').val();
-							var endDate = $('#endDate').val();
-							aoData.push({'name':'employeeName','value':employeeName},{'name':'startDate','value':startDate},{'name':'endDate','value':endDate});
+							var startReportDate = $('#startReportDate').val();
+							var endReportDate = $('#endReportDate').val();
+							aoData.push({'name':'employeeName','value':employeeName},{'name':'startReportDate','value':startReportDate},{'name':'endReportDate','value':endReportDate});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

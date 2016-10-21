@@ -34,6 +34,15 @@ public interface DeptPerformanceInfoService {
     int insertSelective(DeptPerformanceInfo record);
     
     /**
+     * @Title: ajaxOrganiPerformance 
+     * @Description: 报表系统中查询机构业绩
+     * @param criteria  公共查询条件类
+     * @return List<OrderInfoForm>
+     * @throws
+     */
+    JSONObject ajaxOrganiPerformance(HttpServletRequest request);
+    
+    /**
      * @Title: ajaxPerformanceData 
      * @Description: 异步获取部门业绩数据
      * @param request

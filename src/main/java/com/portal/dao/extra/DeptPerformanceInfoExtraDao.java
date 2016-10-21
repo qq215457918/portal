@@ -11,6 +11,24 @@ import com.portal.bean.result.DeptPerforInfoForm;
 public interface DeptPerformanceInfoExtraDao {
     
     /**
+     * @Title: getCountsByCondition 
+     * @Description: 报表系统中查询机构业绩总条数
+     * @param criteria  公共查询条件类
+     * @return int
+     * @throws
+     */
+    int getCountsByCondition(Criteria criteria);
+    
+    /**
+     * @Title: getOrganiPerformance 
+     * @Description: 报表系统中查询机构业绩
+     * @param criteria  公共查询条件类
+     * @return List<DeptPerforInfoForm>
+     * @throws
+     */
+    List<DeptPerforInfoForm> getOrganiPerformance(Criteria criteria);
+    
+    /**
      * @Title: countByCondition 
      * @Description: 报表系统中查询部门业绩总条数
      * @param criteria  公共查询条件类

@@ -52,6 +52,10 @@ public class CustomerInfo implements Serializable {
     private String site;
 
     private String idCard;
+    
+    private String vipCard;
+    
+    private Date birthday;
 
     /**
      * 产品
@@ -260,6 +264,22 @@ public class CustomerInfo implements Serializable {
 
     public void setIdCard(String idCard) {
         this.idCard = idCard;
+    }
+
+    public String getVipCard() {
+        return vipCard;
+    }
+
+    public void setVipCard(String vipCard) {
+        this.vipCard = vipCard;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     /**

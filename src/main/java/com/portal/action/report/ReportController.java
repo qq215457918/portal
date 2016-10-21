@@ -19,9 +19,12 @@ import com.portal.common.util.DateUtil;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;
+import com.portal.service.CustomerInfoService;
 import com.portal.service.DeptPerformanceInfoService;
 import com.portal.service.GroupInfoService;
-import com.portal.service.OrderInfoService;
+import com.portal.service.OrderDetailInfoService;
+import com.portal.service.ReceptionInfoService;
+import com.portal.service.StorehouseOperateInfoService;
 import com.portal.service.VisitEverydayInfoService;
 import com.portal.service.VisitReportInfoService;
 
@@ -48,10 +51,6 @@ public class ReportController {
 	@Autowired
 	private VisitEverydayInfoService visitEveryService;
 	
-	// 订单Service
-	@Autowired
-	private OrderInfoService orderService;
-	
 	// 部门业绩Service
 	@Autowired
 	private DeptPerformanceInfoService deptPerforService;
@@ -60,18 +59,24 @@ public class ReportController {
 	@Autowired
 	private GroupInfoService groupService;
 	
+	// 订单详细Service
+    @Autowired
+    private OrderDetailInfoService orderDetailService;
+	
+	// 客户Service
+    @Autowired
+    private CustomerInfoService customerService;
+    
+    // 日常接待Service
+    @Autowired
+    private ReceptionInfoService receptionService;
+    
+    // 仓库操作Service
+    @Autowired
+    private StorehouseOperateInfoService storehouseService;
+	
 	// 公共查询条件类
 	Criteria criteria = new Criteria();
-	
-	
-	//TODO - 开发顺序：
-	// 1.查询两个地区的接待客户数量（默认查询上一周的数据）
-    // 1.1.点击地区进入该地区详细的接待情况
-	// 1.2.进入页面先显示接待统计(默认上一周) 
-	// 2.然后是每日登门统计
-	// 3.今天机构业绩统计
-	// 4.然后是部门业绩 最后是业务员业绩
-	// 5.个人业绩排名
 	
 	// ------------------------- 接待统计 入口：toReceiveStatistics ---------------------------------
 	
@@ -225,8 +230,8 @@ public class ReportController {
 	@RequestMapping("/toOrganiPerformance")
     public String toOrganiPerformance(HttpServletRequest request, HttpServletResponse response) {
         // 初始化页面输入框中的日期值（默认上一周的时间）
-        request.setAttribute("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
-        request.setAttribute("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
         return "report/organi_performance";
     }
 	
@@ -241,7 +246,7 @@ public class ReportController {
     @RequestMapping("/ajaxOrganiPerforList")
     public void ajaxOrganiPerforList(HttpServletRequest request, HttpServletResponse response) {
         // 异步获取数据
-        JSONObject results = orderService.getOrganiPerformance(request);
+        JSONObject results = deptPerforService.ajaxOrganiPerformance(request);
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
@@ -257,8 +262,8 @@ public class ReportController {
     @RequestMapping("/toDeptPerformance")
     public String toDeptPerformance(HttpServletRequest request, HttpServletResponse response) {
         // 初始化页面输入框中的日期值（默认上一周的时间）
-        request.setAttribute("startReportDate", request.getParameter("startCreateDate"));
-        request.setAttribute("endReportDate", request.getParameter("endCreateDate"));
+        request.setAttribute("startReportDate", request.getParameter("startReportDate"));
+        request.setAttribute("endReportDate", request.getParameter("endReportDate"));
         String organiName = request.getParameter("organiName");
         // 根据机构名称查询对应的ID, 存储到Request域
         if(StringUtil.isNotBlank(organiName)) {
@@ -304,8 +309,8 @@ public class ReportController {
     @RequestMapping("/toIndividualRanking")
     public String toIndividualRanking(HttpServletRequest request, HttpServletResponse response) {
         // 初始化页面输入框中的日期值（默认上一周的时间）
-        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
-        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
         return "report/individual_ranking";
     }
     
@@ -325,20 +330,168 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
- // ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
+// ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
     
-    /*select 
-        count(r.customer_id) as visitCount,
-        count(o.id) as outOrder,
-        sum(o.actual_price) as outPrices,
-        round((count(r.customer_id)/count(o.id))*100,2)
-    from customer_info c
-    left join reception_info r on c.id = r.customer_id
-    left join order_info o on c.id = o.customer_id*/
     // 进入筛选客户类型页面
+    @RequestMapping("/toFiltrateCustomers")
     public String toFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
-        
-        return "report/individual_ranking";
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/filtrate_customer";
     }
+    
+    /**
+     * @Title: ajaxFiltrateCustomers
+     * @Description: 异步获取筛选客户类型数据
+     * @param request
+     * @param response
+     * @return void
+     * @throws
+     */
+    @RequestMapping("/ajaxFiltrateCustomers")
+    public void ajaxFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = customerService.ajaxFiltrateCustomers(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    // ------------------------- 市场业务报表2--登门出单统计 入口：toVisitEveryDay ---------------------------------
+    
+    /**
+     * @Title: toVisitTable 
+     * @Description: 进入登门出单统计表
+     * @param request
+     * @param response
+     * @return String
+     * @throws
+     */
+    @RequestMapping("/toVisitAndOutOrder")
+    public String toVisitAndOutOrder(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/visit_out_order";
+    }
+    
+    /**
+     * @Title: ajaxVisitAndOutOrder 
+     * @Description: 异步获取登门出单统计数据
+     * @param request
+     * @param response 
+     * @return void
+     */
+    @RequestMapping("/ajaxVisitAndOutOrder")
+    public void ajaxVisitAndOutOrder(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = receptionService.ajaxVisitAndOutOrder(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    /**
+     * @Title: toOutOrderDetail 
+     * @Description: 进入订单详细列表页
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月17日 下午10:52:27 
+     * @version V1.0
+     */
+    @RequestMapping("/toOutOrderDetail")
+    public String toOutOrderDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 获取url地址中参数
+        request.setAttribute("startDate", request.getParameter("startDate"));
+        request.setAttribute("endDate", request.getParameter("endDate"));
+        request.setAttribute("customerId", request.getParameter("customerId"));
+        return "report/out_order_detail";
+    }
+    
+    /**
+     * @Title: ajaxOutOrderDetail 
+     * @Description: 异步获取订单详细列表
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月17日 下午11:39:24 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxOutOrderDetail")
+    public void ajaxOutOrderDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = orderDetailService.ajaxOutOrderDetail(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    // TODO - 业务员统计报表-有待与客户确定一些内容
+    // ------------------------- 业务员统计 入口：toSalesmanStatement ---------------------------------
+    /*# 获取订单表中对应客户的数量
+    select count(1) from (
+        select c.id from customer_info c left join order_info o on c.id = o.customer_id 
+        where c.type = '1'
+        and o.create_date > '2016-10-09'
+        and o.create_date <= '2016-10-15 23:59:59'
+        and o.receiver_staff_id = '1'
+        group by c.id
+    ) a*/
+    @RequestMapping("/toSalesmanStatement")
+    public String toSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/visit_out_order";
+    }
+    
+    // TODO - 展厅客服对接报表-有待与客户确定一些内容
+    /**
+     * 单均=订单金额/承担数量
+     * 件均=订单金额/件数
+     * 单均产品件数=件数/成单数量
+     */
+    
+    
+    
+    // ------------------------- 出库明细统计 入口：toOutwarehouseDetail ---------------------------------
+    
+    /**
+     * @Title: toOutwarehouseDetail 
+     * @Description: 进入出库明细统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月20日 下午10:22:40 
+     * @version V1.0
+     */
+    @RequestMapping("/toOutwarehouseDetail")
+    public String toOutwarehouseDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/out_warehouse_detail";
+    }
+    
+    /**
+     * @Title: ajaxOutwarehouseDetail 
+     * @Description: 异步获取出库明细统计数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月20日 下午10:26:28 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxOutwarehouseDetail")
+    public void ajaxOutwarehouseDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = storehouseService.ajaxOutwarehouseDetail(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
 
 }

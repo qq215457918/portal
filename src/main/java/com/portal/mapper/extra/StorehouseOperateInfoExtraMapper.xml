@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.StorehouseOperateInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.StorehouseOperateInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="order_detail_id" property="orderDetailId" jdbcType="VARCHAR" />
+    <result column="good_sort_id" property="goodSortId" jdbcType="VARCHAR" />
+    <result column="good_sort_name" property="goodSortName" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="operate_flag" property="operateFlag" jdbcType="VARCHAR" />
+    <result column="operate_date" property="operateDate" jdbcType="TIMESTAMP" />
+    <result column="operate_id" property="operateId" jdbcType="VARCHAR" />
+    <!-- 订单号 -->
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderId != null" >
+         and s.order_id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderDetailId != null" >
+         and s.order_detail_id = #{condition.orderDetailId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortId != null" >
+         and s.good_sort_id = #{condition.goodSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortName != null" >
+         and s.good_sort_name = #{condition.goodSortName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodId != null" >
+         and s.good_id = #{condition.goodId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodType != null" >
+         and s.good_type = #{condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodName != null" >
+         and s.good_name = #{condition.goodName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.price != null" >
+         and s.price = #{condition.price,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.amount != null" >
+         and s.amount = #{condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="condition.operateFlag != null" >
+         and s.operate_flag = #{condition.operateFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.operateDate != null" >
+         and s.operate_date = #{condition.operateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.operateId != null" >
+         and s.operate_id = #{condition.operateId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.area != null" >
+         and c.area = #{condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderNumber != null" >
+         and o.number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.startDate != null" >
+         <![CDATA[and s.operate_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endDate != null" >
+         <![CDATA[and s.operate_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    s.id, s.order_id, s.order_detail_id, s.good_sort_id, s.good_sort_name, s.good_id, s.good_type, 
+    s.good_name, s.price, s.amount, s.operate_flag, s.operate_date, s.operate_id, o.order_number
+  </sql>
+  
+  <!-- 根据条件查询出库明细记录总数 -->
+  <select id="getCountsByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(s.good_sort_name)
+	from storehouse_operate_info s
+	left join order_info o on s.order_id = o.id
+	left join customer_info c on o.customer_id = c.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <!-- 根据条件查询出库明细记录集 -->
+  <select id="getOrganiPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select
+ 	<if test="distinct" >
+		distinct
+    </if>
+	<include refid="Base_Column_List" />
+	from storehouse_operate_info s
+	left join order_info o on s.order_id = o.id
+	left join customer_info c on o.customer_id = c.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  
+</mapper>

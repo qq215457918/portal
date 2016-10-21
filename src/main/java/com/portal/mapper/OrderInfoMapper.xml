@@ -3,6 +3,7 @@
 <mapper namespace="com.portal.dao.OrderInfoDao" >
   <resultMap id="BaseResultMap" type="com.portal.bean.OrderInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
@@ -25,9 +26,13 @@
     <result column="create_id" property="createId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderNumber != null" >
+         and order_number = #{condition.orderNumber,jdbcType=VARCHAR}
+      </if>
       <if test="condition.customerId != null" >
          and customer_id = #{condition.customerId,jdbcType=VARCHAR}
       </if>
@@ -94,10 +99,16 @@
       <if test="condition.updateId != null" >
          and update_id = #{condition.updateId,jdbcType=VARCHAR}
       </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.orderNumber != null" >
+         and order_number = #{example.condition.orderNumber,jdbcType=VARCHAR}
+      </if>
       <if test="example.condition.customerId != null" >
          and customer_id = #{example.condition.customerId,jdbcType=VARCHAR}
       </if>
@@ -164,13 +175,17 @@
       <if test="example.condition.updateId != null" >
          and update_id = #{example.condition.updateId,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.deleteFlag != null" >
+         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, customer_id, phone_staff_id, receiver_staff_id, status, order_type, pay_type, 
-    pay_price, actual_price, finance_flag, finance_type, finance_operator_id, finance_date, 
-    warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, culture_operator_id, 
-    culture_date, create_date, create_id, update_date, update_id
+    id, order_number, customer_id, phone_staff_id, receiver_staff_id, status, order_type, 
+    pay_type, pay_price, actual_price, finance_flag, finance_type, finance_operator_id, 
+    finance_date, warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, 
+    culture_operator_id, culture_date, create_date, create_id, update_date, update_id, 
+    delete_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -204,28 +219,33 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.portal.bean.OrderInfo" >
-    insert into order_info (id, customer_id, phone_staff_id, 
-      receiver_staff_id, status, order_type, 
-      pay_type, pay_price, actual_price, 
-      finance_flag, finance_type, finance_operator_id, 
-      finance_date, warehouse_flag, warehouse_operator_id, 
-      warehouse_date, culture_flag, culture_operator_id, 
-      culture_date, create_date, create_id, 
-      update_date, update_id)
-    values (#{id,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{phoneStaffId,jdbcType=VARCHAR}, 
-      #{receiverStaffId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, 
-      #{payType,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, #{actualPrice,jdbcType=DECIMAL}, 
-      #{financeFlag,jdbcType=VARCHAR}, #{financeType,jdbcType=VARCHAR}, #{financeOperatorId,jdbcType=VARCHAR}, 
-      #{financeDate,jdbcType=TIMESTAMP}, #{warehouseFlag,jdbcType=VARCHAR}, #{warehouseOperatorId,jdbcType=VARCHAR}, 
-      #{warehouseDate,jdbcType=TIMESTAMP}, #{cultureFlag,jdbcType=VARCHAR}, #{cultureOperatorId,jdbcType=VARCHAR}, 
-      #{cultureDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{createId,jdbcType=VARCHAR}, 
-      #{updateDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR})
+    insert into order_info (id, order_number, customer_id, 
+      phone_staff_id, receiver_staff_id, status, 
+      order_type, pay_type, pay_price, 
+      actual_price, finance_flag, finance_type, 
+      finance_operator_id, finance_date, warehouse_flag, 
+      warehouse_operator_id, warehouse_date, culture_flag, 
+      culture_operator_id, culture_date, create_date, 
+      create_id, update_date, update_id, 
+      delete_flag)
+    values (#{id,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{phoneStaffId,jdbcType=VARCHAR}, #{receiverStaffId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{orderType,jdbcType=VARCHAR}, #{payType,jdbcType=VARCHAR}, #{payPrice,jdbcType=DECIMAL}, 
+      #{actualPrice,jdbcType=DECIMAL}, #{financeFlag,jdbcType=VARCHAR}, #{financeType,jdbcType=VARCHAR}, 
+      #{financeOperatorId,jdbcType=VARCHAR}, #{financeDate,jdbcType=TIMESTAMP}, #{warehouseFlag,jdbcType=VARCHAR}, 
+      #{warehouseOperatorId,jdbcType=VARCHAR}, #{warehouseDate,jdbcType=TIMESTAMP}, #{cultureFlag,jdbcType=VARCHAR}, 
+      #{cultureOperatorId,jdbcType=VARCHAR}, #{cultureDate,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateId,jdbcType=VARCHAR}, 
+      #{deleteFlag,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.OrderInfo" >
     insert into order_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
       </if>
       <if test="customerId != null" >
         customer_id,
@@ -293,10 +313,16 @@
       <if test="updateId != null" >
         update_id,
       </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
       </if>
       <if test="customerId != null" >
         #{customerId,jdbcType=VARCHAR},
@@ -364,6 +390,9 @@
       <if test="updateId != null" >
         #{updateId,jdbcType=VARCHAR},
       </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
@@ -377,6 +406,9 @@
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderNumber != null" >
+        order_number = #{record.orderNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.customerId != null" >
         customer_id = #{record.customerId,jdbcType=VARCHAR},
@@ -444,6 +476,9 @@
       <if test="record.updateId != null" >
         update_id = #{record.updateId,jdbcType=VARCHAR},
       </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -452,6 +487,7 @@
   <update id="updateByExample" parameterType="map" >
     update order_info
     set id = #{record.id,jdbcType=VARCHAR},
+      order_number = #{record.orderNumber,jdbcType=VARCHAR},
       customer_id = #{record.customerId,jdbcType=VARCHAR},
       phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
       receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
@@ -473,7 +509,8 @@
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
       create_id = #{record.createId,jdbcType=VARCHAR},
       update_date = #{record.updateDate,jdbcType=TIMESTAMP},
-      update_id = #{record.updateId,jdbcType=VARCHAR}
+      update_id = #{record.updateId,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -481,6 +518,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.OrderInfo" >
     update order_info
     <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
       <if test="customerId != null" >
         customer_id = #{customerId,jdbcType=VARCHAR},
       </if>
@@ -547,12 +587,16 @@
       <if test="updateId != null" >
         update_id = #{updateId,jdbcType=VARCHAR},
       </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.portal.bean.OrderInfo" >
     update order_info
-    set customer_id = #{customerId,jdbcType=VARCHAR},
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
       phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
       receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
@@ -573,7 +617,8 @@
       create_date = #{createDate,jdbcType=TIMESTAMP},
       create_id = #{createId,jdbcType=VARCHAR},
       update_date = #{updateDate,jdbcType=TIMESTAMP},
-      update_id = #{updateId,jdbcType=VARCHAR}
+      update_id = #{updateId,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

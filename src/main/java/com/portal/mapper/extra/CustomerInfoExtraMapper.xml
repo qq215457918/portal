@@ -28,10 +28,35 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
   </resultMap>
+  
+  <resultMap id="FormResultMap" type="com.portal.bean.result.CustomerSimpleInfoForm" >
+  	<result column="type" property="type" jdbcType="VARCHAR" />
+  	<!-- 筛选客户类型需要字段内容 -->
+    <result column="visit_count" property="visitCount" jdbcType="INTEGER" />
+    <result column="out_order_count" property="outOrderCount" jdbcType="INTEGER" />
+    <result column="out_prices" property="outPrices" jdbcType="DECIMAL" />
+    <result column="out_rate" property="outRate" jdbcType="VARCHAR" />
+    <result column="total_perfor_percentage" property="totalPerforPercentage" jdbcType="VARCHAR" />
+  </resultMap>
+  
   <sql id="Base_Column_List" >
     id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
     phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
     recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
+  </sql>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.area != null" >
+      	 <![CDATA[and c.area = #{condition.area,jdbcType=VARCHAR}]]>
+      </if>
+      <if test="condition.startDate != null" >
+      	 <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endDate != null" >
+      	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
   </sql>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
@@ -39,5 +64,133 @@
     <include refid="Base_Column_List" />
     from customer_info
     where phone = #{phone,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据条件获取筛选客户数据 -->
+  <select id="getFiltrateCustomers" resultMap="FormResultMap" parameterType="com.portal.bean.Criteria" >
+	select 
+		'成单' as type,
+        count(r.customer_id) as visit_count,
+        count(o.id) as out_order_count,
+        sum(o.actual_price) as out_prices,
+		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(o.actual_price)/(
+										select SUM(oi.actual_price) 
+										from order_info oi 
+										<if test="_parameter != null" >
+									      <include refid="Example_Where_Clause" />
+									      and o.finance_flag = '1'
+									    </if>
+									    )*100,2),'%') as total_perfor_percentage			
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and c.type = '3'
+	  and o.finance_flag = '1'
+    </if>
+	UNION
+	select 
+		'锁定' as type,
+	    count(r.customer_id) as visit_count,
+        count(o.id) as out_order_count,
+        sum(o.actual_price) as out_prices,
+		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(o.actual_price)/(
+										select SUM(oi.actual_price) 
+										from order_info oi 
+										<if test="_parameter != null" >
+									      <include refid="Example_Where_Clause" />
+									      and o.finance_flag = '1'
+									    </if>
+									    )*100,2),'%') as total_perfor_percentage			
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and c.type = '4'
+	  and o.finance_flag = '1'
+    </if>
+	UNION
+	select 
+		'说明会' as type,
+	    count(r.customer_id) as visit_count,
+        count(o.id) as out_order_count,
+        sum(o.actual_price) as out_prices,
+		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(o.actual_price)/(
+										select SUM(oi.actual_price) 
+										from order_info oi 
+										<if test="_parameter != null" >
+									      <include refid="Example_Where_Clause" />
+									      and o.finance_flag = '1'
+									    </if>
+									    )*100,2),'%') as total_perfor_percentage			
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and c.type = '2'
+	  and o.finance_flag = '1'
+    </if>
+	UNION
+	select 
+		'重复登门' as type,
+	    count(r.customer_id) as visit_count,
+        count(o.id) as out_order_count,
+        sum(o.actual_price) as out_prices,
+		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(o.actual_price)/(
+										select SUM(oi.actual_price) 
+										from order_info oi 
+										<if test="_parameter != null" >
+									      <include refid="Example_Where_Clause" />
+									      and o.finance_flag = '1'
+									    </if>
+									    )*100,2),'%') as total_perfor_percentage			
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and c.type = '1'
+	  and o.finance_flag = '1'
+    </if>
+	UNION
+	select 
+		'转介绍' as type,
+	    count(r.customer_id) as visit_count,
+        count(o.id) as out_order_count,
+        sum(o.actual_price) as out_prices,
+		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(o.actual_price)/(
+										select SUM(oi.actual_price) 
+										from order_info oi 
+										<if test="_parameter != null" >
+									      <include refid="Example_Where_Clause" />
+									      and o.finance_flag = '1'
+									    </if>
+									    )*100,2),'%') as total_perfor_percentage			
+    from customer_info c
+    left join reception_info r on c.id = r.customer_id
+    left join order_info o on c.id = o.customer_id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+      and c.type = '5'
+	  and o.finance_flag = '1'
+    </if>
   </select>
 </mapper>

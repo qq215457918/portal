@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.OrderDetailInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.OrderDetailInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="good_sort_id" property="goodSortId" jdbcType="VARCHAR" />
+    <result column="good_sort_name" property="goodSortName" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="VARCHAR" />
+    <result column="total_price" property="totalPrice" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderId != null" >
+         and od.order_id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortId != null" >
+         and od.good_sort_id = #{condition.goodSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodSortName != null" >
+         and od.good_sort_name like CONCAT("%", #{condition.goodSortName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.goodId != null" >
+         and od.good_id = #{condition.goodId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodType != null" >
+         and od.good_type = #{condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodName != null" >
+         and od.good_name like CONCAT("%", #{condition.goodName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.price != null" >
+         and od.price = #{condition.price,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.amount != null" >
+         and od.amount = #{condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and od.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and od.update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateId != null" >
+         and od.update_id = #{condition.updateId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeFlag != null" >
+         and o.finance_flag = #{condition.financeFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerId != null" >
+         and o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startDate != null" >
+      	 <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endDate != null" >
+      	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, order_id, good_sort_id, good_sort_name, good_id, good_type, good_name, price, 
+    amount, delete_flag, update_date, update_id
+  </sql>
+  
+  <!-- 根据条件获取登门出单详细数据总条数 -->
+  <select id="getOrderDetailCounts" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from
+    (
+    	select
+	        od.good_name
+	    from order_detail_info od
+	    left join order_info o on od.order_id = o.id
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+    ) a
+  </select>
+  
+  <!-- 根据条件获取登门出单详细数据 -->
+  <select id="getOrderDetailsByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+        date_format(o.create_date,'%Y-%m-%d %h:%i') as create_date,
+        od.good_name as good_name,
+        od.good_sort_name as good_sort_name,
+        od.price as price,
+        od.amount as amount,
+        (od.price * od.amount) as total_price
+    from order_detail_info od
+    left join order_info o on od.order_id = o.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+</mapper>
