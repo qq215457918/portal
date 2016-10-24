@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.ButtPerforDetailInfoExtraDao" >
+
+  <resultMap id="BaseResultMap" type="com.portal.bean.ButtPerforDetailInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
+    <result column="phone_staff_group_name" property="phoneStaffGroupName" jdbcType="VARCHAR" />
+    <result column="receive_staff_name" property="receiveStaffName" jdbcType="VARCHAR" />
+    <result column="receive_finished_counts" property="receiveFinishedCounts" jdbcType="INTEGER" />
+    <result column="out_orders_of_finished" property="outOrdersOfFinished" jdbcType="INTEGER" />
+    <result column="out_order_rate_of_finished" property="outOrderRateOfFinished" jdbcType="VARCHAR" />
+    <result column="performance_of_finished" property="performanceOfFinished" jdbcType="DECIMAL" />
+    <result column="order_avg_of_finished" property="orderAvgOfFinished" jdbcType="VARCHAR" />
+    <result column="piece_avg_of_finished" property="pieceAvgOfFinished" jdbcType="VARCHAR" />
+    <result column="receive_locked_counts" property="receiveLockedCounts" jdbcType="INTEGER" />
+    <result column="out_orders_of_locked" property="outOrdersOfLocked" jdbcType="INTEGER" />
+    <result column="out_order_rate_of_locked" property="outOrderRateOfLocked" jdbcType="VARCHAR" />
+    <result column="performance_of_locked" property="performanceOfLocked" jdbcType="DECIMAL" />
+    <result column="order_avg_of_locked" property="orderAvgOfLocked" jdbcType="VARCHAR" />
+    <result column="piece_avg_of_locked" property="pieceAvgOfLocked" jdbcType="VARCHAR" />
+    <result column="order_avg_of_goods_counts" property="orderAvgOfGoodsCounts" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.phoneStaffId != null" >
+         and phone_staff_id = #{condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffName != null" >
+         and phone_staff_name = #{condition.phoneStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewPhoneStaffName != null" >
+         and phone_staff_name like CONCAT("%", #{condition.viewPhoneStaffName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.phoneStaffGroupName != null" >
+         and phone_staff_group_name = #{condition.phoneStaffGroupName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewPhoneStaffGroupName != null" >
+         and phone_staff_group_name like CONCAT("%", #{condition.viewPhoneStaffGroupName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.receiveStaffName != null" >
+         and receive_staff_name = #{condition.receiveStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewReceiveStaffName != null" >
+         and receive_staff_name like CONCAT("%", #{condition.viewReceiveStaffName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.receiveFinishedCounts != null" >
+         and receive_finished_counts = #{condition.receiveFinishedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrdersOfFinished != null" >
+         and out_orders_of_finished = #{condition.outOrdersOfFinished,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrderRateOfFinished != null" >
+         and out_order_rate_of_finished = #{condition.outOrderRateOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.performanceOfFinished != null" >
+         and performance_of_finished = #{condition.performanceOfFinished,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.orderAvgOfFinished != null" >
+         and order_avg_of_finished = #{condition.orderAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.pieceAvgOfFinished != null" >
+         and piece_avg_of_finished = #{condition.pieceAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiveLockedCounts != null" >
+         and receive_locked_counts = #{condition.receiveLockedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrdersOfLocked != null" >
+         and out_orders_of_locked = #{condition.outOrdersOfLocked,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrderRateOfLocked != null" >
+         and out_order_rate_of_locked = #{condition.outOrderRateOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.performanceOfLocked != null" >
+         and performance_of_locked = #{condition.performanceOfLocked,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.orderAvgOfLocked != null" >
+         and order_avg_of_locked = #{condition.orderAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.pieceAvgOfLocked != null" >
+         and piece_avg_of_locked = #{condition.pieceAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderAvgOfGoodsCounts != null" >
+         and order_avg_of_goods_counts = #{condition.orderAvgOfGoodsCounts,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.reportDate != null" >
+         and report_date = #{condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.startReportDate != null" >
+         <![CDATA[and report_date >= #{condition.startReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endReportDate != null" >
+      	 <![CDATA[and report_date <= #{condition.endReportDate,jdbcType=TIMESTAMP}]]>
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, phone_staff_id, phone_staff_name, receive_staff_name, receive_finished_counts, 
+    out_orders_of_finished, out_order_rate_of_finished, performance_of_finished, order_avg_of_finished, 
+    piece_avg_of_finished, receive_locked_counts, out_orders_of_locked, out_order_rate_of_locked, 
+    performance_of_locked, order_avg_of_locked, piece_avg_of_locked, order_avg_of_goods_counts, 
+    report_date
+  </sql>
+  
+  <!-- 根据条件查询记录总数 -->
+  <select id="countByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from butt_perfor_detail_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <!-- 根据条件查询记录集 -->
+  <select id="seleteByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from butt_perfor_detail_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  
+</mapper>

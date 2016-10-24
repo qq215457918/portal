@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.ButtPerforDetailInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.ButtPerforDetailInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
+    <result column="phone_staff_group_name" property="phoneStaffGroupName" jdbcType="VARCHAR" />
+    <result column="receive_staff_name" property="receiveStaffName" jdbcType="VARCHAR" />
+    <result column="receive_finished_counts" property="receiveFinishedCounts" jdbcType="INTEGER" />
+    <result column="out_orders_of_finished" property="outOrdersOfFinished" jdbcType="INTEGER" />
+    <result column="out_order_rate_of_finished" property="outOrderRateOfFinished" jdbcType="VARCHAR" />
+    <result column="performance_of_finished" property="performanceOfFinished" jdbcType="DECIMAL" />
+    <result column="order_avg_of_finished" property="orderAvgOfFinished" jdbcType="VARCHAR" />
+    <result column="piece_avg_of_finished" property="pieceAvgOfFinished" jdbcType="VARCHAR" />
+    <result column="receive_locked_counts" property="receiveLockedCounts" jdbcType="INTEGER" />
+    <result column="out_orders_of_locked" property="outOrdersOfLocked" jdbcType="INTEGER" />
+    <result column="out_order_rate_of_locked" property="outOrderRateOfLocked" jdbcType="VARCHAR" />
+    <result column="performance_of_locked" property="performanceOfLocked" jdbcType="DECIMAL" />
+    <result column="order_avg_of_locked" property="orderAvgOfLocked" jdbcType="VARCHAR" />
+    <result column="piece_avg_of_locked" property="pieceAvgOfLocked" jdbcType="VARCHAR" />
+    <result column="order_avg_of_goods_counts" property="orderAvgOfGoodsCounts" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.phoneStaffId != null" >
+         and phone_staff_id = #{condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffName != null" >
+         and phone_staff_name = #{condition.phoneStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.phoneStaffGroupName != null" >
+         and phone_staff_group_name = #{condition.phoneStaffGroupName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiveStaffName != null" >
+         and receive_staff_name = #{condition.receiveStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiveFinishedCounts != null" >
+         and receive_finished_counts = #{condition.receiveFinishedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrdersOfFinished != null" >
+         and out_orders_of_finished = #{condition.outOrdersOfFinished,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrderRateOfFinished != null" >
+         and out_order_rate_of_finished = #{condition.outOrderRateOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.performanceOfFinished != null" >
+         and performance_of_finished = #{condition.performanceOfFinished,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.orderAvgOfFinished != null" >
+         and order_avg_of_finished = #{condition.orderAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.pieceAvgOfFinished != null" >
+         and piece_avg_of_finished = #{condition.pieceAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.receiveLockedCounts != null" >
+         and receive_locked_counts = #{condition.receiveLockedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrdersOfLocked != null" >
+         and out_orders_of_locked = #{condition.outOrdersOfLocked,jdbcType=INTEGER}
+      </if>
+      <if test="condition.outOrderRateOfLocked != null" >
+         and out_order_rate_of_locked = #{condition.outOrderRateOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.performanceOfLocked != null" >
+         and performance_of_locked = #{condition.performanceOfLocked,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.orderAvgOfLocked != null" >
+         and order_avg_of_locked = #{condition.orderAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.pieceAvgOfLocked != null" >
+         and piece_avg_of_locked = #{condition.pieceAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderAvgOfGoodsCounts != null" >
+         and order_avg_of_goods_counts = #{condition.orderAvgOfGoodsCounts,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.reportDate != null" >
+         and report_date = #{condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.phoneStaffId != null" >
+         and phone_staff_id = #{example.condition.phoneStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phoneStaffName != null" >
+         and phone_staff_name = #{example.condition.phoneStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.phoneStaffGroupName != null" >
+         and phone_staff_group_name = #{example.condition.phoneStaffGroupName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiveStaffName != null" >
+         and receive_staff_name = #{example.condition.receiveStaffName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiveFinishedCounts != null" >
+         and receive_finished_counts = #{example.condition.receiveFinishedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.outOrdersOfFinished != null" >
+         and out_orders_of_finished = #{example.condition.outOrdersOfFinished,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.outOrderRateOfFinished != null" >
+         and out_order_rate_of_finished = #{example.condition.outOrderRateOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.performanceOfFinished != null" >
+         and performance_of_finished = #{example.condition.performanceOfFinished,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.orderAvgOfFinished != null" >
+         and order_avg_of_finished = #{example.condition.orderAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.pieceAvgOfFinished != null" >
+         and piece_avg_of_finished = #{example.condition.pieceAvgOfFinished,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.receiveLockedCounts != null" >
+         and receive_locked_counts = #{example.condition.receiveLockedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.outOrdersOfLocked != null" >
+         and out_orders_of_locked = #{example.condition.outOrdersOfLocked,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.outOrderRateOfLocked != null" >
+         and out_order_rate_of_locked = #{example.condition.outOrderRateOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.performanceOfLocked != null" >
+         and performance_of_locked = #{example.condition.performanceOfLocked,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.orderAvgOfLocked != null" >
+         and order_avg_of_locked = #{example.condition.orderAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.pieceAvgOfLocked != null" >
+         and piece_avg_of_locked = #{example.condition.pieceAvgOfLocked,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.orderAvgOfGoodsCounts != null" >
+         and order_avg_of_goods_counts = #{example.condition.orderAvgOfGoodsCounts,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.reportDate != null" >
+         and report_date = #{example.condition.reportDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, phone_staff_id, phone_staff_name, phone_staff_group_name, receive_staff_name, 
+    receive_finished_counts, out_orders_of_finished, out_order_rate_of_finished, performance_of_finished, 
+    order_avg_of_finished, piece_avg_of_finished, receive_locked_counts, out_orders_of_locked, 
+    out_order_rate_of_locked, performance_of_locked, order_avg_of_locked, piece_avg_of_locked, 
+    order_avg_of_goods_counts, report_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from butt_perfor_detail_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from butt_perfor_detail_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from butt_perfor_detail_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from butt_perfor_detail_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.ButtPerforDetailInfo" >
+    insert into butt_perfor_detail_info (id, phone_staff_id, phone_staff_name, 
+      phone_staff_group_name, receive_staff_name, 
+      receive_finished_counts, out_orders_of_finished, 
+      out_order_rate_of_finished, performance_of_finished, 
+      order_avg_of_finished, piece_avg_of_finished, 
+      receive_locked_counts, out_orders_of_locked, 
+      out_order_rate_of_locked, performance_of_locked, 
+      order_avg_of_locked, piece_avg_of_locked, order_avg_of_goods_counts, 
+      report_date)
+    values (#{id,jdbcType=VARCHAR}, #{phoneStaffId,jdbcType=VARCHAR}, #{phoneStaffName,jdbcType=VARCHAR}, 
+      #{phoneStaffGroupName,jdbcType=VARCHAR}, #{receiveStaffName,jdbcType=VARCHAR}, 
+      #{receiveFinishedCounts,jdbcType=INTEGER}, #{outOrdersOfFinished,jdbcType=INTEGER}, 
+      #{outOrderRateOfFinished,jdbcType=VARCHAR}, #{performanceOfFinished,jdbcType=DECIMAL}, 
+      #{orderAvgOfFinished,jdbcType=VARCHAR}, #{pieceAvgOfFinished,jdbcType=VARCHAR}, 
+      #{receiveLockedCounts,jdbcType=INTEGER}, #{outOrdersOfLocked,jdbcType=INTEGER}, 
+      #{outOrderRateOfLocked,jdbcType=VARCHAR}, #{performanceOfLocked,jdbcType=DECIMAL}, 
+      #{orderAvgOfLocked,jdbcType=VARCHAR}, #{pieceAvgOfLocked,jdbcType=VARCHAR}, #{orderAvgOfGoodsCounts,jdbcType=VARCHAR}, 
+      #{reportDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.ButtPerforDetailInfo" >
+    insert into butt_perfor_detail_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="phoneStaffId != null" >
+        phone_staff_id,
+      </if>
+      <if test="phoneStaffName != null" >
+        phone_staff_name,
+      </if>
+      <if test="phoneStaffGroupName != null" >
+        phone_staff_group_name,
+      </if>
+      <if test="receiveStaffName != null" >
+        receive_staff_name,
+      </if>
+      <if test="receiveFinishedCounts != null" >
+        receive_finished_counts,
+      </if>
+      <if test="outOrdersOfFinished != null" >
+        out_orders_of_finished,
+      </if>
+      <if test="outOrderRateOfFinished != null" >
+        out_order_rate_of_finished,
+      </if>
+      <if test="performanceOfFinished != null" >
+        performance_of_finished,
+      </if>
+      <if test="orderAvgOfFinished != null" >
+        order_avg_of_finished,
+      </if>
+      <if test="pieceAvgOfFinished != null" >
+        piece_avg_of_finished,
+      </if>
+      <if test="receiveLockedCounts != null" >
+        receive_locked_counts,
+      </if>
+      <if test="outOrdersOfLocked != null" >
+        out_orders_of_locked,
+      </if>
+      <if test="outOrderRateOfLocked != null" >
+        out_order_rate_of_locked,
+      </if>
+      <if test="performanceOfLocked != null" >
+        performance_of_locked,
+      </if>
+      <if test="orderAvgOfLocked != null" >
+        order_avg_of_locked,
+      </if>
+      <if test="pieceAvgOfLocked != null" >
+        piece_avg_of_locked,
+      </if>
+      <if test="orderAvgOfGoodsCounts != null" >
+        order_avg_of_goods_counts,
+      </if>
+      <if test="reportDate != null" >
+        report_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffId != null" >
+        #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffName != null" >
+        #{phoneStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffGroupName != null" >
+        #{phoneStaffGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStaffName != null" >
+        #{receiveStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveFinishedCounts != null" >
+        #{receiveFinishedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="outOrdersOfFinished != null" >
+        #{outOrdersOfFinished,jdbcType=INTEGER},
+      </if>
+      <if test="outOrderRateOfFinished != null" >
+        #{outOrderRateOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceOfFinished != null" >
+        #{performanceOfFinished,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAvgOfFinished != null" >
+        #{orderAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="pieceAvgOfFinished != null" >
+        #{pieceAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLockedCounts != null" >
+        #{receiveLockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="outOrdersOfLocked != null" >
+        #{outOrdersOfLocked,jdbcType=INTEGER},
+      </if>
+      <if test="outOrderRateOfLocked != null" >
+        #{outOrderRateOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceOfLocked != null" >
+        #{performanceOfLocked,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAvgOfLocked != null" >
+        #{orderAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="pieceAvgOfLocked != null" >
+        #{pieceAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAvgOfGoodsCounts != null" >
+        #{orderAvgOfGoodsCounts,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null" >
+        #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from butt_perfor_detail_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update butt_perfor_detail_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneStaffId != null" >
+        phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneStaffName != null" >
+        phone_staff_name = #{record.phoneStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneStaffGroupName != null" >
+        phone_staff_group_name = #{record.phoneStaffGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveStaffName != null" >
+        receive_staff_name = #{record.receiveStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveFinishedCounts != null" >
+        receive_finished_counts = #{record.receiveFinishedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.outOrdersOfFinished != null" >
+        out_orders_of_finished = #{record.outOrdersOfFinished,jdbcType=INTEGER},
+      </if>
+      <if test="record.outOrderRateOfFinished != null" >
+        out_order_rate_of_finished = #{record.outOrderRateOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="record.performanceOfFinished != null" >
+        performance_of_finished = #{record.performanceOfFinished,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderAvgOfFinished != null" >
+        order_avg_of_finished = #{record.orderAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pieceAvgOfFinished != null" >
+        piece_avg_of_finished = #{record.pieceAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveLockedCounts != null" >
+        receive_locked_counts = #{record.receiveLockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.outOrdersOfLocked != null" >
+        out_orders_of_locked = #{record.outOrdersOfLocked,jdbcType=INTEGER},
+      </if>
+      <if test="record.outOrderRateOfLocked != null" >
+        out_order_rate_of_locked = #{record.outOrderRateOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="record.performanceOfLocked != null" >
+        performance_of_locked = #{record.performanceOfLocked,jdbcType=DECIMAL},
+      </if>
+      <if test="record.orderAvgOfLocked != null" >
+        order_avg_of_locked = #{record.orderAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pieceAvgOfLocked != null" >
+        piece_avg_of_locked = #{record.pieceAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderAvgOfGoodsCounts != null" >
+        order_avg_of_goods_counts = #{record.orderAvgOfGoodsCounts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportDate != null" >
+        report_date = #{record.reportDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update butt_perfor_detail_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      phone_staff_id = #{record.phoneStaffId,jdbcType=VARCHAR},
+      phone_staff_name = #{record.phoneStaffName,jdbcType=VARCHAR},
+      phone_staff_group_name = #{record.phoneStaffGroupName,jdbcType=VARCHAR},
+      receive_staff_name = #{record.receiveStaffName,jdbcType=VARCHAR},
+      receive_finished_counts = #{record.receiveFinishedCounts,jdbcType=INTEGER},
+      out_orders_of_finished = #{record.outOrdersOfFinished,jdbcType=INTEGER},
+      out_order_rate_of_finished = #{record.outOrderRateOfFinished,jdbcType=VARCHAR},
+      performance_of_finished = #{record.performanceOfFinished,jdbcType=DECIMAL},
+      order_avg_of_finished = #{record.orderAvgOfFinished,jdbcType=VARCHAR},
+      piece_avg_of_finished = #{record.pieceAvgOfFinished,jdbcType=VARCHAR},
+      receive_locked_counts = #{record.receiveLockedCounts,jdbcType=INTEGER},
+      out_orders_of_locked = #{record.outOrdersOfLocked,jdbcType=INTEGER},
+      out_order_rate_of_locked = #{record.outOrderRateOfLocked,jdbcType=VARCHAR},
+      performance_of_locked = #{record.performanceOfLocked,jdbcType=DECIMAL},
+      order_avg_of_locked = #{record.orderAvgOfLocked,jdbcType=VARCHAR},
+      piece_avg_of_locked = #{record.pieceAvgOfLocked,jdbcType=VARCHAR},
+      order_avg_of_goods_counts = #{record.orderAvgOfGoodsCounts,jdbcType=VARCHAR},
+      report_date = #{record.reportDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.ButtPerforDetailInfo" >
+    update butt_perfor_detail_info
+    <set >
+      <if test="phoneStaffId != null" >
+        phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffName != null" >
+        phone_staff_name = #{phoneStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneStaffGroupName != null" >
+        phone_staff_group_name = #{phoneStaffGroupName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveStaffName != null" >
+        receive_staff_name = #{receiveStaffName,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveFinishedCounts != null" >
+        receive_finished_counts = #{receiveFinishedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="outOrdersOfFinished != null" >
+        out_orders_of_finished = #{outOrdersOfFinished,jdbcType=INTEGER},
+      </if>
+      <if test="outOrderRateOfFinished != null" >
+        out_order_rate_of_finished = #{outOrderRateOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceOfFinished != null" >
+        performance_of_finished = #{performanceOfFinished,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAvgOfFinished != null" >
+        order_avg_of_finished = #{orderAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="pieceAvgOfFinished != null" >
+        piece_avg_of_finished = #{pieceAvgOfFinished,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveLockedCounts != null" >
+        receive_locked_counts = #{receiveLockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="outOrdersOfLocked != null" >
+        out_orders_of_locked = #{outOrdersOfLocked,jdbcType=INTEGER},
+      </if>
+      <if test="outOrderRateOfLocked != null" >
+        out_order_rate_of_locked = #{outOrderRateOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="performanceOfLocked != null" >
+        performance_of_locked = #{performanceOfLocked,jdbcType=DECIMAL},
+      </if>
+      <if test="orderAvgOfLocked != null" >
+        order_avg_of_locked = #{orderAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="pieceAvgOfLocked != null" >
+        piece_avg_of_locked = #{pieceAvgOfLocked,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAvgOfGoodsCounts != null" >
+        order_avg_of_goods_counts = #{orderAvgOfGoodsCounts,jdbcType=VARCHAR},
+      </if>
+      <if test="reportDate != null" >
+        report_date = #{reportDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.ButtPerforDetailInfo" >
+    update butt_perfor_detail_info
+    set phone_staff_id = #{phoneStaffId,jdbcType=VARCHAR},
+      phone_staff_name = #{phoneStaffName,jdbcType=VARCHAR},
+      phone_staff_group_name = #{phoneStaffGroupName,jdbcType=VARCHAR},
+      receive_staff_name = #{receiveStaffName,jdbcType=VARCHAR},
+      receive_finished_counts = #{receiveFinishedCounts,jdbcType=INTEGER},
+      out_orders_of_finished = #{outOrdersOfFinished,jdbcType=INTEGER},
+      out_order_rate_of_finished = #{outOrderRateOfFinished,jdbcType=VARCHAR},
+      performance_of_finished = #{performanceOfFinished,jdbcType=DECIMAL},
+      order_avg_of_finished = #{orderAvgOfFinished,jdbcType=VARCHAR},
+      piece_avg_of_finished = #{pieceAvgOfFinished,jdbcType=VARCHAR},
+      receive_locked_counts = #{receiveLockedCounts,jdbcType=INTEGER},
+      out_orders_of_locked = #{outOrdersOfLocked,jdbcType=INTEGER},
+      out_order_rate_of_locked = #{outOrderRateOfLocked,jdbcType=VARCHAR},
+      performance_of_locked = #{performanceOfLocked,jdbcType=DECIMAL},
+      order_avg_of_locked = #{orderAvgOfLocked,jdbcType=VARCHAR},
+      piece_avg_of_locked = #{pieceAvgOfLocked,jdbcType=VARCHAR},
+      order_avg_of_goods_counts = #{orderAvgOfGoodsCounts,jdbcType=VARCHAR},
+      report_date = #{reportDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

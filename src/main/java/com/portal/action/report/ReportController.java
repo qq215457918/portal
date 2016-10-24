@@ -19,6 +19,7 @@ import com.portal.common.util.DateUtil;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;
+import com.portal.service.ButtPerforDetailInfoService;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.DeptPerformanceInfoService;
 import com.portal.service.GroupInfoService;
@@ -74,6 +75,10 @@ public class ReportController {
     // 仓库操作Service
     @Autowired
     private StorehouseOperateInfoService storehouseService;
+    
+    // 展厅客服对接业绩Service
+    @Autowired
+    private ButtPerforDetailInfoService buttPerforService;
 	
 	// 公共查询条件类
 	Criteria criteria = new Criteria();
@@ -446,14 +451,43 @@ public class ReportController {
         return "report/visit_out_order";
     }
     
-    // TODO - 展厅客服对接报表-有待与客户确定一些内容
+    // ------------------------- 展厅客服对接业绩详细 入口：toButtPerforDetail ---------------------------------
+    
     /**
-     * 单均=订单金额/承担数量
-     * 件均=订单金额/件数
-     * 单均产品件数=件数/成单数量
+     * @Title: toButtPerforDetail 
+     * @Description: 进入展厅客服对接业绩详细表 
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月24日 下午10:14:58 
+     * @version V1.0
      */
+    @RequestMapping("/toButtPerforDetail")
+    public String toButtPerforDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/butt_perfor_detail";
+    }
     
-    
+    /**
+     * @Title: ajaxButtPerforDetail 
+     * @Description: 异步获取展厅客服对接业绩详细数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月24日 下午10:17:04 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxButtPerforDetail")
+    public void ajaxButtPerforDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = buttPerforService.ajaxButtPerforDetail(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
     
     // ------------------------- 出库明细统计 入口：toOutwarehouseDetail ---------------------------------
     
@@ -492,6 +526,5 @@ public class ReportController {
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
-    
 
 }
