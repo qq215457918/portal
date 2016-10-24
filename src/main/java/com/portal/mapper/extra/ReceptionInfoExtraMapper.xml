@@ -46,6 +46,32 @@
     id, customer_id, receiver_staff_id, start_time, end_time, create_date
   </sql>
   
+  <!-- 接待信息相关查询 -->
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+     select 
+        c.id as customer_id,
+        c.`name` as customer_name,
+        (select e.`name` from employee_info e where e.id = r.phone_staff_id) as phone_staff_name,
+        (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
+        c.type as type,
+	    date_format(r.start_time, '%h:%i') as start_time,
+		date_format(r.end_time, '%h:%i') as end_time,
+        date_format(r.create_date, '%Y-%m-%d') as create_date
+    from reception_info r
+    left join customer_info c on r.customer_id = c.id
+    <if test="condition.endtimeflag != null" >
+    	where end_time is null
+    </if>
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  
   <select id="queryRecordListbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >
