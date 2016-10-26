@@ -2,7 +2,6 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.ReceptionInfo;
-import com.portal.bean.result.ReceptionInfoForm;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,8 +14,7 @@ public interface ReceptionInfoService {
      * @param date
      * @return
      */
-    public List<ReceptionInfoForm> receptionING(HttpServletRequest request, HttpServletResponse response,
-            String date);
+    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response);
 
     int countByExample(Criteria example);
 

@@ -59,9 +59,15 @@
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
     left join customer_info c on r.customer_id = c.id
-    <if test="condition.endtimeflag != null" >
-    	where end_time is null
-    </if>
+    <trim prefix="where" prefixOverrides="and|or" >
+	    <if test="condition.endtimeflag != null" >
+	    	 and end_time is null
+	    </if>
+	    <if test="condition.staff_name != null" >  
+	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%")
+	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%"))
+	    </if>
+    </trim> 
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

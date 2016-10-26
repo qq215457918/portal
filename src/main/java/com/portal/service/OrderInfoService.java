@@ -1,11 +1,50 @@
 package com.portal.service;
 
-import java.util.List;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoForm;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 
 public interface OrderInfoService {
+
+    /**
+     * 获取正常的订单类型
+     * @param customerId
+     * @return
+     */
+    OrderInfoForm queryGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException;
+
+    /**
+     * 查看已经支付的定金订单
+     * @param customerId
+     * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     */
+    public OrderInfoForm queryRevokeDepositInfo(String customerId)
+            throws IllegalAccessException, InvocationTargetException;
+
+    /**
+     * 退货订单
+     * @param customerId
+     * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     */
+    public OrderInfoForm queryReturnGoodsInfo(String customerId)
+            throws IllegalAccessException, InvocationTargetException;
+
+    /**
+     * 换货订单
+     * @param customerId
+     * @return
+     * @throws InvocationTargetException 
+     * @throws IllegalAccessException 
+     */
+    public OrderInfoForm xchangeReturnGoodsInfo(String customerId)
+            throws IllegalAccessException, InvocationTargetException;
+
     int countByExample(Criteria example);
 
     OrderInfo selectByPrimaryKey(String id);

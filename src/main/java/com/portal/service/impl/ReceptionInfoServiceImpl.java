@@ -56,15 +56,27 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         return false;
     }
 
-    public List<ReceptionInfoForm> receptionING(HttpServletRequest request, HttpServletResponse response,
-            String date) {
-        criteria = getPageCriteria(request);
-        criteria.put("create_date", date);
-        criteria.put("endtimeflag", "1");
-        return receptionInfoExtraDao.selectByExample(criteria);
+    /**
+     * 接待记录查询类
+     */
+    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response) {
+        criteria = setPageCriteria(request);//isReceiver
+        criteria.put("startDate", request.getParameter("startReportDate"));
+        criteria.put("endDate", request.getParameter("endReportDate"));
+        criteria.put("staff_name", request.getParameter("staff_name"));
+        if (request.getParameter("isReceiver") == "true") {
+            criteria.put("endtimeflag", true);
+        }
+        List<ReceptionInfoForm> list = receptionInfoExtraDao.selectByExample(criteria);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("sEcho", request.getParameter("sEcho"));
+        resultJson.put("iTotalRecords", countByExample(criteria));
+        resultJson.put("iTotalDisplayRecords", countByExample(criteria));
+        resultJson.put("aaData", list);
+        return resultJson;
     }
 
-    public Criteria getPageCriteria(HttpServletRequest request) {
+    public Criteria setPageCriteria(HttpServletRequest request) {
         criteria.clear();
         int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));

@@ -3,17 +3,24 @@ package com.portal.service;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
-
-import net.sf.json.JSONObject;
-
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
+import net.sf.json.JSONObject;
 
 public interface CustomerInfoService {
 
+    /**
+     * 查询客户基本信息-frist
+     * @param id
+     * @return
+     */
     public CustomerSimpleInfoForm getFristQueryInfo(String id);
 
+    /**
+     * 通过电话号码查询用户
+     * @param phone
+     * @return
+     */
     public CustomerInfo selectByPhone(String phone);
 
     public boolean isCustomer(String phone);
@@ -42,16 +49,16 @@ public interface CustomerInfoService {
 
     public List<CustomerInfo> selectCustomerExList(Criteria criteria);
 
-	public int countCustomerEx(Criteria criteria);
-	
-	 /**
-	  * @Title: ajaxFiltrateCustomers 
-	  * @Description: 异步获取筛选客户类型数据
-	  * @param request
-	  * @return JSONObject
-	  * @author Xia ZhengWei
-	  * @date 2016年10月20日 下午11:08:39 
-	  * @version V1.0
-	  */
+    public int countCustomerEx(Criteria criteria);
+
+    /**
+     * @Title: ajaxFiltrateCustomers 
+     * @Description: 异步获取筛选客户类型数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月20日 下午11:08:39 
+     * @version V1.0
+     */
     JSONObject ajaxFiltrateCustomers(HttpServletRequest request);
 }

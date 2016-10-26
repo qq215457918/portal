@@ -1,14 +1,11 @@
 
 package com.portal.action.reception;
 
-import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.ReceptionInfoService;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,11 +43,8 @@ public class ReceptionQueryAction {
     @RequestMapping("/query")
     public void queryReception(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        String date = "20161024";
-        List<ReceptionInfoForm> info = receptionInfoService.receptionING(request, response, date);
-        logger.debug("receptionING------>> {}", info.toString());
         // 向前端输出
-        JsonUtils.outJsonString(JSONArray.fromObject(info).toString(), response);
+        JsonUtils.outJsonString(receptionInfoService.receptionING(request, response).toString(), response);
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

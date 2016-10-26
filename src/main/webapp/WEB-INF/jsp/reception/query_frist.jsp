@@ -20,10 +20,10 @@
               <div class="widget-content padded">
                 <dl>
                   <dt>
-                   用户姓名： 张三
+                  	 用户姓名： 张三
                   </dt>
                   <dd>
-                   电话：15009876541
+                  	 电话：15009876541
                   </dd>
                 </dl>
 
@@ -34,21 +34,21 @@
               <div class="widget-content padded">
                 <dl>
                   <dd>
-                    接待人员：张三
+                   	 接待人员：张三
                   </dd>
                   <dd>
-                    业务人员：李四
+                  	  业务人员：李四
                   </dd>
-                  最近登门时间：2015-07-27
+                  	最近登门时间：2015-07-27
                 </dl>
                 <dl>
                   <dd>
-                    接待人员：张三
+                    	接待人员：张三
                   </dd>
                   <dd>
-                    业务人员：李四
+                  	  业务人员：李四
                   </dd>
-                  最近登门时间：2015-07-27
+                 	 最近登门时间：2015-07-27
                 </dl>
               </div>
             </div>
@@ -59,7 +59,6 @@
               <button class="btn btn-lg btn-default">退 出</button>
             </div>
           </div>
-
         </div>
       </div>
     </div>
