@@ -432,17 +432,18 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // TODO - 业务员统计报表-有待与客户确定一些内容
     // ------------------------- 业务员统计 入口：toSalesmanStatement ---------------------------------
-    /*# 获取订单表中对应客户的数量
-    select count(1) from (
-        select c.id from customer_info c left join order_info o on c.id = o.customer_id 
-        where c.type = '1'
-        and o.create_date > '2016-10-09'
-        and o.create_date <= '2016-10-15 23:59:59'
-        and o.receiver_staff_id = '1'
-        group by c.id
-    ) a*/
+    
+    /**
+     * @Title: toSalesmanStatement 
+     * @Description: 进入业务员统计报表页
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月26日 下午11:53:03 
+     * @version V1.0
+     */
     @RequestMapping("/toSalesmanStatement")
     public String toSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
         // 初始化页面输入框中的日期值（默认上一周的时间）

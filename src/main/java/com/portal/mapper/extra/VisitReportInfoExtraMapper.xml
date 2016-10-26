@@ -10,9 +10,21 @@
     <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
     <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
     <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
+    <result column="repeat_orders" property="repeatOrders" jdbcType="INTEGER" />
+    <result column="repeat_amounts" property="repeatAmounts" jdbcType="INTEGER" />
     <result column="roadshow_counts" property="roadshowCounts" jdbcType="INTEGER" />
+    <result column="roadshow_orders" property="roadshowOrders" jdbcType="INTEGER" />
+    <result column="roadshow_amounts" property="roadshowAmounts" jdbcType="INTEGER" />
     <result column="finish_order_counts" property="finishOrderCounts" jdbcType="INTEGER" />
+    <result column="finish_orders" property="finishOrders" jdbcType="INTEGER" />
+    <result column="finish_amounts" property="finishAmounts" jdbcType="INTEGER" />
     <result column="locked_counts" property="lockedCounts" jdbcType="INTEGER" />
+    <result column="locked_orders" property="lockedOrders" jdbcType="INTEGER" />
+    <result column="locked_amounts" property="lockedAmounts" jdbcType="INTEGER" />
+    <!-- 各项总数字段 -->
+    <result column="total_counts" property="totalCounts" jdbcType="INTEGER" />
+    <result column="total_orders" property="totalOrders" jdbcType="INTEGER" />
+    <result column="total_amounts" property="totalAmounts" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -56,12 +68,27 @@
       <if test="condition.lockedCounts != null" >
          and locked_counts = #{condition.lockedCounts,jdbcType=INTEGER}
       </if>
+      <!-- 查询业务员业绩条件 -->
+      <if test="condition.receiveStaffName != null" >
+         and e.`name` like CONCAT("%", #{condition.receiveStaffName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.positionType != null" >
+         and e.position_type = #{condition.positionType,jdbcType=INTEGER}
+      </if>
+      <if test="condition.startDate != null" >
+      	 <![CDATA[and v.report_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endDate != null" >
+      	 <![CDATA[and v.report_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      </if>
     </trim>
   </sql>
   
   <sql id="Base_Column_List" >
     id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
-    new_counts, repeat_counts, roadshow_counts, finish_order_counts, locked_counts
+    new_counts, repeat_counts, repeat_orders, repeat_amounts, roadshow_counts, roadshow_orders, 
+    roadshow_amounts, finish_order_counts, finish_orders, finish_amounts, locked_counts, 
+    locked_orders, locked_amounts
   </sql>
   
   <!-- 根据条件查询数据总条数 -->
@@ -125,5 +152,37 @@
 	    </if>
   </select>
   
+  <!-- 根据条件查询业务员业绩数据 -->
+  <select id="getPerforByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select 
+        e.id,
+        e.`name`,
+        sum(v.locked_counts) as locked_counts,
+        sum(v.locked_orders) as locked_orders,
+        sum(v.locked_amounts) as locked_amounts,
+        sum(v.finish_order_counts) as finish_order_counts,
+        sum(v.finish_orders) as finish_orders,
+        sum(v.finish_amounts) as finish_amounts,
+        sum(v.repeat_counts) as repeat_counts,
+        sum(v.repeat_orders) as repeat_orders,
+        sum(v.repeat_amounts) as repeat_amounts,
+        sum(v.roadshow_counts) as roadshow_counts,
+        sum(v.roadshow_orders) as roadshow_orders,
+        sum(v.roadshow_amounts) as roadshow_amounts,
+        (sum(v.locked_counts) + sum(v.finish_order_counts) + sum(v.repeat_counts) + sum(v.roadshow_counts)) as total_counts,
+        (sum(v.locked_orders) + sum(v.finish_orders) + sum(v.repeat_orders) + sum(v.roadshow_orders)) as total_orders,
+        (sum(v.locked_amounts) + sum(v.finish_amounts) + sum(v.repeat_amounts) + sum(v.roadshow_amounts)) as total_amounts,
+        sum(v.new_counts) as new_counts
+    from employee_info e
+    left join visit_report_info v on e.id = v.receiver_staff_id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    group by e.`name`
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
   
 </mapper>

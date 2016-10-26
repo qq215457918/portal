@@ -381,9 +381,17 @@ CREATE TABLE `visit_report_info` (
   `customer_counts` int(11) NOT NULL COMMENT '客户总数量',
   `new_counts` int(11) NOT NULL DEFAULT '0' COMMENT '空白客户数量',
   `repeat_counts` int(11) NOT NULL DEFAULT '0' COMMENT '重复登门客户数量',
+  `repeat_orders` int(11) NOT NULL COMMENT '重复登门订单数',
+  `repeat_amounts` int(11) NOT NULL COMMENT '重复登门订单数量',
   `roadshow_counts` int(11) NOT NULL DEFAULT '0' COMMENT '说明会客户数量',
+  `roadshow_orders` int(11) NOT NULL COMMENT '说明会订单数量',
+  `roadshow_amounts` int(11) NOT NULL COMMENT '说明会订单金额',
   `finish_order_counts` int(11) NOT NULL DEFAULT '0' COMMENT '成单客户数量',
+  `finish_orders` int(11) NOT NULL COMMENT '成单客户订单数量',
+  `finish_amounts` int(11) NOT NULL COMMENT '成单客户订单金额',
   `locked_counts` int(11) NOT NULL DEFAULT '0' COMMENT '锁定客户数量',
+  `locked_orders` int(11) NOT NULL COMMENT '锁定客户订单数量',
+  `locked_amounts` int(11) NOT NULL COMMENT '锁定客户订单金额',
   PRIMARY KEY (`id`),
   KEY `idx_report_date` (`report_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='接待统计表';

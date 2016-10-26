@@ -47,9 +47,29 @@ public class VisitReportInfo implements Serializable {
     private Integer repeatCounts;
 
     /**
+     * 重复登门订单数
+     */
+    private Integer repeatOrders;
+
+    /**
+     * 重复登门订单数量
+     */
+    private Integer repeatAmounts;
+
+    /**
      * 说明会客户数量
      */
     private Integer roadshowCounts;
+
+    /**
+     * 说明会订单数量
+     */
+    private Integer roadshowOrders;
+
+    /**
+     * 说明会订单金额
+     */
+    private Integer roadshowAmounts;
 
     /**
      * 成单客户数量
@@ -57,9 +77,29 @@ public class VisitReportInfo implements Serializable {
     private Integer finishOrderCounts;
 
     /**
+     * 成单客户订单数量
+     */
+    private Integer finishOrders;
+
+    /**
+     * 成单客户订单金额
+     */
+    private Integer finishAmounts;
+
+    /**
      * 锁定客户数量
      */
     private Integer lockedCounts;
+
+    /**
+     * 锁定客户订单数量
+     */
+    private Integer lockedOrders;
+
+    /**
+     * 锁定客户订单金额
+     */
+    private Integer lockedAmounts;
 
     /**
      * @return 主键ID
@@ -182,6 +222,36 @@ public class VisitReportInfo implements Serializable {
     }
 
     /**
+     * @return 重复登门订单数
+     */
+    public Integer getRepeatOrders() {
+        return repeatOrders;
+    }
+
+    /**
+     * @param repeatOrders 
+	 *            重复登门订单数
+     */
+    public void setRepeatOrders(Integer repeatOrders) {
+        this.repeatOrders = repeatOrders;
+    }
+
+    /**
+     * @return 重复登门订单数量
+     */
+    public Integer getRepeatAmounts() {
+        return repeatAmounts;
+    }
+
+    /**
+     * @param repeatAmounts 
+	 *            重复登门订单数量
+     */
+    public void setRepeatAmounts(Integer repeatAmounts) {
+        this.repeatAmounts = repeatAmounts;
+    }
+
+    /**
      * @return 说明会客户数量
      */
     public Integer getRoadshowCounts() {
@@ -194,6 +264,36 @@ public class VisitReportInfo implements Serializable {
      */
     public void setRoadshowCounts(Integer roadshowCounts) {
         this.roadshowCounts = roadshowCounts;
+    }
+
+    /**
+     * @return 说明会订单数量
+     */
+    public Integer getRoadshowOrders() {
+        return roadshowOrders;
+    }
+
+    /**
+     * @param roadshowOrders 
+	 *            说明会订单数量
+     */
+    public void setRoadshowOrders(Integer roadshowOrders) {
+        this.roadshowOrders = roadshowOrders;
+    }
+
+    /**
+     * @return 说明会订单金额
+     */
+    public Integer getRoadshowAmounts() {
+        return roadshowAmounts;
+    }
+
+    /**
+     * @param roadshowAmounts 
+	 *            说明会订单金额
+     */
+    public void setRoadshowAmounts(Integer roadshowAmounts) {
+        this.roadshowAmounts = roadshowAmounts;
     }
 
     /**
@@ -212,6 +312,36 @@ public class VisitReportInfo implements Serializable {
     }
 
     /**
+     * @return 成单客户订单数量
+     */
+    public Integer getFinishOrders() {
+        return finishOrders;
+    }
+
+    /**
+     * @param finishOrders 
+	 *            成单客户订单数量
+     */
+    public void setFinishOrders(Integer finishOrders) {
+        this.finishOrders = finishOrders;
+    }
+
+    /**
+     * @return 成单客户订单金额
+     */
+    public Integer getFinishAmounts() {
+        return finishAmounts;
+    }
+
+    /**
+     * @param finishAmounts 
+	 *            成单客户订单金额
+     */
+    public void setFinishAmounts(Integer finishAmounts) {
+        this.finishAmounts = finishAmounts;
+    }
+
+    /**
      * @return 锁定客户数量
      */
     public Integer getLockedCounts() {
@@ -224,5 +354,35 @@ public class VisitReportInfo implements Serializable {
      */
     public void setLockedCounts(Integer lockedCounts) {
         this.lockedCounts = lockedCounts;
+    }
+
+    /**
+     * @return 锁定客户订单数量
+     */
+    public Integer getLockedOrders() {
+        return lockedOrders;
+    }
+
+    /**
+     * @param lockedOrders 
+	 *            锁定客户订单数量
+     */
+    public void setLockedOrders(Integer lockedOrders) {
+        this.lockedOrders = lockedOrders;
+    }
+
+    /**
+     * @return 锁定客户订单金额
+     */
+    public Integer getLockedAmounts() {
+        return lockedAmounts;
+    }
+
+    /**
+     * @param lockedAmounts 
+	 *            锁定客户订单金额
+     */
+    public void setLockedAmounts(Integer lockedAmounts) {
+        this.lockedAmounts = lockedAmounts;
     }
 }

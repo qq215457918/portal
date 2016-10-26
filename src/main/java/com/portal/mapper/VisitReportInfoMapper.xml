@@ -10,9 +10,17 @@
     <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
     <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
     <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
+    <result column="repeat_orders" property="repeatOrders" jdbcType="INTEGER" />
+    <result column="repeat_amounts" property="repeatAmounts" jdbcType="INTEGER" />
     <result column="roadshow_counts" property="roadshowCounts" jdbcType="INTEGER" />
+    <result column="roadshow_orders" property="roadshowOrders" jdbcType="INTEGER" />
+    <result column="roadshow_amounts" property="roadshowAmounts" jdbcType="INTEGER" />
     <result column="finish_order_counts" property="finishOrderCounts" jdbcType="INTEGER" />
+    <result column="finish_orders" property="finishOrders" jdbcType="INTEGER" />
+    <result column="finish_amounts" property="finishAmounts" jdbcType="INTEGER" />
     <result column="locked_counts" property="lockedCounts" jdbcType="INTEGER" />
+    <result column="locked_orders" property="lockedOrders" jdbcType="INTEGER" />
+    <result column="locked_amounts" property="lockedAmounts" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -37,14 +45,38 @@
       <if test="condition.repeatCounts != null" >
          and repeat_counts = #{condition.repeatCounts,jdbcType=INTEGER}
       </if>
+      <if test="condition.repeatOrders != null" >
+         and repeat_orders = #{condition.repeatOrders,jdbcType=INTEGER}
+      </if>
+      <if test="condition.repeatAmounts != null" >
+         and repeat_amounts = #{condition.repeatAmounts,jdbcType=INTEGER}
+      </if>
       <if test="condition.roadshowCounts != null" >
          and roadshow_counts = #{condition.roadshowCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.roadshowOrders != null" >
+         and roadshow_orders = #{condition.roadshowOrders,jdbcType=INTEGER}
+      </if>
+      <if test="condition.roadshowAmounts != null" >
+         and roadshow_amounts = #{condition.roadshowAmounts,jdbcType=INTEGER}
       </if>
       <if test="condition.finishOrderCounts != null" >
          and finish_order_counts = #{condition.finishOrderCounts,jdbcType=INTEGER}
       </if>
+      <if test="condition.finishOrders != null" >
+         and finish_orders = #{condition.finishOrders,jdbcType=INTEGER}
+      </if>
+      <if test="condition.finishAmounts != null" >
+         and finish_amounts = #{condition.finishAmounts,jdbcType=INTEGER}
+      </if>
       <if test="condition.lockedCounts != null" >
          and locked_counts = #{condition.lockedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.lockedOrders != null" >
+         and locked_orders = #{condition.lockedOrders,jdbcType=INTEGER}
+      </if>
+      <if test="condition.lockedAmounts != null" >
+         and locked_amounts = #{condition.lockedAmounts,jdbcType=INTEGER}
       </if>
     </trim>
   </sql>
@@ -71,20 +103,46 @@
       <if test="example.condition.repeatCounts != null" >
          and repeat_counts = #{example.condition.repeatCounts,jdbcType=INTEGER}
       </if>
+      <if test="example.condition.repeatOrders != null" >
+         and repeat_orders = #{example.condition.repeatOrders,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.repeatAmounts != null" >
+         and repeat_amounts = #{example.condition.repeatAmounts,jdbcType=INTEGER}
+      </if>
       <if test="example.condition.roadshowCounts != null" >
          and roadshow_counts = #{example.condition.roadshowCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.roadshowOrders != null" >
+         and roadshow_orders = #{example.condition.roadshowOrders,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.roadshowAmounts != null" >
+         and roadshow_amounts = #{example.condition.roadshowAmounts,jdbcType=INTEGER}
       </if>
       <if test="example.condition.finishOrderCounts != null" >
          and finish_order_counts = #{example.condition.finishOrderCounts,jdbcType=INTEGER}
       </if>
+      <if test="example.condition.finishOrders != null" >
+         and finish_orders = #{example.condition.finishOrders,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.finishAmounts != null" >
+         and finish_amounts = #{example.condition.finishAmounts,jdbcType=INTEGER}
+      </if>
       <if test="example.condition.lockedCounts != null" >
          and locked_counts = #{example.condition.lockedCounts,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.lockedOrders != null" >
+         and locked_orders = #{example.condition.lockedOrders,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.lockedAmounts != null" >
+         and locked_amounts = #{example.condition.lockedAmounts,jdbcType=INTEGER}
       </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
     id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
-    new_counts, repeat_counts, roadshow_counts, finish_order_counts, locked_counts
+    new_counts, repeat_counts, repeat_orders, repeat_amounts, roadshow_counts, roadshow_orders, 
+    roadshow_amounts, finish_order_counts, finish_orders, finish_amounts, locked_counts, 
+    locked_orders, locked_amounts
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -120,12 +178,18 @@
   <insert id="insert" parameterType="com.portal.bean.VisitReportInfo" >
     insert into visit_report_info (id, report_date, receiver_staff_id, 
       receiver_staff_name, receiver_area, customer_counts, 
-      new_counts, repeat_counts, roadshow_counts, 
-      finish_order_counts, locked_counts)
+      new_counts, repeat_counts, repeat_orders, 
+      repeat_amounts, roadshow_counts, roadshow_orders, 
+      roadshow_amounts, finish_order_counts, finish_orders, 
+      finish_amounts, locked_counts, locked_orders, 
+      locked_amounts)
     values (#{id,jdbcType=VARCHAR}, #{reportDate,jdbcType=TIMESTAMP}, #{receiverStaffId,jdbcType=VARCHAR}, 
       #{receiverStaffName,jdbcType=VARCHAR}, #{receiverArea,jdbcType=VARCHAR}, #{customerCounts,jdbcType=INTEGER}, 
-      #{newCounts,jdbcType=INTEGER}, #{repeatCounts,jdbcType=INTEGER}, #{roadshowCounts,jdbcType=INTEGER}, 
-      #{finishOrderCounts,jdbcType=INTEGER}, #{lockedCounts,jdbcType=INTEGER})
+      #{newCounts,jdbcType=INTEGER}, #{repeatCounts,jdbcType=INTEGER}, #{repeatOrders,jdbcType=INTEGER}, 
+      #{repeatAmounts,jdbcType=INTEGER}, #{roadshowCounts,jdbcType=INTEGER}, #{roadshowOrders,jdbcType=INTEGER}, 
+      #{roadshowAmounts,jdbcType=INTEGER}, #{finishOrderCounts,jdbcType=INTEGER}, #{finishOrders,jdbcType=INTEGER}, 
+      #{finishAmounts,jdbcType=INTEGER}, #{lockedCounts,jdbcType=INTEGER}, #{lockedOrders,jdbcType=INTEGER}, 
+      #{lockedAmounts,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.VisitReportInfo" >
     insert into visit_report_info
@@ -154,14 +218,38 @@
       <if test="repeatCounts != null" >
         repeat_counts,
       </if>
+      <if test="repeatOrders != null" >
+        repeat_orders,
+      </if>
+      <if test="repeatAmounts != null" >
+        repeat_amounts,
+      </if>
       <if test="roadshowCounts != null" >
         roadshow_counts,
+      </if>
+      <if test="roadshowOrders != null" >
+        roadshow_orders,
+      </if>
+      <if test="roadshowAmounts != null" >
+        roadshow_amounts,
       </if>
       <if test="finishOrderCounts != null" >
         finish_order_counts,
       </if>
+      <if test="finishOrders != null" >
+        finish_orders,
+      </if>
+      <if test="finishAmounts != null" >
+        finish_amounts,
+      </if>
       <if test="lockedCounts != null" >
         locked_counts,
+      </if>
+      <if test="lockedOrders != null" >
+        locked_orders,
+      </if>
+      <if test="lockedAmounts != null" >
+        locked_amounts,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -189,14 +277,38 @@
       <if test="repeatCounts != null" >
         #{repeatCounts,jdbcType=INTEGER},
       </if>
+      <if test="repeatOrders != null" >
+        #{repeatOrders,jdbcType=INTEGER},
+      </if>
+      <if test="repeatAmounts != null" >
+        #{repeatAmounts,jdbcType=INTEGER},
+      </if>
       <if test="roadshowCounts != null" >
         #{roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowOrders != null" >
+        #{roadshowOrders,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowAmounts != null" >
+        #{roadshowAmounts,jdbcType=INTEGER},
       </if>
       <if test="finishOrderCounts != null" >
         #{finishOrderCounts,jdbcType=INTEGER},
       </if>
+      <if test="finishOrders != null" >
+        #{finishOrders,jdbcType=INTEGER},
+      </if>
+      <if test="finishAmounts != null" >
+        #{finishAmounts,jdbcType=INTEGER},
+      </if>
       <if test="lockedCounts != null" >
         #{lockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="lockedOrders != null" >
+        #{lockedOrders,jdbcType=INTEGER},
+      </if>
+      <if test="lockedAmounts != null" >
+        #{lockedAmounts,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -233,14 +345,38 @@
       <if test="record.repeatCounts != null" >
         repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
       </if>
+      <if test="record.repeatOrders != null" >
+        repeat_orders = #{record.repeatOrders,jdbcType=INTEGER},
+      </if>
+      <if test="record.repeatAmounts != null" >
+        repeat_amounts = #{record.repeatAmounts,jdbcType=INTEGER},
+      </if>
       <if test="record.roadshowCounts != null" >
         roadshow_counts = #{record.roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.roadshowOrders != null" >
+        roadshow_orders = #{record.roadshowOrders,jdbcType=INTEGER},
+      </if>
+      <if test="record.roadshowAmounts != null" >
+        roadshow_amounts = #{record.roadshowAmounts,jdbcType=INTEGER},
       </if>
       <if test="record.finishOrderCounts != null" >
         finish_order_counts = #{record.finishOrderCounts,jdbcType=INTEGER},
       </if>
+      <if test="record.finishOrders != null" >
+        finish_orders = #{record.finishOrders,jdbcType=INTEGER},
+      </if>
+      <if test="record.finishAmounts != null" >
+        finish_amounts = #{record.finishAmounts,jdbcType=INTEGER},
+      </if>
       <if test="record.lockedCounts != null" >
         locked_counts = #{record.lockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockedOrders != null" >
+        locked_orders = #{record.lockedOrders,jdbcType=INTEGER},
+      </if>
+      <if test="record.lockedAmounts != null" >
+        locked_amounts = #{record.lockedAmounts,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -257,9 +393,17 @@
       customer_counts = #{record.customerCounts,jdbcType=INTEGER},
       new_counts = #{record.newCounts,jdbcType=INTEGER},
       repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
+      repeat_orders = #{record.repeatOrders,jdbcType=INTEGER},
+      repeat_amounts = #{record.repeatAmounts,jdbcType=INTEGER},
       roadshow_counts = #{record.roadshowCounts,jdbcType=INTEGER},
+      roadshow_orders = #{record.roadshowOrders,jdbcType=INTEGER},
+      roadshow_amounts = #{record.roadshowAmounts,jdbcType=INTEGER},
       finish_order_counts = #{record.finishOrderCounts,jdbcType=INTEGER},
-      locked_counts = #{record.lockedCounts,jdbcType=INTEGER}
+      finish_orders = #{record.finishOrders,jdbcType=INTEGER},
+      finish_amounts = #{record.finishAmounts,jdbcType=INTEGER},
+      locked_counts = #{record.lockedCounts,jdbcType=INTEGER},
+      locked_orders = #{record.lockedOrders,jdbcType=INTEGER},
+      locked_amounts = #{record.lockedAmounts,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -288,14 +432,38 @@
       <if test="repeatCounts != null" >
         repeat_counts = #{repeatCounts,jdbcType=INTEGER},
       </if>
+      <if test="repeatOrders != null" >
+        repeat_orders = #{repeatOrders,jdbcType=INTEGER},
+      </if>
+      <if test="repeatAmounts != null" >
+        repeat_amounts = #{repeatAmounts,jdbcType=INTEGER},
+      </if>
       <if test="roadshowCounts != null" >
         roadshow_counts = #{roadshowCounts,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowOrders != null" >
+        roadshow_orders = #{roadshowOrders,jdbcType=INTEGER},
+      </if>
+      <if test="roadshowAmounts != null" >
+        roadshow_amounts = #{roadshowAmounts,jdbcType=INTEGER},
       </if>
       <if test="finishOrderCounts != null" >
         finish_order_counts = #{finishOrderCounts,jdbcType=INTEGER},
       </if>
+      <if test="finishOrders != null" >
+        finish_orders = #{finishOrders,jdbcType=INTEGER},
+      </if>
+      <if test="finishAmounts != null" >
+        finish_amounts = #{finishAmounts,jdbcType=INTEGER},
+      </if>
       <if test="lockedCounts != null" >
         locked_counts = #{lockedCounts,jdbcType=INTEGER},
+      </if>
+      <if test="lockedOrders != null" >
+        locked_orders = #{lockedOrders,jdbcType=INTEGER},
+      </if>
+      <if test="lockedAmounts != null" >
+        locked_amounts = #{lockedAmounts,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -309,9 +477,17 @@
       customer_counts = #{customerCounts,jdbcType=INTEGER},
       new_counts = #{newCounts,jdbcType=INTEGER},
       repeat_counts = #{repeatCounts,jdbcType=INTEGER},
+      repeat_orders = #{repeatOrders,jdbcType=INTEGER},
+      repeat_amounts = #{repeatAmounts,jdbcType=INTEGER},
       roadshow_counts = #{roadshowCounts,jdbcType=INTEGER},
+      roadshow_orders = #{roadshowOrders,jdbcType=INTEGER},
+      roadshow_amounts = #{roadshowAmounts,jdbcType=INTEGER},
       finish_order_counts = #{finishOrderCounts,jdbcType=INTEGER},
-      locked_counts = #{lockedCounts,jdbcType=INTEGER}
+      finish_orders = #{finishOrders,jdbcType=INTEGER},
+      finish_amounts = #{finishAmounts,jdbcType=INTEGER},
+      locked_counts = #{lockedCounts,jdbcType=INTEGER},
+      locked_orders = #{lockedOrders,jdbcType=INTEGER},
+      locked_amounts = #{lockedAmounts,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>
