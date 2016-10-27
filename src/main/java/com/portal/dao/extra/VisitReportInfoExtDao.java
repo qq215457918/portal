@@ -39,4 +39,20 @@ public interface VisitReportInfoExtDao {
      */
     List<VisitReportInfoForm> selectByCondition(Criteria example);
     
+    /**
+     * 根据条件查询业务员业绩数据总数
+     */
+    int getPerforCounts(Criteria example);
+    
+    /**
+     * @Title: getPerforByCondition 
+     * @Description: 根据条件查询业务员业绩数据
+     * @param example
+     * @return List<VisitReportInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年10月27日 下午9:22:04 
+     * @version V1.0
+     */
+    List<VisitReportInfoForm> getPerforByCondition(Criteria example);
+    
 }

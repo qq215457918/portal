@@ -21,7 +21,7 @@ public class CustomerInfoServiceTest extends BaseTest {
     public void selectByPhoneTest() {
         CustomerInfo customer = customerInfoService.selectByPhone("15041298725");
         Assert.assertNotNull(customer);
-        log.debug("--------------->>");
+        //log.debug("--------------->>");
     }
 
     @Ignore
@@ -38,7 +38,7 @@ public class CustomerInfoServiceTest extends BaseTest {
         customer.setPhone("123123123");
         int result = customerInfoService.insertSelective(customer);
 
-        log.debug("CustomerInfoService customer:{}-----> result:{}" + customer.toString() + result);
+        //log.debug("CustomerInfoService customer:{}-----> result:{}" + customer.toString() + result);
         Assert.assertEquals(1, result);
     }
 

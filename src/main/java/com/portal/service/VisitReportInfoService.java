@@ -52,4 +52,16 @@ public interface VisitReportInfoService {
      * @throws
      */
     JSONObject ajaxReceiveAreaList(HttpServletRequest request, HttpServletResponse response);
+    
+    /**
+     * @Title: ajaxSalesmanStatement 
+     * @Description: 异步获取业务员统计数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月27日 下午9:23:33 
+     * @version V1.0
+     */
+    JSONObject ajaxSalesmanStatement(HttpServletRequest request);
+    
 }

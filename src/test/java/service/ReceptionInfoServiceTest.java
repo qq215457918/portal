@@ -31,7 +31,7 @@ public class ReceptionInfoServiceTest extends BaseTest {
 
         JSONObject result =
                 receptionInfoService.receptionING(httpServletRequest, httpServletResponse);
-        log.debug("ReceptionInfoINGTest: {}", result.toString());
+        //log.debug("ReceptionInfoINGTest: {}", result.toString());
         Assert.assertNotNull(result);
     }
 }

@@ -449,7 +449,25 @@ public class ReportController {
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
-        return "report/visit_out_order";
+        return "report/salesman_statement";
+    }
+    
+    /**
+     * @Title: ajaxSalesmanStatement 
+     * @Description: 异步获取业务员统计数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月27日 下午9:22:38 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxSalesmanStatement")
+    public void ajaxSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = orderDetailService.ajaxOutOrderDetail(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
     }
     
     // ------------------------- 展厅客服对接业绩详细 入口：toButtPerforDetail ---------------------------------

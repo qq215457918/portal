@@ -185,5 +185,53 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
+
+    public JSONObject ajaxSalesmanStatement(HttpServletRequest request) {
+        // 请求开始页
+        int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
+        // 每页显示几条
+        int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
+        // 接待人姓名
+        String receiveStaffName = request.getParameter("receiveStaffName");
+        // 接待人所属区域
+        String area = request.getParameter("area");
+        // 开始日期
+        String startDate = request.getParameter("startDate");
+        // 结束日期
+        String endDate = request.getParameter("endDate");
+        
+        criteria.clear();
+        // 分页参数
+        criteria.setMysqlOffset(currentPage);
+        criteria.setMysqlLength(perpage);
+        criteria.setOrderByClause("e.`name` asc");
+        
+        // 查询职位类型为业务员
+        criteria.put("positionType", "2");
+        // 查询未被删除的
+        if(StringUtil.isNotBlank(receiveStaffName)){
+            criteria.put("receiveStaffName", StringUtil.trim(receiveStaffName));
+        }
+        if(StringUtil.isNotBlank(area)){
+            criteria.put("area", StringUtil.trim(area));
+        }
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+        }
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }
+        // 获取总记录数
+        int totalRecord = visitReportExtDao.getPerforCounts(criteria);
+        // 获取数据集
+        List<VisitReportInfoForm> list = visitReportExtDao.getPerforByCondition(criteria);
+        
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", request.getParameter("sEcho"));
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", list);
+        return resultJson;
+    }
     
 }

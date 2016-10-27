@@ -75,6 +75,9 @@
       <if test="condition.positionType != null" >
          and e.position_type = #{condition.positionType,jdbcType=INTEGER}
       </if>
+      <if test="condition.area != null" >
+         and v.receiver_area = #{condition.area,jdbcType=VARCHAR}
+      </if>
       <if test="condition.startDate != null" >
       	 <![CDATA[and v.report_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>
@@ -150,6 +153,21 @@
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
+  </select>
+  
+  <!-- 根据条件查询数据总条数 -->
+  <select id="getPerforCounts" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from
+    (
+    	select 
+	        e.`name`
+	    from employee_info e
+	    left join visit_report_info v on e.id = v.receiver_staff_id
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    group by e.`name`
+    )
   </select>
   
   <!-- 根据条件查询业务员业绩数据 -->
