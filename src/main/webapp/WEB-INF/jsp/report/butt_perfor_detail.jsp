@@ -7,7 +7,7 @@
 <title>展厅客服对接业绩</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/butt_perfor_detail.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">
@@ -17,7 +17,7 @@
 	      <div class="heading" style="color:#666666; font-weight: bold;">
 	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
 	    	<select id="viewPhoneStaffGroupName" class="form-control" style="width: 9%; float: left;">
-	    		<option value="大连">大连</option>
+	    		<option value="大连" selected="selected">大连</option>
 	    		<option value="沈阳">沈阳</option>
 	    	</select>
 	      </div>

@@ -7,7 +7,7 @@
 <title>业务员统计</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/salesman_statement.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">
@@ -60,23 +60,38 @@
 		      <div style="height: 50px; float: left;width: 30%;">
 		      	<button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
 		      	<button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
-		      	<button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>
 			
 			<table class="table table-bordered" id="statement">
 				<thead>
-					<th>日&nbsp;期</th>
-					<th>客&nbsp;户</th>
-					<th>客&nbsp;服</th>
-                   	<th>接&nbsp;待</th>
-                   	<th>活&nbsp;动</th>
-                   	<th>客户类型</th>
-                   	<th>成单金额</th>
-                   	<th>藏品名称</th>
-                   	<th>出单/订单</th>
-                   	<th>情况</th>
+					<tr>
+						<th rowspan="2">接&nbsp;&nbsp;待</th>
+	                   	<th colspan="3">锁定个数</th>
+	                   	<th colspan="3">成单个数</th>
+	                   	<th colspan="3">重复个数</th>
+	                   	<th colspan="3">说明会个数</th>
+	                   	<th colspan="3">合计个数</th>
+	                   	<th rowspan="2">新客户数</th>
+					</tr>
+					<tr>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
+					</tr>
 				</thead>
 				<tbody>
 				</tbody>

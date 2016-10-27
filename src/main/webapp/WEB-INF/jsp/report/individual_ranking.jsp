@@ -7,20 +7,13 @@
 <title>个人业绩排名</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/individual_ranking.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">
 	<div class="row">
 	  <div class="col-lg-12">
 	    <div class="widget-container fluid-height clearfix">
-	      <%-- <div class="heading" style="color:#666666; font-weight: bold;">
-	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
-	    	<select id="receiverArea" class="form-control" style="width: 18%; float: left;">
-	    		<option value="1" <c:if test="${receiverArea == '1'}">selected="selected"</c:if> >大连-部门业绩</option>
-	    		<option value="0" <c:if test="${receiverArea == '0'}">selected="selected"</c:if> >沈阳-部门业绩</option>
-	    	</select>
-	      </div> --%>
 	      <div class="widget-content padded">
 	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
 	          <div style="height: 50px; float: left; width: 30%;">

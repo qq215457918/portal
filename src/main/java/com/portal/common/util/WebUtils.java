@@ -66,4 +66,24 @@ public class WebUtils {
 		}
 		return str;
 	}
+	
+	/**
+	 * @Title: setAttributeToRequest 
+	 * @Description: 将URL地址中的活动导航标识保存到Session中
+	 * @param request 
+	 * @return void
+	 * @author Xia ZhengWei
+	 * @date 2016年10月27日 下午11:45:54 
+	 * @version V1.0
+	 */
+	public static void setAttributeToSession(HttpServletRequest request) {
+	    // 获取URL地址中的活动导航标识
+	    String active = request.getParameter("active");
+	    if(StringUtil.isNotBlank(active)) {
+	        // 将活动导航标识保存到Session中
+	        request.getSession().setAttribute("active", Integer.parseInt(active));
+	    }
+	}
+	
+	
 }

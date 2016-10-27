@@ -7,7 +7,7 @@
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/plugins/highcharts/highcharts.js"></script>
 <script type="text/javascript" src="resources/js/report/visit_everyday.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">

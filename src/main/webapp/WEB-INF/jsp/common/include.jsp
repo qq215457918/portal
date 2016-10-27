@@ -75,3 +75,5 @@
 <script type="text/javascript" src="${basePath}resources/js/respond.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/masonry.min.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/datatable_chinese.js"></script>
+<%-- 追加公共方法js文件 --%>
+<script type="text/javascript" src="${basePath}resources/js/common-utils.js"></script>

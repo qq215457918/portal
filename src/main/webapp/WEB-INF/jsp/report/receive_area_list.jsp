@@ -7,7 +7,7 @@
 <title>接待统计</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/receive_arealist.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">

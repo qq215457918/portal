@@ -7,7 +7,7 @@
 <title>机构业绩</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/organi_performance.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">

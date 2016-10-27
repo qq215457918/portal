@@ -7,7 +7,7 @@
 <title>登门出单详情</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/out_order_detail.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">

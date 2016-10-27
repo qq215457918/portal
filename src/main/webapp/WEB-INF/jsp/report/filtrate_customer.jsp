@@ -7,7 +7,7 @@
 <title>筛选客户类型</title>
 <base href="${basePath}">
 <script type="text/javascript" src="resources/js/report/filtrate_customer.js"></script>
-<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
   <div class="container-fluid main-content">
@@ -17,8 +17,8 @@
 	      <div class="heading" style="color:#666666; font-weight: bold;">
 	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
 	    	<select id="area" class="form-control" style="width: 9%; float: left;">
-	    		<option value="1" <c:if test="${area == '1'}">selected="selected"</c:if> >大连</option>
-	    		<option value="0" <c:if test="${area == '0'}">selected="selected"</c:if> >沈阳</option>
+	    		<option value="1" selected="selected">大连</option>
+	    		<option value="0">沈阳</option>
 	    	</select>
 	      </div>
 	      <div class="widget-content padded">

@@ -98,7 +98,9 @@ public class ReportController {
 	    //获取项目基础路径
         String basePath = WebUtils.getBasePath(request, response);
         //供页面和后台引用项目路径使用
-        request.getSession().setAttribute("basePath", basePath); 
+        request.getSession().setAttribute("basePath", basePath);
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
@@ -168,6 +170,8 @@ public class ReportController {
 	 */
 	@RequestMapping("/toVisitEveryDay")
 	public String toVisitEveryDay(HttpServletRequest request, HttpServletResponse response) {
+	    // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
 	    // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startVisitDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         // request.setAttribute("endVisitDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -234,6 +238,8 @@ public class ReportController {
 	 */
 	@RequestMapping("/toOrganiPerformance")
     public String toOrganiPerformance(HttpServletRequest request, HttpServletResponse response) {
+	    // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -303,6 +309,8 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
+ // ------------------------- 进入个人业绩排名 入口：toIndividualRanking ---------------------------------
+    
     /**
      * @Title: toIndividualRanking 
      * @Description: 进入个人业绩排名
@@ -313,6 +321,8 @@ public class ReportController {
      */
     @RequestMapping("/toIndividualRanking")
     public String toIndividualRanking(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -335,11 +345,13 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-// ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
+    // ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
     
     // 进入筛选客户类型页面
     @RequestMapping("/toFiltrateCustomers")
     public String toFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -352,7 +364,6 @@ public class ReportController {
      * @param request
      * @param response
      * @return void
-     * @throws
      */
     @RequestMapping("/ajaxFiltrateCustomers")
     public void ajaxFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
@@ -370,10 +381,11 @@ public class ReportController {
      * @param request
      * @param response
      * @return String
-     * @throws
      */
     @RequestMapping("/toVisitAndOutOrder")
     public String toVisitAndOutOrder(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -446,6 +458,8 @@ public class ReportController {
      */
     @RequestMapping("/toSalesmanStatement")
     public String toSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -465,7 +479,7 @@ public class ReportController {
     @RequestMapping("/ajaxSalesmanStatement")
     public void ajaxSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
         // 异步获取数据
-        JSONObject results = orderDetailService.ajaxOutOrderDetail(request);
+        JSONObject results = reportService.ajaxSalesmanStatement(request);
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
@@ -484,6 +498,8 @@ public class ReportController {
      */
     @RequestMapping("/toButtPerforDetail")
     public String toButtPerforDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
@@ -522,6 +538,8 @@ public class ReportController {
      */
     @RequestMapping("/toOutwarehouseDetail")
     public String toOutwarehouseDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));

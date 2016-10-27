@@ -160,21 +160,21 @@
     select count(*) from
     (
     	select 
-	        e.`name`
+	        e.`name` as receiver_staff_name
 	    from employee_info e
 	    left join visit_report_info v on e.id = v.receiver_staff_id
 	    <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
 	    group by e.`name`
-    )
+    ) a
   </select>
   
   <!-- 根据条件查询业务员业绩数据 -->
   <select id="getPerforByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
   	select 
-        e.id,
-        e.`name`,
+        e.id as receiver_staff_id,
+        e.`name` as receiver_staff_name,
         sum(v.locked_counts) as locked_counts,
         sum(v.locked_orders) as locked_orders,
         sum(v.locked_amounts) as locked_amounts,
