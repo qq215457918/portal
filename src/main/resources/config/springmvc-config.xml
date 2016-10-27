@@ -36,7 +36,7 @@
 	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" 
 		p:dataSource-ref="mysqlDataSource"
     	p:configLocation="classpath:/config/mybatis-config.xml"
-        p:mapperLocations="classpath:com/portal/mapper/**/*.xml"/>
+        p:mapperLocations="classpath*:com/portal/mapper/**/*.xml"/>
 	
 	<!-- 数据连接事务-->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
