@@ -917,8 +917,9 @@
         }
       },
       messages: {
-        firstname: "Please enter your first name",
+        firstname: "请输入您的名称",
         lastname: "Please enter your last name",
+        phone: "请输入您的电话号码",
         username: {
           required: "Please enter a username",
           minlength: "Your username must consist of at least 2 characters"

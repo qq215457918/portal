@@ -13,7 +13,7 @@ public interface OrderInfoService {
      * @param customerId
      * @return
      */
-    OrderInfoForm queryGoodsInfo(String customerId) throws IllegalAccessException, InvocationTargetException;
+    OrderInfoForm queryGoodsInfo(String customerId);
 
     /**
      * 查看已经支付的定金订单
@@ -22,8 +22,7 @@ public interface OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm queryRevokeDepositInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException;
+    public OrderInfoForm queryRevokeDepositInfo(String customerId);
 
     /**
      * 退货订单
@@ -32,8 +31,7 @@ public interface OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm queryReturnGoodsInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException;
+    public OrderInfoForm queryReturnGoodsInfo(String customerId);
 
     /**
      * 换货订单
@@ -42,8 +40,7 @@ public interface OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm xchangeReturnGoodsInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException;
+    public OrderInfoForm xchangeReturnGoodsInfo(String customerId);
 
     int countByExample(Criteria example);
 

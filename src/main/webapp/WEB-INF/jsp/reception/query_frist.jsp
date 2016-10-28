@@ -15,18 +15,20 @@
           <div class="widget-container fluid-height clearfix">
             <div class="col-md-6">
               <div class="heading">
-                <i class="icon-tags"></i>用户详细信息  ${from }
+                <i class="icon-tags"></i>用户详细信息
               </div>
               <div class="widget-content padded">
                 <dl>
-                  <dt>
-                  	 用户姓名： 张三
-                  </dt>
                   <dd>
-                  	 电话：15009876541
+                  	<strong> 客户类型： </strong>${result.type }
+                  </dd>
+                  <dd>
+                  	 <strong>用户姓名：</strong> ${result.name } 
+                  </dd>
+                  <dd>
+                  	<strong> 电话：</strong>${result.encryptPhone }
                   </dd>
                 </dl>
-
               </div>
             </div>
             <div class="col-md-6">
@@ -34,26 +36,24 @@
               <div class="widget-content padded">
                 <dl>
                   <dd>
-                   	 接待人员：张三
+                   <strong>	客户人员：</strong>${result.phoneStaffName }
                   </dd>
                   <dd>
-                  	  业务人员：李四
-                  </dd>
-                  	最近登门时间：2015-07-27
-                </dl>
-                <dl>
-                  <dd>
-                    	接待人员：张三
+                  	<strong>  业务人员：</strong>${result.receiverStaffName }
                   </dd>
                   <dd>
-                  	  业务人员：李四
+                  	<strong>最近登门时间：</strong>${result.recentVisitDate }
                   </dd>
-                 	 最近登门时间：2015-07-27
+                  <dd>
+                    <strong>是否黑名单：</strong>${result.blacklistFlag }
+                  </dd>
                 </dl>
               </div>
             </div>
+            <input type="hidden" name="cid" id="cid" value="${result.id }"/>
+            <input type="hidden" name="phone" id="cphone" value="${result.encryptPhone }"/>
             <div  class="col-md-2">
-              <button class="btn btn-lg btn-primary">开始接待</button>
+              <button class="btn btn-lg btn-primary" id ="receiveId">开始接待</button>
             </div>
             <div  class="col-md-3">
               <button class="btn btn-lg btn-default">退 出</button>
@@ -63,4 +63,15 @@
       </div>
     </div>
   </body>
+  	<script>
+	$(function(){
+		base = $("base").attr('href');
+		// 查询功能
+		$("#receiveId").click(function(){
+			var id = $('#cid').val();
+			var phone = $('#cphone').val();
+			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
+		});
+	});
+	</script>
 </html>

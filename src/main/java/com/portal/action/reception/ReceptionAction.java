@@ -1,8 +1,10 @@
 
 package com.portal.action.reception;
 
+import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerInfoService;
+import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 接待模块查询业务
@@ -22,8 +25,12 @@ public class ReceptionAction {
 
     @Autowired
     protected ReceptionInfoService receptionInfoService;
+
     @Autowired
     protected CustomerInfoService customerInfoService;
+
+    @Autowired
+    protected OrderInfoService orderInfoService;
 
     /**
      * 进入用户查询页面
@@ -43,24 +50,46 @@ public class ReceptionAction {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/frist")
-    public String fristCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/first")
+    public ModelAndView fristCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         String phoneNo = request.getParameter("phoneNo");
         boolean exist = customerInfoService.isCustomer(phoneNo);
+        ModelAndView model = new ModelAndView();
         if (!exist) {
-            return "reception/inquiry_add";
+            model.setViewName("reception/inquiry_add");
+            return model;
         }
-        customerInfoService.getFristQueryInfo(phoneNo);
-        return "reception/query_frist";
+        CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(phoneNo);
+        model.setViewName("reception/query_frist");
+        model.addObject("result", info);
+        return model;
+    }
+
+    @RequestMapping(value = "/second")
+    public ModelAndView secondCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
+        ModelAndView model = new ModelAndView();
+        CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(request.getParameter("phone"));
+        String customerId = request.getParameter("id");
+
+        model.addObject("info", info);
+        model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
+        model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
+        model.addObject("revokeDeposit", orderInfoService.queryRevokeDepositInfo(customerId));
+        model.addObject("revokeDeposit", receptionInfoService.queryRecordListbyId(customerId));
+        model.setViewName("reception/query_second");
+        return model;
     }
 
     @RequestMapping(value = "/add")
     public String customerAdd(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         //新增用户信息
-
-        return "reception/inquiry_add";
+        int result = customerInfoService.insertCustomer(request);
+        if (result > 0) {
+            return "reception/query_frist";
+        }
+        return "404";
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

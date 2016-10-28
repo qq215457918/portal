@@ -86,11 +86,13 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     }
 
     /**
-     * 查询客户的拜访记录byID
+     *查询前5条登门记录
      * by meng.yue
      * @return
      */
     public List<ReceptionInfoForm> queryRecordListbyId(String customerId) {
+        criteria.clear();
+        criteria.put("customerId", customerId);
         List<ReceptionInfoForm> receptionInfoFromList = receptionInfoExtraDao.queryRecordListbyId(customerId);
         return receptionInfoFromList;
     }

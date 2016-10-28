@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.ReceptionInfo;
+import com.portal.bean.result.ReceptionInfoForm;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,13 @@ public interface ReceptionInfoService {
      * @return
      */
     public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response);
+
+    /**
+     * 查询客户接待记录的前5条
+     * @param customerId
+     * @return
+     */
+    public List<ReceptionInfoForm> queryRecordListbyId(String customerId);
 
     int countByExample(Criteria example);
 

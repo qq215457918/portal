@@ -85,11 +85,8 @@
     </if>
     <include refid="Base_Column_List" />
     from reception_info
-
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-    <include refid="common.Mysql_Pagination_Limit" />
+    where customer_id =#{condition.customerId,jdbcType=VARCHAR}
+    order by create_date desc limit 0,5
   </select>
   
     <select id="queryRecordBeginbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >

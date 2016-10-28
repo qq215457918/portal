@@ -23,6 +23,18 @@ public interface CustomerInfoService {
      */
     public CustomerInfo selectByPhone(String phone);
 
+    /**
+     * 新增客户信息
+     * @param request
+     * @return
+     */
+    public int insertCustomer(HttpServletRequest request);
+
+    /**
+     * 查询是否为已经注册的用户
+     * @param phone
+     * @return
+     */
     public boolean isCustomer(String phone);
 
     public int insertSelective(CustomerInfo record);

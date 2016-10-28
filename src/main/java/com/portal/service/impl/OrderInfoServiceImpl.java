@@ -51,18 +51,23 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     * @throws IllegalAccessException
     * @throws InvocationTargetException
     */
-    OrderInfoForm getOrderInfo(String customerId, int status, int orderType, int payType)
-            throws IllegalAccessException, InvocationTargetException {
+    OrderInfoForm getOrderInfo(String customerId, int status, int orderType, int payType) {
         OrderInfoForm orderInfoForm = new OrderInfoForm();
         List<OrderInfo> orderInfoList =
                 orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType));
-        BeanUtils.copyProperties(orderInfoForm, orderInfoList.get(0));
+        try {
+            BeanUtils.copyProperties(orderInfoForm, orderInfoList.get(0));
+        } catch (IllegalAccessException e) {
+            logger.warn("Unexpected exception:", e);
+        } catch (InvocationTargetException e) {
+            logger.warn("Unexpected exception:", e);
+
+        }
         orderInfoForm.setOrderDetailInfoList(queryDetaiInfo(orderInfoList.get(0).getId()));
         return orderInfoForm;
     }
 
-    OrderInfoForm getNormalOrderInfo(String customerId, int orderType, int payType)
-            throws IllegalAccessException, InvocationTargetException {
+    OrderInfoForm getNormalOrderInfo(String customerId, int orderType, int payType) {
         return getOrderInfo(customerId, 1, orderType, payType);
     }
 
@@ -73,8 +78,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm queryGoodsInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException {
+    public OrderInfoForm queryGoodsInfo(String customerId) {
         return getNormalOrderInfo(customerId, 1, 0);
     }
 
@@ -85,8 +89,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm queryRevokeDepositInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException {
+    public OrderInfoForm queryRevokeDepositInfo(String customerId) {
         return getNormalOrderInfo(customerId, 1, 1);
     }
 
@@ -97,8 +100,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm queryReturnGoodsInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException {
+    public OrderInfoForm queryReturnGoodsInfo(String customerId) {
         return getNormalOrderInfo(customerId, 2, 1);
     }
 
@@ -109,15 +111,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
-    public OrderInfoForm xchangeReturnGoodsInfo(String customerId)
-            throws IllegalAccessException, InvocationTargetException {
+    public OrderInfoForm xchangeReturnGoodsInfo(String customerId) {
         return getNormalOrderInfo(customerId, 3, 1);
     }
 
     //undone order
     //未完成的订单信息
-    public OrderInfoForm undoneOrder(String customerId)
-            throws IllegalAccessException, InvocationTargetException {
+    public OrderInfoForm undoneOrder(String customerId) {
         return getOrderInfo(customerId, 0, 3, 1);
     }
 

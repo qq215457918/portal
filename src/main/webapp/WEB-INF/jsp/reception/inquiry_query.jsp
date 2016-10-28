@@ -15,17 +15,13 @@
     <div class="login-container" style="top:60%;height: 250px;">
 
       <form action="#" method="get" novalidate="novalidate">
-        <div class="form-group">
-          <input class="form-control" type="text" placeholder="请输入客户的电话号码" id="phoneNo"><input type="submit" value="&#xf054;">
-          <label for="phoneNo" class="error">请输入您的姓名</label>
-        </div>
-       	<div class="social-login clearfix">
-        	<a class="btn btn-primary pull-right twitter" href="index-2.html" id="queryId"><i class="icon-twitter"></i>查 询</a>
+        <div class="form-group"  style="margin-top:20px">
+            <input class="form-control" placeholder="请输入客户的电话号码" type="text" id="phoneNo"><input type="submit" value="" >
+        </div>     
+       	<div class="social-login clearfix" style="margin:40px 0">
+        	<a class="btn btn-primary pull-right twitter"id="queryId"><i class="icon-twitter"></i>查 询</a>
       	</div>
       </form>
-
-  
-
     </div>
   </div>
 <!-- End Login Screen -->

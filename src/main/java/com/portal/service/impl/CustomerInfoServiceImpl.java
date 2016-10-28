@@ -1,26 +1,24 @@
 package com.portal.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
+import com.portal.common.util.UUidUtil;
 import com.portal.dao.CustomerInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -34,7 +32,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     private CustomerInfoExtraDao customerInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerInfoServiceImpl.class);
-    
+
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
@@ -71,6 +69,23 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setReceiverStaffName(
                 EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
         return cSimpleForm;
+    }
+
+    /**
+     * 新增客户员工
+     * @param request
+     * @return
+     */
+    public int insertCustomer(HttpServletRequest request) {
+        CustomerInfo cInfo = new CustomerInfo();
+        cInfo.setId(UUidUtil.getUUId());
+        Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("qqno")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("birthday")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("area")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("email")).ifPresent(value -> cInfo.setName(value));
+        return insertSelective(cInfo);
     }
 
     public int insertSelective(CustomerInfo record) {
@@ -121,14 +136,14 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     @Override
     public List<CustomerInfo> selectCustomerExList(Criteria criteria) {
-    	return customerInfoDao.selectCustomerExList(criteria);
+        return customerInfoDao.selectCustomerExList(criteria);
     }
-    
+
     @Override
     public int countCustomerEx(Criteria criteria) {
-    	return customerInfoDao.countCustomerEx(criteria);
+        return customerInfoDao.countCustomerEx(criteria);
     }
-    
+
     public JSONObject ajaxFiltrateCustomers(HttpServletRequest request) {
         // 查询筛选客户类型数据（默认查询上一周的数据）
         // 请求开始页
@@ -141,31 +156,34 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         String endDate = request.getParameter("endDate");
         // 机构ID
         String area = request.getParameter("area");
-        
+
         criteria.clear();
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
-        
-        if(StringUtil.isNotBlank(startDate)){
+
+        if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-        }else {
-            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        } else {
+            criteria.put("startDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endDate)){
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        }else {
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if (StringUtil.isNotBlank(endDate)) {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        } else {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
-        if(StringUtil.isNotBlank(area)){
+        if (StringUtil.isNotBlank(area)) {
             criteria.put("area", area);
         }
-        
+
         // 获取数据集
         List<CustomerSimpleInfoForm> customers = customerInfoExtraDao.getFiltrateCustomers(criteria);
         // 获取总记录数
         int totalRecord = customers.size();
-        
-        JSONObject resultJson =  new JSONObject();
+
+        JSONObject resultJson = new JSONObject();
         resultJson.put("sEcho", request.getParameter("sEcho"));
         resultJson.put("iTotalRecords", totalRecord);
         resultJson.put("iTotalDisplayRecords", totalRecord);

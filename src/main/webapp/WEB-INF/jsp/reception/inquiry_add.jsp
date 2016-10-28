@@ -6,7 +6,6 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
     <title>首次登陆</title>
     <base href="${basePath}">
-    <script type="text/javascript" src="resources/js/reception/inquiry_query.js"></script>
 	<jsp:include page="head.jsp" />
   </head>
   <body>
@@ -19,29 +18,32 @@
         <i class="icon-shield"></i>新增用户
       </div>
       <div class="widget-content padded">
-        <form action="/visit/add" id="validate-form" method="get" novalidate="novalidate">
+        <form action="<%=request.getContextPath() %>/visit/add" id="validate-form" method="get" novalidate="novalidate">
           <fieldset>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="firstname">姓名</label><input class="form-control" id="name" name="name" type="text">
+                  <label for="firstname">姓名</label><input class="form-control" id="firstname" name="firstname" type="text">
                 </div>
                 <div class="form-group">
                   <label>QQ</label><input class="form-control" id="qqno" name="qqno" type="text">
                 </div>
                 <div class="form-group">
-                  <label>生日</label><input class="form-control" id="birthday" name="birthday" type="text">
+                  <label>生日</label>
+                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="dd-mm-yyyy">
+                  <input class="form-control" type="text" id="birthday" name="birthday" ><span class="input-group-addon"><i class="icon-calendar"></i></span>
+              </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label>电话号码</label><input class="form-control" id="phone" name="phone" data-inputmask="'mask': ['199999999999']" type="text">
+                  <label for="phone">电话号码</label><input class="form-control" id="phone" name="phone" data-inputmask="'mask': ['19999999999']" type="text">
                 </div>
                 <div class="form-group">
                   <label>地区</label><input class="form-control" id="area" name="area" type="text">
                 </div>
                 <div class="form-group">
-                  <label>邮件</label><input class="form-control" id="email" name="email" type="email">
+                  <label>邮件</label><input class="form-control" id="email" type="text">
                 </div>
               </div>
             </div>
