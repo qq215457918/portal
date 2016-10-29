@@ -1,10 +1,13 @@
 package com.portal.service;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
 
 public interface CustomerInfoService {
@@ -73,4 +76,15 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject ajaxFiltrateCustomers(HttpServletRequest request);
+    
+    /**
+     * @Title: ajaxCustomerStatistics 
+     * @Description: 异步获取用户统计数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月29日 下午7:32:01 
+     * @version V1.0
+     */
+    JSONObject ajaxCustomerStatistics(HttpServletRequest request);
 }

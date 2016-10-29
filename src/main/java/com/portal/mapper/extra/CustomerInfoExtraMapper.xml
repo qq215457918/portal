@@ -56,6 +56,12 @@
       <if test="condition.endDate != null" >
       	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
+      <if test="condition.startUpdateDate != null" >
+      	 <![CDATA[and c.update_date >= #{condition.startUpdateDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endUpdateDate != null" >
+      	 <![CDATA[and c.update_date <= #{condition.endUpdateDate,jdbcType=TIMESTAMP}]]>
+      </if>
     </trim>
   </sql>
 
@@ -193,4 +199,56 @@
 	  and o.finance_flag = '1'
     </if>
   </select>
+  
+  <!-- 根据条件查询对应客户数量 -->
+  <select id="getCustomerCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select count(1) as total_counts,
+	  	(select count(1) from customer_info c
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	  	and c.area = '1') as dl_counts,
+	  	(select count(1) from customer_info c
+	  	<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    and c.area = '0') as sy_counts
+	 from customer_info c
+	 <if test="_parameter != null" >
+		<include refid="Example_Where_Clause" />
+     </if>
+  </select>
+  
+  <!-- 获取所有各种分类对应的客户数量 -->
+  <select id="getAllCategoryCustomer" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select 
+  		distinct 
+	  	(select count(1) as locked_counts from customer_info c
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and c.type = '4') as '锁定',
+		(select count(1) as locked_counts from customer_info c
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and c.type = '3') as '成单',
+		(select count(1) as locked_counts from customer_info c
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and c.type = '5') as '转介绍',
+		(select count(1) as locked_counts from customer_info c
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and c.type = '2') as '说明会',
+		(select count(1) as locked_counts from customer_info c
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and c.type = '1') as '重复'
+	from customer_info
+  </select>
+  
 </mapper>

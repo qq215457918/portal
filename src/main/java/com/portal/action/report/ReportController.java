@@ -563,5 +563,60 @@ public class ReportController {
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
+    
+    
+    // ------------------------- 客户统计 入口：toCustomerStatistics ---------------------------------
+    
+    /**
+     * @Title: toCustomerStatistics 
+     * @Description: 进入统计客户页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月29日 下午7:30:21 
+     * @version V1.0
+     */
+    @RequestMapping(value = "/toCustomerStatistics")
+    public String toCustomerStatistics(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        // WebUtils.setAttributeToSession(request);
+        
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        
+        return "report/customer_statistics";
+    }
+    
+    /**
+     * @Title: ajaxCustomerStatistics 
+     * @Description: 异步获取用户统计数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月29日 下午7:30:40 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxCustomerStatistics")
+    public void ajaxCustomerStatistics(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = customerService.ajaxCustomerStatistics(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    // ------------------------- 每日成交业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    // 统计交订金和完成订单
+    
+    
+    // ------------------------- 客服业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    
+    
+    
+    // ------------------------- 业务员业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    
+    
 
 }

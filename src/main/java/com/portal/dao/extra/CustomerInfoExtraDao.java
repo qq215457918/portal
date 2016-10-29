@@ -1,6 +1,7 @@
 package com.portal.dao.extra;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +28,27 @@ public interface CustomerInfoExtraDao {
      * @version V1.0
      */
     List<CustomerSimpleInfoForm> getFiltrateCustomers(Criteria criteria);
+    
+    /**
+     * @Title: getCustomerCounts 
+     * @Description: 根据起始日期条件查询接待客户数量
+     * @param example
+     * @return Map<String,Integer>
+     * @author Xia ZhengWei
+     * @date 2016年10月29日 下午8:21:49 
+     * @version V1.0
+     */
+    Map<String, Integer> getCustomerCounts(Criteria example);
+    
+    /**
+     * @Title: getAllCategoryCustomer 
+     * @Description: 获取所有各种分类对应的客户数量
+     * @param example
+     * @return Map<String,Object>
+     * @author Xia ZhengWei
+     * @date 2016年10月29日 下午8:21:59 
+     * @version V1.0
+     */
+    Map<String, Object> getAllCategoryCustomer(Criteria example);
 
 }
