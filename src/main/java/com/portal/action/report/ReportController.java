@@ -24,6 +24,7 @@ import com.portal.service.CustomerInfoService;
 import com.portal.service.DeptPerformanceInfoService;
 import com.portal.service.GroupInfoService;
 import com.portal.service.OrderDetailInfoService;
+import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import com.portal.service.StorehouseOperateInfoService;
 import com.portal.service.VisitEverydayInfoService;
@@ -79,6 +80,10 @@ public class ReportController {
     // 展厅客服对接业绩Service
     @Autowired
     private ButtPerforDetailInfoService buttPerforService;
+    
+    // 订单Service
+    @Autowired
+    private OrderInfoService orderService;
 	
 	// 公共查询条件类
 	Criteria criteria = new Criteria();
@@ -610,6 +615,43 @@ public class ReportController {
     // ------------------------- 每日成交业绩统计 入口：toOutwarehouseDetail ---------------------------------
     // 统计交订金和完成订单
     
+    /**
+     * @Title: toClinchPerforEveryDay 
+     * @Description: 进入每日成交业绩页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月30日 下午6:28:31 
+     * @version V1.0
+     */
+    @RequestMapping("/toClinchPerforEveryDay")
+    public String toClinchPerforEveryDay(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        // WebUtils.setAttributeToSession(request);
+        
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        return "report/clinch_performance";
+    }
+    
+    /**
+     * @Title: ajaxClinchPerforEveryDay 
+     * @Description: 异步获取每日成交业绩数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月30日 下午6:52:12 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxClinchPerforEveryDay")
+    public void ajaxClinchPerforEveryDay(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = orderService.ajaxClinchPerforEveryDay(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
     
     // ------------------------- 客服业绩统计 入口：toOutwarehouseDetail ---------------------------------
     

@@ -1,10 +1,15 @@
 package com.portal.service;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+
+import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
 
@@ -63,4 +68,16 @@ public interface OrderInfoService {
     int insert(OrderInfo record);
 
     int insertSelective(OrderInfo record);
+    
+    /**
+     * @Title: ajaxClinchPerforEveryDay 
+     * @Description: 异步获取每日成交业绩数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月30日 下午7:02:14 
+     * @version V1.0
+     */
+    JSONObject ajaxClinchPerforEveryDay(HttpServletRequest request);
+    
 }

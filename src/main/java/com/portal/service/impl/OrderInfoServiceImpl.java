@@ -1,21 +1,32 @@
 package com.portal.service.impl;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.OrderDetailInfo;
-import com.portal.bean.OrderInfo;
-import com.portal.bean.result.OrderInfoForm;
-import com.portal.common.util.DateUtil;
-import com.portal.dao.OrderDetailInfoDao;
-import com.portal.dao.OrderInfoDao;
-import com.portal.service.OrderInfoService;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.portal.bean.Criteria;
+import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoForm;
+import com.portal.common.util.DateUtil;
+import com.portal.common.util.StringUtil;
+import com.portal.dao.OrderDetailInfoDao;
+import com.portal.dao.OrderInfoDao;
+import com.portal.dao.extra.OrderInfoExtraDao;
+import com.portal.service.OrderInfoService;
+
+import net.sf.json.JSONObject;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -25,7 +36,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     private OrderDetailInfoDao orderInfoDetailDao;
-
+    
+    @Autowired
+    private OrderInfoExtraDao orderInfoExtraDao;
+    
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
@@ -193,5 +207,62 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     public int insertSelective(OrderInfo record) {
         return this.orderInfoDao.insertSelective(record);
+    }
+    
+    public JSONObject ajaxClinchPerforEveryDay(HttpServletRequest request) {
+        // 查询两个地区的每日业绩情况（默认查询上一周）
+        JSONObject result = new JSONObject();
+        
+        // 开始日期
+        String startDate = request.getParameter("startDate");
+        
+        criteria.clear();
+        if(StringUtil.isNotBlank(startDate)){
+            // 不管前台选择的是周几, 都获取到对应星期的周一
+            startDate = DateUtil.formatDate(DateUtil.getNowWeekMonday(DateUtil.parseDate(startDate, "yyyy-MM-dd")), "yyyy-MM-dd");
+            criteria.put("startDate", startDate);
+            // 默认存入当前选中日期对应的周日
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.getNowWeekSunday(DateUtil.parseDate(startDate, "yyyy-MM-dd")), "yyyy-MM-dd 23:59:59"));
+        }else {
+            // 如果开始时间为空, 则取当前日期的上一周为查询条件
+            startDate = DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd");
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        }
+        
+        // 获取一周内各地区的业绩
+        Map<String, Integer> counts = orderInfoExtraDao.getClinchPerfors(criteria);
+        
+        //查询出大连一周的业绩
+        Map<String, Object> dlAmounts = orderInfoExtraDao.getWeekClinchPerfors(startDate, "1");
+        
+        // 查询出沈阳一周的业绩
+        Map<String, Object> syAmounts = orderInfoExtraDao.getWeekClinchPerfors(startDate, "0");
+        
+        if(counts != null) {
+            result.put("totalAmounts", counts.get("total_amounts") != null ? counts.get("total_amounts") : new BigDecimal(0));
+            result.put("dlAmounts", counts.get("dl_amounts") != null ? counts.get("dl_amounts") : new BigDecimal(0));
+            result.put("syAmounts", counts.get("sy_amounts") != null ? counts.get("sy_amounts") : new BigDecimal(0));
+        }else {
+            result.put("totalAmounts", 0);
+            result.put("dlAmounts", 0);
+            result.put("syAmounts", 0);
+        }
+        if(dlAmounts != null) {
+            // 转换成JSON格式
+            JSONObject dlResult = JSONObject.fromObject(dlAmounts);
+            result.put("dlResult", dlResult);
+        }else {
+            result.put("dlResult", null);
+        }
+        if(syAmounts != null) {
+            // 转换成JSON格式
+            JSONObject syResult = JSONObject.fromObject(syAmounts);
+            result.put("syResult", syResult);
+        }else {
+            result.put("syResult", null);
+        }
+        
+        return result;
     }
 }

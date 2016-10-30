@@ -17,9 +17,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * 
- * 修改：修改默认日期格式(1012行)
+ * 修改：修改默认日期格式(1017行)
  * 日期：2016-10-12
  * 修改人：Xia ZhengWei
+ * 
+ * 修改：注释掉了点击日期文本框后面的图标事件(199行)
+ * 日期：2016-10-30
+ * 修改人：Xia ZhengWei
+ * 
  * ========================================================= */
 
 
@@ -190,10 +195,10 @@
 						focus: $.proxy(this.show, this),
 						keyup: $.proxy(this.update, this),
 						keydown: $.proxy(this.keydown, this)
-					}],
+					}]/*,
 					[this.component, {
 						click: $.proxy(this.show, this)
-					}]
+					}]*/
 				];
 			}
 			else if (this.element.is('div')) {  // inline datepicker
