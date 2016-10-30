@@ -6,6 +6,7 @@ import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.service.OrderInfoService;
 import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,35 +27,39 @@ public class OrderInfoServiceTest extends BaseTest {
     @Test
     public void getOrderInfoServiceTest() {
         OrderInfo orderInfo = orderInfoService.selectByPrimaryKey("1");
-        //log.debug("getOrderInfoServiceTest : {}", orderInfo);
+        log.debug("getOrderInfoServiceTest : {}", orderInfo);
         Assert.assertNotNull(orderInfo);
     }
 
     //正常订单
     @Test
     public void queryGoodsInfoTest() throws IllegalAccessException, InvocationTargetException {
-        OrderInfoForm from = orderInfoService.queryGoodsInfo("1");
+        List<OrderInfoForm> from = orderInfoService.queryGoodsInfo("1");
+        log.debug("getOrderInfoServiceTest : {}", from);
         Assert.assertNotNull(from);
     }
 
     //退货
     @Test
     public void queryReturnGoodsTest() throws IllegalAccessException, InvocationTargetException {
-        OrderInfoForm from = orderInfoService.queryReturnGoodsInfo("1");
+        List<OrderInfoForm> from = orderInfoService.queryReturnGoodsInfo("1");
+        log.debug("getOrderInfoServiceTest : {}", from);
         Assert.assertNotNull(from);
     }
 
     //换货
     @Test
     public void xchangeReturnGoodsInfoTest() throws IllegalAccessException, InvocationTargetException {
-        OrderInfoForm from = orderInfoService.xchangeReturnGoodsInfo("1");
+        List<OrderInfoForm> from = orderInfoService.xchangeReturnGoodsInfo("1");
+        log.debug("getOrderInfoServiceTest : {}", from);
         Assert.assertNotNull(from);
     }
 
     //定金内容
     @Test
     public void queryRevokeDepositInfoTest() throws IllegalAccessException, InvocationTargetException {
-        OrderInfoForm from = orderInfoService.queryRevokeDepositInfo("1");
+        List<OrderInfoForm> from = orderInfoService.queryRevokeDepositInfo("1");
+        log.debug("getOrderInfoServiceTest : {}", from);
         Assert.assertNotNull(from);
     }
 }

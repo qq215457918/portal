@@ -1,10 +1,9 @@
 package com.portal.bean.result;
 
+import com.portal.bean.OrderDetailInfo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import com.portal.bean.OrderDetailInfo;
 
 public class OrderInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,14 +43,14 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * 支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     * 0 未支付<br>
+     * 1已支付
      */
     private String financeFlag;
 
     /**
      * 支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     * 接口1 接口2 微信支付等.
      */
     private String financeType;
 
@@ -64,8 +63,8 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * 仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     private String warehouseFlag;
 
@@ -86,19 +85,29 @@ public class OrderInfoForm implements Serializable {
     private Date updateDate;
 
     private String updateId;
-    
+
+    private String createDateString;
+
+    public String getCreateDateString() {
+        return createDateString;
+    }
+
+    public void setCreateDateString(String createDateString) {
+        this.createDateString = createDateString;
+    }
+
     //订单详情列表
-    private List<OrderDetailInfo> OrderDetailInfoList;
-    
+    private List<OrderDetailInfo> orderDetailInfoList;
+
     public List<OrderDetailInfo> getOrderDetailInfoList() {
-		return OrderDetailInfoList;
-	}
+        return orderDetailInfoList;
+    }
 
-	public void setOrderDetailInfoList(List<OrderDetailInfo> orderDetailInfoList) {
-		OrderDetailInfoList = orderDetailInfoList;
-	}
+    public void setOrderDetailInfoList(List<OrderDetailInfo> orderDetailInfoList) {
+        this.orderDetailInfoList = orderDetailInfoList;
+    }
 
-	public String getId() {
+    public String getId() {
         return id;
     }
 
@@ -139,7 +148,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param status 
-	 *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
+     *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
      */
     public void setStatus(String status) {
         this.status = status;
@@ -154,7 +163,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param orderType 
-	 *            订单类型 1正常 2退货 3换货
+     *            订单类型 1正常 2退货 3换货
      */
     public void setOrderType(String orderType) {
         this.orderType = orderType;
@@ -169,7 +178,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param payType 
-	 *            支付类型  0全额支付 1定金支付 2派送支付
+     *            支付类型  0全额支付 1定金支付 2派送支付
      */
     public void setPayType(String payType) {
         this.payType = payType;
@@ -184,7 +193,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param payPrice 
-	 *            订单金额
+     *            订单金额
      */
     public void setPayPrice(Long payPrice) {
         this.payPrice = payPrice;
@@ -199,7 +208,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param actualPrice 
-	 *            实际支付金额
+     *            实际支付金额
      */
     public void setActualPrice(Long actualPrice) {
         this.actualPrice = actualPrice;
@@ -207,8 +216,8 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @return 支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     * 0 未支付<br>
+     * 1已支付
      */
     public String getFinanceFlag() {
         return financeFlag;
@@ -216,9 +225,9 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param financeFlag 
-	 *            支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     *            支付状态(财务审核标志)<br>
+     * 0 未支付<br>
+     * 1已支付
      */
     public void setFinanceFlag(String financeFlag) {
         this.financeFlag = financeFlag;
@@ -226,7 +235,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @return 支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     * 接口1 接口2 微信支付等.
      */
     public String getFinanceType() {
         return financeType;
@@ -234,8 +243,8 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param financeType 
-	 *            支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     *            支付接口<br>
+     * 接口1 接口2 微信支付等.
      */
     public void setFinanceType(String financeType) {
         this.financeType = financeType;
@@ -250,7 +259,7 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param financeOperatorId 
-	 *            财务审批人员
+     *            财务审批人员
      */
     public void setFinanceOperatorId(String financeOperatorId) {
         this.financeOperatorId = financeOperatorId;
@@ -266,8 +275,8 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @return 仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     public String getWarehouseFlag() {
         return warehouseFlag;
@@ -275,9 +284,9 @@ public class OrderInfoForm implements Serializable {
 
     /**
      * @param warehouseFlag 
-	 *            仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     *            仓库审批标志<br>
+     * 0未审核<br>
+     * 1 已审核
      */
     public void setWarehouseFlag(String warehouseFlag) {
         this.warehouseFlag = warehouseFlag;
@@ -354,5 +363,5 @@ public class OrderInfoForm implements Serializable {
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
     }
-    
+
 }

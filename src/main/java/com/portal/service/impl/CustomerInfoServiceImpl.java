@@ -10,7 +10,6 @@ import com.portal.dao.CustomerInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -195,58 +194,64 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     }
 
     public JSONObject ajaxCustomerStatistics(HttpServletRequest request) {
-     // 查询两个地区的接待客户数量（默认查询上一周的数据）
+        // 查询两个地区的接待客户数量（默认查询上一周的数据）
         JSONObject result = new JSONObject();
         // 开始日期
         String startUpdateDate = request.getParameter("startDate");
         // 结束日期
         String endUpdateDate = request.getParameter("endDate");
         criteria.clear();
-        if(StringUtil.isNotBlank(startUpdateDate)){
+        if (StringUtil.isNotBlank(startUpdateDate)) {
             criteria.put("startUpdateDate", startUpdateDate);
-        }else {
-            criteria.put("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        } else {
+            criteria.put("startReportDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endUpdateDate)){
-            criteria.put("endUpdateDate", DateUtil.formatDate(DateUtil.parseDate(endUpdateDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        }else {
-            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if (StringUtil.isNotBlank(endUpdateDate)) {
+            criteria.put("endUpdateDate", DateUtil.formatDate(DateUtil.parseDate(endUpdateDate, "yyyy-MM-dd"),
+                    "yyyy-MM-dd 23:59:59"));
+        } else {
+            criteria.put("endReportDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         // 获取用户数量
         Map<String, Integer> counts = customerInfoExtraDao.getCustomerCounts(criteria);
-        
+
         //查询出大连各种客户类型的客户数量
         criteria.put("area", 1);
         Map<String, Object> dlCustomer = customerInfoExtraDao.getAllCategoryCustomer(criteria);
-        
+
         // 获取沈阳对应下的各种分类的客户数量
         criteria.put("area", 0);
         Map<String, Object> syCustomer = customerInfoExtraDao.getAllCategoryCustomer(criteria);
-        
-        if(counts != null) {
-            result.put("customerCounts", counts.get("total_counts") != null ? counts.get("total_counts") : new BigDecimal(0));
-            result.put("dlCounts", counts.get("dl_counts") != null ? counts.get("dl_counts") : new BigDecimal(0));
-            result.put("syCounts", counts.get("sy_counts") != null ? counts.get("sy_counts") : new BigDecimal(0));
-        }else {
+
+        if (counts != null) {
+            result.put("customerCounts",
+                    counts.get("total_counts") != null ? counts.get("total_counts") : new BigDecimal(0));
+            result.put("dlCounts",
+                    counts.get("dl_counts") != null ? counts.get("dl_counts") : new BigDecimal(0));
+            result.put("syCounts",
+                    counts.get("sy_counts") != null ? counts.get("sy_counts") : new BigDecimal(0));
+        } else {
             result.put("customerCounts", 0);
             result.put("dlCounts", 0);
             result.put("syCounts", 0);
         }
-        if(dlCustomer != null) {
+        if (dlCustomer != null) {
             // 转换成JSON格式
             JSONObject dlResult = JSONObject.fromObject(dlCustomer);
             result.put("dlResult", dlResult);
-        }else {
+        } else {
             result.put("dlResult", null);
         }
-        if(syCustomer != null) {
+        if (syCustomer != null) {
             // 转换成JSON格式
             JSONObject syResult = JSONObject.fromObject(syCustomer);
             result.put("syResult", syResult);
-        }else {
+        } else {
             result.put("syResult", null);
         }
-        
+
         return result;
     }
 }

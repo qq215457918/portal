@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>首次登陆</title>
+    <title>客户接待</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
 </head>
@@ -29,8 +29,8 @@
                   	<strong> 电话：</strong>${info.encryptPhone }
                   </dd>
                 </dl>
-                <button class="btn btn-primary">修改基本信息</button>
-                <button class="btn btn-warning">修改文交所信息</button>
+                <button class="btn btn-primary" id="modifyInfo">修改基本信息</button>
+                <button class="btn btn-warning" id="modifyExchange">修改文交所信息</button>
               </div>
             </div>
             <div class="col-md-6">
@@ -66,49 +66,43 @@
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">
               <thead>
-              <tr><th>
-                商品
-              </th>
+              <tr>
                 <th>
-                  金额
+                	 序号
                 </th>
                 <th>
-                  购买金额
+                	 商品信息-数量-金额
                 </th>
-                <th class="hidden-xs">
-                 交易时间
+                <th>
+       				交易时间
                 </th>
-
+                <th>
+                	订单总金额
+                </th>
               </tr></thead>
               <tbody>
-              <tr>
-                <td>
-                  Robert
-                </td>
-                <td>
-                  Kelso
-                </td>
-                <td>
-                  robert@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  John
-                </td>
-                <td>
-                  Dorian
-                </td>
-                <td>
-                  john@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
+              <c:forEach var="status" items="${goods}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
+	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
+	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    
+	                    <br/>
+	                    </c:forEach>
+	                </td>
+	                <td>
+	                  ${status.createDateString }
+	                </td>
+	                <td>
+	                   ${status.payPrice }
+	                </td>
+	              </tr>
+              </c:forEach>
               </tbody>
             </table>
           </div>
@@ -124,49 +118,43 @@
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">
               <thead>
-              <tr><th>
-                商品
-              </th>
+              <tr>
                 <th>
-                  金额
+                	 序号
                 </th>
                 <th>
-                  购买金额
+                	 商品信息-数量-金额
                 </th>
-                <th class="hidden-xs">
-                  交易时间
+                <th>
+       				交易时间
                 </th>
-
+                <th>
+                	订单总金额
+                </th>
               </tr></thead>
               <tbody>
-              <tr>
-                <td>
-                  Robert
-                </td>
-                <td>
-                  Kelso
-                </td>
-                <td>
-                  robert@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  John
-                </td>
-                <td>
-                  Dorian
-                </td>
-                <td>
-                  john@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
+              <c:forEach var="status" items="${returnGoods}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
+	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
+	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    
+	                    <br/>
+	                    </c:forEach>
+	                </td>
+	                <td>
+	                  ${status.createDateString }
+	                </td>
+	                <td>
+	                   ${status.payPrice }
+	                </td>
+	              </tr>
+              </c:forEach>
               </tbody>
             </table>
           </div>
@@ -181,51 +169,39 @@
             <i class="icon-table"></i>来访记录
           </div>
           <div class="widget-content padded clearfix">
-            <table class="table table-bordered">
+                        <table class="table table-bordered">
               <thead>
-              <tr><th>
-                商品
-              </th>
+              <tr>
                 <th>
-                  金额
+                	 序号
                 </th>
                 <th>
-                  购买金额
+                	 客户人员
                 </th>
-                <th class="hidden-xs">
-                  交易时间
+                <th>
+       				业务人员
                 </th>
-
+                <th>
+                	来访时间
+                </th>
               </tr></thead>
               <tbody>
-              <tr>
-                <td>
-                  Robert
-                </td>
-                <td>
-                  Kelso
-                </td>
-                <td>
-                  robert@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  John
-                </td>
-                <td>
-                  Dorian
-                </td>
-                <td>
-                  john@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
+              <c:forEach var="status" items="${receptionInfo}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+					   ${status.receiverStaffName }
+	                </td>
+	                <td>
+	                   ${status.phoneStaffName }
+	                </td>
+	                <td>
+	                    ${status.createDate }
+	                </td>
+	              </tr>
+              </c:forEach>
               </tbody>
             </table>
           </div>
@@ -238,57 +214,66 @@
             <i class="icon-table"></i>回购商品
           </div>
           <div class="widget-content padded clearfix">
-            <table class="table table-bordered">
+                        <table class="table table-bordered">
               <thead>
-              <tr><th>
-                商品
-              </th>
+              <tr>
                 <th>
-                  金额
+                	 序号
                 </th>
                 <th>
-                  购买金额
+                	 商品信息-数量-金额
                 </th>
-                <th class="hidden-xs">
-                  交易时间
+                <th>
+       				交易时间
                 </th>
-
+                <th>
+                	订单总金额
+                </th>
               </tr></thead>
               <tbody>
-              <tr>
-                <td>
-                  Robert
-                </td>
-                <td>
-                  Kelso
-                </td>
-                <td>
-                  robert@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  John
-                </td>
-                <td>
-                  Dorian
-                </td>
-                <td>
-                  john@gmail.com
-                </td>
-                <td class="hidden-xs">
-                  8-15-2013
-                </td>
-              </tr>
+              <c:forEach var="status" items="${revokeDeposit}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
+	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
+	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    
+	                    <br/>
+	                    </c:forEach>
+	                </td>
+	                <td>
+	                  ${status.createDateString }
+	                </td>
+	                <td>
+	                   ${status.payPrice }
+	                </td>
+	              </tr>
+              </c:forEach>
               </tbody>
             </table>
+            <input type="hidden" name="cid" id="cid" value="${info.id }"/>
           </div>
         </div>
       </div>
       </div>
     </div>
   </body>
+    <script>
+	$(function(){
+		base = $("base").attr('href');
+		// 修改基本信息
+		$("#modifyInfo").click(function(){
+			var id = $('#cid').val();
+			window.location.href = base+"/customer/modify/basic?id="+id;
+		});
+		$("#modifyExchange").click(function(){
+			var id = $('#cid').val();
+			window.location.href = base+"/customer/modify/exchange?id="+id;
+		});
+	});
+	</script>
 </html>

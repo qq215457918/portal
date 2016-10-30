@@ -51,9 +51,10 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
      * by meng.yue
      * @return
      */
-    public boolean endReceptionTime(String customerId, String receiverStaffId) {
-
-        return false;
+    public boolean updateEndReceptionTime(String customerId) {
+        criteria.clear();
+        criteria.put("customerId", customerId);
+        return receptionInfoExtraDao.updateById4Quit(criteria) > 0 ? true : false;
     }
 
     /**

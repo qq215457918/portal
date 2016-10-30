@@ -47,22 +47,27 @@
           <div class="nav-collapse">
             <ul class="nav">
               <li>
-                <a class="current" href="index-2.html"><span aria-hidden="true" class="se7en-home"></span>客户详情</a>
+                <a class="current" href="index-2.html"><span aria-hidden="true" class="icon-user"></span>客户详情</a>
               </li>
               <li><a href="social.html">
-                <span aria-hidden="true" class="se7en-feed"></span>购买商品</a>
+                <span aria-hidden="true" class="icon-book"></span>购买商品</a>
               </li>
               <li><a href="social.html">
-                <span aria-hidden="true" class="icon-user"></span>定金管理</a>
+                <span aria-hidden="true" class="icon-money"></span>定金管理</a>
               </li>
               <li><a href="social.html">
-                <span aria-hidden="true" class="se7en-feed"></span>回购记录</a>
+                <span aria-hidden="true" class="se7en-pages"></span>回购记录</a>
               </li>
               <li><a href="social.html">
-                <span aria-hidden="true" class="se7en-feed"></span>退换货管理</a>
+                <span aria-hidden="true" class="icon-retweet"></span>退换货管理</a>
               </li>
               <li><a href="social.html">
-                <span aria-hidden="true" class="se7en-gallery"></span>领取赠品</a>
+                <span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              </li>
+              <li>
+                <a data-toggle="modal" href="#myModal">
+                <span aria-hidden="true" class="icon-signin"></span>结束接待
+                </a>
               </li>
             </ul>
           </div>
@@ -70,3 +75,34 @@
         </div>
       </div>
       <!-- End Navigation -->
+      <!--modal end-->
+        <div class="modal fade" id="myModal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+                      <h4 class="modal-title">
+                                                                  结束确认
+                      </h4>
+                    </div>
+                    <div class="modal-body">
+                      <h4>确认要结束本次接待？</h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button class="btn btn-primary" type="button" id="quitConfirm">确 认</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+                    </div>
+                  </div>
+                </div>
+       </div>
+         <!--modal end-->
+       <script>
+			$(function(){
+				base = $("base").attr('href');
+				// 查询功能
+				$("#quitConfirm").click(function(){
+					alert(1);
+					var id = "1";
+					window.location.href=base+"/visit/quit?id="+id;
+				});
+			});
+	</script>

@@ -24,6 +24,14 @@ public interface ReceptionInfoService {
      */
     public List<ReceptionInfoForm> queryRecordListbyId(String customerId);
 
+    /**
+     * 结束接待时间
+     * @param customerId
+     * @param receiverStaffId
+     * @return
+     */
+    public boolean updateEndReceptionTime(String customerId);
+
     int countByExample(Criteria example);
 
     ReceptionInfo selectByPrimaryKey(String id);

@@ -72,4 +72,11 @@ public interface ReceptionInfoExtraDao {
      */
     List<ReceptionInfoForm> getOrderDetailsByCondition(Criteria criteria);
 
+    /**
+     * 在结束接待的时候修改接待时间
+     * @param criteria
+     * @return
+     */
+    int updateById4Quit(Criteria criteria);
+
 }

@@ -1,4 +1,3 @@
-
 package com.portal.action.reception;
 
 import com.portal.common.util.JsonUtils;
