@@ -1,7 +1,6 @@
 
 package service;
 
-import base.BaseTest;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.service.OrderInfoService;
@@ -13,7 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class OrderInfoServiceTest extends BaseTest {
+public class OrderInfoServiceTest {
 
     //    `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
     //    `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货',

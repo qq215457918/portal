@@ -73,6 +73,23 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         return cSimpleForm;
     }
 
+    public int updateCustomer(HttpServletRequest request) {
+        CustomerInfo cInfo = new CustomerInfo();
+        Optional.ofNullable(request.getParameter("cid")).ifPresent(value -> cInfo.setId(value));
+        Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
+        Optional.ofNullable(request.getParameter("businessPhone"))
+                .ifPresent(value -> cInfo.setBusinessPhone(value));
+        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
+        Optional.ofNullable(request.getParameter("phone2")).ifPresent(value -> cInfo.setPhone2(value));
+        Optional.ofNullable(request.getParameter("relationId")).ifPresent(value -> cInfo.setRelationId(value));
+        Optional.ofNullable(request.getParameter("qq")).ifPresent(value -> cInfo.setQq(value));
+        Optional.ofNullable(request.getParameter("msn")).ifPresent(value -> cInfo.setMsn(value));
+        Optional.ofNullable(request.getParameter("site")).ifPresent(value -> cInfo.setSite(value));
+        Optional.ofNullable(request.getParameter("idCard")).ifPresent(value -> cInfo.setIdCard(value));
+
+        return updateByPrimaryKeySelective(cInfo);
+    }
+
     /**
      * 新增客户员工
      * @param request

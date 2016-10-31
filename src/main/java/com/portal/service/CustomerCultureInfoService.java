@@ -3,8 +3,17 @@ package com.portal.service;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerCultureInfo;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 public interface CustomerCultureInfoService {
+
+    /**
+     * 修改文交所信息
+     * @param request
+     * @return
+     */
+    public int updateCulture(HttpServletRequest request);
+
     int countByExample(Criteria example);
 
     CustomerCultureInfo selectByPrimaryKey(String id);

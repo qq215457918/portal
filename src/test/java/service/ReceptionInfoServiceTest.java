@@ -1,7 +1,6 @@
 
 package service;
 
-import base.BaseTest;
 import com.portal.service.ReceptionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +12,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class ReceptionInfoServiceTest extends BaseTest {
+public class ReceptionInfoServiceTest {
 
     @Autowired
     protected ReceptionInfoService receptionInfoService;

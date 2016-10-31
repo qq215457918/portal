@@ -1,6 +1,5 @@
 package service;
 
-import base.BaseTest;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.UUidUtil;
@@ -12,7 +11,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
-public class CustomerInfoServiceTest extends BaseTest {
+public class CustomerInfoServiceTest {
 
     @Autowired
     private CustomerInfoService customerInfoService;

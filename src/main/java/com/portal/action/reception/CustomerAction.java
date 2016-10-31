@@ -1,6 +1,7 @@
 package com.portal.action.reception;
 
 import com.portal.common.util.WebUtils;
+import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 接待模块查询业务
@@ -22,6 +24,9 @@ public class CustomerAction {
     @Autowired
     protected CustomerInfoService customerInfoService;
 
+    @Autowired
+    protected CustomerCultureInfoService cultureInfoService;
+
     /**
      * 修改基础信息
      * @param request
@@ -32,9 +37,24 @@ public class CustomerAction {
     public ModelAndView modifyCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("cid")));
+        model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("id")));
         model.setViewName("reception/customer_modify");
         return model;
+    }
+
+    /**
+     * 保存基础信息
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/basic/save")
+    public String saveCustomerInfo(HttpServletRequest request, HttpServletResponse response,
+            RedirectAttributes attr) {
+        getBasePath(request, response);
+        customerInfoService.updateCustomer(request);
+        return "redirect:/visit/second?phone=" + request.getParameter("phone") + "&id="
+                + request.getParameter("cid");
     }
 
     /**
@@ -43,10 +63,28 @@ public class CustomerAction {
      * @param response
      */
     @RequestMapping("/exchange")
-    public String queryReception(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView modifyExchange(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        // 向前端输出
-        return "reception/inquiry_record";
+
+        ModelAndView model = new ModelAndView();
+        model.addObject("cultureInfo", cultureInfoService.selectByPrimaryKey(request.getParameter("id")));
+        model.setViewName("reception/customer_modify");
+        return model;
+    }
+
+    /**
+     * 保存基础信息
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/exchange/save")
+    public String saveExchange(HttpServletRequest request, HttpServletResponse response,
+            RedirectAttributes attr) {
+        getBasePath(request, response);
+        cultureInfoService.updateCulture(request);
+        return "redirect:/visit/second?phone=" + request.getParameter("phone") + "&id="
+                + request.getParameter("cid");
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

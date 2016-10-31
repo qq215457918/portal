@@ -36,6 +36,9 @@
       <if test="condition.amount != null" >
          and amount = #{condition.amount,jdbcType=INTEGER}
       </if>
+      <if test="condition.moreAmount != null" >
+         and amount > #{condition.moreAmount,jdbcType=INTEGER}
+      </if>
       <if test="condition.trusteeshipFlag != null" >
          and trusteeship_flag = #{condition.trusteeshipFlag,jdbcType=VARCHAR}
       </if>

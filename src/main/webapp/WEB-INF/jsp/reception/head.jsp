@@ -77,22 +77,22 @@
       <!-- End Navigation -->
       <!--modal end-->
         <div class="modal fade" id="myModal">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
-                      <h4 class="modal-title">
-                                                                  结束确认
-                      </h4>
-                    </div>
-                    <div class="modal-body">
-                      <h4>确认要结束本次接待？</h4>
-                    </div>
-                    <div class="modal-footer">
-                      <button class="btn btn-primary" type="button" id="quitConfirm">确 认</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
-                    </div>
-                  </div>
-                </div>
+           <div class="modal-dialog">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+                 <h4 class="modal-title">
+                                                             结束确认
+                 </h4>
+               </div>
+               <div class="modal-body">
+                 <h4>确认要结束本次接待？</h4>
+               </div>
+               <div class="modal-footer">
+                 <button class="btn btn-primary" type="button" id="quitConfirm">确 认</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+               </div>
+             </div>
+           </div>
        </div>
          <!--modal end-->
        <script>

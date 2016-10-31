@@ -2,9 +2,12 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerCultureInfo;
+import com.portal.common.util.DateUtil;
 import com.portal.dao.CustomerCultureInfoDao;
 import com.portal.service.CustomerCultureInfoService;
 import java.util.List;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,27 @@ public class CustomerCultureInfoServiceImpl implements CustomerCultureInfoServic
     private CustomerCultureInfoDao customerCultureInfoDao;
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerCultureInfoServiceImpl.class);
+
+    /**
+     * 修改文交所信息
+     * @param request
+     * @return
+     */
+    public int updateCulture(HttpServletRequest request) {
+        CustomerCultureInfo cInfo = new CustomerCultureInfo();
+        Optional.ofNullable(request.getParameter("cid")).ifPresent(value -> cInfo.setId(value));
+        Optional.ofNullable(request.getParameter("cultureName"))
+                .ifPresent(value -> cInfo.setCultureName(value));
+        Optional.ofNullable(request.getParameter("accountDate"))
+                .ifPresent(
+                        value -> cInfo.setAccountDate(DateUtil.parseDate(value, DateUtil.DATE_FMT_YYYY_MM_DD)));
+        Optional.ofNullable(request.getParameter("bankFlag")).ifPresent(value -> cInfo.setBankFlag(value));
+        Optional.ofNullable(request.getParameter("customerName"))
+                .ifPresent(value -> cInfo.setCultureName(value));
+        Optional.ofNullable(request.getParameter("code")).ifPresent(value -> cInfo.setCode(value));
+        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
+        return updateByPrimaryKeySelective(cInfo);
+    }
 
     public int countByExample(Criteria example) {
         int count = this.customerCultureInfoDao.countByExample(example);
