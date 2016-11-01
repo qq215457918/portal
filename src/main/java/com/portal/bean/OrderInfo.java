@@ -55,14 +55,14 @@ public class OrderInfo implements Serializable {
 
     /**
      * 支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     * 0 未支付<br>
+     * 1已支付
      */
     private String financeFlag;
 
     /**
      * 支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     * 接口1 接口2 微信支付等.
      */
     private String financeType;
 
@@ -78,8 +78,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * 仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     private String warehouseFlag;
 
@@ -95,8 +95,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * 文交所审批标志 <br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     private String cultureFlag;
 
@@ -110,6 +110,11 @@ public class OrderInfo implements Serializable {
      */
     private Date cultureDate;
 
+    /**
+     * 备注信息
+     */
+    private String remarks;
+
     private Date createDate;
 
     private String createId;
@@ -119,6 +124,14 @@ public class OrderInfo implements Serializable {
     private String updateId;
 
     private String deleteFlag;
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public String getId() {
         return id;
@@ -137,7 +150,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param orderNumber 
-	 *            订单号
+     *            订单号
      */
     public void setOrderNumber(String orderNumber) {
         this.orderNumber = orderNumber;
@@ -152,7 +165,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param customerId 
-	 *            客户id
+     *            客户id
      */
     public void setCustomerId(String customerId) {
         this.customerId = customerId;
@@ -167,7 +180,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param phoneStaffId 
-	 *            客服id
+     *            客服id
      */
     public void setPhoneStaffId(String phoneStaffId) {
         this.phoneStaffId = phoneStaffId;
@@ -182,7 +195,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param receiverStaffId 
-	 *            接待人员id
+     *            接待人员id
      */
     public void setReceiverStaffId(String receiverStaffId) {
         this.receiverStaffId = receiverStaffId;
@@ -197,7 +210,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param status 
-	 *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
+     *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
      */
     public void setStatus(String status) {
         this.status = status;
@@ -212,7 +225,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param orderType 
-	 *            订单类型 1正常 2退货 3换货
+     *            订单类型 1正常 2退货 3换货
      */
     public void setOrderType(String orderType) {
         this.orderType = orderType;
@@ -227,7 +240,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param payType 
-	 *            支付类型  0全额支付 1定金支付 2派送支付
+     *            支付类型  0全额支付 1定金支付 2派送支付
      */
     public void setPayType(String payType) {
         this.payType = payType;
@@ -242,7 +255,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param payPrice 
-	 *            订单金额
+     *            订单金额
      */
     public void setPayPrice(Long payPrice) {
         this.payPrice = payPrice;
@@ -257,7 +270,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param actualPrice 
-	 *            实际支付金额
+     *            实际支付金额
      */
     public void setActualPrice(Long actualPrice) {
         this.actualPrice = actualPrice;
@@ -265,8 +278,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * @return 支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     * 0 未支付<br>
+     * 1已支付
      */
     public String getFinanceFlag() {
         return financeFlag;
@@ -274,9 +287,9 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param financeFlag 
-	 *            支付状态(财务审核标志)<br>
-	 * 0 未支付<br>
-	 * 1已支付
+     *            支付状态(财务审核标志)<br>
+     * 0 未支付<br>
+     * 1已支付
      */
     public void setFinanceFlag(String financeFlag) {
         this.financeFlag = financeFlag;
@@ -284,7 +297,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @return 支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     * 接口1 接口2 微信支付等.
      */
     public String getFinanceType() {
         return financeType;
@@ -292,8 +305,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param financeType 
-	 *            支付接口<br>
-	 * 接口1 接口2 微信支付等.
+     *            支付接口<br>
+     * 接口1 接口2 微信支付等.
      */
     public void setFinanceType(String financeType) {
         this.financeType = financeType;
@@ -308,7 +321,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param financeOperatorId 
-	 *            财务审批人员
+     *            财务审批人员
      */
     public void setFinanceOperatorId(String financeOperatorId) {
         this.financeOperatorId = financeOperatorId;
@@ -323,7 +336,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param financeDate 
-	 *            财务审批日期
+     *            财务审批日期
      */
     public void setFinanceDate(Date financeDate) {
         this.financeDate = financeDate;
@@ -331,8 +344,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * @return 仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     public String getWarehouseFlag() {
         return warehouseFlag;
@@ -340,9 +353,9 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param warehouseFlag 
-	 *            仓库审批标志<br>
-	 * 0未审核<br>
-	 * 1 已审核
+     *            仓库审批标志<br>
+     * 0未审核<br>
+     * 1 已审核
      */
     public void setWarehouseFlag(String warehouseFlag) {
         this.warehouseFlag = warehouseFlag;
@@ -357,7 +370,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param warehouseOperatorId 
-	 *            仓库人员id
+     *            仓库人员id
      */
     public void setWarehouseOperatorId(String warehouseOperatorId) {
         this.warehouseOperatorId = warehouseOperatorId;
@@ -372,7 +385,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param warehouseDate 
-	 *            财务审批日期
+     *            财务审批日期
      */
     public void setWarehouseDate(Date warehouseDate) {
         this.warehouseDate = warehouseDate;
@@ -380,8 +393,8 @@ public class OrderInfo implements Serializable {
 
     /**
      * @return 文交所审批标志 <br>
-	 * 0未审核<br>
-	 * 1 已审核
+     * 0未审核<br>
+     * 1 已审核
      */
     public String getCultureFlag() {
         return cultureFlag;
@@ -389,9 +402,9 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param cultureFlag 
-	 *            文交所审批标志 <br>
-	 * 0未审核<br>
-	 * 1 已审核
+     *            文交所审批标志 <br>
+     * 0未审核<br>
+     * 1 已审核
      */
     public void setCultureFlag(String cultureFlag) {
         this.cultureFlag = cultureFlag;
@@ -406,7 +419,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param cultureOperatorId 
-	 *            文交所人员id
+     *            文交所人员id
      */
     public void setCultureOperatorId(String cultureOperatorId) {
         this.cultureOperatorId = cultureOperatorId;
@@ -421,7 +434,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param cultureDate 
-	 *            文交所审批日期
+     *            文交所审批日期
      */
     public void setCultureDate(Date cultureDate) {
         this.cultureDate = cultureDate;

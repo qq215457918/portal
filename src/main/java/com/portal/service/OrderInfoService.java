@@ -1,14 +1,11 @@
 package com.portal.service;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
-
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
@@ -47,6 +44,13 @@ public interface OrderInfoService {
      */
     public List<OrderInfoForm> xchangeReturnGoodsInfo(String customerId);
 
+    /**
+     * 新增赠品订单，如果需要经历审批，则修改order_info 的财务审批字段
+     * @param request
+     * @return
+     */
+    boolean addPresentOrder(HttpServletRequest request);
+
     int countByExample(Criteria example);
 
     OrderInfo selectByPrimaryKey(String id);
@@ -68,7 +72,7 @@ public interface OrderInfoService {
     int insert(OrderInfo record);
 
     int insertSelective(OrderInfo record);
-    
+
     /**
      * @Title: ajaxClinchPerforEveryDay 
      * @Description: 异步获取每日成交业绩数据
@@ -79,5 +83,5 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxClinchPerforEveryDay(HttpServletRequest request);
-    
+
 }

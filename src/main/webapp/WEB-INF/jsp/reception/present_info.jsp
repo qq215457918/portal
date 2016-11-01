@@ -13,31 +13,6 @@
 	  <div class="container-fluid main-content">
 		  <div class="page-title">
 		  
-		  <div class="row">
-			  <div class="col-lg-12">
-			    <div class="widget-container fluid-height clearfix">
-			      <div class="heading">
-			        <i class="icon-collapse"></i>下拉列表（自定义样式）
-			      </div>
-			      <div class="widget-content padded">
-			        <form action="#" class="form-horizontal">
-			          <div class="form-group">
-			            <label class="control-label col-md-2">下拉列表（自定义样式）</label>
-			            <div class="col-md-7">
-			              <div class="select2-container select2able" id="s2id_autogen1"><a href="javascript:void(0)" onclick="return false;" class="select2-choice" tabindex="-1">   <span class="select2-chosen">选项 3</span><abbr class="select2-search-choice-close"></abbr>   <span class="select2-arrow"><b></b></span></a><input class="select2-focusser select2-offscreen" type="text" id="s2id_autogen2"></div><select class="select2able select2-offscreen" tabindex="-1"><option value="Category 1">选项 1</option><option value="Category 2">选项 2</option><option value="Category 3">选项 3</option><option value="Category 4">选项 4</option></select>
-			            </div>
-			          </div>
-			          <div class="form-group">
-			            <label class="control-label col-md-2">多选下拉列表（自定义样式）</label>
-			            <div class="col-md-7">
-			              <div class="select2-container select2-container-multi select2able" id="s2id_autogen3"><ul class="select2-choices">  <li class="select2-search-choice">    <div>选项 2</div>    <a href="#" onclick="return false;" class="select2-search-choice-close" tabindex="-1"></a></li><li class="select2-search-field">    <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" class="select2-input" id="s2id_autogen4" style="width: 20px;">  </li></ul></div><select class="select2able select2-offscreen" multiple="" tabindex="-1"><option value="Category 1">选项 1</option><option value="Category 2">选项 2</option><option value="Category 3">选项 3</option><option value="Category 4">选项 4</option></select>
-			            </div>
-			          </div>
-			        </form>
-			      </div>
-			    </div>
-			  </div>
-			</div>
 		  
 		       <div class="row">
 		        <div class="col-lg-12">
@@ -48,9 +23,20 @@
 		            <div class="widget-content text-center">
 		              <h3>
 		              	  欢迎领取赠品 ^ ^
-		              </h3>  
-		              <button class="btn btn-danger">确 认</button>
-		              <a class="btn btn-primary btn" data-toggle="modal" href="#presentModal">特殊审批</a>
+		              </h3>
+		              <div class="form-group">
+			            <label class="control-label col-md-2">请选择要领取的赠品</label>
+			            <div class="col-md-7">
+			              <select class="form-control">
+				              <option value="Category 1">选项 1</option>
+				              <option value="Category 2">选项 2</option>
+				              <option value="Category 3">选项 3</option>
+				              <option value="Category 4">选项 4</option>
+			              </select>
+			            </div>
+			            <input class="btn btn-warning" style="margin:20px;float:right "type="submit" value="确 认">
+			          </div>  
+		              <a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
 		              <div class="modal fade" id="myModal">
 		                <div class="modal-dialog">
 		                  <div class="modal-content">
@@ -98,5 +84,17 @@
            </div>
        </div>
          <!--modal end-->
+   <script>
+	$(function(){
+		base = $("base").attr('href'); 
+		
+		// 查询功能
+		$("#receiveId").click(function(){
+			var id = $('#cid').val();
+			var phone = $('#cphone').val();
+			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
+		});
+	});
+	</script>
   </body>
 </html>

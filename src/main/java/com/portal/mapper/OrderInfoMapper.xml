@@ -22,6 +22,7 @@
     <result column="culture_flag" property="cultureFlag" jdbcType="VARCHAR" />
     <result column="culture_operator_id" property="cultureOperatorId" jdbcType="VARCHAR" />
     <result column="culture_date" property="cultureDate" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" /> 
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="create_id" property="createId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
@@ -86,6 +87,9 @@
       </if>
       <if test="condition.cultureDate != null" >
          and culture_date = #{condition.cultureDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.remarks != null" >
+         and remarks = #{condition.remarks,jdbcType=VARCHAR}
       </if>
       <if test="condition.createDate != null" >
          and create_date = #{condition.createDate,jdbcType=TIMESTAMP}

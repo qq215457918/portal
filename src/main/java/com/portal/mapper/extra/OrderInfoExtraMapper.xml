@@ -21,6 +21,7 @@
     <result column="warehouse_date" property="warehouseDate" jdbcType="TIMESTAMP" />
     <result column="culture_flag" property="cultureFlag" jdbcType="VARCHAR" />
     <result column="culture_operator_id" property="cultureOperatorId" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="culture_date" property="cultureDate" jdbcType="TIMESTAMP" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="create_id" property="createId" jdbcType="VARCHAR" />

@@ -78,6 +78,11 @@ public class OrderInfoForm implements Serializable {
 
     private Date cultureDate;
 
+    /**
+     * 备注信息
+     */
+    private String remarks;
+
     private Date createDate;
 
     private String createId;
@@ -87,6 +92,14 @@ public class OrderInfoForm implements Serializable {
     private String updateId;
 
     private String createDateString;
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
 
     public String getCreateDateString() {
         return createDateString;

@@ -3,6 +3,7 @@ package com.portal.action.reception;
 import com.portal.bean.GoodsInfo;
 import com.portal.common.util.WebUtils;
 import com.portal.service.GoodsInfoService;
+import com.portal.service.OrderInfoService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,8 @@ public class PresentAction {
 
     @Autowired
     GoodsInfoService goodsInfoService;
+    @Autowired
+    OrderInfoService orderInfoService;
 
     /**
      * 获取礼品信息
@@ -28,13 +31,20 @@ public class PresentAction {
      * @return
      */
     @RequestMapping(value = "/list")
-    public ModelAndView modifyCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView getPresentList(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         List<GoodsInfo> goodsInfoList = goodsInfoService.selectPresentInfo(request);
         model.addObject("goodsInfoList", goodsInfoList);
         model.setViewName("reception/present_info");
         return model;
+    }
+
+    @RequestMapping(value = "/review")
+    public String reviewPresent(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        orderInfoService.selectByPrimaryKey("");
+        return "";
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
