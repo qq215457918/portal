@@ -30,6 +30,12 @@
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
   </resultMap>
   
+  <resultMap id="FormResultMap" type="com.portal.bean.result.OrderInfoForm" >
+    <result column="staff_id" property="staffId" jdbcType="VARCHAR" />
+    <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="DECIMAL" />
+  </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
       <if test="condition.orderNumber != null" >
@@ -110,6 +116,15 @@
       <if test="condition.endDate != null" >
       	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
+      <if test="condition.staffName != null" >
+         and e.`name` like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR} ,"%")
+      </if>
+      <if test="condition.area != null" >
+         and c.area = #{condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.positionType != null" >
+         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   
@@ -164,6 +179,51 @@
 		(select DATE_ADD(#{startDate},INTERVAL +6 day)) as Sunday_Day,
 		(select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.create_date like CONCAT("%", DATE_ADD(#{startDate},INTERVAL +6 day), "%") and c.area = #{area} and o.status = '4' or o.pay_type = '1') as Sunday
 	from order_info
+  </select>
+  
+  <!-- 根据条件查询员工名称按照员工名称分组 -->
+  <select id="getEmployeeInfos" parameterType="com.portal.bean.Criteria" resultType="java.lang.String">
+  	select e.`name` from employee_info e 
+  	where 1=1
+    	<if test="condition.area != null" >
+        	and e.organization_id = #{condition.area,jdbcType=VARCHAR}
+     	</if>
+		<if test="condition.positionType != null" >
+       		and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+     	</if>
+  	GROUP BY e.`name`
+  </select>
+  
+  <!-- 获取员工业绩数据 -->
+  <select id="getStaffPerfors" parameterType="com.portal.bean.Criteria" resultMap="FormResultMap">
+  	select a.staff_id, a.staff_name, a.performance from (
+		select 
+	  		e.id as staff_id,
+	  		e.`name` as staff_name,
+	  		sum(o.actual_price) as performance
+		from employee_info e
+		left join order_info o on e.id = o.phone_staff_id
+		left join customer_info c on o.customer_id = c.id
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and o.status = '4' or o.pay_type = '1'
+		group by e.`name`
+		
+		UNION
+	        
+	    select 
+	    	e.id as staff_id, e.`name` as staff_name, 0 as performance
+	    from employee_info e
+	    where 1=1
+		    <if test="condition.area != null" >
+	         and e.organization_id = #{condition.area,jdbcType=VARCHAR}
+	      	</if>
+			<if test="condition.positionType != null" >
+	         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+	      	</if>
+	    group by e.`name`
+	) a group by a.staff_name
   </select>
   
 </mapper>

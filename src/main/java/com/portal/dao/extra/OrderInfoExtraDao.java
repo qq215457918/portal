@@ -1,11 +1,13 @@
 package com.portal.dao.extra;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.result.OrderInfoForm;
 
 @Repository
 public interface OrderInfoExtraDao {
@@ -28,4 +30,26 @@ public interface OrderInfoExtraDao {
      * @throws
      */
     Map<String, Object> getWeekClinchPerfors(@Param(value="startDate") String startDate, @Param(value="area") String area);
+    
+    /**
+     * @Title: getEmployeeInfos 
+     * @Description: 根据条件查询员工名称
+     * @param example
+     * @return List<String>
+     * @author Xia ZhengWei
+     * @date 2016年11月1日 下午10:42:33 
+     * @version V1.0
+     */
+    List<String> getEmployeeInfos(Criteria example);
+    
+    /**
+     * @Title: getStaffPerfors 
+     * @Description: 获取员工业绩数据
+     * @param example
+     * @return List<OrderInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年10月31日 下午11:30:20 
+     * @version V1.0
+     */
+    List<OrderInfoForm> getStaffPerfors(Criteria example);
 }

@@ -1,5 +1,20 @@
 package com.portal.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
@@ -16,19 +31,8 @@ import com.portal.dao.extra.OrderInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
-import org.apache.commons.beanutils.BeanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -348,5 +352,85 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
 
         return result;
+    }
+    
+    public JSONObject ajaxStaffPerfors(HttpServletRequest request) {
+        // 查询两个地区的员工业绩情况（默认查询上一周,交订金和完成订单的订单业绩）
+        JSONObject result = new JSONObject();
+        JSONObject dlresult = new JSONObject();
+        JSONObject syresult = new JSONObject();
+        
+        // 职位类别（1-客服/2-业务员）
+        String positionType = request.getParameter("positionType");
+        // 员工名称
+        String staffName = request.getParameter("staffName");
+        // 开始日期
+        String startDate = request.getParameter("startDate");
+        // 结束日期
+        String endDate = request.getParameter("endDate");
+        
+        criteria.clear();
+        if(StringUtil.isNotBlank(positionType)) {
+            criteria.put("positionType", positionType);
+        }
+        if(StringUtil.isNotBlank(staffName)) {
+            criteria.put("staffName", staffName);
+        }
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+        }else {
+            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        }
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        }
+        
+        //查询出大连客服的业绩
+        criteria.put("area", "1");
+        // 获取大连区域下对应职位类型的所有员工名称
+        List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
+        // 获取大连区域下员工业绩
+        List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
+        
+        // 查询出沈阳客服的业绩
+        criteria.put("area", "0");
+        // 获取沈阳区域下对应职位类型的所有员工名称
+        List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
+        // 获取沈阳区域下员工业绩
+        List<OrderInfoForm> syAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
+        
+        result.put("dlStaffNames", dlStaffNames);
+        result.put("syStaffNames", syStaffNames);
+        
+        dlresult = geneteMap(dlresult, dlAmounts);
+        syresult = geneteMap(syresult, syAmounts);
+        
+        result.put("dlResult", dlresult);
+        result.put("syResult", syresult);
+        
+        return result;
+    }
+    
+    /**
+     * @Title: geneteMap 
+     * @Description: 将员工业绩与名称生成Map键值对格式并返回
+     * @param result   员工名称和业绩的json格式
+     * @param amounts   员工的业绩数据集
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年11月1日 下午11:13:49 
+     * @version V1.0
+     */
+    public JSONObject geneteMap(JSONObject result, List<OrderInfoForm> amounts) {
+        if(amounts != null && amounts.size() > 0) {
+            for (OrderInfoForm orderInfoForm : amounts) {
+                result.put(orderInfoForm.getStaffName(), orderInfoForm.getPerformance());
+            }
+            return result;
+        }else {
+            return result;
+        }
     }
 }

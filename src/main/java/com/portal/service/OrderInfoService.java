@@ -83,5 +83,16 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxClinchPerforEveryDay(HttpServletRequest request);
+    
+    /**
+     * @Title: ajaxStaffPerfors 
+     * @Description: 异步获取员工业绩统计数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年10月31日 下午11:01:47 
+     * @version V1.0
+     */
+    JSONObject ajaxStaffPerfors(HttpServletRequest request);
 
 }

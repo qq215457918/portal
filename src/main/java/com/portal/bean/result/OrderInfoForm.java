@@ -111,6 +111,21 @@ public class OrderInfoForm implements Serializable {
 
     //订单详情列表
     private List<OrderDetailInfo> orderDetailInfoList;
+    
+    /**
+     * 统计业绩--员工ID
+     */
+    private String staffId;
+    
+    /**
+     * 统计业绩--员工名称
+     */
+    private String staffName;
+    
+    /**
+     * 统计业绩--业绩
+     */
+    private Integer performance;
 
     public List<OrderDetailInfo> getOrderDetailInfoList() {
         return orderDetailInfoList;
@@ -375,6 +390,30 @@ public class OrderInfoForm implements Serializable {
 
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
+    }
+
+    public String getStaffId() {
+        return staffId;
+    }
+
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
+    }
+
+    public String getStaffName() {
+        return staffName;
+    }
+
+    public void setStaffName(String staffName) {
+        this.staffName = staffName;
+    }
+
+    public Integer getPerformance() {
+        return performance;
+    }
+
+    public void setPerformance(Integer performance) {
+        this.performance = performance;
     }
 
 }

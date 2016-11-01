@@ -612,7 +612,7 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // ------------------------- 每日成交业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    // ------------------------- 每日成交业绩统计 入口：toClinchPerforEveryDay ---------------------------------
     // 统计交订金和完成订单
     
     /**
@@ -653,12 +653,96 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // ------------------------- 客服业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    // ------------------------- 客服业绩统计 入口：toServiceStaffPerfor ---------------------------------
     
+    /**
+     * 
+     * 图表和列表查询语句使用的是同一个，根据传递的不同参数相应不同的内容
+     * 
+     * select a.id, a.`name`, a.performance from (
+            select e.id, e.`name`, sum(o.actual_price) as performance
+            from employee_info e
+            left join order_info o on e.id = o.phone_staff_id
+            left join customer_info c on o.customer_id = c.id
+            where c.area = '0' and o.status = '4' or o.pay_type = '1'
+            and o.create_date >= ''
+            and o.create_date <= ''
+            and e.`name` like '%%'
+            group by e.`name`
+        
+            UNION
+        
+            select e.id, e.`name`, 0 as performance
+            from employee_info e
+            where e.organization_id = '0'
+            and e.position_type = '1'
+            group by e.`name`
+        ) a group by a.`name`
+        
+        
+                查询名字：select e.`name` from employee_info e where e.position_type = '1' and e.organization_id = '0' GROUP BY e.`name`
+     */
     
+    /**
+     * @Title: toServiceStaffPerfor 
+     * @Description: 进入客服业绩统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月31日 下午11:01:00 
+     * @version V1.0
+     */
+    @RequestMapping("/toServiceStaffPerfor")
+    public String toServiceStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        // WebUtils.setAttributeToSession(request);
+        
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/service_staff_perfors";
+    }
     
-    // ------------------------- 业务员业绩统计 入口：toOutwarehouseDetail ---------------------------------
+    // ------------------------- 业务员业绩统计 入口：toReceiveStaffPerfor ---------------------------------
     
+    /**
+     * @Title: toReceiveStaffPerfor 
+     * @Description: 进入业务员业绩统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年10月31日 下午11:03:26 
+     * @version V1.0
+     */
+    @RequestMapping("/toReceiveStaffPerfor")
+    public String toReceiveStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        // WebUtils.setAttributeToSession(request);
+        
+        // 初始化页面输入框中的日期值（默认上一周的时间）
+        request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        return "report/receive_staff_perfor";
+    }
     
+    /**
+     * @Title: ajaxStaffPerfors 
+     * @Description: 异步获取员工业绩统计数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月31日 下午11:00:43 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxStaffPerfors")
+    public void ajaxStaffPerfors(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取数据
+        JSONObject results = orderService.ajaxStaffPerfors(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
 
 }
