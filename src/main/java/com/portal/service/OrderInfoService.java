@@ -49,7 +49,7 @@ public interface OrderInfoService {
      * @param request
      * @return
      */
-    boolean addPresentOrder(HttpServletRequest request);
+    boolean insertPresentOrder(HttpServletRequest request);
 
     int countByExample(Criteria example);
 
@@ -83,7 +83,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxClinchPerforEveryDay(HttpServletRequest request);
-    
+
     /**
      * @Title: ajaxStaffPerfors 
      * @Description: 异步获取员工业绩统计数据

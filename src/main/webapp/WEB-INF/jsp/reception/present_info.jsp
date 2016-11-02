@@ -12,8 +12,6 @@
   <div class="modal-shiftfix">
 	  <div class="container-fluid main-content">
 		  <div class="page-title">
-		  
-		  
 		       <div class="row">
 		        <div class="col-lg-12">
 		          <div class="widget-container label-container fluid-height">
@@ -28,34 +26,28 @@
 			            <label class="control-label col-md-2">请选择要领取的赠品</label>
 			            <div class="col-md-7">
 			              <select class="form-control">
-				              <option value="Category 1">选项 1</option>
-				              <option value="Category 2">选项 2</option>
-				              <option value="Category 3">选项 3</option>
-				              <option value="Category 4">选项 4</option>
+			               <c:forEach var="list" items="${goodsInfoList}">
+		                      <option value="${list.id}">${list.name}</option>
+		                   </c:forEach>
 			              </select>
 			            </div>
 			            <input class="btn btn-warning" style="margin:20px;float:right "type="submit" value="确 认">
 			          </div>  
 		              <a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
-		              <div class="modal fade" id="myModal">
-		                <div class="modal-dialog">
-		                  <div class="modal-content">
-		                    <div class="modal-header">
-		                      <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
-		                      <h4 class="modal-title">
-		                      	  请输入审批原因
-		                      </h4>
-		                    </div>
-		                    <div class="modal-body">
-		                      <textarea class="form-control" rows="3"></textarea>
-		                    </div>
-		                    <div class="modal-footer">
-		                      <button class="btn btn-primary" type="button">确 认</button>
-		                      <button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
-		                    </div>
-		                  </div>
-		                </div>
-		              </div>
+		            </div>
+		          </div>
+		        </div>
+		      </div>
+		      <div class="row">
+		        <div class="col-lg-12">
+		          <div class="widget-container label-container fluid-height">
+		            <div class="heading">
+		              <i class="icon-tags"></i>今日领取记录
+		            </div>
+		            <div class="widget-content text-center">
+		              <h3>
+		              	  欢迎领取赠品 ^ ^
+		              </h3>
 		            </div>
 		          </div>
 		        </div>
@@ -63,38 +55,66 @@
 		    </div>
 		  </div>
 	  </div>
-	        <!--modal end-->
-        <div class="modal fade" id="presentModal">
-           <div class="modal-dialog">
-             <div class="modal-content">
-               <div class="modal-header">
-                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
-                 <h4 class="modal-title">
-                                                     特殊审批
-                 </h4>
-               </div>
-               <div class="modal-body">
-                 <h4>请输入特殊审批内容，并确认</h4>
-               </div>
-               
-               <div class="modal-footer">
-                 <button class="btn btn-primary" type="button" id="quitConfirm">确 认</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+        <!-- modal Start -->
+           <div class="modal fade" id="presentModal">
+             <div class="modal-dialog">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+                   <h4 class="modal-title">
+                   	  请输入审批原因
+                   </h4>
+                 </div>            
+                 <div class="modal-body">
+                 	赠品名称：<select class="form-control" id="applyGoods">
+		               <c:forEach var="list" items="${goodsInfoList}">
+	                      <option value="${list.id}">${list.name}</option>
+	                   </c:forEach>
+		              </select>
+		                                赠品数量： <input class="form-control" value="1" type="text" id="applyCount">
+                                                     申请原因：<textarea class="form-control" rows="3" id="applyReason"></textarea>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn btn-primary" type="button" id="appConfirm">确 认</button>
+                   <button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+                 </div>
                </div>
              </div>
            </div>
-       </div>
-         <!--modal end-->
+         <!-- modal end -->
    <script>
-	$(function(){
-		base = $("base").attr('href'); 
-		
+ 	$(function(){
+		base = $("base").attr('href'); 		
 		// 查询功能
-		$("#receiveId").click(function(){
-			var id = $('#cid').val();
-			var phone = $('#cphone').val();
-			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
+		$("#appConfirm").click(function(){
+			var goodId = $('#applyGoods').val();
+			var count = $('#applyCount').val();
+			var reason = $('#applyReason').val();
+			//window.location.href=base+"/present/review?reason="+reason;
+			$.ajax({
+				method : "POST",
+				url : base+"/present/review",
+				data : {
+					"reason" : reason,
+					"count" : count,
+					"goodId" : goodId,
+					"customerId":"1"
+				},
+				dataType : "JSON",
+				success : function(data) {
+					if(data.result==true){
+						alert("提交成功，等待审批人进行审批")
+					}
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					console.log('XMLHttpRequest.status :' + XMLHttpRequest.status);
+					console.log('XMLHttpRequest.readyState :'
+							+ XMLHttpRequest.readyState);
+					console.log('textStatus:' + textStatus);
+				}
+			});
 		});
-	});
+	}); 
 	</script>
   </body>
 </html>

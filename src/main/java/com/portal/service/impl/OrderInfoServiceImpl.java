@@ -1,20 +1,5 @@
 package com.portal.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.beanutils.BeanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
@@ -31,8 +16,19 @@ import com.portal.dao.extra.OrderInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
-
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.apache.commons.beanutils.BeanUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -49,6 +45,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Autowired
     private GoodsDao goodsDao;
 
+    @Autowired
     private CustomerInfoService customerInfoService;
 
     @Autowired
@@ -78,6 +75,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     *     `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
     *     `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
     *     `finance_flag` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '支付状态(财务审核标志)\n0 未支付\n1已支付',
+    *     
+    *  isToday==1? createDay=now() : createDay=null   
     * @param customerId
     * @param payType
     * @param orderType
@@ -85,7 +84,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     * @throws IllegalAccessException
     * @throws InvocationTargetException
     */
-    List<OrderInfoForm> getOrderInfo(String customerId, int status, int orderType, int payType) {
+    List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType,
+            int isToday) {
         List<OrderInfoForm> orderInfoForm = new ArrayList<OrderInfoForm>();
         List<OrderInfo> orderInfoList =
                 orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType));
@@ -110,6 +110,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         });
 
         return orderInfoForm;
+    }
+
+    List<OrderInfoForm> getOrderInfo(String customerId, int status, int orderType, int payType) {
+        return getOrderInfoByDate(customerId, status, orderType, payType, 0);
     }
 
     List<OrderInfoForm> getNormalOrderInfo(String customerId, int orderType, int payType) {
@@ -180,11 +184,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     /**
      * add present 2 order_info for review
      */
-    public boolean addPresentOrder(HttpServletRequest request) {
+    public boolean insertPresentOrder(HttpServletRequest request) {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getOrderInfo(request, uuid));
-        return addPresentDetailInfo(getOrderDetailInfo(request, uuid));
+        return insertPresentDetailInfo(getOrderDetailInfo(request, uuid));
     }
 
     /**
@@ -192,7 +196,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     OrderDetailInfo getOrderDetailInfo(HttpServletRequest request, String uuid) {
         OrderDetailInfo detailInfo = new OrderDetailInfo();
-        GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(request.getParameter("goodID"));
+        GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(request.getParameter("goodId"));
         detailInfo.setId(UUidUtil.getUUId());
         detailInfo.setOrderId(uuid);
         detailInfo.setGoodId(goodInfo.getId());
@@ -200,6 +204,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setGoodSortName(goodInfo.getSortName());
         detailInfo.setGoodType(goodInfo.getType());
         detailInfo.setGoodName(goodInfo.getName());
+        detailInfo.setAmount(Integer.getInteger(request.getParameter("count")));
+
         return detailInfo;
     }
 
@@ -221,7 +227,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String[] staff = getStaffInfo(cid);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
-        orderInfo.setRemarks(request.getParameter("remarks"));
+        orderInfo.setRemarks(request.getParameter("reason"));
         return orderInfo;
     }
 
@@ -240,8 +246,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * add present 2 order_detail
      * @return
      */
-    boolean addPresentDetailInfo(OrderDetailInfo detailInfo) {
-        return orderDetailInfoService.insert(detailInfo) > 0 ? true : false;
+    boolean insertPresentDetailInfo(OrderDetailInfo detailInfo) {
+        return orderDetailInfoService.insertSelective(detailInfo) > 0 ? true : false;
+    }
+
+    /**
+     * 当天赠品记录查询
+     * order_type='4'and create_date=now()
+     */
+    List<OrderInfoForm> selectTodayPresentList(String customerId) {
+        return getOrderInfo(customerId, 0, 3, 1);
     }
 
     public int countByExample(Criteria example) {
@@ -353,13 +367,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return result;
     }
-    
+
     public JSONObject ajaxStaffPerfors(HttpServletRequest request) {
         // 查询两个地区的员工业绩情况（默认查询上一周,交订金和完成订单的订单业绩）
         JSONObject result = new JSONObject();
         JSONObject dlresult = new JSONObject();
         JSONObject syresult = new JSONObject();
-        
+
         // 职位类别（1-客服/2-业务员）
         String positionType = request.getParameter("positionType");
         // 员工名称
@@ -368,51 +382,54 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
-        
+
         criteria.clear();
-        if(StringUtil.isNotBlank(positionType)) {
+        if (StringUtil.isNotBlank(positionType)) {
             criteria.put("positionType", positionType);
         }
-        if(StringUtil.isNotBlank(staffName)) {
+        if (StringUtil.isNotBlank(staffName)) {
             criteria.put("staffName", staffName);
         }
-        if(StringUtil.isNotBlank(startDate)){
+        if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-        }else {
-            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        } else {
+            criteria.put("startDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endDate)){
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        }else {
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if (StringUtil.isNotBlank(endDate)) {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        } else {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
-        
+
         //查询出大连客服的业绩
         criteria.put("area", "1");
         // 获取大连区域下对应职位类型的所有员工名称
         List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取大连区域下员工业绩
         List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-        
+
         // 查询出沈阳客服的业绩
         criteria.put("area", "0");
         // 获取沈阳区域下对应职位类型的所有员工名称
         List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取沈阳区域下员工业绩
         List<OrderInfoForm> syAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-        
+
         result.put("dlStaffNames", dlStaffNames);
         result.put("syStaffNames", syStaffNames);
-        
+
         dlresult = geneteMap(dlresult, dlAmounts);
         syresult = geneteMap(syresult, syAmounts);
-        
+
         result.put("dlResult", dlresult);
         result.put("syResult", syresult);
-        
+
         return result;
     }
-    
+
     /**
      * @Title: geneteMap 
      * @Description: 将员工业绩与名称生成Map键值对格式并返回
@@ -424,12 +441,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @version V1.0
      */
     public JSONObject geneteMap(JSONObject result, List<OrderInfoForm> amounts) {
-        if(amounts != null && amounts.size() > 0) {
+        if (amounts != null && amounts.size() > 0) {
             for (OrderInfoForm orderInfoForm : amounts) {
                 result.put(orderInfoForm.getStaffName(), orderInfoForm.getPerformance());
             }
             return result;
-        }else {
+        } else {
             return result;
         }
     }
