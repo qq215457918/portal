@@ -31,28 +31,45 @@
 		                   </c:forEach>
 			              </select>
 			            </div>
-			            <input class="btn btn-warning" style="margin:20px;float:right "type="submit" value="确 认">
+			            <input class="btn btn-warning" style="margin:20px;float:right "type="submit" id="presentReceive" value="确 认">
 			          </div>  
 		              <a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
 		            </div>
 		          </div>
 		        </div>
 		      </div>
-		      <div class="row">
-		        <div class="col-lg-12">
-		          <div class="widget-container label-container fluid-height">
-		            <div class="heading">
-		              <i class="icon-tags"></i>今日领取记录
-		            </div>
-		            <div class="widget-content text-center">
-		              <h3>
-		              	  欢迎领取赠品 ^ ^
-		              </h3>
-		            </div>
+      <!-- 购买历史 -->
+	      <div class="row">
+		      <div class="col-lg-6">
+		        <div class="widget-container fluid-height clearfix">
+		          <div class="heading">
+		            <i class="icon-table"></i>今日礼品领取
+		          </div>
+		          <div class="widget-content padded clearfix">
+		            <table class="table table-bordered">
+		              <thead>
+		              <tr>
+		                <th>
+		                	 序号
+		                </th>
+		                <th>
+		                	 礼品名称
+		                </th>
+		                <th>
+		       				申请时间
+		                </th>
+		                <th>
+		                	审核状态
+		                </th>
+		              </tr></thead>
+		              <tbody id="presentListTbody">
+		              </tbody>
+		            </table>
 		          </div>
 		        </div>
 		      </div>
-		    </div>
+			</div>
+		    <!-- list end -->
 		  </div>
 	  </div>
         <!-- modal Start -->
@@ -84,10 +101,11 @@
          <!-- modal end -->
    <script>
  	$(function(){
-		base = $("base").attr('href'); 		
+		base = $("base").attr('href'); 	
+		getPresent();
+		var goodId = $('#applyGoods').val();
 		// 查询功能
 		$("#appConfirm").click(function(){
-			var goodId = $('#applyGoods').val();
 			var count = $('#applyCount').val();
 			var reason = $('#applyReason').val();
 			//window.location.href=base+"/present/review?reason="+reason;
@@ -103,7 +121,9 @@
 				dataType : "JSON",
 				success : function(data) {
 					if(data.result==true){
-						alert("提交成功，等待审批人进行审批")
+						alert("提交成功，等待审批人进行审批");
+						$('#presentModal').modal('hide');
+						getPresent();
 					}
 				},
 				error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -114,7 +134,66 @@
 				}
 			});
 		});
-	}); 
+        //领取赠品		
+		$("#presentReceive").click(function(){	
+			$.ajax({
+				method : "POST",
+				url : base+"/present/receive",
+				data : {
+					"goodId" : goodId,
+					"customerId":"1"
+				},
+				dataType : "JSON",
+				success : function(data) {
+					if(data.result==true){
+						$("#presentReceive").attr('disabled',"true");
+						$("#applyGoods").attr('disabled',"true");
+						getPresent();
+				    }
+				}
+			});	
+		}); 
+        
+	  }); 
+ 	
+ 	function getPresent(){
+		$("#presentListTbody").html("");
+		$.ajax({
+			method : "POST",
+			url : base+"/present/today",
+			data : {
+				"customerId":"1"
+			},
+			dataType : "JSON",
+			success : function(data) {
+				if(data.result.length>0){
+			 		var item ;
+			 		var financeFlag ;
+					var orderList = data.result;				
+					$.each(data.result, function(n, value) {
+						if(value.financeFlag==1){
+							financeFlag="已经审批通过";
+						}else{
+							financeFlag="未通过审核";
+						}
+						item += "<tr><td>"+Number(n+1)+"</td>";					
+						item += "<td>"+value.orderDetailInfoList[0].goodName+"</td>";
+						item += "<td>"+value.createDateString+"</td>";
+						item += "<td>"+financeFlag+"</td></tr>";
+					});
+				}else{
+					item += "<tr><td align='center' colspan='4'>当天没有领取正品</td></tr>";
+				}
+				$("#presentListTbody").append(item);
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('XMLHttpRequest.status :' + XMLHttpRequest.status);
+				console.log('XMLHttpRequest.readyState :'
+						+ XMLHttpRequest.readyState);
+				console.log('textStatus:' + textStatus);
+			}
+		});
+ 	}
 	</script>
   </body>
 </html>

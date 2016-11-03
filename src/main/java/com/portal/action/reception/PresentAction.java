@@ -43,11 +43,16 @@ public class PresentAction {
         return model;
     }
 
+    /**
+     * 特殊礼物流程，需要审批
+      * @param request
+     * @param response
+     */
     @RequestMapping(value = "/review", method = RequestMethod.POST)
     public void reviewPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request));
+        resultJson.put("result", orderInfoService.insertPresentOrder(request, 1));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
@@ -55,7 +60,20 @@ public class PresentAction {
     public void todayPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request));
+        resultJson.put("result", orderInfoService.selectTodayPresentList(request.getParameter("customerId")));
+        JsonUtils.outJsonString(resultJson.toString(), response);
+    }
+
+    /**
+     * 正常领取礼物流程
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/receive", method = RequestMethod.POST)
+    public void insertPresentOrder(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("result", orderInfoService.insertPresentOrder(request, 0));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

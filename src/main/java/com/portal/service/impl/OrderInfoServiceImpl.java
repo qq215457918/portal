@@ -56,12 +56,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
-    Criteria getCriteria(String customerId, int status, int orderType, int payType) {
+    Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
         criteria.clear();
         criteria.put("customer_id", customerId);
         criteria.put("status", status);
         criteria.put("order_type", orderType);
         criteria.put("pay_type", payType);
+        if (todayFlag == 1)
+            criteria.put("today_flag", 1);
         criteria.setOrderByClause("create_date");
         criteria.setMysqlLength(5);
         return criteria;
@@ -88,7 +90,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             int isToday) {
         List<OrderInfoForm> orderInfoForm = new ArrayList<OrderInfoForm>();
         List<OrderInfo> orderInfoList =
-                orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType));
+                orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType, isToday));
         //把order的信息放入到form中
         orderInfoList.forEach(value -> {
             try {
@@ -184,15 +186,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     /**
      * add present 2 order_info for review
      */
-    public boolean insertPresentOrder(HttpServletRequest request) {
+    public boolean insertPresentOrder(HttpServletRequest request, int normalFlag) {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
-        insertSelective(getOrderInfo(request, uuid));
+        insertSelective(getPresentOrderInfo(request, uuid, normalFlag));
         return insertPresentDetailInfo(getOrderDetailInfo(request, uuid));
     }
 
     /**
      * ready for orderdetailInfo
+     * add goodID count
      */
     OrderDetailInfo getOrderDetailInfo(HttpServletRequest request, String uuid) {
         OrderDetailInfo detailInfo = new OrderDetailInfo();
@@ -210,20 +213,26 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     /**
-     * ready for orderInfo
+     * ready for PresentOrderInfo
+     * 是都正常支付？normalFlag=1：normalFlag=0
      * @param request
      * @param cid
      * @return
      */
-    OrderInfo getOrderInfo(HttpServletRequest request, String uuid) {
+    OrderInfo getPresentOrderInfo(HttpServletRequest request, String uuid, int normalFlag) {
         String cid = request.getParameter("customerId");
-
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setCustomerId(cid);
         orderInfo.setOrderType("4");
+        if (normalFlag == 0) {
+            orderInfo.setStatus("1");
+            orderInfo.setFinanceFlag("1");
+            orderInfo.setFinanceDate(new Date());
+        } else {
+            orderInfo.setStatus("0");
+        }
         orderInfo.setCreateDate(new Date());
-        orderInfo.setStatus("0");
         String[] staff = getStaffInfo(cid);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
@@ -254,8 +263,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * 当天赠品记录查询
      * order_type='4'and create_date=now()
      */
-    List<OrderInfoForm> selectTodayPresentList(String customerId) {
-        return getOrderInfo(customerId, 0, 3, 1);
+    public List<OrderInfoForm> selectTodayPresentList(String customerId) {
+        return getOrderInfoByDate(customerId, 0, 3, 0, 1);
     }
 
     public int countByExample(Criteria example) {

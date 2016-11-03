@@ -49,7 +49,13 @@ public interface OrderInfoService {
      * @param request
      * @return
      */
-    boolean insertPresentOrder(HttpServletRequest request);
+    boolean insertPresentOrder(HttpServletRequest request, int normalFlag);
+
+    /**
+     * 当天赠品记录查询
+     * order_type='4'and create_date=now()
+     */
+    List<OrderInfoForm> selectTodayPresentList(String customerId);
 
     int countByExample(Criteria example);
 

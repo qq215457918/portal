@@ -106,6 +106,10 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <!-- 新增查询今天的条件 -->
+      <if test="condition.today_flag != null" >
+         and to_days(create_date) = to_days(now())
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
