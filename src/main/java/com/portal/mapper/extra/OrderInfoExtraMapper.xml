@@ -202,7 +202,7 @@
 	  		e.`name` as staff_name,
 	  		sum(o.actual_price) as performance
 		from employee_info e
-		left join order_info o on e.id = o.phone_staff_id
+		left join order_info o on e.id = <if test="condition.conditionId != null" >${condition.conditionId}</if>
 		left join customer_info c on o.customer_id = c.id
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />

@@ -6,6 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
 <title>接待统计</title>
 <base href="${basePath}">
+<link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/report/visit_everyday_list.js"></script>
 <jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
@@ -15,19 +16,19 @@
 	  <div class="col-lg-12">
 	    <div class="widget-container fluid-height clearfix">
 	      <div class="heading" style="color:#666666; font-weight: bold;">
-	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;"></i>
-	    	<select id="customerArea" class="form-control" style="width: 9%; float: left;">
+	        <i class="icon-reorder fl" style="margin-top: 0.8%; cursor: default;"></i>
+	    	<select id="customerArea" class="form-control fl" style="width: 9%;">
 	    		<option value="1" <c:if test="${area == '1'}">selected="selected"</c:if> >大连</option>
 	    		<option value="0" <c:if test="${area == '0'}">selected="selected"</c:if> >沈阳</option>
 	    	</select>
 	      </div>
 	      <div class="widget-content padded">
-	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	        <div class="form-group condition-group">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">登门日期</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-3" style="width: 100%;">
 				      <div class="input-group date datepicker">
 		                <input class="form-control" type="text" id="visitDate" value="${visitDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
@@ -35,41 +36,41 @@
 		            </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">客户</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
 		              <input class="form-control" placeholder="客户姓名" id="customerName" type="text" style="width: 100%;">
 		            </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">客服</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
 		              <input class="form-control" placeholder="客服姓名" id="customServiceName" type="text" style="width: 100%;">
 		            </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">接待</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
 		              <input class="form-control" placeholder="接待人姓名" id="receiverStaffName" type="text" style="width: 100%;">
 		            </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">活动</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
 			            <select id="exercise" class="form-control" style="width: 100%;">
 				    		<option value="">请选择</option>
@@ -88,11 +89,11 @@
 				    </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">客户类型</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
 			            <select id="customerType" class="form-control" style="width: 100%;">
 				    		<option value="">请选择</option>
@@ -106,10 +107,10 @@
 				    </div>
 	          	</div>
 	          </div>
-		      <div style="height: 50px; float: left;width: 30%;">
-		      	<button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
-		      	<button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
-		      	<button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>
+		      <div class="condition fl">
+		      	<button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
+		      	<button class="btn btn-primary fl" id="export">导&nbsp;出</button>
+		      	<button class="btn btn-default fl" id="back">返&nbsp;回</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>

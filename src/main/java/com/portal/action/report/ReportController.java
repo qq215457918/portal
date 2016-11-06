@@ -656,34 +656,6 @@ public class ReportController {
     // ------------------------- 客服业绩统计 入口：toServiceStaffPerfor ---------------------------------
     
     /**
-     * 
-     * 图表和列表查询语句使用的是同一个，根据传递的不同参数相应不同的内容
-     * 
-     * select a.id, a.`name`, a.performance from (
-            select e.id, e.`name`, sum(o.actual_price) as performance
-            from employee_info e
-            left join order_info o on e.id = o.phone_staff_id
-            left join customer_info c on o.customer_id = c.id
-            where c.area = '0' and o.status = '4' or o.pay_type = '1'
-            and o.create_date >= ''
-            and o.create_date <= ''
-            and e.`name` like '%%'
-            group by e.`name`
-        
-            UNION
-        
-            select e.id, e.`name`, 0 as performance
-            from employee_info e
-            where e.organization_id = '0'
-            and e.position_type = '1'
-            group by e.`name`
-        ) a group by a.`name`
-        
-        
-                查询名字：select e.`name` from employee_info e where e.position_type = '1' and e.organization_id = '0' GROUP BY e.`name`
-     */
-    
-    /**
      * @Title: toServiceStaffPerfor 
      * @Description: 进入客服业绩统计页面
      * @param request
@@ -724,7 +696,7 @@ public class ReportController {
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
-        return "report/receive_staff_perfor";
+        return "report/receive_staff_perfors";
     }
     
     /**

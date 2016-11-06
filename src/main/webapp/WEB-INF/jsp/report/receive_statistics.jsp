@@ -14,11 +14,11 @@
   <div class="container-fluid main-content">
 	<div class="row">
 	  <div class="form-group" style="margin-left: 9.2%;">
-	    <div style="height: 50px; float: left; width: 30%;">
-		  <div style="width: 35%; float: left;">
+	    <div class="condition fl">
+		  <div class="condition-label fl">
 			<label class="control-label col-md-2" style="width: 100%;">统计日期</label>
           </div>
-          <div style="width: 65%; float: left;">
+          <div class="condition-control fl">
          	<div class="col-md-3" style="width: 100%;">
 			  <div class="input-group date datepicker">
 	            <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
@@ -26,11 +26,11 @@
 	        </div>
 		  </div>
         </div>
-	  	<div style="height: 50px; float: left; width: 30%;">
-		  <div style="width: 35%; float: left;">
+	  	<div class="condition fl">
+		  <div class="condition-label fl">
 			<label class="control-label col-md-2" style="width: 100%;">至</label>
           </div>
-          <div style="width: 65%; float: left;">
+          <div class="condition-control fl">
          	<div class="col-md-3" style="width: 100%;">
 	          <div class="input-group date datepicker">
 	            <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
@@ -38,19 +38,19 @@
 	        </div>
 		  </div>
         </div>
-	    <div style="height: 50px; float: left; width: 30%;">
-      	  <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
+	    <div class="condition fl">
+      	  <button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
       	</div>
 	  </div>
 	  <div style="clear: both;"></div>
 	  
-	  <div style="width: 50%; float: left; margin-top: 1.3%; text-align: -webkit-center;">
+	  <div class="container fl">
 	  	<div id="dlPicture"><i class="icon-reorder dl"></i></div>
 	  	<!-- 大连客户数量 -->
 	  	<div id="dlContainer" style="width: 400px; height: 400px;"></div>
 	  </div>
 	  
-	  <div style="width: 50%; float: left; margin-top: 1.3%; text-align: -webkit-center;">
+	  <div class="container fl">
 	    <div id="syPicture"><i class="icon-reorder sy"></i></div>
 	  	<!-- 沈阳客户数量 -->
 	 	<div id="syContainer" style="width: 400px; height: 400px;"></div>

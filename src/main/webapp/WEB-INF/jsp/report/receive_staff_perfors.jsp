@@ -4,10 +4,11 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<title>机构业绩</title>
+<title>业务员业绩统计</title>
 <base href="${basePath}">
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
-<script type="text/javascript" src="resources/js/report/organi_performance.js"></script>
+<script type="text/javascript" src="resources/js/plugins/highcharts/highcharts.js"></script>
+<script type="text/javascript" src="resources/js/report/receive_staff_perfors.js"></script>
 <jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
@@ -18,13 +19,13 @@
 	      <div class="widget-content padded">
 	        <div class="form-group condition-group">
 	          <div class="condition fl">
-	          	<div class="label fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">统计日期</label>
 	          	</div>
-	          	<div class="control fl">
+	          	<div class="condition-control fl">
 	          	  <div class="col-md-3" style="width: 100%;">
 				    <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="startDate" value="${startDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 		          </div>
 	          	</div>
@@ -36,29 +37,36 @@
 	          	<div class="condition-control fl">
 	          	  <div class="col-md-3" style="width: 100%;">
 		            <div class="input-group date datepicker">
-		              <input class="form-control" type="text" id="endReportDate" value="${endReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+		              <input class="form-control" type="text" id="endDate" value="${endDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 		            </div>
 			      </div>
 	          	</div>
 	          </div>
 	          <div class="condition fl">
-		        <button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
-		        <!-- <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button> -->
-		        <!-- <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button> -->
+	          	<div class="condition-label fl">
+	          		<label class="control-label col-md-2" style=" width: 100%;">业务员</label>
+	          	</div>
+	          	<div class="condition-control fl">
+	          		<div class="col-md-7" style="width: 100%;">
+		              <input class="form-control" placeholder="业务员姓名" id="staffName" type="text" style="width: 100%;">
+		            </div>
+	          	</div>
+	          </div>
+		      <div class="condition fl">
+		      	<button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="organiPerformance">
-				<thead>
-					<th>序&nbsp;&nbsp;号</th>
-                   	<th>机&nbsp;&nbsp;构</th>
-                   	<th>业&nbsp;&nbsp;绩</th>
-                   	<th>新客户数量</th>
-				</thead>
-				<tbody>
-				</tbody>
-			</table>
+			<div class="container" style="width: 100%; border-bottom: 1px dashed;">
+			  <!-- 大连业务员业绩 -->
+			  <div id="dlContainer" style="width: 800px; height: 400px;"></div>
+			</div>
+			  
+			<div class="container" style="width: 100%;">
+			  <!-- 沈阳业务员业绩 -->
+			  <div id="syContainer" style="width: 800px; height: 400px;"></div>
+			</div>
 			
 	      </div>
 	    </div>
