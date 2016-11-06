@@ -3,6 +3,8 @@ package com.portal.dao;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -72,4 +74,31 @@ public interface CustomerInfoDao {
      * 查询列表条数（带成交金额和最近成交时间）
      */
 	int countCustomerEx(Criteria criteria);
+
+	/**
+     * @Title: updateExportDate 
+     * @Description: 导出时间更新
+     * @param resultList 
+     * @return void
+     * @throws
+     */
+	void updateExportDate(List<CustomerInfo> resultList);
+
+	/**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 插入用户信息 如果电话重复则更新
+     * @param resultList 
+     * @return void
+     * @throws
+     */
+	void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+
+	/**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 导入更新电联人员
+     * @param data 
+     * @return void
+     * @throws
+     */
+	void updateCustomerInfo(Map<String, Object> data);
 }

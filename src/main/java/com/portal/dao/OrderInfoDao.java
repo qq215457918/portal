@@ -1,6 +1,7 @@
 package com.portal.dao;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderInfo;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -62,4 +63,24 @@ public interface OrderInfoDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(OrderInfo record);
+
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+	List<OrderInfo> selectOrderModifyList(Criteria criteria);
+
+	/**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+	int countOrderModifyList(Criteria criteria);
 }

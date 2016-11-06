@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>客户信息查询</title>
+<title>说明会客户信息查询</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
 <script src="resources/js/customer/explanation_info_index.js" type="text/javascript"></script>
@@ -55,6 +55,7 @@
 							<div class="col-md-7">
 								<button class="btn btn-primary" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>
+								<button class="btn btn-primary" id="importCustomer">导入</button>
 							</div>
 						</div>
 						<!-- DataTables Example -->

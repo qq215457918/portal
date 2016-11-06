@@ -112,14 +112,24 @@ public interface WorkFlowService {
 	public void saveSubmitTask(Map<String, String> paramMap);
 	
 	 /**
-     * @Title: findCommentByOrderId 
+     * @Title: findCommentByIdAndKey 
      * @Description: 根据订单id 查询历史审批信息
      * @param id
      * @return 
      * @return List<Comment>
      * @throws
      */
-	public List<Comment> findCommentByOrderId(String id);
+	public List<Comment> findCommentByIdAndKey(String id, String depKey);
+	
+	/**
+	 * @Title: findCommentByTaskId 
+	 * @Description: 根据任务id获取批注信息
+	 * @param taskId
+	 * @return 
+	 * @return List<Comment>
+	 * @throws
+	 */
+	public List<Comment> findCommentByTaskId(String taskId);
 	
 	//------------------------------- 
 	/**

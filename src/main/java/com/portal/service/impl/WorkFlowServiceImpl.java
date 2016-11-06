@@ -35,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.portal.bean.OrderInfo;
 import com.portal.dao.extra.WorkFlowDao;
 import com.portal.service.WorkFlowService;
 
@@ -156,7 +155,15 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	 */
     @Override
     public ProcessInstance startProcess(String processDefinitionKey, String busKey, Map<String, Object> paramMap) {
-    	return runtimeService.startProcessInstanceByKey(processDefinitionKey, busKey, paramMap);
+    	ProcessInstance pi = runtimeService.startProcessInstanceByKey(processDefinitionKey, busKey, paramMap);
+    	String piId = pi.getId();
+    	if(paramMap.entrySet().size() > 0){
+    		for(Map.Entry<String, Object> entry : paramMap.entrySet()){
+    			runtimeService.setVariable(piId, entry.getKey(), entry.getValue());
+    		}
+    	}
+    	
+    	return pi;
     }
     
     /**
@@ -170,6 +177,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     @Override
     public List<Task> selectTaskListById(String userId, String defKey) {
     	return taskService.createTaskQuery()
+    					.includeProcessVariables().includeTaskLocalVariables()
     					.taskDefinitionKey(defKey)
     					.taskAssignee(userId)
     					.orderByTaskCreateTime()
@@ -238,7 +246,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		//批注信息
 		String message = paramMap.get("comment");
 		//订单编号
-		String orderId = paramMap.get("orderId");
+		String id = paramMap.get("id");
 		//用户id
 		String userId = paramMap.get("userId");
 		
@@ -278,7 +286,7 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	}
     
     /**
-     * @Title: findCommentByLeaveBillId 
+     * @Title: findCommentByIdAndKey 
      * @Description: 根据订单id 查询历史审批信息
      * @param id
      * @return 
@@ -286,12 +294,9 @@ public class WorkFlowServiceImpl implements WorkFlowService {
      * @throws
      */
     @Override
-	public List<Comment> findCommentByOrderId(String id) {
-    	OrderInfo orderInfo = new OrderInfo();
-		//获取对象的名称
-		String objectName = orderInfo.getClass().getSimpleName();
+	public List<Comment> findCommentByIdAndKey(String id, String depKey) {
 		//组织流程表中的字段中的值
-		String objId = objectName+"."+id;
+		String objId = depKey+"."+id;
 		
 		// 使用历史的流程实例查询，返回历史的流程实例对象，获取流程实例ID
 		HistoricProcessInstance hpi = historyService.createHistoricProcessInstanceQuery()//对应历史的流程实例表
@@ -302,6 +307,23 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 		List<Comment> list = taskService.getProcessInstanceComments(processInstanceId);
 		return list;
 	}
+    
+    /**
+	 * @Title: findCommentByTaskId 
+	 * @Description: 根据任务id获取批注信息
+	 * @param taskId
+	 * @return 
+	 * @return List<Comment>
+	 * @throws
+	 */
+    @Override
+    public List<Comment> findCommentByTaskId(String taskId) {
+    	Task task = taskService.createTaskQuery()
+    					.taskId(taskId)
+    					.singleResult();
+    	
+    	return taskService.getProcessInstanceComments(task.getProcessInstanceId());
+    }
     //------------------------------- 
      
     /**

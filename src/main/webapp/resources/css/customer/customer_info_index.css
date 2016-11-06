@@ -10,6 +10,12 @@
 	width: 20%;
 }
 
+.examMessage {
+	margin: 0px;
+    height: 130px;
+    width: 537px;
+}
+
 @media ( max-width : 979px) {
 	.stats-container {
 		height: 600px;

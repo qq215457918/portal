@@ -459,4 +459,30 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             return result;
         }
     }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+    @Override
+    public List<OrderInfo> selectOrderModifyList(Criteria criteria) {
+    	return orderInfoDao.selectOrderModifyList(criteria);
+    }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+    @Override
+    public int countOrderModifyList(Criteria criteria) {
+    	return orderInfoDao.countOrderModifyList(criteria);
+    }
 }

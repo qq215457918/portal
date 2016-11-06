@@ -1,6 +1,7 @@
 package com.portal.service;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
 import java.lang.reflect.InvocationTargetException;
@@ -100,5 +101,25 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxStaffPerfors(HttpServletRequest request);
+
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表
+     * @param criteria
+     * @return 
+     * @return List<CustomerInfo>
+     * @throws
+     */
+	List<OrderInfo> selectOrderModifyList(Criteria criteria);
+
+	/**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<CustomerInfo>
+     * @throws
+     */
+	int countOrderModifyList(Criteria criteria);
 
 }

@@ -23,7 +23,7 @@
 				and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo}
 			</if>
 		</trim>
-		GROUP BY receiver_staff_id;
+		GROUP BY receiver_staff_id
 	</select>
 
 	<select id="selectlerkEverydayReception" resultType="map"
@@ -47,6 +47,6 @@
 				and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo}
 			</if>
 		</trim>
-		GROUP BY receiver_staff_id;
+		GROUP BY receiver_staff_id
 	</select>
 </mapper>

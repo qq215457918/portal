@@ -124,6 +124,14 @@ public class OrderInfo implements Serializable {
     private String updateId;
 
     private String deleteFlag;
+    
+    private String customerName;
+    
+    private String customerPhone;
+    
+    private String goodsName;
+    
+    private String orderTypeName;
 
     public String getRemarks() {
         return remarks;
@@ -222,6 +230,13 @@ public class OrderInfo implements Serializable {
     public String getOrderType() {
         return orderType;
     }
+    
+    /**
+     * @return 订单类型 1正常 2退货 3换货
+     */
+    public String getOrderTypeName() {
+        return orderTypeName;
+    }
 
     /**
      * @param orderType 
@@ -229,6 +244,14 @@ public class OrderInfo implements Serializable {
      */
     public void setOrderType(String orderType) {
         this.orderType = orderType;
+        
+        if("1".equals(orderType)){
+        	this.orderTypeName = "已售商品";
+        } else if ("2".equals(orderType)){
+        	this.orderTypeName = "已退商品";
+        } else if ("3".equals(orderType)){
+        	this.orderTypeName = "换货商品";
+        }
     }
 
     /**
@@ -479,4 +502,29 @@ public class OrderInfo implements Serializable {
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;
     }
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getGoodsName() {
+		return goodsName;
+	}
+
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+    
 }

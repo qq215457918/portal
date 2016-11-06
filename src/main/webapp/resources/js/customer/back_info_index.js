@@ -10,6 +10,34 @@ $(document).ready(function(){
 		}
 		$('#customerInfo').dataTable().fnDraw();
 	});
+	
+	$('#exportCustomer').click(function(){
+		
+		var phone = $('#phone').val();
+		var phoneStage = $('#phoneStage').val();
+		var updateDate = $('#updateDate').val();
+		var dpd1 = $('#dpd1').val();
+		var dpd2 = $('#dpd2').val();
+		var exportCount = $('#exportCount').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		
+		var exportHtml = '';
+		exportHtml += '<form id="exportExcel" action="customerInfo/exportCustomer" style="display:none;">';
+		exportHtml += '<input type="hidden" name="phone" value="' + phone + '"/>'
+		exportHtml += '<input type="hidden" name="phoneStage" value="' + phoneStage + '"/>'
+		exportHtml += '<input type="hidden" name="updateDate" value="' + updateDate + '"/>'
+		exportHtml += '<input type="hidden" name="dpd1" value="' + dpd1 + '"/>'
+		exportHtml += '<input type="hidden" name="dpd2" value="' + dpd2 + '"/>'
+		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
+		exportHtml += '<input type="hidden" name="type" value="1"/>'
+		exportHtml += '</form>';
+		$('body').append(exportHtml);
+		
+		$('#exportExcel').submit();
+	});
 }); 
 
 function initData(){
@@ -26,7 +54,6 @@ function initData(){
 		            {"mData": "phone"},
 		            {"mData": "phone2"},
 		            {"mData": "name"},             
-		            {"mData": "site"},             
 		            {"mData": "transactionAmount"},            
 					{"mData": "recentVisitDate"}
 		           ],

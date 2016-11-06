@@ -7,7 +7,7 @@
 
     <!-- 防止内存泄露 -->
 	<listener>
-		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 	
 	<servlet>
