@@ -59,10 +59,16 @@ function initData() {
 		            {"mData": "totalPrice"}
 		           ],
 		"fnServerData": function (sSource, aoData, fnCallback) {
+							var customerId = $('#customerId').val();
 							var goodName = $('#goodName').val();
 							var startDate = $('#startDate').val();
 							var endDate = $('#endDate').val();
-							aoData.push({'name':'goodName','value':goodName},{'name':'startDate','value':startDate},{'name':'endDate','value':endDate});
+							aoData.push(
+										{'name':'customerId','value':customerId},
+										{'name':'goodName','value':goodName},
+										{'name':'startDate','value':startDate},
+										{'name':'endDate','value':endDate}
+										);
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
