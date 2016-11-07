@@ -151,5 +151,34 @@
 	from goods_info i left join goods_sort s on s.id=i.sort_id
     where i.id = #{id,jdbcType=VARCHAR}
   </select>
-
+  
+   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select 
+	i.id as id , 
+	i.sort_id as sort_id , 
+	i.type as type , 
+	i.code as code , 
+	i.name as name , 
+	i.amount as amount , 
+	i.trusteeship_flag as trusteeship_flag , 
+	i.repurchase_flag as repurchase_flag , 
+	i.repurchase_info as repurchase_info , 
+	i.repurchase_starttime as repurchase_starttime , 
+	i.repurchase_endtime as repurchase_endtime , 
+	i.create_date as create_date , 
+	i.update_date as update_date , 
+	i.create_userid as create_userid , 
+	i.update_userid as update_userid , 
+	i.delete_flag as delete_flag ,
+	s.name as sort_name ,
+	s.description as sort_description
+	from goods_info i left join goods_sort s on s.id=i.sort_id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
 </mapper>

@@ -2,7 +2,9 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.GoodsInfo;
+import com.portal.bean.result.GoodsInfoForm;
 import com.portal.dao.GoodsInfoDao;
+import com.portal.dao.extra.GoodsDao;
 import com.portal.service.GoodsInfoService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +18,46 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     @Autowired
     private GoodsInfoDao goodsInfoDao;
 
+    @Autowired
+    private GoodsDao goodsDao;
+
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsInfoServiceImpl.class);
+
+    /**
+     * 获取商品列表信息
+     */
+    public List<GoodsInfoForm> getGoodInfoList(HttpServletRequest request) {
+        return goodsDao.selectByExample(getGoodListCriteria(request));
+    }
+
+    /**
+     * 获取商品列表数量
+     * @param request
+     * @return
+     */
+    public int getGoodInfoCount(HttpServletRequest request) {
+        return countByExample(getGoodListCriteria(request));
+    }
+
+    Criteria getGoodListCriteria(HttpServletRequest request) {
+        criteria.clear();
+        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+
+        criteria.put("type", request.getParameter("type"));
+        criteria.put("phoneStage", request.getParameter("phoneStage"));
+        criteria.put("phone", request.getParameter("phone"));
+        criteria.put("type", request.getParameter("type"));
+        criteria.put("updateDate", request.getParameter("updateDate"));
+        criteria.put("startTime", request.getParameter("startTime"));
+        criteria.put("endTime", request.getParameter("endTime"));
+        criteria.put("backCountS", request.getParameter("backCountS"));
+        criteria.put("backCountE", request.getParameter("backCountE"));
+        return criteria;
+    }
 
     /**
      * 获取赠品信息
