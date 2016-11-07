@@ -1,8 +1,8 @@
 /**
- * 文件名：service_staff_perfors
- * 用途：客服业绩图表页相关js
+ * 文件名：receive_staff_perfors
+ * 用途：业务员业绩图表页相关js
  * 作者：Xia ZhengWei
- * 时间: 2016-11-01
+ * 时间: 2016-11-02
  */
 // base:项目根路径, title:图表标题, series:图标数据
 var base, title, xAxis, series;
@@ -66,7 +66,7 @@ $(function() {
     // 初始化图表数据
     getData();
     
-    // 客服输入框回车事件
+    // 业务员输入框回车事件
 	$("#staffName").keyup(function(event){
 		if(event.keyCode == 13) {
 			// 查询数据
@@ -86,7 +86,7 @@ function getData() {
     $.ajax({
         url:base + "report/ajaxStaffPerfors",
         data:{
-        	positionType : "1",	/*客服职位列表*/
+        	positionType : "2",	/*业务员职位列表*/
         	staffName : $("#staffName").val(),
         	startDate : $("#startDate").val(),
         	endDate : $("#endDate").val()
@@ -112,7 +112,7 @@ function getData() {
         		}
         		// 标题
         		title = {
-        	      text: '大连客服业绩'
+        	      text: '大连业务员业绩'
         	    };
         		// 横坐标
         		xAxis = {
@@ -130,7 +130,7 @@ function getData() {
         	}else {
         		// 标题
         		title = {
-        	      text: '大连客服业绩'
+        	      text: '大连业务员业绩'
         	    };
         		// 横坐标
         		xAxis = {
@@ -160,7 +160,7 @@ function getData() {
         		}
         		// 标题
         		title = {
-        	      text: '沈阳客服业绩'
+        	      text: '沈阳业务员业绩'
         	    };
         		// 横坐标
         		xAxis = {
@@ -178,7 +178,7 @@ function getData() {
         	}else {
         		// 标题
         		title = {
-        	      text: '沈阳客服业绩'
+        	      text: '沈阳业务员业绩'
         	    };
         		// 横坐标
         		xAxis = {

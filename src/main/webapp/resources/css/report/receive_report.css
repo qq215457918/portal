@@ -23,3 +23,28 @@
 #syPicture:hover {
 	cursor: pointer;
 }
+
+/*查询条件样式*/
+.condition-group {
+	margin-left: 9.2%;
+	height: 35px;
+}
+.condition {
+	height: 50px;
+	width: 30%;
+}
+.fl {
+	float: left;
+}
+.condition-label {
+	width: 35%;
+}
+.condition-control {
+	width: 65%;
+}
+.container {
+	width: 50%;
+	margin-top: 1.3%;
+	text-align: -webkit-center;
+}
+

@@ -28,6 +28,10 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodsName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -598,6 +602,9 @@
       <if test="deleteFlag != null" >
         delete_flag = #{deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="customerPhone != null" >
+        customer_id = (select id from customer_info where phone = #{customerPhone,jdbcType=VARCHAR}),
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -629,4 +636,43 @@
       delete_flag = #{deleteFlag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectOrderModifyList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type
+	FROM order_info oi 
+	left join order_detail_info od on oi.id = od.order_id
+	left join customer_info ci on oi.customer_id = ci.id
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.goodsName != null" >
+         and od.good_name like concat('%', #{condition.goodsName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.customerName != null" >
+         and ci.name like concat('%', #{condition.customerName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.orderType != null" >
+         and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="countOrderModifyList" resultType="int" parameterType="com.portal.bean.Criteria">
+  	select count(1) from (
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type
+	FROM order_info oi 
+	left join order_detail_info od on oi.id = od.order_id
+	left join customer_info ci on oi.customer_id = ci.id
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.goodsName != null" >
+         and od.good_name like concat('%', #{condition.goodsName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.customerName != null" >
+         and ci.name like concat('%', #{condition.customerName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.orderType != null" >
+         and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+    </trim>
+    ) a
+  </select>
 </mapper>

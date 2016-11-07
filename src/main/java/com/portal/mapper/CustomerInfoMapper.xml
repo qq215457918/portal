@@ -712,4 +712,24 @@
       </trim>
     </if>
   </select>
+  
+  <update id="updateExportDate">
+  	update customer_info set recent_export_date = now() where id in 
+  	<foreach collection="list" item="customer" index="index"
+        open="(" close=")" separator=",">
+        #{customer.id}
+    </foreach>
+  </update>
+  
+  <insert id="insertAndUpdateCustomerInfo">
+  	insert into customer_info (id, name, phone, type) values 
+  		<foreach collection="list" item="customer" index="index" separator=",">
+	        (rand_string(16), #{customer.p0}, #{customer.p1}, 0)
+	    </foreach>
+  	on duplicate key update recent_visit_date = now()
+  </insert>
+  
+  <update id="updateCustomerInfo" parameterType="map">
+  	update customer_info set phone_staff_id = #{p0} where phone = #{p1}
+  </update>
 </mapper>

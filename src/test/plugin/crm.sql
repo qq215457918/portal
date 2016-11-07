@@ -68,7 +68,8 @@ CREATE TABLE `customer_info` (
   `blacklist_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '黑名单标志',
   `update_date` date DEFAULT NULL COMMENT '变成本类型客户时间',
   `update_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否更新标志',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户信息表';
 
 -- ----------------------------
@@ -454,3 +455,15 @@ CREATE TABLE `exchange_operate_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='文交所操作详情表';
 
+
+CREATE FUNCTION `rand_string`(n INT) RETURNS varchar(255) CHARSET latin1
+BEGIN
+    DECLARE chars_str varchar(100) DEFAULT 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    DECLARE return_str varchar(255) DEFAULT '';
+    DECLARE i INT DEFAULT 0;
+    WHILE i < n DO
+        SET return_str = concat(return_str,substring(chars_str , FLOOR(1 + RAND()*62 ),1));
+        SET i = i +1;
+    END WHILE;
+    RETURN return_str;
+END;

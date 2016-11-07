@@ -6,6 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
 <title>登门出单详情</title>
 <base href="${basePath}">
+<link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/report/out_order_detail.js"></script>
 <jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
@@ -15,23 +16,23 @@
 	  <div class="col-lg-12">
 	    <div class="widget-container fluid-height clearfix">
 	      <div class="widget-content padded">
-	        <div class="form-group" style="margin-left: 9.2%; height: 35px;">
+	        <div class="form-group condition-group">
 	          <input type="hidden" id="customerId" value="${customerId }" />
 	          <input type="hidden" id="startDate" value="${startDate }" />
 	          <input type="hidden" id="endDate" value="${endDate }" />
-	          <div style="height: 50px; float: left; width: 30%;">
-	          	<div style="width: 35%; float: left;">
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">产品名称</label>
 	          	</div>
-	          	<div style="width: 65%; float: left;">
+	          	<div class="condition-control fl">
 	          	  <div class="col-md-7" style="width: 100%;">
 		            <input class="form-control" placeholder="产品名称" id="goodName" type="text" style="width: 100%;">
 		          </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 30%;">
-		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
-		        <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>
+	          <div class="condition fl">
+		        <button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
+		        <button class="btn btn-default fl" id="back">返&nbsp;回</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>

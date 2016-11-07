@@ -1,13 +1,21 @@
 package com.portal.common;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.TaskListener;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.servlet.support.RequestContextUtils;
+
+import com.portal.service.EmployeeInfoService;
+import com.portal.service.impl.EmployeeInfoServiceImpl;
 
 /**
  * @ClassName: ManagerTaskHandler 
@@ -19,20 +27,25 @@ public class ManagerTaskHandler implements TaskListener {
 
 	private static final long serialVersionUID = 1L;
 	
-	@Autowired  
-	private HttpSession session; 
-
 	@Override
 	public void notify(DelegateTask delegateTask) {
+		
+		HttpServletRequest request = ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
+		
 		//获取当前用户id
-		String userId = session.getAttribute("user").toString();
+//		String userId = request.getSession().getAttribute("user").toString();
+		String userId = "1";
 		
 		WebApplicationContext webApplicationContext = ContextLoader.getCurrentWebApplicationContext();  
-		webApplicationContext.getBean("userService");
 		
+		webApplicationContext = RequestContextUtils.getWebApplicationContext(request);
+		
+		EmployeeInfoServiceImpl ee = (EmployeeInfoServiceImpl) webApplicationContext.getBean(EmployeeInfoService.class);
+		
+		ee.selectByPrimaryKey("1");
 		// 设置办理人
 		// TODO
-		delegateTask.setAssignee(userId	);
+		delegateTask.setAssignee(userId);
 	}
 
 }

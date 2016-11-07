@@ -47,6 +47,69 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="detailModel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal"
+						type="button">&times;</button>
+					<h4 class="modal-title">审批历史</h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="widget-container fluid-height clearfix">
+								<div class="widget-content padded clearfix">
+									<table class="table table-striped">
+										<thead>
+											<tr>
+												<th>审批人</th>
+												<th>审批时间</th>
+												<th>审批信息</th>
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="examModel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal"
+						type="button">&times;</button>
+					<h4 class="modal-title">审核</h4>
+				</div>
+				<div class="modal-body">
+					<form action="workflow/commitExam" method="post">
+						<h4>
+							审核信息
+	                    </h4>
+	                    <p>
+	                    	<textarea class="examMessage" name="examMessage"></textarea>
+	                    </p>
+	                    <input type="hidden" name="taskId"/>
+	                    <input type="hidden" name="id"/>
+	                    <input type="hidden" name="suggestion"/>
+                    </form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" onclick="commitExam('pass');">通过</button>
+					<button class="btn btn-primary" type="button" onclick="commitExam('turnDown');">驳回</button>
+					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

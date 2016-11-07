@@ -7,21 +7,39 @@ $(document).ready(function(){
 		}
 		$('#flowForm').submit();	
 	});
-	
 }); 
 
-$(document).on('click', '#deleteFlow', function () { 
-	var deploymentId = $(this).closest('tr').find('td').eq(1).html();
+$(document).on('click', '#itemDetail', function () { 
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
-		"url": "workflow/delDeployment",
-		"data": {'deploymentId' : deploymentId},
-		"async": false
+		"url": 'workflow/selectHistoryList',
+		"data": {
+			'taskId': 1
+		},
+		"success": function(data){
+			var hisHtml = '';
+			if(data.length > 0){
+				hisHtml += '<tr><td>' + (data.year + 1900) + '-' + data.month + '-' + data.day + '</td>';
+				hisHtml += '<td>' + data.userId.split('.')[1] + '</td>';
+				hisHtml += '<td>' + (data.year + 1900) + '-' + data.month + '-' + data.day + '</td></tr>';
+			}else {
+				hisHtml = '<tr><td colspan="3" style="text-align: center;">没有审批记录</td></tr>'
+			}
+			$('#detailModel tbody').html(hisHtml);
+		}
 	})
-	$('#flowDepInfo').dataTable().fnDraw();
-	$('#flowPdInfo').dataTable().fnDraw();
 });
+
+$(document).on('click', '#itemExam', function () { 
+//	$('#modal-body').data({'taskId': 1, 'id': 1});
+	$('#examModel input[name=taskId]').val(1);
+	$('#examModel input[name=id]').val(1);
+});
+
+function commitExam(suggestion){
+	$('#examModel inout[name=suggestion]').val(suggestion);
+}
 
 function initData(){
 	$('#achieveExam').dataTable({
@@ -43,15 +61,10 @@ function initData(){
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
-				return (data.year + 1900) + '/' + data.month + '/' + data.day;
+				return '<a href="#examModel" data-toggle="modal" id="itemExam">审批</a>&nbsp;'
+					+ '<a href="#detailModel" data-toggle="modal" data-taskId="1010" id="itemDetail">详情</a>';
 			},
-			"targets" : 3
-			},
-			{
-			"render" : function(data, type, row) {
-				return '<a href="javascript:void(0);">审批</a>';
-			},
-			"targets" : 4
+			"targets" : 5
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();

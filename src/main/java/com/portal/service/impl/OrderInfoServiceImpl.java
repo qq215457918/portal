@@ -382,7 +382,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         JSONObject result = new JSONObject();
         JSONObject dlresult = new JSONObject();
         JSONObject syresult = new JSONObject();
-
+        
         // 职位类别（1-客服/2-业务员）
         String positionType = request.getParameter("positionType");
         // 员工名称
@@ -391,56 +391,58 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
-
+        
         criteria.clear();
-        if (StringUtil.isNotBlank(positionType)) {
+        if(StringUtil.isNotBlank(positionType)) {
             criteria.put("positionType", positionType);
+            if("1".equals(positionType)) {
+                criteria.put("conditionId", "o.phone_staff_id");
+            }else if("2".equals(positionType)) {
+                criteria.put("conditionId", "o.receiver_staff_id");
+            }
         }
-        if (StringUtil.isNotBlank(staffName)) {
+        if(StringUtil.isNotBlank(staffName)) {
             criteria.put("staffName", staffName);
         }
-        if (StringUtil.isNotBlank(startDate)) {
+        if(StringUtil.isNotBlank(startDate)){
             criteria.put("startDate", startDate);
-        } else {
-            criteria.put("startDate",
-                    DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        }else {
+            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if (StringUtil.isNotBlank(endDate)) {
-            criteria.put("endDate",
-                    DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        } else {
-            criteria.put("endDate",
-                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
-
+        
         //查询出大连客服的业绩
         criteria.put("area", "1");
         // 获取大连区域下对应职位类型的所有员工名称
         List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取大连区域下员工业绩
         List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-
+        
         // 查询出沈阳客服的业绩
         criteria.put("area", "0");
         // 获取沈阳区域下对应职位类型的所有员工名称
         List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取沈阳区域下员工业绩
         List<OrderInfoForm> syAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-
+        
         result.put("dlStaffNames", dlStaffNames);
         result.put("syStaffNames", syStaffNames);
-
-        dlresult = geneteMap(dlresult, dlAmounts);
-        syresult = geneteMap(syresult, syAmounts);
-
+        
+        dlresult = geneteJson(dlresult, dlAmounts);
+        syresult = geneteJson(syresult, syAmounts);
+        
         result.put("dlResult", dlresult);
         result.put("syResult", syresult);
-
+        
         return result;
     }
-
+    
     /**
-     * @Title: geneteMap 
+     * @Title: geneteJson 
      * @Description: 将员工业绩与名称生成Map键值对格式并返回
      * @param result   员工名称和业绩的json格式
      * @param amounts   员工的业绩数据集
@@ -449,14 +451,40 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @date 2016年11月1日 下午11:13:49 
      * @version V1.0
      */
-    public JSONObject geneteMap(JSONObject result, List<OrderInfoForm> amounts) {
-        if (amounts != null && amounts.size() > 0) {
+    public JSONObject geneteJson(JSONObject result, List<OrderInfoForm> amounts) {
+        if(amounts != null && amounts.size() > 0) {
             for (OrderInfoForm orderInfoForm : amounts) {
                 result.put(orderInfoForm.getStaffName(), orderInfoForm.getPerformance());
             }
             return result;
-        } else {
+        }else {
             return result;
         }
+    }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+    @Override
+    public List<OrderInfo> selectOrderModifyList(Criteria criteria) {
+    	return orderInfoDao.selectOrderModifyList(criteria);
+    }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */
+    @Override
+    public int countOrderModifyList(Criteria criteria) {
+    	return orderInfoDao.countOrderModifyList(criteria);
     }
 }

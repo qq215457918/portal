@@ -4,6 +4,8 @@ import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
@@ -91,4 +93,31 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject ajaxCustomerStatistics(HttpServletRequest request);
+
+    /**
+     * @Title: updateExportDate 
+     * @Description: 导出时间更新
+     * @param resultList 
+     * @return void
+     * @throws
+     */
+	public void updateExportDate(List<CustomerInfo> resultList);
+
+	/**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 插入用户信息 如果电话重复则更新
+     * @param data 
+     * @return void
+     * @throws
+     */
+	public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+
+	/**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 导入更新电联人员
+     * @param data 
+     * @return void
+     * @throws
+     */
+	public void updateCustomerInfo(List<Map<String, Object>> data);
 }

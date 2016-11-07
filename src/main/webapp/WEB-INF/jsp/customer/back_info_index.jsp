@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>客户信息查询</title>
+<title>重复登门客户信息查询</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
 <script src="resources/js/customer/back_info_index.js" type="text/javascript"></script>
@@ -46,6 +46,7 @@
 							<div class="col-md-7">
 								<button class="btn btn-primary" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel">导入</button>
 							</div>
 						</div>
 						<!-- DataTables Example -->
@@ -55,7 +56,6 @@
 								<th>电话</th>
 								<th>电话2</th>
 								<th>姓名</th>
-								<th>地址</th>
 								<th>登门次数</th>
 								<th>最近登门时间时间</th>
 							</thead>
@@ -68,6 +68,45 @@
 			</div>
 		</div>
 	</div>
+	<div class="modal fade" id="importExcel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal"
+						type="button">&times;</button>
+					<h4 class="modal-title">导入用户信息</h4>
+				</div>
+				<div class="modal-body">
+					<form action="customerInfo/importCustomer" method="post" id="importExcelForm" enctype="multipart/form-data">
+						<h4>
+							选择文件
+	                    </h4>
+	                    <p>
+	                    	<div class="fileupload fileupload-new" data-provides="fileupload">
+								<div class="input-group">
+									<div class="form-control">
+										<i class="icon-file fileupload-exists"></i>
+										<span class="fileupload-preview"></span>
+									</div>
+									<div class="input-group-btn">
+										<a class="btn btn-default fileupload-exists"
+											data-dismiss="fileupload" href="#">删除文件</a><span
+											class="btn btn-default btn-file"><span
+											class="fileupload-new">选择文件</span><span
+											class="fileupload-exists">重新选择</span><input type="file" id="importFile" name="importFile"></span>
+									</div>
+								</div>
+							</div>
+	                    </p>
+	                    <input type="hidden" value="2" name="type" />
+                    </form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" onclick="javascript: $('#importExcelForm').submit()">导入</button>
+					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.activiti.engine.repository.Deployment;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.bean.EmployeeInfo;
-import com.portal.common.util.JsonUtils;
 import com.portal.service.WorkFlowService;
 
 import net.sf.json.JSONArray;
@@ -51,7 +51,7 @@ public class WorkFlowAction {
 	
 	/**
 	 * @Title: flowInfoIndex 
-	 * @Description: 流程部署页面
+	 * @Description: 审批列表
 	 * @return 
 	 * @return String
 	 * @throws
@@ -219,7 +219,26 @@ public class WorkFlowAction {
 		
 		List<Task> list = workFlowService.selectTaskListById(userId, defKey);
 		
-		JsonUtils.resultJson(list, list.size(), response, request);
+		JSONArray result = new JSONArray();
+		JSONObject temp = new JSONObject();
+		temp.put("clerkId", "业务员id");
+		temp.put("clerkName", "业务员名称");
+		temp.put("name", "流程名");
+		temp.put("assignee", "审核人");
+		result.add(temp);
+		try {
+			JSONObject resultJson =  new JSONObject();
+			resultJson.put("sEcho", request.getParameter("sEcho"));
+			resultJson.put("iTotalRecords", 0);
+			resultJson.put("iTotalDisplayRecords", 0);
+			resultJson.put("aaData", result.toString());
+			response.setContentType("text/json;charset=UTF-8");
+			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+//		JsonUtils.resultJson(list, list.size(), response, request);
 	}
 	
 	/**
@@ -254,11 +273,13 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("toAchieveExam")
 	public void toAchieveExam(HttpServletRequest request, HttpServletResponse response){
-		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+//		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+		String userId = "1";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", userId);
 		paramMap.put("dateInfo", sdf.format(new Date()));
+		paramMap.put("orderInfo", request.getParameter("orderInfo"));
 		ProcessInstance pi = workFlowService.startProcess("leaderApprove", sdf.format(new Date())+userId, paramMap);
 		
 		request.setAttribute("piId", pi.getProcessInstanceId());
@@ -275,8 +296,8 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("achieveExam")
 	public void achieveExam(HttpServletRequest request, HttpServletResponse response){
-		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
-		
+//		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+		String userId = "1";
 		String processInstanceId = request.getParameter("processInstanceId");
 		if(StringUtils.isBlank(processInstanceId)){
 			processInstanceId = (String) request.getAttribute("piId");
@@ -291,5 +312,61 @@ public class WorkFlowAction {
 		pm.put("userId", userId);
 				
 		workFlowService.saveSubmitTask(pm);
+	}
+	
+	/**
+	 * @Title: selectHistoryList 
+	 * @Description: 获取审批历史
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectHistoryList")
+	public void selectHistoryList(HttpServletRequest request, HttpServletResponse response){
+		String taskId = request.getParameter("taskId");
+		
+		List<Comment> resultList = workFlowService.findCommentByTaskId(taskId);
+		
+		try {
+			response.getWriter().print(JSONArray.fromObject(resultList).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @Title: commitExam 
+	 * @Description: 审核
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("commitExam")
+	public String commitExam(HttpServletRequest request, HttpServletResponse response){
+		String taskId = request.getParameter("taskId");
+		String id = request.getParameter("taskId");
+		String examMessage = request.getParameter("taskId");
+		String suggestion = request.getParameter("suggestion");
+		
+		EmployeeInfo ei = (EmployeeInfo)request.getSession().getAttribute("user");
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		
+		//获取任务ID
+		paramMap.put("taskId", taskId);
+		//获取连线的名称
+		paramMap.put("outcome", suggestion);
+		//批注信息
+		paramMap.put("comment", examMessage);
+		//订单编号
+		paramMap.put("id", id);
+		//用户id
+		paramMap.put("userId", ei.getId() + "," + ei.getName());
+		
+		workFlowService.saveSubmitTask(paramMap);
+		
+		return "redirect:achieveExamList";
 	}
 }
