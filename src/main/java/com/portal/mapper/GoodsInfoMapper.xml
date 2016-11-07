@@ -7,6 +7,7 @@
     <result column="type" property="type" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
     <result column="trusteeship_flag" property="trusteeshipFlag" jdbcType="VARCHAR" />
     <result column="repurchase_flag" property="repurchaseFlag" jdbcType="VARCHAR" />

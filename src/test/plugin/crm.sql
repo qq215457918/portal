@@ -108,6 +108,7 @@ CREATE TABLE `goods_info` (
   `type` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类 0:常规商品 1：礼品 2：配售 3：配送 4:兑换',
   `code` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品序号',
   `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '产品名称',
+  `price` decimal(10,0) DEFAULT NULL COMMENT '商品金额',
   `amount` int(11) DEFAULT NULL COMMENT '数量',
   `trusteeship_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '是否可托管',
   `repurchase_flag` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '回购标志',

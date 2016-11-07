@@ -18,6 +18,8 @@ public class CustomerCultureInfoServiceImpl implements CustomerCultureInfoServic
     @Autowired
     private CustomerCultureInfoDao customerCultureInfoDao;
 
+    Criteria criteria = new Criteria();
+
     private static final Logger logger = LoggerFactory.getLogger(CustomerCultureInfoServiceImpl.class);
 
     /**
@@ -39,6 +41,13 @@ public class CustomerCultureInfoServiceImpl implements CustomerCultureInfoServic
         Optional.ofNullable(request.getParameter("code")).ifPresent(value -> cInfo.setCode(value));
         Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
         return updateByPrimaryKeySelective(cInfo);
+    }
+
+    //是否有文交所信息
+    public boolean getCultureInfo(String cId) {
+        criteria.clear();
+        criteria.put("customerId", cId);
+        return this.customerCultureInfoDao.countByExample(criteria) > 0 ? true : false;
     }
 
     public int countByExample(Criteria example) {

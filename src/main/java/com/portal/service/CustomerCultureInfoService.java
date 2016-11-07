@@ -14,6 +14,8 @@ public interface CustomerCultureInfoService {
      */
     public int updateCulture(HttpServletRequest request);
 
+    boolean getCultureInfo(String cId);
+
     int countByExample(Criteria example);
 
     CustomerCultureInfo selectByPrimaryKey(String id);

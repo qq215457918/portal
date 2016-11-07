@@ -6,6 +6,7 @@ import com.portal.bean.result.GoodsInfoForm;
 import com.portal.dao.GoodsInfoDao;
 import com.portal.dao.extra.GoodsDao;
 import com.portal.service.GoodsInfoService;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -67,7 +68,72 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         criteria.clear();
         criteria.put("type", 1);
         criteria.put("moreAmount", 0);
+        criteria.put("deleteFlag", 0);
         return selectByExample(criteria);
+    }
+
+    // type=0：正常商品 1赠品 2 配售 3配送 4 兑换 acount》0   deleteflag ＝0 
+    //获取制定商品类型信息
+    public List<GoodsInfoForm> selectGoodsInfo(HttpServletRequest request, int type) {
+        return goodsDao.selectByExample(getCriteria(request, type));
+    }
+
+    //获取商品数量
+    public int getGoodsCount(HttpServletRequest request, int type) {
+        return countByExample(getCriteria(request, type));
+    }
+
+    Criteria getCriteria(HttpServletRequest request, int type) {
+        criteria.clear();
+        if (request.getParameter("isPage") != null) {
+            criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+            criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+        }
+        //商品信息模糊查询
+        criteria.put("goodInfo", request.getParameter("goodInfo"));
+        //最低价格
+        criteria.put("lowPrice", request.getParameter("lowPrice"));
+        //最高价格
+        criteria.put("highPrice", request.getParameter("highPrice"));
+        //商品类型 0 礼品 1 正常商品 2 配售 3 配送
+        criteria.put("type", type);
+        //商品数量大于0
+        criteria.put("moreAmount", 0);
+        criteria.put("deleteFlag", 0);
+        return criteria;
+    }
+
+    /**
+     * 检查商品列表，是都有删除商品或者数量不符
+     * @param request
+     * @return
+     */
+    public List<String> checkGoodsInfo(HttpServletRequest request) {
+        //通过“，”进行拆分传入的goodsId
+        String goodsId = request.getParameter("goodsId");
+        criteria.clear();
+        criteria.put("checkGoodsId", getCheckGoodsString(goodsId));
+        List<GoodsInfoForm> goodsInfoList = goodsDao.selectByExample(criteria);
+        return returnCheckInfo(goodsInfoList, request.getParameter("amount"));
+    }
+
+    //录入检查结果，输入提示信息
+    List<String> returnCheckInfo(List<GoodsInfoForm> goodsInfo, String amount) {
+        boolean isCheck = true;
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < goodsInfo.size(); i ++) {
+            //获取商品的deletFlag 
+            // 和amountArr的大小做比较
+        }
+        return result;
+    }
+
+    String getCheckGoodsString(String goodsStr) {
+        StringBuffer result = new StringBuffer();
+        for (String id : goodsStr.split(",")) {
+            result.append(" ' " + id + " ' ");
+        }
+        return result.toString();
     }
 
     public int countByExample(Criteria example) {

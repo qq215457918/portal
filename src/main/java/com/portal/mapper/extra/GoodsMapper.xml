@@ -10,6 +10,7 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="trusteeship_flag" property="trusteeshipFlag" jdbcType="VARCHAR" />
     <result column="repurchase_flag" property="repurchaseFlag" jdbcType="VARCHAR" />
     <result column="repurchase_info" property="repurchaseInfo" jdbcType="VARCHAR" />
@@ -33,13 +34,26 @@
          and code = #{condition.code,jdbcType=VARCHAR}
       </if>
       <if test="condition.name != null" >
-         and name = #{condition.name,jdbcType=VARCHAR}
+         and i.name = #{condition.name,jdbcType=VARCHAR}
       </if>
       <if test="condition.amount != null" >
          and amount = #{condition.amount,jdbcType=INTEGER}
       </if>
+      <if test="condition.price != null" >
+         and price = #{condition.payPrice,jdbcType=DECIMAL}
+      </if>
       <if test="condition.moreAmount != null" >
          and amount > #{condition.moreAmount,jdbcType=INTEGER}
+      </if>
+      <if test="condition.goodInfo != null" >
+         and ( i.name like CONCAT("%", #{condition.goodInfo,jdbcType=VARCHAR} ,"%")
+         or  code like CONCAT("%", #{condition.goodInfo,jdbcType=VARCHAR} ,"%"))
+      </if>
+      <if test="condition.lowPrice != null" >
+        and price > #{condition.lowPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.highPrice != null" >
+        and  #{condition.highPrice,jdbcType=DECIMAL} > price 
       </if>
       <if test="condition.trusteeshipFlag != null" >
          and trusteeship_flag = #{condition.trusteeshipFlag,jdbcType=VARCHAR}
@@ -90,6 +104,9 @@
       <if test="example.condition.amount != null" >
          and amount = #{example.condition.amount,jdbcType=INTEGER}
       </if>
+      <if test="example.condition.price != null" >
+         and price = #{example.condition.price,jdbcType=INTEGER}
+      </if>
       <if test="example.condition.trusteeshipFlag != null" >
          and trusteeship_flag = #{example.condition.trusteeshipFlag,jdbcType=VARCHAR}
       </if>
@@ -136,6 +153,7 @@
 	i.code, 
 	i.name, 
 	i.amount, 
+	i.price, 
 	i.trusteeship_flag, 
 	i.repurchase_flag, 
 	i.repurchase_info, 
@@ -160,7 +178,8 @@
 	i.code as code , 
 	i.name as name , 
 	i.amount as amount , 
-	i.trusteeship_flag as trusteeship_flag , 
+	i.price as price ,	
+	if(i.trusteeship_flag=1,"是","否") as trusteeship_flag , 
 	i.repurchase_flag as repurchase_flag , 
 	i.repurchase_info as repurchase_info , 
 	i.repurchase_starttime as repurchase_starttime , 

@@ -6,6 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
     <title>首次登陆</title>
     <base href="${basePath}">
+    <script src="resources/js/reception/purchase_goods.js" type="text/javascript"></script>
 	<jsp:include page="head.jsp" />
   </head>
   <body>
@@ -23,129 +24,67 @@
             <form action="#" class="form-horizontal">
               <div class="form-group">
                 <div class="col-md-6">
-                    <label class="control-label col-md-4">商品编码</label>
+                    <label class="control-label col-md-4">商品信息</label>
                   <div class="col-md-8">
-                    <input class="form-control" placeholder="Text" type="text">
+                    <input class="form-control" placeholder="商品名称或者编码" type="text" id="goodInfo">
                   </div>
                 </div>
                 <div class="col-md-6">
-                    <label class="control-label col-md-4">商品名称</label>
-                  <div class="col-md-8">
-                    <input class="form-control" placeholder="Text" type="text">
-                  </div>
-                </div>
-                </div>
-              <div class="form-group">
-                  <div class="col-md-6">
                     <label class="control-label col-md-4">售卖金额</label>
-                    <div class="col-sm-4">
-                      <input class="form-control"  type="text">
-                    </div>
-                    <div class="col-sm-4">
-                      <input class="form-control"  type="text">
-                    </div>
+                    <div class="col-md-8">
+	                    <div class="col-sm-6">
+	                      <input class="form-control"  type="text" placeholder="最低金额"  id="lowPrice">
+	                    </div>
+	                    <div class="col-sm-6">
+	                      <input class="form-control"  type="text" placeholder="最高金额" id="highPrice">
+	                    </div>
+                     </div>
                   </div>
-              </div>
+                </div>
             </form>
-            <div  class="col-md-12" style="left:80%">
-                <button class="btn btn-primary">查 询</button>
-                <button class="btn btn-default">清 空</button>
+            <div  class="col-md-12" style="left:90%">
+                <button class="btn btn-primary" id="searchGoods">查 询</button>
             </div>
           </div>
           <div class="widget-container fluid-height clearfix">
             <div class="widget-content padded clearfix">
-              <table class="table table-bordered">
-                <thead>
-                <tr><th>
-                  商品
-                </th>
-                  <th>
-                    金额
-                  </th>
-                  <th>
-                    购买金额
-                  </th>
-                  <th class="hidden-xs">
-                    交易时间
-                  </th>
+  			<!-- DataTables Example -->
+			<table class="table table-bordered" id="goodsInfo">
+				<thead>
+				  <th>序号</th>
+				  <th>商品编码</th>
+				  <th>商品名称</th>
+                  <th>售卖金额</th>
+                  <th>库存数量</th>
+                  <th>是否可托管</th>
+                  <th>操作</th>
+				</thead>
+				<tbody>
+				</tbody>
+			</table>
+			<!-- end DataTables Example -->
 
-                </tr></thead>
-                <tbody>
-                <tr>
-                  <td>
-                    Robert
-                  </td>
-                  <td>
-                    Kelso
-                  </td>
-                  <td>
-                    robert@gmail.com
-                  </td>
-                  <td class="hidden-xs">
-                    8-15-2013
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    John
-                  </td>
-                  <td>
-                    Dorian
-                  </td>
-                  <td>
-                    john@gmail.com
-                  </td>
-                  <td class="hidden-xs">
-                    8-15-2013
-                  </td>
-                </tr>
-                </tbody>
-              </table>
-              <div style="float: right"><ul class="pagination">
-                <li>
-                  <a class="icon" href="#"><i class="icon-long-arrow-left"></i></a>
-                </li>
-                <li class="active">
-                  <a href="#">1</a>
-                </li>
-                <li>
-                  <a href="#">2</a>
-                </li>
-                <li>
-                  <a href="#">3</a>
-                </li>
-                <li>
-                  <a href="#">4</a>
-                </li>
-                <li>
-                  <a href="#">5</a>
-                </li>
-                <li>
-                  <a class="icon" href="#"><i class="icon-long-arrow-right"></i></a>
-                </li>
-              </ul></div>
             </div>
             <!--add myModal statr-->
             <div class="widget-content padded">
-              <a class="btn btn-primary btn" data-toggle="modal" href="#myModal">配 送</a>
-              <a class="btn btn-warning btn" data-toggle="modal" href="#myModal">配 售</a>
-              <a class="btn btn-default btn" data-toggle="modal" href="#myModal">赠 品</a>
+              <a class="btn btn-primary btn" data-toggle="modal" href="#myGoods">配 送</a>
+              <a class="btn btn-warning btn" data-toggle="modal" href="#myGoods">配 售</a>
+              <a class="btn btn-default btn" data-toggle="modal" href="#myGoods">赠 品</a>
             </div>
-            <div class="modal fade" id="myModal">
+            <div class="modal fade" id="myGoods">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
                     <h4 class="modal-title">
-                      Se7en
+                     选择商品
                     </h4>
                   </div>
                   <div class="modal-body">
                     <h1>
-                      Welcome
+                      选择商品
                     </h1>
                     <p>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque imperdiet auctor purus, non imperdiet sapien dapibus non. Phasellus pretium rutrum elit in cursus. Donec ullamcorper nec massa vel mattis. Curabitur eros metus, dapibus quis est et, dapibus imperdiet dolor. Aenean ac aliquet dolor. Ut porta ultrices justo a tempor. Curabitur eget magna mattis risus accumsan aliquet et a lorem. Pellentesque hendrerit dapibus urna, adipiscing ultrices velit accumsan eget. Fusce eget ultrices turpis, vitae facilisis orci. Curabitur scelerisque consequat vulputate. Aenean felis orci, porttitor ut eros vel, egestas ultricies nunc. Duis suscipit elementum tincidunt.
                     </p>
                   </div>
                   <div class="modal-footer">
@@ -167,32 +106,10 @@
             <table class="table">
               <thead>
               <tr><th>
-                购买清单
+                                                购买清单
               </th>
               </tr></thead>
-              <tbody>
-              <tr>
-                <td>
-                  <h6>商品名称： 商品A</h6>
-                  <h6>购买数量: 1</h6>
-                  <span class="label label-danger" style="float: right">删除</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h6>商品名称： 商品A</h6>
-                  <h6>购买数量: 1</h6>
-                  <span class="label label-danger" style="float: right">删除</span>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <h6>商品名称： 商品A</h6>
-                  <h6>购买数量: 1</h6>
-                  <span class="label label-danger" style="float: right">删除</span>
-                </td>
-              </tr>
-
+              <tbody id="shoppingList">
               </tbody>
             </table>
           <div class="row">
@@ -202,7 +119,6 @@
         </div>
       </div>
     </div>
-
   </div>
   </div>
   </div>

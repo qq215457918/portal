@@ -44,6 +44,11 @@ public class GoodsInfoForm implements Serializable {
     private Integer amount;
 
     /**
+     * 价格
+     */
+    private Long price;
+
+    /**
      * 是否可托管
      */
     private String trusteeshipFlag;
@@ -92,6 +97,14 @@ public class GoodsInfoForm implements Serializable {
      * 删除标志 0正常 1删除
      */
     private String deleteFlag;
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
 
     public String getSortName() {
         return sortName;

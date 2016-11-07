@@ -3,6 +3,7 @@ package com.portal.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+/** *  */
 public class GoodsInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -22,6 +23,11 @@ public class GoodsInfo implements Serializable {
      * 商品序号
      */
     private String code;
+
+    /**
+     * 商品金额
+     */
+    private Long price;
 
     /**
      * 产品名称
@@ -83,6 +89,14 @@ public class GoodsInfo implements Serializable {
      */
     private String deleteFlag;
 
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
     public String getId() {
         return id;
     }
@@ -100,7 +114,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param sortId 
-	 *            种类ID
+     *            种类ID
      */
     public void setSortId(String sortId) {
         this.sortId = sortId;
@@ -115,7 +129,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param type 
-	 *            商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     *            商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
      */
     public void setType(String type) {
         this.type = type;
@@ -130,7 +144,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param code 
-	 *            商品序号
+     *            商品序号
      */
     public void setCode(String code) {
         this.code = code;
@@ -145,7 +159,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param name 
-	 *            产品名称
+     *            产品名称
      */
     public void setName(String name) {
         this.name = name;
@@ -160,7 +174,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param amount 
-	 *            数量
+     *            数量
      */
     public void setAmount(Integer amount) {
         this.amount = amount;
@@ -175,7 +189,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param trusteeshipFlag 
-	 *            是否可托管
+     *            是否可托管
      */
     public void setTrusteeshipFlag(String trusteeshipFlag) {
         this.trusteeshipFlag = trusteeshipFlag;
@@ -190,7 +204,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param repurchaseFlag 
-	 *            回购标志
+     *            回购标志
      */
     public void setRepurchaseFlag(String repurchaseFlag) {
         this.repurchaseFlag = repurchaseFlag;
@@ -205,7 +219,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param repurchaseInfo 
-	 *            回购信息
+     *            回购信息
      */
     public void setRepurchaseInfo(String repurchaseInfo) {
         this.repurchaseInfo = repurchaseInfo;
@@ -220,7 +234,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param repurchaseStarttime 
-	 *            回购开始时间
+     *            回购开始时间
      */
     public void setRepurchaseStarttime(Date repurchaseStarttime) {
         this.repurchaseStarttime = repurchaseStarttime;
@@ -235,7 +249,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param repurchaseEndtime 
-	 *            回购结束时间
+     *            回购结束时间
      */
     public void setRepurchaseEndtime(Date repurchaseEndtime) {
         this.repurchaseEndtime = repurchaseEndtime;
@@ -250,7 +264,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param createDate 
-	 *            创建日期
+     *            创建日期
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
@@ -265,7 +279,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param updateDate 
-	 *            更新日期
+     *            更新日期
      */
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
@@ -280,7 +294,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param createUserid 
-	 *            创建人id
+     *            创建人id
      */
     public void setCreateUserid(String createUserid) {
         this.createUserid = createUserid;
@@ -295,7 +309,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param updateUserid 
-	 *            更新人id
+     *            更新人id
      */
     public void setUpdateUserid(String updateUserid) {
         this.updateUserid = updateUserid;
@@ -310,7 +324,7 @@ public class GoodsInfo implements Serializable {
 
     /**
      * @param deleteFlag 
-	 *            删除标志 0正常 1删除
+     *            删除标志 0正常 1删除
      */
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;

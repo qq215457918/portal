@@ -2,8 +2,10 @@ package com.portal.action.reception;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
+import com.portal.bean.result.GoodsInfoForm;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
+import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderInfoService;
 import java.util.List;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 礼物管理模块
+ * 订单管理模块
  */
 @Controller
 @RequestMapping("/order")
@@ -28,6 +30,9 @@ public class OrderAction {
 
     @Autowired
     private OrderInfoService orderInfoService;
+
+    @Autowired
+    CustomerCultureInfoService customerCultureInfoService;
 
     /**
      * 购买商品页面初始化
@@ -53,20 +58,29 @@ public class OrderAction {
     @RequestMapping(value = "/receive", method = RequestMethod.POST)
     public void insertPresentOrder(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        String type = request.getParameter("type");
+        List<GoodsInfoForm> goodsFormList = goodsInfoService.selectGoodsInfo(request, Integer.parseInt(type));
+        int count = goodsInfoService.getGoodsCount(request, Integer.parseInt(type));
+        JsonUtils.resultJson(goodsFormList, count, response, request);
+    }
+
+    //是否有交管所信息
+    @RequestMapping(value = "/hasCustomer", method = RequestMethod.POST)
+    public void hasCustomer(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
+        resultJson.put("result", customerCultureInfoService.getCultureInfo(request.getParameter("cId")));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
-    @RequestMapping("/good/list")
-    public void selectCustomerInfoList(HttpServletRequest request, HttpServletResponse response) {
-
-        goodsInfoService.getGoodInfoList(request);
-
-        /* List<CustomerInfo> resultList = customerInfoService.selectByExample(criteria);
-        
-        int count = customerInfoService.countByExample(criteria);
-        
-        JsonUtils.resultJson(resultList, count, response, request);*/
+    //在购物车页面进行检查
+    //检查商品数量 and 商品是否被删除
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public void checkGoodsInfo(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("result", goodsInfoService.checkGoodsInfo(request));
+        JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

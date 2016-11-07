@@ -11,8 +11,14 @@ public interface GoodsInfoService {
     //获取赠品信息
     public List<GoodsInfo> selectPresentInfo(HttpServletRequest request);
 
+    public List<String> checkGoodsInfo(HttpServletRequest request);
+
     //获取商品信息
     List<GoodsInfoForm> getGoodInfoList(HttpServletRequest request);
+
+    public List<GoodsInfoForm> selectGoodsInfo(HttpServletRequest request, int type);
+
+    public int getGoodsCount(HttpServletRequest request, int type);
 
     public int getGoodInfoCount(HttpServletRequest request);
 
