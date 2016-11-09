@@ -31,7 +31,6 @@
 <link rel="stylesheet" href="${basePath}resources/css/timepicker.css" />
 <link rel="stylesheet" href="${basePath}resources/css/typeahead.css" />
 <link rel="stylesheet" href="${basePath}resources/css/wizard.css" />
-<link rel="stylesheet" href="${basePath}resources/css/jquery.spinner.css" />
 
 <!-- 引入js文件 -->
 <script type="text/javascript" src="${basePath}resources/js/jquery-1.10.2.min.js"></script>
@@ -76,6 +75,5 @@
 <script type="text/javascript" src="${basePath}resources/js/respond.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/masonry.min.js"></script>
 <script type="text/javascript" src="${basePath}resources/js/datatable_chinese.js"></script>
-<script type="text/javascript" src="${basePath}resources/js/jquery.spinner.js"></script>
 <%-- 追加公共方法js文件 --%>
 <script type="text/javascript" src="${basePath}resources/js/common-utils.js"></script>

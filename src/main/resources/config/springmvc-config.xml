@@ -30,8 +30,11 @@
 	<mvc:annotation-driven />
 	
 	<!-- task任务扫描注解   -->  
-	<task:annotation-driven/>  
+	<!-- <task:annotation-driven/> -->  
 	<context:component-scan base-package="com.portal.task"></context:component-scan>  
+	<!-- 如果不配置下面这两块, 会报错 -->
+	<task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
+    <task:scheduler id="qbScheduler" pool-size="10"/>
 	
 	<bean id="mybatisSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean" 
 		p:dataSource-ref="mysqlDataSource"
