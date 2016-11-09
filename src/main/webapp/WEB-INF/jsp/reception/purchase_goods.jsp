@@ -7,6 +7,7 @@
     <title>首次登陆</title>
     <base href="${basePath}">
     <script src="resources/js/reception/purchase_goods.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="resources/css/reception/purchase_goods.css" />
 	<jsp:include page="head.jsp" />
   </head>
   <body>
@@ -14,7 +15,7 @@
   <div class="container-fluid main-content">
   <div class="page-title">
 
-      <div class="row">
+      <div class="row" style="margin-top:122px;">
         <div class="col-lg-8">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
@@ -67,28 +68,66 @@
             </div>
             <!--add myModal statr-->
             <div class="widget-content padded">
-              <a class="btn btn-primary btn" data-toggle="modal" href="#myGoods">配 送</a>
-              <a class="btn btn-warning btn" data-toggle="modal" href="#myGoods">配 售</a>
-              <a class="btn btn-default btn" data-toggle="modal" href="#myGoods">赠 品</a>
+              <a class="btn btn-primary btn" onclick='openDelivery();'>配 送</a>
+              <a class="btn btn-warning btn" onclick='openPlacing();'>配 售</a>
+              <a class="btn btn-default btn" onclick='openGifts();'>赠 品</a>
             </div>
             <div class="modal fade" id="myGoods">
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
                     <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
-                    <h4 class="modal-title">
-                     选择商品
+                    <h4 class="modal-title" id="modal-title">
                     </h4>
                   </div>
                   <div class="modal-body">
-                    <h1>
-                      选择商品
-                    </h1>
-                    <p>
-                    </p>
+	             <table class="table table-bordered">
+	              <thead>
+	              <tr>
+	                <th>
+	                	 选择框
+	                </th>
+	                <th>
+	                	 商品编码
+	                </th>
+	                <th>
+	       				商品名称
+	                </th>
+	                <th>
+	       				售价
+	                </th>
+	                <th>
+	       				操作
+	                </th>
+	              </tr></thead>
+	              <tbody id="modal-data">
+<%--               <c:forEach var="status" items="${goods}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
+	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
+	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    
+	                    <br/>
+	                    </c:forEach>
+	                </td>
+	                <td>
+	                  ${status.createDateString }
+	                </td>
+	                <td>
+	                   ${status.payPrice }
+	                </td>
+	              </tr>
+              </c:forEach> --%>
+              </tbody>
+            </table>
                   </div>
                   <div class="modal-footer">
-                    <button class="btn btn-primary" type="button">Save Changes</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="button" onclick='addOtherGoods();'>添加到购物车</button><button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
                   </div>
                 </div>
               </div>
@@ -113,7 +152,10 @@
               </tbody>
             </table>
           <div class="row">
-              <button class="btn btn-warning" >去结算</button>
+         		<div style="float: right;margin-right: 40px;font-size: 1.2em;color: red;">
+         			总计：<em id="total-amount"></em> 元
+         		</div>
+				<button class="btn btn-warning" onclick='gotoAccount();'>去结算</button>
           </div>
           </div>
         </div>

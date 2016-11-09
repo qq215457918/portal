@@ -83,6 +83,22 @@ public class OrderAction {
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
+    /**
+     * 进入结算页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/account")
+    public ModelAndView account(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        ModelAndView model = new ModelAndView();
+        model.setViewName("reception/shopping_cart");
+        String goodInfo = request.getParameter("goodInfo");
+        model.addObject("goodInfo", JSONObject.fromObject(goodInfo.substring(1, goodInfo.length() - 1)));
+        return model;
+    }
+
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
         String basePath = WebUtils.getBasePath(request, response);
         request.getSession().setAttribute("basePath", basePath);
