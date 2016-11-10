@@ -15,7 +15,7 @@
   <div class="container-fluid main-content">
   <div class="page-title">
 
-      <div class="row" style="margin-top:122px;">
+      <div class="row">
         <div class="col-lg-8">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
@@ -101,28 +101,6 @@
 	                </th>
 	              </tr></thead>
 	              <tbody id="modal-data">
-<%--               <c:forEach var="status" items="${goods}" varStatus="var"> 
-	              <tr>
-	              	<td>
-	              	    ${var.index+1}
-	              	</td>
-	                <td>
-	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
-	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
-	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
-	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
-	                    
-	                    <br/>
-	                    </c:forEach>
-	                </td>
-	                <td>
-	                  ${status.createDateString }
-	                </td>
-	                <td>
-	                   ${status.payPrice }
-	                </td>
-	              </tr>
-              </c:forEach> --%>
               </tbody>
             </table>
                   </div>
@@ -133,6 +111,27 @@
               </div>
             </div>
             <!--add myModal end-->
+            <input value="${submitFlag }" type="hidden" id="submitFlag"/>
+            <!--modal end-->
+	        <div class="modal fade" id="submitModal">
+	           <div class="modal-dialog">
+	             <div class="modal-content">
+	               <div class="modal-header">
+	                 <button aria-hidden="true" class="close" data-dismiss="modal" type="button">×</button>
+	                 <h4 class="modal-title">
+	                                                            订单提交提示
+	                 </h4>
+	               </div>
+	               <div class="modal-body">
+	                 <h4>订单已经提交成功，请到财务部付款</h4>
+	               </div>
+	               <div class="modal-footer">
+	                 <button class="btn btn-default-outline" data-dismiss="modal" type="button">确 认</button>
+	               </div>
+	             </div>
+	           </div>
+	       </div>
+         <!--modal end-->
           </div>
           </div>
         </div>

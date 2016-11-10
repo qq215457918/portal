@@ -4,15 +4,15 @@ var cartPrefix = "goods-";
 
 $(function() {
 	base = $("base").attr('href');
+	
+	if($("#submitFlag").val()=="true"){
+		$("#submitModal").modal('show');
+	}
+	
 	//加载基本信息
 	initGoodsData();
 	//$('.spinner').spinner(); 
 	$('#searchGoods').click(function(){
-		if('' == $('#goodInfo').val() &&
-			'' == $('#lowPrice').val() &&
-			'' == $('#highPrice').val()){
-			return;
-		}
 		$('#goodsInfo').dataTable().fnDraw();
 	});
 	
@@ -146,6 +146,9 @@ function getModalContent(type){
 			$('#myGoods').modal('show');
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
+			console.log(XMLHttpRequest);
+			console.log(textStatus);
+			console.log(errorThrown);
 		}
 	});
 }
@@ -172,7 +175,7 @@ function gotoAccount(){
 		alert("购物车为空，请选择商品");
 		return;
 	}
-	var result = new Array()
+	var result = new Array();
 	$('#shoppingList').find("tr[id^='tr']").each(function(i, val){ 
 		var id = $(this).attr("id").substr(2,$(this).attr("id").length);
 		var name = $(this).children($("td[name='goodName']")).html();

@@ -6,7 +6,9 @@
     <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" /> 
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="pay_type" property="payType" jdbcType="VARCHAR" />
@@ -110,6 +112,14 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      
+      <if test="condition.lprice != null" >
+      	 <![CDATA[and actual_price >= #{condition.lprice,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.hprice != null" >
+      	 <![CDATA[and actual_price <= #{condition.hprice,jdbcType=TIMESTAMP}]]>
+      </if>
+      
       <if test="condition.startDate != null" >
       	 <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>
@@ -135,6 +145,23 @@
     culture_operator_id, culture_date, create_date, create_id, update_date, update_id, 
     delete_flag
   </sql>
+
+  
+    <select id="selectByExample4Page" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+	    select
+	    (select e.`name` from employee_info e where e.id = phone_staff_id) as phone_staff_name,
+        (select e.`name` from employee_info e where e.id = receiver_staff_id) as receiver_staff_name,
+	    <include refid="Base_Column_List" />
+	    from order_info
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	    <if test="orderByClause != null" >
+	      order by ${orderByClause}
+	    </if>
+	    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
   
   <!-- 根据条件查询对应业绩 -->
   <select id="getClinchPerfors" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">

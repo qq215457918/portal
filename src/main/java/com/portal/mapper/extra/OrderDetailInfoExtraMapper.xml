@@ -73,6 +73,14 @@
     amount, delete_flag, update_date, update_id
   </sql>
   
+  <!-- 获取真正的订单金额 -->
+  <select id="countPrice4Deposit" parameterType="com.portal.bean.Criteria" resultType="java.lang.Long" >
+    select sum(price * amount) amount from order_detail_info od
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
   <!-- 根据条件获取登门出单详细数据总条数 -->
   <select id="getOrderDetailCounts" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
     select count(*) from

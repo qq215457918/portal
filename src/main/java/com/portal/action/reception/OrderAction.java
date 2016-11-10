@@ -6,11 +6,13 @@ import com.portal.bean.result.GoodsInfoForm;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerCultureInfoService;
+import com.portal.service.CustomerInfoService;
 import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderInfoService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,9 @@ public class OrderAction {
     @Autowired
     CustomerCultureInfoService customerCultureInfoService;
 
+    @Autowired
+    CustomerInfoService customerInfoService;
+
     /**
      * 购买商品页面初始化
      * @param request
@@ -45,6 +50,7 @@ public class OrderAction {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/purchase_goods");
+        model.addObject("submitFlag", request.getParameter("submitFlag"));
         return model;
     }
 
@@ -94,9 +100,22 @@ public class OrderAction {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/shopping_cart");
-        String goodInfo = request.getParameter("goodInfo");
-        model.addObject("goodInfo", JSONObject.fromObject(goodInfo.substring(1, goodInfo.length() - 1)));
+        //model.addObject("goodInfo", JSONObject.fromObject(goodInfo.substring(1, goodInfo.length() - 1)));
+        model.addObject("goodInfo", JSONArray.fromObject(request.getParameter("goodInfo")));
         return model;
+    }
+
+    /**
+     * 提交订单页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/submit")
+    public String insertOrder(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        orderInfoService.insertOrder(request);
+        return "redirect:/order/init?submitFlag=true";
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

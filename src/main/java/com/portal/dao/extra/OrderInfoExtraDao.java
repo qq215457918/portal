@@ -1,17 +1,15 @@
 package com.portal.dao.extra;
 
+import com.portal.bean.Criteria;
+import com.portal.bean.result.OrderInfoForm;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.result.OrderInfoForm;
-
 @Repository
 public interface OrderInfoExtraDao {
-    
+
     /**
      * @Title: getClinchPerfors 
      * @Description: 查询各地区一周的业绩
@@ -20,7 +18,7 @@ public interface OrderInfoExtraDao {
      * @throws
      */
     Map<String, Integer> getClinchPerfors(Criteria example);
-    
+
     /**
      * @Title: getWeekClinchPerfors 
      * @Description: 查询各地区一周内每天的业绩
@@ -29,8 +27,9 @@ public interface OrderInfoExtraDao {
      * @return Map<String,Object>
      * @throws
      */
-    Map<String, Object> getWeekClinchPerfors(@Param(value="startDate") String startDate, @Param(value="area") String area);
-    
+    Map<String, Object> getWeekClinchPerfors(@Param(value = "startDate") String startDate,
+            @Param(value = "area") String area);
+
     /**
      * @Title: getEmployeeInfos 
      * @Description: 根据条件查询员工名称
@@ -41,7 +40,7 @@ public interface OrderInfoExtraDao {
      * @version V1.0
      */
     List<String> getEmployeeInfos(Criteria example);
-    
+
     /**
      * @Title: getStaffPerfors 
      * @Description: 获取员工业绩数据
@@ -52,4 +51,11 @@ public interface OrderInfoExtraDao {
      * @version V1.0
      */
     List<OrderInfoForm> getStaffPerfors(Criteria example);
+
+    /**
+     * 订单信息查询
+     * @param criteria
+     * @return
+     */
+    List<OrderInfoForm> selectByExample4Page(Criteria criteria);
 }

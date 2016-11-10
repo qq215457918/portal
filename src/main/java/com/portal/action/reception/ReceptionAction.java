@@ -72,7 +72,6 @@ public class ReceptionAction {
         ModelAndView model = new ModelAndView();
         CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(request.getParameter("phone"));
         String customerId = request.getParameter("id");
-
         model.addObject("info", info);
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));

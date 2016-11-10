@@ -5,7 +5,6 @@ import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
@@ -16,7 +15,7 @@ public interface CustomerInfoService {
      * @param id
      * @return
      */
-    public CustomerSimpleInfoForm getFristQueryInfo(String id);
+    public CustomerSimpleInfoForm getFristQueryInfo(String phone);
 
     /**
      * 通过电话号码查询用户
@@ -101,23 +100,23 @@ public interface CustomerInfoService {
      * @return void
      * @throws
      */
-	public void updateExportDate(List<CustomerInfo> resultList);
+    public void updateExportDate(List<CustomerInfo> resultList);
 
-	/**
+    /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 插入用户信息 如果电话重复则更新
      * @param data 
      * @return void
      * @throws
      */
-	public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+    public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
 
-	/**
+    /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 导入更新电联人员
      * @param data 
      * @return void
      * @throws
      */
-	public void updateCustomerInfo(List<Map<String, Object>> data);
+    public void updateCustomerInfo(List<Map<String, Object>> data);
 }

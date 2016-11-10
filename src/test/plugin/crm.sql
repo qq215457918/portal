@@ -195,7 +195,7 @@ CREATE TABLE `order_info` (
   `receiver_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '接待人员id',
   `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
   `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品',
-  `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付',
+  `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付 3余款支付',
   `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
   `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
   `finance_flag` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '支付状态(财务审核标志)\n0 未支付\n1已支付 如果order_type=4 为赠品，此字段就为领导审查状态',

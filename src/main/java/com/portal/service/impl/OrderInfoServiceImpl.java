@@ -12,6 +12,7 @@ import com.portal.common.util.UUidUtil;
 import com.portal.dao.OrderDetailInfoDao;
 import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.GoodsDao;
+import com.portal.dao.extra.OrderDetailInfoExtraDao;
 import com.portal.dao.extra.OrderInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
@@ -32,6 +34,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
+
+    @Autowired
+    private OrderDetailInfoExtraDao orderDetailInfoExtraDao;
 
     @Autowired
     private OrderInfoDao orderInfoDao;
@@ -55,6 +60,78 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     Criteria criteria = new Criteria();
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
+
+    /**
+     * 修改订单定金为正常订单
+     */
+    public boolean updatePayDeposit(String orderId) {
+        OrderInfo orderCriteria = new OrderInfo();
+        orderCriteria.setId(orderId);
+        //pay_type=3 3余款支付
+        orderCriteria.setPayType("3");
+        orderCriteria.setStatus("0");
+        orderCriteria.setFinanceOperatorId("");
+        orderCriteria.setFinanceFlag("0");
+        orderCriteria.setFinanceType("");
+        orderCriteria.setDeleteFlag("0");
+        Long depositPrice = orderInfoDao.selectByPrimaryKey(orderId).getPayPrice();
+        orderCriteria.setPayPrice(getCountPrice4Deposit(orderId) - depositPrice);
+        return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
+    }
+
+    public Long getCountPrice4Deposit(String orderId) {
+        Criteria criteria = new Criteria();
+        criteria.put("orderId", orderId);
+        criteria.put("deleteFlag", "0");
+        return orderDetailInfoExtraDao.countPrice4Deposit(criteria);
+    }
+
+    /**
+     * 修改订单定金为撤销
+     */
+    public boolean updateCancelDeposit(String orderId) {
+        OrderInfo orderCriteria = new OrderInfo();
+        orderCriteria.setId(orderId);
+        //pay_type=1 & OrderType=2 就是定金撤销
+        orderCriteria.setOrderType("2");
+        orderCriteria.setFinanceOperatorId("");
+        orderCriteria.setFinanceFlag("0");
+        orderCriteria.setFinanceType("");
+        orderInfoDetailDao.selectByExample(criteria);
+        updateCancelDetail(orderId);
+        return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
+    }
+
+    /**
+     * 修改订单详情的数量为负
+     * @param orderId
+     * @return
+     */
+    public boolean updateCancelDetail(String orderId) {
+        OrderDetailInfo detailInfo = new OrderDetailInfo();
+        detailInfo.setOrderId(orderId);
+        Criteria criteria = new Criteria();
+        criteria.put("orderId", orderId);
+        criteria.put("amount", ~orderInfoDetailDao.selectByExample(criteria).get(0).getAmount() + 1);
+        return orderInfoDetailDao.updateByExampleSelective(detailInfo, criteria) > 0 ? true : false;
+    }
+
+    public List<OrderInfoForm> getDepositInfo(Criteria example) {
+        List<OrderInfoForm> orderInfoForm =
+                orderInfoExtraDao.selectByExample4Page(example);
+        //把商品详情信息放入到form中
+        orderInfoForm.forEach(value -> {
+            value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
+            value.setCreateDateString(
+                    DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
+            Long totalPrice = getCountPrice4Deposit(value.getId());
+            Long depositPrice = orderInfoDao.selectByPrimaryKey(value.getId()).getPayPrice();
+            value.setDepositPrice(
+                    depositPrice - totalPrice);
+        });
+
+        return orderInfoForm;
+    }
 
     Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
         criteria.clear();
@@ -179,8 +256,53 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     List<OrderDetailInfo> queryDetaiInfo(String orderId) {
         criteria.clear();
-        criteria.put("order_id", orderId);
+        criteria.put("orderId", orderId);
         return orderInfoDetailDao.selectByExample(criteria);
+    }
+
+    /**
+     * 插入订单信息
+     */
+    public boolean insertOrder(HttpServletRequest request) {
+        //goodInfo=" + goodInfo + "&totalPrice="+totalPrice+"&submitType="+
+        String uuid = UUidUtil.getUUId();
+        insertSelective(
+                insertOrderInfo(request.getParameter("cid"),
+                        request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
+                        request.getParameter("amount")));
+
+        JSONArray json = JSONArray.fromObject(request.getParameter("goodInfo"));
+        if (json.size() > 0) {
+            for (int i = 0; i < json.size(); i ++) {
+                JSONObject job = json.getJSONObject(i);
+                insertPresentDetailInfo(
+                        getOrderDetailInfo(job.get("id").toString(), job.get("num").toString().trim(), uuid));
+            }
+        }
+        return true;
+    }
+
+    /**
+     * orderinfo的预备对象
+     * @param payType
+     * @param uuid
+     * @return
+     */
+    OrderInfo insertOrderInfo(String cid, String payType, String uuid, String amount) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setId(uuid);
+        orderInfo.setPayType(payType);
+        orderInfo.setPayPrice(Long.parseLong(amount));
+        orderInfo.setCustomerId(cid);
+        orderInfo.setOrderType("1");
+        orderInfo.setStatus("0");
+        orderInfo.setCreateDate(new Date());
+        String[] staff = getStaffInfo(cid);
+        orderInfo.setReceiverStaffId(staff[0]);
+        orderInfo.setPhoneStaffId(staff[1]);
+        orderInfo.setDeleteFlag("0");
+        orderInfo.setCreateDate(new Date());
+        return orderInfo;
     }
 
     /**
@@ -190,25 +312,27 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag));
-        return insertPresentDetailInfo(getOrderDetailInfo(request, uuid));
+        return insertPresentDetailInfo(
+                getOrderDetailInfo(request.getParameter("goodId"), request.getParameter("count"), uuid));
     }
 
     /**
      * ready for orderdetailInfo
      * add goodID count
      */
-    OrderDetailInfo getOrderDetailInfo(HttpServletRequest request, String uuid) {
+    OrderDetailInfo getOrderDetailInfo(String goodId, String count, String uuid) {
         OrderDetailInfo detailInfo = new OrderDetailInfo();
-        GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(request.getParameter("goodId"));
+        GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(goodId);
         detailInfo.setId(UUidUtil.getUUId());
         detailInfo.setOrderId(uuid);
         detailInfo.setGoodId(goodInfo.getId());
         detailInfo.setGoodSortId(goodInfo.getSortId());
         detailInfo.setGoodSortName(goodInfo.getSortName());
         detailInfo.setGoodType(goodInfo.getType());
+        detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
-        detailInfo.setAmount(Integer.getInteger(request.getParameter("count")));
-
+        detailInfo.setDeleteFlag("0");
+        detailInfo.setAmount(Integer.parseInt(count));
         return detailInfo;
     }
 
@@ -382,7 +506,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         JSONObject result = new JSONObject();
         JSONObject dlresult = new JSONObject();
         JSONObject syresult = new JSONObject();
-        
+
         // 职位类别（1-客服/2-业务员）
         String positionType = request.getParameter("positionType");
         // 员工名称
@@ -391,56 +515,59 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
-        
+
         criteria.clear();
-        if(StringUtil.isNotBlank(positionType)) {
+        if (StringUtil.isNotBlank(positionType)) {
             criteria.put("positionType", positionType);
-            if("1".equals(positionType)) {
+            if ("1".equals(positionType)) {
                 criteria.put("conditionId", "o.phone_staff_id");
-            }else if("2".equals(positionType)) {
+            } else if ("2".equals(positionType)) {
                 criteria.put("conditionId", "o.receiver_staff_id");
             }
         }
-        if(StringUtil.isNotBlank(staffName)) {
+        if (StringUtil.isNotBlank(staffName)) {
             criteria.put("staffName", staffName);
         }
-        if(StringUtil.isNotBlank(startDate)){
+        if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-        }else {
-            criteria.put("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        } else {
+            criteria.put("startDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endDate)){
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
-        }else {
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+        if (StringUtil.isNotBlank(endDate)) {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        } else {
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
-        
+
         //查询出大连客服的业绩
         criteria.put("area", "1");
         // 获取大连区域下对应职位类型的所有员工名称
         List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取大连区域下员工业绩
         List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-        
+
         // 查询出沈阳客服的业绩
         criteria.put("area", "0");
         // 获取沈阳区域下对应职位类型的所有员工名称
         List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取沈阳区域下员工业绩
         List<OrderInfoForm> syAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
-        
+
         result.put("dlStaffNames", dlStaffNames);
         result.put("syStaffNames", syStaffNames);
-        
+
         dlresult = geneteJson(dlresult, dlAmounts);
         syresult = geneteJson(syresult, syAmounts);
-        
+
         result.put("dlResult", dlresult);
         result.put("syResult", syresult);
-        
+
         return result;
     }
-    
+
     /**
      * @Title: geneteJson 
      * @Description: 将员工业绩与名称生成Map键值对格式并返回
@@ -452,16 +579,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @version V1.0
      */
     public JSONObject geneteJson(JSONObject result, List<OrderInfoForm> amounts) {
-        if(amounts != null && amounts.size() > 0) {
+        if (amounts != null && amounts.size() > 0) {
             for (OrderInfoForm orderInfoForm : amounts) {
                 result.put(orderInfoForm.getStaffName(), orderInfoForm.getPerformance());
             }
             return result;
-        }else {
+        } else {
             return result;
         }
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表
@@ -472,9 +599,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     @Override
     public List<OrderInfo> selectOrderModifyList(Criteria criteria) {
-    	return orderInfoDao.selectOrderModifyList(criteria);
+        return orderInfoDao.selectOrderModifyList(criteria);
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
@@ -485,6 +612,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     @Override
     public int countOrderModifyList(Criteria criteria) {
-    	return orderInfoDao.countOrderModifyList(criteria);
+        return orderInfoDao.countOrderModifyList(criteria);
     }
 }

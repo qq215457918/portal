@@ -1,7 +1,6 @@
 package com.portal.service;
 
 import com.portal.bean.Criteria;
-import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +9,24 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
+
+    public boolean updatePayDeposit(String orderId);
+
+    public boolean updateCancelDeposit(String orderId);
+
+    /**
+     * 订单信息查询
+     * @param example
+     * @return
+     */
+    public List<OrderInfoForm> getDepositInfo(Criteria example);
+
+    /**
+     * 新增订单信息
+     * @param request
+     * @return
+     */
+    public boolean insertOrder(HttpServletRequest request);
 
     /**
      * 获取正常的订单类型
@@ -110,9 +127,9 @@ public interface OrderInfoService {
      * @return List<CustomerInfo>
      * @throws
      */
-	List<OrderInfo> selectOrderModifyList(Criteria criteria);
+    List<OrderInfo> selectOrderModifyList(Criteria criteria);
 
-	/**
+    /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
      * @param criteria
@@ -120,6 +137,6 @@ public interface OrderInfoService {
      * @return List<CustomerInfo>
      * @throws
      */
-	int countOrderModifyList(Criteria criteria);
+    int countOrderModifyList(Criteria criteria);
 
 }

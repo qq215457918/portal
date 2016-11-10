@@ -14,7 +14,11 @@ public class OrderInfoForm implements Serializable {
 
     private String phoneStaffId;
 
+    private String phoneStaffName;
+
     private String receiverStaffId;
+
+    private String receiverStaffName;
 
     /**
      * 订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
@@ -40,6 +44,11 @@ public class OrderInfoForm implements Serializable {
      * 实际支付金额
      */
     private Long actualPrice;
+
+    /**
+     * 定金余额
+     */
+    private Long depositPrice;
 
     /**
      * 支付状态(财务审核标志)<br>
@@ -91,7 +100,41 @@ public class OrderInfoForm implements Serializable {
 
     private String updateId;
 
+    private String deleteFlag;
+
     private String createDateString;
+
+    public Long getDepositPrice() {
+        return depositPrice;
+    }
+
+    public void setDepositPrice(Long depositPrice) {
+        this.depositPrice = depositPrice;
+    }
+
+    public String getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    public String getPhoneStaffName() {
+        return phoneStaffName;
+    }
+
+    public void setPhoneStaffName(String phoneStaffName) {
+        this.phoneStaffName = phoneStaffName;
+    }
+
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
+
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
 
     public String getRemarks() {
         return remarks;
@@ -111,17 +154,17 @@ public class OrderInfoForm implements Serializable {
 
     //订单详情列表
     private List<OrderDetailInfo> orderDetailInfoList;
-    
+
     /**
      * 统计业绩--员工ID
      */
     private String staffId;
-    
+
     /**
      * 统计业绩--员工名称
      */
     private String staffName;
-    
+
     /**
      * 统计业绩--业绩
      */
