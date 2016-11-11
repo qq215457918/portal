@@ -4,10 +4,10 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>接待管理</title>
+    <title>订单管理页面</title>
     <base href="${basePath}">
-    <script type="text/javascript" src="resources/js/reception/order_deposit.js"></script>
 	<jsp:include page="head.jsp" />
+	<script type="text/javascript" src="resources/js/reception/order_manage.js"></script>
   </head>
   <body>
   <div class="modal-shiftfix">
@@ -15,66 +15,70 @@
  <div class="row">
   <div class="col-md-12">
     <div class="widget-container">
-      <div class="heading">
-        <i class="icon-shield"></i>定金管理
-      </div>
       <div class="widget-content padded">
       <div class="row">
         <div class="col-lg-12">
           <div class="widget-container fluid-height clearfix">
             <div class="heading">
-              <i class="icon-table"></i>购买历史
+              <i class="icon-table"></i>订单管理
             </div>
             <div class="widget-content padded">
               <form action="#" class="form-horizontal">
                 <div class="form-group">
                   <div class="col-md-6">
-                    <label class="control-label col-md-4">商品编码</label>
+                    <label class="control-label col-md-4">商品信息</label>
                     <div class="col-md-8">
-                      <input class="form-control" placeholder="商品编码" type="text" id="goodCode">
+                      <input class="form-control" placeholder="请输入商品名称" type="text" id="goodName">
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="control-label col-md-4">商品名称</label>
+                    <label class="control-label col-md-4">业务人员</label>
                     <div class="col-md-8">
-                      <input class="form-control" placeholder="商品名称" type="text" id="goodName">
+                      <input class="form-control" placeholder="请输入业务人员名称" type="text" id="staffName">
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-md-6">
-                    <label class="control-label col-md-4">售卖金额</label>
-                    <div class="col-sm-4">
-                      <input class="form-control" type="text" id="lprice">
-                    </div>
-                    <div class="col-sm-4">
-                      <input class="form-control" type="text" id="hprice">
-                    </div>
+
+                <div class="form-group col-md-6">
+                  <label class="control-label col-md-4">商品状态</label>
+                  <div class="col-md-8">
+                    <label class="checkbox-inline">
+                      <input type="checkbox" name="checkbox" checked="checked" value="1"><span>正常</span>
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" name="checkbox" checked="checked" value="2"><span>已退货</span>
+                    </label>
+                    <label class="checkbox-inline">
+                      <input type="checkbox" name="checkbox" checked="checked" value="3"><span>已换货</span>
+                    </label>
                   </div>
                 </div>
+
               </form>
               <div class="col-md-12" style="left:80%">
                 <button class="btn btn-success">查 询</button>
               </div>
             </div>
             <div class="widget-content padded clearfix">
-              <table class="table table-bordered table-bordered" id ="depositTable">
+              <table  class="table table-bordered" id ="orderTable">
                 <thead>
                 <tr>
-                  <th>业务人员</th>
-                  <th>购买商品</th>
-                  <th>定金金额</th>
-                  <th>定金日期</th>
-                  <th>剩余尾款</th>
+                  <th>订单编号</th>
+                  <th>商品信息(名称-数量)</th>
+                  <th>实付金额</th>
+                  <th>成交日期</th>
+                  <th>业务员</th>
+                  <th>订单状态</th>
                   <th>操作</th>
-                </tr></thead>
-                <tbody>
+                </tr>
+                </thead>
+                <tbody> 
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-    </div>
+    	</div>
       </div>
     </div>
   </div>

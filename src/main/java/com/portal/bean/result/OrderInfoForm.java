@@ -10,6 +10,8 @@ public class OrderInfoForm implements Serializable {
 
     private String id;
 
+    private String orderNumber;
+
     private String customerId;
 
     private String phoneStaffId;
@@ -103,6 +105,14 @@ public class OrderInfoForm implements Serializable {
     private String deleteFlag;
 
     private String createDateString;
+
+    public String getOrderNumber() {
+        return orderNumber;
+    }
+
+    public void setOrderNumber(String orderNumber) {
+        this.orderNumber = orderNumber;
+    }
 
     public Long getDepositPrice() {
         return depositPrice;

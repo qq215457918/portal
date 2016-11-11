@@ -62,6 +62,49 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
     /**
+     * 修改订单为换货订单
+     * @return
+     */
+    public boolean updateOrderReplace(String orderId) {
+
+        OrderInfo orderCriteria = new OrderInfo();
+        orderCriteria.setId(orderId);
+        orderCriteria.setPayType("3");
+        orderCriteria.setStatus("0");
+        orderCriteria.setWarehouseFlag("0");
+        orderCriteria.setCultureFlag("0");
+        updateCancelDetail(orderId);        //更新detail的数量为负
+        return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
+    }
+
+    /**
+     * 修改订单为退货订单
+     * @return
+     */
+    public boolean updateOrderReturn(String orderId) {
+        updateReturnDetail(orderId);
+        OrderInfo orderCriteria = new OrderInfo();
+        orderCriteria.setId(orderId);
+        orderCriteria.setPayType("2");
+        orderCriteria.setStatus("0");
+        orderCriteria.setFinanceFlag("0");
+        orderCriteria.setWarehouseFlag("0");
+        orderCriteria.setCultureFlag("0");
+        return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
+    }
+
+    public void updateReturnDetail(String orderId) {
+        Criteria criteria = new Criteria();
+        criteria.put("orderId", orderId);
+        criteria.put("deleteFlag", "0");
+        orderInfoDetailDao.selectByExample(criteria).forEach(value -> {
+            value.setAmount(~value.getAmount() + 1);
+            value.setUpdateDate(new Date());
+            orderInfoDetailDao.insertSelective(value);
+        });
+    }
+
+    /**
      * 修改订单定金为正常订单
      */
     public boolean updatePayDeposit(String orderId) {
@@ -97,7 +140,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setFinanceOperatorId("");
         orderCriteria.setFinanceFlag("0");
         orderCriteria.setFinanceType("");
-        orderInfoDetailDao.selectByExample(criteria);
+        //        orderInfoDetailDao.selectByExample(criteria);
         updateCancelDetail(orderId);
         return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
     }
@@ -108,12 +151,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return
      */
     public boolean updateCancelDetail(String orderId) {
-        OrderDetailInfo detailInfo = new OrderDetailInfo();
-        detailInfo.setOrderId(orderId);
         Criteria criteria = new Criteria();
         criteria.put("orderId", orderId);
-        criteria.put("amount", ~orderInfoDetailDao.selectByExample(criteria).get(0).getAmount() + 1);
-        return orderInfoDetailDao.updateByExampleSelective(detailInfo, criteria) > 0 ? true : false;
+        criteria.put("deleteFlag", "0");
+        orderInfoDetailDao.selectByExample(criteria).forEach(value -> {
+            value.setAmount(~value.getAmount() + 1);
+            orderInfoDetailDao.updateByExampleSelective(value, criteria);
+        });
+        return true;
     }
 
     public List<OrderInfoForm> getDepositInfo(Criteria example) {

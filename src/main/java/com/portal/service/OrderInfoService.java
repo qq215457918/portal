@@ -15,6 +15,13 @@ public interface OrderInfoService {
     public boolean updateCancelDeposit(String orderId);
 
     /**
+     * 退货订单
+     * @param orderId
+     * @return
+     */
+    public boolean updateOrderReturn(String orderId);
+
+    /**
      * 订单信息查询
      * @param example
      * @return

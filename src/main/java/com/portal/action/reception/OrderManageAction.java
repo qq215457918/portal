@@ -21,8 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
  * 订单管理模块
  */
 @Controller
-@RequestMapping("/deposit")
-public class DepositAction {
+@RequestMapping("/order/manage")
+public class OrderManageAction {
 
     @Autowired
     GoodsInfoService goodsInfoService;
@@ -46,7 +46,7 @@ public class DepositAction {
     public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        model.setViewName("reception/order_deposit");
+        model.setViewName("reception/order_manage");
         return model;
     }
 
@@ -63,26 +63,35 @@ public class DepositAction {
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 
         criteria.put("status", "4");
-        criteria.put("payType", "1");
-        criteria.put("orderType", "1");
+        criteria.put("payType", "0");
+        //criteria.put("orderType", "1");
         criteria.put("deleteFlag", "0");
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("goodCode", request.getParameter("goodCode"));
         criteria.put("lprice", request.getParameter("lprice"));
-        criteria.put("hprice", request.getParameter("hprice"));
         List<OrderInfoForm> resultList = orderInfoService.getDepositInfo(criteria);
         int count = orderInfoService.countByExample(criteria);
         JsonUtils.resultJson(resultList, count, response, request);
     }
 
-    @RequestMapping(value = "/cancel", method = RequestMethod.POST)
+    /**
+     * 退货业务
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/return", method = RequestMethod.POST)
     public void cancelDeposit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        boolean result = orderInfoService.updateCancelDeposit(request.getParameter("orderId"));
+        boolean result = orderInfoService.updateOrderReturn(request.getParameter("orderId"));
         JsonUtils.outJsonString(String.valueOf(result), response);
     }
 
-    @RequestMapping(value = "/pay", method = RequestMethod.POST)
+    /**
+     * 换货业务
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/replace", method = RequestMethod.POST)
     public void payDeposit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         boolean result = orderInfoService.updatePayDeposit(request.getParameter("orderId"));
