@@ -98,6 +98,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         criteria.put("orderId", orderId);
         criteria.put("deleteFlag", "0");
         orderInfoDetailDao.selectByExample(criteria).forEach(value -> {
+            value.setId(UUidUtil.getUUId());
             value.setAmount(~value.getAmount() + 1);
             value.setUpdateDate(new Date());
             orderInfoDetailDao.insertSelective(value);
@@ -159,6 +160,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderInfoDetailDao.updateByExampleSelective(value, criteria);
         });
         return true;
+    }
+
+    public List<OrderInfoForm> getOrderInfo(Criteria example) {
+        List<OrderInfoForm> orderInfoForm =
+                orderInfoExtraDao.selectByExample4Page(example);
+        //把商品详情信息放入到form中
+        orderInfoForm.forEach(value -> {
+            value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
+            value.setCreateDateString(
+                    DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
+        });
+
+        return orderInfoForm;
     }
 
     public List<OrderInfoForm> getDepositInfo(Criteria example) {

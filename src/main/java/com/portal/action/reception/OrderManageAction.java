@@ -67,9 +67,9 @@ public class OrderManageAction {
         //criteria.put("orderType", "1");
         criteria.put("deleteFlag", "0");
         criteria.put("goodsName", request.getParameter("goodsName"));
-        criteria.put("goodCode", request.getParameter("goodCode"));
-        criteria.put("lprice", request.getParameter("lprice"));
-        List<OrderInfoForm> resultList = orderInfoService.getDepositInfo(criteria);
+        criteria.put("staffName", request.getParameter("staffName"));
+        //criteria.put("typeList", request.getParameter("typeList").split(","));
+        List<OrderInfoForm> resultList = orderInfoService.getOrderInfo(criteria);
         int count = orderInfoService.countByExample(criteria);
         JsonUtils.resultJson(resultList, count, response, request);
     }
@@ -94,7 +94,7 @@ public class OrderManageAction {
     @RequestMapping(value = "/replace", method = RequestMethod.POST)
     public void payDeposit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        boolean result = orderInfoService.updatePayDeposit(request.getParameter("orderId"));
+        boolean result = orderInfoService.updateOrderReplace(request.getParameter("orderId"));
         JsonUtils.outJsonString(String.valueOf(result), response);
     }
 

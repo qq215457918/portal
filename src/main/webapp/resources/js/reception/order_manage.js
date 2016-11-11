@@ -30,7 +30,7 @@ function initData() {
 		"bRetrieve": true,
 		"sAjaxSource": "order/manage/query", // 地址
 		"aoColumns": [  
-		            {"mData": "orderNumber"},
+		            {"mData": "id"},
 		            {"data": "orderDetailInfoList",
 						"render": function(data, type, full) {
 							var result = "";
@@ -48,9 +48,9 @@ function initData() {
 							var type;
 							switch (data)
 							{
-							case 1: type ="正常";break;
-							case 2: type ="退货";break;
-							case 3: type ="换货";break;
+							case "1": type ="正常";break;
+							case "2": type ="退货";break;
+							case "3": type ="换货";break;
 						 }
 							return type;
 						}
@@ -60,10 +60,10 @@ function initData() {
 						   var result = "";
 						   var returnsButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='returnsOrder("+data+");'>退货 </button>";
 						   var replaceButton = "<button class='btn btn-xs btn-warning' id='pId"+data+"' onclick='replaceOrder("+data+");'>换货 </button>";
-						   var orderType = full.get("orderType"); 
-						   if(orderType=="正常"){
+						   var orderType = full.orderType; 
+						   if(orderType==1){
 							   result = returnsButton + replaceButton;
-						   }else if(orderType=="换货"){
+						   }else if(orderType==3){
 							   result = returnsButton;
 						   }
 							return result;
@@ -73,14 +73,14 @@ function initData() {
 		"fnServerData": function (sSource, aoData, fnCallback) {//查询项
 				var goodName = $('#goodName').val();
 				var staffName = $('#staffName').val();
-				var tyleList = ""; 
+				var typeList = ""; 
 				$("input[name=checkbox]:checked").each(function(){ 
 				    var val = $(this).val();
-				    tyleList +="'"+val+"'," ;
+				    typeList +=val+"," ;
 				});
-				tyleList = tyleList.subStr(0,tyleList.length-1);
+				typeList = typeList.substr(0,typeList.length-1);
 				aoData.push({'name':'goodName','value':goodName},
-				{'name':'staffName','value':staffName},{'name':'tyleList','value':tyleList});							
+				{'name':'staffName','value':staffName},{'name':'typeList','value':typeList});							
 				$.ajax({
 							"dataType": 'json',
 							"type": "POST",
@@ -109,7 +109,7 @@ function returnsOrder(orderId){
 		},
 		"success": function(data){
 			alert("商品退货已经通知库房，请到库房进行退货业务");
-			$('#depositTable').dataTable().fnDraw();
+			$('#orderTable').dataTable().fnDraw();
 		},
 		error : function(XMLHttpRequest, textStatus, errorThrown) {
 			alert("error");
@@ -130,7 +130,7 @@ function replaceOrder(orderId){
 			"orderId":orderId
 		},
 		"success": function(data){
-			$('#depositTable').dataTable().fnDraw();
+			$('#orderTable').dataTable().fnDraw();
 			alert("商品换货已经通知库房，请到库房进行换货业务");
 		}
 	})

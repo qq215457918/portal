@@ -21,12 +21,16 @@ public interface OrderInfoService {
      */
     public boolean updateOrderReturn(String orderId);
 
+    public boolean updateOrderReplace(String orderId);
+
     /**
      * 订单信息查询
      * @param example
      * @return
      */
     public List<OrderInfoForm> getDepositInfo(Criteria example);
+
+    public List<OrderInfoForm> getOrderInfo(Criteria example);
 
     /**
      * 新增订单信息
