@@ -99,7 +99,7 @@
   </sql>
   
   <sql id="Base_Column_List" >
-    id, phone_staff_id, phone_staff_name, receive_staff_name, receive_finished_counts, 
+    id, phone_staff_id, phone_staff_name, phone_staff_group_name, receive_staff_name, receive_finished_counts, 
     out_orders_of_finished, out_order_rate_of_finished, performance_of_finished, order_avg_of_finished, 
     piece_avg_of_finished, receive_locked_counts, out_orders_of_locked, out_order_rate_of_locked, 
     performance_of_locked, order_avg_of_locked, piece_avg_of_locked, order_avg_of_goods_counts, 

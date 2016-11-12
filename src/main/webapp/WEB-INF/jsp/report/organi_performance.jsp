@@ -18,10 +18,10 @@
 	      <div class="widget-content padded">
 	        <div class="form-group condition-group">
 	          <div class="condition fl">
-	          	<div class="label fl">
+	          	<div class="condition-label fl">
 	          		<label class="control-label col-md-2" style=" width: 100%;">统计日期</label>
 	          	</div>
-	          	<div class="control fl">
+	          	<div class="condition-control fl">
 	          	  <div class="col-md-3" style="width: 100%;">
 				    <div class="input-group date datepicker">
 		              <input class="form-control" type="text" id="startReportDate" value="${startReportDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>

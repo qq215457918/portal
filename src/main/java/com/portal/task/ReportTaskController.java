@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
+import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReportTrackService;
+import com.portal.service.VisitEverydayInfoService;
 
 /**
  * @ClassName: ReportTaskController 
@@ -34,6 +36,14 @@ public class ReportTaskController {
     @Autowired
     private ReportTrackService reportTrackService;
     
+    // 每日登门Service
+    @Autowired
+    private VisitEverydayInfoService visitEverydayService;
+    
+    // 客户Service
+    @Autowired
+    private CustomerInfoService customerService;
+    
     // 公共查询条件类
     Criteria criteria = new Criteria();
     
@@ -45,11 +55,12 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:03:26 
      * @version V1.0
      */
-    @Scheduled(cron = "0 0 19 * * ?")  
+    // TODO - 后期弄, 这块缺少客户类型转变历史表
+    // @Scheduled(cron = "0 0 19 * * ?")  
     public void everyPerformances(){  
         logger.info("启动每日19点的定时任务, 操作内容：统计每日业绩存储到每日业绩表-------------------");
         
-        
+        criteria.put("deleteFlag", "0");
         List<OrderInfo> orderLists = orderService.selectByExample(criteria);
         
         
@@ -72,10 +83,37 @@ public class ReportTaskController {
      */
     @Scheduled(cron = "0 5 19 * * ?")  
     public void visitEveryDay(){  
-         
+        logger.info("启动每日19点05分的定时任务, 操作内容：统计每日接待情况存储到每日登门表-------------------");
+        
+        criteria.clear();
+        criteria.put("deleteFlag", "0");
+        
+        
+        /**
+         * select 
+            r.customer_id as customer_id,
+            c.`name` as customer_name,
+            c.type as customer_type,
+            c.area as customer_area,
+            r.phone_staff_id as custom_service_id,
+            (select e.`name` from employee_info e where e.id = r.phone_staff_id) as custom_service_name,
+            r.receiver_staff_id as receiver_staff_id,
+            (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
+            o.actual_price as transaction_amount,
+            r.create_date as visit_date
+        from 
+            reception_info r
+        left join customer_info c on r.customer_id = c.id
+        left join order_info o on r.order_id = o.id
+        where o.`status` = '4' or o.pay_type = '1'
+        order by c.`name`
+         */
         
         
         
+        
+        
+        logger.info("每日19点05分的定时任务结束, 共存储" + 10 + "条记录-------------------");
     }
     
     
@@ -91,10 +129,41 @@ public class ReportTaskController {
      */
     @Scheduled(cron = "0 10 19 * * ?")  
     public void receiveReport(){  
-         
+        logger.info("启动每日19点10分的定时任务, 操作内容：统计每日接待情况存储到每日接待统计表-------------------");
+        
+        criteria.clear();
+        criteria.put("deleteFlag", "0");
+        
+        
+        /**
+         * select 
+                r.receiver_staff_id as receiver_staff_id,
+                e.`name` as receiver_staff_name,
+                c.area as receiver_area,
+                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '0') as new_counts,
+                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '1') as repeat_counts,
+                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '1') as repeat_orders,
+                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '1' and o.`status` = '4' or o.pay_type = '1') as repeat_amounts,
+                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '2') as roadshow_counts,
+                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '2') as roadshow_orders,
+                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '2' and o.`status` = '4' or o.pay_type = '1') as roadshow_amounts,
+                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '3') as finish_order_counts,
+                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '3') as finish_order_orders,
+                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '3' and o.`status` = '4' or o.pay_type = '1') as finish_order_amounts,
+                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '4') as locked_counts,
+                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '4') as locked_orders,
+                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '4' and o.`status` = '4' or o.pay_type = '1') as locked_amounts
+            from 
+                reception_info r
+            left join customer_info c on r.customer_id = c.id
+            left join employee_info e on r.receiver_staff_id = e.id
+            order by c.`name`
+         */
         
         
         
+        
+        logger.info("每日19点10分的定时任务结束, 共存储" + 10 + "条记录-------------------");
     }
     
     
@@ -111,10 +180,15 @@ public class ReportTaskController {
      */
     @Scheduled(cron = "0 15 19 * * ?")  
     public void deptPerfors(){  
-         
+        logger.info("启动每日19点10分的定时任务, 操作内容：统计每日接待情况存储到每日接待统计表-------------------");
+        
+        criteria.clear();
+        criteria.put("deleteFlag", "0");
         
         
         
+        
+        logger.info("每日19点10分的定时任务结束, 共存储" + 10 + "条记录-------------------");
     }
     
     

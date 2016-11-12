@@ -89,9 +89,9 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
         // 每页显示几条
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         // 开始日期
-        String startCreateDate = request.getParameter("startCreateDate");
+        String startReportDate = request.getParameter("startReportDate");
         // 结束日期
-        String endCreateDate = request.getParameter("endCreateDate");
+        String endReportDate = request.getParameter("endReportDate");
         
         criteria.clear();
         // 分页参数
@@ -99,15 +99,15 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
         criteria.setMysqlLength(perpage);
         // 已支付
         criteria.put("financeFlag", "1");
-        if(StringUtil.isNotBlank(startCreateDate)){
-            criteria.put("startCreateDate", startCreateDate);
+        if(StringUtil.isNotBlank(startReportDate)){
+            criteria.put("startReportDate", startReportDate);
         }else {
-            criteria.put("startCreateDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+            criteria.put("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(endCreateDate)){
-            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.parseDate(endCreateDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        if(StringUtil.isNotBlank(endReportDate)){
+            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.parseDate(endReportDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         }else {
-            criteria.put("endCreateDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+            criteria.put("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         // 获取总记录数
         int totalRecord = deptPerformanceInfoExtraDao.getCountsByCondition(criteria);

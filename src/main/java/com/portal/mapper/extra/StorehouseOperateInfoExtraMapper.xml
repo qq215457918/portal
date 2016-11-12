@@ -61,7 +61,7 @@
          and c.area = #{condition.area,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderNumber != null" >
-         and o.number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
+         and o.order_number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
       </if>
       <if test="condition.startDate != null" >
          <![CDATA[and s.operate_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>

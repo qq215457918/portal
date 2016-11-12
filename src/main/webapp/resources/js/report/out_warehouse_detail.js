@@ -72,10 +72,12 @@ function initData() {
 		            {"mData": "viewOperateDate"}
 		           ],
 		"fnServerData": function (sSource, aoData, fnCallback) {
+							var orderNumber = $("#orderNumber").val();
 							var area = $('#area').val();
 							var startDate = $('#startDate').val();
 							var endDate = $('#endDate').val();
 							aoData.push(
+										{'name':'orderNumber','value':orderNumber},
 										{'name':'area','value':area},
 										{'name':'startDate','value':startDate},
 										{'name':'endDate','value':endDate}

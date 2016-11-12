@@ -129,8 +129,8 @@
       <if test="condition.endDate != null" >
       	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
-      <if test="condition.staffName != null" >
-         and e.`name` like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR} ,"%")
+      <if test="condition.viewStaffName != null" >
+         and e.`name` like CONCAT("%", #{condition.viewStaffName,jdbcType=VARCHAR} ,"%")
       </if>
       <if test="condition.area != null" >
          and c.area = #{condition.area,jdbcType=VARCHAR}

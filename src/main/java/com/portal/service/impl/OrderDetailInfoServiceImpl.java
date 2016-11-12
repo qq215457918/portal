@@ -93,7 +93,7 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
         // 客户ID
         String customerId = request.getParameter("customerId");
         // 产品名称
-        String goodsName = request.getParameter("goodsName");
+        String goodName = request.getParameter("goodName");
         // 产品种类
         // String goodsSortName = request.getParameter("goodsSortName");
         
@@ -113,8 +113,8 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
         if(StringUtil.isNotBlank(customerId)){
             criteria.put("customerId", customerId);
         }
-        if(StringUtil.isNotBlank(goodsName)){
-            criteria.put("goodsName", goodsName);
+        if(StringUtil.isNotBlank(goodName)){
+            criteria.put("goodName", goodName);
         }
         /*if(StringUtil.isNotBlank(goodsSortName)){
             criteria.put("goodsSortName", goodsSortName);

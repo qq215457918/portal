@@ -121,7 +121,6 @@
 	        r.start_time
 	    from reception_info r
 	    left join customer_info c on r.customer_id = c.id
-	    left join order_info o on o.customer_id = c.id
 	    <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
@@ -144,10 +143,16 @@
         c.area as area,
         c.vip_card as vip_card,
         date_format(r.end_time, '%h:%i') as end_time,
-        count(o.id) as order_count
+        (select count(o.id) from order_info o where 1=1 
+        	<if test="condition.startDate != null" >
+		      <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+		    </if>
+		    <if test="condition.endDate != null" >
+		      <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+		    </if>
+         ) AS order_count
     from reception_info r
     left join customer_info c on r.customer_id = c.id
-    left join order_info o on o.customer_id = c.id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

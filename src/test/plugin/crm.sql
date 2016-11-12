@@ -468,3 +468,34 @@ BEGIN
     END WHILE;
     RETURN return_str;
 END;
+
+-- ----------------------------
+-- Table structure for butt_perfor_detail_info
+-- ----------------------------
+DROP TABLE IF EXISTS `butt_perfor_detail_info`;
+CREATE TABLE `butt_perfor_detail_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键ID',
+  `phone_staff_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '客服ID',
+  `phone_staff_name` varchar(8) COLLATE utf8_bin NOT NULL COMMENT '客服姓名',
+  `phone_staff_group_name` varchar(45) COLLATE utf8_bin NOT NULL COMMENT '客服所属机构名称',
+  `receive_staff_name` varchar(8) COLLATE utf8_bin NOT NULL COMMENT '接待姓名',
+  `receive_finished_counts` int(11) DEFAULT NULL COMMENT '成单接待数',
+  `out_orders_of_finished` int(11) DEFAULT NULL COMMENT '成单出单数',
+  `out_order_rate_of_finished` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '成单出单率',
+  `performance_of_finished` decimal(10,0) DEFAULT NULL COMMENT '成单业绩',
+  `order_avg_of_finished` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT '成单单均',
+  `piece_avg_of_finished` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT '成单件均',
+  `receive_locked_counts` int(11) DEFAULT NULL COMMENT '锁定接待数',
+  `out_orders_of_locked` int(11) DEFAULT NULL COMMENT '锁定出单数',
+  `out_order_rate_of_locked` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '锁定出单率',
+  `performance_of_locked` decimal(10,0) DEFAULT NULL COMMENT '锁定业绩',
+  `order_avg_of_locked` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '锁定单均',
+  `piece_avg_of_locked` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '锁定件均',
+  `order_avg_of_goods_counts` varchar(10) COLLATE utf8_bin DEFAULT NULL COMMENT '单均产品件数',
+  `report_date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_id` (`id`) USING BTREE,
+  KEY `idx_phone_staff_id` (`phone_staff_id`) USING BTREE,
+  KEY `idx_phone_staff_name` (`phone_staff_name`) USING BTREE,
+  KEY `idx_report_date` (`report_date`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='展厅客服对接业绩详情表';

@@ -569,7 +569,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         // 职位类别（1-客服/2-业务员）
         String positionType = request.getParameter("positionType");
         // 员工名称
-        String staffName = request.getParameter("staffName");
+        String viewStaffName = request.getParameter("staffName");
         // 开始日期
         String startDate = request.getParameter("startDate");
         // 结束日期
@@ -584,8 +584,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 criteria.put("conditionId", "o.receiver_staff_id");
             }
         }
-        if (StringUtil.isNotBlank(staffName)) {
-            criteria.put("staffName", staffName);
+        if (StringUtil.isNotBlank(viewStaffName)) {
+            criteria.put("viewStaffName", viewStaffName);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);

@@ -17,7 +17,7 @@
 	    <div class="widget-container fluid-height clearfix">
 	      <div class="heading" style="color:#666666; font-weight: bold;">
 	        <i class="icon-reorder fl" style="margin-top: 0.8%; cursor: default;"></i>
-	    	<select id="organiId fl" class="form-control" style="width: 9%;">
+	    	<select id="organiId" class="form-control fl" style="width: 9%;">
 	    		<option value="1" <c:if test="${organiId == '1'}">selected="selected"</c:if> >大连</option>
 	    		<option value="0" <c:if test="${organiId == '0'}">selected="selected"</c:if> >沈阳</option>
 	    	</select>
