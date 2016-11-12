@@ -187,7 +187,15 @@ public class ReceptionInfoForm implements Serializable {
     }
 
     public String getArea() {
-        return area;
+        if(StringUtil.isNotBlank(this.area)) {
+            if("1".equals(this.area)) {
+                return "大连";
+            }else {
+                return "沈阳";
+            }
+        }else {
+            return area;            
+        }
     }
 
     public void setArea(String area) {
