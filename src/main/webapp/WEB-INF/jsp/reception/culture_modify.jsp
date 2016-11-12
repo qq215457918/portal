@@ -15,67 +15,42 @@
   <div class="col-md-12">
     <div class="widget-container">
       <div class="heading">
-        <i class="icon-shield"></i>修改用户基本信息
+        <i class="icon-shield"></i>修改文交所信息
       </div>
       <div class="widget-content padded">
-        <form action="<%=request.getContextPath() %>/customer/modify/basic/save" id="validate-form" method="post" novalidate="novalidate">
+        <form action="<%=request.getContextPath() %>/customer/modify/exchange/save" id="validate-form" method="post" novalidate="novalidate">
           <fieldset>
             <div class="row">
               <div class="col-md-6">
 	                <div class="form-group">
-	                  <label for="firstname">姓名</label>
-	                  <input class="form-control" id="firstname" name="firstname" type="text" value=${customerInfo.name}>
+	                  <label for="firstname">文交所</label>
+	                  <input class="form-control" id="cultureName" name="cultureName" type="text" value=${cultureInfo.cultureName}>
 	                </div>
 	                <div class="form-group">
-	                  <label>商务电话</label>
-	                  <input class="form-control" id="businessPhone" name="businessPhone" type="text" value=${customerInfo.businessPhone}>
+	                  <label>开户日期</label>
+	                  <input class="form-control" id="accountDate" name="accountDate" type="text" value=${cultureInfo.accountDate}>
 	                </div>
 	               <div class="form-group">
-	                  <label>手机</label>
-	                  <input class="form-control" id="phone" name="phone" type="text" value=${customerInfo.phone}>
+	                  <label>是否绑定银行卡</label>
+	                  <input class="form-control" id="bankFlag" name="bankFlag" type="text" value=${cultureInfo.bankFlag}>
 	                </div>
-	               <div class="form-group">
-	                  <label>其他电话2</label>
-	                  <input class="form-control" id="phone2" name="phone2" type="text" value=${customerInfo.phone2}>
-	                </div>
-	               <div class="form-group">
-	                  <label>关联亲友</label>
-	                  <input class="form-control" id="relationId" name="relationId" type="text" value=${customerInfo.relationId}>
-	                </div>  
                 </div>
                <div class="col-md-6">
-	               <div class="form-group">
-	                  <label>QQ</label>
-	                  <input class="form-control" id="qq" name="qq" type="text" value=${customerInfo.qq}>
-	                </div>     
-	               <div class="form-group">
-	                  <label>MSN</label>
-	                  <input class="form-control" id="msn" name="msn" type="text" value=${customerInfo.msn}>
+               	  <div class="form-group">
+	                  <label>客户姓名</label>
+	                  <input class="form-control" id="customerName" name="customerName" type="text" value=${cultureInfo.customerName}>
 	                </div>
 	               <div class="form-group">
-	                  <label>网页</label>
-	                  <input class="form-control" id="site" name="site" type="text" value=${customerInfo.site}>
-	                </div>  
-	                <div class="form-group">
-	                  <label>身份证</label>
-	                  <input class="form-control" id="idCard" name="idCard" type="text" value=${customerInfo.idCard}>
-	                </div>                 
-	                <div class="form-group">
-	                  <label>生日</label>
-	                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-		                  <input class="form-control" type="text" id="birthday" name="birthday" >
-		                  <span class="input-group-addon"><i class="icon-calendar"></i></span>
-	           		</div>
-	           		
-	           		<div class="form-group" style="margin-top:20px">
-			            <label style="margin-right:20px">黑名单</label>
-			              <div class="toggle-switch text-toggle-switch has-switch" data-off-label="否" data-on="primary" data-on-label="是">
-			                <div class="switch-on switch-danger"><input checked="" type="checkbox"></div>
-			              </div>
-			        </div>     		
+	                  <label>联系电话</label>
+	                  <input class="form-control" id="phone" name="phone" type="text" value=${cultureInfo.phone}>
+	                </div> 
+	               <div class="form-group">
+	                  <label>会员代码</label>
+	                  <input class="form-control" id="code" name="code" type="text" value=${customerInfo.code}>
+	                </div>  		
 	           </div>
             </div>
-            <input type="hidden" name="cid" id="cid" value="${customerInfo.id }"/>
+            <input type="hidden" name="cid" id="cid" value="${cultureInfo.id}"/>
             <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
             </div>
           </fieldset>

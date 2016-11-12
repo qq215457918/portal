@@ -68,7 +68,7 @@ public class CustomerAction {
 
         ModelAndView model = new ModelAndView();
         model.addObject("cultureInfo", cultureInfoService.selectByPrimaryKey(request.getParameter("id")));
-        model.setViewName("reception/customer_modify");
+        model.setViewName("reception/culture_modify");
         return model;
     }
 

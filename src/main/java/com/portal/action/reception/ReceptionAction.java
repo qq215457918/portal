@@ -71,7 +71,7 @@ public class ReceptionAction {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(request.getParameter("phone"));
-        receptionInfoService.insertReceptionTime("1", "1");
+       // receptionInfoService.insertReceptionTime("1", "1");
         String customerId = request.getParameter("id");
         model.addObject("info", info);
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
@@ -103,7 +103,7 @@ public class ReceptionAction {
     @RequestMapping(value = "/quit")
     public String receptionQuit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        receptionInfoService.updateEndReceptionTime(request.getParameter("id"));
+       // receptionInfoService.updateEndReceptionTime(request.getParameter("id"));
         return "reception/inquiry_query";
     }
 
