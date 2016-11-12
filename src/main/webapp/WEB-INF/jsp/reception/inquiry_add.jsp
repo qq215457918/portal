@@ -30,7 +30,7 @@
                 </div>
                 <div class="form-group">
                   <label>生日</label>
-                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="dd-mm-yyyy">
+                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
                   <input class="form-control" type="text" id="birthday" name="birthday" ><span class="input-group-addon"><i class="icon-calendar"></i></span>
               </div>
                 </div>

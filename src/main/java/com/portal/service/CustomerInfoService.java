@@ -29,7 +29,7 @@ public interface CustomerInfoService {
      * @param request
      * @return
      */
-    public int insertCustomer(HttpServletRequest request);
+    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request);
 
     /**
      * 查询是否为已经注册的用户

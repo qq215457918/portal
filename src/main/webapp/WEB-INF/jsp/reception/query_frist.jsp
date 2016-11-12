@@ -56,7 +56,7 @@
               <button class="btn btn-lg btn-primary" id ="receiveId">开始接待</button>
             </div>
             <div  class="col-md-3">
-              <button class="btn btn-lg btn-default">退 出</button>
+              <button class="btn btn-lg btn-default" id ="quit">退 出</button>
             </div>
           </div>
         </div>
@@ -72,6 +72,14 @@
 			var phone = $('#cphone').val();
 			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
 		});
+		
+		// 查询功能
+		$("#quit").click(function(){
+			var id = $('#cid').val();
+			window.location.href=base+"/visit/quit?id="+id;
+		});
+		
+		
 	});
 	</script>
 </html>

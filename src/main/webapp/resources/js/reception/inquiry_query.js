@@ -15,7 +15,6 @@ $(function() {
 	// 查询功能
 	$("#queryId").click(function(){
 		var phone = $("#phoneNo").val();
-		alert(phone)
 		if(phone =="undefined" || phone == null ||phone =="" ||phone ==" "){
 			alert("请输入电话号码")
 			return;
@@ -23,8 +22,6 @@ $(function() {
 			window.location.href=base+"/visit/first?phoneNo="+phone;
 		}
 	});
-	
-
 		
 	// 返回上一页
 	$("#back").click(function(){

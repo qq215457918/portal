@@ -5,6 +5,7 @@ import com.portal.bean.ReceptionInfo;
 import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
+import com.portal.common.util.UUidUtil;
 import com.portal.dao.ReceptionInfoDao;
 import com.portal.dao.extra.ReceptionInfoExtraDao;
 import com.portal.service.ReceptionInfoService;
@@ -36,13 +37,14 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
      * by meng.yue
      * @return
      */
-    public boolean recordReceptionTime(String customerId, String receiverStaffId) {
+    public boolean insertReceptionTime(String customerId, String receiverStaffId) {
         ReceptionInfo receptionInfo = new ReceptionInfo();
+        receptionInfo.setId(UUidUtil.getUUId());
         receptionInfo.setCustomerId(customerId);
         receptionInfo.setReceiverStaffId(receiverStaffId);
         receptionInfo.setCreateDate(new Date());
         receptionInfo.setStartTime(new Date());
-        int result = insert(receptionInfo);
+        int result = insertSelective(receptionInfo);
         return result > 0 ? true : false;
     }
 

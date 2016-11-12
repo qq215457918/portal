@@ -31,6 +31,8 @@ public interface ReceptionInfoService {
      * @return
      */
     public boolean updateEndReceptionTime(String customerId);
+    
+    public boolean insertReceptionTime(String customerId, String receiverStaffId);
 
     int countByExample(Criteria example);
 

@@ -1,5 +1,6 @@
 package com.portal.service.impl;
 
+import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
@@ -64,12 +65,18 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setId(cInfo.getId());
         cSimpleForm.setName(cInfo.getName());
         cSimpleForm.setEncryptPhone(cInfo.getPhone());
-        cSimpleForm.setPhoneStaffId(cInfo.getPhoneStaffId());
-        cSimpleForm
-                .setPhoneStaffName(EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
-        cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
-        cSimpleForm.setReceiverStaffName(
-                EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
+        cSimpleForm.setType(cInfo.getType()=="3"?"成单":"登门");
+        if(!StringUtils.isEmpty(cInfo.getPhoneStaffId())){
+            cSimpleForm.setPhoneStaffId(cInfo.getPhoneStaffId());
+        	cSimpleForm
+            .setPhoneStaffName(EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
+        }
+        if(!StringUtils.isEmpty(cInfo.getReceiverStaffId())){
+            cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
+            cSimpleForm.setReceiverStaffName(
+                    EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
+        }
+        cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag()=="1"?"是":"否");
         return cSimpleForm;
     }
 
@@ -95,16 +102,19 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @param request
      * @return
      */
-    public int insertCustomer(HttpServletRequest request) {
+    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request) {
+    	String phone = request.getParameter("phone");
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setId(UUidUtil.getUUId());
-        Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("qqno")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("birthday")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("area")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("email")).ifPresent(value -> cInfo.setName(value));
-        return insertSelective(cInfo);
+        cInfo.setName(request.getParameter("firstname"));
+        cInfo.setQq(request.getParameter("qqno"));
+        cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));;
+        cInfo.setPhone(phone);
+        cInfo.setArea(request.getParameter("area"));
+        cInfo.setSite(request.getParameter("email"));
+        insertSelective(cInfo);
+        return getFristQueryInfo(phone);
+
     }
 
     public int insertSelective(CustomerInfo record) {

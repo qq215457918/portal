@@ -191,7 +191,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return orderInfoForm;
     }
-
+    
     Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
         criteria.clear();
         criteria.put("customer_id", customerId);
@@ -202,6 +202,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.put("today_flag", 1);
         criteria.setOrderByClause("create_date");
         criteria.setMysqlLength(5);
+        criteria.put("deleteFlag", "0");
         return criteria;
     }
 
@@ -255,7 +256,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     List<OrderInfoForm> getNormalOrderInfo(String customerId, int orderType, int payType) {
-        return getOrderInfo(customerId, 1, orderType, payType);
+        return getOrderInfo(customerId, 4, orderType, payType);
     }
 
     /**
