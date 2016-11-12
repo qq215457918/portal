@@ -66,7 +66,7 @@ function initData() {
 		            {"mData": "orderNumber"},
 		            {"mData": "goodSortName"},
 		            {"mData": "goodName"},
-		            {"mData": "goodType"},
+		            {"mData": "viewTypeName"},
 		            {"mData": "price"},
 		            {"mData": "amount"},
 		            {"mData": "viewOperateDate"}
