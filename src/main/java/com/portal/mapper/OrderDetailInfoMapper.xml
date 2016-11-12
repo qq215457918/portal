@@ -14,6 +14,13 @@
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="Remarks" property="remark" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="today" property="today" jdbcType="VARCHAR" />
+    <result column="actual_price" property="actualPrice" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -337,4 +344,36 @@
       update_id = #{updateId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectOrderInfoById" parameterType="map" resultMap="BaseResultMap">
+  	SELECT
+  		oi.pay_type,
+		oi.pay_price,
+	  	oi.actual_price,
+		oi.Remarks,
+		ci.name as customer_name,
+		eip.name as phone_staff_name,
+		eir.name as receiver_staff_name,
+		oi.receiver_staff_id,
+		odi.good_sort_id,
+		odi.good_sort_name,
+		odi.good_id,
+		odi.good_type,
+		odi.good_name,
+		odi.price,
+		odi.amount,
+		odi.delete_flag,
+		DATE_FORMAT(now(), '%Y-%m-%d') AS today
+	FROM
+		order_info oi
+	LEFT JOIN order_detail_info odi ON oi.id = odi.order_id
+	LEFT JOIN customer_info ci on oi.customer_id = ci.id
+	LEFT JOIN employee_info eip on eip.id = oi.phone_staff_id
+	LEFT JOIN employee_info eir on eir.id = oi.receiver_staff_id
+	<trim prefix="where" prefixOverrides="and|or" >
+      <if test="orderId != null" >
+		and oi.id = #{orderId, jdbcType=VARCHAR}
+	  </if>
+	</trim>
+  </select>
 </mapper>

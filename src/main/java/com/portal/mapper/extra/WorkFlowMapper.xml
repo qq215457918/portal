@@ -6,7 +6,8 @@
 		select
 		COUNT(1) achieveCount,
 		SUM(pay_price) payPrice,
-		SUM(actual_price) actualPrice
+		SUM(actual_price) actualPrice,
+		group_concat(phone_staff_id) phoneStaffId
 		from order_info
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">
@@ -48,5 +49,13 @@
 			</if>
 		</trim>
 		GROUP BY receiver_staff_id
+	</select>
+	
+	<select id="selectPhoneStaffName" resultType="java.lang.String">
+		select group_concat(name) from employee_info where id in
+		<foreach collection="array" index="index" item="item"
+			open="(" separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 </mapper>

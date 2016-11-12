@@ -1,6 +1,7 @@
 package com.portal.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -42,4 +43,13 @@ public interface OrderDetailInfoService {
      * @version V1.0
      */
     JSONObject ajaxOutOrderDetail(HttpServletRequest request);
+
+	/**
+	 * @Title: selectOrderInfoById 
+	 * @Description: 通过id获取订单信息列表
+	 * @param param
+	 * @return void
+	 * @throws
+	 */
+	List<OrderDetailInfo> selectOrderInfoById(Map<String, Object> param);
 }

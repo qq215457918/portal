@@ -1,12 +1,17 @@
 package com.portal.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+
+import com.portal.common.util.NumberToCN;
 
 public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
+    
+    private String orderId;
 
     /**
      * 订单号
@@ -32,21 +37,27 @@ public class OrderInfo implements Serializable {
      * 订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
      */
     private String status;
+    
+    private String statusName;
 
     /**
      * 订单类型 1正常 2退货 3换货
      */
     private String orderType;
-
+    
     /**
      * 支付类型  0全额支付 1定金支付 2派送支付
      */
     private String payType;
+    
+    private String payTypeName;
 
     /**
      * 订单金额
      */
     private Long payPrice;
+    
+    private String payPriceCN;
 
     /**
      * 实际支付金额
@@ -114,6 +125,16 @@ public class OrderInfo implements Serializable {
      * 备注信息
      */
     private String remarks;
+    
+    /**
+     * 电联人
+     */
+    private String phoneStaffName;
+    
+    /**
+     * 接待人
+     */
+    private String receiverStaffName;
 
     private Date createDate;
 
@@ -132,6 +153,8 @@ public class OrderInfo implements Serializable {
     private String goodsName;
     
     private String orderTypeName;
+    
+    private String goodsQuantity;
 
     public String getRemarks() {
         return remarks;
@@ -147,6 +170,7 @@ public class OrderInfo implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+        this.orderId = id;
     }
 
     /**
@@ -222,6 +246,18 @@ public class OrderInfo implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
+        
+        if("0".equals(status)){
+        	statusName = "未支付";
+        }else if("1".equals(status)){
+        	statusName = "已支付";
+        }else if("2".equals(status)){
+        	statusName = "已出库";
+        }else if("3".equals(status)){
+        	statusName = "文交所审核";
+        }else if("4".equals(status)){
+        	statusName = "已完成";
+        }
     }
 
     /**
@@ -248,7 +284,7 @@ public class OrderInfo implements Serializable {
         if("1".equals(orderType)){
         	this.orderTypeName = "已售商品";
         } else if ("2".equals(orderType)){
-        	this.orderTypeName = "已退商品";
+        	this.orderTypeName = "退货商品";
         } else if ("3".equals(orderType)){
         	this.orderTypeName = "换货商品";
         }
@@ -267,6 +303,15 @@ public class OrderInfo implements Serializable {
      */
     public void setPayType(String payType) {
         this.payType = payType;
+        
+        if("0".equals(payType)){
+        	this.payTypeName = "全额支付";
+        } else if ("1".equals(payType)){
+        	this.payTypeName = "订金支付";
+        } else if ("2".equals(payType)){
+        	this.payTypeName = "派送支付";
+        }
+        
     }
 
     /**
@@ -282,6 +327,8 @@ public class OrderInfo implements Serializable {
      */
     public void setPayPrice(Long payPrice) {
         this.payPrice = payPrice;
+        
+        this.payPriceCN = NumberToCN.number2CNMontrayUnit(new BigDecimal(payPrice));
     }
 
     /**
@@ -525,6 +572,46 @@ public class OrderInfo implements Serializable {
 
 	public void setCustomerPhone(String customerPhone) {
 		this.customerPhone = customerPhone;
+	}
+
+	public String getOrderId() {
+		return orderId;
+	}
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public String getPayTypeName() {
+		return payTypeName;
+	}
+
+	public String getPayPriceCN() {
+		return payPriceCN;
+	}
+
+	public String getPhoneStaffName() {
+		return phoneStaffName;
+	}
+
+	public void setPhoneStaffName(String phoneStaffName) {
+		this.phoneStaffName = phoneStaffName;
+	}
+
+	public String getReceiverStaffName() {
+		return receiverStaffName;
+	}
+
+	public void setReceiverStaffName(String receiverStaffName) {
+		this.receiverStaffName = receiverStaffName;
+	}
+
+	public String getGoodsQuantity() {
+		return goodsQuantity;
+	}
+
+	public void setGoodsQuantity(String goodsQuantity) {
+		this.goodsQuantity = goodsQuantity;
 	}
     
 }

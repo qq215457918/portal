@@ -1,7 +1,10 @@
 package com.portal.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
+
+import com.portal.common.util.NumberToCN;
 
 public class OrderDetailInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -62,6 +65,47 @@ public class OrderDetailInfo implements Serializable {
      * 更新人员id
      */
     private String updateId;
+    
+    /**
+     * 订单备注
+     */
+    private String remark;
+    
+    /**
+     * 顾客姓名
+     */
+    private String customerName;
+    
+    /**
+     * 电联人
+     */
+    private String phoneStaffName;
+    
+    /**
+     * 接待人
+     */
+    private String receiverStaffName;
+    
+    /**
+     * 定金
+     */
+    private String actualPrice;
+    
+    /**
+     * 总价
+     */
+    private String payPrice;
+    
+    /**
+     * 支付类型
+     */
+    private String payType;
+    
+    private String payTypeName;
+    
+    private String payPriceCN;
+    
+    private String today;
 
     public String getId() {
         return id;
@@ -235,4 +279,96 @@ public class OrderDetailInfo implements Serializable {
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
     }
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getPhoneStaffName() {
+		return phoneStaffName;
+	}
+
+	public void setPhoneStaffName(String phoneStaffName) {
+		this.phoneStaffName = phoneStaffName;
+	}
+
+	public String getReceiverStaffName() {
+		return receiverStaffName;
+	}
+
+	public void setReceiverStaffName(String receiverStaffName) {
+		this.receiverStaffName = receiverStaffName;
+	}
+
+	public String getToday() {
+		return today;
+	}
+
+	public void setToday(String today) {
+		this.today = today;
+	}
+
+	public String getActualPrice() {
+		return actualPrice;
+	}
+
+	public void setActualPrice(String actualPrice) {
+		this.actualPrice = actualPrice;
+	}
+
+	public String getPayPrice() {
+		return payPrice;
+	}
+
+	public void setPayPrice(String payPrice) {
+		this.payPrice = payPrice;
+		
+		this.payPriceCN = NumberToCN.number2CNMontrayUnit(new BigDecimal(payPrice));
+	}
+
+	public String getPayPriceCN() {
+		return payPriceCN;
+	}
+	
+	/**
+     * @return 支付类型  0全额支付 1定金支付 2派送支付
+     */
+    public String getPayType() {
+        return payType;
+    }
+
+    /**
+     * @param payType 
+     *            支付类型  0全额支付 1定金支付 2派送支付
+     */
+    public void setPayType(String payType) {
+        this.payType = payType;
+        
+        if("0".equals(payType)){
+        	this.payTypeName = "全额支付";
+        } else if ("1".equals(payType)){
+        	this.payTypeName = "订金支付";
+        } else if ("2".equals(payType)){
+        	this.payTypeName = "派送支付";
+        }
+        
+    }
+
+	public String getPayTypeName() {
+		return payTypeName;
+	}
+    
+    
 }

@@ -26,3 +26,33 @@
 		height: auto;
 	}
 }
+
+/*
+print css
+*/
+.tc {
+    text-align: center;
+}
+
+.text-left {
+	width: 40%;
+    float: left;
+    margin-left: 5%;
+}
+
+.table-margin {
+	margin-left: 5%
+}
+
+.table-margin td,.table-margin th {
+	width: 100px;
+    text-align: center;
+}
+
+.print-width50 {
+	width: 50px;
+}
+
+.print-width125 {
+	width: 125px;
+}

@@ -3,6 +3,8 @@ package com.portal.dao;
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderDetailInfo;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -62,4 +64,13 @@ public interface OrderDetailInfoDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(OrderDetailInfo record);
+
+    /**
+	 * @Title: selectOrderInfoById 
+	 * @Description: 通过id获取订单信息列表
+	 * @param param
+	 * @return void
+	 * @throws
+	 */
+	List<OrderDetailInfo> selectOrderInfoById(Map<String, Object> param);
 }

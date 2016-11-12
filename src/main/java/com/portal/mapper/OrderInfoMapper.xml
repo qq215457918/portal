@@ -32,9 +32,15 @@
     <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
     <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR" />
     <result column="good_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
+    <result column="goodsQuantity" property="goodsQuantity" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.id != null" >
+         and id = #{condition.id,jdbcType=VARCHAR}
+      </if>
       <if test="condition.orderNumber != null" >
          and order_number = #{condition.orderNumber,jdbcType=VARCHAR}
       </if>
@@ -638,10 +644,13 @@
   </update>
   
   <select id="selectOrderModifyList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type,
+  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '&amp;', od.amount)) goodsQuantity
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
 	left join customer_info ci on oi.customer_id = ci.id
+	LEFT JOIN employee_info eip on eip.id = oi.phone_staff_id
+	LEFT JOIN employee_info eir on eir.id = oi.receiver_staff_id
     <trim prefix="where" prefixOverrides="and|or" >
       <if test="condition.goodsName != null" >
          and od.good_name like concat('%', #{condition.goodsName,jdbcType=VARCHAR}, '%')
@@ -651,6 +660,9 @@
       </if>
       <if test="condition.orderType != null" >
          and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.financeDate != null" >
+         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
       </if>
     </trim>
     <include refid="common.Mysql_Pagination_Limit" />
@@ -662,6 +674,8 @@
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
 	left join customer_info ci on oi.customer_id = ci.id
+	LEFT JOIN employee_info eip on eip.id = oi.phone_staff_id
+	LEFT JOIN employee_info eir on eir.id = oi.receiver_staff_id
     <trim prefix="where" prefixOverrides="and|or" >
       <if test="condition.goodsName != null" >
          and od.good_name like concat('%', #{condition.goodsName,jdbcType=VARCHAR}, '%')
@@ -672,7 +686,11 @@
       <if test="condition.orderType != null" >
          and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
+      <if test="condition.financeDate != null" >
+         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
     </trim>
     ) a
   </select>
+  
 </mapper>

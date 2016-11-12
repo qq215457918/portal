@@ -30,5 +30,15 @@ public interface WorkFlowDao {
 	 * @throws
 	 */
 	Map<String, Object> selectlerkEverydayReception(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectPhoneStaffName 
+	 * @Description: 获取电联人员
+	 * @param phoneStaffIds
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	String selectPhoneStaffName(String[] phoneStaffIds);
 	
 }

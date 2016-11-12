@@ -24,7 +24,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
+import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.common.util.JsonUtils;
+import com.portal.service.OrderDetailInfoService;
+import com.portal.service.OrderInfoService;
 import com.portal.service.WorkFlowService;
 
 import net.sf.json.JSONArray;
@@ -36,6 +42,12 @@ public class WorkFlowAction {
 	
 	@Autowired
 	private WorkFlowService workFlowService;
+	
+	@Autowired
+	private OrderInfoService orderInfoService;
+	
+	@Autowired
+	private OrderDetailInfoService orderDetailInfoService;
 	
 	/**
 	 * @Title: flowInfoIndex 
@@ -259,6 +271,13 @@ public class WorkFlowAction {
 		paramMap.put("userId", 1);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
+		if(null != result && !"".equals(result.get("phoneStaffId"))){
+			String[] phoneStaffIds = ((String)result.get("phoneStaffId")).split(",");
+			String phoneStaffName = workFlowService.selectPhoneStaffName(phoneStaffIds);
+			result.put("phoneStaffName", phoneStaffName);
+		}
+		
+		
 		request.setAttribute("result", result);
 		
 		return "flow/clerk_everyday_achievement";
@@ -368,5 +387,110 @@ public class WorkFlowAction {
 		workFlowService.saveSubmitTask(paramMap);
 		
 		return "redirect:achieveExamList";
+	}
+	
+	/**
+	 * @Title: financeOrderList 
+	 * @Description: 财务订单列表首页
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/financeOrderList")
+	public String financeOrderList(){
+		return "flow/finance_order_list";
+	}
+	
+	/**
+	 * @Title: financeOrderList 
+	 * @Description: 财务订单列表首页
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/financeOrderEveryday")
+	public String financeOrderEveryday(){
+		return "flow/finance_order_everyday";
+	}
+	
+	/**
+	 * @Title: selectFinanceOrder 
+	 * @Description: 财务订单列表
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectFinanceOrder")
+	public void selectFinanceOrder(HttpServletRequest request, HttpServletResponse response){
+		Criteria criteria = new Criteria();
+		
+		criteria.put("id", request.getParameter("orderId"));
+		criteria.put("orderNumber", request.getParameter("orderNumber"));
+		List<OrderInfo> resultList = orderInfoService.selectByExample(criteria);
+		
+		int count = orderInfoService.countByExample(criteria);
+		
+		JsonUtils.resultJson(resultList, count, response, request);
+	}
+	
+	@RequestMapping("selectFinanceEveryDay")
+	public void selectFinanceEveryDay(HttpServletRequest request, HttpServletResponse response){
+		Criteria criteria = new Criteria();
+		criteria.put("financeDate", request.getParameter("financeDate"));
+		List<OrderInfo> resultList = orderInfoService.selectFinanceEveryDay(criteria);
+		
+		int count = orderInfoService.countFinanceEveryDay(criteria);
+		
+		JsonUtils.resultJson(resultList, count, response, request);
+	}
+	
+	/**
+	 * @Title: selectOrderInfoById 
+	 * @Description: 通过id获取订单信息
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectOrderInfoById")
+	public void selectOrderInfoById(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("orderId", request.getParameter("orderId"));
+		List<OrderDetailInfo> resultList = orderDetailInfoService.selectOrderInfoById(param);
+		
+		try {
+			response.getWriter().print(JSONArray.fromObject(resultList).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @Title: updateOrderInfo 
+	 * @Description: 更新订单信息
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("updateOrderInfo")
+	public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response){
+//		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
+		String userId = "1";
+		
+		OrderInfo orderInfo = new OrderInfo();
+		orderInfo.setFinanceOperatorId(userId);
+		orderInfo.setFinanceDate(new Date());
+		orderInfo.setFinanceFlag("1");
+		orderInfo.setId(request.getParameter("orderId"));
+		
+		orderInfoService.updateByPrimaryKeySelective(orderInfo);
+		
+		try {
+			response.getWriter().print("success");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

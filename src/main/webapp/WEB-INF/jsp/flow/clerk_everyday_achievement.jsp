@@ -42,40 +42,49 @@
 					</div>
 					
 					<div class="widget-container stats-container">
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<div class="number">
 								<div class="icon visitors"></div>
 								${result.receptionCount }
 							</div>
 							<div class="text">接待总数</div>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<div class="number">
 								<div class="icon chat-bubbles"></div>
 								${result.stateTime }<small>秒</small>
 							</div>
 							<div class="text">接待总时长</div>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<div class="number">
 								<div class="icon chat-bubbles"></div>
 								${result.achieveCount }
 							</div>
 							<div class="text">订单数</div>
 						</div>
-						<div class="col-md-2">
+					</div>
+					<div class="widget-container stats-container">
+						<div class="col-md-4">
 							<div class="number">
 								<div class="icon money"></div>
 								${result.payPrice }<small>元</small>
 							</div>
 							<div class="text">订单总金额</div>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-4">
 							<div class="number">
 								<div class="icon money"></div>
 								${result.actualPrice }<small>元</small>
 							</div>
 							<div class="text">实付总金额</div>
+						</div>
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon icon chat-bubbles"></div>
+								${result.phoneStaffName }
+							</div>
+							<div class="text">电联人员</div>
 						</div>
 					</div>
 				</div>

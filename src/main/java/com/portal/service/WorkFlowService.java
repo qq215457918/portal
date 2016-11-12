@@ -288,4 +288,14 @@ public interface WorkFlowService {
 	 */
 	public Map<String, Object> selectlerkEverydayAchievenment(Map<String, Object> paramMap);
 
+	/**
+	 * @Title: selectPhoneStaffName 
+	 * @Description: 获取电联人员
+	 * @param phoneStaffIds
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	public String selectPhoneStaffName(String[] phoneStaffIds);
+
 }

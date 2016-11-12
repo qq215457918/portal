@@ -83,4 +83,24 @@ public interface OrderInfoDao {
      * @throws
      */
 	int countOrderModifyList(Criteria criteria);
+
+	/**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */	
+	List<OrderInfo> selectFinanceEveryDay(Criteria criteria);
+
+	/**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return int
+     * @throws
+     */
+	int countFinanceEveryDay(Criteria criteria);
 }

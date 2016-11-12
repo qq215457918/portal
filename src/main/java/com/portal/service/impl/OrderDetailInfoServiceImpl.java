@@ -1,6 +1,7 @@
 package com.portal.service.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -130,5 +131,17 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
         resultJson.put("iTotalDisplayRecords", totalRecord);
         resultJson.put("aaData", list);
         return resultJson;
+    }
+    
+    /**
+	 * @Title: selectOrderInfoById 
+	 * @Description: 通过id获取订单信息列表
+	 * @param param
+	 * @return void
+	 * @throws
+	 */
+    @Override
+    public List<OrderDetailInfo> selectOrderInfoById(Map<String, Object> param) {
+    	return orderDetailInfoDao.selectOrderInfoById(param);
     }
 }

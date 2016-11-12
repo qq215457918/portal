@@ -647,4 +647,17 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     	
     	return map1;
     }
+
+    /**
+	 * @Title: selectPhoneStaffName 
+	 * @Description: 获取电联人员
+	 * @param phoneStaffIds
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+    @Override
+    public String selectPhoneStaffName(String[] phoneStaffIds) {
+    	return workFlowDao.selectPhoneStaffName(phoneStaffIds);
+    }
 }

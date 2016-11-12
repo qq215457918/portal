@@ -673,4 +673,30 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public int countOrderModifyList(Criteria criteria) {
         return orderInfoDao.countOrderModifyList(criteria);
     }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return List<OrderInfo>
+     * @throws
+     */	
+    @Override
+    public List<OrderInfo> selectFinanceEveryDay(Criteria criteria) {
+    	return orderInfoDao.selectFinanceEveryDay(criteria);
+    }
+    
+    /**
+     * @Title: selectOrderInfoList 
+     * @Description: 查询修改订单列表数量
+     * @param criteria
+     * @return 
+     * @return int
+     * @throws
+     */
+    @Override
+    public int countFinanceEveryDay(Criteria criteria) {
+    	return orderInfoDao.countFinanceEveryDay(criteria);
+    }
 }
