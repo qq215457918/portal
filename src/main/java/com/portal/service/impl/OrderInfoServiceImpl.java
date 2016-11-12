@@ -392,6 +392,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
         detailInfo.setDeleteFlag("0");
+        if(StringUtil.isNull(count)){
+        	count="1";
+        }
         detailInfo.setAmount(Integer.parseInt(count));
         return detailInfo;
     }
