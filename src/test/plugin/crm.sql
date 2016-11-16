@@ -64,14 +64,14 @@ CREATE TABLE `customer_info` (
   `product` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '产品',
   `transaction_amount` decimal(10,0) DEFAULT NULL COMMENT '金额',
   `recent_visit_date` datetime DEFAULT NULL COMMENT '最近拜访时间',
+  `recent_import_date` datetime DEFAULT NULL COMMENT '最近导入时间',
   `recent_export_date` datetime DEFAULT NULL COMMENT '最近导出时间',
   `blacklist_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '黑名单标志',
   `update_date` date DEFAULT NULL COMMENT '变成本类型客户时间',
   `update_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否更新标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户信息表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户信息表'
 -- ----------------------------
 -- Records of customer_info
 -- ----------------------------
