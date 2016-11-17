@@ -5,6 +5,14 @@ import com.portal.bean.RoleInfo;
 import java.util.List;
 
 public interface RoleInfoService {
+
+    /**
+     * 通过userId 查询用户的role信息
+     * @param userId
+     * @return
+     */
+    List<RoleInfo> selectRoleByUserId(String userId);
+
     int countByExample(Criteria example);
 
     RoleInfo selectByPrimaryKey(String id);

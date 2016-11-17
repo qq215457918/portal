@@ -29,6 +29,12 @@
   <sql id="Base_Column_List" >
     id, menu_url, create_date
   </sql>
+  
+  <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String"  >    
+	select permission_info.id, permission_info.menu_url,permission_info.create_date
+    from role_permission left join permission_info on role_permission.permission_id= permission_info.id 
+	where role_id = #{roleId,jdbcType=VARCHAR}
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >

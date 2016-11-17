@@ -14,8 +14,11 @@ import org.springframework.stereotype.Service;
 public class RoleInfoServiceImpl implements RoleInfoService {
     @Autowired
     private RoleInfoDao roleInfoDao;
-
     private static final Logger logger = LoggerFactory.getLogger(RoleInfoServiceImpl.class);
+
+    public List<RoleInfo> selectRoleByUserId(String userId) {
+        return this.roleInfoDao.selectRoleByUserId(userId);
+    }
 
     public int countByExample(Criteria example) {
         int count = this.roleInfoDao.countByExample(example);

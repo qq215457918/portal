@@ -5,6 +5,22 @@ import com.portal.bean.EmployeeInfo;
 import java.util.List;
 
 public interface EmployeeInfoService {
+
+    /**
+     * 验证用户是否有效
+     * @param loginName
+     * @param password
+     * @return
+     */
+    public EmployeeInfo authentication(String loginName, String password);
+
+    /**
+     * 通过登陆名获取userInfo
+     * @param loginName
+     * @return
+     */
+    public EmployeeInfo selectByUserName(String loginName);
+
     int countByExample(Criteria example);
 
     EmployeeInfo selectByPrimaryKey(String id);
