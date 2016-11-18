@@ -22,10 +22,9 @@ import org.springframework.stereotype.Component;
  * @author StarZou
  * @since 2014年6月11日 上午11:35:28
  **/
-@Component(value = "securityRealm")
+@Component(value = "securityRealm1")
 public class SecurityRealm extends AuthorizingRealm {
 
-	
     /**
      * 权限检查
      */
@@ -34,20 +33,20 @@ public class SecurityRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = String.valueOf(principals.getPrimaryPrincipal());
 
-//        final User user = userService.selectByUsername(username);
-//        final List<Role> roleInfos = roleService.selectRolesByUserId(user.getId());
-//        for (Role role : roleInfos) {
-//            // 添加角色
-//            System.err.println(role);
-//            authorizationInfo.addRole(role.getRoleSign());
-//
-//            final List<Permission> permissions = permissionService.selectPermissionsByRoleId(role.getId());
-//            for (Permission permission : permissions) {
-//                // 添加权限
-//                System.err.println(permission);
-//                authorizationInfo.addStringPermission(permission.getPermissionSign());
-//            }
-//        }
+        //        final User user = userService.selectByUsername(username);
+        //        final List<Role> roleInfos = roleService.selectRolesByUserId(user.getId());
+        //        for (Role role : roleInfos) {
+        //            // 添加角色
+        //            System.err.println(role);
+        //            authorizationInfo.addRole(role.getRoleSign());
+        //
+        //            final List<Permission> permissions = permissionService.selectPermissionsByRoleId(role.getId());
+        //            for (Permission permission : permissions) {
+        //                // 添加权限
+        //                System.err.println(permission);
+        //                authorizationInfo.addStringPermission(permission.getPermissionSign());
+        //            }
+        //        }
         return authorizationInfo;
     }
 
@@ -55,15 +54,17 @@ public class SecurityRealm extends AuthorizingRealm {
      * 登录验证
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
+            throws AuthenticationException {
         String username = String.valueOf(token.getPrincipal());
         String password = new String((char[]) token.getCredentials());
         // 通过数据库进行验证
-//        final User authentication = userService.authentication(new User(username, password));
-//        if (authentication == null) {
-//            throw new AuthenticationException("用户名或密码错误.");
-//        }
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, getName());
+        //        final User authentication = userService.authentication(new User(username, password));
+        //        if (authentication == null) {
+        //            throw new AuthenticationException("用户名或密码错误.");
+        //        }
+        SimpleAuthenticationInfo authenticationInfo =
+                new SimpleAuthenticationInfo(username, password, getName());
         return authenticationInfo;
     }
 

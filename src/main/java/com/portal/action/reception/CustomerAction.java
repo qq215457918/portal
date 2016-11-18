@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 接待模块查询业务
@@ -49,8 +48,7 @@ public class CustomerAction {
      * @return
      */
     @RequestMapping(value = "/basic/save")
-    public String saveCustomerInfo(HttpServletRequest request, HttpServletResponse response,
-            RedirectAttributes attr) {
+    public String saveCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         customerInfoService.updateCustomer(request);
         return "redirect:/visit/second?phone=" + request.getParameter("phone") + "&id="
@@ -79,8 +77,7 @@ public class CustomerAction {
      * @return
      */
     @RequestMapping(value = "/exchange/save")
-    public String saveExchange(HttpServletRequest request, HttpServletResponse response,
-            RedirectAttributes attr) {
+    public String saveExchange(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         cultureInfoService.updateCulture(request);
         return "redirect:/visit/second?phone=" + request.getParameter("phone") + "&id="
@@ -91,5 +88,4 @@ public class CustomerAction {
         String basePath = WebUtils.getBasePath(request, response);
         request.getSession().setAttribute("basePath", basePath);
     }
-
 }

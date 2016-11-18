@@ -12,20 +12,21 @@
   <div class="login-wrapper">
     <div class="login-container" style="top:60%;height: 250px;">
 
-      <form action="/login" method="POST">
+      <form action="<%=request.getContextPath() %>/login"  id="validate-form" method="post" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">
-            <input class="form-control" placeholder="登录名" type="text" id="loginName">
-            <input class="form-control" placeholder="密码" type="text" id="loginPassword">
-            <input type="submit" value="" >
+            <input class="form-control" placeholder="登录名" type="text" id="userName" name="userName">
+            <input class="form-control" placeholder="密码" type="password" id="password" name="password">
         </div>     
+        <P>${message}</P>
        	<div class="social-login clearfix" style="margin:40px 0">
-        	<a class="btn btn-primary pull-right twitter"id="queryId"><i class="icon-twitter"></i>登 陆</a>
+        	<button class="btn btn-primary" type="submit">提交</button>
       	</div>
-      	<%--用于输入后台返回的验证错误信息 --%>
-		<P>${message }</P>
       </form>
     </div>
   </div>
 <!-- End Login Screen -->
+<script>
+
+</script>
   </body>
 </html>

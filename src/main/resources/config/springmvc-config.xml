@@ -106,7 +106,6 @@
 <!-- 	</mvc:interceptors> -->
 		
 	<import resource="classpath:/config/pool-config.xml" />
-<!-- 	<import resource="classpath:/config/shiro-config.xml" /> -->
-	<import resource="classpath:/config/spring-shiro.xml" />
+	<import resource="classpath:/config/shiro-config.xml" />
 	<import resource="classpath:/config/activiti-config.xml" />
 </beans>
