@@ -45,7 +45,7 @@ public class UserController {
             Subject subject = SecurityUtils.getSubject();
             // 已登陆则 跳到首页
             if (subject.isAuthenticated()) {
-                return "login";
+                return "main";
             }
             /* if (result.hasErrors()) {
                 model.addAttribute("error", "参数错误！");
@@ -61,7 +61,7 @@ public class UserController {
             // model.addAttribute("error", "用户名或密码错误 ！");
             return "login";
         }
-        return "login";
+        return "main";
     }
 
     /**
