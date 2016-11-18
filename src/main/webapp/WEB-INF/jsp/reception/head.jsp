@@ -4,32 +4,11 @@
         <div class="container-fluid top-bar">
           <div class="pull-right">
             <ul class="nav navbar-nav pull-right">
-              <li class="dropdown messages hidden-xs">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true" class="se7en-envelope"></span>
-                  <div class="sr-only">
-                    Messages
-                  </div>
-                  <p class="counter">
-                    3
-                  </p>
-                </a>
-                <ul class="dropdown-menu messages">
-                  <li><a href="#">Could we meet today? I wanted...</a>
-                  </li>
-                  <li><a href="#">Important data needs your analysis...</a>
-                  </li>
-                  <li><a href="#">Buy Se7en today, it's a great theme...</a>
-                  </li>
-                </ul>
-              </li>
               <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                 John Smith<b class="caret"></b></a>
+                 	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">
-                    <i class="icon-user"></i>My Account</a>
-                  </li>
-                  <li><a href="login1.html">
-                    <i class="icon-signout"></i>Logout</a>
+                  <li><a href="<%=request.getContextPath() %>/login">
+                    <i class="icon-signout"></i>工作台</a>
                   </li>
                 </ul>
               </li>

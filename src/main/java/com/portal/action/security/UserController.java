@@ -56,6 +56,7 @@ public class UserController {
             // 验证成功在Session中保存用户信息
             final EmployeeInfo employeeInfo = employeeService.selectByUserName(userName);
             request.getSession().setAttribute("userInfo", employeeInfo);
+            request.getSession().setAttribute("userName", employeeInfo.getName());
         } catch (AuthenticationException e) {
             // 身份验证失败
             // model.addAttribute("error", "用户名或密码错误 ！");
