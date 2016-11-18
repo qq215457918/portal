@@ -37,7 +37,7 @@ public class DepositAction {
     CustomerInfoService customerInfoService;
 
     /**
-     * 购买商品页面初始化
+     * 定金页面初始化
      * @param request
      * @param response
      * @return
@@ -45,6 +45,7 @@ public class DepositAction {
     @RequestMapping(value = "/init")
     public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/order_deposit");
         return model;

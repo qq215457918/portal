@@ -36,6 +36,7 @@ public class PresentAction {
     @RequestMapping(value = "/list")
     public ModelAndView getPresentList(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         List<GoodsInfo> goodsInfoList = goodsInfoService.selectPresentInfo(request);
         model.setViewName("reception/present_info");

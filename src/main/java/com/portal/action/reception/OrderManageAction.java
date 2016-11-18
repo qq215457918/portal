@@ -45,6 +45,7 @@ public class OrderManageAction {
     @RequestMapping(value = "/init")
     public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/order_manage");
         return model;

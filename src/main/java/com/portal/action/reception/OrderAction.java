@@ -9,7 +9,6 @@ import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderInfoService;
-
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -50,6 +49,7 @@ public class OrderAction {
     @RequestMapping(value = "/init")
     public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/purchase_goods");
         model.addObject("submitFlag", request.getParameter("submitFlag"));
@@ -148,7 +148,8 @@ public class OrderAction {
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("customerName", request.getParameter("customerName"));
         criteria.put("orderType", request.getParameter("orderType"));
-        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
+        criteria.put("financeDate",
+                null == request.getParameter("financeDate") ? new Date() : request.getParameter("financeDate"));
 
         List<OrderInfo> resultList = orderInfoService.selectOrderModifyList(criteria);
 

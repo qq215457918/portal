@@ -8,7 +8,10 @@
                  	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="<%=request.getContextPath() %>/login">
-                    <i class="icon-signout"></i>工作台</a>
+                    <i class="icon-home"></i>返回工作台</a>
+                  </li>
+                  <li><a href="<%=request.getContextPath() %>/logout">
+                    <i class="icon-signout"></i>退出系统</a>
                   </li>
                 </ul>
               </li>

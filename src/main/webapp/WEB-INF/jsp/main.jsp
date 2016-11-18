@@ -35,7 +35,7 @@
 		                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 		                      	接待管理
 		                    </div>
-		                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/visit/query"><i class="icon-glass"></i>点击登陆</a>
+		                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/visit/query?active=1"><i class="icon-glass"></i>点击登陆</a>
 		              </div>
 		            </div>
 	          </div>
