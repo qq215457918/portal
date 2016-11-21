@@ -7,8 +7,17 @@ $(document).ready(function(){
 	
 	$('#exportCustomer').click(function(){
 		
+		var phone = $('#phone').val();
+		var phoneStage = $('#phoneStage').val();
+		var updateDate = $('#updateDate').val();
 		var dpd1 = $('#dpd1').val();
 		var dpd2 = $('#dpd2').val();
+		var exportCount = $('#exportCount').val();
+		
+		if('' == dpd1 || '' == dpd2){
+			alert('请输入上次电联时间！');
+			return;
+		}
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -16,9 +25,13 @@ $(document).ready(function(){
 		
 		var exportHtml = '';
 		exportHtml += '<form id="exportExcel" action="customerInfo/exportCustomer" style="display:none;">';
+		exportHtml += '<input type="hidden" name="phone" value="' + phone + '"/>'
+		exportHtml += '<input type="hidden" name="phoneStage" value="' + phoneStage + '"/>'
+		exportHtml += '<input type="hidden" name="updateDate" value="' + updateDate + '"/>'
 		exportHtml += '<input type="hidden" name="startTime" value="' + dpd1 + '"/>'
 		exportHtml += '<input type="hidden" name="endTime" value="' + dpd2 + '"/>'
-		exportHtml += '<input type="hidden" name="type" value="1"/>'
+		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
+		exportHtml += '<input type="hidden" name="type" value="0"/>'
 		exportHtml += '</form>';
 		$('body').append(exportHtml);
 		
@@ -27,44 +40,39 @@ $(document).ready(function(){
 }); 
 
 function initData(){
-	$('#customerInfo').dataTable({
+	$('#customerOrderInfo').dataTable({
 		"bSort": false, //是否显示排序
 		"bFilter": false, //去掉搜索
 		"sPaginationType": "full_numbers", //分页
 		"bProcessing": true, //显示正在处理
 		"bServerSide": true, // 后台请求
 		"bRetrieve": true,
-		"sAjaxSource": "customerInfo/selectCustomerInfoList", // 地址
+		"sAjaxSource": "customerInfo/customerOrderInfoList", // 地址
 		"aoColumns": [ 
-		            {"mData": null, "target": 0},	//序列号   
-		            {"mData": "phoneStaffName"},
-		            {"mData": "name"},
-		            {"mData": "sexShow"},             
-		            {"mData": "phoneHidden"},            
-					{"mData": "address"},
-					{"mData": "visitCount"},
-					{"mData": "recentVisitDate"}
+		            {"mData": null, "target": 0},	//序列号
+		            {"mData": "receiverStaffName"},
+		            {"mData": "goodsName"},
+		            {"mData": "payPrice"},
+		            {"mData": "actualPrice"},
+		            {"mData": "createDate"}, 
+		            {"mData": "statusName"},            
+					{"mData": "payTypeName"}
 		           ],
 		"columnDefs" : [ {
-				   			"render" : function(data, type, row) {
-			   					return formatDate(data);
-			   				},
-			   			"targets" : 7
-			   			}],
-        "fnDrawCallback": function(){
-   			var api = this.api();
-   			api.column(0).nodes().each(function(cell, i) {
-   				cell.innerHTML =  i + 1;
-   			});
-   		},
+		   			"render" : function(data, type, row) {
+		   					return formatDate(data);
+		   				},
+		   			"targets" : 5
+		   			}],
+       "fnDrawCallback": function(){
+			var api = this.api();
+			api.column(0).nodes().each(function(cell, i) {
+				cell.innerHTML =  i + 1;
+			});
+		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var backCountS = $('#backCountS').val();
-							var backCountE = $('#backCountE').val();
-							var visiteDate1 = $('#dpd1').val();
-							var visiteDate2 = $('#dpd2').val();
-							aoData.push({'name':'backCountS','value':backCountS},{'name':'backCountE','value':backCountE},
-									{'name':'visiteDate1','value':visiteDate1},{'name':'visiteDate2','value':visiteDate2},
-									{'name':'type','value':1});
+							var customerId = $('#customerId').val();
+							aoData.push({'name':'customerId','value':customerId});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
@@ -75,6 +83,7 @@ function initData(){
 								}
 							})
 						}
+						
 	}); 
 }
 

@@ -3,11 +3,13 @@ package com.portal.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
 import com.portal.dao.CustomerInfoDao;
+import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
@@ -27,6 +29,9 @@ import org.springframework.stereotype.Service;
 public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Autowired
     private CustomerInfoDao customerInfoDao;
+    
+    @Autowired
+    private OrderInfoDao orderInfoDao;
 
     @Autowired
     EmployeeInfoService EmployeeInfoService;
@@ -318,5 +323,41 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     	for(Map<String, Object> m : data){
     		customerInfoDao.updateCustomerInfo(m);
     	}
+    }
+    
+    /**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 导出用户信息
+     * @param criteria 
+     * @return List<CustomerInfo>
+     * @throws
+     */
+    @Override
+    public List<CustomerInfo> selectCustomerExportList(Criteria criteria) {
+    	return customerInfoDao.selectCustomerExportList(criteria);
+    }
+    
+    /**
+	 * @Title: selectCustomerOrderCount 
+	 * @Description: 用户订单详情数量
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+    @Override
+    public int selectCustomerOrderCount(Map<String, Object> paramMap) {
+    	return orderInfoDao.selectCustomerOrderCount(paramMap);
+    }
+    
+    /**
+	 * @Title: customerOrderInfoList 
+	 * @Description: 用户订单详情
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+    @Override
+    public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap) {
+    	return orderInfoDao.selectCustomerOrderList(paramMap);
     }
 }

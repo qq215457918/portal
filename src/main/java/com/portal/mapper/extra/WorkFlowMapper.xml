@@ -31,7 +31,7 @@
 		parameterType="map">
 		select
 		count(1) receptionCount,
-		(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time)) stateTime
+		(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))/60 stateTime
 		from reception_info
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">

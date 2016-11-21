@@ -2,12 +2,6 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchCustomer').click(function(){
-		if('' == $('#phone').val() &&
-			'' == $('#phoneStage').val() &&
-			'' == $('#type option:selected').val() &&
-			'' == $('#updateDate').val()){
-			return;
-		}
 		$('#customerInfo').dataTable().fnDraw();
 	});
 	
@@ -34,8 +28,8 @@ $(document).ready(function(){
 		exportHtml += '<input type="hidden" name="phone" value="' + phone + '"/>'
 		exportHtml += '<input type="hidden" name="phoneStage" value="' + phoneStage + '"/>'
 		exportHtml += '<input type="hidden" name="updateDate" value="' + updateDate + '"/>'
-		exportHtml += '<input type="hidden" name="dpd1" value="' + dpd1 + '"/>'
-		exportHtml += '<input type="hidden" name="dpd2" value="' + dpd2 + '"/>'
+		exportHtml += '<input type="hidden" name="startTime" value="' + dpd1 + '"/>'
+		exportHtml += '<input type="hidden" name="endTime" value="' + dpd2 + '"/>'
 		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="0"/>'
 		exportHtml += '</form>';
@@ -43,6 +37,39 @@ $(document).ready(function(){
 		
 		$('#exportExcel').submit();
 	});
+	
+	// 初始化日期插件
+	nowTemp = new Date();
+	now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	checkin = $("#importDate1").datepicker({
+		onRender : function(date) {
+			if (date.valueOf() < now.valueOf()) {
+				return "disabled";
+			} else {
+				return "";
+			}
+		}
+	}).on("changeDate", function(ev) {
+		var newDate;
+		if (ev.date.valueOf() > checkout.date.valueOf()) {
+			newDate = new Date(ev.date);
+			newDate.setDate(newDate.getDate() + 1);
+			checkout.setValue(newDate);
+		}
+		checkin.hide();
+		return $("#importDate2")[0].focus();
+	}).data("datepicker");
+	checkout = $("#importDate2").datepicker({
+		onRender : function(date) {
+			if (date.valueOf() <= checkin.date.valueOf()) {
+				return "disabled";
+			} else {
+				return "";
+			}
+		}
+	}).on("changeDate", function(ev) {
+		return checkout.hide();
+	}).data("datepicker");
 }); 
 
 function initData(){
@@ -55,30 +82,26 @@ function initData(){
 		"bRetrieve": true,
 		"sAjaxSource": "customerInfo/selectCustomerInfoList", // 地址
 		"aoColumns": [ 
-		            {"mData": null, "target": 0},	//序列号   
-		            {"mData": "phone"},
-		            {"mData": "phone2"},
-		            {"mData": "visitDate"},             
-		            {"mData": "typeName"},             
-		            {"mData": "recentVisitDate"},            
+		            {"mData": null, "target": 0},	//序列号
+		            {"mData": "typeName"},
+		            {"mData": "name"},
+		            {"mData": "sexShow"},
+		            {"mData": "phoneHidden"},
+		            {"mData": "address"}, 
+		            {"mData": "recentImportDate"},            
 					{"mData": "recentExportDate"}
 		           ],
 		"columnDefs" : [ {
 		   			"render" : function(data, type, row) {
 		   					return formatDate(data);
 		   				},
-		   			"targets" : 3
+		   			"targets" : 6
 		   			},
 		   			{
 		   			"render" : function(data, type, row) {
 		   					return formatDate(data);
 		   				},
-		   			"targets" : 5
-		   			},{
-			   			"render" : function(data, type, row) {
-		   					return formatDate(data);
-		   				},
-		   			"targets" : 6
+		   			"targets" : 7
 		   			}],
        "fnDrawCallback": function(){
 			var api = this.api();
@@ -87,15 +110,14 @@ function initData(){
 			});
 		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var phone = $('#phone').val();
 							var phoneStage = $('#phoneStage').val();
-							var type = $('#type option:selected').val();
-							var updateDate = $('#updateDate').val();
 							var dpd1 = $('#dpd1').val();
 							var dpd2 = $('#dpd2').val();
-							aoData.push({'name':'phone','value':phone},{'name':'phoneStage','value':phoneStage},
-									{'name':'type','value':type},{'name':'startTime','value':dpd1},
-									{'name':'endTime','value':dpd2},{'name':'costomerType','value':0});
+							var importDate1 = $('#importDate1').val();
+							var importDate2 = $('#importDate2').val();
+							aoData.push({'name':'phoneStage','value':phoneStage}, {'name':'costomerType','value':0},
+									{'name':'importDate1','value':importDate1}, {'name':'importDate2','value':importDate2},
+									{'name':'exportDate1','value':dpd1}, {'name':'exportDate2','value':dpd2});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
@@ -115,9 +137,9 @@ function formatDate(data){
 		return '';
 	}else {
 		if('' == data.hours && '' == data.minutes && '' == data.seconds){
-			return (data.year + 1900) + '/' + data.month + '/' + data.day;
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date;
 		}else {
-			return (data.year + 1900) + '/' + data.month + '/' + data.day + ' ' + data.hours + ':' + data.minutes + ':' +data.seconds;
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date + ' ' + data.hours + ':' + data.minutes + ':' +data.seconds;
 		}
 	}
 }

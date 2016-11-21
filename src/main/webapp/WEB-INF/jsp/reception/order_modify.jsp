@@ -29,7 +29,7 @@
 				            	<input class="form-control" id="customerName" type="text">
 				            </div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" id="listInfo">
 							<div class="col-md-7">
 								<label class="radio-inline">
 									<input name="orderType" type="radio" value="1"><span>已售商品</span>

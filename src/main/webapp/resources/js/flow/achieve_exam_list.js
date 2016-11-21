@@ -39,6 +39,12 @@ $(document).on('click', '#itemExam', function () {
 
 function commitExam(suggestion){
 	$('#examModel inout[name=suggestion]').val(suggestion);
+	$('#examModel').modal('hide');
+	if(suggestion=='pass'){
+		$('#itemExam').html('已审核');
+	}else {
+		$('#itemExam').html('已拒绝');
+	}
 }
 
 function initData(){

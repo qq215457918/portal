@@ -2,6 +2,8 @@ package com.portal.dao;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.OrderInfo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -101,4 +103,13 @@ public interface CustomerInfoDao {
      * @throws
      */
 	void updateCustomerInfo(Map<String, Object> data);
+
+	/**
+     * @Title: selectCustomerExportList 
+     * @Description: 导出用户信息
+     * @param criteria 
+     * @return List<CustomerInfo>
+     * @throws
+     */
+	List<CustomerInfo> selectCustomerExportList(Criteria criteria);
 }

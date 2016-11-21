@@ -643,9 +643,45 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   
+  <select id="selectCustomerOrderList" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+		oi.id, oi.order_number, oi.customer_id, oi.phone_staff_id, oi.receiver_staff_id, oi.status, 
+		oi.order_type, oi.pay_type, oi.pay_price, oi.actual_price, oi.finance_flag, oi.finance_type, 
+		oi.finance_operator_id, oi.finance_date, oi.warehouse_flag, oi.warehouse_operator_id, 
+		oi.warehouse_date, oi.culture_flag, oi.culture_operator_id, oi.culture_date, oi.create_date, 
+		oi.create_id, oi.update_date, oi.update_id, oi.delete_flag, ei.name as receiver_staff_name, 
+		group_concat(odi.good_name, '&amp;', odi.amount) good_name
+	from order_info oi
+	left join order_detail_info odi on oi.id = odi.order_id
+	left join employee_info ei on oi.receiver_staff_id = ei.id
+	<trim prefix="where" prefixOverrides="and|or" >
+      <if test="customerId != null" >
+         and customer_id = #{customerId, jdbcType=VARCHAR}
+      </if>
+    </trim>
+    group by oi.id
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="selectCustomerOrderCount" parameterType="java.lang.String" resultType="int">
+  	select count(1) from (
+  	select 
+		1
+	from order_info oi
+	left join order_detail_info odi on oi.id = odi.order_id
+	left join employee_info ei on oi.receiver_staff_id = ei.id
+	<trim prefix="where" prefixOverrides="and|or" >
+      <if test="customerId != null" >
+         and customer_id = #{customerId, jdbcType=VARCHAR}
+      </if>
+    </trim>
+    group by oi.id)a
+  </select>
+  
   <select id="selectOrderModifyList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type,
-  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '&amp;', od.amount)) goodsQuantity
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
+  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '&amp;', od.amount)) goodsQuantity,
+  		oi.order_number,oi.finance_date, oi.warehouse_flag
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
 	left join customer_info ci on oi.customer_id = ci.id
@@ -662,9 +698,16 @@
          and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
       <if test="condition.financeDate != null" >
-         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+         and oi.finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.financeFlag != null" >
+         and oi.finance_flag = #{condition.financeFlag,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.userId != null" >
+         and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
       </if>
     </trim>
+    group by id
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   

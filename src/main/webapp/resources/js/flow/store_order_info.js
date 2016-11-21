@@ -170,14 +170,21 @@ function initData(){
 			},
 			{
 			"render" : function(data, type, row) {
-				var operation = '<a data-toggle="modal" data-order-id="' + row.id + '" id="examPass">审核通过</a>&nbsp;&nbsp;' + 
-					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
-				
 				if(row.financeFlag == 1){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已审核</a>&nbsp;&nbsp;' + 
-					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
-				}else if(row.financeFlag == -1){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">详情</a>';
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(1, this)">出库确认</a>';
+					if(row.warehouseFlag==1){
+						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已出库</a>';
+					}
+				}else if(row.orderType == 2 || row.orderType == 3){
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(2, this)">入库确认</a>';
+					if(row.warehouseFlag==2){
+						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已入库</a>';
+					}
+				}else if(row.orderType == 4){
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(3, this)">赠品领取</a>';
+					if(row.warehouseFlag==3){
+						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已领取</a>';
+					}
 				}
 				
 				return operation;
@@ -195,7 +202,8 @@ function initData(){
 							var financeDate = $('#financeDate').val();
 							var userId = $('#hiddenUserId').val();
 							
-							aoData.push({'name':'orderId','value':orderId}, {'name':'financeDate','value':financeDate}, {'name':'userId','value':userId});
+							aoData.push({'name':'orderId','value':orderId}, {'name':'financeDate','value':financeDate}, 
+									{'name':'userId','value':userId}, {'name':'store','value':1});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
@@ -208,6 +216,22 @@ function initData(){
 						}
 	}); 
 	
+}
+
+function doStoreOp(opt, obj){
+	var _this = $(obj);
+	$.ajax({
+		"dataType": 'text',
+		"type": "POST",
+		"url": 'order/updateOrderInfo',
+		"data": {
+			'orderId': _this.attr('data-order-id'),
+			'opt' : opt
+		},
+		"success": function(data){
+			alert("更新成功");
+		}
+	})
 }
 
 function formatDate(data){

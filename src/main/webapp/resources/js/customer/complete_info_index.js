@@ -2,10 +2,10 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchCustomer').click(function(){
-		if('' == $('#phone').val() &&
-			'' == $('#phoneStage').val() &&
-			'' == $('#type option:selected').val() &&
-			'' == $('#updateDate').val()){
+		if('' == $('#payPriceS').val() &&
+			'' == $('#payPriceE').val() &&
+			'' == $('#dpd1').val() &&
+			'' == $('#dpd2').val()){
 			return;
 		}
 		$('#customerInfo').dataTable().fnDraw();
@@ -13,12 +13,10 @@ $(document).ready(function(){
 	
 	$('#exportCustomer').click(function(){
 		
-		var phone = $('#phone').val();
-		var phoneStage = $('#phoneStage').val();
-		var updateDate = $('#updateDate').val();
+		var payPriceS = $('#payPriceS').val();
+		var payPriceE = $('#payPriceE').val();
 		var dpd1 = $('#dpd1').val();
 		var dpd2 = $('#dpd2').val();
-		var exportCount = $('#exportCount').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -26,12 +24,10 @@ $(document).ready(function(){
 		
 		var exportHtml = '';
 		exportHtml += '<form id="exportExcel" action="customerInfo/exportCustomer" style="display:none;">';
-		exportHtml += '<input type="hidden" name="phone" value="' + phone + '"/>'
-		exportHtml += '<input type="hidden" name="phoneStage" value="' + phoneStage + '"/>'
-		exportHtml += '<input type="hidden" name="updateDate" value="' + updateDate + '"/>'
-		exportHtml += '<input type="hidden" name="dpd1" value="' + dpd1 + '"/>'
-		exportHtml += '<input type="hidden" name="dpd2" value="' + dpd2 + '"/>'
-		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
+		exportHtml += '<input type="hidden" name="payPriceS" value="' + payPriceS + '"/>'
+		exportHtml += '<input type="hidden" name="payPriceE" value="' + payPriceE + '"/>'
+		exportHtml += '<input type="hidden" name="createDateS" value="' + dpd1 + '"/>'
+		exportHtml += '<input type="hidden" name="createDateE" value="' + dpd2 + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="3"/>'
 		exportHtml += '</form>';
 		$('body').append(exportHtml);
@@ -39,6 +35,11 @@ $(document).ready(function(){
 		$('#exportExcel').submit();
 	});
 }); 
+
+$(document).on('click', '#orderDetail', function () { 
+	var customerId = $(this).attr('data-customer-id');
+	window.location.href = "customerInfo/customerOrderInfoIndex?customerId=" + customerId
+});
 
 function initData(){
 	$('#customerInfo').dataTable({
@@ -50,9 +51,12 @@ function initData(){
 		"bRetrieve": true,
 		"sAjaxSource": "customerInfo/selectCustomerExList", // 地址
 		"aoColumns": [ 
-		            {"mData": null, "target": 0},	//序列号   
+		            {"mData": null, "target": 0},	//序列号  
+		            {"mData": "phoneStaffName"},
+		            {"mData": "name"},
+		            {"mData": "sexShow"},
 		            {"mData": "phone"},
-		            {"mData": "phone2"},
+		            {"mData": "address"},
 		            {"mData": "payPrice"},             
 		            {"mData": "recentCreateDate"},            
 					{"mData": ""}
@@ -61,15 +65,15 @@ function initData(){
    			"render" : function(data, type, row) {
    					return formatDate(data);
    				},
-   			"targets" : 4
+   			"targets" : 7
    			}
        ],
        "columnDefs" : [
 		{
 		"render" : function(data, type, row) {
-				return '<a href="javascript:void(0);" id="orderDetail">详情</a>';
+				return '<a href="javascript:void(0);" data-customer-id="' + row.id + '" id="orderDetail">详情</a>';
 			},
-		"targets" : 5
+		"targets" : 8
 		}],
        "fnDrawCallback": function(){
   			var api = this.api();
@@ -78,21 +82,22 @@ function initData(){
   			});
   		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var phone = $('#phone').val();
-							var phoneStage = $('#phoneStage').val();
-							var updateDate = $('#updateDate').val();
-							aoData.push({'name':'phone','value':phone},{'name':'phoneStage','value':phoneStage},
-									{'name':'type','value':3});
-							$.ajax({
-								"dataType": 'json',
-								"type": "POST",
-								"url": sSource,
-								"data": aoData,
-								"success": function(data){
-									fnCallback(data);
-								}
-							})
-						}
+			var payPriceS = $('#payPriceS').val();
+			var payPriceE = $('#payPriceE').val();
+			var createDateS = $('#dpd1').val();
+			var createDateE = $('#dpd2').val();
+			aoData.push({'name':'payPriceS','value':payPriceS},{'name':'payPriceE','value':payPriceE},
+					{'name':'type','value':3},{'name':'createDateS','value':createDateS},{'name':'createDateE','value':createDateE});
+			$.ajax({
+				"dataType": 'json',
+				"type": "POST",
+				"url": sSource,
+				"data": aoData,
+				"success": function(data){
+					fnCallback(data);
+				}
+			})
+		}
 	}); 
 }
 
@@ -101,9 +106,9 @@ function formatDate(data){
 		return '';
 	}else {
 		if('' == data.hours && '' == data.minutes && '' == data.seconds){
-			return (data.year + 1900) + '/' + data.month + '/' + data.day;
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date;
 		}else {
-			return (data.year + 1900) + '/' + data.month + '/' + data.day + ' ' + data.hours + ':' + data.minutes + ':' +data.seconds;
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date + ' ' + data.hours + ':' + data.minutes + ':' +data.seconds;
 		}
 	}
 }

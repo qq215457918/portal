@@ -28,6 +28,10 @@ public class CustomerInfo implements Serializable {
     private String season4;
 
     private String name;
+    
+    private String sex;
+    
+    private String sexShow;
 
     private String phoneStaffId;
 
@@ -40,6 +44,8 @@ public class CustomerInfo implements Serializable {
     private Date visitDate;
 
     private String area;
+    
+    private String address;
 
     private String phone2;
 
@@ -67,6 +73,8 @@ public class CustomerInfo implements Serializable {
     private Date recentVisitDate;
 
     private Date recentExportDate;
+    
+    private Date recentImportDate;
 
     private String blacklistFlag;
 
@@ -82,10 +90,20 @@ public class CustomerInfo implements Serializable {
      */
     private String recentCreateDate;
     
+    private String visitCount;
+    
     /**
      * 成单总额
      */
     private String payPrice;
+    
+    private String phoneStaffName;
+    
+    private String receiverStaffName;
+    
+    private String phoneHidden;
+    
+    private String phone2Hidden;
 
     public String getId() {
         return id;
@@ -367,6 +385,79 @@ public class CustomerInfo implements Serializable {
 	public void setPayPrice(String payPrice) {
 		this.payPrice = payPrice;
 	}
-    
-    
+
+	public String getVisitCount() {
+		return visitCount;
+	}
+
+	public void setVisitCount(String visitCount) {
+		this.visitCount = visitCount;
+	}
+
+	public String getPhoneStaffName() {
+		return phoneStaffName;
+	}
+
+	public void setPhoneStaffName(String phoneStaffName) {
+		this.phoneStaffName = phoneStaffName;
+	}
+
+	public String getReceiverStaffName() {
+		return receiverStaffName;
+	}
+
+	public void setReceiverStaffName(String receiverStaffName) {
+		this.receiverStaffName = receiverStaffName;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+		
+		if("0".equals(sex)){
+			sexShow = "男";
+		}else if("1".equals(sex)){
+			sexShow = "女";
+		}
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Date getRecentImportDate() {
+		return recentImportDate;
+	}
+
+	public void setRecentImportDate(Date recentImportDate) {
+		this.recentImportDate = recentImportDate;
+	}
+
+	public String getSexShow() {
+		return sexShow;
+	}
+
+	public String getPhoneHidden() {
+		return phoneHidden;
+	}
+
+	public void setPhoneHidden(String phoneHidden) {
+		this.phoneHidden = phoneHidden;
+	}
+
+	public String getPhone2Hidden() {
+		return phone2Hidden;
+	}
+
+	public void setPhone2Hidden(String phone2Hidden) {
+		this.phone2Hidden = phone2Hidden;
+	}
+	
 }

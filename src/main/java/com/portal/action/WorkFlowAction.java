@@ -233,10 +233,18 @@ public class WorkFlowAction {
 		
 		JSONArray result = new JSONArray();
 		JSONObject temp = new JSONObject();
-		temp.put("clerkId", "业务员id");
-		temp.put("clerkName", "业务员名称");
-		temp.put("name", "流程名");
-		temp.put("assignee", "审核人");
+		if("1".equals(request.getParameter("temp"))){
+			temp.put("clerkId", "233");
+			temp.put("clerkName", "萧萧");
+			temp.put("name", "每日业绩审核");
+			temp.put("assignee", "部门经理:小冷");
+		}else {
+			temp.put("clerkId", "254");
+			temp.put("clerkName", "萧萧");
+			temp.put("name", "每日业绩审核");
+			temp.put("assignee", "副经理:小雨");
+		}
+		
 		result.add(temp);
 		try {
 			JSONObject resultJson =  new JSONObject();
@@ -268,16 +276,16 @@ public class WorkFlowAction {
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 //		paramMap.put("userId", ((EmployeeInfo)request.getSession().getAttribute("user")).getId());
 		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
-		paramMap.put("userId", 1);
+		paramMap.put("userId", 233);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
-		if(null != result && !"".equals(result.get("phoneStaffId"))){
+		if(null != result && null != result.get("phoneStaffId") && !"".equals(result.get("phoneStaffId"))){
 			String[] phoneStaffIds = ((String)result.get("phoneStaffId")).split(",");
 			String phoneStaffName = workFlowService.selectPhoneStaffName(phoneStaffIds);
 			result.put("phoneStaffName", phoneStaffName);
 		}
 		
-		
+		request.setAttribute("id", request.getParameter("id"));
 		request.setAttribute("result", result);
 		
 		return "flow/clerk_everyday_achievement";
@@ -293,7 +301,7 @@ public class WorkFlowAction {
 	@RequestMapping("toAchieveExam")
 	public void toAchieveExam(HttpServletRequest request, HttpServletResponse response){
 //		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
-		String userId = "1";
+		String userId = "233";
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("userId", userId);
@@ -409,8 +417,21 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("/financeOrderEveryday")
-	public String financeOrderEveryday(){
+	public String financeOrderEveryday(HttpServletRequest request){
+		request.setAttribute("userId", request.getParameter("userId"));
 		return "flow/finance_order_everyday";
+	}
+	
+	/**
+	 * @Title: storeOrderinfo 
+	 * @Description: 仓库管理信息
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("/storeOrderinfo")
+	public String storeOrderEveryday(HttpServletRequest request){
+		return "flow/store_order_info";
 	}
 	
 	/**
@@ -436,8 +457,15 @@ public class WorkFlowAction {
 	
 	@RequestMapping("selectFinanceEveryDay")
 	public void selectFinanceEveryDay(HttpServletRequest request, HttpServletResponse response){
+		String userId = request.getParameter("userId");
+		
 		Criteria criteria = new Criteria();
 		criteria.put("financeDate", request.getParameter("financeDate"));
+		criteria.put("userId", userId);
+		if(StringUtils.isNotBlank(userId)){
+			criteria.put("financeFlag", "-1");
+		}
+		
 		List<OrderInfo> resultList = orderInfoService.selectFinanceEveryDay(criteria);
 		
 		int count = orderInfoService.countFinanceEveryDay(criteria);
@@ -483,6 +511,9 @@ public class WorkFlowAction {
 		orderInfo.setFinanceOperatorId(userId);
 		orderInfo.setFinanceDate(new Date());
 		orderInfo.setFinanceFlag("1");
+		if("1".equals(request.getParameter("operate"))){
+			orderInfo.setFinanceFlag("-1");
+		}
 		orderInfo.setId(request.getParameter("orderId"));
 		
 		orderInfoService.updateByPrimaryKeySelective(orderInfo);

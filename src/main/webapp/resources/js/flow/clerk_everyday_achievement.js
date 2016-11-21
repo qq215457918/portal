@@ -13,6 +13,7 @@ $(document).ready(function(){
 	});
 	
 	$('#toAchieveExam').click(function(){
+		alert("提交成功");
 		$.ajax({
 			"dataType": 'json',
 			"type": "POST",

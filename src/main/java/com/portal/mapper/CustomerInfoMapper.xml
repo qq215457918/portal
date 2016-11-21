@@ -8,13 +8,18 @@
     <result column="season3" property="season3" jdbcType="VARCHAR" />
     <result column="season4" property="season4" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
     <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="phoneHidden" property="phoneHidden" jdbcType="VARCHAR" />
     <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="phone2" property="phone2" jdbcType="VARCHAR" />
+    <result column="phone2Hidden" property="phone2Hidden" jdbcType="VARCHAR" />
     <result column="relation_id" property="relationId" jdbcType="VARCHAR" />
     <result column="qq" property="qq" jdbcType="VARCHAR" />
     <result column="msn" property="msn" jdbcType="VARCHAR" />
@@ -24,11 +29,13 @@
     <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
     <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
     <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
+    <result column="recent_import_date" property="recentImportDate" jdbcType="TIMESTAMP" />
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
     <result column="recent_create_date" property="recentCreateDate" jdbcType="VARCHAR" />
     <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
+    <result column="visitCount" property="visitCount" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -109,18 +116,31 @@
          and left(phone, length(#{condition.phoneStage,jdbcType=VARCHAR})) = #{condition.phoneStage,jdbcType=VARCHAR}
       </if>
       <!-- 登门时间段 -->
-      <if test="condition.startTime != null" >
-         and visit_date >= date_format(#{condition.startTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      <if test="condition.visiteDate1 != null" >
+         and recent_visit_date >= date_format(#{condition.visiteDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
       </if>
-      <if test="condition.endTime != null" >
-         and visit_date <![CDATA[<=]]> date_format(#{condition.endTime,jdbcType=TIMESTAMP}, '%Y-%m-%d %H:%i:%s') 
+      <if test="condition.visiteDate2 != null" >
+         and recent_visit_date <![CDATA[<=]]> date_format(#{condition.visiteDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
+      </if>
+      <!-- 导入导出时间段 -->
+      <if test="condition.importDate1 != null" >
+         and recent_import_date >= date_format(#{condition.importDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
+      </if>
+      <if test="condition.importDate2 != null" >
+         and recent_import_date <![CDATA[<=]]> date_format(#{condition.importDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
+      </if>
+      <if test="condition.exportDate1 != null" >
+         and recent_export_date >= date_format(#{condition.exportDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
+      </if>
+      <if test="condition.exportDate2 != null" >
+         and recent_export_date <![CDATA[<=]]> date_format(#{condition.exportDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
       </if>
        <!-- 登门次数 -->
       <if test="condition.backCountS != null" >
-         and transaction_amount >= #{condition.backCountS, jdbcType=DECIMAL}
+         and (select count(1) from reception_info x where x.customer_id = customer_info.id) >= #{condition.backCountS, jdbcType=DECIMAL}
       </if>
       <if test="condition.backCountE != null" >
-         and transaction_amount <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
+         and (select count(1) from reception_info x where x.customer_id = customer_info.id) <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
       </if>
     </trim>
   </sql>
@@ -201,9 +221,10 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
-    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
-    recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
+    id, type, season2, season3, season4, name, sex, phone_staff_id, receiver_staff_id, business_phone, 
+    phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, visit_date, area, address, 
+    phone2, REPLACE(phone2, SUBSTR(phone2,4,4), '****') phone2Hidden, relation_id, qq, msn, site, id_card, product, transaction_amount, 
+    recent_visit_date, recent_export_date, recent_import_date, blacklist_flag, update_date, update_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -211,6 +232,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
+   	,(select count(1) from reception_info x where x.customer_id = customer_info.id) as visitCount
+   	,(select name from employee_info y where y.id = customer_info.phone_staff_id) as phoneStaffName
     from customer_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -641,17 +664,18 @@
   </update>
   
   <sql id="Columnex_List" >
-    ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.phone_staff_id, ci.receiver_staff_id, ci.business_phone, 
+    ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.sex, ci.address, ci.phone_staff_id, ei.name as phone_staff_name, ci.receiver_staff_id, ci.business_phone, 
     ci.phone, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount, 
     ci.recent_visit_date, ci.recent_export_date, ci.blacklist_flag, ci.update_date, ci.update_flag,a.recent_create_date, a.pay_price
   </sql>
-  <select id="selectCustomerExList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  <select id="selectCustomerExList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
   	select  
     <if test="distinct" >
       distinct
     </if>
     <include refid="Columnex_List" />
     from customer_info ci
+    left join employee_info ei on ci.phone_staff_id = ei.id
     left join (
     	select 
     	sum(pay_price) pay_price,
@@ -713,6 +737,49 @@
     </if>
   </select>
   
+  <select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
+  	SELECT type, season2, season3, season4, name,  eip.name phone_staff_name, eir.name receiver_staff_name,
+		bussiness_phone, phone, visit_date, area, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount
+	FROM `customer_info` ci 
+	left join employee_info eip on ci.phone_staff_id = eip.id
+	left join employee_info eir on ci.phone_staff_id = eir.id
+	<if test="_parameter != null" >
+      <trim prefix="where" prefixOverrides="and|or" >
+		<!-- 号码段条件 -->
+		<if test="condition.phoneStage != null" >
+		   and left(phone, length(#{condition.phoneStage,jdbcType=VARCHAR})) = #{condition.phoneStage,jdbcType=VARCHAR}
+		</if>
+		<!-- 登门时间段 -->
+		<if test="condition.visiteDate1 != null" >
+		   and recent_visit_date >= date_format(#{condition.visiteDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
+		</if>
+		<if test="condition.visiteDate2 != null" >
+		   and recent_visit_date <![CDATA[<=]]> date_format(#{condition.visiteDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
+		</if>
+		<!-- 导入导出时间段 -->
+		<if test="condition.importDate1 != null" >
+		   and recent_import_date >= date_format(#{condition.importDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
+		</if>
+		<if test="condition.importDate2 != null" >
+		   and recent_import_date <![CDATA[<=]]> date_format(#{condition.importDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
+		</if>
+		<if test="condition.exportDate1 != null" >
+		   and recent_export_date >= date_format(#{condition.exportDate1,jdbcType=TIMESTAMP}, '%Y-%m-%d 00:00:00') 
+		</if>
+		<if test="condition.exportDate2 != null" >
+		   and recent_export_date <![CDATA[<=]]> date_format(#{condition.exportDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
+		</if>
+		 <!-- 登门次数 -->
+		<if test="condition.backCountS != null" >
+		   and (select count(1) from reception_info x where x.customer_id = customer_info.id) >= #{condition.backCountS, jdbcType=DECIMAL}
+		</if>
+		<if test="condition.backCountE != null" >
+		   and (select count(1) from reception_info x where x.customer_id = customer_info.id) <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
+		</if>
+      </trim>
+    </if>
+  </select>
+  
   <update id="updateExportDate">
   	update customer_info set recent_export_date = now() where id in 
   	<foreach collection="list" item="customer" index="index"
@@ -722,11 +789,28 @@
   </update>
   
   <insert id="insertAndUpdateCustomerInfo">
-  	insert into customer_info (id, name, phone, type) values 
+  	insert into customer_info (
+  		id,type,season2,season3,season4,
+  		name,sex,phone_staff_id,receiver_staff_id,
+  		business_phone,phone,visit_date,area,update_date,
+  		phone2,relation_id,qq,msn,
+  		site,id_card,product,transaction_amount,
+  		recent_visit_date,recent_import_date,
+  		recent_export_date,blacklist_flag,update_flag,address,birthday
+  		) values 
   		<foreach collection="list" item="customer" index="index" separator=",">
-	        (rand_string(16), #{customer.p0}, #{customer.p1}, 0)
+	        (
+	        rand_string(16), #{customer.p0}, #{customer.p1}, #{customer.p2}, #{customer.p3},
+	        #{customer.p4}, '', (select a.id from employee_info a where a.name=#{customer.p5} limit 1), (select a.id from employee_info a where a.name=#{customer.p6} limit 1),
+	        #{customer.p8}, #{customer.p9}, DATE_FORMAT(#{customer.p10},'%Y-%m-%d'), #{customer.p11}, DATE_FORMAT(#{customer.p12},'%Y-%m-%d'),
+	        #{customer.p13}, #{customer.p14}, #{customer.p15}, #{customer.p16},
+	        #{customer.p17},#{customer.p18},#{customer.p19}, #{customer.p20}, 
+	        '', now(), 
+	        '', '', '', '', ''
+	    	)
 	    </foreach>
-  	on duplicate key update recent_visit_date = now()
+  	on duplicate key update recent_import_date = now(), type = #{customer.p0}, update_date = DATE_FORMAT(#{customer.p12},'%Y-%m-%d'),
+  		phone_staff_id = (select a.id from employee_info a where a.name=#{customer.p5} limit 1)
   </insert>
   
   <update id="updateCustomerInfo" parameterType="map">

@@ -4,10 +4,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>财务订单列表</title>
+<title>仓库管理列表</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<script src="resources/js/flow/finance_order_everyday.js" type="text/javascript"></script>
+<script src="resources/js/flow/store_order_info.js" type="text/javascript"></script>
 <script src="resources/js/jQuery.print.js" type="text/javascript"></script>
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>

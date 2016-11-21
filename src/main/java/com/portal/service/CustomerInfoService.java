@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import java.util.List;
 import java.util.Map;
@@ -119,4 +120,31 @@ public interface CustomerInfoService {
      * @throws
      */
     public void updateCustomerInfo(List<Map<String, Object>> data);
+
+    /**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 导出用户信息
+     * @param criteria 
+     * @return List<CustomerInfo>
+     * @throws
+     */
+	public List<CustomerInfo> selectCustomerExportList(Criteria criteria);
+
+	/**
+	 * @Title: customerOrderInfoList 
+	 * @Description: 用户订单详情
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+	public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectCustomerOrderCount 
+	 * @Description: 用户订单详情数量
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+	public int selectCustomerOrderCount(Map<String, Object> paramMap);
 }
