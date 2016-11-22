@@ -24,33 +24,38 @@
               <div class="col-md-6">
 	                <div class="form-group">
 	                  <label for="firstname">姓名</label>
-	                  <input class="form-control" id="firstname" name="firstname" type="text" value=${customerInfo.name}>
+	                  <input class="form-control" id="firstname" name="firstname" type="text" value=${customerInfo.name}><font color='red'>*</font>
 	                </div>
-	                <div class="form-group">
-	                  <label>商务电话</label>
-	                  <input class="form-control" id="businessPhone" name="businessPhone" type="text" value=${customerInfo.businessPhone}>
-	                </div>
+
 	               <div class="form-group">
 	                  <label>手机</label>
-	                  <input class="form-control" id="phone" name="phone" type="text" value=${customerInfo.phone}>
+	                  <input class="form-control" id="phone" name="phone" type="text" value=${customerInfo.phone}><font color='red'>*</font>
 	                </div>
 	               <div class="form-group">
-	                  <label>其他电话2</label>
+	                  <label>电话号码2</label>
 	                  <input class="form-control" id="phone2" name="phone2" type="text" value=${customerInfo.phone2}>
+	                </div>
+         	        <div class="form-group">
+	                  <label>商务电话</label>
+	                  <input class="form-control" id="businessPhone" name="businessPhone" type="text" value=${customerInfo.businessPhone}>
 	                </div>
 	               <div class="form-group">
 	                  <label>关联亲友</label>
 	                  <input class="form-control" id="relationId" name="relationId" type="text" value=${customerInfo.relationId}>
 	                </div>  
+	               <div class="form-group">
+	                  <label>地址</label>
+	                  <input class="form-control" id="address" name="address" type="text" value=${customerInfo.address}>
+	                </div>   
                 </div>
                <div class="col-md-6">
 	               <div class="form-group">
-	                  <label>QQ</label>
-	                  <input class="form-control" id="qq" name="qq" type="text" value=${customerInfo.qq}>
+	                  <label>电宅</label>
+	                  <input class="form-control" id="homePhone" name="homePhone" type="text" value=${customerInfo.homePhone}>
 	                </div>     
 	               <div class="form-group">
-	                  <label>MSN</label>
-	                  <input class="form-control" id="msn" name="msn" type="text" value=${customerInfo.msn}>
+	                  <label>性别</label>
+	                  <input class="form-control" id="sex" name="sex" type="text" value=${customerInfo.sex}>
 	                </div>
 	               <div class="form-group">
 	                  <label>网页</label>

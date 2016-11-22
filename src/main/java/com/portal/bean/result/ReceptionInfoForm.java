@@ -1,8 +1,7 @@
 package com.portal.bean.result;
 
-import java.io.Serializable;
-
 import com.portal.common.util.StringUtil;
+import java.io.Serializable;
 
 public class ReceptionInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -10,126 +9,156 @@ public class ReceptionInfoForm implements Serializable {
     private String id;
 
     private String customerId;
-    
+
     private String customerName;
 
     private String receiverStaffId;
-    
+
     private String receiverStaffName;
 
     private String startTime;
 
     private String endTime;
 
+    private String orderId;
+
+    private String presentOrderId;
+
+    private String presentName;
+
     private String createDate;
-    
+
     /**
      * 报表-登门出单统计中-客服姓名
      */
     private String phoneStaffName;
-    
+
     /**
      * 报表-登门出单统计中-客户类型
      */
     private String type;
-    
+
     /**
      * 报表-登门出单统计中-客户联系电话
      */
     private String phone;
-    
+
     /**
      * 报表-登门出单统计中-关联客户姓名
      */
     private String relationName;
-    
+
     /**
      * 报表-登门出单统计中-客户生日
      */
     private String birthday;
-    
+
+    public String getPresentName() {
+        return presentName;
+    }
+
+    public void setPresentName(String presentName) {
+        this.presentName = presentName;
+    }
+
     /**
      * 报表-登门出单统计中-客户地址
      */
     private String area;
-    
+
     /**
      * 报表-登门出单统计中-会员卡号
      */
     private String vipCard;
-    
+
     /**
      * 报表-登门出单统计中-出单数量
      */
     private String orderCount;
 
-	public String getId() {
-		return id;
-	}
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
-	public String getCustomerId() {
-		return customerId;
-	}
+    public String getPresentOrderId() {
+        return presentOrderId;
+    }
 
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
+    public void setPresentOrderId(String presentOrderId) {
+        this.presentOrderId = presentOrderId;
+    }
 
-	public String getCustomerName() {
-		return customerName;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getReceiverStaffId() {
-		return receiverStaffId;
-	}
+    public String getCustomerId() {
+        return customerId;
+    }
 
-	public void setReceiverStaffId(String receiverStaffId) {
-		this.receiverStaffId = receiverStaffId;
-	}
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
 
-	public String getReceiverStaffName() {
-		return receiverStaffName;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public void setReceiverStaffName(String receiverStaffName) {
-		this.receiverStaffName = receiverStaffName;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public String getStartTime() {
-		return startTime;
-	}
+    public String getReceiverStaffId() {
+        return receiverStaffId;
+    }
 
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
+    public void setReceiverStaffId(String receiverStaffId) {
+        this.receiverStaffId = receiverStaffId;
+    }
 
-	public String getEndTime() {
-		return endTime;
-	}
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
 
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
-	}
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
 
-	public String getCreateDate() {
-		return createDate;
-	}
+    public String getStartTime() {
+        return startTime;
+    }
 
-	public void setCreateDate(String createDate) {
-		this.createDate = createDate;
-	}
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
+    }
+
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     public String getPhoneStaffName() {
         return phoneStaffName;
@@ -140,18 +169,18 @@ public class ReceptionInfoForm implements Serializable {
     }
 
     public String getType() {
-        if(StringUtil.isNotBlank(type)) {
-            if("0".equals(type)) {
+        if (StringUtil.isNotBlank(type)) {
+            if ("0".equals(type)) {
                 type = "空白";
-            }else if("1".equals(type)) {
+            } else if ("1".equals(type)) {
                 type = "重复";
-            }else if("2".equals(type)) {
+            } else if ("2".equals(type)) {
                 type = "说明会";
-            }else if("3".equals(type)) {
+            } else if ("3".equals(type)) {
                 type = "成单";
-            }else if("4".equals(type)) {
+            } else if ("4".equals(type)) {
                 type = "锁定";
-            }else if("5".equals(type)) {
+            } else if ("5".equals(type)) {
                 type = "转介绍";
             }
         }
@@ -187,14 +216,14 @@ public class ReceptionInfoForm implements Serializable {
     }
 
     public String getArea() {
-        if(StringUtil.isNotBlank(this.area)) {
-            if("1".equals(this.area)) {
+        if (StringUtil.isNotBlank(this.area)) {
+            if ("1".equals(this.area)) {
                 return "大连";
-            }else {
+            } else {
                 return "沈阳";
             }
-        }else {
-            return area;            
+        } else {
+            return area;
         }
     }
 
@@ -211,7 +240,7 @@ public class ReceptionInfoForm implements Serializable {
     }
 
     public String getOrderCount() {
-        if("0".equals(orderCount)) {
+        if ("0".equals(orderCount)) {
             orderCount = "";
         }
         return orderCount;

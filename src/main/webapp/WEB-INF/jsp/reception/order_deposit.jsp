@@ -61,7 +61,7 @@
               <table class="table table-bordered table-bordered" id ="depositTable">
                 <thead>
                 <tr>
-                  <th>业务人员</th>
+                  <th>接待人员</th>
                   <th>购买商品</th>
                   <th>定金金额</th>
                   <th>定金日期</th>

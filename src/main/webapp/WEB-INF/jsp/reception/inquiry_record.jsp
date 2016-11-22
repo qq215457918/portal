@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>首次登陆</title>
+    <title>接待业务</title>
     <base href="${basePath}">
     <script type="text/javascript" src="resources/js/reception/inquiry_record.js"></script>
 	<jsp:include page="head.jsp" />
@@ -49,7 +49,7 @@
 	          	</div>
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-7" style="width: 100%;">
-		            <input class="form-control" placeholder="客服姓名、业务员姓名" id="receiverStaffName" type="text" style="width: 100%;">
+		            <input class="form-control" placeholder="客服姓名、接待员姓名" id="receiverStaffName" type="text" style="width: 100%;">
 		          </div>
 	          	</div>
 	          </div>

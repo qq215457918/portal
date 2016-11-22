@@ -19,14 +19,12 @@ import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.beanutils.BeanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -191,7 +189,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return orderInfoForm;
     }
-    
+
     Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
         criteria.clear();
         criteria.put("customer_id", customerId);
@@ -225,30 +223,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     */
     List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType,
             int isToday) {
-        List<OrderInfoForm> orderInfoForm = new ArrayList<OrderInfoForm>();
-        List<OrderInfo> orderInfoList =
-                orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType, isToday));
-        //把order的信息放入到form中
-        orderInfoList.forEach(value -> {
-            try {
-                OrderInfoForm orderInfo = new OrderInfoForm();
-                BeanUtils.copyProperties(orderInfo, value);
-                orderInfoForm.add(orderInfo);
-            } catch (IllegalAccessException e) {
-                logger.warn("Unexpected exception:", e);
-            } catch (InvocationTargetException e) {
-                logger.warn("Unexpected exception:", e);
-            }
-        });
-
+        List<OrderInfoForm> orderInfoResult =
+                orderInfoExtraDao
+                        .selectByExample4Page(getCriteria(customerId, status, orderType, payType, isToday));
         //把商品详情信息放入到form中
-        orderInfoForm.forEach(value -> {
+        orderInfoResult.forEach(value -> {
             value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
             value.setCreateDateString(
                     DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
         });
 
-        return orderInfoForm;
+        return orderInfoResult;
     }
 
     List<OrderInfoForm> getOrderInfo(String customerId, int status, int orderType, int payType) {
@@ -392,8 +377,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
         detailInfo.setDeleteFlag("0");
-        if(StringUtil.isNull(count)){
-        	count="1";
+        if (StringUtil.isNull(count)) {
+            count = "1";
         }
         detailInfo.setAmount(Integer.parseInt(count));
         return detailInfo;
@@ -677,7 +662,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public int countOrderModifyList(Criteria criteria) {
         return orderInfoDao.countOrderModifyList(criteria);
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
@@ -685,12 +670,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return 
      * @return List<OrderInfo>
      * @throws
-     */	
+     */
     @Override
     public List<OrderInfo> selectFinanceEveryDay(Criteria criteria) {
-    	return orderInfoDao.selectFinanceEveryDay(criteria);
+        return orderInfoDao.selectFinanceEveryDay(criteria);
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
@@ -701,6 +686,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     @Override
     public int countFinanceEveryDay(Criteria criteria) {
-    	return orderInfoDao.countFinanceEveryDay(criteria);
+        return orderInfoDao.countFinanceEveryDay(criteria);
     }
 }

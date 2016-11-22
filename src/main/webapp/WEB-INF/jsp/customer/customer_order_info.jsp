@@ -22,7 +22,7 @@
 						<table class="table table-bordered" id="customerOrderInfo">
 							<thead>
 								<th>序号</th>
-								<th>业务人员</th>
+								<th>接待人员</th>
 								<th>出单商品&数量</th>
 								<th>金额</th>
 								<th>实付金额</th>

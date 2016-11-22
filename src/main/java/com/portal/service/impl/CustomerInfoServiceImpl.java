@@ -3,6 +3,7 @@ package com.portal.service.impl;
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.CustomerType;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.DateUtil;
@@ -29,7 +30,7 @@ import org.springframework.stereotype.Service;
 public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Autowired
     private CustomerInfoDao customerInfoDao;
-    
+
     @Autowired
     private OrderInfoDao orderInfoDao;
 
@@ -69,19 +70,24 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         CustomerInfo cInfo = selectByPhone(phone);
         cSimpleForm.setId(cInfo.getId());
         cSimpleForm.setName(cInfo.getName());
-        cSimpleForm.setEncryptPhone(cInfo.getPhone());
-        cSimpleForm.setType(cInfo.getType()=="3"?"成单":"登门");
-        if(!StringUtils.isEmpty(cInfo.getPhoneStaffId())){
+        cSimpleForm.setPhone(cInfo.getPhone());
+        cSimpleForm.setEncryptPhone(StringUtil.encryptPhone(cInfo.getPhone()));
+        cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
+        //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
+        cSimpleForm.setType(CustomerType.getName(Integer.parseInt(cInfo.getType())));
+        cSimpleForm.setRelationId(cInfo.getRelationId());
+        if (!StringUtils.isEmpty(cInfo.getPhoneStaffId())) {
             cSimpleForm.setPhoneStaffId(cInfo.getPhoneStaffId());
-        	cSimpleForm
-            .setPhoneStaffName(EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
+            cSimpleForm
+                    .setPhoneStaffName(
+                            EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
         }
-        if(!StringUtils.isEmpty(cInfo.getReceiverStaffId())){
+        if (!StringUtils.isEmpty(cInfo.getReceiverStaffId())) {
             cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
             cSimpleForm.setReceiverStaffName(
                     EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
         }
-        cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag()=="1"?"是":"否");
+        cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag() == "1" ? "是" : "否");
         return cSimpleForm;
     }
 
@@ -94,7 +100,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
         Optional.ofNullable(request.getParameter("phone2")).ifPresent(value -> cInfo.setPhone2(value));
         Optional.ofNullable(request.getParameter("relationId")).ifPresent(value -> cInfo.setRelationId(value));
-        Optional.ofNullable(request.getParameter("qq")).ifPresent(value -> cInfo.setQq(value));
+        Optional.ofNullable(request.getParameter("homePhone")).ifPresent(value -> cInfo.setHomePhone(value));
         Optional.ofNullable(request.getParameter("msn")).ifPresent(value -> cInfo.setMsn(value));
         Optional.ofNullable(request.getParameter("site")).ifPresent(value -> cInfo.setSite(value));
         Optional.ofNullable(request.getParameter("idCard")).ifPresent(value -> cInfo.setIdCard(value));
@@ -108,12 +114,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @return
      */
     public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request) {
-    	String phone = request.getParameter("phone");
+        String phone = request.getParameter("phone");
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setId(UUidUtil.getUUId());
         cInfo.setName(request.getParameter("firstname"));
         cInfo.setQq(request.getParameter("qqno"));
-        cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));;
+        cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));
+        ;
         cInfo.setPhone(phone);
         cInfo.setArea(request.getParameter("area"));
         cInfo.setSite(request.getParameter("email"));
@@ -286,7 +293,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
         return result;
     }
-    
+
     /**
      * @Title: updateExportDate 
      * @Description: 导出时间更新
@@ -296,9 +303,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public void updateExportDate(List<CustomerInfo> resultList) {
-    	customerInfoDao.updateExportDate(resultList);
+        customerInfoDao.updateExportDate(resultList);
     }
-    
+
     /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 插入用户信息 如果电话重复则更新
@@ -308,9 +315,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-    	customerInfoDao.insertAndUpdateCustomerInfo(data);
+        customerInfoDao.insertAndUpdateCustomerInfo(data);
     }
-    
+
     /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 导入更新电联人员
@@ -320,11 +327,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public void updateCustomerInfo(List<Map<String, Object>> data) {
-    	for(Map<String, Object> m : data){
-    		customerInfoDao.updateCustomerInfo(m);
-    	}
+        for (Map<String, Object> m : data) {
+            customerInfoDao.updateCustomerInfo(m);
+        }
     }
-    
+
     /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 导出用户信息
@@ -334,30 +341,30 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public List<CustomerInfo> selectCustomerExportList(Criteria criteria) {
-    	return customerInfoDao.selectCustomerExportList(criteria);
+        return customerInfoDao.selectCustomerExportList(criteria);
     }
-    
+
     /**
-	 * @Title: selectCustomerOrderCount 
-	 * @Description: 用户订单详情数量
-	 * @param customerId
-	 * @return void
-	 * @throws
-	 */
+     * @Title: selectCustomerOrderCount 
+     * @Description: 用户订单详情数量
+     * @param customerId
+     * @return void
+     * @throws
+     */
     @Override
     public int selectCustomerOrderCount(Map<String, Object> paramMap) {
-    	return orderInfoDao.selectCustomerOrderCount(paramMap);
+        return orderInfoDao.selectCustomerOrderCount(paramMap);
     }
-    
+
     /**
-	 * @Title: customerOrderInfoList 
-	 * @Description: 用户订单详情
-	 * @param customerId
-	 * @return void
-	 * @throws
-	 */
+     * @Title: customerOrderInfoList 
+     * @Description: 用户订单详情
+     * @param customerId
+     * @return void
+     * @throws
+     */
     @Override
     public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap) {
-    	return orderInfoDao.selectCustomerOrderList(paramMap);
+        return orderInfoDao.selectCustomerOrderList(paramMap);
     }
 }

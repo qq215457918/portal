@@ -14,6 +14,7 @@
     <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
     <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
     <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
+    <result column="home_phone" property="homePhone" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="phoneHidden" property="phoneHidden" jdbcType="VARCHAR" />
     <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />

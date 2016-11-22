@@ -50,12 +50,13 @@ CREATE TABLE `customer_info` (
   `phone_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客户人员id',
   `receiver_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '业务人员id',
   `business_phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '商务电话',
+  `home_phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '电宅',
   `phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '手机',
   `visit_date` date DEFAULT NULL COMMENT '登门时间',
   `area` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '地区：大连、沈阳',
   `address` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT '地址',
   `phone2` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '其他电话2',
-  `relation_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '关联亲友',
+  `relation_id` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '关联亲友',
   `qq` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'qq',
   `msn` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'msn',
   `site` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT '网页',
@@ -248,6 +249,8 @@ CREATE TABLE `reception_info` (
   `start_time` datetime DEFAULT NULL COMMENT '开始接待时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束接待时间',
   `order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '订单id可为空',
+  `present_order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '赠品orderId可为空',
+  `present_name` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '赠品orderId可为空',
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='日常接待表';

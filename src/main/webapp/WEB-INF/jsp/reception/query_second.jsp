@@ -38,10 +38,10 @@
               <div class="widget-content padded">
                  <dl>
                   <dd>
-                   <strong>	客户人员：</strong>${info.phoneStaffName }
+                   <strong>	客服人员：</strong>${info.phoneStaffName }
                   </dd>
                   <dd>
-                  	<strong>业务人员：</strong>${info.receiverStaffName }
+                  	<strong>接待人员：</strong>${info.receiverStaffName }
                   </dd>
                   <dd>
                   	<strong>最近登门时间：</strong>${info.recentVisitDate }
@@ -79,9 +79,120 @@
                 <th>
                 	订单总金额
                 </th>
+               <th>
+                	接待人员
+                </th>
               </tr></thead>
               <tbody>
               <c:forEach var="status" items="${goods}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
+	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
+	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    
+	                    <br/>
+	                    </c:forEach>
+	                </td>
+	                <td>
+	                  ${status.createDateString }
+	                </td>
+	                <td>
+	                   ${status.payPrice }
+	                </td>
+	                <td>
+	                   ${status.receiverStaffName }
+	                </td>
+	              </tr>
+              </c:forEach>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+            <!-- 来访记录 -->
+      <div class="col-lg-6">
+        <div class="widget-container fluid-height clearfix">
+          <div class="heading">
+            <i class="icon-table"></i>来访记录
+          </div>
+          <div class="widget-content padded clearfix">
+                        <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>
+                	 序号
+                </th>
+                <th>
+                	 客服人员
+                </th>
+                <th>
+       				接待人员
+                </th>
+                <th>
+                	来访时间
+                </th>
+                <th>
+                	领取赠品
+                </th>
+              </tr></thead>
+              <tbody>
+              <c:forEach var="status" items="${receptionInfo}" varStatus="var"> 
+	              <tr>
+	              	<td>
+	              	    ${var.index+1}
+	              	</td>
+	                <td>
+					   ${status.receiverStaffName }
+	                </td>
+	                <td>
+	                   ${status.phoneStaffName }
+	                </td>
+	                <td>
+	                    ${status.createDate }
+	                </td>
+	                <td>
+	                    ${status.presentName }
+	                </td>
+	              </tr>
+              </c:forEach>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+     </div>
+      <div class="row">
+      <!-- 回购商品 -->
+      <div class="col-lg-6">
+        <div class="widget-container fluid-height clearfix">
+          <div class="heading">
+            <i class="icon-table"></i>回购商品
+          </div>
+          <div class="widget-content padded clearfix">
+             <table class="table table-bordered">
+              <thead>
+              <tr>
+                <th>
+                	 序号
+                </th>
+                <th>
+                	 商品信息-数量-金额
+                </th>
+                <th>
+       				交易时间
+                </th>
+                <th>
+                	订单总金额
+                </th>
+              </tr></thead>
+              <tbody>
+              <c:forEach var="status" items="${revokeDeposit}" varStatus="var"> 
 	              <tr>
 	              	<td>
 	              	    ${var.index+1}
@@ -105,11 +216,11 @@
               </c:forEach>
               </tbody>
             </table>
+            <input type="hidden" name="cid" id="cid" value="${info.id }"/>
           </div>
         </div>
       </div>
-
-      <!-- 撤单商品 -->
+        <!-- 撤单商品 -->
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
@@ -157,105 +268,6 @@
               </c:forEach>
               </tbody>
             </table>
-          </div>
-        </div>
-      </div>
-      </div>
-      <div class="row">
-      <!-- 来访记录 -->
-      <div class="col-lg-6">
-        <div class="widget-container fluid-height clearfix">
-          <div class="heading">
-            <i class="icon-table"></i>来访记录
-          </div>
-          <div class="widget-content padded clearfix">
-                        <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>
-                	 序号
-                </th>
-                <th>
-                	 客户人员
-                </th>
-                <th>
-       				业务人员
-                </th>
-                <th>
-                	来访时间
-                </th>
-              </tr></thead>
-              <tbody>
-              <c:forEach var="status" items="${receptionInfo}" varStatus="var"> 
-	              <tr>
-	              	<td>
-	              	    ${var.index+1}
-	              	</td>
-	                <td>
-					   ${status.receiverStaffName }
-	                </td>
-	                <td>
-	                   ${status.phoneStaffName }
-	                </td>
-	                <td>
-	                    ${status.createDate }
-	                </td>
-	              </tr>
-              </c:forEach>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-      <!-- 回购商品 -->
-      <div class="col-lg-6">
-        <div class="widget-container fluid-height clearfix">
-          <div class="heading">
-            <i class="icon-table"></i>回购商品
-          </div>
-          <div class="widget-content padded clearfix">
-                        <table class="table table-bordered">
-              <thead>
-              <tr>
-                <th>
-                	 序号
-                </th>
-                <th>
-                	 商品信息-数量-金额
-                </th>
-                <th>
-       				交易时间
-                </th>
-                <th>
-                	订单总金额
-                </th>
-              </tr></thead>
-              <tbody>
-              <c:forEach var="status" items="${revokeDeposit}" varStatus="var"> 
-	              <tr>
-	              	<td>
-	              	    ${var.index+1}
-	              	</td>
-	                <td>
-	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
-	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
-	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
-	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
-	                    
-	                    <br/>
-	                    </c:forEach>
-	                </td>
-	                <td>
-	                  ${status.createDateString }
-	                </td>
-	                <td>
-	                   ${status.payPrice }
-	                </td>
-	              </tr>
-              </c:forEach>
-              </tbody>
-            </table>
-            <input type="hidden" name="cid" id="cid" value="${info.id }"/>
           </div>
         </div>
       </div>
