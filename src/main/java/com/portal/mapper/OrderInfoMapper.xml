@@ -658,6 +658,12 @@
       <if test="customerId != null" >
          and customer_id = #{customerId, jdbcType=VARCHAR}
       </if>
+      <if test="receiverStaffId != null" >
+         and receiver_staff_id = #{receiverStaffId, jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+         and date_format(oi.create_date, '%Y-%m-%d') = date_format(#{createDate, jdbcType=VARCHAR}, '%Y-%m-%d')
+      </if>
     </trim>
     group by oi.id
     <include refid="common.Mysql_Pagination_Limit" />
@@ -672,7 +678,13 @@
 	left join employee_info ei on oi.receiver_staff_id = ei.id
 	<trim prefix="where" prefixOverrides="and|or" >
       <if test="customerId != null" >
-         and customer_id = #{customerId, jdbcType=VARCHAR}
+         and oi.customer_id = #{customerId, jdbcType=VARCHAR}
+      </if>
+      <if test="receiverStaffId != null" >
+         and oi.receiver_staff_id = #{receiverStaffId, jdbcType=VARCHAR}
+      </if>
+      <if test="createDate != null" >
+         and date_format(oi.create_date, '%Y-%m-%d') = date_format(#{createDate, jdbcType=VARCHAR}, '%Y-%m-%d')
       </if>
     </trim>
     group by oi.id)a

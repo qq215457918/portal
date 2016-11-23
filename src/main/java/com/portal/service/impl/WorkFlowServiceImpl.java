@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.portal.bean.OrderInfo;
 import com.portal.dao.extra.WorkFlowDao;
 import com.portal.service.WorkFlowService;
 
@@ -182,6 +183,23 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     					.taskAssignee(userId)
     					.orderByTaskCreateTime()
     					.desc().list();
+    }
+    
+    /**
+	 * @Title: selectTaskCountById 
+	 * @Description: 获取当前人员执行任务数量
+	 * @param userId
+	 * @param defKey
+	 * @return int
+	 * @throws
+	 */
+    @Override
+    public int selectTaskCountById(String userId, String defKey) {
+    	return taskService.createTaskQuery()
+				.includeProcessVariables().includeTaskLocalVariables()
+				.taskDefinitionKey(defKey)
+				.taskAssignee(userId)
+				.list().size();
     }
     
     /**
@@ -659,5 +677,43 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     @Override
     public String selectPhoneStaffName(String[] phoneStaffIds) {
     	return workFlowDao.selectPhoneStaffName(phoneStaffIds);
+    }
+    
+    /**
+	 * @Title: selectClerkReceiveList 
+	 * @Description: 业务员每日接待信息
+	 * @param paramMap
+	 * @return 
+	 * @return List<OrderInfo>
+	 * @throws
+	 */
+    @Override
+    public List<Map<String, Object>> selectClerkReceiveList(Map<String, Object> paramMap) {
+    	return workFlowDao.selectClerkReceiveList(paramMap);
+    }
+    
+    /**
+	 * @Title: selectClerkReceiveList 
+	 * @Description: 业务员每日接待数量
+	 * @param paramMap
+	 * @return 
+	 * @return List<OrderInfo>
+	 * @throws
+	 */
+    @Override
+    public int selectClerkReceiveCount(Map<String, Object> paramMap) {
+    	return workFlowDao.selectClerkReceiveCount(paramMap);
+    }
+    
+    /**
+	 * @Title: selectTaskCountById 
+	 * @Description: 获取业务员每日的业绩列表
+	 * @param paramMap
+	 * @return List<Map<String, Object>>
+	 * @throws
+	 */
+    @Override
+    public List<Map<String, Object>> selectClerkDayList(Map<String, Object> paramMap) {
+    	return workFlowDao.selectClerkDayList(paramMap);
     }
 }

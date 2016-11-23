@@ -12,6 +12,7 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+	<input type="hidden" value="${receiverStaffId }" id="receiverStaffId"/>
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="row">
@@ -67,7 +68,7 @@
 								<div class="icon chat-bubbles"></div>
 								${result.achieveCount }
 							</div>
-							<div class="text">订单数</div>
+							<div class="text">出单数</div>
 						</div>
 					</div>
 					<div class="widget-container stats-container">
@@ -86,7 +87,7 @@
 							<div class="text">实付总金额</div>
 						</div>
 						<div class="col-md-4">
-							<div class="number">
+							<div class="number" style="font-size:1em">
 								<div class="icon icon chat-bubbles"></div>
 								${result.phoneStaffName }
 							</div>
@@ -102,27 +103,51 @@
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">
 				<div class="widget-container fluid-height clearfix">
+					<div class="heading">
+						<i class="icon-table"></i>
+						每日出单
+			        </div>
 					<div class="widget-content padded">
-						<div class="form-group">
-							<label class="control-label col-md-2 swidth">业务员</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" id="backCountS" type="text">
-				            </div>
-						</div>
-						<div class="form-group">
-							<div class="col-md-7">
-								<button class="btn btn-primary" id="searchList">搜索</button>
-							</div>
-						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="achieveExam">
+						<table class="table table-bordered" id="clerkOrderInfo">
 							<thead>
 								<th>序号</th>
-								<th>业务员编号</th>
-								<th>业务员名称</th>
-								<th>任务名称</th>
-								<th>审核人</th>
-								<th>操作</th>
+								<th>出单编号</th>
+								<th>出单商品&数量</th>
+								<th>金额</th>
+								<th>实付金额</th>
+								<th>创建日期</th>
+								<th>状态</th>
+								<th>支付类型</th>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<!-- end DataTables Example -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-shiftfix">
+		<div class="container-fluid main-content">
+			<div class="col-lg-12">
+				<div class="widget-container fluid-height clearfix">
+					<div class="heading">
+						<i class="icon-table"></i>
+						每日接待
+			        </div>
+					<div class="widget-content padded">
+						<!-- DataTables Example -->
+						<table class="table table-bordered" id="clerkReceiveInfo">
+							<thead>
+								<th>序号</th>
+								<th>客户姓名</th>
+								<th>客户电话</th>
+								<th>开始接待时间</th>
+								<th>结束接待时间</th>
+								<th>出单编号</th>
 							</thead>
 							<tbody>
 							</tbody>

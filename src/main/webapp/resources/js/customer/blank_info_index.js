@@ -7,17 +7,11 @@ $(document).ready(function(){
 	
 	$('#exportCustomer').click(function(){
 		
-		var phone = $('#phone').val();
 		var phoneStage = $('#phoneStage').val();
-		var updateDate = $('#updateDate').val();
 		var dpd1 = $('#dpd1').val();
 		var dpd2 = $('#dpd2').val();
-		var exportCount = $('#exportCount').val();
-		
-		if('' == dpd1 || '' == dpd2){
-			alert('请输入上次电联时间！');
-			return;
-		}
+		var importDate1 = $('#importDate1').val();
+		var importDate2 = $('#importDate2').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -25,12 +19,12 @@ $(document).ready(function(){
 		
 		var exportHtml = '';
 		exportHtml += '<form id="exportExcel" action="customerInfo/exportCustomer" style="display:none;">';
-		exportHtml += '<input type="hidden" name="phone" value="' + phone + '"/>'
 		exportHtml += '<input type="hidden" name="phoneStage" value="' + phoneStage + '"/>'
-		exportHtml += '<input type="hidden" name="updateDate" value="' + updateDate + '"/>'
-		exportHtml += '<input type="hidden" name="startTime" value="' + dpd1 + '"/>'
-		exportHtml += '<input type="hidden" name="endTime" value="' + dpd2 + '"/>'
-		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
+		exportHtml += '<input type="hidden" name="exportDate1" value="' + dpd1 + '"/>'
+		exportHtml += '<input type="hidden" name="exportDate2" value="' + dpd2 + '"/>'
+		exportHtml += '<input type="hidden" name="importDate1" value="' + importDate1 + '"/>'
+		exportHtml += '<input type="hidden" name="importDate2" value="' + importDate2 + '"/>'
+//		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="0"/>'
 		exportHtml += '</form>';
 		$('body').append(exportHtml);

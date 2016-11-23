@@ -14,6 +14,8 @@ public class EmployeeInfo implements Serializable {
     private String groupId;
 
     private String name;
+    
+    private String positionType;
 
     private String loginName;
 
@@ -59,7 +61,15 @@ public class EmployeeInfo implements Serializable {
         this.name = name;
     }
 
-    public String getLoginName() {
+    public String getPositionType() {
+		return positionType;
+	}
+
+	public void setPositionType(String positionType) {
+		this.positionType = positionType;
+	}
+
+	public String getLoginName() {
         return loginName;
     }
 
