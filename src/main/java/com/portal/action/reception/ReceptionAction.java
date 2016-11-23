@@ -71,10 +71,9 @@ public class ReceptionAction {
     public ModelAndView secondCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(request.getParameter("phone"));
         // receptionInfoService.insertReceptionTime("1", "1");
         String customerId = request.getParameter("id");
-        model.addObject("info", info);
+        model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
         model.addObject("revokeDeposit", orderInfoService.queryRevokeDepositInfo(customerId));

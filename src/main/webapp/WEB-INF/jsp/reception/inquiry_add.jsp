@@ -7,6 +7,14 @@
     <title>首次登陆</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
+	<script type="text/javascript" src="resources/js/reception/cityselect.js"></script>
+	<link rel="stylesheet" href="resources/css/reception/cityLayout.css" />	
+		<style>
+		.icon-star:before {
+		    content: "\f005";
+		    color: red;
+		}
+	</style>
   </head>
   <body>
   <div class="modal-shiftfix">
@@ -23,7 +31,7 @@
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="firstname">姓名</label><input class="form-control" id="firstname" name="firstname" type="text">
+                  <label for="firstname">姓名</label><i class="icon-star"></i><input class="form-control" id="firstname" name="firstname" type="text">
                 </div>
                 <div class="form-group">
                   <label>QQ</label><input class="form-control" id="qqno" name="qqno" type="text">
@@ -37,13 +45,14 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="phone">电话号码</label><input class="form-control" id="phone" name="phone" data-inputmask="'mask': ['19999999999']" type="text">
+                  <label for="phone">电话号码</label><i class="icon-star"></i><input class="form-control" id="phone" name="phone" data-inputmask="'mask': ['19999999999']" type="text">
                 </div>
+    	        <div class="form-group">
+	              <label>地址</label>
+	              <input id="address" name="address"  type="text" value="辽宁省-大连市-中山区" class="form-control city_input" readonly="readonly">
+	            </div>  
                 <div class="form-group">
-                  <label>地区</label><input class="form-control" id="area" name="area" type="text">
-                </div>
-                <div class="form-group">
-                  <label>邮件</label><input class="form-control" id="email" type="text">
+                  <label >邮件</label><input class="form-control" id="email" type="text">
                 </div>
               </div>
             </div>
@@ -57,5 +66,10 @@
   </div>
   </div>
   </div>
+   	<script>
+		$(function(){
+			init_city_select($("#address"));
+		});
+	</script>
   </body>
 </html>

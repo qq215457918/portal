@@ -898,6 +898,10 @@
       rules: {
         firstname: "required",
         lastname: "required",
+        phone: {
+	        required: true,
+	        tel: true
+        },
         username: {
           required: true,
           minlength: 2
@@ -919,7 +923,10 @@
       messages: {
         firstname: "请输入您的名称",
         lastname: "Please enter your last name",
-        phone: "请输入您的电话号码",
+        phone: {
+            required: "请输入您的电话号码",
+            minlength: "标准手机号码为11位"
+          },
         username: {
           required: "请输入用户名",
           minlength: "您的用户名必须至少包含2个字"

@@ -319,6 +319,9 @@
       <if test="area != null" >
         area,
       </if>
+      <if test="address != null" >
+        address,
+      </if>
       <if test="phone2 != null" >
         phone2,
       </if>
@@ -395,6 +398,9 @@
       </if>
       <if test="area != null" >
         #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="phone2 != null" >
         #{phone2,jdbcType=VARCHAR},
@@ -583,6 +589,9 @@
       </if>
       <if test="businessPhone != null" >
         business_phone = #{businessPhone,jdbcType=VARCHAR},
+      </if>     
+       <if test="homePhone != null" >
+        home_phone = #{homePhone,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
@@ -593,6 +602,10 @@
       <if test="area != null" >
         area = #{area,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      
       <if test="phone2 != null" >
         phone2 = #{phone2,jdbcType=VARCHAR},
       </if>

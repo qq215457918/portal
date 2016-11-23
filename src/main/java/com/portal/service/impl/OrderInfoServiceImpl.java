@@ -190,24 +190,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return orderInfoForm;
     }
 
-    Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
+    Criteria getCriteria(String customerId, int status, int orderType, int payType) {
         criteria.clear();
-        criteria.put("customer_id", customerId);
+        criteria.put("customerId", customerId);
         criteria.put("status", status);
-        criteria.put("order_type", orderType);
-        criteria.put("pay_type", payType);
-        if (todayFlag == 1)
-            criteria.put("today_flag", 1);
-        criteria.setOrderByClause("create_date");
-        criteria.setMysqlLength(5);
+        criteria.put("orderType", orderType);
+        criteria.put("payType", payType);
         criteria.put("deleteFlag", "0");
+        criteria.setOrderByClause("create_date desc");
+        criteria.setMysqlLength(5);
         return criteria;
     }
 
     /**
     * 根绝类型获取订单信息 
     *    `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
-    *     `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货',
+    *     `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品',
     *     `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付',
     *     `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
     *     `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
@@ -221,11 +219,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     * @throws IllegalAccessException
     * @throws InvocationTargetException
     */
-    List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType,
-            int isToday) {
+    List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType) {
         List<OrderInfoForm> orderInfoResult =
                 orderInfoExtraDao
-                        .selectByExample4Page(getCriteria(customerId, status, orderType, payType, isToday));
+                        .selectByExample4Page(getCriteria(customerId, status, orderType, payType));
         //把商品详情信息放入到form中
         orderInfoResult.forEach(value -> {
             value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
@@ -237,7 +234,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     List<OrderInfoForm> getOrderInfo(String customerId, int status, int orderType, int payType) {
-        return getOrderInfoByDate(customerId, status, orderType, payType, 0);
+        return getOrderInfoByDate(customerId, status, orderType, payType);
     }
 
     List<OrderInfoForm> getNormalOrderInfo(String customerId, int orderType, int payType) {
@@ -357,8 +354,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag));
-        return insertPresentDetailInfo(
-                getOrderDetailInfo(request.getParameter("goodId"), request.getParameter("count"), uuid));
+        //修改可以提交多个赠品
+        String goodStr = request.getParameter("goodId");
+        if (goodStr.substring(0, goodStr.length() - 1).indexOf(",") > 0) {
+            String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
+            for (String goodId : goodArr) {
+                insertPresentDetailInfo(
+                        getOrderDetailInfo(goodId.substring(5, goodId.length()), "1", uuid));
+            }
+        } else {
+            insertPresentDetailInfo(
+                    getOrderDetailInfo(goodStr.substring(5, goodStr.length()), "1", uuid));
+        }
+
+        return true;
     }
 
     /**
@@ -377,9 +386,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
         detailInfo.setDeleteFlag("0");
-        if (StringUtil.isNull(count)) {
+        if (StringUtil.isNull(count))
             count = "1";
-        }
         detailInfo.setAmount(Integer.parseInt(count));
         return detailInfo;
     }
@@ -408,6 +416,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String[] staff = getStaffInfo(cid);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
+        orderInfo.setPayType("0");//礼品订单都是全额支付
+        orderInfo.setDeleteFlag("0");
         orderInfo.setRemarks(request.getParameter("reason"));
         return orderInfo;
     }
@@ -436,7 +446,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * order_type='4'and create_date=now()
      */
     public List<OrderInfoForm> selectTodayPresentList(String customerId) {
-        return getOrderInfoByDate(customerId, 0, 3, 0, 1);
+        return getOrderInfoByDate(customerId, 1, 4, 0);
     }
 
     public int countByExample(Criteria example) {

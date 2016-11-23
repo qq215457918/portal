@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>修改用户信息</title>
+    <title>修改文交所信息</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
   </head>
@@ -51,7 +51,7 @@
 	           </div>
             </div>
             <input type="hidden" name="cid" id="cid" value="${cultureInfo.id}"/>
-            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
+            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交文交所信息">
             </div>
           </fieldset>
         </form>

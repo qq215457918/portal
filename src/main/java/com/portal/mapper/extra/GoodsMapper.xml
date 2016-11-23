@@ -10,6 +10,7 @@
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />  
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="trusteeship_flag" property="trusteeshipFlag" jdbcType="VARCHAR" />
     <result column="repurchase_flag" property="repurchaseFlag" jdbcType="VARCHAR" />
@@ -178,6 +179,7 @@
 	i.code as code , 
 	i.name as name , 
 	i.amount as amount , 
+	i.unit as unit , 	
 	i.price as price ,	
 	if(i.trusteeship_flag=1,"是","否") as trusteeship_flag , 
 	i.repurchase_flag as repurchase_flag , 

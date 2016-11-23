@@ -12,6 +12,13 @@ import net.sf.json.JSONObject;
 public interface CustomerInfoService {
 
     /**
+     * 通过id查询用户
+     * @param phone
+     * @return
+     */
+    public CustomerSimpleInfoForm getCutomerInfoById(String id);
+
+    /**
      * 查询客户基本信息-frist
      * @param id
      * @return
@@ -128,23 +135,23 @@ public interface CustomerInfoService {
      * @return List<CustomerInfo>
      * @throws
      */
-	public List<CustomerInfo> selectCustomerExportList(Criteria criteria);
+    public List<CustomerInfo> selectCustomerExportList(Criteria criteria);
 
-	/**
-	 * @Title: customerOrderInfoList 
-	 * @Description: 用户订单详情
-	 * @param customerId
-	 * @return void
-	 * @throws
-	 */
-	public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap);
+    /**
+     * @Title: customerOrderInfoList 
+     * @Description: 用户订单详情
+     * @param customerId
+     * @return void
+     * @throws
+     */
+    public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap);
 
-	/**
-	 * @Title: selectCustomerOrderCount 
-	 * @Description: 用户订单详情数量
-	 * @param customerId
-	 * @return void
-	 * @throws
-	 */
-	public int selectCustomerOrderCount(Map<String, Object> paramMap);
+    /**
+     * @Title: selectCustomerOrderCount 
+     * @Description: 用户订单详情数量
+     * @param customerId
+     * @return void
+     * @throws
+     */
+    public int selectCustomerOrderCount(Map<String, Object> paramMap);
 }

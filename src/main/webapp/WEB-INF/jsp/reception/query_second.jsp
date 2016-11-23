@@ -20,7 +20,7 @@
               <div class="widget-content padded">
                 <dl>
                   <dd>
-                  	<strong> 客户类型： </strong>${info.type }
+                  	<strong> 客户类型： </strong>${info.type }   ${info.id }
                   </dd>
                   <dd>
                   	 <strong>用户姓名：</strong> ${info.name } 

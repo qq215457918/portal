@@ -57,7 +57,12 @@ public class PresentAction {
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
-    @RequestMapping(value = "/today", method = RequestMethod.POST)
+    /**
+     * 查询礼品领取记录
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/record", method = RequestMethod.POST)
     public void todayPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();

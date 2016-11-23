@@ -77,7 +77,7 @@
 		$("#receiveId").click(function(){
 			var id = $('#cid').val();
 			var phone = $('#cphone').val();
-			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
+			window.location.href=base+"/visit/second?id="+id;
 		});
 		
 		// 查询功能
