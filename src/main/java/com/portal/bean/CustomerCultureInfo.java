@@ -8,6 +8,10 @@ public class CustomerCultureInfo implements Serializable {
 
     private String id;
 
+    private String cultureId;
+
+    private String idCard;
+
     private String cultureName;
 
     private Date accountDate;
@@ -16,6 +20,8 @@ public class CustomerCultureInfo implements Serializable {
      * 是否银商绑定
      */
     private String bankFlag;
+
+    private String bankName;
 
     private String customerName;
 
@@ -28,7 +34,41 @@ public class CustomerCultureInfo implements Serializable {
 
     private String updateFlag;
 
+    private String deleteFlag;
+
     private Date updateDate;
+
+    public String getBankName() {
+        return bankName;
+    }
+
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public String getCultureId() {
+        return cultureId;
+    }
+
+    public void setCultureId(String cultureId) {
+        this.cultureId = cultureId;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
+    }
+
+    public String getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(String deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
 
     public String getId() {
         return id;
@@ -63,7 +103,7 @@ public class CustomerCultureInfo implements Serializable {
 
     /**
      * @param bankFlag 
-	 *            是否银商绑定
+     *            是否银商绑定
      */
     public void setBankFlag(String bankFlag) {
         this.bankFlag = bankFlag;
@@ -94,7 +134,7 @@ public class CustomerCultureInfo implements Serializable {
 
     /**
      * @param code 
-	 *            会员代码
+     *            会员代码
      */
     public void setCode(String code) {
         this.code = code;

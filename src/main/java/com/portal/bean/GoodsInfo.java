@@ -39,6 +39,8 @@ public class GoodsInfo implements Serializable {
      */
     private Integer amount;
 
+    private String unit;
+
     /**
      * 是否可托管
      */
@@ -88,6 +90,14 @@ public class GoodsInfo implements Serializable {
      * 删除标志 0正常 1删除
      */
     private String deleteFlag;
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public Long getPrice() {
         return price;

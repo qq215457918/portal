@@ -47,6 +47,7 @@ public class DepositAction {
         getBasePath(request, response);
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
+        model.addObject("cId", request.getParameter("cId"));
         model.setViewName("reception/order_deposit");
         return model;
     }

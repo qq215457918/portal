@@ -25,22 +25,23 @@
         </div>
         <div class="container-fluid main-nav clearfix">
   			<input type="hidden" id="active" name="active" value="${active}" />
+  			<input type="hidden" id="cId" name="cId" value="${cId}" />
           <!--menu start-->
           <div class="nav-collapse">
             <ul class="nav">
               <li>
-                <a name="tab" href="${base}visit/query?active=1"> <span aria-hidden="true" class="icon-user"></span>客户登陆</a>
+                <a name="tab" href="${base}visit/second?active=1&cId=${cId}"> <span aria-hidden="true" class="icon-user"></span>客户概览</a>
               </li>
-              <li><a name="tab" href="${base}order/init?active=2">
+              <li><a name="tab" href="${base}order/init?active=2&cId=${cId}">
                 <span aria-hidden="true" class="icon-book"></span>购买商品</a>
               </li>
-              <li><a name="tab" href="${base}deposit/init?active=3"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
+              <li><a name="tab" href="${base}deposit/init?active=3&cId=${cId}"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
               </li>
-              <li><a name="tab" href="${base}deposit/init?active=4"><span aria-hidden="true" class="se7en-pages"></span>回购记录</a>
+              <li><a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><span aria-hidden="true" class="icon-retweet "></span>回购记录</a>
               </li>
-              <li><a name="tab" href="${base}order/manage/init?active=5"><span aria-hidden="true" class="icon-retweet"></span>退换货管理</a>
+              <li><a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><span aria-hidden="true" class="icon-file-text"></span>定单管理</a>
               </li>
-              <li><a name="tab" href="${base}present/list?active=6"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              <li><a name="tab" href="${base}present/list?active=6&cId=${cId}"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
               </li>
               <li>
                 <a data-toggle="modal" href="#myModal"><span aria-hidden="true" class="icon-signin"></span>结束接待 </a>
@@ -76,8 +77,8 @@
 				base = $("base").attr('href');
 				// 查询功能
 				$("#quitConfirm").click(function(){
-					var id = "1";
-					window.location.href=base+"/visit/quit?id="+id;
+					var cId = $("#cId");
+					window.location.href=base+"/visit/quit?cId="+cId;
 				});
 				showTab();
 			});

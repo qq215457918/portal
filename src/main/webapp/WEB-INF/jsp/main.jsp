@@ -14,7 +14,7 @@
 		  <div class="col-lg-12">
             <ul class="breadcrumb">
               <li>
-                <i class="icon-home"> 欢迎使用本系统，祝您工作愉快  ^ ^ </i>
+                <i class="icon-home"> 你好： <%=session.getAttribute("userName")%> , 欢迎使用本系统，祝您工作愉快  ^ ^ </i>
               </li>
             </ul>
           </div>

@@ -20,7 +20,7 @@
               <div class="widget-content padded">
                 <dl>
                   <dd>
-                  	<strong> 客户类型： </strong>${info.type }
+                  	<strong> 客户类型： </strong>${info.type }   ${info.id }
                   </dd>
                   <dd>
                   	 <strong>用户姓名：</strong> ${info.name } 
@@ -280,11 +280,11 @@
 		// 修改基本信息
 		$("#modifyInfo").click(function(){
 			var id = $('#cid').val();
-			window.location.href = base+"/customer/modify/basic?id="+id;
+			window.location.href = base+"/customer/modify/basic?cId="+id;
 		});
 		$("#modifyExchange").click(function(){
 			var id = $('#cid').val();
-			window.location.href = base+"/customer/modify/exchange?id="+id;
+			window.location.href = base+"/customer/modify/exchange?cId="+id;
 		});
 	});
 	</script>

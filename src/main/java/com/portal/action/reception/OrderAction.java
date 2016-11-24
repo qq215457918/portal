@@ -9,13 +9,11 @@ import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderInfoService;
-import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +52,7 @@ public class OrderAction {
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/purchase_goods");
+        model.addObject("cId", request.getParameter("cId"));
         model.addObject("submitFlag", request.getParameter("submitFlag"));
         return model;
     }
@@ -150,12 +149,12 @@ public class OrderAction {
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("customerName", request.getParameter("customerName"));
         criteria.put("orderType", request.getParameter("orderType"));
-//        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
+        //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
         criteria.put("userId", userId);
-		if(StringUtils.isNotBlank(userId)){
-			criteria.put("financeFlag", "-1");
-		}
+        if (StringUtils.isNotBlank(userId)) {
+            criteria.put("financeFlag", "-1");
+        }
 
         List<OrderInfo> resultList = orderInfoService.selectOrderModifyList(criteria);
 
@@ -186,12 +185,12 @@ public class OrderAction {
 
         return "redirect:orderModifyIndex";
     }
-    
+
     @RequestMapping("updateOrderInfo")
-    public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response){
-    	OrderInfo orderInfo = new OrderInfo();
-    	orderInfo.setWarehouseFlag(request.getParameter("opt"));
-    	orderInfo.setId(request.getParameter("orderId"));
-    	orderInfoService.updateByPrimaryKeySelective(orderInfo);
+    public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response) {
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setWarehouseFlag(request.getParameter("opt"));
+        orderInfo.setId(request.getParameter("orderId"));
+        orderInfoService.updateByPrimaryKeySelective(orderInfo);
     }
 }

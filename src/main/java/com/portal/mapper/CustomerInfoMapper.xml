@@ -319,6 +319,9 @@
       <if test="area != null" >
         area,
       </if>
+      <if test="address != null" >
+        address,
+      </if>
       <if test="phone2 != null" >
         phone2,
       </if>
@@ -395,6 +398,9 @@
       </if>
       <if test="area != null" >
         #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
       </if>
       <if test="phone2 != null" >
         #{phone2,jdbcType=VARCHAR},
@@ -583,6 +589,9 @@
       </if>
       <if test="businessPhone != null" >
         business_phone = #{businessPhone,jdbcType=VARCHAR},
+      </if>     
+       <if test="homePhone != null" >
+        home_phone = #{homePhone,jdbcType=VARCHAR},
       </if>
       <if test="phone != null" >
         phone = #{phone,jdbcType=VARCHAR},
@@ -593,6 +602,10 @@
       <if test="area != null" >
         area = #{area,jdbcType=VARCHAR},
       </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      
       <if test="phone2 != null" >
         phone2 = #{phone2,jdbcType=VARCHAR},
       </if>
@@ -738,14 +751,17 @@
     </if>
   </select>
   
-  <select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT type, season2, season3, season4, name,  eip.name phone_staff_name, eir.name receiver_staff_name,
-		bussiness_phone, phone, visit_date, area, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount
+<select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
+  	SELECT type, season2, season3, season4, ci.name,  eip.name phone_staff_name, eir.name receiver_staff_name,
+		business_phone, phone, visit_date, area, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount
 	FROM `customer_info` ci 
 	left join employee_info eip on ci.phone_staff_id = eip.id
 	left join employee_info eir on ci.phone_staff_id = eir.id
 	<if test="_parameter != null" >
       <trim prefix="where" prefixOverrides="and|or" >
+      	<if test="condition.type != null" >
+		   and type = #{condition.type,jdbcType=VARCHAR}
+		</if>
 		<!-- 号码段条件 -->
 		<if test="condition.phoneStage != null" >
 		   and left(phone, length(#{condition.phoneStage,jdbcType=VARCHAR})) = #{condition.phoneStage,jdbcType=VARCHAR}

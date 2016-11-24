@@ -64,6 +64,5 @@
 		<table tableName="storehouse_operate_info"></table>
 		<table tableName="exchange_operate_info"></table>
 		<table tableName="butt_perfor_detail_info"></table> -->
-		
 	</context>
 </generatorConfiguration>

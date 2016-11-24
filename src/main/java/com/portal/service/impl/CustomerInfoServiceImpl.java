@@ -65,15 +65,32 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         return selectByPhone(phone) == null ? false : true;
     }
 
+    /**
+     * 根据id 查询用户信息
+     * @param id
+     * @return
+     */
+    public CustomerSimpleInfoForm getCutomerInfoById(String id) {
+        CustomerInfo cInfo = selectByPrimaryKey(id);
+        return getSimpleInfoForm(cInfo);
+    }
+
+    //根据电话号码查询ID信息
     public CustomerSimpleInfoForm getFristQueryInfo(String phone) {
-        CustomerSimpleInfoForm cSimpleForm = new CustomerSimpleInfoForm();
         CustomerInfo cInfo = selectByPhone(phone);
+        return getSimpleInfoForm(cInfo);
+    }
+
+    //转为页面显示的 customerForm
+    CustomerSimpleInfoForm getSimpleInfoForm(CustomerInfo cInfo) {
+        CustomerSimpleInfoForm cSimpleForm = new CustomerSimpleInfoForm();
         cSimpleForm.setId(cInfo.getId());
         cSimpleForm.setName(cInfo.getName());
         cSimpleForm.setPhone(cInfo.getPhone());
         cSimpleForm.setEncryptPhone(StringUtil.encryptPhone(cInfo.getPhone()));
         cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
         //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
+        String cType = cInfo.getType();
         cSimpleForm.setType(CustomerType.getName(Integer.parseInt(cInfo.getType())));
         cSimpleForm.setRelationId(cInfo.getRelationId());
         if (!StringUtils.isEmpty(cInfo.getPhoneStaffId())) {
@@ -101,10 +118,14 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         Optional.ofNullable(request.getParameter("phone2")).ifPresent(value -> cInfo.setPhone2(value));
         Optional.ofNullable(request.getParameter("relationId")).ifPresent(value -> cInfo.setRelationId(value));
         Optional.ofNullable(request.getParameter("homePhone")).ifPresent(value -> cInfo.setHomePhone(value));
-        Optional.ofNullable(request.getParameter("msn")).ifPresent(value -> cInfo.setMsn(value));
-        Optional.ofNullable(request.getParameter("site")).ifPresent(value -> cInfo.setSite(value));
         Optional.ofNullable(request.getParameter("idCard")).ifPresent(value -> cInfo.setIdCard(value));
-
+        Optional.ofNullable(request.getParameter("area")).ifPresent(value -> cInfo.setArea(value));
+        Optional.ofNullable(request.getParameter("blacklistFlag"))
+                .ifPresent(value -> cInfo.setBlacklistFlag(value == "on" ? "1" : "0"));
+        Optional.ofNullable(request.getParameter("sex")).ifPresent(value -> cInfo.setSex(value));
+        Optional.ofNullable(request.getParameter("birthday"))
+                .ifPresent(value -> cInfo.setBirthday(DateUtil.parseDate(value, DateUtil.DATE_FMT_YYYY_MM_DD)));
+        Optional.ofNullable(request.getParameter("address")).ifPresent(value -> cInfo.setAddress(value));
         return updateByPrimaryKeySelective(cInfo);
     }
 
@@ -117,13 +138,15 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         String phone = request.getParameter("phone");
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setId(UUidUtil.getUUId());
+        cInfo.setType("0");
         cInfo.setName(request.getParameter("firstname"));
         cInfo.setQq(request.getParameter("qqno"));
         cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));
-        ;
         cInfo.setPhone(phone);
+        cInfo.setAddress(request.getParameter("address"));
         cInfo.setArea(request.getParameter("area"));
         cInfo.setSite(request.getParameter("email"));
+        cInfo.setRecentVisitDate(new Date());
         insertSelective(cInfo);
         return getFristQueryInfo(phone);
 

@@ -9,6 +9,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="trusteeship_flag" property="trusteeshipFlag" jdbcType="VARCHAR" />
     <result column="repurchase_flag" property="repurchaseFlag" jdbcType="VARCHAR" />
     <result column="repurchase_info" property="repurchaseInfo" jdbcType="VARCHAR" />
@@ -122,7 +123,7 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, sort_id, type, code, name, amount, trusteeship_flag, repurchase_flag, repurchase_info, 
+    id, sort_id, type, code, name, amount,unit, trusteeship_flag, repurchase_flag, repurchase_info, 
     repurchase_starttime, repurchase_endtime, create_date, update_date, create_userid, 
     update_userid, delete_flag
   </sql>

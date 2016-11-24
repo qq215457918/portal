@@ -3,13 +3,17 @@
 <mapper namespace="com.portal.dao.CustomerCultureInfoDao" >
   <resultMap id="BaseResultMap" type="com.portal.bean.CustomerCultureInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="culture_id" property="cultureId" jdbcType="VARCHAR" />    
     <result column="culture_name" property="cultureName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />    
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />  
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />       
     <result column="account_date" property="accountDate" jdbcType="TIMESTAMP" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
     <result column="bank_flag" property="bankFlag" jdbcType="VARCHAR" />
-    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
-    <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="code" property="code" jdbcType="VARCHAR" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />    
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -37,6 +41,9 @@
       </if>
       <if test="condition.updateDate != null" >
          and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -69,8 +76,8 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, culture_name, account_date, bank_flag, customer_name, phone, code, update_flag, 
-    update_date
+    id, customer_id, culture_name,id_card,account_date, bank_name,bank_flag,bank_name, customer_name, phone, code, update_flag, delete_flag
+    ,update_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -128,6 +135,9 @@
       <if test="bankFlag != null" >
         bank_flag,
       </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
       <if test="customerName != null" >
         customer_name,
       </if>
@@ -156,6 +166,9 @@
       </if>
       <if test="bankFlag != null" >
         #{bankFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
       </if>
       <if test="customerName != null" >
         #{customerName,jdbcType=VARCHAR},
@@ -195,6 +208,9 @@
       <if test="record.bankFlag != null" >
         bank_flag = #{record.bankFlag,jdbcType=VARCHAR},
       </if>
+         <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>   
       <if test="record.customerName != null" >
         customer_name = #{record.customerName,jdbcType=VARCHAR},
       </if>
@@ -242,6 +258,9 @@
       <if test="bankFlag != null" >
         bank_flag = #{bankFlag,jdbcType=VARCHAR},
       </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>      
       <if test="customerName != null" >
         customer_name = #{customerName,jdbcType=VARCHAR},
       </if>

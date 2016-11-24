@@ -61,12 +61,13 @@ function initGoodsData(){
 		            {"mData": "code"},
 		            {"mData": "name"},
 		            {"mData": "price"},             
-		            {"mData": "amount"},            
+		            {"mData": "amount"},       
+		            {"mData": "unit"},    
 					{"mData": "trusteeshipFlag"}
 		           ],
 	       "columnDefs": [
 				{
-					"targets": [6],
+					"targets": [7],
 					"data": "id",
 					"render": function(data, type, full) {
 						return "<button class='btn btn-xs btn-warning' id='addId"+data+"' onclick='addGoods("+data+");'>  购  买   </button>";
@@ -140,6 +141,8 @@ function getModalContent(type){
 				item+="<td>"+goodsForm.code+"</td>";
 				item+="<td>"+goodsForm.name+"</td>";
 				item+="<td>"+goodsForm.price+"</td>";
+				item+="<td>"+goodsForm.unit+"</td>";
+				item+="<td>"+goodsForm.amount+"</td>";
 				item+="<td><label class='checkbox-inline' style='padding-top:0px;margin-right:0px'><input type='checkbox' name='row_checkbox' id=check"+goodsForm.id+"><span></span></label></td></tr>";
 			});
 			$('#modal-data').append(item);
@@ -157,7 +160,7 @@ function addOtherGoods(){
 	if($('input[name="row_checkbox"]').prop('checked')==true){
 		$("input[name=row_checkbox]:checked").each(function(){ 
 		    var id = $(this).attr("id");
-		    addGoodsDiv(id.substr(5,id.length), $(this).parent().parent().prev().prev().html(),$(this).parent().parent().prev().prev().prev().html());
+		    addGoodsDiv(id.substr(5,id.length), $(this).parent().parent().prev().prev().prev().prev().html(),$(this).parent().parent().prev().prev().prev().html());
 		}); 
 		
 		$('#myGoods').modal('hide');
@@ -184,7 +187,9 @@ function gotoAccount(){
 		var jsonData = {"id":id, "name":name.substr(5,name.length),"price":price, "amount":amount}
 		result[i] = jsonData;
 	});
-	window.location.href=base+"/order/account?goodInfo="+JSON.stringify(result);
+	var goodInfoJson = JSON.stringify(result);
+	alert(goodInfoJson)
+	window.location.href=base+"/order/account?goodInfo="+goodInfoJson;
 }
 
 //新增内存
@@ -205,7 +210,7 @@ function clearSession(key){
 //添加购物车
 function addGoods(id) {
 	addSession (id, id);
-	addGoodsDiv(id,$("#addId"+id).parent().prev().prev().prev().prev().html(),$("#addId"+id).parent().prev().prev().prev().prev().prev().html());
+	addGoodsDiv(id,$("#addId"+id).parent().prev().prev().prev().prev().prev().html(),$("#addId"+id).parent().prev().prev().prev().prev().html());
 }
 
 //修改页面内容

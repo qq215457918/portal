@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.common.util.JsonUtils;
+import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.WorkFlowService;
@@ -45,6 +47,9 @@ public class WorkFlowAction {
 	
 	@Autowired
 	private OrderInfoService orderInfoService;
+	
+	@Autowired
+	private EmployeeInfoService employeeInfoService;
 	
 	@Autowired
 	private OrderDetailInfoService orderDetailInfoService;
@@ -69,7 +74,27 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("/achieveExamList")
-	public String achieveExamList(){
+	public String achieveExamList(HttpServletRequest request, HttpServletResponse response){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
+		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
+		
+		Criteria criteria = new Criteria();
+		criteria.put("positionType", 2);
+		int employeeCount = employeeInfoService.countByExample(criteria);
+		
+//		String userId = request.getSession().getAttribute("user").toString();
+		String userId = "1";
+		String defKey = request.getParameter("defKey");
+		int hadCommit = workFlowService.selectTaskCountById(userId, defKey);
+		
+		result.put("commitCount", hadCommit + "/" + employeeCount);
+		
+		request.setAttribute("id", request.getParameter("id"));
+		request.setAttribute("result", result);
+		
 		return "flow/achieve_exam_list";
 	}
 	
@@ -224,6 +249,7 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("/selectTaskListById")
 	public void selectTaskListById(HttpServletRequest request, HttpServletResponse response){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		//获取当前用户id
 //		String userId = request.getSession().getAttribute("user").toString();
 		String userId = "1";
@@ -231,27 +257,23 @@ public class WorkFlowAction {
 		
 		List<Task> list = workFlowService.selectTaskListById(userId, defKey);
 		
-		JSONArray result = new JSONArray();
-		JSONObject temp = new JSONObject();
-		if("1".equals(request.getParameter("temp"))){
-			temp.put("clerkId", "233");
-			temp.put("clerkName", "萧萧");
-			temp.put("name", "每日业绩审核");
-			temp.put("assignee", "部门经理:小冷");
-		}else {
-			temp.put("clerkId", "254");
-			temp.put("clerkName", "萧萧");
-			temp.put("name", "每日业绩审核");
-			temp.put("assignee", "副经理:小雨");
-		}
+		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
-		result.add(temp);
+		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
+		
+		List<String> list1 = new ArrayList<String>();
+		list1.add("233");
+		list1.add("1");
+		paramMap.put("userList", list1);
+		
+		List<Map<String, Object>> result = workFlowService.selectClerkDayList(paramMap);
+		
 		try {
 			JSONObject resultJson =  new JSONObject();
 			resultJson.put("sEcho", request.getParameter("sEcho"));
 			resultJson.put("iTotalRecords", 0);
 			resultJson.put("iTotalDisplayRecords", 0);
-			resultJson.put("aaData", result.toString());
+			resultJson.put("aaData", JSONArray.fromObject(result).toString());
 			response.setContentType("text/json;charset=UTF-8");
 			response.getWriter().print(JSONObject.fromObject(resultJson).toString());
 		} catch (IOException e) {
@@ -273,19 +295,18 @@ public class WorkFlowAction {
 	public String clerkEverydayAchievenment(HttpServletRequest request, HttpServletResponse response){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
+		String employeeId = request.getParameter("employeeId");
+		
+//		String userId = null==employeeId?((EmployeeInfo)request.getSession().getAttribute("user")).getId():employeeId;
+		String userId = null==employeeId?"233":employeeId;
+		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-//		paramMap.put("userId", ((EmployeeInfo)request.getSession().getAttribute("user")).getId());
 		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
-		paramMap.put("userId", 233);
+		paramMap.put("userId", userId);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
-		if(null != result && null != result.get("phoneStaffId") && !"".equals(result.get("phoneStaffId"))){
-			String[] phoneStaffIds = ((String)result.get("phoneStaffId")).split(",");
-			String phoneStaffName = workFlowService.selectPhoneStaffName(phoneStaffIds);
-			result.put("phoneStaffName", phoneStaffName);
-		}
-		
 		request.setAttribute("id", request.getParameter("id"));
+		request.setAttribute("receiverStaffId", userId);
 		request.setAttribute("result", result);
 		
 		return "flow/clerk_everyday_achievement";
@@ -523,5 +544,31 @@ public class WorkFlowAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @Title: clerkReceiveInfo 
+	 * @Description: 业务员每日接待信息
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("clerkReceiveInfo")
+	public void clerkReceiveInfo(HttpServletRequest request, HttpServletResponse response){
+		String receiverStaffId = request.getParameter("receiverStaffId");
+		String createDate = request.getParameter("createDate");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
+		paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
+		paramMap.put("createDate", createDate);
+		paramMap.put("receiverStaffId", receiverStaffId);
+		
+		List<Map<String, Object>> resultList = workFlowService.selectClerkReceiveList(paramMap);
+		
+		int count = workFlowService.selectClerkReceiveCount(paramMap);
+		
+		JsonUtils.resultJson(resultList, count, response, request);
 	}
 }
