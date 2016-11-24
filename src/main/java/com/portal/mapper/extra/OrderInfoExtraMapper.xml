@@ -115,6 +115,10 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <!-- 获取客户的回购信息   5待审批  6回购待确认-->
+      <if test="condition.repurchaseFlag != null" >
+         and status in ('5','6')
+      </if>
       
       <if test="condition.lprice != null" >
       	 <![CDATA[and actual_price >= #{condition.lprice,jdbcType=TIMESTAMP}]]>
@@ -148,7 +152,6 @@
     culture_operator_id, culture_date, create_date, create_id, update_date, update_id, 
     delete_flag
   </sql>
-
   
     <select id="selectByExample4Page" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
 	    select

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.CultureInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.CultureInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.name != null" >
+         and name = #{condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.desc != null" >
+         and desc = #{condition.desc,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.name != null" >
+         and name = #{example.condition.name,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.desc != null" >
+         and desc = #{example.condition.desc,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.deleteFlag != null" >
+         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, desc, create_date, delete_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from culture_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from culture_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.CultureInfo" >
+    insert into culture_info (id, name, desc, 
+      create_date, delete_flag)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{desc,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.CultureInfo" >
+    insert into culture_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="desc != null" >
+        desc,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from culture_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update culture_info
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.desc != null" >
+        desc = #{record.desc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update culture_info
+    set id = #{record.id,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      desc = #{record.desc,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.CultureInfo" >
+    update culture_info
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="desc != null" >
+        desc = #{desc,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.CultureInfo" >
+    update culture_info
+    set name = #{name,jdbcType=VARCHAR},
+      desc = #{desc,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

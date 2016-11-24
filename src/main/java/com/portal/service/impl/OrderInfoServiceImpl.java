@@ -60,6 +60,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
 
     /**
+     * 确认客户登门之后：
+     * 修改回购订单状态，并为库房发送一条待审核的信息。
+     * @param request
+     * @return
+     */
+    public int updateRepurchaseOrder(HttpServletRequest request) {
+        OrderInfo record = new OrderInfo();
+        record.setId(request.getParameter("orderId"));
+        record.setStatus("0");// 6 回购待确认 ->1 未支付
+        return updateByPrimaryKeySelective(record);
+    }
+
+    /**
      * 修改订单为换货订单
      * @return
      */

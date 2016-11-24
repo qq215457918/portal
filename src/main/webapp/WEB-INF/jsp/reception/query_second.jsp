@@ -280,11 +280,11 @@
 		// 修改基本信息
 		$("#modifyInfo").click(function(){
 			var id = $('#cid').val();
-			window.location.href = base+"/customer/modify/basic?id="+id;
+			window.location.href = base+"/customer/modify/basic?cId="+id;
 		});
 		$("#modifyExchange").click(function(){
 			var id = $('#cid').val();
-			window.location.href = base+"/customer/modify/exchange?id="+id;
+			window.location.href = base+"/customer/modify/exchange?cId="+id;
 		});
 	});
 	</script>

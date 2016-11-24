@@ -52,6 +52,7 @@ public class OrderAction {
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/purchase_goods");
+        model.addObject("cId", request.getParameter("cId"));
         model.addObject("submitFlag", request.getParameter("submitFlag"));
         return model;
     }

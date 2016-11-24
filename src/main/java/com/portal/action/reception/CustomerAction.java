@@ -5,8 +5,6 @@ import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/customer/modify")
 public class CustomerAction {
-    private final Logger logger = LoggerFactory.getLogger(CustomerAction.class);
 
     @Autowired
     protected CustomerInfoService customerInfoService;
@@ -32,11 +29,11 @@ public class CustomerAction {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/basic")
+    @RequestMapping(value = "basic")
     public ModelAndView modifyCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("id")));
+        model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("cId")));
         model.setViewName("reception/customer_modify");
         return model;
     }
@@ -47,12 +44,12 @@ public class CustomerAction {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/basic/save")
+    @RequestMapping(value = "basic/save")
     public String saveCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         customerInfoService.updateCustomer(request);
-        return "redirect:/visit/second?phone=" + request.getParameter("phone") + "&id="
-                + request.getParameter("cid");
+        return "redirect:/visit/second?cId="
+                + request.getParameter("cId");
     }
 
     /**
@@ -60,12 +57,13 @@ public class CustomerAction {
      * @param request
      * @param response
      */
-    @RequestMapping("/exchange")
+    @RequestMapping("exchange")
     public ModelAndView modifyExchange(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
 
         ModelAndView model = new ModelAndView();
-        model.addObject("cultureInfo", cultureInfoService.selectByPrimaryKey(request.getParameter("id")));
+        model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("cId")));
+        model.addObject("cultureInfo", cultureInfoService.selectByPrimaryKey(request.getParameter("cId")));
         model.setViewName("reception/culture_modify");
         return model;
     }
@@ -76,7 +74,7 @@ public class CustomerAction {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/exchange/save")
+    @RequestMapping(value = "exchange/save")
     public String saveExchange(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         cultureInfoService.updateCulture(request);

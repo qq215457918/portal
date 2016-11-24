@@ -31,11 +31,11 @@
             <div class="row">
               <div class="col-md-6">
 	                <div class="form-group">
-	                  <label for="firstname">姓名  </label><i class="icon-star"></i>
+	                  <label for="firstname">姓名  &nbsp;</label><i class="icon-star"></i>
 	                  <input class="form-control" id="firstname" name="firstname" type="text" value=${customerInfo.name}>
 	                </div>
 	               <div class="form-group">
-	                  <label for="phone">手机  </label><i class="icon-star"></i>
+	                  <label for="phone">手机  &nbsp;</label><i class="icon-star"></i>
 	                  <input class="form-control" id="phone" name="phone" type="text" data-inputmask="'mask': ['19999999999']" value=${customerInfo.phone} >
 	                </div>
 	               <div class="form-group">
@@ -93,7 +93,7 @@
 			        </div>     		
 	           </div>
             </div>
-            <input type="hidden" name="cid" id="cid" value="${customerInfo.id }"/>
+            <input type="hidden" name="cId" id="cId" value="${customerInfo.id }"/>
             <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
             </div>
           </fieldset>

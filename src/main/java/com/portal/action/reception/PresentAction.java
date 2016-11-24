@@ -40,6 +40,7 @@ public class PresentAction {
         ModelAndView model = new ModelAndView();
         List<GoodsInfo> goodsInfoList = goodsInfoService.selectPresentInfo(request);
         model.setViewName("reception/present_info");
+        model.addObject("cId", request.getParameter("cId"));
         model.addObject("goodsInfoList", goodsInfoList);
         return model;
     }

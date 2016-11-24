@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
     <title>首次登陆</title>
     <base href="${basePath}">
-	<jsp:include page="head.jsp" />
+	<%-- <jsp:include page="head.jsp" /> --%>
   </head>
   <body>
     <div class="modal-shiftfix">
@@ -75,9 +75,9 @@
 		base = $("base").attr('href');
 		// 查询功能
 		$("#receiveId").click(function(){
-			var id = $('#cid').val();
+			var cid = $('#cid').val();
 			var phone = $('#cphone').val();
-			window.location.href=base+"/visit/second?id="+id;
+			window.location.href=base+"/visit/second?active=1&cId="+cid;
 		});
 		
 		// 查询功能
