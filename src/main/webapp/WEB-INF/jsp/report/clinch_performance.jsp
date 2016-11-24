@@ -27,20 +27,32 @@
           </div>
         </div>
         <div class="condition fl">
+          <div class="condition-label fl">
+            <label class="control-label col-md-2" style="width: 100%;">至</label>
+          </div>
+          <div class="condition-control fl">
+            <div class="col-md-3" style="width: 100%;">
+              <div class="input-group date datepicker">
+                <input class="form-control" type="text" id="endDate" value="${endDate }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+              </div>
+	        </div>
+          </div>
+        </div>
+        <div class="condition fl">
           <button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
-          <label class="control-label col-md-2" style="color: red; font-size: 12px; width: 65%;">查询选中日期所属周的数据</label>
+          <%-- <label class="control-label col-md-2" style="color: red; font-size: 12px; width: 65%;">查询选中日期所属周的数据</label> --%>
         </div>
 	  </div>
 	  <div style="clear: both;"></div>
 	  
-	  <div class="container fl">
-	  	<!-- 大连客户数量 -->
-	  	<div id="dlContainer" style="width: 400px; height: 400px;"></div>
+	  <div class="container" style="width: 75%;">
+	  	<!-- 大连每日成交业绩 -->
+	  	<div id="dlContainer" style="width: 1000px; height: 600px;"></div>
 	  </div>
 	  
-	  <div class="container fl">
-	  	<!-- 沈阳客户数量 -->
-	 	<div id="syContainer" style="width: 400px; height: 400px;"></div>
+	  <div class="container" style="width: 75%;">
+	  	<!-- 沈阳每日成交业绩 -->
+	 	<div id="syContainer" style="width: 1000px; height: 600px;"></div>
 	  </div>
 	</div>
   </div>

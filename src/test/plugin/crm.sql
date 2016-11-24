@@ -87,6 +87,7 @@ CREATE TABLE `employee_info` (
   `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
   `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
   `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
+  `position_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '职位类型 1-客服 2-业务员',
   `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
   `password` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录密码',
   `reception_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '接待标示(0未接待 1 正在接待)',

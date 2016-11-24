@@ -3,7 +3,6 @@ package com.portal.dao.extra;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portal.bean.Criteria;
@@ -22,14 +21,13 @@ public interface VisitEverydayInfoExtDao {
     Map<String, Integer> getVisitCounts(Criteria example);
     
     /**
-     * @Title: getWeekVisitCounts 
-     * @Description: 获取指定日期中每日登门客户数量
-     * @param startVisitDate    开始日期
-     * @param customerArea  客户所属区域
-     * @return Map<String,Object>
+     * @Title: getDayAndVisitCounts 
+     * @Description: 获取日期对应的登门数量Map
+     * @param example
+     * @return List<VisitEverydayInfoForm>
      * @throws
      */
-    Map<String, Object> getWeekVisitCounts(@Param(value="startVisitDate") String startVisitDate, @Param(value="customerArea") String customerArea);
+    List<VisitEverydayInfoForm> getDayAndVisitCounts(Criteria example);
     
     /**
      * 根据条件查询记录总数

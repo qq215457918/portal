@@ -53,14 +53,6 @@ public class ReceptionInfoForm implements Serializable {
      */
     private String birthday;
 
-    public String getPresentName() {
-        return presentName;
-    }
-
-    public void setPresentName(String presentName) {
-        this.presentName = presentName;
-    }
-
     /**
      * 报表-登门出单统计中-客户地址
      */
@@ -75,7 +67,21 @@ public class ReceptionInfoForm implements Serializable {
      * 报表-登门出单统计中-出单数量
      */
     private String orderCount;
+    
+    /**
+     * 报表-共接待时长
+     */
+    private String totalTime;
 
+    
+    public String getPresentName() {
+        return presentName;
+    }
+
+    public void setPresentName(String presentName) {
+        this.presentName = presentName;
+    }
+    
     public String getOrderId() {
         return orderId;
     }
@@ -248,6 +254,14 @@ public class ReceptionInfoForm implements Serializable {
 
     public void setOrderCount(String orderCount) {
         this.orderCount = orderCount;
+    }
+    
+    public String getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(String totalTime) {
+        this.totalTime = totalTime;
     }
 
 }

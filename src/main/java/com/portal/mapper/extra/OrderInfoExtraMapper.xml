@@ -30,6 +30,7 @@
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="DECIMAL" />
   </resultMap>
   
   <resultMap id="FormResultMap" type="com.portal.bean.result.OrderInfoForm" >
@@ -122,7 +123,6 @@
       <if test="condition.hprice != null" >
       	 <![CDATA[and actual_price <= #{condition.hprice,jdbcType=TIMESTAMP}]]>
       </if>
-      
       <if test="condition.startDate != null" >
       	 <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>
@@ -137,6 +137,12 @@
       </if>
       <if test="condition.positionType != null" >
          and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startDate2 != null" >
+      	 <![CDATA[and DATE_FORMAT(o.create_date, '%Y%m%d') >= REPLACE(#{condition.startDate2,jdbcType=TIMESTAMP},'-','')]]>
+      </if>
+      <if test="condition.endDate2 != null" >
+      	 <![CDATA[and DATE_FORMAT(o.create_date, '%Y%m%d') <= REPLACE(#{condition.endDate2,jdbcType=TIMESTAMP},'-','')]]>
       </if>
     </trim>
   </sql>
@@ -182,23 +188,38 @@
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '1' and o.status = '4' or o.pay_type = '1') as dl_amounts,
+			and c.area = '1' and (o.status = '4' or o.pay_type = '1')) as dl_amounts,
 		(select sum(o.actual_price) 
 			from order_info o
 			left join customer_info c on o.customer_id = c.id
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '0' and o.status = '4' or o.pay_type = '1') as sy_amounts
+			and c.area = '0' and (o.status = '4' or o.pay_type = '1')) as sy_amounts
 	from order_info o
 	left join customer_info c on o.customer_id = c.id
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-	and o.status = '4' or o.pay_type = '1'
+	and (o.status = '4' or o.pay_type = '1')
   </select>
   
-  <!-- 获取星期（周）对应的业绩 -->
+  <!-- 获取每日业绩统计线形图数据 -->
+  <select id="getDayAndPerfors" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
+  	select 
+		DATE_FORMAT(o.create_date, '%Y-%m-%d') as create_date,
+		sum(o.actual_price) as performance
+	from order_info o 
+	left join customer_info c on o.customer_id = c.id
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	and (o.status = '4' or o.pay_type = '1')
+	group by DATE_FORMAT(o.create_date, '%Y%m%d')
+	ORDER BY o.create_date
+  </select>
+  
+  <!-- 获取星期（周）对应的业绩 原获取每日业绩方法
   <select id="getWeekClinchPerfors" parameterType="java.lang.String" resultType="java.util.Map">
   	select distinct
   		(select DATE_ADD(#{startDate},INTERVAL +0 day)) as Monday_Day,
@@ -217,7 +238,7 @@
 		(select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.create_date like CONCAT("%", DATE_ADD(#{startDate},INTERVAL +6 day), "%") and c.area = #{area} and o.status = '4' or o.pay_type = '1') as Sunday
 	from order_info
   </select>
-  
+  -->
   <!-- 根据条件查询员工名称按照员工名称分组 -->
   <select id="getEmployeeInfos" parameterType="com.portal.bean.Criteria" resultType="java.lang.String">
   	select e.`name` from employee_info e 

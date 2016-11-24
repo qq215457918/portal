@@ -24,6 +24,7 @@
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="vip_card" property="vipCard" jdbcType="VARCHAR" />
     <result column="order_count" property="orderCount" jdbcType="VARCHAR" />
+    <result column="total_time" property="totalTime" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -137,6 +138,7 @@
   <!-- 根据条件获取登门出单统计数据 -->
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select 
+    	TIMESTAMPDIFF(MINUTE, r.start_time, r.end_time) as total_time,
         date_format(r.start_time, '%h:%i') as start_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date,
         c.id as customer_id,

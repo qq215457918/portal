@@ -60,6 +60,7 @@ function initData() {
 		            {"mData": "createDate"},
 		            {"mData": "startTime"},
 		            {"mData": "endTime"},
+		            {"mData": "totalTime"},
 		            {"mData": "customerName"},             
 		            {"mData": "type"},
 		            {"mData": "phone"},
@@ -72,7 +73,7 @@ function initData() {
 		            {"mData": "orderCount"}
 		           ],
         // 自定义最后一列的字段内容, 格式化为a标签；并将第一列客户ID隐藏
-   		"aoColumnDefs": [{"aTargets":[13],"mRender":function(data,type,full){
+   		"aoColumnDefs": [{"aTargets":[14],"mRender":function(data,type,full){
    			return '<a href="report/toOutOrderDetail?customerId=' + full.customerId + '&startDate=' + $('#startDate').val() + '&endDate=' + $('#endDate').val() + '" data-toggle="modal">' + data + '</a>';
    		}}, {"aTargets":[0],"visible": false}],
 		"fnServerData": function (sSource, aoData, fnCallback) {
