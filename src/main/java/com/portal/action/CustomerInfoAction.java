@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -192,7 +191,7 @@ public class CustomerInfoAction {
 		}else if("4".equals(type)){
 			typeName = "锁定用户";
 		}
-		Object[][] data = new Object[paramList.size()+1][7];
+		Object[][] data = new Object[paramList.size()+1][22];
 		
 		int i = 1;
 		
@@ -351,9 +350,15 @@ public class CustomerInfoAction {
 	@RequestMapping("customerOrderInfoList")
 	public void customerOrderInfoList(HttpServletRequest request, HttpServletResponse response){
 		String customerId = request.getParameter("customerId");
+		String receiverStaffId = request.getParameter("receiverStaffId");
+		String createDate = request.getParameter("createDate");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
+		paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
 		paramMap.put("customerId", customerId);
+		paramMap.put("createDate", createDate);
+		paramMap.put("receiverStaffId", receiverStaffId);
 		List<OrderInfo> resultList = customerInfoService.selectCustomerOrderList(paramMap);
 		
 		int count = customerInfoService.selectCustomerOrderCount(paramMap);

@@ -12,6 +12,77 @@
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+		<div class="modal-shiftfix">
+		<div class="container-fluid main-content">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="widget-container fluid-height clearfix">
+						<div class="widget-content padded">
+							<form action="workflow/clerkEverydayAchievenment" id="flowForm" method="post">
+								<div class="form-group">
+									<label class="control-label col-md-2 swidth">日期</label>
+									<div class="col-md-2">
+										<div class="input-group date datepicker">
+											<input class="form-control" type="text" name="dateInfo" id="dateInfo">
+												<span class="input-group-addon">
+												<i class="icon-calendar"></i>
+											</span>
+										</div>
+						            </div>
+								</div>
+							</form>
+							<div class="form-group">
+								<div class="col-md-7">
+									<button class="btn btn-primary" id="searchAchieve">查询</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="widget-container stats-container">
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon chat-bubbles"></div>
+								${result.achieveCount }
+							</div>
+							<div class="text">出单数</div>
+						</div>
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon money"></div>
+								${result.payPrice }<small>元</small>
+							</div>
+							<div class="text">出单总金额</div>
+						</div>
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon money"></div>
+								${result.actualPrice }<small>元</small>
+							</div>
+							<div class="text">实付总金额</div>
+						</div>
+					</div>
+					<div class="widget-container stats-container">
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon visitors"></div>
+								${result.receptionCount }
+							</div>
+							<div class="text">来访人数</div>
+						</div>
+						<div class="col-md-4">
+							<div class="number">
+								<div class="icon visitors"></div>
+								${result.commitCount }
+							</div>
+							<div class="text">提交人数</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">
@@ -31,11 +102,12 @@
 						<!-- DataTables Example -->
 						<table class="table table-bordered" id="achieveExam">
 							<thead>
-								<th>序号</th>
-								<th>业务员编号</th>
-								<th>业务员名称</th>
-								<th>任务名称</th>
-								<th>审核人</th>
+								<th><label><input id="checkAll" name="checkAll" type="checkbox"><span></span></label></th>
+								<th>业务员姓名</th>
+								<th>出单总数</th>
+								<th>金额</th>
+								<th>实付金额</th>
+								<th>接待数</th>
 								<th>操作</th>
 							</thead>
 							<tbody>
