@@ -569,6 +569,43 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
+    // ------------------------- 销售日报表 入口：toSellDaily ---------------------------------
+    
+    /**
+     * @Title: toSellDaily 
+     * @Description: 进入销售日报表页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:30:42 
+     * @version V1.0
+     */
+    @RequestMapping("/toSellDaily")
+    public String toSellDaily(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
+        request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        return "report/sell_daily";
+    }
+    
+    /**
+     * @Title: ajaxSellDaily 
+     * @Description: 异步获取销售日报表数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午4:05:47 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxSellDaily")
+    public void ajaxSellDaily(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取销售日报表数据
+        JSONObject results = orderService.getSellDaily(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
     
     // ------------------------- 客户统计 入口：toCustomerStatistics ---------------------------------
     

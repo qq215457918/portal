@@ -32,7 +32,13 @@ $(function() {
 			$('#OutWarehouse').dataTable().fnDraw();
 		}
 	});
-	
+	// 藏品名称输入框回车事件
+	$("#goodsName").keyup(function(event){
+		if(event.keyCode == 13) {
+			// 查询数据
+			$('#OutWarehouse').dataTable().fnDraw();
+		}
+	});
 	// 所属区域变化事件
 	$("#area").change(function(){
 		// 清空订单号查询条件
@@ -73,11 +79,13 @@ function initData() {
 		           ],
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderNumber = $("#orderNumber").val();
+							var goodsName = $("#goodsName").val();
 							var area = $('#area').val();
 							var startDate = $('#startDate').val();
 							var endDate = $('#endDate').val();
 							aoData.push(
 										{'name':'orderNumber','value':orderNumber},
+										{'name':'goodsName','value':goodsName},
 										{'name':'area','value':area},
 										{'name':'startDate','value':startDate},
 										{'name':'endDate','value':endDate}
@@ -88,6 +96,25 @@ function initData() {
 								"url": sSource,
 								"data": aoData,
 								"success": function(data){
+									// 获取对象中商品和赠品的出库数量容器Map
+									var goodAndGiftCounts = data.aaData[0].goodAndGiftCounts;
+									// 如果Map不为空，则为页面的数量赋值，否则还原为零
+									if(goodAndGiftCounts) {
+										var commodity = data.aaData[0].goodAndGiftCounts.commodity;
+										var gift = data.aaData[0].goodAndGiftCounts.gift;
+										if(commodity) {
+											$("#commodity").text(commodity);
+										}
+										if(gift) {
+											$("#gift").text(gift);
+										}
+									}else {
+										$("#commodity").text(0);
+										$("#gift").text(0);
+									}
+									// 删除存储数量的对象
+									data.aaData.splice(0,1);
+									// 执行填充表格回调函数
 									fnCallback(data);
 								}
 							})

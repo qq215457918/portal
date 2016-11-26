@@ -1,5 +1,7 @@
 package com.portal.bean.result;
 
+import java.util.Map;
+
 import com.portal.bean.StorehouseOperateInfo;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
@@ -12,6 +14,11 @@ public class StorehouseOperateInfoForm extends StorehouseOperateInfo {
      * 订单号
      */
     private String orderNumber;
+    
+    /**
+     * 出库明细统计页面显示销售商品及赠品数量
+     */
+    private Map<String, Integer> goodAndGiftCounts;
     
     /**
      * 页面展示商品类型
@@ -59,6 +66,14 @@ public class StorehouseOperateInfoForm extends StorehouseOperateInfo {
         }else {
             return viewTypeName;
         }
+    }
+
+    public Map<String, Integer> getGoodAndGiftCounts() {
+        return goodAndGiftCounts;
+    }
+
+    public void setGoodAndGiftCounts(Map<String, Integer> goodAndGiftCounts) {
+        this.goodAndGiftCounts = goodAndGiftCounts;
     }
 
 }

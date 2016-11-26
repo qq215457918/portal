@@ -15,6 +15,11 @@ public class OrderDetailInfoForm extends OrderDetailInfo {
      * 订单详细每条的总额
      */
     private String totalPrice;
+    
+    /**
+     * 销售日报表-商品显示备注信息
+     */
+    private String viewRemark;
 
     public String getCreateDate() {
         return createDate;
@@ -30,6 +35,14 @@ public class OrderDetailInfoForm extends OrderDetailInfo {
 
     public void setTotalPrice(String totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public String getViewRemark() {
+        return viewRemark;
+    }
+
+    public void setViewRemark(String viewRemark) {
+        this.viewRemark = viewRemark;
     }
     
 }

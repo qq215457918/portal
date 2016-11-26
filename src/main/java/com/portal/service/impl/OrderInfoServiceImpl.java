@@ -21,6 +21,7 @@ import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.GoodsInfoForm;
+import com.portal.bean.result.OrderDetailInfoForm;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
@@ -759,5 +760,37 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Override
     public int countFinanceEveryDay(Criteria criteria) {
         return orderInfoDao.countFinanceEveryDay(criteria);
+    }
+    
+    //TODO - 销售日报表统计时，表中对应的支付接口还不确定，需要修改mapper.xml
+    public JSONObject getSellDaily(HttpServletRequest request) {
+        JSONObject result = new JSONObject();
+        // 所属区域
+        String area = request.getParameter("area");
+        // 查询日期
+        String startDate = request.getParameter("startDate");
+        
+        criteria.clear();
+        if(StringUtil.isNotBlank(area)){
+            criteria.put("area", area);
+        }
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            // 为空, 默认查询当天的数据
+            criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+            criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
+        }
+        
+        // 获取销售商品信息
+        List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
+        
+        // 获取销售结算明细
+        List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
+        
+        result.put("goodsList", goodsList);
+        result.put("clearing", clearingList);
+        return result;
     }
 }

@@ -21,16 +21,32 @@
 	    		<option value="1" selected="selected">大连</option>
 	    		<option value="0">沈阳</option>
 	    	</select>
+	    	<div class="fl" style="width: 15%;">
+		    	<label class="control-label col-md-2" style="width: 100%;">藏品数量：<span id="commodity" style="color: blue; font-weight: bold;">0</span></label>
+	    	</div>
+	    	<div class="fl" style="width: 15%;">
+		    	<label class="control-label col-md-2" style="width: 100%;">赠品数量：<span id="gift" style="color: blue; font-weight: bold;">0</span></label>
+	    	</div>
 	      </div>
 	      <div class="widget-content padded">
 	        <div class="form-group condition-group">
 	          <div class="condition fl">
 	          	<div class="condition-label fl">
-	          		<label class="control-label col-md-2" style=" width: 100%;">订单号</label>
+	          		<label class="control-label col-md-2" style=" width: 100%;">出单号</label>
 	          	</div>
 	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
-		              <input class="form-control" placeholder="订单号" id="orderNumber" type="text" style="width: 100%;">
+		              <input class="form-control" placeholder="出单号" id="orderNumber" type="text" style="width: 100%;">
+		            </div>
+	          	</div>
+	          </div>
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
+	          		<label class="control-label col-md-2" style=" width: 100%;">藏品名称</label>
+	          	</div>
+	          	<div class="condition-control fl">
+	          		<div class="col-md-7" style="width: 100%;">
+		              <input class="form-control" placeholder="藏品名称" id="goodsName" type="text" style="width: 100%;">
 		            </div>
 	          	</div>
 	          </div>
@@ -67,11 +83,11 @@
 			
 			<table class="table table-bordered" id="OutWarehouse">
 				<thead>
-					<th>订单号</th>
-                   	<th>商品分类</th>
-					<th>商品名称</th>
-                   	<th>商品类型</th>
-                   	<th>商品价格</th>
+					<th>出单号</th>
+                   	<th>藏品分类</th>
+					<th>藏品名称</th>
+                   	<th>藏品类型</th>
+                   	<th>藏品价格</th>
                    	<th>数&nbsp;&nbsp;量</th>
                    	<th>出库日期</th>
 				</thead>

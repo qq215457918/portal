@@ -171,5 +171,16 @@ public interface OrderInfoService {
      * @throws
      */
     int countFinanceEveryDay(Criteria criteria);
+    
+    /**
+     * @Title: getSellDaily 
+     * @Description: 获取销售日报表数据
+     * @param request 
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:34:13 
+     * @version V1.0
+     */
+    JSONObject getSellDaily(HttpServletRequest request);
 
 }

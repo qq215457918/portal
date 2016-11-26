@@ -2,6 +2,7 @@ package com.portal.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -88,6 +89,8 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         // 订单号
         String orderNumber = request.getParameter("orderNumber");
+        // 藏品名称
+        String goodsName = request.getParameter("goodsName");
         // 所属区域
         String area = request.getParameter("area");
         // 开始日期
@@ -105,6 +108,9 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         if(StringUtil.isNotBlank(orderNumber)){
             criteria.put("orderNumber", orderNumber);
         }
+        if(StringUtil.isNotBlank(goodsName)){
+            criteria.put("goodsName", goodsName.trim());
+        }
         if(StringUtil.isNotBlank(area)){
             criteria.put("area", area);
         }
@@ -119,10 +125,18 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
             criteria.put("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         
+        // 查询商品和赠品的出库数量
+        Map<String, Integer> goodAndGiftCounts = storehouseOperateInfoExtraDao.getGoodsAndGiftCounts(criteria);
+        
         // 获取总记录数
         int totalRecord = storehouseOperateInfoExtraDao.getCountsByCondition(criteria);
         // 获取数据集
         List<StorehouseOperateInfoForm> performanceList = storehouseOperateInfoExtraDao.getOrganiPerformance(criteria);
+        
+        // 将查询出的商品和赠品出库数量容器放到list集合中
+        StorehouseOperateInfoForm form = new StorehouseOperateInfoForm();
+        form.setGoodAndGiftCounts(goodAndGiftCounts);
+        performanceList.add(0, form);
         
         JSONObject resultJson =  new JSONObject();
         resultJson.put("sEcho", request.getParameter("sEcho"));

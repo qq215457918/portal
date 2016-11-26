@@ -48,3 +48,7 @@
 	text-align: -webkit-center;
 }
 
+/*销售日报表页面样式*/
+#sellDaily tr td {
+	text-align: center;
+}

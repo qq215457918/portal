@@ -161,8 +161,14 @@
 		<li>
 		  <a name="tab" href="${base}report/toButtPerforDetail?active=12" > <span aria-hidden="true" class="se7en-tables"></span>展厅客服对接业绩</a>
 		</li>
-		<li>
-		  <a name="tab" href="${base}report/toOutwarehouseDetail?active=13" > <span aria-hidden="true" class="se7en-charts"></span>出库明细统计</a>
+		<li class="dropdown">
+		  <a data-toggle="dropdown" href="#"> 
+		  	<span aria-hidden="true" class="se7en-tables"></span>销售日报表<b class="caret"></b>
+		  </a>
+		  <ul class="dropdown-menu">
+			<li><a name="tab" href="${base}report/toSellDaily?active=13">销售日报表</a></li>
+			<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=14">出库明细统计</a></li>
+		  </ul>
 		</li>
 	  </ul>
 	</div>

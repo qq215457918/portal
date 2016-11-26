@@ -31,12 +31,22 @@
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
     <result column="performance" property="performance" jdbcType="DECIMAL" />
+    <result column="income" property="income" jdbcType="DECIMAL" />
   </resultMap>
   
   <resultMap id="FormResultMap" type="com.portal.bean.result.OrderInfoForm" >
     <result column="staff_id" property="staffId" jdbcType="VARCHAR" />
     <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
     <result column="performance" property="performance" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <!-- 销售日报表-获取销售商品信息 -->
+  <resultMap id="SellGoodsResultMap" type="com.portal.bean.result.OrderDetailInfoForm" >
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="total_price" property="totalPrice" jdbcType="VARCHAR" />
+    <result column="remarks" property="viewRemark" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -285,6 +295,58 @@
 	      	</if>
 	    group by e.`name`
 	) a group by a.staff_name
+  </select>
+  
+  <!-- 销售日报表-获取销售商品信息 -->
+  <select id="getSellGoods" parameterType="com.portal.bean.Criteria" resultMap="SellGoodsResultMap">
+    select 
+        od.good_name as good_name,
+        sum(od.amount) as amount,
+        od.price as price,
+        sum(od.amount)*od.price as total_price,
+        o.Remarks as remarks
+    from order_detail_info od
+    left join order_info o on od.order_id = o.id
+    left join customer_info c on o.customer_id = c.id
+    <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+    </if>
+    and od.good_sort_id != '1'
+    and o.finance_flag = '1'
+    and (o.`status` = '4' or o.pay_type = '1')
+    group by od.good_name
+  </select>
+  
+  <!-- 销售日报表-获取销售结算明细(信用卡千分之6/储蓄卡千分之5) -->
+  <select id="getSellclearingDetail" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
+  	select 
+        o.finance_type as finance_type,
+        sum(o.actual_price) as actual_price,
+        sum(
+	        case
+	            o.finance_type
+	        when
+	            '1'
+	        then
+	            o.actual_price - o.actual_price * 0.006
+	        when
+	            '2'
+	        then
+                o.actual_price - o.actual_price * 0.005
+        	end
+        ) as income, 
+        o.Remarks as remarks
+    from order_info o
+    left join customer_info c on o.customer_id = c.id
+    left join order_detail_info od on o.id = od.order_id
+    <if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+    </if>
+    and od.good_sort_id != '1'
+    and o.finance_flag = '1'
+    and (o.`status` = '4' or o.pay_type = '1')
+    group by o.finance_type
+    order by o.finance_type
   </select>
   
 </mapper>
