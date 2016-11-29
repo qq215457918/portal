@@ -179,7 +179,7 @@ public class ReportController {
         WebUtils.setAttributeToSession(request);
 	    // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startVisitDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
-        // request.setAttribute("endVisitDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endVisitDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
 	    return "report/visit_everyday";
 	}
 	
@@ -449,11 +449,11 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // ------------------------- 业务员统计 入口：toSalesmanStatement ---------------------------------
+    // ------------------------- 接待统计 入口：toSalesmanStatement ---------------------------------
     
     /**
      * @Title: toSalesmanStatement 
-     * @Description: 进入业务员统计报表页
+     * @Description: 进入接待统计报表页
      * @param request
      * @param response
      * @return String
@@ -473,7 +473,7 @@ public class ReportController {
     
     /**
      * @Title: ajaxSalesmanStatement 
-     * @Description: 异步获取业务员统计数据
+     * @Description: 异步获取接待统计数据
      * @param request
      * @param response 
      * @return void
@@ -569,6 +569,43 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
+    // ------------------------- 销售日报表 入口：toSellDaily ---------------------------------
+    
+    /**
+     * @Title: toSellDaily 
+     * @Description: 进入销售日报表页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:30:42 
+     * @version V1.0
+     */
+    @RequestMapping("/toSellDaily")
+    public String toSellDaily(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
+        request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        return "report/sell_daily";
+    }
+    
+    /**
+     * @Title: ajaxSellDaily 
+     * @Description: 异步获取销售日报表数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午4:05:47 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxSellDaily")
+    public void ajaxSellDaily(HttpServletRequest request, HttpServletResponse response) {
+        // 异步获取销售日报表数据
+        JSONObject results = orderService.getSellDaily(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
     
     // ------------------------- 客户统计 入口：toCustomerStatistics ---------------------------------
     
@@ -585,7 +622,7 @@ public class ReportController {
     @RequestMapping(value = "/toCustomerStatistics")
     public String toCustomerStatistics(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
-        // WebUtils.setAttributeToSession(request);
+        WebUtils.setAttributeToSession(request);
         
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
@@ -628,10 +665,11 @@ public class ReportController {
     @RequestMapping("/toClinchPerforEveryDay")
     public String toClinchPerforEveryDay(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
-        // WebUtils.setAttributeToSession(request);
+        WebUtils.setAttributeToSession(request);
         
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
         return "report/clinch_performance";
     }
     
@@ -668,7 +706,7 @@ public class ReportController {
     @RequestMapping("/toServiceStaffPerfor")
     public String toServiceStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
-        // WebUtils.setAttributeToSession(request);
+        WebUtils.setAttributeToSession(request);
         
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
@@ -676,11 +714,11 @@ public class ReportController {
         return "report/service_staff_perfors";
     }
     
-    // ------------------------- 业务员业绩统计 入口：toReceiveStaffPerfor ---------------------------------
+    // ------------------------- 接待业绩统计 入口：toReceiveStaffPerfor ---------------------------------
     
     /**
      * @Title: toReceiveStaffPerfor 
-     * @Description: 进入业务员业绩统计页面
+     * @Description: 进入接待业绩统计页面
      * @param request
      * @param response
      * @return String
@@ -691,7 +729,7 @@ public class ReportController {
     @RequestMapping("/toReceiveStaffPerfor")
     public String toReceiveStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
-        // WebUtils.setAttributeToSession(request);
+        WebUtils.setAttributeToSession(request);
         
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));

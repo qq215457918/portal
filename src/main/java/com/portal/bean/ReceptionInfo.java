@@ -16,7 +16,27 @@ public class ReceptionInfo implements Serializable {
 
     private Date endTime;
 
+    private String orderId;
+
+    private String presentOrderId;
+
     private Date createDate;
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getPresentOrderId() {
+        return presentOrderId;
+    }
+
+    public void setPresentOrderId(String presentOrderId) {
+        this.presentOrderId = presentOrderId;
+    }
 
     public String getId() {
         return id;

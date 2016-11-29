@@ -7,7 +7,7 @@
     <title>首次登陆</title>
     <base href="${basePath}">
     <script type="text/javascript" src="resources/js/reception/inquiry_query.js"></script>
-	<jsp:include page="head.jsp" />
+<%-- 	<jsp:include page="head.jsp" /> --%>
   </head>
   <body class="login1 signup">
 <!-- Login Screen -->
@@ -16,10 +16,11 @@
 
       <form action="#" method="get" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">
-            <input class="form-control" placeholder="请输入客户的电话号码" type="text" id="phoneNo"><input type="submit" value="" >
+            <input class="form-control" placeholder="请输入客户的电话号码" type="text" id="phoneNo">
         </div>     
-       	<div class="social-login clearfix" style="margin:40px 0">
-        	<a class="btn btn-primary pull-right twitter"id="queryId"><i class="icon-twitter"></i>查 询</a>
+       	<div class="social-login clearfix"  style="margin:40px 0">
+        	<a class="btn btn-default pull-left" href="<%=request.getContextPath() %>/login"><i class="icon-mail-reply-all"></i>返 回</a>
+        	<a class="btn btn-primary pull-right twitter"id="queryId" ><i class="icon-foursquare"></i>查 询</a>
       	</div>
       </form>
     </div>

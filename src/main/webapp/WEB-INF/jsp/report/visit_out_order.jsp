@@ -40,7 +40,7 @@
 	          	</div>
 	          	<div class="condition-control fl">
 	          	  <div class="col-md-7" style="width: 100%;">
-		            <select id="type" style="width: 100%; height: 34px;">
+		            <select id="type" class="form-control" style="width: 100%; height: 34px;">
 		            	<option value="">请选择</option>
 		            	<option value="0">新客户</option>
 		            	<option value="1">重复登门</option>
@@ -88,8 +88,9 @@
 				<thead>
 					<th>客户ID</th>
                    	<th>日期</th>
-                   	<th>开始接待时间</th>
-                   	<th>结束接待时间</th>
+                   	<th>开始<br>接待时间</th>
+                   	<th>结束<br>接待时间</th>
+                   	<th>共接待时长<br>分钟</th>
                    	<th>姓名</th>
                    	<th>客户类型</th>
                    	<th>联系方式</th>

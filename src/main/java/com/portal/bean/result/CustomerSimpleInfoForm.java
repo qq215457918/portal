@@ -1,9 +1,8 @@
 package com.portal.bean.result;
 
+import com.portal.common.util.StringUtil;
 import java.io.Serializable;
 import java.util.Date;
-
-import com.portal.common.util.StringUtil;
 
 public class CustomerSimpleInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,27 +11,33 @@ public class CustomerSimpleInfoForm implements Serializable {
 
     /**
      * 客户分类<br>
-	 * 0 空白客户<br>
-	 * 1 重复登门<br>
-	 * 2说明会<br>
-	 * 3成单<br>
-	 * 4锁定<br>
-	 * 
+     * 0 空白客户<br>
+     * 1 重复登门<br>
+     * 2说明会<br>
+     * 3成单<br>
+     * 4锁定<br>
+     * 
      */
     private String type;
 
     private String name;
 
     private String phoneStaffId;
-    
+
     private String phoneStaffName;
 
     private String receiverStaffId;
-    
+
     private String receiverStaffName;
 
     private String encryptPhone;
-    
+
+    private String phone;
+
+    private String encryptPhone2;
+
+    private String relationId;//关联亲友
+
     private String area;//地址
 
     private Date recentVisitDate;
@@ -40,148 +45,172 @@ public class CustomerSimpleInfoForm implements Serializable {
     private Date recentExportDate;
 
     private String blacklistFlag;
-    
+
     /**
      * 筛选客户类型--客户类型
      */
     private String viewType;
-    
+
     /**
      * 筛选客户类型--登门量
      */
     private int visitCount;
-    
+
     /**
      * 筛选客户类型--出单量
      */
     private int outOrderCount;
-    
+
     /**
      * 筛选客户类型--出单金额
      */
     private Long outPrices;
-    
+
     /**
      * 筛选客户类型--出单率
      */
     private String outRate;
-    
+
     /**
      * 筛选客户类型--占总业绩百分比
      */
     private String totalPerforPercentage;
 
-	public String getId() {
-		return id;
-	}
+    public String getPhone() {
+        return phone;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getRelationId() {
+        return relationId;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getEncryptPhone2() {
+        return encryptPhone2;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setEncryptPhone2(String encryptPhone2) {
+        this.encryptPhone2 = encryptPhone2;
+    }
 
-	public String getPhoneStaffId() {
-		return phoneStaffId;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setPhoneStaffId(String phoneStaffId) {
-		this.phoneStaffId = phoneStaffId;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getPhoneStaffName() {
-		return phoneStaffName;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setPhoneStaffName(String phoneStaffName) {
-		this.phoneStaffName = phoneStaffName;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public String getReceiverStaffId() {
-		return receiverStaffId;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setReceiverStaffId(String receiverStaffId) {
-		this.receiverStaffId = receiverStaffId;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getReceiverStaffName() {
-		return receiverStaffName;
-	}
+    public String getPhoneStaffId() {
+        return phoneStaffId;
+    }
 
-	public void setReceiverStaffName(String receiverStaffName) {
-		this.receiverStaffName = receiverStaffName;
-	}
+    public void setPhoneStaffId(String phoneStaffId) {
+        this.phoneStaffId = phoneStaffId;
+    }
 
-	public String getEncryptPhone() {
-		return encryptPhone;
-	}
+    public String getPhoneStaffName() {
+        return phoneStaffName;
+    }
 
-	public void setEncryptPhone(String encryptPhone) {
-		this.encryptPhone = encryptPhone;
-	}
+    public void setPhoneStaffName(String phoneStaffName) {
+        this.phoneStaffName = phoneStaffName;
+    }
 
-	public String getArea() {
-		return area;
-	}
+    public String getReceiverStaffId() {
+        return receiverStaffId;
+    }
 
-	public void setArea(String area) {
-		this.area = area;
-	}
+    public void setReceiverStaffId(String receiverStaffId) {
+        this.receiverStaffId = receiverStaffId;
+    }
 
-	public Date getRecentVisitDate() {
-		return recentVisitDate;
-	}
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
 
-	public void setRecentVisitDate(Date recentVisitDate) {
-		this.recentVisitDate = recentVisitDate;
-	}
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
 
-	public Date getRecentExportDate() {
-		return recentExportDate;
-	}
+    public String getEncryptPhone() {
+        return encryptPhone;
+    }
 
-	public void setRecentExportDate(Date recentExportDate) {
-		this.recentExportDate = recentExportDate;
-	}
+    public void setEncryptPhone(String encryptPhone) {
+        this.encryptPhone = encryptPhone;
+    }
 
-	public String getBlacklistFlag() {
-		return blacklistFlag;
-	}
+    public String getArea() {
+        return area;
+    }
 
-	public void setBlacklistFlag(String blacklistFlag) {
-		this.blacklistFlag = blacklistFlag;
-	}
-	
-	public String getViewType() {
-        if(StringUtil.isNotBlank(this.type)) {
-            if("1".equals(this.type)) {
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public Date getRecentVisitDate() {
+        return recentVisitDate;
+    }
+
+    public void setRecentVisitDate(Date recentVisitDate) {
+        this.recentVisitDate = recentVisitDate;
+    }
+
+    public Date getRecentExportDate() {
+        return recentExportDate;
+    }
+
+    public void setRecentExportDate(Date recentExportDate) {
+        this.recentExportDate = recentExportDate;
+    }
+
+    public String getBlacklistFlag() {
+        return blacklistFlag;
+    }
+
+    public void setBlacklistFlag(String blacklistFlag) {
+        this.blacklistFlag = blacklistFlag;
+    }
+
+    public String getViewType() {
+        if (StringUtil.isNotBlank(this.type)) {
+            if ("1".equals(this.type)) {
                 return "重复登门";
-            }else if("2".equals(this.type)) {
+            } else if ("2".equals(this.type)) {
                 return "说明会";
-            }else if("3".equals(this.type)) {
+            } else if ("3".equals(this.type)) {
                 return "成单";
-            }else if("4".equals(this.type)) {
+            } else if ("4".equals(this.type)) {
                 return "锁定";
-            }else if("5".equals(this.type)) {
+            } else if ("5".equals(this.type)) {
                 return "转介绍";
             }
         }
-        return viewType;            
+        return viewType;
     }
 
     public void setViewType(String viewType) {
@@ -205,10 +234,10 @@ public class CustomerSimpleInfoForm implements Serializable {
     }
 
     public Long getOutPrices() {
-        if(null == this.outPrices) {
-            return 0L; 
-        }else {
-            return outPrices;            
+        if (null == this.outPrices) {
+            return 0L;
+        } else {
+            return outPrices;
         }
     }
 
@@ -217,9 +246,9 @@ public class CustomerSimpleInfoForm implements Serializable {
     }
 
     public String getOutRate() {
-        if(StringUtil.isNotBlank(this.outRate)) {
-            return outRate;            
-        }else {
+        if (StringUtil.isNotBlank(this.outRate)) {
+            return outRate;
+        } else {
             return "0";
         }
     }
@@ -229,9 +258,9 @@ public class CustomerSimpleInfoForm implements Serializable {
     }
 
     public String getTotalPerforPercentage() {
-        if(StringUtil.isNotBlank(this.totalPerforPercentage)) {
-            return totalPerforPercentage;            
-        }else {
+        if (StringUtil.isNotBlank(this.totalPerforPercentage)) {
+            return totalPerforPercentage;
+        } else {
             return "0";
         }
     }

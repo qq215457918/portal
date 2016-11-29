@@ -2,9 +2,11 @@ package com.portal.common.util;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.util.StringUtils;
@@ -397,6 +399,54 @@ public class DateUtil {
         calendar.setTime(date);//把当前时间赋给日历
         calendar.add(Calendar.DAY_OF_MONTH, -1);  //设置为前一天
         return calendar.getTime();   //得到前一天的时间
+    }
+    
+    /**
+     * @Title: getDates 
+     * @Description: 获取间隔日期中的所有日期
+     * @param startDay  开始日期
+     * @param endDay    结束日期
+     * @return List<String>
+     * @author Xia ZhengWei
+     * @date 2016年11月22日 下午10:00:05 
+     * @version V1.0
+     */
+    public static List<String> getDates(Calendar startDay, Calendar endDay) {
+        List<String> dateList = new ArrayList<String>();
+        // 开始日期比结束日期大则返回空的集合
+        if (startDay.compareTo(endDay) >= 0) {
+            return dateList;
+        }else {
+            Calendar currentPrintDay = startDay;
+            dateList.add(DateUtil.formatDate(startDay.getTime(), "yyyy-MM-dd"));
+            while (true) {  
+                // 日期加一  
+                currentPrintDay.add(Calendar.DATE, 1);
+                dateList.add(DateUtil.formatDate(currentPrintDay.getTime(), "yyyy-MM-dd"));
+                // 日期加一后判断是否达到终了日，达到则终止打印  
+                if (currentPrintDay.compareTo(endDay) == 0) {  
+                    break;  
+                }
+            }
+        }
+        return dateList;
+    }
+    
+    /**
+     * @Title: getLaterSixDate 
+     * @Description: 获取起始日期后指定间隔的日期
+     * @param startDay
+     * @return Date
+     * @author Xia ZhengWei
+     * @date 2016年11月23日 下午10:10:26 
+     * @version V1.0
+     */
+    public static Date getLaterSixDate(Calendar startDay, Integer afterDays) {
+        Calendar currentPrintDay = startDay;
+        // 例：日期加6  
+        // currentPrintDay.add(Calendar.DATE, 6);
+        currentPrintDay.add(Calendar.DATE, afterDays);
+        return currentPrintDay.getTime();
     }
     
 }

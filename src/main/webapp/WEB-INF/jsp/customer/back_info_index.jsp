@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>重复登门客户信息查询</title>
+<title>登门客户信息查询</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
 <script src="resources/js/customer/back_info_index.js" type="text/javascript"></script>
@@ -35,16 +35,16 @@
 				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间" type="text">
 				            </div>
 				            
-				            <label class="control-label col-md-2 swidth">导出数量</label>
-							<div class="col-md-2">
-								<input class="form-control" placeholder="导出数量" type="text"
-									id="exportCount">
-							</div>
+<!-- 				            <label class="control-label col-md-2 swidth">导出数量</label> -->
+<!-- 							<div class="col-md-2"> -->
+<!-- 								<input class="form-control" placeholder="导出数量" type="text" -->
+<!-- 									id="exportCount"> -->
+<!-- 							</div> -->
 
 						</div>
 						<div class="form-group">
 							<div class="col-md-7">
-								<button class="btn btn-primary" id="searchCustomer">搜索</button>
+								<button class="btn btn-success" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>
 								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel">导入</button>
 							</div>
@@ -53,11 +53,13 @@
 						<table class="table table-bordered" id="customerInfo">
 							<thead>
 								<th>序号</th>
+								<th>客服姓名</th>
+								<th>用户姓名</th>
+								<th>性别</th>
 								<th>电话</th>
-								<th>电话2</th>
-								<th>姓名</th>
+								<th>地址</th>
 								<th>登门次数</th>
-								<th>最近登门时间时间</th>
+								<th>最近登门时间</th>
 							</thead>
 							<tbody>
 							</tbody>
@@ -98,7 +100,7 @@
 								</div>
 							</div>
 	                    </p>
-	                    <input type="hidden" value="2" name="type" />
+	                    <input type="hidden" value="1" name="type" />
                     </form>
 				</div>
 				<div class="modal-footer">

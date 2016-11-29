@@ -6,7 +6,7 @@
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
     <title>首次登陆</title>
     <base href="${basePath}">
-	<jsp:include page="head.jsp" />
+	<%-- <jsp:include page="head.jsp" /> --%>
   </head>
   <body>
     <div class="modal-shiftfix">
@@ -28,6 +28,9 @@
                   <dd>
                   	<strong> 电话：</strong>${result.encryptPhone }
                   </dd>
+                  <dd>
+                  	<strong> 备用电话：</strong>${result.encryptPhone2 }
+                  </dd>
                 </dl>
               </div>
             </div>
@@ -35,11 +38,15 @@
               <div class="heading"></div>
               <div class="widget-content padded">
                 <dl>
-                  <dd>
-                   <strong>	客户人员：</strong>${result.phoneStaffName }
+                
+                <dd>
+                   <strong>	关联亲友：</strong>${result.relationId }
                   </dd>
                   <dd>
-                  	<strong>  业务人员：</strong>${result.receiverStaffName }
+                   <strong>	客服人员：</strong>${result.phoneStaffName }
+                  </dd>
+                  <dd>
+                  	<strong> 接待人员：</strong>${result.receiverStaffName }
                   </dd>
                   <dd>
                   	<strong>最近登门时间：</strong>${result.recentVisitDate }
@@ -51,7 +58,7 @@
               </div>
             </div>
             <input type="hidden" name="cid" id="cid" value="${result.id }"/>
-            <input type="hidden" name="phone" id="cphone" value="${result.encryptPhone }"/>
+            <input type="hidden" name="phone" id="cphone" value="${result.phone }"/>
             <div  class="col-md-2">
               <button class="btn btn-lg btn-primary" id ="receiveId">开始接待</button>
             </div>
@@ -68,9 +75,9 @@
 		base = $("base").attr('href');
 		// 查询功能
 		$("#receiveId").click(function(){
-			var id = $('#cid').val();
+			var cid = $('#cid').val();
 			var phone = $('#cphone').val();
-			window.location.href=base+"/visit/second?id="+id+"&phone="+phone;
+			window.location.href=base+"/visit/second?active=1&cId="+cid;
 		});
 		
 		// 查询功能

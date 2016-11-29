@@ -66,7 +66,7 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var goodsName = $('#goodsName').val();
 							var customerName = $('#customerName').val();
-							var orderType = $('#orderType:checked').val();
+							var orderType = $('#listInfo input[name=orderType]:checked').val();
 							aoData.push({'name':'goodsName','value':goodsName},{'name':'customerName','value':customerName},
 									{'name':'orderType','value':orderType});
 							$.ajax({

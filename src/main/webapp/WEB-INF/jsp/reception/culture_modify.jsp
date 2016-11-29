@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>修改用户信息</title>
+    <title>修改文交所信息</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
   </head>
@@ -21,7 +21,22 @@
         <form action="<%=request.getContextPath() %>/customer/modify/exchange/save" id="validate-form" method="post" novalidate="novalidate">
           <fieldset>
             <div class="row">
-              <div class="col-md-6">
+            	<div class="col-md-12">
+	                <div class="form-group">
+	                  <label for="firstname">文交所</label>
+	                  <input class="form-control" id="cultureName" name="cultureName" type="text" value=${cultureInfo.cultureName}>
+	                </div>
+	                <div class="form-group">
+	                  <label>开户日期</label>
+	                  <input class="form-control" id="accountDate" name="accountDate" type="text" value=${cultureInfo.accountDate}>
+	                </div>
+	               <div class="form-group">
+	                  <label>是否绑定银行卡</label>
+	                  <input class="form-control" id="bankFlag" name="bankFlag" type="text" value=${cultureInfo.bankFlag}>
+	                </div>
+                </div>
+            
+<!--               <div class="col-md-6">
 	                <div class="form-group">
 	                  <label for="firstname">文交所</label>
 	                  <input class="form-control" id="cultureName" name="cultureName" type="text" value=${cultureInfo.cultureName}>
@@ -48,10 +63,10 @@
 	                  <label>会员代码</label>
 	                  <input class="form-control" id="code" name="code" type="text" value=${customerInfo.code}>
 	                </div>  		
-	           </div>
+	           </div> -->
             </div>
             <input type="hidden" name="cid" id="cid" value="${cultureInfo.id}"/>
-            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
+            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交文交所信息">
             </div>
           </fieldset>
         </form>

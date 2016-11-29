@@ -17,6 +17,10 @@ public class PermissionInfoServiceImpl implements PermissionInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(PermissionInfoServiceImpl.class);
 
+    public List<PermissionInfo> selectByRoleId(String roleId) {
+        return permissionInfoDao.selectByRoleId(roleId);
+    }
+
     public int countByExample(Criteria example) {
         int count = this.permissionInfoDao.countByExample(example);
         logger.debug("count: {}", count);

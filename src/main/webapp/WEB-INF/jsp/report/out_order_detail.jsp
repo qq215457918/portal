@@ -39,9 +39,9 @@
 			
 			<table class="table table-bordered" id="outOrderDetail">
 				<thead>
-					<th>生成订单日期</th>
-                   	<th>产品名称</th>
-                   	<th>产品种类</th>
+					<th>生成出单日期</th>
+                   	<th>藏品名称</th>
+                   	<th>藏品种类</th>
                    	<th>单&nbsp;&nbsp;价</th>
                    	<th>数&nbsp;&nbsp;量</th>
                    	<th>合&nbsp;&nbsp;计</th>

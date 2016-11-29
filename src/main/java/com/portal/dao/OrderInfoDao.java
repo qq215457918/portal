@@ -4,6 +4,8 @@ import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderInfo;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -63,6 +65,24 @@ public interface OrderInfoDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(OrderInfo record);
+    
+    /**
+	 * @Title: selectCustomerOrderCount 
+	 * @Description: 用户订单详情数量
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+	int selectCustomerOrderCount(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: customerOrderInfoList 
+	 * @Description: 用户订单详情
+	 * @param customerId
+	 * @return void
+	 * @throws
+	 */
+	List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap);
 
     /**
      * @Title: selectOrderInfoList 

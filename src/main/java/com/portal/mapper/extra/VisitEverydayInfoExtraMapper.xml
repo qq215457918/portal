@@ -17,6 +17,7 @@
     <result column="out_or_indent" property="outOrIndent" jdbcType="VARCHAR" />
     <result column="visit_date" property="visitDate" jdbcType="TIMESTAMP" />
     <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="visit_counts" property="visitCounts" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -67,6 +68,12 @@
       </if>
       <if test="condition.visitDate != null" >
          and visit_date = #{condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.startVisitDate2 != null" >
+      	 <![CDATA[and DATE_FORMAT(visit_date, '%Y%m%d') >= REPLACE(#{condition.startVisitDate2,jdbcType=TIMESTAMP},'-','')]]>
+      </if>
+      <if test="condition.endVisitDate2 != null" >
+      	 <![CDATA[and DATE_FORMAT(visit_date, '%Y%m%d') <= REPLACE(#{condition.endVisitDate2,jdbcType=TIMESTAMP},'-','')]]>
       </if>
       <if test="condition.startVisitDate != null" >
       	 <![CDATA[and visit_date >= #{condition.startVisitDate,jdbcType=TIMESTAMP}]]>
@@ -130,7 +137,20 @@
      </if>
   </select>
   
-  <!-- 获取星期（周）对应的登门数量 -->
+  <!-- 获取日期对应的登门数量Map -->
+  <select id="getDayAndVisitCounts" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
+  	select 
+  		DATE_FORMAT(visit_date, '%Y-%m-%d') as visit_date,
+  		count(1) as visit_counts
+	from visit_everyday_info
+	<if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	group by DATE_FORMAT(visit_date, '%Y%m%d')
+	ORDER BY visit_date
+  </select>
+  
+  <!-- 获取星期（周）对应的登门数量 原饼图使用的sql
   <select id="getWeekVisitCounts" parameterType="java.lang.String" resultType="java.util.Map">
   	select distinct
   		(select DATE_ADD(#{startVisitDate},INTERVAL +0 day)) as Monday_Day,
@@ -149,6 +169,6 @@
 		(select count(1) from visit_everyday_info where visit_date like CONCAT("%", DATE_ADD(#{startVisitDate},INTERVAL +6 day), "%") and customer_area = #{customerArea}) as Sunday
 	from visit_report_info
   </select>
-  
+   -->
   
 </mapper>

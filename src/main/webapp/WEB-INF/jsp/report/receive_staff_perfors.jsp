@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<title>业务员业绩统计</title>
+<title>接待业绩统计</title>
 <base href="${basePath}">
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/plugins/highcharts/highcharts.js"></script>
@@ -44,11 +44,11 @@
 	          </div>
 	          <div class="condition fl">
 	          	<div class="condition-label fl">
-	          		<label class="control-label col-md-2" style=" width: 100%;">业务员</label>
+	          		<label class="control-label col-md-2" style=" width: 100%;">接待</label>
 	          	</div>
 	          	<div class="condition-control fl">
 	          		<div class="col-md-7" style="width: 100%;">
-		              <input class="form-control" placeholder="业务员姓名" id="staffName" type="text" style="width: 100%;">
+		              <input class="form-control" placeholder="接待姓名" id="staffName" type="text" style="width: 100%;">
 		            </div>
 	          	</div>
 	          </div>
@@ -59,12 +59,12 @@
 			<div style="clear: both;"></div>
 			
 			<div class="container" style="width: 100%; border-bottom: 1px dashed;">
-			  <!-- 大连业务员业绩 -->
+			  <!-- 大连接待业绩 -->
 			  <div id="dlContainer" style="width: 800px; height: 400px;"></div>
 			</div>
 			  
 			<div class="container" style="width: 100%;">
-			  <!-- 沈阳业务员业绩 -->
+			  <!-- 沈阳接待业绩 -->
 			  <div id="syContainer" style="width: 800px; height: 400px;"></div>
 			</div>
 			

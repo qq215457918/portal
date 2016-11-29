@@ -22,9 +22,4 @@ $(function() {
 			window.location.href=base+"/visit/first?phoneNo="+phone;
 		}
 	});
-		
-	// 返回上一页
-	$("#back").click(function(){
-		window.history.back(-1);
-	});	
 });

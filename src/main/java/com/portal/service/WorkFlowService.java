@@ -16,6 +16,8 @@ import org.activiti.engine.task.Comment;
 import org.activiti.engine.task.Task;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.portal.bean.OrderInfo;
+
 /**
  * @ClassName: WorkFlowServiceImpl 
  * @Description: 工作流基础接口
@@ -297,5 +299,44 @@ public interface WorkFlowService {
 	 * @throws
 	 */
 	public String selectPhoneStaffName(String[] phoneStaffIds);
+
+	/**
+	 * @Title: selectClerkReceiveList 
+	 * @Description: 业务员每日接待信息
+	 * @param paramMap
+	 * @return 
+	 * @return List<OrderInfo>
+	 * @throws
+	 */
+	public List<Map<String, Object>> selectClerkReceiveList(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectClerkReceiveList 
+	 * @Description: 业务员每日接待数量
+	 * @param paramMap
+	 * @return 
+	 * @return List<OrderInfo>
+	 * @throws
+	 */
+	public int selectClerkReceiveCount(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectTaskCountById 
+	 * @Description: 获取当前人员执行任务数量
+	 * @param userId
+	 * @param defKey
+	 * @return int
+	 * @throws
+	 */
+	public int selectTaskCountById(String userId, String defKey);
+
+	/**
+	 * @Title: selectTaskCountById 
+	 * @Description: 获取业务员每日的业绩列表
+	 * @param paramMap
+	 * @return List<Map<String, Object>>
+	 * @throws
+	 */
+	public List<Map<String, Object>> selectClerkDayList(Map<String, Object> paramMap);
 
 }

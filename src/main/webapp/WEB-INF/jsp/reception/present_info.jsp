@@ -9,13 +9,11 @@
 	<jsp:include page="head.jsp" />
   </head>
   <body>
-  <div class="modal-shiftfix">
-	  <div class="container-fluid main-content">
-		  <div class="page-title">
-		       <div class="row">
-		        <div class="col-lg-12">
-		          <div class="widget-container label-container fluid-height">
-		            <div class="heading">
+    <div class="modal-shiftfix">
+		      <div class="row">
+		      	<div class="col-lg-12">
+		        <div class="widget-container fluid-height clearfix">
+					<div class="heading">
 		              <i class="icon-tags"></i>赠品管理
 		            </div>
 		            <div class="widget-content text-center">
@@ -24,28 +22,50 @@
 		              </h3>
 		              <div class="form-group">
 			            <label class="control-label col-md-2">请选择要领取的赠品</label>
-			            <div class="col-md-7">
-			              <select class="form-control">
-			               <c:forEach var="list" items="${goodsInfoList}">
-		                      <option value="${list.id}">${list.name}</option>
+			            <div class="col-md-12">
+			             <table class="table table-striped">
+			              <thead>
+			              <tr>
+			                <th style="text-align:center;">序号</th>
+			                <th style="text-align:center;">赠品编码</th>
+			                <th style="text-align:center;">赠品名称</th>
+		        	        <th style="text-align:center;">单位</th>  
+			                <th style="text-align:center;">操作</th>
+			              </tr>
+			              </thead>
+	              			<tbody id="modal-data">
+	              			<c:forEach var="list" items="${goodsInfoList}" varStatus="var">
+		                      <tr>
+		                        <td>${var.index+1}</td>
+								<td>${list.code}</td>
+								<td>${list.name}</td>
+								<td>${list.unit}</td>	
+								<td>
+									<label class='checkbox-inline' style='padding-top:0px;margin-right:0px'>
+										<input type='checkbox' name='row_checkbox' id="check${list.id}"><span></span>
+									</label>
+								</td>
+							</tr>
 		                   </c:forEach>
-			              </select>
+			              </tbody>
+			            </table>
+			          
 			            </div>
-			            <input class="btn btn-warning" style="margin:20px;float:right "type="submit" id="presentReceive" value="确 认">
+			            <input class="btn btn-warning" type="submit" id="presentReceive" value="确 认">
 			          </div>  
-		              <a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
 		            </div>
-		          </div>
-		        </div>
-		      </div>
+				</div>
+		      </div> 
+		      </div>  
       <!-- 购买历史 -->
 	      <div class="row">
-		      <div class="col-lg-6">
+		      <div class="col-lg-12">
 		        <div class="widget-container fluid-height clearfix">
 		          <div class="heading">
-		            <i class="icon-table"></i>今日礼品领取
+		            <i class="icon-table"></i>礼品领取列表
 		          </div>
 		          <div class="widget-content padded clearfix">
+		          	<a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
 		            <table class="table table-bordered">
 		              <thead>
 		              <tr>
@@ -70,8 +90,7 @@
 		      </div>
 			</div>
 		    <!-- list end -->
-		  </div>
-	  </div>
+	</div>
         <!-- modal Start -->
            <div class="modal fade" id="presentModal">
              <div class="modal-dialog">
@@ -108,6 +127,7 @@
 		$("#appConfirm").click(function(){
 			var count = $('#applyCount').val();
 			var reason = $('#applyReason').val();
+			alert(goodId)
 			//window.location.href=base+"/present/review?reason="+reason;
 			$.ajax({
 				method : "POST",
@@ -136,6 +156,16 @@
 		});
         //领取赠品		
 		$("#presentReceive").click(function(){	
+			var goodId ="";
+			//获取所选赠品
+			if($('input[name="row_checkbox"]').prop('checked')==true){
+				$("input[name=row_checkbox]:checked").each(function(){ 
+				    var id = $(this).attr("id");
+				    goodId += id +",";
+				}); 
+			}else{
+				alert("请选择至少一个赠品");
+			}
 			$.ajax({
 				method : "POST",
 				url : base+"/present/receive",
@@ -148,7 +178,8 @@
 					if(data.result==true){
 						alert("礼物订单已经提交，请到库房进行领取");
 						$("#presentReceive").attr('disabled',"true");
-						$("#applyGoods").attr('disabled',"true");
+						//$("#applyGoods").attr('disabled',"true");
+						$("#presentReceive").attr('value',"请到库房领取赠品");
 						getPresent();
 				    }
 				}
@@ -161,7 +192,7 @@
 		$("#presentListTbody").html("");
 		$.ajax({
 			method : "POST",
-			url : base+"/present/today",
+			url : base+"/present/record",
 			data : {
 				"customerId":"1"
 			},
@@ -177,13 +208,17 @@
 						}else{
 							financeFlag="未通过审核";
 						}
-						item += "<tr><td>"+Number(n+1)+"</td>";					
-						item += "<td>"+value.orderDetailInfoList[0].goodName+"</td>";
+						item += "<tr><td>"+Number(n+1)+"</td>";		
+						var goodName = "<td>";
+						$.each(value.orderDetailInfoList, function(n, value) {
+							goodName += value.goodName+"/";
+						});
+						item += goodName + "</td>";
 						item += "<td>"+value.createDateString+"</td>";
 						item += "<td>"+financeFlag+"</td></tr>";
 					});
 				}else{
-					item += "<tr><td align='center' colspan='4'>当天没有领取正品</td></tr>";
+					item += "<tr><td align='center' colspan='4'>没有赠品领取记录</td></tr>";
 				}
 				$("#presentListTbody").append(item);
 			},

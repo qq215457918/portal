@@ -17,6 +17,21 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
+    Criteria criteria = new Criteria();
+
+    public EmployeeInfo authentication(String loginName, String password) {
+        criteria.clear();
+        criteria.put("loginName", loginName);
+        criteria.put("password", password);
+        return selectByExample(criteria).get(0);
+    }
+
+    public EmployeeInfo selectByUserName(String loginName) {
+        Criteria example = new Criteria();
+        example.put("loginName", loginName);
+        return selectByExample(example).get(0);
+    }
+
     public int countByExample(Criteria example) {
         int count = this.employeeInfoDao.countByExample(example);
         logger.debug("count: {}", count);

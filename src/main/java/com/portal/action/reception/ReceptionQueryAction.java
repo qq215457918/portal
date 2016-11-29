@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * 接待模块查询业务
@@ -29,9 +30,12 @@ public class ReceptionQueryAction {
      * @return
      */
     @RequestMapping(value = "/init")
-    public String receptionING(HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView receptionING(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        return "reception/inquiry_record";
+        ModelAndView model = new ModelAndView();
+        model.addObject("cId", request.getParameter("cId"));
+        model.setViewName("reception/inquiry_record");
+        return model;
     }
 
     /**

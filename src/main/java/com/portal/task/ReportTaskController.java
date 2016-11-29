@@ -81,7 +81,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:14:44 
      * @version V1.0
      */
-    @Scheduled(cron = "0 5 19 * * ?")  
+    //@Scheduled(cron = "0 5 19 * * ?")  
     public void visitEveryDay(){  
         logger.info("启动每日19点05分的定时任务, 操作内容：统计每日接待情况存储到每日登门表-------------------");
         
@@ -127,7 +127,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:15:03 
      * @version V1.0
      */
-    @Scheduled(cron = "0 10 19 * * ?")  
+    //@Scheduled(cron = "0 10 19 * * ?")  
     public void receiveReport(){  
         logger.info("启动每日19点10分的定时任务, 操作内容：统计每日接待情况存储到每日接待统计表-------------------");
         
@@ -178,7 +178,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:15:50 
      * @version V1.0
      */
-    @Scheduled(cron = "0 15 19 * * ?")  
+    //@Scheduled(cron = "0 15 19 * * ?")  
     public void deptPerfors(){  
         logger.info("启动每日19点10分的定时任务, 操作内容：统计每日接待情况存储到每日接待统计表-------------------");
         
@@ -203,7 +203,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:16:06 
      * @version V1.0
      */
-    @Scheduled(cron = "0 20 19 * * ?")  
+    //@Scheduled(cron = "0 20 19 * * ?")  
     public void buttPerfors(){  
          
         

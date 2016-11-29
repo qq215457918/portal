@@ -1,6 +1,7 @@
 package com.portal.dao.extra;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +32,16 @@ public interface StorehouseOperateInfoExtraDao {
      * @version V1.0
      */
     List<StorehouseOperateInfoForm> getOrganiPerformance(Criteria example);
+    
+    /**
+     * @Title: getGoodsAndGiftCounts 
+     * @Description: 根据条件查询商品和赠品的出库数量 
+     * @param criteria
+     * @return Map<String,Integer>
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午12:38:01 
+     * @version V1.0
+     */
+    Map<String, Integer> getGoodsAndGiftCounts(Criteria criteria);
 
 }

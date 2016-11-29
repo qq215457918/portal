@@ -89,15 +89,14 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     }
 
     /**
-     *查询前5条登门记录
+     * 查询前5条登门记录
      * by meng.yue
      * @return
      */
     public List<ReceptionInfoForm> queryRecordListbyId(String customerId) {
         criteria.clear();
         criteria.put("customerId", customerId);
-        List<ReceptionInfoForm> receptionInfoFromList = receptionInfoExtraDao.queryRecordListbyId(customerId);
-        return receptionInfoFromList;
+        return receptionInfoExtraDao.queryRecordListbyId(customerId);
     }
 
     public int countByExample(Criteria example) {

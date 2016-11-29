@@ -4,11 +4,12 @@
 	<select id="selectlerkEverydayAchievenment" resultType="map"
 		parameterType="map">
 		select
-		COUNT(1) achieveCount,
-		SUM(pay_price) payPrice,
-		SUM(actual_price) actualPrice,
-		group_concat(phone_staff_id) phoneStaffId
-		from order_info
+			COUNT(1) achieveCount,
+			SUM(pay_price) payPrice,
+			SUM(actual_price) actualPrice,
+			group_concat(distinct ei.name) phoneStaffName
+		from order_info oi
+		left join employee_info ei on oi.phone_staff_id = ei.id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">
 				and receiver_staff_id = #{userId}
@@ -21,7 +22,7 @@
 				</foreach>
 			</if>
 			<if test="dateInfo != null">
-				and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo}
+				and DATE_FORMAT(oi.create_date, '%Y-%m-%d') = #{dateInfo}
 			</if>
 		</trim>
 		GROUP BY receiver_staff_id
@@ -31,7 +32,7 @@
 		parameterType="map">
 		select
 		count(1) receptionCount,
-		(TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time)) stateTime
+		FORMAT((TIME_TO_SEC(end_time) - TIME_TO_SEC(start_time))/60,1) stateTime
 		from reception_info
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">
@@ -57,5 +58,58 @@
 			open="(" separator="," close=")">
 			#{item}
 		</foreach>
+	</select>
+	
+	<select id="selectClerkReceiveList" parameterType="map" resultType="map">
+		SELECT ci.name as customerName,ci.phone as customerPhone, 
+			ri.start_time as startTime, ri.end_time as endTime, 
+			ifnull(ri.order_id,' ') as orderNumber
+		FROM `reception_info` ri
+		left join customer_info ci on ri.customer_id = ci.id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="receiverStaffId != null">
+				and ri.receiver_staff_id = #{receiverStaffId}
+			</if>
+			<if test="createDate != null">
+				and DATE_FORMAT(ri.create_date, '%Y-%m-%d') = DATE_FORMAT(#{createDate}, '%Y-%m-%d')
+			</if>
+		</trim>
+		<include refid="common.Mysql_Pagination_Limit" />
+	</select>
+	
+	<select id="selectClerkReceiveCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM `reception_info` ri
+		left join customer_info ci on ri.customer_id = ci.id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="receiverStaffId != null">
+				and ri.receiver_staff_id = #{receiverStaffId}
+			</if>
+			<if test="createDate != null">
+				and DATE_FORMAT(ri.create_date, '%Y-%m-%d') = DATE_FORMAT(#{createDate}, '%Y-%m-%d')
+			</if>
+		</trim>
+	</select>
+	
+	<select id="selectClerkDayList" parameterType="map" resultType="map">
+		select ei.id as employeeId, ei.name as employeeName, count(oi.id) orderCount, 
+			sum(pay_price) payPrice, sum(actual_price) actualPrice, count(distinct ri.id) receptionCount
+		from employee_info ei
+		left join reception_info ri on ri.receiver_staff_id = ei.id
+		left join order_info oi on ei.id = oi.receiver_staff_id
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="userList != null">
+				and ei.id in
+				<foreach collection="userList" index="index" item="item"
+					open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="dateInfo != null">
+				and DATE_FORMAT(oi.create_date, '%Y-%m-%d') = #{dateInfo}
+				and DATE_FORMAT(ri.create_date, '%Y-%m-%d') = #{dateInfo}
+			</if>
+		</trim>
+		group by ei.id
 	</select>
 </mapper>

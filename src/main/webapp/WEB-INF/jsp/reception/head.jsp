@@ -4,32 +4,14 @@
         <div class="container-fluid top-bar">
           <div class="pull-right">
             <ul class="nav navbar-nav pull-right">
-              <li class="dropdown messages hidden-xs">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#"><span aria-hidden="true" class="se7en-envelope"></span>
-                  <div class="sr-only">
-                    Messages
-                  </div>
-                  <p class="counter">
-                    3
-                  </p>
-                </a>
-                <ul class="dropdown-menu messages">
-                  <li><a href="#">Could we meet today? I wanted...</a>
-                  </li>
-                  <li><a href="#">Important data needs your analysis...</a>
-                  </li>
-                  <li><a href="#">Buy Se7en today, it's a great theme...</a>
-                  </li>
-                </ul>
-              </li>
               <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                 John Smith<b class="caret"></b></a>
+                 	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">
-                    <i class="icon-user"></i>My Account</a>
+                  <li><a href="<%=request.getContextPath() %>/login">
+                    <i class="icon-home"></i>返回工作台</a>
                   </li>
-                  <li><a href="login1.html">
-                    <i class="icon-signout"></i>Logout</a>
+                  <li><a href="<%=request.getContextPath() %>/logout">
+                    <i class="icon-signout"></i>退出系统</a>
                   </li>
                 </ul>
               </li>
@@ -43,22 +25,23 @@
         </div>
         <div class="container-fluid main-nav clearfix">
   			<input type="hidden" id="active" name="active" value="${active}" />
+  			<input type="hidden" id="cId" name="cId" value="${cId}" />
           <!--menu start-->
           <div class="nav-collapse">
             <ul class="nav">
               <li>
-                <a name="tab" href="${base}visit/query?active=1"> <span aria-hidden="true" class="icon-user"></span>客户登陆</a>
+                <a name="tab" href="${base}visit/second?active=1&cId=${cId}"> <span aria-hidden="true" class="icon-user"></span>客户概览</a>
               </li>
-              <li><a name="tab" href="${base}order/init?active=2">
+              <li><a name="tab" href="${base}order/init?active=2&cId=${cId}">
                 <span aria-hidden="true" class="icon-book"></span>购买商品</a>
               </li>
-              <li><a name="tab" href="${base}deposit/init?active=3"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
+              <li><a name="tab" href="${base}deposit/init?active=3&cId=${cId}"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
               </li>
-              <li><a name="tab" href="${base}deposit/init?active=4"><span aria-hidden="true" class="se7en-pages"></span>回购记录</a>
+              <li><a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><span aria-hidden="true" class="icon-retweet "></span>回购记录</a>
               </li>
-              <li><a name="tab" href="${base}order/manage/init?active=5"><span aria-hidden="true" class="icon-retweet"></span>退换货管理</a>
+              <li><a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><span aria-hidden="true" class="icon-file-text"></span>定单管理</a>
               </li>
-              <li><a name="tab" href="${base}present/list?active=6"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              <li><a name="tab" href="${base}present/list?active=6&cId=${cId}"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
               </li>
               <li>
                 <a data-toggle="modal" href="#myModal"><span aria-hidden="true" class="icon-signin"></span>结束接待 </a>
@@ -94,8 +77,8 @@
 				base = $("base").attr('href');
 				// 查询功能
 				$("#quitConfirm").click(function(){
-					var id = "1";
-					window.location.href=base+"/visit/quit?id="+id;
+					var cId = $("#cId");
+					window.location.href=base+"/visit/quit?cId="+cId;
 				});
 				showTab();
 			});

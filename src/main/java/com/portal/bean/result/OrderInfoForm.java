@@ -179,6 +179,11 @@ public class OrderInfoForm implements Serializable {
      * 统计业绩--业绩
      */
     private Integer performance;
+    
+    /**
+     * 销售日报表--实际入账金额
+     */
+    private Integer income;
 
     public List<OrderDetailInfo> getOrderDetailInfoList() {
         return orderDetailInfoList;
@@ -467,6 +472,14 @@ public class OrderInfoForm implements Serializable {
 
     public void setPerformance(Integer performance) {
         this.performance = performance;
+    }
+
+    public Integer getIncome() {
+        return income;
+    }
+
+    public void setIncome(Integer income) {
+        this.income = income;
     }
 
 }

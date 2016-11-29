@@ -69,15 +69,16 @@ public class ReceptionAction {
     @RequestMapping(value = "/second")
     public ModelAndView secondCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
-        CustomerSimpleInfoForm info = customerInfoService.getFristQueryInfo(request.getParameter("phone"));
-       // receptionInfoService.insertReceptionTime("1", "1");
-        String customerId = request.getParameter("id");
-        model.addObject("info", info);
+        // receptionInfoService.insertReceptionTime("1", "1");
+        String customerId = request.getParameter("cId");
+        model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
         model.addObject("revokeDeposit", orderInfoService.queryRevokeDepositInfo(customerId));
         model.addObject("receptionInfo", receptionInfoService.queryRecordListbyId(customerId));
+        model.addObject("cId", customerId);
         model.setViewName("reception/query_second");
         return model;
     }
@@ -91,7 +92,7 @@ public class ReceptionAction {
         model.addObject("result", info);
         model.setViewName("reception/query_frist");
         return model;
-  
+
     }
 
     /**
@@ -103,7 +104,7 @@ public class ReceptionAction {
     @RequestMapping(value = "/quit")
     public String receptionQuit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-       // receptionInfoService.updateEndReceptionTime(request.getParameter("id"));
+        receptionInfoService.updateEndReceptionTime(request.getParameter("cId"));
         return "reception/inquiry_query";
     }
 

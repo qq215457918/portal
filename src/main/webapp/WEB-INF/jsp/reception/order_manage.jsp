@@ -32,9 +32,9 @@
                     </div>
                   </div>
                   <div class="col-md-6">
-                    <label class="control-label col-md-4">业务人员</label>
+                    <label class="control-label col-md-4">接待人员</label>
                     <div class="col-md-8">
-                      <input class="form-control" placeholder="请输入业务人员名称" type="text" id="staffName">
+                      <input class="form-control" placeholder="请输入接待人员名称" type="text" id="staffName">
                     </div>
                   </div>
                 </div>
@@ -67,7 +67,7 @@
                   <th>商品信息(名称-数量)</th>
                   <th>实付金额</th>
                   <th>成交日期</th>
-                  <th>业务员</th>
+                  <th>接待员</th>
                   <th>订单状态</th>
                   <th>操作</th>
                 </tr>

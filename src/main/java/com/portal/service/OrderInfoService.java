@@ -1,7 +1,6 @@
 package com.portal.service;
 
 import com.portal.bean.Criteria;
-import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
+
+    public int updateRepurchaseOrder(HttpServletRequest request);
 
     public boolean updatePayDeposit(String orderId);
 
@@ -151,17 +152,17 @@ public interface OrderInfoService {
      */
     int countOrderModifyList(Criteria criteria);
 
-	/**
+    /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
      * @param criteria
      * @return 
      * @return List<OrderInfo>
      * @throws
-     */	
-	List<OrderInfo> selectFinanceEveryDay(Criteria criteria);
-	
-	/**
+     */
+    List<OrderInfo> selectFinanceEveryDay(Criteria criteria);
+
+    /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
      * @param criteria
@@ -169,6 +170,17 @@ public interface OrderInfoService {
      * @return int
      * @throws
      */
-	int countFinanceEveryDay(Criteria criteria);
+    int countFinanceEveryDay(Criteria criteria);
+    
+    /**
+     * @Title: getSellDaily 
+     * @Description: 获取销售日报表数据
+     * @param request 
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:34:13 
+     * @version V1.0
+     */
+    JSONObject getSellDaily(HttpServletRequest request);
 
 }

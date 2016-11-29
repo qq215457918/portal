@@ -898,6 +898,10 @@
       rules: {
         firstname: "required",
         lastname: "required",
+        phone: {
+	        required: true,
+	        tel: true
+        },
         username: {
           required: true,
           minlength: 2
@@ -919,18 +923,21 @@
       messages: {
         firstname: "请输入您的名称",
         lastname: "Please enter your last name",
-        phone: "请输入您的电话号码",
+        phone: {
+            required: "请输入您的电话号码",
+            minlength: "标准手机号码为11位"
+          },
         username: {
-          required: "Please enter a username",
-          minlength: "Your username must consist of at least 2 characters"
+          required: "请输入用户名",
+          minlength: "您的用户名必须至少包含2个字"
         },
         password: {
-          required: "Please provide a password",
-          minlength: "Your password must be at least 5 characters long"
+          required: "请输入你的密码",
+          minlength: "您的密码必须至少为5个字符"
         },
         confirm_password: {
-          required: "Please provide a password",
-          minlength: "Your password must be at least 5 characters long",
+          required: "请输入你的密码",
+          minlength: "您的密码必须至少为5个字符",
           equalTo: "Please enter the same password"
         },
         email: "Please enter a valid email address"

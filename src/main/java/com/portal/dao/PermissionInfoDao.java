@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PermissionInfoDao {
+
+    List<PermissionInfo> selectByRoleId(String roleId);
+
     /**
      * 根据条件查询记录总数
      */

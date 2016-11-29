@@ -10,15 +10,15 @@ public class CustomerInfo implements Serializable {
 
     /**
      * 客户分类<br>
-	 * 0 空白客户<br>
-	 * 1 重复登门<br>
-	 * 2说明会<br>
-	 * 3成单<br>
-	 * 4锁定<br>
-	 * 
+     * 0 空白客户<br>
+     * 1 重复登门<br>
+     * 2说明会<br>
+     * 3成单<br>
+     * 4锁定<br>
+     * 
      */
     private String type;
-    
+
     private String typeName;
 
     private String season2;
@@ -29,17 +29,25 @@ public class CustomerInfo implements Serializable {
 
     private String name;
 
+    private String sex;
+
+    private String sexShow;
+
     private String phoneStaffId;
 
     private String receiverStaffId;
 
     private String businessPhone;
 
+    private String homePhone;
+
     private String phone;
 
     private Date visitDate;
 
     private String area;
+
+    private String address;
 
     private String phone2;
 
@@ -52,9 +60,9 @@ public class CustomerInfo implements Serializable {
     private String site;
 
     private String idCard;
-    
+
     private String vipCard;
-    
+
     private Date birthday;
 
     /**
@@ -68,6 +76,8 @@ public class CustomerInfo implements Serializable {
 
     private Date recentExportDate;
 
+    private Date recentImportDate;
+
     private String blacklistFlag;
 
     private Date updateDate;
@@ -76,16 +86,34 @@ public class CustomerInfo implements Serializable {
      * 是否更新标志
      */
     private String updateFlag;
-    
+
     /**
      * 最近成单时间
      */
     private String recentCreateDate;
-    
+
+    private String visitCount;
+
     /**
      * 成单总额
      */
     private String payPrice;
+
+    private String phoneStaffName;
+
+    private String receiverStaffName;
+
+    private String phoneHidden;
+
+    private String phone2Hidden;
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
 
     public String getId() {
         return id;
@@ -97,44 +125,44 @@ public class CustomerInfo implements Serializable {
 
     /**
      * @return 客户分类<br>
-	 * 0 空白客户<br>
-	 * 1 重复登门<br>
-	 * 2说明会<br>
-	 * 3成单<br>
-	 * 4锁定<br>
-	 * 
+     * 0 空白客户<br>
+     * 1 重复登门<br>
+     * 2说明会<br>
+     * 3成单<br>
+     * 4锁定<br>
+     * 
      */
     public String getType() {
         return type;
     }
-    
+
     public String getTypeName() {
         return typeName;
     }
 
     /**
      * @param type 
-	 *            客户分类<br>
-	 * 0 空白客户<br>
-	 * 1 重复登门<br>
-	 * 2说明会<br>
-	 * 3成单<br>
-	 * 4锁定<br>
-	 * 
+     *            客户分类<br>
+     * 0 空白客户<br>
+     * 1 重复登门<br>
+     * 2说明会<br>
+     * 3成单<br>
+     * 4锁定<br>
+     * 
      */
     public void setType(String type) {
         this.type = type;
-        
-        if("0".equals(type)){
-        	typeName = "空白客户";
-        }else if("1".equals(type)){
-        	typeName = "重复登门";
-        }else if("2".equals(type)){
-        	typeName = "说明会";
-        }else if("3".equals(type)){
-        	typeName = "成单";
-        }else if("4".equals(type)){
-        	typeName = "锁定";
+
+        if ("0".equals(type)) {
+            typeName = "空白客户";
+        } else if ("1".equals(type)) {
+            typeName = "重复登门";
+        } else if ("2".equals(type)) {
+            typeName = "说明会";
+        } else if ("3".equals(type)) {
+            typeName = "成单";
+        } else if ("4".equals(type)) {
+            typeName = "锁定";
         }
     }
 
@@ -291,7 +319,7 @@ public class CustomerInfo implements Serializable {
 
     /**
      * @param product 
-	 *            产品
+     *            产品
      */
     public void setProduct(String product) {
         this.product = product;
@@ -346,27 +374,100 @@ public class CustomerInfo implements Serializable {
 
     /**
      * @param updateFlag 
-	 *            是否更新标志
+     *            是否更新标志
      */
     public void setUpdateFlag(String updateFlag) {
         this.updateFlag = updateFlag;
     }
 
-	public String getRecentCreateDate() {
-		return recentCreateDate;
-	}
+    public String getRecentCreateDate() {
+        return recentCreateDate;
+    }
 
-	public void setRecentCreateDate(String recentCreateDate) {
-		this.recentCreateDate = recentCreateDate;
-	}
+    public void setRecentCreateDate(String recentCreateDate) {
+        this.recentCreateDate = recentCreateDate;
+    }
 
-	public String getPayPrice() {
-		return payPrice;
-	}
+    public String getPayPrice() {
+        return payPrice;
+    }
 
-	public void setPayPrice(String payPrice) {
-		this.payPrice = payPrice;
-	}
-    
-    
+    public void setPayPrice(String payPrice) {
+        this.payPrice = payPrice;
+    }
+
+    public String getVisitCount() {
+        return visitCount;
+    }
+
+    public void setVisitCount(String visitCount) {
+        this.visitCount = visitCount;
+    }
+
+    public String getPhoneStaffName() {
+        return phoneStaffName;
+    }
+
+    public void setPhoneStaffName(String phoneStaffName) {
+        this.phoneStaffName = phoneStaffName;
+    }
+
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
+
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+
+        if ("0".equals(sex)) {
+            sexShow = "男";
+        } else if ("1".equals(sex)) {
+            sexShow = "女";
+        }
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public Date getRecentImportDate() {
+        return recentImportDate;
+    }
+
+    public void setRecentImportDate(Date recentImportDate) {
+        this.recentImportDate = recentImportDate;
+    }
+
+    public String getSexShow() {
+        return sexShow;
+    }
+
+    public String getPhoneHidden() {
+        return phoneHidden;
+    }
+
+    public void setPhoneHidden(String phoneHidden) {
+        this.phoneHidden = phoneHidden;
+    }
+
+    public String getPhone2Hidden() {
+        return phone2Hidden;
+    }
+
+    public void setPhone2Hidden(String phone2Hidden) {
+        this.phone2Hidden = phone2Hidden;
+    }
+
 }

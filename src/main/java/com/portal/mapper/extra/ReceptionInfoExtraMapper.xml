@@ -9,6 +9,10 @@
     <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
     <result column="start_time" property="startTime" jdbcType="TIME" />
     <result column="end_time" property="endTime" jdbcType="TIME" />
+    <!-- 订单信息和赠品订单信息 -->
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="present_order_id" property="presentOrderId" jdbcType="VARCHAR" />
+    <result column="present_name" property="presentName" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     
     <!-- 登门出单统计需要字段 -->
@@ -20,6 +24,7 @@
     <result column="area" property="area" jdbcType="VARCHAR" />
     <result column="vip_card" property="vipCard" jdbcType="VARCHAR" />
     <result column="order_count" property="orderCount" jdbcType="VARCHAR" />
+    <result column="total_time" property="totalTime" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -48,6 +53,9 @@
     receiver_staff_id, 
     start_time, 
     end_time, 
+    order_id,
+    present_order_id,
+    present_name,
     create_date
   </sql>
   
@@ -130,6 +138,7 @@
   <!-- 根据条件获取登门出单统计数据 -->
   <select id="selectByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select 
+    	TIMESTAMPDIFF(MINUTE, r.start_time, r.end_time) as total_time,
         date_format(r.start_time, '%h:%i') as start_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date,
         c.id as customer_id,

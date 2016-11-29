@@ -1,11 +1,13 @@
 package com.portal.dao.extra;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.result.OrderInfoForm;
 import java.util.List;
 import java.util.Map;
-import org.apache.ibatis.annotations.Param;
+
 import org.springframework.stereotype.Repository;
+
+import com.portal.bean.Criteria;
+import com.portal.bean.result.OrderDetailInfoForm;
+import com.portal.bean.result.OrderInfoForm;
 
 @Repository
 public interface OrderInfoExtraDao {
@@ -20,15 +22,15 @@ public interface OrderInfoExtraDao {
     Map<String, Integer> getClinchPerfors(Criteria example);
 
     /**
-     * @Title: getWeekClinchPerfors 
-     * @Description: 查询各地区一周内每天的业绩
-     * @param startDate  开始日期
-     * @param area  所属区域
-     * @return Map<String,Object>
-     * @throws
+     * @Title: getDayAndPerfors 
+     * @Description: 获取每日业绩统计线形图数据
+     * @param example
+     * @return List<OrderInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年11月24日 下午11:42:24 
+     * @version V1.0
      */
-    Map<String, Object> getWeekClinchPerfors(@Param(value = "startDate") String startDate,
-            @Param(value = "area") String area);
+    List<OrderInfoForm> getDayAndPerfors(Criteria example);
 
     /**
      * @Title: getEmployeeInfos 
@@ -58,4 +60,26 @@ public interface OrderInfoExtraDao {
      * @return
      */
     List<OrderInfoForm> selectByExample4Page(Criteria criteria);
+    
+    /**
+     * @Title: getSellGoods 
+     * @Description: 销售日报表-获取销售商品信息
+     * @param criteria
+     * @return List<OrderDetailInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:53:34 
+     * @version V1.0
+     */
+    List<OrderDetailInfoForm> getSellGoods(Criteria criteria);
+    
+    /**
+     * @Title: getSellclearingDetail 
+     * @Description: 销售日报表-获取销售结算明细
+     * @param criteria
+     * @return List<OrderInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年11月26日 下午2:54:10 
+     * @version V1.0
+     */
+    List<OrderInfoForm> getSellclearingDetail(Criteria criteria);
 }

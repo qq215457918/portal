@@ -105,17 +105,20 @@ public class ExportExcelJxl{
 		if (data == null || data.length==0)
 			throw new Exception("没有可导出的数据");
 		try {
-				WritableSheet sheet = createSheet();
+				WritableSheet sheet = createSheet(0);
 				if (sheet == null)
 					throw new Exception("不能创建Sheet");
 				int row = exportBean.getStartRow();
-				for (; index < data.length; index++) {
+				for (int num = 0; index < data.length; index++) {
 					for (int col = 0; col < data[index].length; col++) {
 						WritableCell cell = createCell(row, col, data[index][col]);
 						sheet.addCell(cell);
 					}
 					// 如果超出一个工作表的限制，就停止
-					if (++row >= MAX_ROWS)break;
+					if (++row >= MAX_ROWS){
+						++num;
+						sheet = createSheet(num);
+					}
 				}
 			return true;
 		} catch (Exception e) {
@@ -124,13 +127,13 @@ public class ExportExcelJxl{
 		return false;
 	}
 	
-	private WritableSheet createSheet() {
+	private WritableSheet createSheet(int num) {
 		WritableSheet sheet = null;
 		if(exportBean.getExportMode() == 1){//按模板导出
-			sheet = wwb.getSheet(0);
+			sheet = wwb.getSheet(num);
 		}
 		if(sheet == null){
-			sheet = wwb.createSheet(exportBean.getSheetName(),0);
+			sheet = wwb.createSheet(exportBean.getSheetName(), num);
 		}
 		return sheet;
 	}

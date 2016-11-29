@@ -1,10 +1,27 @@
 package com.portal.service.impl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.GoodsInfoForm;
+import com.portal.bean.result.OrderDetailInfoForm;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
@@ -17,20 +34,9 @@ import com.portal.dao.extra.OrderInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.beanutils.BeanUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -60,6 +66,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     Criteria criteria = new Criteria();
 
     private static final Logger logger = LoggerFactory.getLogger(OrderInfoServiceImpl.class);
+
+    /**
+     * 确认客户登门之后：
+     * 修改回购订单状态，并为库房发送一条待审核的信息。
+     * @param request
+     * @return
+     */
+    public int updateRepurchaseOrder(HttpServletRequest request) {
+        OrderInfo record = new OrderInfo();
+        record.setId(request.getParameter("orderId"));
+        record.setStatus("0");// 6 回购待确认 ->1 未支付
+        return updateByPrimaryKeySelective(record);
+    }
 
     /**
      * 修改订单为换货订单
@@ -191,25 +210,23 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return orderInfoForm;
     }
-    
-    Criteria getCriteria(String customerId, int status, int orderType, int payType, int todayFlag) {
+
+    Criteria getCriteria(String customerId, int status, int orderType, int payType) {
         criteria.clear();
-        criteria.put("customer_id", customerId);
+        criteria.put("customerId", customerId);
         criteria.put("status", status);
-        criteria.put("order_type", orderType);
-        criteria.put("pay_type", payType);
-        if (todayFlag == 1)
-            criteria.put("today_flag", 1);
-        criteria.setOrderByClause("create_date");
-        criteria.setMysqlLength(5);
+        criteria.put("orderType", orderType);
+        criteria.put("payType", payType);
         criteria.put("deleteFlag", "0");
+        criteria.setOrderByClause("create_date desc");
+        criteria.setMysqlLength(5);
         return criteria;
     }
 
     /**
     * 根绝类型获取订单信息 
     *    `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
-    *     `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货',
+    *     `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品',
     *     `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付',
     *     `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
     *     `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
@@ -223,36 +240,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     * @throws IllegalAccessException
     * @throws InvocationTargetException
     */
-    List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType,
-            int isToday) {
-        List<OrderInfoForm> orderInfoForm = new ArrayList<OrderInfoForm>();
-        List<OrderInfo> orderInfoList =
-                orderInfoDao.selectByExample(getCriteria(customerId, status, orderType, payType, isToday));
-        //把order的信息放入到form中
-        orderInfoList.forEach(value -> {
-            try {
-                OrderInfoForm orderInfo = new OrderInfoForm();
-                BeanUtils.copyProperties(orderInfo, value);
-                orderInfoForm.add(orderInfo);
-            } catch (IllegalAccessException e) {
-                logger.warn("Unexpected exception:", e);
-            } catch (InvocationTargetException e) {
-                logger.warn("Unexpected exception:", e);
-            }
-        });
-
+    List<OrderInfoForm> getOrderInfoByDate(String customerId, int status, int orderType, int payType) {
+        List<OrderInfoForm> orderInfoResult =
+                orderInfoExtraDao
+                        .selectByExample4Page(getCriteria(customerId, status, orderType, payType));
         //把商品详情信息放入到form中
-        orderInfoForm.forEach(value -> {
+        orderInfoResult.forEach(value -> {
             value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
             value.setCreateDateString(
                     DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
         });
 
-        return orderInfoForm;
+        return orderInfoResult;
     }
 
     List<OrderInfoForm> getOrderInfo(String customerId, int status, int orderType, int payType) {
-        return getOrderInfoByDate(customerId, status, orderType, payType, 0);
+        return getOrderInfoByDate(customerId, status, orderType, payType);
     }
 
     List<OrderInfoForm> getNormalOrderInfo(String customerId, int orderType, int payType) {
@@ -372,8 +375,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag));
-        return insertPresentDetailInfo(
-                getOrderDetailInfo(request.getParameter("goodId"), request.getParameter("count"), uuid));
+        //修改可以提交多个赠品
+        String goodStr = request.getParameter("goodId");
+        if (goodStr.substring(0, goodStr.length() - 1).indexOf(",") > 0) {
+            String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
+            for (String goodId : goodArr) {
+                insertPresentDetailInfo(
+                        getOrderDetailInfo(goodId.substring(5, goodId.length()), "1", uuid));
+            }
+        } else {
+            insertPresentDetailInfo(
+                    getOrderDetailInfo(goodStr.substring(5, goodStr.length()), "1", uuid));
+        }
+
+        return true;
     }
 
     /**
@@ -392,9 +407,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
         detailInfo.setDeleteFlag("0");
-        if(StringUtil.isNull(count)){
-        	count="1";
-        }
+        if (StringUtil.isNull(count))
+            count = "1";
         detailInfo.setAmount(Integer.parseInt(count));
         return detailInfo;
     }
@@ -423,6 +437,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String[] staff = getStaffInfo(cid);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
+        orderInfo.setPayType("0");//礼品订单都是全额支付
+        orderInfo.setDeleteFlag("0");
         orderInfo.setRemarks(request.getParameter("reason"));
         return orderInfo;
     }
@@ -451,7 +467,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * order_type='4'and create_date=now()
      */
     public List<OrderInfoForm> selectTodayPresentList(String customerId) {
-        return getOrderInfoByDate(customerId, 0, 3, 0, 1);
+        return getOrderInfoByDate(customerId, 1, 4, 0);
     }
 
     public int countByExample(Criteria example) {
@@ -506,62 +522,104 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         // 开始日期
         String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
 
         criteria.clear();
-        if (StringUtil.isNotBlank(startDate)) {
-            // 不管前台选择的是周几, 都获取到对应星期的周一
-            startDate = DateUtil.formatDate(
-                    DateUtil.getNowWeekMonday(DateUtil.parseDate(startDate, "yyyy-MM-dd")), "yyyy-MM-dd");
-            criteria.put("startDate", startDate);
-            // 默认存入当前选中日期对应的周日
-            criteria.put("endDate",
-                    DateUtil.formatDate(DateUtil.getNowWeekSunday(DateUtil.parseDate(startDate, "yyyy-MM-dd")),
-                            "yyyy-MM-dd 23:59:59"));
-        } else {
-            // 如果开始时间为空, 则取当前日期的上一周为查询条件
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate2", startDate);
+        }else {
+            // 如果开始时间为空, 则取上周一为开始时间
             startDate = DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd");
-            criteria.put("startDate", startDate);
-            criteria.put("endDate",
-                    DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+            criteria.put("startDate2", startDate);
         }
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate2", endDate);
+        }else {
+            // 如果结束时间为空,判断开始日期是否为空
+            // 如果开始日期为空, 则默认结束日期为上周日
+            // 如果开始日期不为空, 则结束日期为开始日期后6天的日期
+            if(StringUtil.isNotBlank(startDate)) {
+                Date date=DateUtil.parseDate(startDate, "yyyy-MM-dd");  
+                Calendar cal=Calendar.getInstance();  
+                cal.setTime(date);
+                endDate = DateUtil.formatDate(DateUtil.getLaterSixDate(cal, 6), "yyyy-MM-dd");
+                criteria.put("endDate2", endDate);
+            }else {
+                endDate = DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd");
+                criteria.put("endDate2", endDate);
+            }
+        }
+        
+        // 将查询日期转换成Calendar
+        Calendar start=Calendar.getInstance();
+        Calendar end=Calendar.getInstance();
+        start.setTime(DateUtil.parseDate(startDate, "yyyy-MM-dd"));
+        end.setTime(DateUtil.parseDate(endDate, "yyyy-MM-dd"));
+        
+        // 获取两个日期之间的所有日期
+        List<String> dates = DateUtil.getDates(start, end);
 
-        // 获取一周内各地区的业绩
+        // 获取指定日期内内各地区的业绩
         Map<String, Integer> counts = orderInfoExtraDao.getClinchPerfors(criteria);
 
-        //查询出大连一周的业绩
-        Map<String, Object> dlAmounts = orderInfoExtraDao.getWeekClinchPerfors(startDate, "1");
+        //查询出大连指定日期内的业绩
+        criteria.put("area", "1");
+        List<OrderInfoForm> dlAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
+        
+        //生成大连业绩
+        List<Integer> dlAmounts = generateAmountsList(dates, dlAmountsList);
 
-        // 查询出沈阳一周的业绩
-        Map<String, Object> syAmounts = orderInfoExtraDao.getWeekClinchPerfors(startDate, "0");
+        // 查询出沈阳指定日期内的业绩
+        criteria.put("area", "0");
+        List<OrderInfoForm> syAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
+        
+        //生成沈阳业绩
+        List<Integer> syAmounts = generateAmountsList(dates, syAmountsList);
 
         if (counts != null) {
-            result.put("totalAmounts",
-                    counts.get("total_amounts") != null ? counts.get("total_amounts") : new BigDecimal(0));
-            result.put("dlAmounts",
-                    counts.get("dl_amounts") != null ? counts.get("dl_amounts") : new BigDecimal(0));
-            result.put("syAmounts",
-                    counts.get("sy_amounts") != null ? counts.get("sy_amounts") : new BigDecimal(0));
+            result.put("totalAmounts", counts.get("total_amounts") != null ? counts.get("total_amounts") : new BigDecimal(0));
+            result.put("dlAmounts", counts.get("dl_amounts") != null ? counts.get("dl_amounts") : new BigDecimal(0));
+            result.put("syAmounts", counts.get("sy_amounts") != null ? counts.get("sy_amounts") : new BigDecimal(0));
         } else {
             result.put("totalAmounts", 0);
             result.put("dlAmounts", 0);
             result.put("syAmounts", 0);
         }
-        if (dlAmounts != null) {
-            // 转换成JSON格式
-            JSONObject dlResult = JSONObject.fromObject(dlAmounts);
-            result.put("dlResult", dlResult);
-        } else {
-            result.put("dlResult", null);
-        }
-        if (syAmounts != null) {
-            // 转换成JSON格式
-            JSONObject syResult = JSONObject.fromObject(syAmounts);
-            result.put("syResult", syResult);
-        } else {
-            result.put("syResult", null);
-        }
-
+        
+        result.put("dates", dates);
+        result.put("dlResult", dlAmounts);
+        result.put("syResult", syAmounts);
+        
         return result;
+    }
+    
+    /**
+     * @Title: generateAmountsList 
+     * @Description: 生成报表需要的线形图数据
+     * @param dates  查询日期条件所包含的所有日期
+     * @param amounts   业绩  
+     * @return List<Integer>
+     * @author Xia ZhengWei
+     * @date 2016年11月24日 下午11:54:07 
+     * @version V1.0
+     */
+    private List<Integer> generateAmountsList(List<String> dates, List<OrderInfoForm> amounts) {
+        Map<String, Integer> amountsMap = new HashMap<String, Integer>();
+        if(amounts.size() > 0) {
+            for (OrderInfoForm orderInfoForm : amounts) {
+                String creatdate = DateUtil.formatDate(orderInfoForm.getCreateDate(), "yyyy-MM-dd");
+                amountsMap.put(creatdate, orderInfoForm.getPerformance());
+            }
+        }
+        List<Integer> dateAmounts = new ArrayList<Integer>();
+        for(int idx = 0; idx < dates.size(); idx ++) {
+            if(amountsMap.get(dates.get(idx)) != null) {
+                dateAmounts.add(amountsMap.get(dates.get(idx)));
+            }else {
+                dateAmounts.add(0);
+            }
+        }
+        return dateAmounts;
     }
 
     public JSONObject ajaxStaffPerfors(HttpServletRequest request) {
@@ -677,7 +735,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public int countOrderModifyList(Criteria criteria) {
         return orderInfoDao.countOrderModifyList(criteria);
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
@@ -685,12 +743,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return 
      * @return List<OrderInfo>
      * @throws
-     */	
+     */
     @Override
     public List<OrderInfo> selectFinanceEveryDay(Criteria criteria) {
-    	return orderInfoDao.selectFinanceEveryDay(criteria);
+        return orderInfoDao.selectFinanceEveryDay(criteria);
     }
-    
+
     /**
      * @Title: selectOrderInfoList 
      * @Description: 查询修改订单列表数量
@@ -701,6 +759,38 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     @Override
     public int countFinanceEveryDay(Criteria criteria) {
-    	return orderInfoDao.countFinanceEveryDay(criteria);
+        return orderInfoDao.countFinanceEveryDay(criteria);
+    }
+    
+    //TODO - 销售日报表统计时，表中对应的支付接口还不确定，需要修改mapper.xml
+    public JSONObject getSellDaily(HttpServletRequest request) {
+        JSONObject result = new JSONObject();
+        // 所属区域
+        String area = request.getParameter("area");
+        // 查询日期
+        String startDate = request.getParameter("startDate");
+        
+        criteria.clear();
+        if(StringUtil.isNotBlank(area)){
+            criteria.put("area", area);
+        }
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            // 为空, 默认查询当天的数据
+            criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+            criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
+        }
+        
+        // 获取销售商品信息
+        List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
+        
+        // 获取销售结算明细
+        List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
+        
+        result.put("goodsList", goodsList);
+        result.put("clearing", clearingList);
+        return result;
     }
 }

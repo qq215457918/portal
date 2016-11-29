@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -13,6 +14,9 @@
       </if>
       <if test="condition.description != null" >
          and description = #{condition.description,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.userId != null" >
+         and user_id = #{condition.userId,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -27,8 +31,18 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, description
+    role_info.id, role_info.name , user_id
   </sql>
+  
+  <select id="selectRoleByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    role_info.id, 
+    role_info.name, 
+    user_id 
+    from  user_role left join role_info on user_role.role_id= role_info.id
+	where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >
@@ -44,6 +58,7 @@
     </if>
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

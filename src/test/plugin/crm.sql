@@ -14,18 +14,37 @@ Date: 2016-08-28 18:00:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `culture_info`
+-- ----------------------------
+DROP TABLE IF EXISTS `culture_info`;
+CREATE TABLE `culture_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL,
+  `name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '文交所名称',
+  `desc` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '描述信息',
+  `create_date` date DEFAULT NULL,
+  `delete_flag` varchar(1) COLLATE utf8_bin DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='文交所信息表';
+
+
 -- ----------------------------
 -- Table structure for `customer_culture_info`
 -- ----------------------------
 DROP TABLE IF EXISTS `customer_culture_info`;
 CREATE TABLE `customer_culture_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
+  `customer_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '用户id',
+  `customer_name` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '客户姓名',
+ `phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '手机',  
+  `id_card` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '身份证', 
   `culture_name` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '文交所名称',
   `account_date` date DEFAULT NULL COMMENT '开户日期',
-  `bank_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否银商绑定',
-  `customer_name` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '客户姓名',
-  `phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '电话',
+  `bank_name` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '开户行名称',
+  `bank_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否绑定银行卡', 
   `code` varchar(30) COLLATE utf8_bin DEFAULT NULL COMMENT '会员代码',
+  `delete_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL,  
   `update_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL,
   `update_date` date DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -50,12 +69,13 @@ CREATE TABLE `customer_info` (
   `phone_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客户人员id',
   `receiver_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '业务人员id',
   `business_phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '商务电话',
+  `home_phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '电宅',
   `phone` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '手机',
   `visit_date` date DEFAULT NULL COMMENT '登门时间',
   `area` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '地区：大连、沈阳',
-  `address` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT '地址',
+  `address` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '地址',
   `phone2` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '其他电话2',
-  `relation_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '关联亲友',
+  `relation_id` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '关联亲友',
   `qq` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'qq',
   `msn` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT 'msn',
   `site` varchar(40) COLLATE utf8_bin DEFAULT NULL COMMENT '网页',
@@ -64,14 +84,14 @@ CREATE TABLE `customer_info` (
   `product` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '产品',
   `transaction_amount` decimal(10,0) DEFAULT NULL COMMENT '金额',
   `recent_visit_date` datetime DEFAULT NULL COMMENT '最近拜访时间',
+  `recent_import_date` datetime DEFAULT NULL COMMENT '最近导入时间',
   `recent_export_date` datetime DEFAULT NULL COMMENT '最近导出时间',
   `blacklist_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '黑名单标志',
   `update_date` date DEFAULT NULL COMMENT '变成本类型客户时间',
   `update_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '是否更新标志',
   PRIMARY KEY (`id`),
   UNIQUE KEY `phone` (`phone`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户信息表';
-
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='用户信息表'
 -- ----------------------------
 -- Records of customer_info
 -- ----------------------------
@@ -86,6 +106,7 @@ CREATE TABLE `employee_info` (
   `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
   `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
   `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
+  `position_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '职位类型 1-客服 2-业务员',
   `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
   `password` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录密码',
   `reception_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '接待标示(0未接待 1 正在接待)',
@@ -110,6 +131,7 @@ CREATE TABLE `goods_info` (
   `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '产品名称',
   `price` decimal(10,0) DEFAULT NULL COMMENT '商品金额',
   `amount` int(11) DEFAULT NULL COMMENT '数量',
+  `unit` varchar(60) DEFAULT NULL COMMENT '单位',
   `trusteeship_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '是否可托管',
   `repurchase_flag` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '回购标志',
   `repurchase_info` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '回购信息',
@@ -193,8 +215,8 @@ CREATE TABLE `order_info` (
   `customer_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客户id',
   `phone_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '客服id',
   `receiver_staff_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '接待人员id',
-  `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
-  `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品',
+  `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成 5待审批 6回购待确认',
+  `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品 5回购',
   `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付 3余款支付',
   `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
   `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
@@ -248,6 +270,8 @@ CREATE TABLE `reception_info` (
   `start_time` datetime DEFAULT NULL COMMENT '开始接待时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束接待时间',
   `order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '订单id可为空',
+  `present_order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '赠品orderId可为空',
+  `present_name` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '赠品orderId可为空',
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='日常接待表';

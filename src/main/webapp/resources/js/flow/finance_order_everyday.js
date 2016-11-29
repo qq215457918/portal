@@ -53,12 +53,29 @@ $(document).ready(function(){
 }); 
 
 $(document).on('click', '#examPass', function () { 
+	var _this = $(this);
 	$.ajax({
 		"dataType": 'text',
 		"type": "POST",
 		"url": 'workflow/updateOrderInfo',
 		"data": {
-			'orderId': $(this).attr('data-order-id')
+			'orderId': _this.attr('data-order-id')
+		},
+		"success": function(data){
+			alert("更新成功");
+		}
+	})
+});
+
+$(document).on('click', '#examError', function () { 
+	var _this = $(this);
+	$.ajax({
+		"dataType": 'text',
+		"type": "POST",
+		"url": 'workflow/updateOrderInfo',
+		"data": {
+			'orderId': _this.attr('data-order-id'),
+			'operate': '1'
 		},
 		"success": function(data){
 			alert("更新成功");
@@ -147,8 +164,22 @@ function initData(){
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
+				return formatDate(data);
+			},
+			"targets" : 6
+			},
+			{
+			"render" : function(data, type, row) {
 				var operation = '<a data-toggle="modal" data-order-id="' + row.id + '" id="examPass">审核通过</a>&nbsp;&nbsp;' + 
 					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
+				
+				if(row.financeFlag == 1){
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已审核</a>&nbsp;&nbsp;' + 
+					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
+				}else if(row.financeFlag == -1){
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">详情</a>';
+				}
+				
 				return operation;
 			},
 			"targets" : 7
@@ -162,8 +193,9 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderId = $('#orderId').val();
 							var financeDate = $('#financeDate').val();
+							var userId = $('#hiddenUserId').val();
 							
-							aoData.push({'name':'orderId','value':orderId}, {'name':'financeDate','value':financeDate});
+							aoData.push({'name':'orderId','value':orderId}, {'name':'financeDate','value':financeDate}, {'name':'userId','value':userId});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
@@ -176,4 +208,16 @@ function initData(){
 						}
 	}); 
 	
+}
+
+function formatDate(data){
+	if('' == data || null == data){
+		return '';
+	}else {
+		if('' == data.hours && '' == data.minutes && '' == data.seconds){
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date;
+		}else {
+			return (data.year + 1900) + '/' + (data.month+1) + '/' + data.date + ' ' + data.hours + ':' + data.minutes + ':' +data.seconds;
+		}
+	}
 }

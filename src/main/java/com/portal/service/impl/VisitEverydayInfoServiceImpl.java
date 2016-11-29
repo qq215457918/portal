@@ -1,7 +1,10 @@
 package com.portal.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -90,29 +93,59 @@ public class VisitEverydayInfoServiceImpl implements VisitEverydayInfoService {
         
         // 开始日期
         String startVisitDate = request.getParameter("startVisitDate");
+        String endVisitDate = request.getParameter("endVisitDate");
         
         criteria.clear();
         if(StringUtil.isNotBlank(startVisitDate)){
-            // 不管前台选择的是周几, 都获取到对应星期的周一
-            startVisitDate = DateUtil.formatDate(DateUtil.getNowWeekMonday(DateUtil.parseDate(startVisitDate, "yyyy-MM-dd")), "yyyy-MM-dd");
-            criteria.put("startVisitDate", startVisitDate);
-            // 默认存入当前选中日期对应的周日
-            criteria.put("endVisitDate", DateUtil.formatDate(DateUtil.getNowWeekSunday(DateUtil.parseDate(startVisitDate, "yyyy-MM-dd")), "yyyy-MM-dd 23:59:59"));
+            criteria.put("startVisitDate2", startVisitDate);
         }else {
-            // 如果开始时间为空, 则取当前日期的上一周为查询条件
+            // 如果开始时间为空, 则取上周一为开始时间
             startVisitDate = DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd");
-            criteria.put("startVisitDate", startVisitDate);
-            criteria.put("endVisitDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
+            criteria.put("startVisitDate2", startVisitDate);
+        }
+        if(StringUtil.isNotBlank(endVisitDate)){
+            criteria.put("endVisitDate2", endVisitDate);
+        }else {
+            // 如果结束时间为空,判断开始日期是否为空
+            // 如果开始日期为空, 则默认结束日期为上周日
+            // 如果开始日期不为空, 则结束日期为开始日期后6天的日期
+            if(StringUtil.isNotBlank(startVisitDate)) {
+                Date date=DateUtil.parseDate(startVisitDate, "yyyy-MM-dd");  
+                Calendar cal=Calendar.getInstance();  
+                cal.setTime(date);
+                endVisitDate = DateUtil.formatDate(DateUtil.getLaterSixDate(cal, 6), "yyyy-MM-dd");
+                criteria.put("endVisitDate2", endVisitDate);
+            }else {
+                endVisitDate = DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd");
+                criteria.put("endVisitDate2", endVisitDate);
+            }
         }
         
-        // 获取一周内各地区的登门数量
+        // 将查询日期转换成Calendar
+        Calendar startDate=Calendar.getInstance();
+        Calendar endDate=Calendar.getInstance();
+        startDate.setTime(DateUtil.parseDate(startVisitDate, "yyyy-MM-dd"));
+        endDate.setTime(DateUtil.parseDate(endVisitDate, "yyyy-MM-dd"));
+        
+        // 获取两个日期之间的所有日期
+        List<String> dates = DateUtil.getDates(startDate, endDate);
+        
+        // 获取两个日期内各地区的登门数量
         Map<String, Integer> counts = visitEverydayInfoExtDao.getVisitCounts(criteria);
         
-        //查询出大连一周的登门数量
-        Map<String, Object> dlCustomer = visitEverydayInfoExtDao.getWeekVisitCounts(startVisitDate, "1");
+        //查询出大连登门日期及对应数量
+        criteria.put("customerArea", "1");
+        List<VisitEverydayInfoForm> dlCustomer = visitEverydayInfoExtDao.getDayAndVisitCounts(criteria);
         
-        // 查询出沈阳一周的登门数量
-        Map<String, Object> syCustomer = visitEverydayInfoExtDao.getWeekVisitCounts(startVisitDate, "0");
+        //生成大连登门数量
+        List<Integer> dlCounts = generateCountsList(dates, dlCustomer);
+        
+        // 查询出沈阳登门日期及对应数量
+        criteria.put("customerArea", "0");
+        List<VisitEverydayInfoForm> syCustomer = visitEverydayInfoExtDao.getDayAndVisitCounts(criteria);
+        
+        //生成沈阳登门数量
+        List<Integer> syCounts = generateCountsList(dates, syCustomer);
         
         if(counts != null) {
             result.put("customerCounts", counts.get("total_counts") != null ? counts.get("total_counts") : new BigDecimal(0));
@@ -123,22 +156,40 @@ public class VisitEverydayInfoServiceImpl implements VisitEverydayInfoService {
             result.put("dlCounts", 0);
             result.put("syCounts", 0);
         }
-        if(dlCustomer != null) {
-            // 转换成JSON格式
-            JSONObject dlResult = JSONObject.fromObject(dlCustomer);
-            result.put("dlResult", dlResult);
-        }else {
-            result.put("dlResult", null);
-        }
-        if(syCustomer != null) {
-            // 转换成JSON格式
-            JSONObject syResult = JSONObject.fromObject(syCustomer);
-            result.put("syResult", syResult);
-        }else {
-            result.put("syResult", null);
-        }
+        
+        result.put("dates", dates);
+        result.put("dlResult", dlCounts);
+        result.put("syResult", syCounts);
         
         return result;
+    }
+    
+    /**
+     * @Title: generateCountsList 
+     * @Description: 生成报表需要的线形图数据
+     * @param dates  查询日期条件所包含的所有日期
+     * @param visitCustomer 登门用户
+     * @return List<Integer>
+     * @author Xia ZhengWei
+     * @date 2016年11月23日 下午11:53:29 
+     * @version V1.0
+     */
+    private List<Integer> generateCountsList(List<String> dates, List<VisitEverydayInfoForm> visitCustomer) {
+        Map<String, Integer> counts = new HashMap<String, Integer>();
+        if(visitCustomer.size() > 0) {
+            for (VisitEverydayInfoForm visitEverydayInfoForm : visitCustomer) {
+                counts.put(visitEverydayInfoForm.getViewVisitDate(), visitEverydayInfoForm.getVisitCounts());
+            }
+        }
+        List<Integer> dateCounts = new ArrayList<Integer>();
+        for(int idx = 0; idx < dates.size(); idx ++) {
+            if(counts.get(dates.get(idx)) != null) {
+                dateCounts.add(counts.get(dates.get(idx)));
+            }else {
+                dateCounts.add(0);
+            }
+        }
+        return dateCounts;
     }
 
     public JSONObject ajaxVisitEveryDayList(HttpServletRequest request, HttpServletResponse response) {

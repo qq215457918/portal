@@ -1,4 +1,10 @@
 $(document).ready(function(){
+	var date = new Date();
+	$('#dateInfo').val(date.getFullYear() + '-'
+			+ (date.getMonth()+1<10?'0'+date.getMonth():(date.getMonth()+1)) + '-' 
+			+ (date.getDate()<10?'0'+date.getDate():date.getDate()));
+	$('#dateInfo').datepicker({format: 'yyyy-mm-dd',defaultViewDate: 'today'});
+	
 	initData();
 	
 	$('#uploadFLow').click(function(){
@@ -39,6 +45,12 @@ $(document).on('click', '#itemExam', function () {
 
 function commitExam(suggestion){
 	$('#examModel inout[name=suggestion]').val(suggestion);
+	$('#examModel').modal('hide');
+	if(suggestion=='pass'){
+		$('#itemExam').html('已审核');
+	}else {
+		$('#itemExam').html('已拒绝');
+	}
 }
 
 function initData(){
@@ -52,26 +64,25 @@ function initData(){
 		"bRetrieve": true,
 		"sAjaxSource": "workflow/selectTaskListById", // 地址
 		"aoColumns": [ 
-			        {"mData": null, "target": 0},	//序列号   
-		            {"mData": "clerkId"},
-		            {"mData": "clerkName"},
-		            {"mData": "name"}, 
-		            {"mData": "assignee"},    
+			        {"mData": ""},
+		            {"mData": "employeeName"},
+		            {"mData": "orderCount"},
+		            {"mData": "payPrice"}, 
+		            {"mData": "actualPrice"}, 
+		            {"mData": "receptionCount"},
 		            {"mData": ""},             
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
-				return '<a href="#examModel" data-toggle="modal" id="itemExam">审批</a>&nbsp;'
-					+ '<a href="#detailModel" data-toggle="modal" data-taskId="1010" id="itemDetail">详情</a>';
+				return '<label><input name="optionsRadios1" type="checkbox" value="' + row.clerkId + '"><span></span></label>';
 			},
-			"targets" : 5
+			"targets" : 0
+			},{
+			"render" : function(data, type, row) {
+				return '<a href="workflow/clerkEverydayAchievenment?employeeId=' + row.employeeId + '" data-toggle="modal" id="itemDetail">详情</a>';
+			},
+			"targets" : 6
 			}],
-		"fnDrawCallback": function(){
-   			var api = this.api();
-   			api.column(0).nodes().each(function(cell, i) {
-   				cell.innerHTML =  i + 1;
-   			});
-   		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var phone = $('#phone').val();
 							var phoneStage = $('#phoneStage').val();

@@ -29,6 +29,11 @@ public class VisitEverydayInfoForm extends VisitEverydayInfo {
     private String viewOutOrIndent;
     
     /**
+     * 页面展示接待数量
+     */
+    private Integer visitCounts;
+    
+    /**
      * @Title: getViewVisitDate 
      * @Description: 页面展示登门日期
      * @return String
@@ -122,5 +127,12 @@ public class VisitEverydayInfoForm extends VisitEverydayInfo {
     public void setViewOutOrIndent(String viewOutOrIndent) {
         this.viewOutOrIndent = viewOutOrIndent;
     }
+    public Integer getVisitCounts() {
+        return visitCounts;
+    }
+    public void setVisitCounts(Integer visitCounts) {
+        this.visitCounts = visitCounts;
+    }
+    
     
 }

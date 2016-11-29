@@ -69,6 +69,9 @@
       <if test="condition.endDate != null" >
          <![CDATA[and s.operate_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
+      <if test="condition.goodsName != null" >
+         and s.good_name like CONCAT("%", #{condition.goodsName,jdbcType=VARCHAR}, "%")
+      </if>
     </trim>
   </sql>
   
@@ -76,6 +79,31 @@
     s.id, s.order_id, s.order_detail_id, s.good_sort_id, s.good_sort_name, s.good_id, s.good_type, 
     s.good_name, s.price, s.amount, s.operate_flag, s.operate_date, s.operate_id, o.order_number
   </sql>
+  
+  <!-- 根据条件查询商品和赠品的出库数量 -->
+  <select id="getGoodsAndGiftCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select 
+		distinct
+		(select sum(s.amount)
+			from storehouse_operate_info s
+			left join order_info o on s.order_id = o.id
+			left join customer_info c on o.customer_id = c.id
+		<if test="_parameter != null" >
+	      	<include refid="Example_Where_Clause" />
+	    </if>
+			and s.good_sort_id != 1
+		) as commodity,
+		(select sum(s.amount)
+			from storehouse_operate_info s
+			left join order_info o on s.order_id = o.id
+			left join customer_info c on o.customer_id = c.id
+		<if test="_parameter != null" >
+	      	<include refid="Example_Where_Clause" />
+	    </if>
+			and s.good_sort_id = 1
+		) as gift
+	from storehouse_operate_info
+  </select>
   
   <!-- 根据条件查询出库明细记录总数 -->
   <select id="getCountsByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
