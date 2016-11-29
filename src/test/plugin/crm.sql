@@ -523,3 +523,19 @@ CREATE TABLE `butt_perfor_detail_info` (
   KEY `idx_phone_staff_name` (`phone_staff_name`) USING BTREE,
   KEY `idx_report_date` (`report_date`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin ROW_FORMAT=DYNAMIC COMMENT='展厅客服对接业绩详情表';
+
+-- ----------------------------
+-- Table structure for order_fund_settlement
+-- ----------------------------
+DROP TABLE IF EXISTS `order_fund_settlement`;
+CREATE TABLE `order_fund_settlement` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键id',
+  `order_number` varchar(14) COLLATE utf8_bin NOT NULL COMMENT '订单编号',
+  `account` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '使用账户',
+  `customer_pay_type` varchar(2) COLLATE utf8_bin NOT NULL COMMENT '客户支付方式',
+  `pay_amount` decimal(10,2) NOT NULL COMMENT '需要支付金额',
+  `pay_amount_actual` decimal(10,2) DEFAULT NULL COMMENT '实际支付金额',
+  `poundage` decimal(10,2) DEFAULT NULL COMMENT '手续费',
+  `remark` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='资金结算表'
