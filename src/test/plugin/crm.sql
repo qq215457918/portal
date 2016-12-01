@@ -531,7 +531,7 @@ DROP TABLE IF EXISTS `order_fund_settlement`;
 CREATE TABLE `order_fund_settlement` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键id',
   `order_number` varchar(14) COLLATE utf8_bin NOT NULL COMMENT '订单编号',
-  `account` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '使用账户',
+  `payment_account_id` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '收款账户ID',
   `customer_pay_type` varchar(2) COLLATE utf8_bin NOT NULL COMMENT '客户支付方式',
   `pay_amount` decimal(10,2) NOT NULL COMMENT '需要支付金额',
   `pay_amount_actual` decimal(10,2) DEFAULT NULL COMMENT '实际支付金额',
@@ -539,3 +539,23 @@ CREATE TABLE `order_fund_settlement` (
   `remark` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='资金结算表'
+
+-- ----------------------------
+-- Table structure for payment_account_info
+-- ----------------------------
+DROP TABLE IF EXISTS `payment_account_info`;
+CREATE TABLE `payment_account_info` (
+  `payment_account_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '收款账户ID',
+  `payment_account_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '收款账户名称',
+  `bank_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '银行名称',
+  `account_number` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '账号',
+  `is_usable` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '1' COMMENT '是否可用 0-不可用 1-可用',
+  `delete_reason` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '删除理由',
+  `delete_flag` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '删除标识 0-未删除 1-已删除',
+  `create_date` date NOT NULL COMMENT '添加日期',
+  `create_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '创建用户ID',
+  `update_date` date NOT NULL COMMENT '修改日期',
+  `update_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '修改用户ID',
+  PRIMARY KEY (`payment_account_id`),
+  KEY `idx_payment_account_id` (`payment_account_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='收款账户信息表';
