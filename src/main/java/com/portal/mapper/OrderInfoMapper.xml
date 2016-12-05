@@ -120,6 +120,9 @@
       <if test="condition.today_flag != null" >
          and to_days(create_date) = to_days(now())
       </if>
+      <if test="condition.financeOrder != null and condition.financeOrder == 1" >
+         and (order_type = 1 or ((order_type = 2 or order_type = 3) and warehouse_flag = -1))
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -718,6 +721,12 @@
       <if test="condition.userId != null" >
          and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
       </if>
+      <if test="condition.store != null and condition.store == 1" >
+         and (finance_flag = 1 or ((order_type = 2 or order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)))
+      </if>
+      <if test="condition.orderId != null" >
+         and oi.id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
     </trim>
     group by id
     <include refid="common.Mysql_Pagination_Limit" />
@@ -743,6 +752,9 @@
       </if>
       <if test="condition.financeDate != null" >
          and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.orderId != null" >
+         and oi.id = #{condition.orderId,jdbcType=VARCHAR}
       </if>
     </trim>
     ) a

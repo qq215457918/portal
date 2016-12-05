@@ -8,10 +8,10 @@ $(document).ready(function(){
 		$('#financeOrderExam').dataTable().fnDraw();
 	});
 	
-	$('#outgoing').click(function(){
-		$('#outgoingInfo').show();
+	$('#outNoTake').click(function(){
+		$('#hasPayInfo').show();
 //		$('#outgoingInfo').jqprint();
-		$("#outgoingInfo").print({
+		$("#hasPayInfo").print({
 	        globalStyles: true,
 	        mediaPrint: false,
 	        stylesheet: null,
@@ -47,23 +47,36 @@ $(document).ready(function(){
 	});
 	
 	$('#printInfo').on('hidden.bs.modal', function () {
-		$('#outgoingInfo').hide();
+		$('#hasPayInfo').hide();
 		$('#receiveMoneyInfo').hide();
 	});
 }); 
 
 $(document).on('click', '#confirmReceipt', function () { 
+	var operate = $(this).attr('data-operate-id');
 	$.ajax({
 		"dataType": 'text',
 		"type": "POST",
 		"url": 'workflow/updateOrderInfo',
 		"data": {
-			'orderId': $(this).attr('data-order-id')
+			'orderId': $(this).attr('data-order-id'),
+			'operate': operate
 		},
 		"success": function(data){
-			alert("更新成功");
+			if(1 == operate){
+				alert("已确认收款");
+			}else{
+				alert("更新成功,待仓库审核");
+			}
+			
+			$('#financeOrderExam').dataTable().fnDraw();
 		}
 	})
+});
+
+
+$(document).on('click', '#orderDetailInfo', function () { 
+	window.location.href = 'order/orderModifyIndex?orderId='+$(this).attr('data-order-id');
 });
 
 $(document).on('click', '#toPrint', function () { 
@@ -86,7 +99,7 @@ $(document).on('click', '#toPrint', function () {
 				var today = data[0].today;
 				var payTypeName = data[0].payTypeName;
 				var outgoingHtml = '';
-				var receiveMoneyHtml = '';
+				var hasPayInfoHtml = '';
 				
 				for(var i in data){
 					outgoingHtml += '<tr><td>' + data[i].goodName + '</td>';
@@ -97,11 +110,10 @@ $(document).on('click', '#toPrint', function () {
 					outgoingHtml += '<td></td>';
 					outgoingHtml += '<td></td></tr>';
 					
-					receiveMoneyHtml += '<tr><td>' + data[i].goodName + '</td>';
-					receiveMoneyHtml += '<td>' + data[i].amount + '</td>';
-					receiveMoneyHtml += '<td>件</td>';
-					receiveMoneyHtml += '<td>' + data[i].price + '</td>';
-					receiveMoneyHtml += '<td>' + actualPrice + '</td></tr>';
+					hasPayInfoHtml += '<tr><td>' + data[i].goodName + '</td>';
+					hasPayInfoHtml += '<td>' + data[i].amount + '</td>';
+					hasPayInfoHtml += '<td>件</td>';
+					hasPayInfoHtml += '<td>' + actualPrice + '</td></tr>';
 				} 
 				
 				$('#outgoingInfo span[name=customerName]').html('客户：' + customerName);
@@ -111,12 +123,12 @@ $(document).on('click', '#toPrint', function () {
 				$('#outgoingInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
 				$('#outgoingInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
 				
-				$('#receiveMoneyInfo span[name=customerName]').html('客户：' + customerName);
-				$('#receiveMoneyInfo span[name=today]').html('日期：' + today);
-					$('#receiveMoneyInfo tbody[name=detail]').html(receiveMoneyHtml);
-				$('#receiveMoneyInfo td[name=priceCn]').html(payPriceCN);
-				$('#receiveMoneyInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
-				$('#receiveMoneyInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
+				$('#hasPayInfo span[name=customerName]').html('客户：' + customerName);
+				$('#hasPayInfo span[name=today]').html('日期：' + today);
+				$('#hasPayInfo tbody[name=detail]').html(hasPayInfoHtml);
+				$('#hasPayInfo td[name=remark]').html(remark);
+				$('#hasPayInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
+				$('#hasPayInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
 			}
 		}
 	})
@@ -140,21 +152,32 @@ function initData(){
 		            {"mData": "orderNumber"},
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
-		            {"mData": "payPrice"},    
+		            {"mData": "payPrice"}, 
+		            {"mData": "wareHouseFlagName"}, 
 		            {"mData": ""} 
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
 				var operation = '<a data-toggle="modal" data-order-id="' + row.id + '" id="confirmReceipt">确认收款</a>&nbsp;&nbsp;' + 
 					'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
-				if(row.financeFlag){
-					var operation = '<a href="javascript:;" data-toggle="modal">已收款</a>&nbsp;&nbsp;' + 
+				if(row.warehouseFlag == -1){
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" data-operate-id="1" id="confirmReceipt">确认付款</a>&nbsp;&nbsp;' + 
+						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
+				}
+				if(row.financeFlag == 1){
+					operation = '<a href="javascript:;" data-toggle="modal">已收款</a>&nbsp;&nbsp;' + 
+						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
+				}
+				if(row.financeFlag == -1){
+					operation = '<a href="javascript:;" data-toggle="modal">已付款</a>&nbsp;&nbsp;' + 
 						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				}
 				
+				operation += '&nbsp;&nbsp;<a data-toggle="modal" data-order-id="' + row.id + '" id="orderDetailInfo">订单详情</a>';
+				
 				return operation;
 			},
-			"targets" : 5
+			"targets" : 6
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();

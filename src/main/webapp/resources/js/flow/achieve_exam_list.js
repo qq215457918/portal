@@ -1,9 +1,20 @@
 $(document).ready(function(){
 	var date = new Date();
-	$('#dateInfo').val(date.getFullYear() + '-'
-			+ (date.getMonth()+1<10?'0'+date.getMonth():(date.getMonth()+1)) + '-' 
-			+ (date.getDate()<10?'0'+date.getDate():date.getDate()));
+	if($('#dateInfo').val() == ''){
+		$('#dateInfo').val(date.getFullYear() + '-'
+				+ (date.getMonth()+1<10?'0'+date.getMonth():(date.getMonth()+1)) + '-' 
+				+ (date.getDate()<10?'0'+date.getDate():date.getDate()));
+	}
 	$('#dateInfo').datepicker({format: 'yyyy-mm-dd',defaultViewDate: 'today'});
+	
+	$('#searchAchieve').click(function(){
+		if('' == $('#dateInfo').val()){
+			return;
+		}
+		$('#flowForm').submit();
+		
+	});
+	
 	
 	initData();
 	
@@ -51,6 +62,17 @@ function commitExam(suggestion){
 	}else {
 		$('#itemExam').html('已拒绝');
 	}
+	
+	$('input[type=checkbox]:checked').each(function(){
+		if($(this).attr(name) == 'checkAll'){
+			return;
+		}
+		if(suggestion=='pass'){
+			$(this).closest('tr').find('td:last').append('  已审核')
+		}else {
+			$(this).closest('tr').find('td:last').append('  已拒绝')
+		}
+	});
 }
 
 function initData(){
@@ -79,16 +101,13 @@ function initData(){
 			"targets" : 0
 			},{
 			"render" : function(data, type, row) {
-				return '<a href="workflow/clerkEverydayAchievenment?employeeId=' + row.employeeId + '" data-toggle="modal" id="itemDetail">详情</a>';
+				return '<a href="workflow/clerkEverydayAchievenment?employeeId=' + row.employeeId + '&dateInfo=' + $('#dateInfo').val() + '" data-toggle="modal" id="itemDetail">详情</a>';
 			},
 			"targets" : 6
 			}],
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var phone = $('#phone').val();
-							var phoneStage = $('#phoneStage').val();
-							var type = $('#type option:selected').val();
-							var updateDate = $('#updateDate').val();
-							aoData.push({'name':'phone','value':phone},{'name':'phoneStage','value':phoneStage},{'name':'type','value':type});
+							var dateInfo = $('#dateInfo').val();
+							aoData.push({'name':'dateInfo','value':dateInfo});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

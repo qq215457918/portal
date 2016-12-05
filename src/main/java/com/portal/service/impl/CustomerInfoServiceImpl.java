@@ -338,7 +338,15 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-        customerInfoDao.insertAndUpdateCustomerInfo(data);
+    	for(int i = 0; i < data.size(); i++){
+    		if(null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))){
+    			continue;
+    		}
+    		if(String.valueOf(data.get(i).get("p9")).length() != 11){
+    			continue;
+    		}
+    		customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+    	}
     }
 
     /**

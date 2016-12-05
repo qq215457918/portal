@@ -11,19 +11,20 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="/WEB-INF/jsp/customer/head.jsp" />
 		<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="widget-container fluid-height clearfix">
 						<div class="widget-content padded">
-							<form action="workflow/clerkEverydayAchievenment" id="flowForm" method="post">
+							<form action="workflow/achieveExamList" id="flowForm" method="post">
 								<div class="form-group">
 									<label class="control-label col-md-2 swidth">日期</label>
 									<div class="col-md-2">
 										<div class="input-group date datepicker">
-											<input class="form-control" type="text" name="dateInfo" id="dateInfo">
+											<input class="form-control" type="text" value="${dateInfo }" name="dateInfo" id="dateInfo">
 												<span class="input-group-addon">
 												<i class="icon-calendar"></i>
 											</span>
@@ -73,7 +74,8 @@
 						<div class="col-md-4">
 							<div class="number">
 								<div class="icon visitors"></div>
-								${result.commitCount }
+<%-- 								${result.commitCount } --%>
+								${tempCount }
 							</div>
 							<div class="text">提交人数</div>
 						</div>
@@ -97,6 +99,11 @@
 						<div class="form-group">
 							<div class="col-md-7">
 								<button class="btn btn-primary" id="searchList">搜索</button>
+							</div>
+							<div class="col-md-7">
+								<a href="#examModel" data-toggle="modal">
+									<button class="btn btn-primary">审核</button>
+								</a>
 							</div>
 						</div>
 						<!-- DataTables Example -->

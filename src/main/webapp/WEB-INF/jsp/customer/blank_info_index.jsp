@@ -11,26 +11,30 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="head.jsp" />
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
-						<div class="form-group">
-							<label class="control-label col-md-2 swidth">电话号码</label>
-							<div class="col-md-2">
-								<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">
+						<div class="row">
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">电话号码</label>
+								<div class="col-md-2">
+									<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">
+								</div>
+	
+								<label class="control-label col-md-2 swidth">上次导入时间</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="importDate1" placeholder="开始时间" type="text">
+					            </div>
+					            <div class="col-sm-2">
+					            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="importDate2" placeholder="结束时间" type="text">
+					            </div>
 							</div>
-
-							<label class="control-label col-md-2 swidth">上次导入时间</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="importDate1" placeholder="开始时间" type="text">
-				            </div>
-				            <div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="importDate2" placeholder="结束时间" type="text">
-				            </div>
-							
+						</div>
+						<div class="row">
 							<label class="control-label col-md-2 swidth">上次导出时间</label>
 							<div class="col-sm-2">
 				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd1" placeholder="开始时间" type="text">
@@ -39,7 +43,7 @@
 				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间" type="text">
 				            </div>
 						</div>
-						<div class="form-group">
+						<div class="form-group" style="margin-top:10px;">
 							<div class="col-md-7">
 								<button class="btn btn-success" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>

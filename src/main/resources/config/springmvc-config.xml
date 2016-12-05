@@ -95,10 +95,10 @@
         p:resolveLazily="true" />
         
     <!-- 开启shiro注解-->
-	<aop:config proxy-target-class="true"></aop:config>  
-    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">  
-        <property name="securityManager" ref="securityManager"/>  
-    </bean>    
+<!-- 	<aop:config proxy-target-class="true"></aop:config>   -->
+<!--     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">   -->
+<!--         <property name="securityManager" ref="securityManager"/>   -->
+<!--     </bean>     -->
 	    
     <!-- 针对类、方法级别的权限拦截器 -->
 <!-- 	<mvc:interceptors> -->
@@ -106,6 +106,6 @@
 <!-- 	</mvc:interceptors> -->
 		
 	<import resource="classpath:/config/pool-config.xml" />
-	<import resource="classpath:/config/shiro-config.xml" />
+<!-- 	<import resource="classpath:/config/shiro-config.xml" /> -->
 	<import resource="classpath:/config/activiti-config.xml" />
 </beans>

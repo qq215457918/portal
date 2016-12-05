@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="/WEB-INF/jsp/customer/head.jsp" />
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">

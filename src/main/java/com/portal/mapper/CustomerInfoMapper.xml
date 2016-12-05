@@ -679,7 +679,7 @@
   
   <sql id="Columnex_List" >
     ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.sex, ci.address, ci.phone_staff_id, ei.name as phone_staff_name, ci.receiver_staff_id, ci.business_phone, 
-    ci.phone, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount, 
+    ci.phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount, 
     ci.recent_visit_date, ci.recent_export_date, ci.blacklist_flag, ci.update_date, ci.update_flag,a.recent_create_date, a.pay_price
   </sql>
   <select id="selectCustomerExList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
@@ -805,29 +805,27 @@
     </foreach>
   </update>
   
-  <insert id="insertAndUpdateCustomerInfo">
+  <insert id="insertAndUpdateCustomerInfo" parameterType="map">
   	insert into customer_info (
   		id,type,season2,season3,season4,
   		name,sex,phone_staff_id,receiver_staff_id,
-  		business_phone,phone,visit_date,area,update_date,
+  		business_phone,phone,visit_date,
+  		area,update_date,
   		phone2,relation_id,qq,msn,
   		site,id_card,product,transaction_amount,
-  		recent_visit_date,recent_import_date,
-  		recent_export_date,blacklist_flag,update_flag,address,birthday
+  		recent_import_date
   		) values 
-  		<foreach collection="list" item="customer" index="index" separator=",">
-	        (
-	        rand_string(16), #{customer.p0}, #{customer.p1}, #{customer.p2}, #{customer.p3},
-	        #{customer.p4}, '', (select a.id from employee_info a where a.name=#{customer.p5} limit 1), (select a.id from employee_info a where a.name=#{customer.p6} limit 1),
-	        #{customer.p8}, #{customer.p9}, DATE_FORMAT(#{customer.p10},'%Y-%m-%d'), #{customer.p11}, DATE_FORMAT(#{customer.p12},'%Y-%m-%d'),
-	        #{customer.p13}, #{customer.p14}, #{customer.p15}, #{customer.p16},
-	        #{customer.p17},#{customer.p18},#{customer.p19}, #{customer.p20}, 
-	        '', now(), 
-	        '', '', '', '', ''
-	    	)
-	    </foreach>
-  	on duplicate key update recent_import_date = now(), type = #{customer.p0}, update_date = DATE_FORMAT(#{customer.p12},'%Y-%m-%d'),
-  		phone_staff_id = (select a.id from employee_info a where a.name=#{customer.p5} limit 1)
+        (
+        rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
+        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1), (select a.id from employee_info a where a.name=#{p6} limit 1),
+        #{p8}, #{p9}, case when #{p10} = '' then null else DATE_FORMAT(#{p10},'%Y-%m-%d') end, 
+        #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
+        #{p13}, #{p14}, #{p15}, #{p16},
+        #{p17},#{p18},#{p19}, case when #{p20} = '' then null else #{p20} end, 
+        now()
+    	)
+  	on duplicate key update recent_import_date = now(), type = #{p0}, update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
+  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1)
   </insert>
   
   <update id="updateCustomerInfo" parameterType="map">

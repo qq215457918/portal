@@ -93,6 +93,8 @@ public class OrderInfo implements Serializable {
      * 1 已审核
      */
     private String warehouseFlag;
+    
+    private String wareHouseFlagName;
 
     /**
      * 仓库人员id
@@ -429,9 +431,23 @@ public class OrderInfo implements Serializable {
      */
     public void setWarehouseFlag(String warehouseFlag) {
         this.warehouseFlag = warehouseFlag;
+        
+        if("0".equals(warehouseFlag)){
+        	wareHouseFlagName = "未出库";
+        }else if("1".equals(warehouseFlag)){
+        	wareHouseFlagName = "已出库";
+        }else if("-1".equals(warehouseFlag)){
+        	wareHouseFlagName = "已确认入库";
+        }else if("".equals(warehouseFlag)){
+        	wareHouseFlagName = "未出库";
+        }
     }
+    
+    public String getWareHouseFlagName() {
+		return wareHouseFlagName;
+	}
 
-    /**
+	/**
      * @return 仓库人员id
      */
     public String getWarehouseOperatorId() {

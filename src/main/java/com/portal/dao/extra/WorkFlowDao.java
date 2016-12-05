@@ -72,5 +72,14 @@ public interface WorkFlowDao {
 	 * @throws
 	 */
 	List<Map<String, Object>> selectClerkDayList(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectTaskCountById 
+	 * @Description: 获取业务员每日接待客户种类数量
+	 * @param paramMap
+	 * @return List<Map<String, Object>>
+	 * @throws
+	 */
+	List<Map<String, String>> selectlerkEverydayTypeCount(Map<String, Object> paramMap);
 	
 }

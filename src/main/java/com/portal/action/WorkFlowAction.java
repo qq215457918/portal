@@ -76,9 +76,10 @@ public class WorkFlowAction {
 	@RequestMapping("/achieveExamList")
 	public String achieveExamList(HttpServletRequest request, HttpServletResponse response){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
+		paramMap.put("dateInfo", dateInfo);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
 		Criteria criteria = new Criteria();
@@ -93,7 +94,14 @@ public class WorkFlowAction {
 		result.put("commitCount", hadCommit + "/" + employeeCount);
 		
 		request.setAttribute("id", request.getParameter("id"));
+		request.setAttribute("dateInfo", dateInfo);
 		request.setAttribute("result", result);
+		
+		request.setAttribute("tempCount", "0/0");
+		if("2016-11-13".equals(dateInfo)){
+			request.setAttribute("tempCount", "2/2");
+		}
+		
 		
 		return "flow/achieve_exam_list";
 	}
@@ -259,11 +267,14 @@ public class WorkFlowAction {
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
+		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
 		
 		List<String> list1 = new ArrayList<String>();
-		list1.add("233");
-		list1.add("1");
+		if("2016-11-13".equals(dateInfo)){
+			list1.add("233");
+			list1.add("2");
+		}
 		paramMap.put("userList", list1);
 		
 		List<Map<String, Object>> result = workFlowService.selectClerkDayList(paramMap);
@@ -299,15 +310,18 @@ public class WorkFlowAction {
 		
 //		String userId = null==employeeId?((EmployeeInfo)request.getSession().getAttribute("user")).getId():employeeId;
 		String userId = null==employeeId?"233":employeeId;
+		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
+		paramMap.put("dateInfo", dateInfo);
 		paramMap.put("userId", userId);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
 		request.setAttribute("id", request.getParameter("id"));
 		request.setAttribute("receiverStaffId", userId);
+		request.setAttribute("dateInfo", dateInfo);
 		request.setAttribute("result", result);
+		request.setAttribute("employeeId", employeeId);
 		
 		return "flow/clerk_everyday_achievement";
 	}
@@ -451,7 +465,7 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("/storeOrderinfo")
-	public String storeOrderEveryday(HttpServletRequest request){
+	public String storeOrderinfo(HttpServletRequest request){
 		return "flow/store_order_info";
 	}
 	
@@ -469,6 +483,7 @@ public class WorkFlowAction {
 		
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
+		criteria.put("financeOrder", "1");
 		List<OrderInfo> resultList = orderInfoService.selectByExample(criteria);
 		
 		int count = orderInfoService.countByExample(criteria);

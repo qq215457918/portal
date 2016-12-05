@@ -1,8 +1,11 @@
 $(document).ready(function(){
 	var date = new Date();
-	$('#dateInfo').val(date.getFullYear() + '-'
-			+ (date.getMonth()+1<10?'0'+date.getMonth():(date.getMonth()+1)) + '-' 
-			+ (date.getDate()<10?'0'+date.getDate():date.getDate()));
+	if($('#dateInfo').val()==''){
+		$('#dateInfo').val(date.getFullYear() + '-'
+				+ (date.getMonth()+1<10?'0'+date.getMonth():(date.getMonth()+1)) + '-' 
+				+ (date.getDate()<10?'0'+date.getDate():date.getDate()));
+	}
+	
 	$('#dateInfo').datepicker({format: 'yyyy-mm-dd',defaultViewDate: 'today'});
 	
 	$('#searchAchieve').click(function(){
@@ -88,6 +91,7 @@ function initData(){
 		"aoColumns": [ 
 		            {"mData": null, "target": 0},	//序列号
 		            {"mData": "customerName"},
+		            {"mData": "typeName"},
 		            {"mData": "customerPhone"},
 		            {"mData": "startTime"},
 		            {"mData": "endTime"},
@@ -97,12 +101,12 @@ function initData(){
    			"render" : function(data, type, row) {
    					return formatDate(data);
    				},
-   			"targets" : 3
+   			"targets" : 4
    			},{
    			"render" : function(data, type, row) {
    					return formatDate(data);
    				},
-   			"targets" : 4
+   			"targets" : 5
    			}],
        "fnDrawCallback": function(){
 			var api = this.api();
