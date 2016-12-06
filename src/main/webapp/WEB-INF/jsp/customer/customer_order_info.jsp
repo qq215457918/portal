@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="head.jsp" />
 	<input type="hidden" value="${customerId }" id="customerId">
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">

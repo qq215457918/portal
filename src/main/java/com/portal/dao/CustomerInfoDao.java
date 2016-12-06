@@ -93,7 +93,7 @@ public interface CustomerInfoDao {
      * @return void
      * @throws
      */
-	void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+	void insertAndUpdateCustomerInfo(Map<String, Object> map);
 
 	/**
      * @Title: insertAndUpdateCustomerInfo 

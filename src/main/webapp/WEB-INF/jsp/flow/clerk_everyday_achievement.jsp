@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="/WEB-INF/jsp/customer/head.jsp" />
 	<input type="hidden" value="${receiverStaffId }" id="receiverStaffId"/>
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
@@ -24,7 +25,7 @@
 									<label class="control-label col-md-2 swidth">日期</label>
 									<div class="col-md-2">
 										<div class="input-group date datepicker">
-											<input class="form-control" type="text" name="dateInfo" id="dateInfo">
+											<input class="form-control" type="text" value="${dateInfo }" name="dateInfo" id="dateInfo">
 												<span class="input-group-addon">
 												<i class="icon-calendar"></i>
 											</span>
@@ -32,19 +33,21 @@
 						            </div>
 								</div>
 							</form>
-							<div class="form-group">
-								<div class="col-md-7">
-									<button class="btn btn-primary" id="searchAchieve">查询</button>
+							<c:if test="${empty employeeId }">
+								<div class="form-group">
+									<div class="col-md-7">
+										<button class="btn btn-primary" id="searchAchieve">查询</button>
+									</div>
+									<div class="col-md-7">
+										<c:if test="${id==1 }">
+											<button class="btn btn-primary">已审核</button>
+										</c:if>
+										<c:if test="${id!=1 }">
+											<button class="btn btn-primary" id="toAchieveExam">提交审核</button>
+										</c:if>
+									</div>
 								</div>
-								<div class="col-md-7">
-									<c:if test="${id==1 }">
-										<button class="btn btn-primary">已审核</button>
-									</c:if>
-									<c:if test="${id!=1 }">
-										<button class="btn btn-primary" id="toAchieveExam">提交审核</button>
-									</c:if>
-								</div>
-							</div>
+							</c:if>
 						</div>
 					</div>
 					
@@ -87,11 +90,19 @@
 							<div class="text">实付总金额</div>
 						</div>
 						<div class="col-md-4">
-							<div class="number" style="font-size:1em">
-								<div class="icon icon chat-bubbles"></div>
-								${result.phoneStaffName }
+							<div class="number" style="font-size:1.1em">
+								<c:if test="${not empty result.typeCount }">
+									<c:forEach items="${result.typeCount}" var="list" varStatus="index"> 
+										<c:if test="${index.last }">
+											${list }
+										</c:if>
+										<c:if test="${!index.last }">
+											${list }<br/>
+										</c:if>
+									</c:forEach>
+								</c:if>
 							</div>
-							<div class="text">电联人员</div>
+							<div class="text">接待统计</div>
 						</div>
 					</div>
 				</div>
@@ -144,6 +155,7 @@
 							<thead>
 								<th>序号</th>
 								<th>客户姓名</th>
+								<th>客户类型</th>
 								<th>客户电话</th>
 								<th>开始接待时间</th>
 								<th>结束接待时间</th>

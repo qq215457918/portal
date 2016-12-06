@@ -54,7 +54,7 @@ function initData(){
 			            {"mData": "phoneStaffName"},
 			            {"mData": "name"},
 			            {"mData": "sexShow"},
-			            {"mData": "phone"},
+			            {"mData": "phoneHidden"},
 			            {"mData": "address"},
 			            {"mData": "payPrice"},             
 			            {"mData": "recentCreateDate"},            

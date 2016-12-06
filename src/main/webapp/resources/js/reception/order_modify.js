@@ -29,6 +29,12 @@ $(document).on('click', '#modifyItem', function () {
 	
 });
 
+$(document).on('click', '#delItem', function () {
+	var orderId = $(this).attr('data-customer-id');
+	
+	window.location.href = "order/orderDelete?orderId=" + orderId;
+});
+
 function initData(){
 	$('#orderModify').dataTable({
 		"bSort": false, //是否显示排序
@@ -41,6 +47,7 @@ function initData(){
 		"sAjaxSource": "order/orderModifyList", // 地址
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
+			        {"mData": "orderNumber"},
 		            {"mData": "customerName"},
 		            {"mData": "customerPhone"},
 		            {"mData": "goodsName"},
@@ -53,9 +60,10 @@ function initData(){
 				return '<a href="#detailModel" data-toggle="modal" ' + 
 					'data-customer-id="' + row.id  + '" data-customer-type="' + row.orderType  + '" ' + 
 					'data-customer-phone="' + row.customerPhone  + '" ' + 'data-customer-price="' + row.payPrice  + '" ' +
-					'id="modifyItem">修改</a>';
+					'id="modifyItem">修改</a>'+
+					'&nbsp;&nbsp;<a href="#" data-toggle="modal" ' + 'data-customer-id="' + row.id  + '" id="delItem">删除</a>';
 			},
-			"targets" : 6
+			"targets" : 7
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
@@ -65,10 +73,11 @@ function initData(){
    		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var goodsName = $('#goodsName').val();
+							var orderId = $('#orderId').val();
 							var customerName = $('#customerName').val();
 							var orderType = $('#listInfo input[name=orderType]:checked').val();
 							aoData.push({'name':'goodsName','value':goodsName},{'name':'customerName','value':customerName},
-									{'name':'orderType','value':orderType});
+									{'name':'orderType','value':orderType},{'name':'orderId','value':orderId});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

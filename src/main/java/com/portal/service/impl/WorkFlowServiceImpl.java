@@ -655,12 +655,23 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     public Map<String, Object> selectlerkEverydayAchievenment(Map<String, Object> paramMap) {
     	Map<String, Object> map1 = workFlowDao.selectlerkEverydayAchievenment(paramMap);
     	Map<String, Object> map2 = workFlowDao.selectlerkEverydayReception(paramMap);
+    	List<Map<String, String>> map3 = workFlowDao.selectlerkEverydayTypeCount(paramMap);
+    	
     	
     	if(null == map1){
     		map1 = new HashMap<String, Object>();
     	}
     	if(null != map2){
     		map1.putAll(map2);
+    	}
+    	if(null != map3){
+    		List<String> typeInfo = new ArrayList<String>();
+    		for (int i = 0; i < map3.size(); i++) {
+    			StringBuilder temp = new StringBuilder();
+    			temp.append(map3.get(i).get("typeName")).append("人数: ").append(String.valueOf(map3.get(i).get("typeCount")));
+    			typeInfo.add(temp.toString());
+			}
+    		map1.put("typeCount", typeInfo);
     	}
     	
     	return map1;

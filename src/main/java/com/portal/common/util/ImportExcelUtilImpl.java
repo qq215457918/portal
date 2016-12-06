@@ -109,17 +109,17 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 					content = sdf.format(((DateCell)cell).getDate());
 				}else{
 					content = cell.getContents();
-					if("空白".indexOf(content) > -1){
+					if(content.indexOf("空白") > -1){
 						content = "0";
-					}else if("重复".indexOf(content) > -1){
+					}else if(content.indexOf("登门") > -1){
 						content = "1";
-					}else if("说明".indexOf(content) > -1){
+					}else if(content.indexOf("说明") > -1){
 						content = "2";
-					}else if("成单".indexOf(content) > -1){
+					}else if(content.indexOf("成单") > -1){
 						content = "3";
-					}else if("锁定".indexOf(content) > -1){
+					}else if(content.indexOf("锁定") > -1){
 						content = "4";
-					}else if("介绍".indexOf(content) > -1){
+					}else if(content.indexOf("介绍") > -1){
 						content = "5";
 					}
 				}

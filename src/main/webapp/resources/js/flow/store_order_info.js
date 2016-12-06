@@ -63,6 +63,7 @@ $(document).on('click', '#examPass', function () {
 		},
 		"success": function(data){
 			alert("更新成功");
+			$('#financeOrderExam').dataTable().fnDraw();
 		}
 	})
 });
@@ -158,7 +159,7 @@ function initData(){
 		            {"mData": "goodsQuantity"},
 		            {"mData": "payPrice"}, 
 		            {"mData": "receiverStaffName"},    
-		            {"mData": "phoneStaffName"},
+		            {"mData": "orderTypeName"},
 		            {"mData": "financeDate"},
 		            {"mData": ""}		            
 		           ],
@@ -170,13 +171,14 @@ function initData(){
 			},
 			{
 			"render" : function(data, type, row) {
+				var operation = '';
 				if(row.financeFlag == 1){
 					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(1, this)">出库确认</a>';
 					if(row.warehouseFlag==1){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已出库</a>';
 					}
 				}else if(row.orderType == 2 || row.orderType == 3){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(2, this)">入库确认</a>';
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(-1, this)">入库确认</a>';
 					if(row.warehouseFlag==2){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已入库</a>';
 					}
@@ -186,7 +188,7 @@ function initData(){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已领取</a>';
 					}
 				}
-				
+				operation += '&nbsp;&nbsp;<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				return operation;
 			},
 			"targets" : 7

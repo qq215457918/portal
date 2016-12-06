@@ -11,7 +11,9 @@
 <link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/common/head.jsp" />
+	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<jsp:include page="/WEB-INF/jsp/customer/head.jsp" />
+	<input type="hidden" id="orderId" value="${orderId }"/>
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">
@@ -48,6 +50,7 @@
 						<table class="table table-bordered" id="orderModify">
 							<thead>
 								<th>序号</th>
+								<th>订单编号</th>
 								<th>客户名称</th>
 								<th>电话号码</th>
 								<th>已购商品</th>

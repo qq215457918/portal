@@ -73,7 +73,7 @@
             <param-value>true</param-value>  
         </init-param>  
     </filter> 
-    <!-- shiro的filter-mapping--> 
+    shiro的filter-mapping 
     <filter-mapping>  
         <filter-name>shiroFilter</filter-name>  
         <url-pattern>/*</url-pattern>  
