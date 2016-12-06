@@ -77,7 +77,7 @@
 		                  <input class="form-control" type="text" id="birthday" name="birthday" >
 		                  <span class="input-group-addon"><i class="icon-calendar"></i></span>
 	           		</div>
-	           	    <div class="form-group">
+	           	    <!-- <div class="form-group">
         	    	    <label style="margin-right:30px;margin-top:20px;">所属区域</label>
 			              <label class="radio-inline">
 				              <input name="area"  checked="checked"   type="radio" value="大连">
@@ -87,7 +87,7 @@
 				              <input name="area"  type="radio" value="沈阳">
 				              <span>沈阳</span>
 			              </label>
-	                </div>
+	                </div> -->
 	           		<div class="form-group" style="margin-top:20px">
 			            <label class="checkbox"><input type="checkbox" id="blacklistFlag" name="blacklistFlag"><span>加入黑名单</span></label>  		              
 			        </div>     		

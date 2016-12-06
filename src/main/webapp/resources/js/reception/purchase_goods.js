@@ -188,7 +188,7 @@ function gotoAccount(){
 		result[i] = jsonData;
 	});
 	var goodInfoJson = JSON.stringify(result);
-	alert(goodInfoJson)
+	//alert(goodInfoJson)
 	window.location.href=base+"/order/account?goodInfo="+goodInfoJson;
 }
 

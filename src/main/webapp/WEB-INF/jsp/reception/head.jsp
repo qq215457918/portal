@@ -39,7 +39,7 @@
               </li>
               <li><a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><span aria-hidden="true" class="icon-retweet "></span>回购记录</a>
               </li>
-              <li><a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><span aria-hidden="true" class="icon-file-text"></span>定单管理</a>
+              <li><a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><span aria-hidden="true" class="icon-file-text"></span>退换货管理</a>
               </li>
               <li><a name="tab" href="${base}present/list?active=6&cId=${cId}"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
               </li>
