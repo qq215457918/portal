@@ -61,7 +61,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <i class="icon-table"></i>购买历史
+            <a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><i class="icon-table"></i>购买历史</a>
           </div>
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">
@@ -172,7 +172,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <i class="icon-table"></i>回购商品
+            <a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><i class="icon-table"></i>回购商品</a>
           </div>
           <div class="widget-content padded clearfix">
              <table class="table table-bordered">
@@ -224,7 +224,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <i class="icon-table"></i>撤单商品
+           <a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"> <i class="icon-table"></i>撤单商品</a>
           </div>
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">

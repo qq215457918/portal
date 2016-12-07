@@ -30,17 +30,10 @@ function initData() {
 		"bRetrieve": true,
 		"sAjaxSource": "repurchase/list", // 地址
 		"aoColumns": [  
-		            {"mData": "id"},
-		            {"data": "orderDetailInfoList",
-						"render": function(data, type, full) {
-							var result = "";
-							$.each(data,function(i, value) {
-								result += "商品名称：" +  value.goodName+" -- 商品数量：" + value.amount +"</br>";
-				   			});
-							return result;
-						}
-					},
-		            {"mData": "payPrice"},      
+		            {"mData": "orderNumber"},
+		            {"mData": "goodName"},
+		            {"mData": "amount"},
+		            {"mData": "price"},  
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
 		            {"data": "status",
@@ -58,6 +51,7 @@ function initData() {
 							return type;
 						}
 					  },
+			        {"mData": "repurchasePrice"},      
 		            {"data": "id",
 						"render": function(data, type, full) {
 						   var result = "";

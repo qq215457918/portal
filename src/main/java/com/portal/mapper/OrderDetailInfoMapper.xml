@@ -21,6 +21,7 @@
     <result column="today" property="today" jdbcType="VARCHAR" />
     <result column="actual_price" property="actualPrice" jdbcType="VARCHAR" />
     <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -48,6 +49,9 @@
       <if test="condition.amount != null" >
          and amount = #{condition.amount,jdbcType=INTEGER}
       </if>
+      <if test="condition.orderType != null" >
+         and order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if> 
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
@@ -94,11 +98,14 @@
       <if test="example.condition.updateId != null" >
          and update_id = #{example.condition.updateId,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.orderType != null" >
+         and order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if> 
     </trim>
   </sql>
   <sql id="Base_Column_List" >
     id, order_id, good_sort_id, good_sort_name, good_id, good_type, good_name, price, 
-    amount, delete_flag, update_date, update_id
+    amount, delete_flag, update_date, update_id, order_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -181,6 +188,9 @@
       </if>
       <if test="updateId != null" >
         update_id,
+      </if>
+      <if test="orderType != null" >
+        order_type,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -267,6 +277,9 @@
       <if test="record.updateId != null" >
         update_id = #{record.updateId,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -326,6 +339,10 @@
       <if test="updateId != null" >
         update_id = #{updateId,jdbcType=VARCHAR},
       </if>
+     <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
+      </if>
+      
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>

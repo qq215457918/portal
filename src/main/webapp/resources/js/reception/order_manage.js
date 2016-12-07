@@ -30,17 +30,10 @@ function initData() {
 		"bRetrieve": true,
 		"sAjaxSource": "order/manage/query", // 地址
 		"aoColumns": [  
-		            {"mData": "id"},
-		            {"data": "orderDetailInfoList",
-						"render": function(data, type, full) {
-							var result = "";
-							$.each(data,function(i, value) {
-								result += "商品名称：" +  value.goodName+" -- 商品数量：" + value.amount +"</br>";
-				   			});
-							return result;
-						}
-					},
-		            {"mData": "payPrice"},      
+				 	{"mData": "orderNumber"},
+		            {"mData": "goodName"},
+		            {"mData": "amount"},
+		            {"mData": "price"},  
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
 		            {"data": "orderType",
@@ -51,6 +44,7 @@ function initData() {
 							case "1": type ="正常";break;
 							case "2": type ="退货";break;
 							case "3": type ="换货";break;
+							default:type =" ";break;
 						 }
 							return type;
 						}

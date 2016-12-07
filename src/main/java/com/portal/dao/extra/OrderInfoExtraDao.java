@@ -1,13 +1,12 @@
 package com.portal.dao.extra;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.result.OrderDetailInfoForm;
 import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
+import java.util.List;
+import java.util.Map;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface OrderInfoExtraDao {
@@ -60,7 +59,14 @@ public interface OrderInfoExtraDao {
      * @return
      */
     List<OrderInfoForm> selectByExample4Page(Criteria criteria);
-    
+
+    /**
+     * 订单信息查询以订单详情进行展示
+     * @param criteria
+     * @return
+     */
+    List<OrderInfoFormNew> selectByExampleNew4Page(Criteria criteria);
+
     /**
      * @Title: getSellGoods 
      * @Description: 销售日报表-获取销售商品信息
@@ -71,7 +77,7 @@ public interface OrderInfoExtraDao {
      * @version V1.0
      */
     List<OrderDetailInfoForm> getSellGoods(Criteria criteria);
-    
+
     /**
      * @Title: getSellclearingDetail 
      * @Description: 销售日报表-获取销售结算明细

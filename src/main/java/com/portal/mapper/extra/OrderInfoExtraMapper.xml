@@ -34,6 +34,47 @@
     <result column="income" property="income" jdbcType="DECIMAL" />
   </resultMap>
   
+    <resultMap id="BaseResultMapNew" type="com.portal.bean.result.OrderInfoFormNew" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
+    <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" /> 
+    <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
+    <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="pay_type" property="payType" jdbcType="VARCHAR" />
+    <result column="pay_price" property="payPrice" jdbcType="DECIMAL" />
+    <result column="actual_price" property="actualPrice" jdbcType="DECIMAL" />
+    <result column="finance_flag" property="financeFlag" jdbcType="VARCHAR" />
+    <result column="finance_type" property="financeType" jdbcType="VARCHAR" />
+    <result column="finance_operator_id" property="financeOperatorId" jdbcType="VARCHAR" />
+    <result column="finance_date" property="financeDate" jdbcType="TIMESTAMP" />
+    <result column="warehouse_flag" property="warehouseFlag" jdbcType="VARCHAR" />
+    <result column="warehouse_operator_id" property="warehouseOperatorId" jdbcType="VARCHAR" />
+    <result column="warehouse_date" property="warehouseDate" jdbcType="TIMESTAMP" />
+    <result column="culture_flag" property="cultureFlag" jdbcType="VARCHAR" />
+    <result column="culture_operator_id" property="cultureOperatorId" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="culture_date" property="cultureDate" jdbcType="TIMESTAMP" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_id" property="createId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_id" property="updateId" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="performance" property="performance" jdbcType="DECIMAL" />
+    <result column="good_sort_id" property="goodSortId" jdbcType="VARCHAR" />
+    <result column="good_sort_name" property="goodSortName" jdbcType="VARCHAR" />
+    <result column="good_id" property="goodId" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+     <result column="create_date_string" property="createDateString" jdbcType="VARCHAR" />  
+    <result column="price" property="price" jdbcType="DECIMAL" />
+    <result column="repurchase_price" property="repurchasePrice" jdbcType="DECIMAL" />    
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+  </resultMap>
+  
   <resultMap id="FormResultMap" type="com.portal.bean.result.OrderInfoForm" >
     <result column="staff_id" property="staffId" jdbcType="VARCHAR" />
     <result column="staff_name" property="staffName" jdbcType="VARCHAR" />
@@ -161,6 +202,26 @@
     </trim>
   </sql>
   
+  <sql id="Example_Where_Clause_new" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.orderType != null" >
+         and i.order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.staffName != null" >
+         and receiver_staff_name = #{condition.staffName,jdbcType=VARCHAR}
+      </if>   
+      <if test="condition.status != null" >
+         and i.status = #{condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderType != null" >
+         and d.order_type = #{condition.orderType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payType != null" >
+         and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
+      </if>      
+    </trim>
+  </sql>
+  
   <sql id="Base_Column_List" >
     id, order_number, customer_id, phone_staff_id, receiver_staff_id, status, order_type, 
     pay_type, pay_price, actual_price, finance_flag, finance_type, finance_operator_id, 
@@ -185,6 +246,50 @@
                        #{typeList}  
                </foreach>  -->
      	</if>
+	    <if test="orderByClause != null" >
+	      order by ${orderByClause}
+	    </if>
+	    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+      <select id="selectByExampleNew4Page" resultMap="BaseResultMapNew" parameterType="com.portal.bean.Criteria" >
+			select 
+			d.id,
+			d.order_id,
+			d.good_sort_id,
+			d.good_sort_name,
+			d.good_id,
+			d.good_name,
+			d.price,
+			d.repurchase_price,
+			d.amount,
+			d.delete_flag,
+			d.update_id,
+			d.order_type,
+			i.order_number,
+			(select e.`name` from employee_info e where e.id = i.phone_staff_id) as phone_staff_name,
+			(select e.`name` from employee_info e where e.id = i.receiver_staff_id) as receiver_staff_name,
+			i.status,
+			i.pay_type,
+			i.pay_price,
+			i.actual_price,
+			i.finance_flag,
+			i.finance_type,
+			i.finance_operator_id,
+			i.finance_date,
+			i.warehouse_flag,
+			i.warehouse_operator_id,
+			i.warehouse_date,
+			i.culture_flag,
+			i.culture_operator_id,
+			i.culture_date,
+			i.remarks,
+			i.delete_flag,
+			DATE_FORMAT(i.create_date, '%Y-%m-%d') as create_date_string
+			from order_detail_info d left join order_info i on i.id=d.order_id
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause_new" />
+	    </if>
 	    <if test="orderByClause != null" >
 	      order by ${orderByClause}
 	    </if>

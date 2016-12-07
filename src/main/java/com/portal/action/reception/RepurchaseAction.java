@@ -2,7 +2,7 @@
 package com.portal.action.reception;
 
 import com.portal.bean.Criteria;
-import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.OrderInfoService;
@@ -39,6 +39,7 @@ public class RepurchaseAction {
 
     /**
      * 获取客户的回购商品订单信息
+     * 修改订单回购类型为订单详情进行回购
      * order_type = 5 回购
      * order_detail_info count 为负数
      * @param request
@@ -53,10 +54,11 @@ public class RepurchaseAction {
         criteria.put("deleteFlag", "0");
         criteria.put("orderType", "5");
         criteria.put("customerId", request.getParameter("customerId"));
+        criteria.setOrderByClause("create_date");
         //criteria.put("repurchaseFlag", true); //5待审批 6回购待确认
 
-        List<OrderInfoForm> resultList = orderInfoService.getOrderInfo(criteria);
-        int count = orderInfoService.countByExample(criteria);
+        List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
+        int count = resultList.size();
         JsonUtils.resultJson(resultList, count, response, request);
     }
 

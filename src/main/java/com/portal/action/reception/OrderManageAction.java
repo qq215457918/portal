@@ -1,7 +1,7 @@
 package com.portal.action.reception;
 
 import com.portal.bean.Criteria;
-import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerCultureInfoService;
@@ -71,8 +71,9 @@ public class OrderManageAction {
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("staffName", request.getParameter("staffName"));
         //criteria.put("typeList", request.getParameter("typeList").split(","));
-        List<OrderInfoForm> resultList = orderInfoService.getOrderInfo(criteria);
-        int count = orderInfoService.countByExample(criteria);
+        //List<OrderInfoFormNew> getOrderInfoNew
+        List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
+        int count = resultList.size();
         JsonUtils.resultJson(resultList, count, response, request);
     }
 

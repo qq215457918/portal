@@ -1,10 +1,9 @@
 package com.portal.bean;
 
+import com.portal.common.util.NumberToCN;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import com.portal.common.util.NumberToCN;
 
 public class OrderDetailInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -47,9 +46,19 @@ public class OrderDetailInfo implements Serializable {
     private Long price;
 
     /**
+     * 价格
+     */
+    private Long repurchasePrice;
+
+    /**
      * 数量 如果退货数量为负
      */
     private Integer amount;
+
+    /**
+     * 删除标志 0正常 1删除
+     */
+    private String orderType;
 
     /**
      * 删除标志 0正常 1删除
@@ -65,47 +74,63 @@ public class OrderDetailInfo implements Serializable {
      * 更新人员id
      */
     private String updateId;
-    
+
     /**
      * 订单备注
      */
     private String remark;
-    
+
     /**
      * 顾客姓名
      */
     private String customerName;
-    
+
     /**
      * 电联人
      */
     private String phoneStaffName;
-    
+
     /**
      * 接待人
      */
     private String receiverStaffName;
-    
+
     /**
      * 定金
      */
     private String actualPrice;
-    
+
     /**
      * 总价
      */
     private String payPrice;
-    
+
     /**
      * 支付类型
      */
     private String payType;
-    
+
     private String payTypeName;
-    
+
     private String payPriceCN;
-    
+
     private String today;
+
+    public Long getRepurchasePrice() {
+        return repurchasePrice;
+    }
+
+    public void setRepurchasePrice(Long repurchasePrice) {
+        this.repurchasePrice = repurchasePrice;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
     public String getId() {
         return id;
@@ -124,7 +149,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param orderId 
-	 *            订单ID
+     *            订单ID
      */
     public void setOrderId(String orderId) {
         this.orderId = orderId;
@@ -139,7 +164,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param goodSortId 
-	 *            商品类型ID
+     *            商品类型ID
      */
     public void setGoodSortId(String goodSortId) {
         this.goodSortId = goodSortId;
@@ -154,7 +179,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param goodSortName 
-	 *            商品类型名称
+     *            商品类型名称
      */
     public void setGoodSortName(String goodSortName) {
         this.goodSortName = goodSortName;
@@ -169,7 +194,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param goodId 
-	 *            商品ID
+     *            商品ID
      */
     public void setGoodId(String goodId) {
         this.goodId = goodId;
@@ -184,7 +209,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param goodType 
-	 *            商品类型（同good_info type）
+     *            商品类型（同good_info type）
      */
     public void setGoodType(String goodType) {
         this.goodType = goodType;
@@ -199,7 +224,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param goodName 
-	 *            商品名称
+     *            商品名称
      */
     public void setGoodName(String goodName) {
         this.goodName = goodName;
@@ -214,7 +239,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param price 
-	 *            价格
+     *            价格
      */
     public void setPrice(Long price) {
         this.price = price;
@@ -229,7 +254,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param amount 
-	 *            数量 如果退货数量为负
+     *            数量 如果退货数量为负
      */
     public void setAmount(Integer amount) {
         this.amount = amount;
@@ -244,7 +269,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param deleteFlag 
-	 *            删除标志 0正常 1删除
+     *            删除标志 0正常 1删除
      */
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;
@@ -259,7 +284,7 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param updateDate 
-	 *            更新日期
+     *            更新日期
      */
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
@@ -274,75 +299,75 @@ public class OrderDetailInfo implements Serializable {
 
     /**
      * @param updateId 
-	 *            更新人员id
+     *            更新人员id
      */
     public void setUpdateId(String updateId) {
         this.updateId = updateId;
     }
 
-	public String getRemark() {
-		return remark;
-	}
+    public String getRemark() {
+        return remark;
+    }
 
-	public void setRemark(String remark) {
-		this.remark = remark;
-	}
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
-	public String getCustomerName() {
-		return customerName;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public String getPhoneStaffName() {
-		return phoneStaffName;
-	}
+    public String getPhoneStaffName() {
+        return phoneStaffName;
+    }
 
-	public void setPhoneStaffName(String phoneStaffName) {
-		this.phoneStaffName = phoneStaffName;
-	}
+    public void setPhoneStaffName(String phoneStaffName) {
+        this.phoneStaffName = phoneStaffName;
+    }
 
-	public String getReceiverStaffName() {
-		return receiverStaffName;
-	}
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
 
-	public void setReceiverStaffName(String receiverStaffName) {
-		this.receiverStaffName = receiverStaffName;
-	}
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
 
-	public String getToday() {
-		return today;
-	}
+    public String getToday() {
+        return today;
+    }
 
-	public void setToday(String today) {
-		this.today = today;
-	}
+    public void setToday(String today) {
+        this.today = today;
+    }
 
-	public String getActualPrice() {
-		return actualPrice;
-	}
+    public String getActualPrice() {
+        return actualPrice;
+    }
 
-	public void setActualPrice(String actualPrice) {
-		this.actualPrice = actualPrice;
-	}
+    public void setActualPrice(String actualPrice) {
+        this.actualPrice = actualPrice;
+    }
 
-	public String getPayPrice() {
-		return payPrice;
-	}
+    public String getPayPrice() {
+        return payPrice;
+    }
 
-	public void setPayPrice(String payPrice) {
-		this.payPrice = payPrice;
-		
-		this.payPriceCN = NumberToCN.number2CNMontrayUnit(new BigDecimal(payPrice));
-	}
+    public void setPayPrice(String payPrice) {
+        this.payPrice = payPrice;
 
-	public String getPayPriceCN() {
-		return payPriceCN;
-	}
-	
-	/**
+        this.payPriceCN = NumberToCN.number2CNMontrayUnit(new BigDecimal(payPrice));
+    }
+
+    public String getPayPriceCN() {
+        return payPriceCN;
+    }
+
+    /**
      * @return 支付类型  0全额支付 1定金支付 2派送支付
      */
     public String getPayType() {
@@ -355,20 +380,19 @@ public class OrderDetailInfo implements Serializable {
      */
     public void setPayType(String payType) {
         this.payType = payType;
-        
-        if("0".equals(payType)){
-        	this.payTypeName = "全额支付";
-        } else if ("1".equals(payType)){
-        	this.payTypeName = "订金支付";
-        } else if ("2".equals(payType)){
-        	this.payTypeName = "派送支付";
+
+        if ("0".equals(payType)) {
+            this.payTypeName = "全额支付";
+        } else if ("1".equals(payType)) {
+            this.payTypeName = "订金支付";
+        } else if ("2".equals(payType)) {
+            this.payTypeName = "派送支付";
         }
-        
+
     }
 
-	public String getPayTypeName() {
-		return payTypeName;
-	}
-    
-    
+    public String getPayTypeName() {
+        return payTypeName;
+    }
+
 }

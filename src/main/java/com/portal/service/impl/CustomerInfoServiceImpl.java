@@ -90,7 +90,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setEncryptPhone(StringUtil.encryptPhone(cInfo.getPhone()));
         cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
         //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
-        String cType = cInfo.getType();
+        //String cType = cInfo.getType();
         cSimpleForm.setType(CustomerType.getName(Integer.parseInt(cInfo.getType())));
         cSimpleForm.setRelationId(cInfo.getRelationId());
         if (!StringUtils.isEmpty(cInfo.getPhoneStaffId())) {
@@ -338,15 +338,15 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-    	for(int i = 0; i < data.size(); i++){
-    		if(null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))){
-    			continue;
-    		}
-    		if(String.valueOf(data.get(i).get("p9")).length() != 11){
-    			continue;
-    		}
-    		customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
-    	}
+        for (int i = 0; i < data.size(); i ++) {
+            if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
+                continue;
+            }
+            if (String.valueOf(data.get(i).get("p9")).length() != 11) {
+                continue;
+            }
+            customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+        }
     }
 
     /**

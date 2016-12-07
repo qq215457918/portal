@@ -63,13 +63,14 @@
               <table  class="table table-bordered" id ="orderTable">
                 <thead>
                 <tr>
-                  <th>订单编号</th>
-                  <th>商品信息(名称-数量)</th>
-                  <th>实付金额</th>
-                  <th>成交日期</th>
-                  <th>接待员</th>
-                  <th>订单状态</th>
-                  <th>操作</th>
+                    <th>订单编码</th>
+					<th>商品名称</th>
+					<th>商品数量</th>
+					<th>交易金额</th>
+					<th>交易日期</th>
+					<th>接待员</th>
+					<th>订单状态</th>
+					<th>操作</th>
                 </tr>
                 </thead>
                 <tbody> 

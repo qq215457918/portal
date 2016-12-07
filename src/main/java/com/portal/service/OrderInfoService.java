@@ -3,6 +3,7 @@ package com.portal.service;
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,8 @@ public interface OrderInfoService {
     public List<OrderInfoForm> getDepositInfo(Criteria example);
 
     public List<OrderInfoForm> getOrderInfo(Criteria example);
+
+    public List<OrderInfoFormNew> getOrderInfoNew(Criteria example);
 
     /**
      * 新增订单信息
@@ -171,7 +174,7 @@ public interface OrderInfoService {
      * @throws
      */
     int countFinanceEveryDay(Criteria criteria);
-    
+
     /**
      * @Title: getSellDaily 
      * @Description: 获取销售日报表数据
