@@ -57,6 +57,12 @@ public class UserController {
             final EmployeeInfo employeeInfo = employeeService.selectByUserName(userName);
             request.getSession().setAttribute("userInfo", employeeInfo);
             request.getSession().setAttribute("userName", employeeInfo.getName());
+            //获取项目基础路径
+            String basePath = WebUtils.getBasePath(request, response);
+            //供页面和后台引用项目路径使用
+            request.getSession().setAttribute("basePath", basePath);
+            // 保存活动导航标识
+            WebUtils.setAttributeToSession(request);
         } catch (AuthenticationException e) {
             // 身份验证失败
             // model.addAttribute("error", "用户名或密码错误 ！");
