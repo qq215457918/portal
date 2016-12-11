@@ -15,6 +15,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URL;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
@@ -30,6 +32,12 @@ import org.apache.commons.lang3.StringUtils;
  * 
  */
 public class StringUtil {
+
+    public static String getOrderNo() {
+        LocalDateTime nowDate = LocalDateTime.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        return nowDate.format(format);
+    }
 
     /**
      * 获取当前时间时分秒

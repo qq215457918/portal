@@ -47,13 +47,13 @@ public class OrderManageAction {
         getBasePath(request, response);
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
-        model.addObject("cId", request.getParameter("cId"));
+        model.addObject("cId", request.getSession().getAttribute("cId"));
         model.setViewName("reception/order_manage");
         return model;
     }
 
     /**
-     * 查询定金翻页信息
+     * 查询翻页信息
      * @param request
      * @param response
      */
@@ -63,7 +63,7 @@ public class OrderManageAction {
         Criteria criteria = new Criteria();
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
-
+        criteria.put("customerId", request.getSession().getAttribute("cId"));//从session中获取cid
         criteria.put("status", "4");
         criteria.put("payType", "0");
         //criteria.put("orderType", "1");
@@ -85,21 +85,21 @@ public class OrderManageAction {
     @RequestMapping(value = "/return", method = RequestMethod.POST)
     public void cancelDeposit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        boolean result = orderInfoService.updateOrderReturn(request.getParameter("orderId"));
+        boolean result = orderInfoService.updateOrderReturn(request);
         JsonUtils.outJsonString(String.valueOf(result), response);
     }
 
-    /**
-     * 换货业务
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "/replace", method = RequestMethod.POST)
-    public void payDeposit(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
-        boolean result = orderInfoService.updateOrderReplace(request.getParameter("orderId"));
-        JsonUtils.outJsonString(String.valueOf(result), response);
-    }
+    /*    *//**
+            * 换货业务
+            * @param request
+            * @param response
+            *//*
+              @RequestMapping(value = "/replace", method = RequestMethod.POST)
+              public void payDeposit(HttpServletRequest request, HttpServletResponse response) {
+               getBasePath(request, response);
+               boolean result = orderInfoService.updateOrderReplace(request.getParameter("orderId"));
+               JsonUtils.outJsonString(String.valueOf(result), response);
+              }*/
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
         String basePath = WebUtils.getBasePath(request, response);

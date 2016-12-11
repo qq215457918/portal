@@ -61,7 +61,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><i class="icon-table"></i>购买历史</a>
+            <a name="tab" href="${base}order/manage/init?active=5&cId=<%=session.getAttribute("cId")%>"><i class="icon-table"></i>购买历史</a>
           </div>
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">
@@ -91,9 +91,9 @@
 	              	</td>
 	                <td>
 	                    <c:forEach var="detail" items="${status.orderDetailInfoList}">
-	                    <b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
-	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
-	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
+	                    ${detail.goodName } &nbsp;&nbsp;—
+	                    ${detail.amount } <b>件</b>  &nbsp;&nbsp;—
+	                    ${detail.price } <i class="icon-yen"></i>
 	                    
 	                    <br/>
 	                    </c:forEach>
@@ -119,7 +119,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <i class="icon-table"></i>来访记录
+          <a name="tab" href="${base}reception/init?active=7&cId=<%=session.getAttribute("cId")%>"><i class="icon-table"></i>来访记录</a>
           </div>
           <div class="widget-content padded clearfix">
                         <table class="table table-bordered">
@@ -172,7 +172,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-            <a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><i class="icon-table"></i>回购商品</a>
+            <a name="tab" href="${base}repurchase/init?active=4&cId=<%=session.getAttribute("cId")%>"><i class="icon-table"></i>回购商品</a>
           </div>
           <div class="widget-content padded clearfix">
              <table class="table table-bordered">
@@ -216,7 +216,7 @@
               </c:forEach>
               </tbody>
             </table>
-            <input type="hidden" name="cid" id="cid" value="${info.id }"/>
+            <input type="hidden" name="cid" id="cid" value='<%=session.getAttribute("cId")%>'/>
           </div>
         </div>
       </div>
@@ -224,7 +224,7 @@
       <div class="col-lg-6">
         <div class="widget-container fluid-height clearfix">
           <div class="heading">
-           <a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"> <i class="icon-table"></i>撤单商品</a>
+           <a name="tab" href="${base}order/manage/init?active=5&cId=<%=session.getAttribute("cId")%>"> <i class="icon-table"></i>撤单商品</a>
           </div>
           <div class="widget-content padded clearfix">
             <table class="table table-bordered">
@@ -279,7 +279,7 @@
 		base = $("base").attr('href');
 		// 修改基本信息
 		$("#modifyInfo").click(function(){
-			var id = $('#cid').val();
+			var id = $('#').val();
 			window.location.href = base+"/customer/modify/basic?cId="+id;
 		});
 		$("#modifyExchange").click(function(){

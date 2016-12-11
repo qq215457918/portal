@@ -197,6 +197,7 @@ CREATE TABLE `order_detail_info` (
   `repurchase_price` decimal(10,0) DEFAULT NULL COMMENT '回购金额',  
   `amount` int(11) DEFAULT NULL COMMENT '数量 如果退货数量为负',
   `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品 5回购',
+  `return_order_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '退货前订单ID',
   `delete_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '删除标志 0正常 1删除',
   `update_date` datetime DEFAULT NULL COMMENT '更新日期',
   `update_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '更新人员id',

@@ -60,6 +60,8 @@ public class OrderDetailInfo implements Serializable {
      */
     private String orderType;
 
+    private String oldOrderId;
+
     /**
      * 删除标志 0正常 1删除
      */
@@ -115,6 +117,14 @@ public class OrderDetailInfo implements Serializable {
     private String payPriceCN;
 
     private String today;
+
+    public String getOldOrderId() {
+        return oldOrderId;
+    }
+
+    public void setOldOrderId(String oldOrderId) {
+        this.oldOrderId = oldOrderId;
+    }
 
     public Long getRepurchasePrice() {
         return repurchasePrice;

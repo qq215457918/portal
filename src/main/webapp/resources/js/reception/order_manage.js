@@ -32,8 +32,13 @@ function initData() {
 		"aoColumns": [  
 				 	{"mData": "orderNumber"},
 		            {"mData": "goodName"},
-		            {"mData": "amount"},
-		            {"mData": "price"},  
+		            {"mData": "amount"}, 
+		            {"data": "price",
+						"render": function(data, type, full) {
+							//var type;
+							return data + "元";
+						}
+					  },
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
 		            {"data": "orderType",
@@ -43,7 +48,7 @@ function initData() {
 							{
 							case "1": type ="正常";break;
 							case "2": type ="退货";break;
-							case "3": type ="换货";break;
+							//case "3": type ="换货";break; 去掉换货业务。
 							default:type =" ";break;
 						 }
 							return type;
@@ -53,11 +58,8 @@ function initData() {
 						"render": function(data, type, full) {
 						   var result = "";
 						   var returnsButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='returnsOrder("+data+");'>退货 </button>";
-						   var replaceButton = "<button class='btn btn-xs btn-warning' id='pId"+data+"' onclick='replaceOrder("+data+");'>换货 </button>";
 						   var orderType = full.orderType; 
 						   if(orderType==1){
-							   result = returnsButton + replaceButton;
-						   }else if(orderType==3){
 							   result = returnsButton;
 						   }
 							return result;
@@ -93,13 +95,13 @@ function initData() {
  * @param orderId
  * @returns
  */
-function returnsOrder(orderId){
+function returnsOrder(detailId){
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
 		"url": base+"order/manage/return",
 		"data": {
-			"orderId":orderId
+			"detailId":detailId
 		},
 		"success": function(data){
 			alert("商品退货已经通知库房，请到库房进行退货业务");
@@ -115,7 +117,7 @@ function returnsOrder(orderId){
  * 商品换货
  * @returns
  */
-function replaceOrder(orderId){
+/*function replaceOrder(orderId){
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
@@ -128,4 +130,4 @@ function replaceOrder(orderId){
 			alert("商品换货已经通知库房，请到库房进行换货业务");
 		}
 	})
-}
+}*/

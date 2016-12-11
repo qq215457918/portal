@@ -38,11 +38,12 @@ function initData() {
 						"render": function(data, type, full) {
 							var result = "";
 							$.each(data,function(i, value) {
-								result += "商品名称：" +  value.goodName+"--商品数量：" + value.amount +"</br>";
+								result += value.goodName+"—" + value.amount +"</br>";
 				   			});
 							return result;
 						}
 					},
+					{"mData": "totalPrice"},  
 		            {"mData": "payPrice"},      
 		            {"mData": "createDateString"},
 		            {"mData": "depositPrice"},
@@ -58,8 +59,7 @@ function initData() {
 					var goodName = $('#goodName').val();
 					var lprice = $('#lprice').val();
 					var hprice = $('#hprice').val(); 
-					aoData.push({'name':'goodCode','value':goodCode},{'name':'goodName','value':goodName},
-					{'name':'lprice','value':lprice},{'name':'hprice','value':hprice});							
+					aoData.push({'name':'goodCode','value':goodCode},{'name':'goodName','value':goodName});							
 					$.ajax({
 								"dataType": 'json',
 								"type": "POST",

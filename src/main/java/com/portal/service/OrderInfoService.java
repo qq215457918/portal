@@ -22,7 +22,7 @@ public interface OrderInfoService {
      * @param orderId
      * @return
      */
-    public boolean updateOrderReturn(String orderId);
+    public boolean updateOrderReturn(HttpServletRequest request);
 
     public boolean updateOrderReplace(String orderId);
 

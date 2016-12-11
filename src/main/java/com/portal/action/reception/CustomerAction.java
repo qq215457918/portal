@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 接待模块查询业务
+ * 客户基本信息管理
  */
 @Controller
 @RequestMapping("/customer/modify")
