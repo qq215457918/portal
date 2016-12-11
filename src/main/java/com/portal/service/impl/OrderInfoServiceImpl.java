@@ -1,24 +1,5 @@
 package com.portal.service.impl;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.CustomerInfo;
-import com.portal.bean.OrderDetailInfo;
-import com.portal.bean.OrderInfo;
-import com.portal.bean.result.GoodsInfoForm;
-import com.portal.bean.result.OrderDetailInfoForm;
-import com.portal.bean.result.OrderInfoForm;
-import com.portal.bean.result.OrderInfoFormNew;
-import com.portal.common.util.DateUtil;
-import com.portal.common.util.StringUtil;
-import com.portal.common.util.UUidUtil;
-import com.portal.dao.OrderDetailInfoDao;
-import com.portal.dao.OrderInfoDao;
-import com.portal.dao.extra.GoodsDao;
-import com.portal.dao.extra.OrderDetailInfoExtraDao;
-import com.portal.dao.extra.OrderInfoExtraDao;
-import com.portal.service.CustomerInfoService;
-import com.portal.service.OrderDetailInfoService;
-import com.portal.service.OrderInfoService;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,13 +8,41 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.portal.bean.Criteria;
+import com.portal.bean.CustomerInfo;
+import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.bean.SellDailyDetail;
+import com.portal.bean.SellGoodsDetail;
+import com.portal.bean.result.GoodsInfoForm;
+import com.portal.bean.result.OrderDetailInfoForm;
+import com.portal.bean.result.OrderFundSettlementForm;
+import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
+import com.portal.bean.result.SellDailyInfoForm;
+import com.portal.common.util.DateUtil;
+import com.portal.common.util.StringUtil;
+import com.portal.common.util.UUidUtil;
+import com.portal.dao.OrderDetailInfoDao;
+import com.portal.dao.OrderInfoDao;
+import com.portal.dao.extra.GoodsDao;
+import com.portal.dao.extra.OrderDetailInfoExtraDao;
+import com.portal.dao.extra.OrderInfoExtraDao;
+import com.portal.dao.extra.SellDailyInfoExtraDao;
+import com.portal.service.CustomerInfoService;
+import com.portal.service.OrderDetailInfoService;
+import com.portal.service.OrderInfoService;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -58,6 +67,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     private OrderDetailInfoService orderDetailInfoService;
+    
+    @Autowired
+    private SellDailyInfoExtraDao sellDailyInfoExreaDao;
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
@@ -768,36 +780,84 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return orderInfoDao.countFinanceEveryDay(criteria);
     }
 
-    //TODO - 销售日报表统计时，表中对应的支付接口还不确定，需要修改mapper.xml
     public JSONObject getSellDaily(HttpServletRequest request) {
+        logger.info("获取各地区的销售日报表数据");
         JSONObject result = new JSONObject();
         // 所属区域
         String area = request.getParameter("area");
+        
         // 查询日期
         String startDate = request.getParameter("startDate");
-
+        
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
             criteria.put("area", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-            criteria.put("endDate",
-                    DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        } else {
+            startDate = DateUtil.formatDate(new Date(), "yyyy-MM-dd");
+            // 为空, 默认查询当天的数据
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
+        }
+        
+        // 如果根据传递的日期从数据库表中查询数据，查到了直接显示，差不多则统计;
+        // 查询之前统计的数据
+        criteria.put("reportDate", startDate);
+        // 获取数据库中之前保存的数据
+        List<SellDailyInfoForm> sellDailies = sellDailyInfoExreaDao.getSellDailiesByCondition(criteria);
+        if(sellDailies != null && sellDailies.size() > 0) {
+            // 获取销售商品信息
+            List<SellGoodsDetail> goodsDetail = sellDailies.get(0).getSellGoodsDetails();
+            // 获取销售结算明细
+            List<SellDailyDetail> dailyDetail = sellDailies.get(0).getSellDailyDetails();
+            result.put("type", "search");
+            result.put("goodsList", goodsDetail);
+            result.put("clearing", dailyDetail);
+        }else {
+            // 获取销售商品信息
+            List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
+            // 获取销售结算明细
+            List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
+            result.put("type", "compile");
+            result.put("goodsList", goodsList);
+            result.put("clearing", clearingList);
+        }
+        return result;
+    }
+
+    public JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results) {
+        logger.info("获取各地区的销售日报表数据");
+        // 所属区域
+        String area = request.getParameter("area");
+        // 查询日期
+        String startDate = request.getParameter("startDate");
+        
+        criteria.clear();
+        if (StringUtil.isNotBlank(area)) {
+            criteria.put("area", area);
+        }
+        if (StringUtil.isNotBlank(startDate)) {
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         } else {
             // 为空, 默认查询当天的数据
             criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
-
-        // 获取销售商品信息
-        List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
-
-        // 获取销售结算明细
-        List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
-
-        result.put("goodsList", goodsList);
-        result.put("clearing", clearingList);
-        return result;
+        // 设置排序
+        criteria.setOrderByClause("p.payment_account_name");
+        // 获取总条数
+        int totalRecord = orderInfoExtraDao.getCountsCardDetail(criteria);
+        // 获取数据
+        List<OrderFundSettlementForm> depositDetail = orderInfoExtraDao.getCreditCardDepositDetail(criteria);
+        
+        results.put("sEcho", request.getParameter("sEcho"));
+        results.put("iTotalRecords", totalRecord);
+        results.put("iTotalDisplayRecords", totalRecord);
+        results.put("aaData", depositDetail);
+        return results;
     }
 }

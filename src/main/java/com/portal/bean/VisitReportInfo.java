@@ -37,9 +37,19 @@ public class VisitReportInfo implements Serializable {
     private Integer customerCounts;
 
     /**
-     * 空白客户数量
+     * 新客户数量
      */
     private Integer newCounts;
+
+    /**
+     * 新客户订单数
+     */
+    private Integer newOrders;
+
+    /**
+     * 新客户订单金额
+     */
+    private Integer newAmounts;
 
     /**
      * 重复登门客户数量
@@ -52,7 +62,7 @@ public class VisitReportInfo implements Serializable {
     private Integer repeatOrders;
 
     /**
-     * 重复登门订单数量
+     * 重复登门订单金额
      */
     private Integer repeatAmounts;
 
@@ -192,7 +202,7 @@ public class VisitReportInfo implements Serializable {
     }
 
     /**
-     * @return 空白客户数量
+     * @return 新客户数量
      */
     public Integer getNewCounts() {
         return newCounts;
@@ -200,10 +210,40 @@ public class VisitReportInfo implements Serializable {
 
     /**
      * @param newCounts 
-	 *            空白客户数量
+	 *            新客户数量
      */
     public void setNewCounts(Integer newCounts) {
         this.newCounts = newCounts;
+    }
+
+    /**
+     * @return 新客户订单数
+     */
+    public Integer getNewOrders() {
+        return newOrders;
+    }
+
+    /**
+     * @param newOrders 
+	 *            新客户订单数
+     */
+    public void setNewOrders(Integer newOrders) {
+        this.newOrders = newOrders;
+    }
+
+    /**
+     * @return 新客户订单金额
+     */
+    public Integer getNewAmounts() {
+        return newAmounts;
+    }
+
+    /**
+     * @param newAmounts 
+	 *            新客户订单金额
+     */
+    public void setNewAmounts(Integer newAmounts) {
+        this.newAmounts = newAmounts;
     }
 
     /**
@@ -237,7 +277,7 @@ public class VisitReportInfo implements Serializable {
     }
 
     /**
-     * @return 重复登门订单数量
+     * @return 重复登门订单金额
      */
     public Integer getRepeatAmounts() {
         return repeatAmounts;
@@ -245,7 +285,7 @@ public class VisitReportInfo implements Serializable {
 
     /**
      * @param repeatAmounts 
-	 *            重复登门订单数量
+	 *            重复登门订单金额
      */
     public void setRepeatAmounts(Integer repeatAmounts) {
         this.repeatAmounts = repeatAmounts;

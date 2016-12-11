@@ -122,17 +122,10 @@
 		  	<span aria-hidden="true" class="se7en-tables"></span>接待统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
-			<li><a name="tab" href="${base}report/toReceiveStatistics?active=1">接待客户统计</a></li>
-			<li><a name="tab" href="${base}report/toSalesmanStatement?active=2">接待客户及业绩统计</a></li>
-		  </ul>
-		</li>
-		<li class="dropdown">
-		  <a data-toggle="dropdown" href="#"> 
-		  	<span aria-hidden="true" class="se7en-tables"></span>登门统计<b class="caret"></b>
-		  </a>
-		  <ul class="dropdown-menu">
-			<li><a name="tab" href="${base}report/toVisitEveryDay?active=3">每日登门统计</a></li>
-			<li><a name="tab" href="${base}report/toVisitAndOutOrder?active=4">登门出单统计</a></li>
+			<%-- <li><a name="tab" href="${base}report/toReceiveStatistics?active=0">接待客户统计</a></li> --%>
+			<li><a name="tab" href="${base}report/toSalesmanStatement?active=1">接待客户及业绩统计</a></li>
+			<li><a name="tab" href="${base}report/toVisitEveryDay?active=2">每日登门统计</a></li>
+			<li><a name="tab" href="${base}report/toVisitAndOutOrder?active=3">登门出单统计</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
@@ -140,10 +133,10 @@
 		  	<span aria-hidden="true" class="se7en-tables"></span>业绩统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
-			<li><a name="tab" href="${base}report/toOrganiPerformance?active=5">机构业绩统计</a></li>
-			<li><a name="tab" href="${base}report/toServiceStaffPerfor?active=6">客服业绩统计</a></li>
-			<li><a name="tab" href="${base}report/toReceiveStaffPerfor?active=7">接待业绩统计</a></li>
-			<li><a name="tab" href="${base}report/toIndividualRanking?active=8">个人业绩排名</a></li>
+			<li><a name="tab" href="${base}report/toOrganiPerformance?active=4">机构业绩统计</a></li>
+			<li><a name="tab" href="${base}report/toServiceStaffPerfor?active=5">客服业绩统计</a></li>
+			<li><a name="tab" href="${base}report/toReceiveStaffPerfor?active=6">接待业绩统计</a></li>
+			<li><a name="tab" href="${base}report/toIndividualRanking?active=7">个人业绩排名</a></li>
 		  </ul>
 		</li>
 		<li class="dropdown">
@@ -151,23 +144,25 @@
 		  	<span aria-hidden="true" class="se7en-tables"></span>客户统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
-			<li><a name="tab" href="${base}report/toCustomerStatistics?active=9">客户统计</a></li>
-			<li><a name="tab" href="${base}report/toFiltrateCustomers?active=10">筛选客户类型统计</a></li>
+			<li><a name="tab" href="${base}report/toCustomerStatistics?active=8">客户统计</a></li>
+			<li><a name="tab" href="${base}report/toFiltrateCustomers?active=9">筛选客户类型统计</a></li>
 		  </ul>
 		</li>
 		<li>
-		  <a name="tab" href="${base}report/toClinchPerforEveryDay?active=11" > <span aria-hidden="true" class="se7en-tables"></span>每日成交业绩统计</a>
+		  <a name="tab" href="${base}report/toClinchPerforEveryDay?active=10" > <span aria-hidden="true" class="se7en-tables"></span>每日成交业绩统计</a>
 		</li>
 		<li>
-		  <a name="tab" href="${base}report/toButtPerforDetail?active=12" > <span aria-hidden="true" class="se7en-tables"></span>展厅客服对接业绩</a>
+		  <a name="tab" href="${base}report/toButtPerforDetail?active=11" > <span aria-hidden="true" class="se7en-tables"></span>展厅客服对接业绩</a>
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
 		  	<span aria-hidden="true" class="se7en-tables"></span>销售日报表<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
-			<li><a name="tab" href="${base}report/toSellDaily?active=13">销售日报表</a></li>
+			<li><a name="tab" href="${base}report/toSellDaily?active=12">销售日报表</a></li>
+			<li><a name="tab" href="${base}report/toCreditCardDepositDetail?active=13">当日刷卡定金明细表</a></li>
 			<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=14">出库明细统计</a></li>
+			<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=15" >赠品明细</a></li>
 		  </ul>
 		</li>
 	  </ul>

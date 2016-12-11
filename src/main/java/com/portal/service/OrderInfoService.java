@@ -185,5 +185,16 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject getSellDaily(HttpServletRequest request);
+    
+    /**
+     * @Title: ajaxCreditCardDepositDetail 
+     * @Description: 异步获取当日刷卡定金明细数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午8:40:08 
+     * @version V1.0
+     */
+    JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results);
 
 }

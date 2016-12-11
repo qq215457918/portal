@@ -1,12 +1,15 @@
 package com.portal.dao.extra;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.result.OrderDetailInfoForm;
-import com.portal.bean.result.OrderInfoForm;
-import com.portal.bean.result.OrderInfoFormNew;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.stereotype.Repository;
+
+import com.portal.bean.Criteria;
+import com.portal.bean.result.OrderDetailInfoForm;
+import com.portal.bean.result.OrderFundSettlementForm;
+import com.portal.bean.result.OrderInfoForm;
+import com.portal.bean.result.OrderInfoFormNew;
 
 @Repository
 public interface OrderInfoExtraDao {
@@ -88,4 +91,26 @@ public interface OrderInfoExtraDao {
      * @version V1.0
      */
     List<OrderInfoForm> getSellclearingDetail(Criteria criteria);
+    
+    /**
+     * @Title: getCountsCardDetail 
+     * @Description: 获取当日刷卡定金明细数据总条数
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午9:13:05 
+     * @version V1.0
+     */
+    int getCountsCardDetail(Criteria criteria);
+    
+    /**
+     * @Title: getCreditCardDepositDetail 
+     * @Description: 获取当日刷卡定金明细数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午8:41:31
+     * @version V1.0
+     */
+    List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria);
 }

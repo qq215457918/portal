@@ -56,6 +56,7 @@
 	<!-- 事务传播方式 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="Throwable" />

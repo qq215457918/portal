@@ -9,6 +9,8 @@
     <result column="receiver_area" property="receiverArea" jdbcType="VARCHAR" />
     <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
     <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
+    <result column="new_orders" property="newOrders" jdbcType="INTEGER" />
+    <result column="new_amounts" property="newAmounts" jdbcType="INTEGER" />
     <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
     <result column="repeat_orders" property="repeatOrders" jdbcType="INTEGER" />
     <result column="repeat_amounts" property="repeatAmounts" jdbcType="INTEGER" />
@@ -41,6 +43,12 @@
       </if>
       <if test="condition.newCounts != null" >
          and new_counts = #{condition.newCounts,jdbcType=INTEGER}
+      </if>
+      <if test="condition.newOrders != null" >
+         and new_orders = #{condition.newOrders,jdbcType=INTEGER}
+      </if>
+      <if test="condition.newAmounts != null" >
+         and new_amounts = #{condition.newAmounts,jdbcType=INTEGER}
       </if>
       <if test="condition.repeatCounts != null" >
          and repeat_counts = #{condition.repeatCounts,jdbcType=INTEGER}
@@ -100,6 +108,12 @@
       <if test="example.condition.newCounts != null" >
          and new_counts = #{example.condition.newCounts,jdbcType=INTEGER}
       </if>
+      <if test="example.condition.newOrders != null" >
+         and new_orders = #{example.condition.newOrders,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.newAmounts != null" >
+         and new_amounts = #{example.condition.newAmounts,jdbcType=INTEGER}
+      </if>
       <if test="example.condition.repeatCounts != null" >
          and repeat_counts = #{example.condition.repeatCounts,jdbcType=INTEGER}
       </if>
@@ -140,9 +154,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
-    new_counts, repeat_counts, repeat_orders, repeat_amounts, roadshow_counts, roadshow_orders, 
-    roadshow_amounts, finish_order_counts, finish_orders, finish_amounts, locked_counts, 
-    locked_orders, locked_amounts
+    new_counts, new_orders, new_amounts, repeat_counts, repeat_orders, repeat_amounts, 
+    roadshow_counts, roadshow_orders, roadshow_amounts, finish_order_counts, finish_orders, 
+    finish_amounts, locked_counts, locked_orders, locked_amounts
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -178,18 +192,20 @@
   <insert id="insert" parameterType="com.portal.bean.VisitReportInfo" >
     insert into visit_report_info (id, report_date, receiver_staff_id, 
       receiver_staff_name, receiver_area, customer_counts, 
-      new_counts, repeat_counts, repeat_orders, 
-      repeat_amounts, roadshow_counts, roadshow_orders, 
-      roadshow_amounts, finish_order_counts, finish_orders, 
-      finish_amounts, locked_counts, locked_orders, 
-      locked_amounts)
+      new_counts, new_orders, new_amounts, 
+      repeat_counts, repeat_orders, repeat_amounts, 
+      roadshow_counts, roadshow_orders, roadshow_amounts, 
+      finish_order_counts, finish_orders, finish_amounts, 
+      locked_counts, locked_orders, locked_amounts
+      )
     values (#{id,jdbcType=VARCHAR}, #{reportDate,jdbcType=TIMESTAMP}, #{receiverStaffId,jdbcType=VARCHAR}, 
       #{receiverStaffName,jdbcType=VARCHAR}, #{receiverArea,jdbcType=VARCHAR}, #{customerCounts,jdbcType=INTEGER}, 
-      #{newCounts,jdbcType=INTEGER}, #{repeatCounts,jdbcType=INTEGER}, #{repeatOrders,jdbcType=INTEGER}, 
-      #{repeatAmounts,jdbcType=INTEGER}, #{roadshowCounts,jdbcType=INTEGER}, #{roadshowOrders,jdbcType=INTEGER}, 
-      #{roadshowAmounts,jdbcType=INTEGER}, #{finishOrderCounts,jdbcType=INTEGER}, #{finishOrders,jdbcType=INTEGER}, 
-      #{finishAmounts,jdbcType=INTEGER}, #{lockedCounts,jdbcType=INTEGER}, #{lockedOrders,jdbcType=INTEGER}, 
-      #{lockedAmounts,jdbcType=INTEGER})
+      #{newCounts,jdbcType=INTEGER}, #{newOrders,jdbcType=INTEGER}, #{newAmounts,jdbcType=INTEGER}, 
+      #{repeatCounts,jdbcType=INTEGER}, #{repeatOrders,jdbcType=INTEGER}, #{repeatAmounts,jdbcType=INTEGER}, 
+      #{roadshowCounts,jdbcType=INTEGER}, #{roadshowOrders,jdbcType=INTEGER}, #{roadshowAmounts,jdbcType=INTEGER}, 
+      #{finishOrderCounts,jdbcType=INTEGER}, #{finishOrders,jdbcType=INTEGER}, #{finishAmounts,jdbcType=INTEGER}, 
+      #{lockedCounts,jdbcType=INTEGER}, #{lockedOrders,jdbcType=INTEGER}, #{lockedAmounts,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.VisitReportInfo" >
     insert into visit_report_info
@@ -214,6 +230,12 @@
       </if>
       <if test="newCounts != null" >
         new_counts,
+      </if>
+      <if test="newOrders != null" >
+        new_orders,
+      </if>
+      <if test="newAmounts != null" >
+        new_amounts,
       </if>
       <if test="repeatCounts != null" >
         repeat_counts,
@@ -273,6 +295,12 @@
       </if>
       <if test="newCounts != null" >
         #{newCounts,jdbcType=INTEGER},
+      </if>
+      <if test="newOrders != null" >
+        #{newOrders,jdbcType=INTEGER},
+      </if>
+      <if test="newAmounts != null" >
+        #{newAmounts,jdbcType=INTEGER},
       </if>
       <if test="repeatCounts != null" >
         #{repeatCounts,jdbcType=INTEGER},
@@ -342,6 +370,12 @@
       <if test="record.newCounts != null" >
         new_counts = #{record.newCounts,jdbcType=INTEGER},
       </if>
+      <if test="record.newOrders != null" >
+        new_orders = #{record.newOrders,jdbcType=INTEGER},
+      </if>
+      <if test="record.newAmounts != null" >
+        new_amounts = #{record.newAmounts,jdbcType=INTEGER},
+      </if>
       <if test="record.repeatCounts != null" >
         repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
       </if>
@@ -392,6 +426,8 @@
       receiver_area = #{record.receiverArea,jdbcType=VARCHAR},
       customer_counts = #{record.customerCounts,jdbcType=INTEGER},
       new_counts = #{record.newCounts,jdbcType=INTEGER},
+      new_orders = #{record.newOrders,jdbcType=INTEGER},
+      new_amounts = #{record.newAmounts,jdbcType=INTEGER},
       repeat_counts = #{record.repeatCounts,jdbcType=INTEGER},
       repeat_orders = #{record.repeatOrders,jdbcType=INTEGER},
       repeat_amounts = #{record.repeatAmounts,jdbcType=INTEGER},
@@ -428,6 +464,12 @@
       </if>
       <if test="newCounts != null" >
         new_counts = #{newCounts,jdbcType=INTEGER},
+      </if>
+      <if test="newOrders != null" >
+        new_orders = #{newOrders,jdbcType=INTEGER},
+      </if>
+      <if test="newAmounts != null" >
+        new_amounts = #{newAmounts,jdbcType=INTEGER},
       </if>
       <if test="repeatCounts != null" >
         repeat_counts = #{repeatCounts,jdbcType=INTEGER},
@@ -476,6 +518,8 @@
       receiver_area = #{receiverArea,jdbcType=VARCHAR},
       customer_counts = #{customerCounts,jdbcType=INTEGER},
       new_counts = #{newCounts,jdbcType=INTEGER},
+      new_orders = #{newOrders,jdbcType=INTEGER},
+      new_amounts = #{newAmounts,jdbcType=INTEGER},
       repeat_counts = #{repeatCounts,jdbcType=INTEGER},
       repeat_orders = #{repeatOrders,jdbcType=INTEGER},
       repeat_amounts = #{repeatAmounts,jdbcType=INTEGER},

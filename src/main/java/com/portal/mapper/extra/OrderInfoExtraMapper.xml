@@ -32,6 +32,10 @@
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
     <result column="performance" property="performance" jdbcType="DECIMAL" />
     <result column="income" property="income" jdbcType="DECIMAL" />
+    <result column="poundage" property="poundage" jdbcType="DECIMAL" />
+    <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
+    <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
   </resultMap>
   
     <resultMap id="BaseResultMapNew" type="com.portal.bean.result.OrderInfoFormNew" >
@@ -88,6 +92,19 @@
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="total_price" property="totalPrice" jdbcType="VARCHAR" />
     <result column="remarks" property="viewRemark" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <!-- 当日刷卡定金明细 -->
+  <resultMap id="OrderFundResultMap" type="com.portal.bean.result.OrderFundSettlementForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="payment_account_id" property="paymentAccountId" jdbcType="VARCHAR" />
+    <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
+    <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+    <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
+    <result column="poundage" property="poundage" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -425,33 +442,61 @@
   <!-- 销售日报表-获取销售结算明细(信用卡千分之6/储蓄卡千分之5) -->
   <select id="getSellclearingDetail" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
   	select 
-        o.finance_type as finance_type,
-        sum(o.actual_price) as actual_price,
-        sum(
-	        case
-	            o.finance_type
-	        when
-	            '1'
-	        then
-	            o.actual_price - o.actual_price * 0.006
-	        when
-	            '2'
-	        then
-                o.actual_price - o.actual_price * 0.005
-        	end
-        ) as income, 
-        o.Remarks as remarks
-    from order_info o
-    left join customer_info c on o.customer_id = c.id
-    left join order_detail_info od on o.id = od.order_id
-    <if test="_parameter != null" >
+		p.payment_account_name as payment_account_name,
+		of.customer_pay_type as customer_pay_type,
+		sum(of.pay_amount_actual) as pay_amount_actual,
+		(sum(of.pay_amount_actual) - sum(of.poundage)) as income,
+		sum(of.poundage) as poundage
+	from payment_account_info p
+	left join order_fund_settlement of on p.payment_account_id = of.payment_account_id
+	left join order_info o on of.order_number = o.order_number
+	left join order_detail_info od on o.id = od.order_id
+	left join customer_info c on o.customer_id = c.id
+	<if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
     </if>
-    and od.good_sort_id != '1'
-    and o.finance_flag = '1'
-    and (o.`status` = '4' or o.pay_type = '1')
-    group by o.finance_type
-    order by o.finance_type
+	and od.good_sort_id != '1'
+	and o.finance_flag = '1'
+	and (o.`status` = '4' or o.pay_type = '1')
+	group by p.payment_account_name
+	order by p.payment_account_name
+  </select>
+  
+  <!-- 获取当日刷卡定金明细数据条数 -->
+  <select id="getCountsCardDetail" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+  	select count(1) from (
+	    SELECT
+			f.id
+		from order_fund_settlement f
+		left join payment_account_info p on f.payment_account_id = p.payment_account_id
+		left join order_info o on f.order_number = o.order_number
+		left join customer_info c on o.customer_id = c.id
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and o.pay_type = '1'
+		and f.customer_pay_type = '2'
+    ) a
+  </select>
+  
+  <!-- 获取当日刷卡定金明细数据 -->
+  <select id="getCreditCardDepositDetail" resultMap="OrderFundResultMap" parameterType="com.portal.bean.Criteria" >
+    select 
+		f.*,
+		p.payment_account_name
+	from order_fund_settlement f
+	left join payment_account_info p on f.payment_account_id = p.payment_account_id
+	left join order_info o on f.order_number = o.order_number
+	left join customer_info c on o.customer_id = c.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+	and o.pay_type = '1'
+	and f.customer_pay_type = '2'
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
 </mapper>

@@ -136,27 +136,35 @@ public class ReportTaskController {
         
         
         /**
+         * 统计新客户数量
+         * select count(1) from (
+                select o.customer_id from order_info o where (o.`status` = '4' or o.pay_type = '1') group by  o.customer_id  having count(*) = 1)a
+         * 
+         * 统计业绩
          * select 
-                r.receiver_staff_id as receiver_staff_id,
-                e.`name` as receiver_staff_name,
-                c.area as receiver_area,
-                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '0') as new_counts,
-                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '1') as repeat_counts,
-                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '1') as repeat_orders,
-                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '1' and o.`status` = '4' or o.pay_type = '1') as repeat_amounts,
-                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '2') as roadshow_counts,
-                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '2') as roadshow_orders,
-                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '2' and o.`status` = '4' or o.pay_type = '1') as roadshow_amounts,
-                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '3') as finish_order_counts,
-                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '3') as finish_order_orders,
-                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '3' and o.`status` = '4' or o.pay_type = '1') as finish_order_amounts,
-                (select count(1) from customer_info ci where r.customer_id = ci.id and ci.type = '4') as locked_counts,
-                (select count(1) from order_info o left join customer_info c on o.customer_id = c.id where c.type = '4') as locked_orders,
-                (select sum(o.actual_price) from order_info o left join customer_info c on o.customer_id = c.id where o.customer_id = r.customer_id and c.type = '4' and o.`status` = '4' or o.pay_type = '1') as locked_amounts
-            from 
-                reception_info r
-            left join customer_info c on r.customer_id = c.id
-            left join employee_info e on r.receiver_staff_id = e.id
+            e.id as receiver_staff_id,
+            e.`name` as receiver_staff_name,
+            sum(v.locked_counts) as locked_counts,
+            sum(v.locked_orders) as locked_orders,
+            sum(v.locked_amounts) as locked_amounts,
+            sum(v.finish_order_counts) as finish_order_counts,
+            sum(v.finish_orders) as finish_orders,
+            sum(v.finish_amounts) as finish_amounts,
+            sum(v.repeat_counts) as repeat_counts,
+            sum(v.repeat_orders) as repeat_orders,
+            sum(v.repeat_amounts) as repeat_amounts,
+            sum(v.roadshow_counts) as roadshow_counts,
+            sum(v.roadshow_orders) as roadshow_orders,
+            sum(v.roadshow_amounts) as roadshow_amounts,
+            sum(v.new_counts) as new_counts,
+            sum(v.new_orders) as new_orders,
+            sum(v.new_amounts) as new_amounts,
+            (sum(v.locked_counts) + sum(v.finish_order_counts) + sum(v.repeat_counts) + sum(v.roadshow_counts) + sum(v.new_counts)) as total_counts,
+            (sum(v.locked_orders) + sum(v.finish_orders) + sum(v.repeat_orders) + sum(v.roadshow_orders) + sum(v.new_orders)) as total_orders,
+            (sum(v.locked_amounts) + sum(v.finish_amounts) + sum(v.repeat_amounts) + sum(v.roadshow_amounts) + sum(v.new_amounts)) as total_amounts
+            
+        from employee_info e
+        left join visit_report_info v on e.id = v.receiver_staff_id
             order by c.`name`
          */
         

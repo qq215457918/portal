@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.SellGoodsDetailDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.SellGoodsDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="total_prices" property="totalPrices" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.sellDailyId != null" >
+         and sell_daily_id = #{condition.sellDailyId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodsName != null" >
+         and goods_name = #{condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.count != null" >
+         and count = #{condition.count,jdbcType=INTEGER}
+      </if>
+      <if test="condition.unitPrice != null" >
+         and unit_price = #{condition.unitPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.totalPrices != null" >
+         and total_prices = #{condition.totalPrices,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.remark != null" >
+         and remark = #{condition.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createUserId != null" >
+         and create_user_id = #{condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.sellDailyId != null" >
+         and sell_daily_id = #{example.condition.sellDailyId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.goodsName != null" >
+         and goods_name = #{example.condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.count != null" >
+         and count = #{example.condition.count,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.unitPrice != null" >
+         and unit_price = #{example.condition.unitPrice,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.totalPrices != null" >
+         and total_prices = #{example.condition.totalPrices,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.remark != null" >
+         and remark = #{example.condition.remark,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createUserId != null" >
+         and create_user_id = #{example.condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sell_daily_id, goods_name, count, unit_price, total_prices, remark, create_user_id, 
+    create_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sell_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sell_goods_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sell_goods_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from sell_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.SellGoodsDetail" >
+    insert into sell_goods_detail (id, sell_daily_id, goods_name, 
+      count, unit_price, total_prices, 
+      remark, create_user_id, create_date
+      )
+    values (#{id,jdbcType=VARCHAR}, #{sellDailyId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{count,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL}, #{totalPrices,jdbcType=DECIMAL}, 
+      #{remark,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.SellGoodsDetail" >
+    insert into sell_goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sellDailyId != null" >
+        sell_daily_id,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="totalPrices != null" >
+        total_prices,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sellDailyId != null" >
+        #{sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null" >
+        #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sell_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sell_goods_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellDailyId != null" >
+        sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsName != null" >
+        goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.count != null" >
+        count = #{record.count,jdbcType=INTEGER},
+      </if>
+      <if test="record.unitPrice != null" >
+        unit_price = #{record.unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="record.totalPrices != null" >
+        total_prices = #{record.totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sell_goods_detail
+    set id = #{record.id,jdbcType=VARCHAR},
+      sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
+      goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      count = #{record.count,jdbcType=INTEGER},
+      unit_price = #{record.unitPrice,jdbcType=DECIMAL},
+      total_prices = #{record.totalPrices,jdbcType=DECIMAL},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.SellGoodsDetail" >
+    update sell_goods_detail
+    <set >
+      <if test="sellDailyId != null" >
+        sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="totalPrices != null" >
+        total_prices = #{totalPrices,jdbcType=DECIMAL},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.SellGoodsDetail" >
+    update sell_goods_detail
+    set sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      count = #{count,jdbcType=INTEGER},
+      unit_price = #{unitPrice,jdbcType=DECIMAL},
+      total_prices = #{totalPrices,jdbcType=DECIMAL},
+      remark = #{remark,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

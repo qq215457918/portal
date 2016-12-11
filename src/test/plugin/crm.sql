@@ -561,3 +561,56 @@ CREATE TABLE `payment_account_info` (
   PRIMARY KEY (`payment_account_id`),
   KEY `idx_payment_account_id` (`payment_account_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='收款账户信息表';
+
+-- ----------------------------
+-- Table structure for sell_daily_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `sell_daily_detail`;
+CREATE TABLE `sell_daily_detail` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键id',
+  `sell_daily_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '销售报表ID',
+  `payment_account_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '收款账户名称',
+  `customer_pay_type` varchar(10) COLLATE utf8_bin NOT NULL COMMENT '客户支付方式',
+  `pay_amount` decimal(10,2) NOT NULL COMMENT '需要支付金额',
+  `pay_amount_actual` decimal(10,2) NOT NULL COMMENT '实际支付金额',
+  `poundage` decimal(10,2) NOT NULL COMMENT '手续费',
+  `remarks` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  `create_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '创建用户ID',
+  `create_date` datetime NOT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`),
+  KEY `idx_sell_daily_id` (`sell_daily_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='资金结算明细表';
+
+-- ----------------------------
+-- Table structure for sell_daily_info
+-- ----------------------------
+DROP TABLE IF EXISTS `sell_daily_info`;
+CREATE TABLE `sell_daily_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键id',
+  `area` varchar(1) COLLATE utf8_bin NOT NULL COMMENT '所属地区 1-大连 0-沈阳',
+  `report_date` datetime NOT NULL COMMENT '统计日期',
+  `create_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '创建用户ID',
+  `create_date` datetime NOT NULL COMMENT '创建日期',
+  `update_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '修改用户ID',
+  `update_date` datetime NOT NULL COMMENT '修改日期',
+  PRIMARY KEY (`id`),
+  KEY `idx_id` (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='销售日报表';
+
+-- ----------------------------
+-- Table structure for sell_goods_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `sell_goods_detail`;
+CREATE TABLE `sell_goods_detail` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键id',
+  `sell_daily_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '销售报表ID',
+  `goods_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '销售藏品名称',
+  `count` int(11) NOT NULL COMMENT '数量',
+  `unit_price` decimal(10,2) NOT NULL COMMENT '单价',
+  `total_prices` decimal(10,2) NOT NULL COMMENT '总计金额',
+  `remark` varchar(150) COLLATE utf8_bin DEFAULT NULL COMMENT '备注',
+  `create_user_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '创建用户ID',
+  `create_date` datetime NOT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`),
+  KEY `idx_sell_daily_id` (`sell_daily_id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='销售藏品明细表';

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.SellDailyDetailDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.SellDailyDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
+    <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
+    <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+    <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
+    <result column="poundage" property="poundage" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.sellDailyId != null" >
+         and sell_daily_id = #{condition.sellDailyId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.paymentAccountName != null" >
+         and payment_account_name = #{condition.paymentAccountName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerPayType != null" >
+         and customer_pay_type = #{condition.customerPayType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.payAmount != null" >
+         and pay_amount = #{condition.payAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.payAmountActual != null" >
+         and pay_amount_actual = #{condition.payAmountActual,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.poundage != null" >
+         and poundage = #{condition.poundage,jdbcType=DECIMAL}
+      </if>
+      <if test="condition.remarks != null" >
+         and remarks = #{condition.remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createUserId != null" >
+         and create_user_id = #{condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.sellDailyId != null" >
+         and sell_daily_id = #{example.condition.sellDailyId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.paymentAccountName != null" >
+         and payment_account_name = #{example.condition.paymentAccountName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.customerPayType != null" >
+         and customer_pay_type = #{example.condition.customerPayType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.payAmount != null" >
+         and pay_amount = #{example.condition.payAmount,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.payAmountActual != null" >
+         and pay_amount_actual = #{example.condition.payAmountActual,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.poundage != null" >
+         and poundage = #{example.condition.poundage,jdbcType=DECIMAL}
+      </if>
+      <if test="example.condition.remarks != null" >
+         and remarks = #{example.condition.remarks,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createUserId != null" >
+         and create_user_id = #{example.condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, sell_daily_id, payment_account_name, customer_pay_type, pay_amount, pay_amount_actual, 
+    poundage, remarks, create_user_id, create_date
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sell_daily_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sell_daily_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sell_daily_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from sell_daily_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.SellDailyDetail" >
+    insert into sell_daily_detail (id, sell_daily_id, payment_account_name, 
+      customer_pay_type, pay_amount, pay_amount_actual, 
+      poundage, remarks, create_user_id, 
+      create_date)
+    values (#{id,jdbcType=VARCHAR}, #{sellDailyId,jdbcType=VARCHAR}, #{paymentAccountName,jdbcType=VARCHAR}, 
+      #{customerPayType,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL}, #{payAmountActual,jdbcType=DECIMAL}, 
+      #{poundage,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.SellDailyDetail" >
+    insert into sell_daily_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="sellDailyId != null" >
+        sell_daily_id,
+      </if>
+      <if test="paymentAccountName != null" >
+        payment_account_name,
+      </if>
+      <if test="customerPayType != null" >
+        customer_pay_type,
+      </if>
+      <if test="payAmount != null" >
+        pay_amount,
+      </if>
+      <if test="payAmountActual != null" >
+        pay_amount_actual,
+      </if>
+      <if test="poundage != null" >
+        poundage,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="sellDailyId != null" >
+        #{sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentAccountName != null" >
+        #{paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPayType != null" >
+        #{customerPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmountActual != null" >
+        #{payAmountActual,jdbcType=DECIMAL},
+      </if>
+      <if test="poundage != null" >
+        #{poundage,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from sell_daily_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sell_daily_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sellDailyId != null" >
+        sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentAccountName != null" >
+        payment_account_name = #{record.paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerPayType != null" >
+        customer_pay_type = #{record.customerPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payAmount != null" >
+        pay_amount = #{record.payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.payAmountActual != null" >
+        pay_amount_actual = #{record.payAmountActual,jdbcType=DECIMAL},
+      </if>
+      <if test="record.poundage != null" >
+        poundage = #{record.poundage,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sell_daily_detail
+    set id = #{record.id,jdbcType=VARCHAR},
+      sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
+      payment_account_name = #{record.paymentAccountName,jdbcType=VARCHAR},
+      customer_pay_type = #{record.customerPayType,jdbcType=VARCHAR},
+      pay_amount = #{record.payAmount,jdbcType=DECIMAL},
+      pay_amount_actual = #{record.payAmountActual,jdbcType=DECIMAL},
+      poundage = #{record.poundage,jdbcType=DECIMAL},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.SellDailyDetail" >
+    update sell_daily_detail
+    <set >
+      <if test="sellDailyId != null" >
+        sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentAccountName != null" >
+        payment_account_name = #{paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPayType != null" >
+        customer_pay_type = #{customerPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="payAmount != null" >
+        pay_amount = #{payAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="payAmountActual != null" >
+        pay_amount_actual = #{payAmountActual,jdbcType=DECIMAL},
+      </if>
+      <if test="poundage != null" >
+        poundage = #{poundage,jdbcType=DECIMAL},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.SellDailyDetail" >
+    update sell_daily_detail
+    set sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
+      payment_account_name = #{paymentAccountName,jdbcType=VARCHAR},
+      customer_pay_type = #{customerPayType,jdbcType=VARCHAR},
+      pay_amount = #{payAmount,jdbcType=DECIMAL},
+      pay_amount_actual = #{payAmountActual,jdbcType=DECIMAL},
+      poundage = #{poundage,jdbcType=DECIMAL},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
