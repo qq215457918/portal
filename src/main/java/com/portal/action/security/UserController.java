@@ -56,6 +56,7 @@ public class UserController {
             // 验证成功在Session中保存用户信息
             final EmployeeInfo employeeInfo = employeeService.selectByUserName(userName);
             request.getSession().setAttribute("userInfo", employeeInfo);
+            request.getSession().setAttribute("userId", employeeInfo.getId());
             request.getSession().setAttribute("userName", employeeInfo.getName());
             //获取项目基础路径
             String basePath = WebUtils.getBasePath(request, response);

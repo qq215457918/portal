@@ -41,17 +41,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-md-6">
-                    <label class="control-label col-md-4">售卖金额</label>
-                    <div class="col-sm-4">
-                      <input class="form-control" type="text" id="lprice">
-                    </div>
-                    <div class="col-sm-4">
-                      <input class="form-control" type="text" id="hprice">
-                    </div>
-                  </div>
-                </div>
               </form>
               <div class="col-md-12" style="left:80%">
                 <button class="btn btn-success">查 询</button>
@@ -63,6 +52,7 @@
                 <tr>
                   <th>接待人员</th>
                   <th>购买商品</th>
+                  <th>成单总额</th>
                   <th>定金金额</th>
                   <th>定金日期</th>
                   <th>剩余尾款</th>

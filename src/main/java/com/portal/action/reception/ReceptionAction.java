@@ -78,7 +78,8 @@ public class ReceptionAction {
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
         model.addObject("revokeDeposit", orderInfoService.queryRevokeDepositInfo(customerId));
         model.addObject("receptionInfo", receptionInfoService.queryRecordListbyId(customerId));
-        model.addObject("cId", customerId);
+        //model.addObject("cId", customerId);
+        request.getSession().setAttribute("cId", customerId);
         model.setViewName("reception/query_second");
         return model;
     }

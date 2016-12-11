@@ -52,6 +52,8 @@ public class OrderInfoForm implements Serializable {
      */
     private Long depositPrice;
 
+    private Long totalPrice;
+
     /**
      * 支付状态(财务审核标志)<br>
      * 0 未支付<br>
@@ -105,6 +107,14 @@ public class OrderInfoForm implements Serializable {
     private String deleteFlag;
 
     private String createDateString;
+
+    public Long getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Long totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     public String getOrderNumber() {
         return orderNumber;
@@ -179,7 +189,7 @@ public class OrderInfoForm implements Serializable {
      * 统计业绩--业绩
      */
     private Integer performance;
-    
+
     /**
      * 销售日报表--实际入账金额
      */

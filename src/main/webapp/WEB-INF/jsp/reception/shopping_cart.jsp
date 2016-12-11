@@ -98,22 +98,7 @@
 	                  </div>
 	                </div>
 	                <div class="row">
-	                  <div class="col-md-11">
-	                     <div class="col-md-7">
-			              <label class="radio-inline">
-			              	<input name="optionsRadios2" type="radio" value="option1"><span>接口 1</span>
-			              </label>
-			              <label class="radio-inline">
-			              	<input checked="" name="optionsRadios2" type="radio" value="option2"><span>接口 2</span>
-			              </label>
-			              <label class="radio-inline">
-			              	<input name="optionsRadios2" type="radio" value="option3"><span>微信支付</span>
-			              </label>
-			            </div>
-	                  </div>
-	                  <div class="col-md-1">
 	                      <button class="btn btn-danger" onclick='submitOrder();'>确认支付</button>
-	                  </div>
 	                </div>
 	                <!-- end Responsive Table -->
 	              </div>

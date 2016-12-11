@@ -67,7 +67,8 @@ public class PresentAction {
     public void todayPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.selectTodayPresentList(request.getParameter("customerId")));
+        resultJson.put("result",
+                orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

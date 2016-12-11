@@ -1,6 +1,7 @@
 package com.portal.action.reception;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.GoodsInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.GoodsInfoForm;
 import com.portal.common.util.JsonUtils;
@@ -50,10 +51,12 @@ public class OrderAction {
     public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         WebUtils.setAttributeToSession(request);
+        List<GoodsInfo> goodsInfoList = goodsInfoService.selectPresentInfo(request);
         ModelAndView model = new ModelAndView();
         model.setViewName("reception/purchase_goods");
         model.addObject("cId", request.getParameter("cId"));
         model.addObject("submitFlag", request.getParameter("submitFlag"));
+        model.addObject("goodsInfoList", goodsInfoList);
         return model;
     }
 
@@ -128,10 +131,10 @@ public class OrderAction {
 
     @RequestMapping("orderModifyIndex")
     public String orderModifyIndex(HttpServletRequest request, HttpServletResponse response) {
-    	request.setAttribute("orderId", request.getParameter("orderId"));
+        request.setAttribute("orderId", request.getParameter("orderId"));
         return "reception/order_modify";
     }
-    
+
     /**
      * @Title: orderDelete 
      * @Description: 删除订单
@@ -143,7 +146,7 @@ public class OrderAction {
      */
     @RequestMapping("orderDelete")
     public String orderDelete(HttpServletRequest request, HttpServletResponse response) {
-    	orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
+        orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
         return "redirect:orderModifyIndex";
     }
 
@@ -171,11 +174,11 @@ public class OrderAction {
         if (StringUtils.isNotBlank(userId)) {
             criteria.put("financeFlag", "-1");
         }
-        
-        if("1".equals(request.getParameter("store"))){
-        	criteria.put("store", 1);
+
+        if ("1".equals(request.getParameter("store"))) {
+            criteria.put("store", 1);
         }
-        
+
         criteria.put("orderId", request.getParameter("orderId"));
 
         List<OrderInfo> resultList = orderInfoService.selectOrderModifyList(criteria);

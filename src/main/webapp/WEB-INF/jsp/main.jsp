@@ -25,7 +25,7 @@
 		                    <div class="number" style="font-size: 50px; margin-top: 20px;">
 		                      	我的工作
 		                    </div>
-		                    <a class="btn btn-warning" style="margin-top:20px"><i class="icon-briefcase"></i>点击登陆</a>
+		                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/reception/job?active=1"><i class="icon-briefcase"></i>点击登陆</a>
 		              </div>
 		            </div>
 	          </div>

@@ -22,6 +22,7 @@
     <result column="actual_price" property="actualPrice" jdbcType="VARCHAR" />
     <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
     <result column="order_type" property="orderType" jdbcType="VARCHAR" />
+    <result column="old_order_id" property="oldOrderId" jdbcType="VARCHAR" />    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -101,6 +102,9 @@
       <if test="example.condition.orderType != null" >
          and order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if> 
+      <if test="example.condition.oldOrderId != null" >
+         and old_order_id = #{condition.oldOrderId,jdbcType=VARCHAR}
+      </if>   
     </trim>
   </sql>
   <sql id="Base_Column_List" >
@@ -192,6 +196,9 @@
       <if test="orderType != null" >
         order_type,
       </if>
+      <if test="oldOrderId != null" >
+        old_order_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -229,6 +236,12 @@
       </if>
       <if test="updateId != null" >
         #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="oldOrderId != null" >
+        #{oldOrderId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -279,6 +292,9 @@
       </if>
       <if test="record.orderType != null" >
         order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldOrderId != null" >
+        old_order_id = #{record.oldOrderId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -341,7 +357,10 @@
       </if>
      <if test="orderType != null" >
         order_type = #{orderType,jdbcType=VARCHAR},
-      </if>
+      </if> 
+     <if test="oldOrderId != null" >
+        old_order_id = #{oldOrderId,jdbcType=VARCHAR},
+      </if>   
       
     </set>
     where id = #{id,jdbcType=VARCHAR}

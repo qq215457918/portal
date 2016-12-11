@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>首次登陆</title>
+    <title>购买商品</title>
     <base href="${basePath}">
     <script src="resources/js/reception/purchase_goods.js" type="text/javascript"></script>
     <link rel="stylesheet" href="resources/css/reception/purchase_goods.css" />
@@ -72,6 +72,7 @@
               <a class="btn btn-primary btn" onclick='openDelivery();'>配 送</a>
               <a class="btn btn-warning btn" onclick='openPlacing();'>配 售</a>
               <a class="btn btn-default btn" onclick='openGifts();'>赠 品</a>
+              <a class="btn btn-default btn"  data-toggle="modal" href="#presentModal">特批赠品</a>
             </div>
             <div class="modal fade" id="myGoods">
               <div class="modal-dialog">
@@ -95,7 +96,7 @@
 	       				商品名称
 	                </th>
 	                <th>
-	       				售价
+	       				单价
 	                </th>
         	        <th>
 	       				单位
@@ -139,6 +140,34 @@
 	           </div>
 	       </div>
          <!--modal end-->
+         <!-- 特殊审批  modal Start -->
+           <div class="modal fade" id="presentModal">
+             <div class="modal-dialog">
+               <div class="modal-content">
+                 <div class="modal-header">
+                   <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+                   <h4 class="modal-title">
+                   	  请输入审批原因
+                   </h4>
+                 </div>            
+                 <div class="modal-body">
+                 	赠品名称：<select class="form-control" id="applyGoods">
+		               <c:forEach var="list" items="${goodsInfoList}">
+	                      <option value="${list.id}">${list.name}</option>
+	                   </c:forEach>
+		              </select>
+		                                赠品数量： <input class="form-control" value="1" type="text" id="applyCount">
+                                                     申请原因：<textarea class="form-control" rows="3" id="applyReason"></textarea>
+                 </div>
+                 <div class="modal-footer">
+                   <button class="btn btn-primary" type="button" id="appConfirm">确 认</button>
+                   <button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+                 </div>
+               </div>
+             </div>
+           </div>
+         <!-- modal end -->
+         
           </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 订单管理模块
+ * 定金管理
  */
 @Controller
 @RequestMapping("/deposit")

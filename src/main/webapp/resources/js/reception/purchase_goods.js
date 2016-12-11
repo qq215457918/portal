@@ -23,7 +23,40 @@ $(function() {
 		var cartObj = JSON.parse( cartValue );	
 	});	
 	numControl();
+	
+	// 特殊审批
+	$("#appConfirm").click(function(){
+		var count = $('#applyCount').val();
+		var reason = $('#applyReason').val();
+		var goodId = $('#applyGoods').val();
+		//window.location.href=base+"/present/review?reason="+reason;
+		$.ajax({
+			method : "POST",
+			url : base+"/present/review",
+			data : {
+				"reason" : reason,
+				"count" : count,
+				"goodId" : goodId
+			},
+			dataType : "JSON",
+			success : function(data) {
+				if(data.result==true){
+					alert("提交成功，等待审批人进行审批");
+					$('#presentModal').modal('hide');
+					//getPresent();
+				}
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				console.log('XMLHttpRequest.status :' + XMLHttpRequest.status);
+				console.log('XMLHttpRequest.readyState :'
+						+ XMLHttpRequest.readyState);
+				console.log('textStatus:' + textStatus);
+			}
+		});
+	});
 });
+
+
 
 
 

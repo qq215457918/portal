@@ -29,12 +29,29 @@ public class ReceptionQueryAction {
      * @param response
      * @return
      */
-    @RequestMapping(value = "/init")
+    @RequestMapping(value = "init")
     public ModelAndView receptionING(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.setAttributeToSession(request);
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         model.addObject("cId", request.getParameter("cId"));
         model.setViewName("reception/inquiry_record");
+        return model;
+    }
+
+    /**
+     * 进入到myjob页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "job")
+    public ModelAndView receptionJob(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.setAttributeToSession(request);
+        getBasePath(request, response);
+        ModelAndView model = new ModelAndView();
+        //model.addObject("cId", request.getParameter("cId"));
+        model.setViewName("myjob/inquiry_record");
         return model;
     }
 

@@ -127,7 +127,6 @@
 		$("#appConfirm").click(function(){
 			var count = $('#applyCount').val();
 			var reason = $('#applyReason').val();
-			alert(goodId)
 			//window.location.href=base+"/present/review?reason="+reason;
 			$.ajax({
 				method : "POST",
@@ -158,7 +157,9 @@
 		$("#presentReceive").click(function(){	
 			var goodId ="";
 			//获取所选赠品
-			if($('input[name="row_checkbox"]').prop('checked')==true){
+			//if($('input[name="row_checkbox"]').prop('checked')==true){
+				//$(":checkbox[name=subcheck]:checked").size() == 0
+			if($(":checkbox[name=row_checkbox]:checked").size() > 0){	
 				$("input[name=row_checkbox]:checked").each(function(){ 
 				    var id = $(this).attr("id");
 				    goodId += id +",";
@@ -193,9 +194,9 @@
 		$.ajax({
 			method : "POST",
 			url : base+"/present/record",
-			data : {
+			/* data : {
 				"customerId":"1"
-			},
+			}, */
 			dataType : "JSON",
 			success : function(data) {
 				if(data.result.length>0){

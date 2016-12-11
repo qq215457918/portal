@@ -25,23 +25,26 @@
         </div>
         <div class="container-fluid main-nav clearfix">
   			<input type="hidden" id="active" name="active" value="${active}" />
-  			<input type="hidden" id="cId" name="cId" value="${cId}" />
+  			<input type="hidden" id="cId" name="cId" value='<%=session.getAttribute("cId")%>' />
           <!--menu start-->
           <div class="nav-collapse">
             <ul class="nav">
               <li>
-                <a name="tab" href="${base}visit/second?active=1&cId=${cId}"> <span aria-hidden="true" class="icon-user"></span>客户概览</a>
+                <a name="tab" href="${base}visit/second?active=1&cId=<%=session.getAttribute("cId")%>"> <span aria-hidden="true" class="icon-user"></span>客户概览</a>
               </li>
-              <li><a name="tab" href="${base}order/init?active=2&cId=${cId}">
+              <li><a name="tab" href="${base}order/init?active=2&cId=<%=session.getAttribute("cId")%>">
                 <span aria-hidden="true" class="icon-book"></span>购买商品</a>
               </li>
-              <li><a name="tab" href="${base}deposit/init?active=3&cId=${cId}"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
+              <li><a name="tab" href="${base}deposit/init?active=3&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-money"></span>定金管理</a>
               </li>
-              <li><a name="tab" href="${base}repurchase/init?active=4&cId=${cId}"><span aria-hidden="true" class="icon-retweet "></span>回购记录</a>
+              <li><a name="tab" href="${base}repurchase/init?active=4&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-retweet "></span>回购记录</a>
               </li>
-              <li><a name="tab" href="${base}order/manage/init?active=5&cId=${cId}"><span aria-hidden="true" class="icon-file-text"></span>退换货管理</a>
+              <li><a name="tab" href="${base}order/manage/init?active=5&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-file-text"></span>退换货管理</a>
               </li>
-              <li><a name="tab" href="${base}present/list?active=6&cId=${cId}"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              <li><a name="tab" href="${base}present/list?active=6&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              </li>
+              <li><a name="tab" href="${base}reception/init?active=7&cId=<%=session.getAttribute("cId")%>">
+              		<span aria-hidden="true" class="icon-group"></span>来访查询</a>
               </li>
               <li>
                 <a data-toggle="modal" href="#myModal"><span aria-hidden="true" class="icon-signin"></span>结束接待 </a>
