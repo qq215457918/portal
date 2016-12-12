@@ -1,21 +1,5 @@
 package com.portal.service.impl;
 
-import java.lang.reflect.InvocationTargetException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
@@ -40,9 +24,21 @@ import com.portal.dao.extra.SellDailyInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
-
+import java.lang.reflect.InvocationTargetException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class OrderInfoServiceImpl implements OrderInfoService {
@@ -67,7 +63,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     private OrderDetailInfoService orderDetailInfoService;
-    
+
     @Autowired
     private SellDailyInfoExtraDao sellDailyInfoExreaDao;
 
@@ -87,6 +83,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         record.setId(request.getParameter("orderId"));
         record.setStatus("0");// 6 回购待确认 ->1 未支付
         return updateByPrimaryKeySelective(record);
+    }
+
+    /**
+     * 带回购确认
+     * 找到DetailOrder的信息把状态改为 order_type = 6 
+     * @param request
+     * @return
+     */
+    public int updateNormalRepurchase(HttpServletRequest request) {
+        OrderDetailInfo detailInfo = new OrderDetailInfo();
+        detailInfo.setId(request.getParameter("detailId"));
+        detailInfo.setOrderType("6");// 6 回购待确认
+        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
     }
 
     /**
@@ -816,30 +825,31 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         JSONObject result = new JSONObject();
         // 所属区域
         String area = request.getParameter("area");
-        
+
         // 查询日期
         String startDate = request.getParameter("startDate");
-        
+
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
             criteria.put("area", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         } else {
             startDate = DateUtil.formatDate(new Date(), "yyyy-MM-dd");
             // 为空, 默认查询当天的数据
             criteria.put("startDate", startDate);
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
-        
+
         // 如果根据传递的日期从数据库表中查询数据，查到了直接显示，差不多则统计;
         // 查询之前统计的数据
         criteria.put("reportDate", startDate);
         // 获取数据库中之前保存的数据
         List<SellDailyInfoForm> sellDailies = sellDailyInfoExreaDao.getSellDailiesByCondition(criteria);
-        if(sellDailies != null && sellDailies.size() > 0) {
+        if (sellDailies != null && sellDailies.size() > 0) {
             // 获取销售商品信息
             List<SellGoodsDetail> goodsDetail = sellDailies.get(0).getSellGoodsDetails();
             // 获取销售结算明细
@@ -847,7 +857,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             result.put("type", "search");
             result.put("goodsList", goodsDetail);
             result.put("clearing", dailyDetail);
-        }else {
+        } else {
             // 获取销售商品信息
             List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
             // 获取销售结算明细
@@ -865,14 +875,15 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String area = request.getParameter("area");
         // 查询日期
         String startDate = request.getParameter("startDate");
-        
+
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
             criteria.put("area", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
-            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
         } else {
             // 为空, 默认查询当天的数据
             criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
@@ -884,7 +895,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         int totalRecord = orderInfoExtraDao.getCountsCardDetail(criteria);
         // 获取数据
         List<OrderFundSettlementForm> depositDetail = orderInfoExtraDao.getCreditCardDepositDetail(criteria);
-        
+
         results.put("sEcho", request.getParameter("sEcho"));
         results.put("iTotalRecords", totalRecord);
         results.put("iTotalDisplayRecords", totalRecord);

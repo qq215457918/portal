@@ -233,6 +233,9 @@
       <if test="condition.orderType != null" >
          and d.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
+      <if test="condition.repurchased != null" >
+         and d.order_type = in('1','5')
+      </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
       </if>   

@@ -57,7 +57,7 @@
 	          	<div style="width: 35%; float: left;">
 	          		<label class="control-label col-md-2" id="isReceiver" style=" width: 100%;">接待状态</label>
 	          	</div>
-	       	  <div style="width: 65%; float: left;">
+	       	  	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-7" style="width: 100%;">
 		           <label class="checkbox"><input type="checkbox"><span>是否正在接待</span></label>
 		          </div>
