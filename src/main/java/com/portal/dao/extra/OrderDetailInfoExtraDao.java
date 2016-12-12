@@ -1,6 +1,7 @@
 package com.portal.dao.extra;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.result.OrderDetailInfoForm;
 import com.portal.bean.result.ReceptionInfoForm;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -36,5 +37,27 @@ public interface OrderDetailInfoExtraDao {
      * @return
      */
     Long countPrice4Deposit(Criteria criteria);
-
+    
+    /**
+     * @Title: getGiftDetailCounts 
+     * @Description: 根据条件获取赠品明细总条数
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午11:07:11 
+     * @version V1.0
+     */
+    int getGiftDetailCounts(Criteria criteria);
+    
+    /**
+     * @Title: getGiftDetail 
+     * @Description: 根据条件获取赠品明细
+     * @param criteria
+     * @return List<OrderDetailInfoForm>
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午11:04:39 
+     * @version V1.0
+     */
+    List<OrderDetailInfoForm> getGiftDetail(Criteria criteria);
+    
 }
