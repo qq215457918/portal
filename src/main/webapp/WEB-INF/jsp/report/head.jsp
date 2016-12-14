@@ -115,7 +115,7 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="javascript:alert('进入系统首页');"><span aria-hidden="true" class="se7en-home"></span>主页</a>
+		  <a href="login"><span aria-hidden="true" class="se7en-home"></span>主页</a>
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
@@ -162,7 +162,7 @@
 			<li><a name="tab" href="${base}report/toSellDaily?active=12">销售日报表</a></li>
 			<li><a name="tab" href="${base}report/toCreditCardDepositDetail?active=13">当日刷卡定金明细表</a></li>
 			<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=14">出库明细统计</a></li>
-			<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=15" >赠品明细</a></li>
+			<li><a name="tab" href="${base}report/toGiftDetail?active=15" >赠品明细统计</a></li>
 		  </ul>
 		</li>
 	  </ul>

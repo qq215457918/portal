@@ -1,5 +1,6 @@
 package com.portal.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.result.OrderDetailInfoForm;
 import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
@@ -143,5 +145,49 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
     @Override
     public List<OrderDetailInfo> selectOrderInfoById(Map<String, Object> param) {
     	return orderDetailInfoDao.selectOrderInfoById(param);
+    }
+
+    public JSONObject ajaxGiftDetail(HttpServletRequest request, JSONObject results) {
+        // 查询赠品明细
+        // 请求开始页
+        int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
+        // 每页显示几条
+        int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
+        // 开始日期
+        String startDate = request.getParameter("startDate");
+        // 结束日期
+        String endDate = request.getParameter("endDate");
+        // 所属区域
+        String area = request.getParameter("area");
+        
+        criteria.clear();
+        criteria.setMysqlOffset(currentPage);
+        criteria.setMysqlLength(perpage);
+        
+        if(StringUtil.isNotBlank(startDate)){
+            criteria.put("startDate", startDate);
+        }else {
+            criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        }
+        if(StringUtil.isNotBlank(endDate)){
+            criteria.put("endDate", DateUtil.formatDate(DateUtil.parseDate(endDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        }else {
+            criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
+        }
+        if(StringUtil.isNotBlank(area)){
+            criteria.put("area", area);
+        }
+        
+        // 获取总记录数
+        int totalRecord = orderDetailExtraDao.getGiftDetailCounts(criteria);
+        // 获取数据集
+        List<OrderDetailInfoForm> list = orderDetailExtraDao.getGiftDetail(criteria);
+        
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", request.getParameter("sEcho"));
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", list);
+        return resultJson;
     }
 }

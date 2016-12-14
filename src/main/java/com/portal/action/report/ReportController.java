@@ -829,5 +829,46 @@ public class ReportController {
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
+    
+    // ------------------------- 赠品明细统计 入口：toGiftDetail ---------------------------------
+    
+    /**
+     * @Title: toGiftDetail 
+     * @Description: 进入赠品明细统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:07:32 
+     * @version V1.0
+     */
+    @RequestMapping("/toGiftDetail")
+    public String toGiftDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
+        // 初始化页面输入框中的日期值（默认当天时间）
+        request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        return "report/gift_detail";
+    }
+    
+    /**
+     * @Title: ajaxGiftDetail 
+     * @Description: 异步获取赠品明细数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:10:43 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxGiftDetail")
+    public void ajaxGiftDetail(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject results = new JSONObject();
+        // 异步获取数据
+        results = orderDetailService.ajaxGiftDetail(request, results);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
 
 }
