@@ -31,8 +31,11 @@
               <li><a name="tab" href="${base}reception/job?active=1">
                 	<span aria-hidden="true" class="icon-coffee"></span>接待查询</a>
               </li>
-              <li><a name="tab" href="${base}myjob/job?active=2">
+              <li><a name="tab" href="${base}repurchase/job?active=2">
                 	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购管理</a>
+              </li>
+              <li><a name="tab" href="${base}repurchase/manage?active=2">
+                	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购审批</a>
               </li>
             </ul>
           </div>

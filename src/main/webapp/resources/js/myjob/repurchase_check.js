@@ -81,29 +81,12 @@ function initData() {
 					  },
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
-		            {"data": "orderType",
-						"render": function(data, type, full) {
-							var type;
-							switch (data)
-							{
-							case "1": type ="正常";break;
-							case "5": type ="已回购";break;
-							case "7": type ="待回购";break;
-							default:type =" ";break;
-						 }
-							return type;
-						}
-					  },
+		            {"mData": "remarks"},
 		            {"data": "id",
 						"render": function(data, type, full) {
 						   var result = "";
-						   var normalButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='normal("+data+");'>正常回购</button>";//customerId
-						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='special(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;,&quot;"+full.amount+"&quot;,&quot;"+full.price+"&quot;,&quot;"+full.customerId+"&quot;);'>特殊回购</button>";
-						   var orderType = full.orderType; 
-						   if(orderType==1){
-							   result = normalButton + specialButton;
-						   }
-							return result;
+						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='special(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;);'>特殊回购</button>";
+							return specialButton;
 						 }
 					  }
 		           ],   	           

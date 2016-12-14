@@ -4,10 +4,10 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>回购查询页面</title>
+    <title>回购审批页面</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
-	<script type="text/javascript" src="resources/js/myjob/repurchase_query.js"></script>
+	<script type="text/javascript" src="resources/js/myjob/repurchase_check.js"></script>
   </head>
   <body>
   <div class="modal-shiftfix">
@@ -20,7 +20,7 @@
         <div class="col-lg-12">
           <div class="widget-container fluid-height clearfix">
             <div class="heading">
-              <i class="icon-table"></i>回购查询页面
+              <i class="icon-table"></i>回购审批页面
             </div>
             <div class="widget-content padded">
               <form action="#" class="form-horizontal">
@@ -52,12 +52,12 @@
                     <th>成单号</th>
                     <th>客户姓名</th>
                     <th>客户电话</th>
-					<th>商品名称</th>
-					<th>商品数量</th>
-					<th>交易金额</th>
+					<th>申请商品</th>
+					<th>申请数量</th>
+					<th>申请金额</th>
 					<th>交易日期</th>
-					<th>接待员</th>
-					<th>成单状态</th>
+					<th>申请接待员</th>
+					<th>申请原因</th>
 					<th>操作</th>
                 </tr>
                 </thead>

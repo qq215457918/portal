@@ -11,6 +11,10 @@ import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
 
+    public int updateSpecialRepurchase(HttpServletRequest request);
+
+    public int updateNormalRepurchase(HttpServletRequest request);
+
     public int updateRepurchaseOrder(HttpServletRequest request);
 
     public boolean updatePayDeposit(String orderId);
@@ -185,7 +189,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject getSellDaily(HttpServletRequest request);
-    
+
     /**
      * @Title: ajaxCreditCardDepositDetail 
      * @Description: 异步获取当日刷卡定金明细数据

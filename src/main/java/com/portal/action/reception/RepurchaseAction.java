@@ -52,7 +52,7 @@ public class RepurchaseAction {
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 
         criteria.put("deleteFlag", "0");
-        criteria.put("orderType", "5");
+        criteria.put("orderType", "6");
         criteria.put("customerId", request.getParameter("customerId"));
         criteria.setOrderByClause("create_date");
         //criteria.put("repurchaseFlag", true); //5待审批 6回购待确认
@@ -75,14 +75,39 @@ public class RepurchaseAction {
     }
 
     /**
-     * 领导审核回购单
+     * 进入回购审批页面
      * 
      * @param request
      * @param response
      */
-    @RequestMapping(value = "audit", method = RequestMethod.GET)
-    public void audit(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "manage", method = RequestMethod.GET)
+    public String manage(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.setAttributeToSession(request);
+        getBasePath(request, response);
+        return "myjob/repurchase_check";
+    }
 
+    /**
+     * 获取待审批的回购页面
+     * order_type = 7 回购
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "pending", method = RequestMethod.POST)
+    public void pending(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        Criteria criteria = new Criteria();
+        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+        criteria.put("orderType", "7");//回购商品查询 order_type =‘7’
+        criteria.put("deleteFlag", "0");
+        criteria.put("goodsName", request.getParameter("goodsName"));
+        criteria.put("staffName", request.getParameter("staffName"));
+        //criteria.put("typeList", request.getParameter("typeList").split(","));
+        //List<OrderInfoFormNew> getOrderInfoNew
+        List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
+        int count = resultList.size();
+        JsonUtils.resultJson(resultList, count, response, request);
     }
 
     /**
@@ -118,7 +143,7 @@ public class RepurchaseAction {
      * @param request
      * @param response
      */
-    @RequestMapping(value = "query", method = RequestMethod.GET)
+    @RequestMapping(value = "query", method = RequestMethod.POST)
     public void query(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         Criteria criteria = new Criteria();
@@ -139,7 +164,7 @@ public class RepurchaseAction {
     }
 
     /**
-     * 在顾客登门时，业务员确认回购单
+     * 查询哪些商品可以回购
      * status 6待确认
      * @param request
      * @param response
@@ -148,7 +173,22 @@ public class RepurchaseAction {
     public void normal(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.updateRepurchaseOrder(request));
+        resultJson.put("result", orderInfoService.updateNormalRepurchase(request));
+        JsonUtils.outJsonString(resultJson.toString(), response);
+    }
+
+    /**
+     * 提交特殊回购信息
+     * 新增一条订单信息，
+     * status 6待确认
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "special", method = RequestMethod.POST)
+    public void special(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("result", orderInfoService.updateSpecialRepurchase(request) > 0 ? true : false);
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

@@ -57,9 +57,6 @@ $(function() {
 });
 
 
-
-
-
 function numControl(){
 	//加的效果
 	$(".add").click(function(){

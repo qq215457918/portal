@@ -42,6 +42,8 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="customer_phone" property="customerPhone" jdbcType="VARCHAR" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
     <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
     <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" /> 
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
@@ -234,7 +236,7 @@
          and d.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
       <if test="condition.repurchased != null" >
-         and d.order_type = in('1','5')
+         and d.order_type in ('1','5','7')
       </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
@@ -291,6 +293,8 @@
 			d.order_type,
 			i.order_number,
 			i.customer_id,
+			(select e.`name` from customer_info e where e.id = i.customer_id) as customer_name,
+            (select e.`phone` from customer_info e where e.id = i.customer_id) as customer_phone, 
 			(select e.`name` from employee_info e where e.id = i.phone_staff_id) as phone_staff_name,
 			(select e.`name` from employee_info e where e.id = i.receiver_staff_id) as receiver_staff_name,
 			i.status,
