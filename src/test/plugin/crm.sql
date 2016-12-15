@@ -193,6 +193,7 @@ CREATE TABLE `order_detail_info` (
   `good_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '商品ID',
   `good_type` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '商品类型（同good_info type）',
   `good_name` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '商品名称',
+  `old_price` decimal(10,0) DEFAULT NULL COMMENT '原价格',
   `price` decimal(10,0) DEFAULT NULL COMMENT '价格',
   `repurchase_price` decimal(10,0) DEFAULT NULL COMMENT '回购金额',  
   `amount` int(11) DEFAULT NULL COMMENT '数量 如果退货数量为负',
