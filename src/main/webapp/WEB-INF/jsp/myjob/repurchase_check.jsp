@@ -54,6 +54,7 @@
                     <th>客户电话</th>
 					<th>申请商品</th>
 					<th>申请数量</th>
+					<th>交易金额</th>		
 					<th>申请金额</th>
 					<th>交易日期</th>
 					<th>申请接待员</th>
@@ -73,7 +74,7 @@
   </div>
 </div>
 <!-- 特殊审批  modal Start -->
-  <div class="modal fade" id="specialModal">
+  <div class="modal fade" id="checkModal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -84,11 +85,11 @@
         </div>            
         <div class="modal-body">
                          商品名称： <input class="form-control" value="" type="text" id="applyGoodsName" readonly ="readonly">
-                         赠品数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
-                        回购金额：<div class="input-group">
+                         回购数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
+                         交易金额： <input class="form-control" value="" type="text" id="applyPriceOld" readonly ="readonly">
+                         回购单价：<div class="input-group">
                 <span class="input-group-addon">¥</span><input class="form-control" type="text" id="applyPrice"><span class="input-group-addon">.00</span>
                </div>
-                         申请原因： <textarea class="form-control" rows="3" id="applyReason"></textarea>
         </div>
         <input id="applyGoodsId" name="applyGoodsId" type="hidden" />
         <input id="customerId" name="customerId" type="hidden" />

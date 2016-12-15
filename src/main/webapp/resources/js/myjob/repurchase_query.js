@@ -21,6 +21,7 @@ $(function() {
 		var goodName = $('#applyGoodsName').val();
 		var detailId = $('#applyGoodsId').val();
 		var price = $('#applyPrice').val();
+		var price = $('#applyPriceOld').val();
 		var customerId = $('#customerId').val();
 		//window.location.href=base+"/present/review?reason="+reason;
 		$.ajax({
@@ -110,12 +111,6 @@ function initData() {
 		"fnServerData": function (sSource, aoData, fnCallback) {//查询项
 				var goodName = $('#goodName').val();
 				var customerName = $('#customerName').val();
-//				var typeList = ""; 
-//				$("input[name=checkbox]:checked").each(function(){ 
-//				    var val = $(this).val();
-//				    typeList +=val+"," ;
-//				});
-//				typeList = typeList.substr(0,typeList.length-1);
 				aoData.push({'name':'goodName','value':goodName},{'name':'customerName','value':customerName});							
 				$.ajax({
 						"dataType": 'json',
@@ -163,6 +158,7 @@ function special(detailId , goodName , amount, price ,customerId){
 	$('#applyGoodsName').val(goodName);
 	$('#applyCount').val(amount);
 	$('#applyPrice').val(price);
+	$('#applyPriceOld').val(price);
 	$('#applyGoodsId').val(detailId);
 	//customerId
 	$('#customerId').val(customerId);

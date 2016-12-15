@@ -32,7 +32,7 @@ public class RepurchaseAction {
         WebUtils.setAttributeToSession(request);
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        model.addObject("cId", request.getParameter("cId"));
+        model.addObject("cId", request.getSession().getAttribute("cId"));
         model.setViewName("reception/repurchase_manage");
         return model;
     }
@@ -52,10 +52,10 @@ public class RepurchaseAction {
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 
         criteria.put("deleteFlag", "0");
-        criteria.put("orderType", "6");
-        criteria.put("customerId", request.getParameter("customerId"));
+        //criteria.put("orderType", "6");
+        criteria.put("repurchaseList", "true");//5待审批  7回购待确认
+        criteria.put("customerId", request.getSession().getAttribute("cId"));
         criteria.setOrderByClause("create_date");
-        //criteria.put("repurchaseFlag", true); //5待审批 6回购待确认
 
         List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
         int count = resultList.size();
@@ -63,20 +63,7 @@ public class RepurchaseAction {
     }
 
     /**
-     * 为这个用户的某个商品申请回购
-     * 应该在订单管理页面进行申请一条回购记录，并等待审核。
-     * 特殊审批的时候需要加字段  status=5 待审批  如果已经审批，则status=0
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "apply", method = RequestMethod.GET)
-    public void applyRepurchase(HttpServletRequest request, HttpServletResponse response) {
-
-    }
-
-    /**
      * 进入回购审批页面
-     * 
      * @param request
      * @param response
      */
@@ -108,6 +95,19 @@ public class RepurchaseAction {
         List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
         int count = resultList.size();
         JsonUtils.resultJson(resultList, count, response, request);
+    }
+
+    /**
+     * 领导审批回购页面，确认修改回购标志order_type =5
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "apply", method = RequestMethod.GET)
+    public void apply(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        resultJson.put("result", orderInfoService.updateConfirmRepurchase(request) > 0 ? true : false);
+        JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
     /**

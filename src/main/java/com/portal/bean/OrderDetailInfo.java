@@ -43,6 +43,11 @@ public class OrderDetailInfo implements Serializable {
     /**
      * 价格
      */
+    private Long oldPrice;
+
+    /**
+     * 价格
+     */
     private Long price;
 
     /**
@@ -117,6 +122,14 @@ public class OrderDetailInfo implements Serializable {
     private String payPriceCN;
 
     private String today;
+
+    public Long getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(Long oldPrice) {
+        this.oldPrice = oldPrice;
+    }
 
     public String getOldOrderId() {
         return oldOrderId;

@@ -119,6 +119,11 @@ public class OrderInfoFormNew implements Serializable {
     /**
      * 价格
      */
+    private Long oldPrice;
+
+    /**
+     * 价格
+     */
     private Long price;
 
     /**
@@ -140,6 +145,14 @@ public class OrderInfoFormNew implements Serializable {
      * 删除标志 0正常 1删除
      */
     private String deleteFlag;
+
+    public Long getOldPrice() {
+        return oldPrice;
+    }
+
+    public void setOldPrice(Long oldPrice) {
+        this.oldPrice = oldPrice;
+    }
 
     public String getCustomerName() {
         return customerName;

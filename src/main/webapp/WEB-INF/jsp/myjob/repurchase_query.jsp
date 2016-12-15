@@ -84,8 +84,9 @@
         </div>            
         <div class="modal-body">
                          商品名称： <input class="form-control" value="" type="text" id="applyGoodsName" readonly ="readonly">
-                         赠品数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
-                        回购金额：<div class="input-group">
+                         回购数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
+                         交易金额： <input class="form-control" value="" type="text" id="applyPriceOld" readonly ="readonly">
+                         回购单价：<div class="input-group">
                 <span class="input-group-addon">¥</span><input class="form-control" type="text" id="applyPrice"><span class="input-group-addon">.00</span>
                </div>
                          申请原因： <textarea class="form-control" rows="3" id="applyReason"></textarea>

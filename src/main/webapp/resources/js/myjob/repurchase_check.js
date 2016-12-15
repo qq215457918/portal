@@ -17,28 +17,26 @@ $(function() {
 	// 特殊审批
 	$("#appConfirm").click(function(){
 		var count = $('#applyCount').val();
-		var reason = $('#applyReason').val();
 		var goodName = $('#applyGoodsName').val();
 		var detailId = $('#applyGoodsId').val();
 		var price = $('#applyPrice').val();
 		var customerId = $('#customerId').val();
-		//window.location.href=base+"/present/review?reason="+reason;
 		$.ajax({
 			method : "POST",
-			url : base+"/repurchase/special",
+			url : base+"/repurchase/apply",
 			data : {
-				"reason" : reason,
 				"count" : count,
 				"goodName" : goodName,	
 				"detailId" : detailId,
+				"oldPrice" : oldPrice,
 				"price" : price,
 				"customerId":customerId
 			},
 			dataType : "JSON",
 			success : function(data) {
 				if(data.result==true){
-					alert("提交成功，等待审批人进行审批");
-					$('#specialModal').modal('hide');
+					alert("审批成功，等待客户登门确认回购");
+					$('#checkModal').modal('hide');
 					$('#orderTable').dataTable().fnDraw();
 				}
 			},
@@ -66,13 +64,14 @@ function initData() {
 		"bServerSide": true, // 后台请求
 		"bInfo" : true,		 // Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息
 		"bRetrieve": true,
-		"sAjaxSource": "repurchase/query", // 地址
+		"sAjaxSource": "repurchase/pending", // 地址
 		"aoColumns": [  
 				 	{"mData": "orderNumber"},
 				 	{"mData": "customerName"},
 				 	{"mData": "customerPhone"},			 	
 		            {"mData": "goodName"},
 		            {"mData": "amount"}, 
+		            {"mData": "oldPrice"}, 
 		            {"data": "price",
 						"render": function(data, type, full) {
 							//var type;
@@ -85,7 +84,7 @@ function initData() {
 		            {"data": "id",
 						"render": function(data, type, full) {
 						   var result = "";
-						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='special(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;);'>特殊回购</button>";
+						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='approved(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;);'>特殊回购</button>";
 							return specialButton;
 						 }
 					  }
@@ -137,17 +136,18 @@ function normal(detailId){
 }
 
 /**
- * 特殊回购流程
- * 弹出需要审批页面 输入审批原因和金额
+ * 审批通过页面：显示名称，数量，修改单价回购
+ * 输入金额，点击确认
  * @param orderId
  * @returns
  */
-function special(detailId , goodName , amount, price ,customerId){
+function approved(detailId , goodName , amount , price ,customerId){
 	$('#applyGoodsName').val(goodName);
 	$('#applyCount').val(amount);
 	$('#applyPrice').val(price);
+	$('#applyPriceOld').val(price);
 	$('#applyGoodsId').val(detailId);
 	//customerId
 	$('#customerId').val(customerId);
-	$('#specialModal').modal('show');
+	$('#checkModal').modal('show');
 }

@@ -11,6 +11,8 @@ import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
 
+    public int updateConfirmRepurchase(HttpServletRequest request);
+
     public int updateSpecialRepurchase(HttpServletRequest request);
 
     public int updateNormalRepurchase(HttpServletRequest request);

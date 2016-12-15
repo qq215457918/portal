@@ -12,6 +12,28 @@ $(function() {
 		// 查询数据
 		$('#orderTable').dataTable().fnDraw();
 	});
+	
+	// 回购确认
+	$("#appConfirm").click(function(){
+		var detailId = $('#applyGoodsId').val();
+		var price = $('#applyPrice').val();
+		$.ajax({
+			"dataType": 'json',
+			"type": "POST",
+			"url": base+"repurchase/check",
+			"data": {
+				"detailId":detailId,
+				"price":price
+			},
+			"success": function(data){
+				alert("商品回购已经通知库房，请到库房进行回购业务");
+				$('#orderTable').dataTable().fnDraw();
+			},
+			error : function(XMLHttpRequest, textStatus, errorThrown) {
+				alert("error");
+			}
+		})
+	});
 });
 
 // 初始获取数据
@@ -93,7 +115,7 @@ function initData() {
  * @param orderId
  * @returns
  */
-function checkOrder(orderId){
+/*function checkOrder(orderId){
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
@@ -109,4 +131,21 @@ function checkOrder(orderId){
 			alert("error");
 		}
 	})
+}*/
+
+/**
+ * 审批通过页面：显示名称，数量，修改单价回购
+ * 输入金额，点击确认
+ * @param orderId
+ * @returns
+ */
+function checkOrder(detailId , goodName , amount , price ,customerId){
+	$('#applyGoodsName').val(goodName);
+	$('#applyCount').val(amount);
+	$('#applyPrice').val(price);
+	$('#applyPriceOld').val(price);
+	$('#applyGoodsId').val(detailId);
+	//customerId
+	//$('#customerId').val(customerId);
+	$('#checkModal').modal('show');
 }

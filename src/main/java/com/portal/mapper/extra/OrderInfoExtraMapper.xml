@@ -75,7 +75,8 @@
     <result column="good_id" property="goodId" jdbcType="VARCHAR" />
     <result column="good_type" property="goodType" jdbcType="VARCHAR" />
     <result column="good_name" property="goodName" jdbcType="VARCHAR" />
-     <result column="create_date_string" property="createDateString" jdbcType="VARCHAR" />  
+    <result column="create_date_string" property="createDateString" jdbcType="VARCHAR" />  
+    <result column="old_price" property="oldPrice" jdbcType="DECIMAL" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="repurchase_price" property="repurchasePrice" jdbcType="DECIMAL" />    
     <result column="amount" property="amount" jdbcType="INTEGER" />
@@ -237,6 +238,9 @@
       </if>
       <if test="condition.repurchased != null" >
          and d.order_type in ('1','5','7')
+      </if>
+      <if test="condition.repurchaseList != null" >
+         and d.order_type in ('5','7')
       </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
