@@ -593,6 +593,18 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return getOrderInfoByDate(customerId, 1, 4, 0);
     }
 
+    /**
+     * order_type = 4 赠品  6 VIP赠品
+     * finance_flag = 0
+     * 审批完毕审批finance_flag为 1 
+     * 查询需要审批的礼品信息
+     * @param customerId
+     * @return
+     */
+    public List<OrderInfoFormNew> updateCheckPresentList(Criteria example) {
+        return orderInfoExtraDao.selectByExampleNew4Page(example);
+    }
+
     public int countByExample(Criteria example) {
         int count = this.orderInfoDao.countByExample(example);
         logger.debug("count: {}", count);

@@ -242,6 +242,9 @@
       <if test="condition.repurchaseList != null" >
          and d.order_type in ('5','7')
       </if>
+      <if test="condition.financeFlag != null" >
+         and d.finance_flag ='0'
+      </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
       </if>   

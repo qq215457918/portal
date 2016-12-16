@@ -97,6 +97,13 @@ public interface OrderInfoService {
      */
     List<OrderInfoForm> selectTodayPresentList(String customerId);
 
+    /**
+     * 查询需要审批的礼品记录
+     * @param example
+     * @return
+     */
+    public List<OrderInfoFormNew> updateCheckPresentList(Criteria example);
+
     int countByExample(Criteria example);
 
     OrderInfo selectByPrimaryKey(String id);

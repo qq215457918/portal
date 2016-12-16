@@ -34,8 +34,11 @@
               <li><a name="tab" href="${base}repurchase/job?active=2">
                 	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购管理</a>
               </li>
-              <li><a name="tab" href="${base}repurchase/manage?active=2">
+              <li><a name="tab" href="${base}repurchase/manage?active=3">
                 	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购审批</a>
+              </li>
+              <li><a name="tab" href="${base}present/query?active=4">
+                	<span aria-hidden="true" class="icon-mail-reply-all"></span>礼品审批</a>
               </li>
             </ul>
           </div>

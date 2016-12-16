@@ -1,6 +1,9 @@
 package com.portal.action.reception;
 
+import com.portal.bean.Criteria;
 import com.portal.bean.GoodsInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoFormNew;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.GoodsInfoService;
@@ -69,6 +72,54 @@ public class PresentAction {
         JSONObject resultJson = new JSONObject();
         resultJson.put("result",
                 orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
+        JsonUtils.outJsonString(resultJson.toString(), response);
+    }
+
+    @RequestMapping(value = "/query")
+    public String checkList(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
+        return "myjob/present_check";
+    }
+
+    /**
+     * 查询需要确认的礼品单
+     * order_type = 4 赠品  6 VIP赠品
+     * finance_flag = 0
+     * 审批完毕审批finance_flag为 1 
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public void check(HttpServletRequest request, HttpServletResponse response) {
+        Criteria criteria = new Criteria();
+        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+
+        criteria.put("deleteFlag", "0");
+        criteria.put("financeFlag", "0");
+        criteria.put("repurchaseList", "true");//5待审批  7回购待确认
+        criteria.setOrderByClause("create_date");
+
+        List<OrderInfoFormNew> resultList = orderInfoService.updateCheckPresentList(criteria);
+        int count = resultList.size();
+        JsonUtils.resultJson(resultList, count, response, request);
+    }
+
+    /**
+     * 审批确认 修改 finance_flag 0 -》 1
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    public void confirm(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        OrderInfo record = new OrderInfo();
+        record.setId(request.getParameter("iDisplayLength"));
+        record.setFinanceFlag("1");
+        resultJson.put("result", orderInfoService.updateByPrimaryKey(record) > 0 ? true : false);
+        //  orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
