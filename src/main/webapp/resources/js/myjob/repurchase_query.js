@@ -23,7 +23,6 @@ $(function() {
 		var price = $('#applyPrice').val();
 		var price = $('#applyPriceOld').val();
 		var customerId = $('#customerId').val();
-		//window.location.href=base+"/present/review?reason="+reason;
 		$.ajax({
 			method : "POST",
 			url : base+"/repurchase/special",

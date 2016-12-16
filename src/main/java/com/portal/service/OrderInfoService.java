@@ -89,7 +89,7 @@ public interface OrderInfoService {
      * @param request
      * @return
      */
-    boolean insertPresentOrder(HttpServletRequest request, int normalFlag);
+    boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP);
 
     /**
      * 当天赠品记录查询

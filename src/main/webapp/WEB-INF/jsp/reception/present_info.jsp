@@ -127,7 +127,6 @@
 		$("#appConfirm").click(function(){
 			var count = $('#applyCount').val();
 			var reason = $('#applyReason').val();
-			//window.location.href=base+"/present/review?reason="+reason;
 			$.ajax({
 				method : "POST",
 				url : base+"/present/review",
@@ -135,6 +134,7 @@
 					"reason" : reason,
 					"count" : count,
 					"goodId" : goodId,
+					"isVIP" : false,
 					"customerId":"1"
 				},
 				dataType : "JSON",

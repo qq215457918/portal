@@ -57,7 +57,9 @@ public class PresentAction {
     public void reviewPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request, 1));
+        resultJson.put("result",
+                orderInfoService.insertPresentOrder(request, 1, request.getParameter("isVIP") == "true") ? true
+                        : false);
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
@@ -98,6 +100,7 @@ public class PresentAction {
 
         criteria.put("deleteFlag", "0");
         criteria.put("financeFlag", "0");
+        criteria.put("status", "0");
         criteria.put("repurchaseList", "true");//5待审批  7回购待确认
         criteria.setOrderByClause("create_date");
 
@@ -118,6 +121,7 @@ public class PresentAction {
         OrderInfo record = new OrderInfo();
         record.setId(request.getParameter("iDisplayLength"));
         record.setFinanceFlag("1");
+        record.setStatus("1");
         resultJson.put("result", orderInfoService.updateByPrimaryKey(record) > 0 ? true : false);
         //  orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
@@ -132,7 +136,9 @@ public class PresentAction {
     public void insertPresentOrder(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request, 0));
+        resultJson.put("result",
+                orderInfoService.insertPresentOrder(request, 0, request.getParameter("isVIP") == "true" ? true
+                        : false));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

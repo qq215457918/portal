@@ -29,14 +29,14 @@ $(function() {
 		var count = $('#applyCount').val();
 		var reason = $('#applyReason').val();
 		var goodId = $('#applyGoods').val();
-		//window.location.href=base+"/present/review?reason="+reason;
 		$.ajax({
 			method : "POST",
 			url : base+"/present/review",
 			data : {
 				"reason" : reason,
 				"count" : count,
-				"goodId" : goodId
+				"goodId" : goodId,
+				"isVIP" : true
 			},
 			dataType : "JSON",
 			success : function(data) {

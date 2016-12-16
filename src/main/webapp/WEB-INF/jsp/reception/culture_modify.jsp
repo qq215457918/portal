@@ -27,46 +27,21 @@
 	                  <input class="form-control" id="cultureName" name="cultureName" type="text" value=${cultureInfo.cultureName}>
 	                </div>
 	                <div class="form-group">
-	                  <label>开户日期</label>
-	                  <input class="form-control" id="accountDate" name="accountDate" type="text" value=${cultureInfo.accountDate}>
+	                  <label>文交所信息</label>
+		                <select class="form-control" id="applyGoods">
+			               <c:forEach var="list" items="${cultureInfo}">
+		                      <option value="${list.id}">${list.name}</option>
+		                   </c:forEach>
+			              </select>
 	                </div>
 	               <div class="form-group">
-	                  <label>是否绑定银行卡</label>
+	                  <label>交易账号</label>
 	                  <input class="form-control" id="bankFlag" name="bankFlag" type="text" value=${cultureInfo.bankFlag}>
 	                </div>
                 </div>
-            
-<!--               <div class="col-md-6">
-	                <div class="form-group">
-	                  <label for="firstname">文交所</label>
-	                  <input class="form-control" id="cultureName" name="cultureName" type="text" value=${cultureInfo.cultureName}>
-	                </div>
-	                <div class="form-group">
-	                  <label>开户日期</label>
-	                  <input class="form-control" id="accountDate" name="accountDate" type="text" value=${cultureInfo.accountDate}>
-	                </div>
-	               <div class="form-group">
-	                  <label>是否绑定银行卡</label>
-	                  <input class="form-control" id="bankFlag" name="bankFlag" type="text" value=${cultureInfo.bankFlag}>
-	                </div>
-                </div>
-               <div class="col-md-6">
-               	  <div class="form-group">
-	                  <label>客户姓名</label>
-	                  <input class="form-control" id="customerName" name="customerName" type="text" value=${cultureInfo.customerName}>
-	                </div>
-	               <div class="form-group">
-	                  <label>联系电话</label>
-	                  <input class="form-control" id="phone" name="phone" type="text" value=${cultureInfo.phone}>
-	                </div> 
-	               <div class="form-group">
-	                  <label>会员代码</label>
-	                  <input class="form-control" id="code" name="code" type="text" value=${customerInfo.code}>
-	                </div>  		
-	           </div> -->
             </div>
             <input type="hidden" name="cid" id="cid" value="${cultureInfo.id}"/>
-            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交文交所信息">
+            <input class="btn btn-primary" type="submit" style="margin-left:20px"value="保存文交所信息">
             </div>
           </fieldset>
         </form>
