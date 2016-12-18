@@ -1,6 +1,7 @@
 package com.portal.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,5 +87,16 @@ public interface VisitReportInfoService {
      * @version V1.0
      */
     int checkIsNewCount(Criteria criteria);
+    
+    /**
+     * @Title: getRecevieCountsAndOrders 
+     * @Description: 定时器获取成单及锁定的接待数和出单数
+     * @param criteria 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2017年2月13日 下午10:45:24 
+     * @version V1.0
+     */
+    Map<String, Integer> getRecevieCountsAndOrders(Criteria criteria);
     
 }

@@ -242,4 +242,8 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         return visitReportExtDao.checkIsNewCount(criteria);
     }
 
+    public Map<String, Integer> getRecevieCountsAndOrders(Criteria criteria) {
+        return visitReportExtDao.getRecevieCountsAndOrders(criteria);
+    }
+
 }

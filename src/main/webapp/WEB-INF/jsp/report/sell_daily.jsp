@@ -9,6 +9,7 @@
 <base href="${basePath}">
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/report/sell_daily.js"></script>
+<script type="text/javascript" src="resources/js/jQuery.print.js"></script>
 <jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
@@ -39,7 +40,7 @@
 	          </div>
 	          <div class="condition fl">
 		        <button class="btn btn-success fl" style="margin-left: 1%;">查&nbsp;询</button>
-		        <%-- <button class="btn btn-primary fl" id="export">导&nbsp;出</button> --%>
+		        <button class="btn btn-primary fl" id="print">打&nbsp;印</button>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>

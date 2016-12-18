@@ -243,5 +243,16 @@ public interface OrderInfoService {
      * @version V1.0
      */
     int getOrderAmounts(Criteria criteria);
+    
+    /**
+     * @Title: getOrderGoodsCounts 
+     * @Description: 获取对应人员在指定时间段的出售藏品件数（定时器使用）
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午11:59:00 
+     * @version V1.0
+     */
+    int getOrderGoodsCounts(Criteria criteria);
 
 }

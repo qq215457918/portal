@@ -222,5 +222,19 @@
   	) a
   </select>
   
+  <!-- 定时器获取每周对接业绩中的成单/锁定的接待数/出单数 -->
+  <select id="getRecevieCountsAndOrders" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  	select
+  		sum(v.finish_order_counts) as finishOrderCounts,
+  		sum(v.finish_orders) as finishOrders,
+  		sum(v.finish_amounts) as finishAmounts,
+  		sum(v.locked_counts) as lockedCounts,
+  		sum(v.locked_orders) as lockedOrders,
+  		sum(v.locked_amounts) as lockedAmounts
+  	from visit_report_info v
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
   
 </mapper>

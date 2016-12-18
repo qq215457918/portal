@@ -72,7 +72,7 @@
                                     <div class="condition-control fl">
 						          	  <div class="col-md-3" style="width: 100%; padding: 0;">
 									    <div class="input-group date datepicker">
-							              <input class="form-control" type="text" id="viewRepurchaseStarttime" name="viewRepurchaseStarttime" value="${goodsInfo.repurchaseStarttime }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+							              <input class="form-control" type="text" id="viewRepurchaseStarttime" name="viewRepurchaseStarttime" value="${goodsInfo.viewRepurchaseStarttime }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 							            </div>
 							          </div>
 						          	</div>
@@ -117,14 +117,16 @@
                                     <div class="condition-control fl">
 						          	  <div class="col-md-3" style="width: 100%; padding: 0;">
 									    <div class="input-group date datepicker">
-							              <input class="form-control" type="text" id="viewRepurchaseEndtime" name="viewRepurchaseEndtime" value="${goodsInfo.repurchaseEndtime }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
+							              <input class="form-control" type="text" id="viewRepurchaseEndtime" name="viewRepurchaseEndtime" value="${goodsInfo.viewRepurchaseEndtime }" readonly="readonly"><span class="input-group-addon"><i class="icon-calendar"></i></span>
 							            </div>
 							          </div>
 						          	</div>
                                  </div>
+                                 <div class="form-group" style="margin-bottom: 0px; height: 106px;">
+                                    <button class="btn btn-default-outline" id="back" style="float:right; margin-top: 7%;">返回</button>
+		                  	  		<button class="btn btn-primary" id="saveGoods" style="float:right; margin-top: 7%;">保存</button>
+                                 </div>
                              </div>
-	                          <button class="btn btn-default-outline" id="back" style="float:right;">返回</button>
-		                  	  <button class="btn btn-primary" id="saveGoods" style="float:right;">保存</button>
 	                      </form>
                        </div>
                   </div>

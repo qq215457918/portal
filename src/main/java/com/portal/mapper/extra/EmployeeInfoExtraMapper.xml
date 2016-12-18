@@ -45,6 +45,20 @@
       <if test="condition.endCreateDate != null" >
          <![CDATA[and e.create_date <= #{condition.endCreateDate,jdbcType=VARCHAR}]]>
       </if>
+      <!-- 定时器执行查询条件 -->
+      <if test="condition.employeeId != null" >
+         and e.id = #{condition.employeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and e.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startTime != null" >
+         <![CDATA[and o.create_date >= #{condition.startTime,jdbcType=VARCHAR}]]>
+      </if>
+      <if test="condition.endTime != null" >
+         <![CDATA[and o.create_date <= #{condition.endTime,jdbcType=VARCHAR}]]>
+      </if>
+      
     </trim>
   </sql>
 
@@ -79,6 +93,20 @@
   
   <select id="countByConditions" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
     select count(1) from employee_info e
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- 统计每周对接业绩根据客服ID获取接待名称 -->
+  <select id="getReceiveNameByPhoneId" parameterType="com.portal.bean.Criteria" resultType="java.util.Map" >
+    select 
+    	DISTINCT 
+		ei.id as id,
+		ei.`name` as name 
+    from employee_info ei 
+    left join order_info o on ei.id = o.receiver_staff_id 
+    inner join employee_info e on o.phone_staff_id = e.id 
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -1048,9 +1048,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
             // 获取销售结算明细
             List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
+            // 获取定金退款
+            List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
+            // 获取定金回款
+            List<Integer> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
+            
             result.put("type", "compile");
             result.put("goodsList", goodsList);
             result.put("clearing", clearingList);
+            result.put("depositRefund", depositRefund);
+            result.put("depositReturn", depositReturn);
         }
         return result;
     }
@@ -1099,5 +1106,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     public int getOrderAmounts(Criteria criteria) {
         return orderInfoExtraDao.getOrderAmounts(criteria);
+    }
+
+    public int getOrderGoodsCounts(Criteria criteria) {
+        return orderInfoExtraDao.getOrderGoodsCounts(criteria);
     }
 }
