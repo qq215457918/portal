@@ -5,7 +5,8 @@ $(document).ready(function(){
 		if($('#payPriceS').val() &&
 			'' == $('#payPriceE').val() &&
 			'' == $('#dpd1').val() &&
-			'' == $('#dpd2').val()){
+			'' == $('#dpd2').val() &&
+			'' == $('#phoneStage').val()){
 			return;
 		}
 		$('#customerInfo').dataTable().fnDraw();
@@ -76,10 +77,12 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 			var payPriceS = $('#payPriceS').val();
 			var payPriceE = $('#payPriceE').val();
+			var phoneStage = $('#phoneStage').val();
 			var createDateS = $('#dpd1').val();
 			var createDateE = $('#dpd2').val();
 			aoData.push({'name':'payPriceS','value':payPriceS},{'name':'payPriceE','value':payPriceE},
-					{'name':'type','value':4},{'name':'createDateS','value':createDateS},{'name':'createDateE','value':createDateE});
+					{'name':'type','value':4},{'name':'createDateS','value':createDateS},
+					{'name':'createDateE','value':createDateE},{'name':'phoneStage','value':phoneStage});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

@@ -60,11 +60,12 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var backCountS = $('#backCountS').val();
 							var backCountE = $('#backCountE').val();
+							var phoneStage = $('#phoneStage').val();
 							var visiteDate1 = $('#dpd1').val();
 							var visiteDate2 = $('#dpd2').val();
 							aoData.push({'name':'backCountS','value':backCountS},{'name':'backCountE','value':backCountE},
 									{'name':'visiteDate1','value':visiteDate1},{'name':'visiteDate2','value':visiteDate2},
-									{'name':'type','value':1});
+									{'name':'type','value':1},{'name':'phoneStage','value':phoneStage});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

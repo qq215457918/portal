@@ -223,6 +223,8 @@
 				            		<option value="3">储蓄卡（不封顶）</option>
 				            		<option value="4">支付宝</option>
 				            		<option value="5">微信</option>
+				            		<option value="6">卡6</option>
+				            		<option value="7">沈阳对公</option>
 				            	</select>
 				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>

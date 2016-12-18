@@ -78,6 +78,16 @@ $(document).ready(function(){
 		});
 		$('#updateCivi').submit();
 	});
+	
+	$('#payAmount,#payAmountActual').bind('blur',function(){
+		var obj = $(this).closest('.base-column');
+		var total = obj.find('#payAmount').val();
+		var actual = obj.find('#payAmountActual').val();
+		if('' == total || '' == actual || isNaN(total) || isNaN(actual)){
+			return;
+		}
+		obj.find('#poundage').val(total - actual);
+	});
 }); 
 
 $(document).on('click', 'a[name=delete]', function(){
