@@ -36,7 +36,7 @@ public class OrganizationController {
         return "admin/organization/index";
     }
 
-    // TODO - 现在这个类有问题 
+    // TODO - 现在这个类有问题
     @RequiresPermissions("organization:view")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
     public String showTree(Model model, HttpServletRequest request, HttpServletResponse response) {
