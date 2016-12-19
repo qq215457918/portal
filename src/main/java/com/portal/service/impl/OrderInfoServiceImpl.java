@@ -560,6 +560,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderInfo.setFinanceDate(new Date());
         } else {
             orderInfo.setOrderType("4");//特殊赠品需要审批
+            orderInfo.setFinanceFlag("0");
             orderInfo.setStatus("0");
         }
         orderInfo.setCreateDate(new Date());
@@ -595,8 +596,28 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * 当天赠品记录查询
      * order_type='4'and create_date=now()
      */
-    public List<OrderInfoForm> selectTodayPresentList(String customerId) {
-        return getOrderInfoByDate(customerId, 1, 4, 0);
+    public List<OrderInfoForm> selectPresentList(String customerId) {
+        //getCriteria(customerId, 1, 4, 0)
+        criteria.clear();
+        criteria.put("customerId", customerId);
+        criteria.put("payType", 0);
+        criteria.put("deleteFlag", "0");
+        criteria.put("presentCheck", true);
+
+        criteria.setOrderByClause("create_date desc");
+        criteria.setMysqlLength(5);
+        List<OrderInfoForm> orderInfoResult =
+                orderInfoExtraDao
+                        .selectByExample4Page(criteria);
+        //把商品详情信息放入到form中
+        orderInfoResult.forEach(value -> {
+            value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
+            value.setCreateDateString(
+                    DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
+        });
+
+        return orderInfoResult;
+        // return getOrderInfoByDate(customerId, 1, 4, 0);
     }
 
     /**
