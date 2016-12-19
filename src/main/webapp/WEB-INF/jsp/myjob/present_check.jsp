@@ -86,7 +86,7 @@
       	 客户姓名： <input class="form-control" value="" type="text" id="#customerName" readonly ="readonly">	  
                           礼品名称： <input class="form-control" value="" type="text" id="applyGoodsName" readonly ="readonly">
                          审批数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
-        <input id="applyGoodsId" name="applyGoodsId" type="hidden" />
+        <input id="orderId" name="orderId" type="hidden" />
         <div class="modal-footer">
           <button class="btn btn-primary" type="button" id="appConfirm">确 认 审 批</button>
           <button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>

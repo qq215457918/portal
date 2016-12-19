@@ -16,12 +16,12 @@ $(function() {
 	
 	// 审批确认
 	$("#appConfirm").click(function(){
-		var detailId = $('#applyGoodsId').val();
+		var orderId = $('#orderId').val();
 		$.ajax({
 			method : "POST",
 			url : base+"/present/confirm",
 			data : {
-				"detailId" : detailId
+				"orderId" : orderId
 			},
 			dataType : "JSON",
 			success : function(data) {
@@ -55,7 +55,7 @@ function initData() {
 		"bServerSide": true, // 后台请求
 		"bInfo" : true,		 // Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息
 		"bRetrieve": true,
-		"sAjaxSource": "repurchase/pending", // 地址
+		"sAjaxSource": "present/check", // 地址
 		"aoColumns": [  
 				 	{"mData": "orderNumber"},
 				 	{"mData": "customerName"},			 	
@@ -76,7 +76,7 @@ function initData() {
 							return type;
 						}
 					  },
-		            {"data": "id",
+		            {"data": "orderNumber",
 						"render": function(data, type, full) {
 						   var result = "";
 						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='approved(&quot;"+data+"&quot;,&quot;"+full.receiverStaffName+"&quot;,&quot;"+full.customerName+"&quot;,&quot;"+full.goodName+"&quot;,&quot;"+full.amount+"&quot;);'>审批确认</button>";
@@ -106,12 +106,13 @@ function initData() {
 
 /**
  * 审批确认
- * detailId 礼品名称，数量
+ * orderId 礼品名称，数量
  * @param orderId
  * @returns
  */
-function approved(detailId ,receiverStaffName,customerName, goodName ,amount){
-	$('#applyGoodsId').val(detailId);
+function approved(orderId ,receiverStaffName,customerName, goodName ,amount){
+	alert(orderId)
+	$('#orderId').val(orderId);
 	$('#applyGoodsName').val(goodName);
 	$('#customerName').val(customerName);
 	$('#receiverStaffName').val(receiverStaffName);

@@ -191,6 +191,9 @@
       <if test="condition.repurchaseFlag != null" >
          and status in ('5','6')
       </if>
+      <if test="condition.presentCheck != null" >
+         and order_type in ('4','6')
+      </if>
       
       <if test="condition.lprice != null" >
       	 <![CDATA[and actual_price >= #{condition.lprice,jdbcType=TIMESTAMP}]]>
@@ -242,8 +245,11 @@
       <if test="condition.repurchaseList != null" >
          and d.order_type in ('5','7')
       </if>
+      <if test="condition.presentCheck != null" >
+         and d.order_type in ('4','6')
+      </if>
       <if test="condition.financeFlag != null" >
-         and d.finance_flag ='0'
+         and (i.finance_flag ='0' or i.finance_flag is null) 
       </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
@@ -271,13 +277,7 @@
 	    <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
-	  	<if test="condition.typeList != null" >
-          and order_type in 
-<!--           <foreach item="typeList" index="index" collection="array"   
-                        open="(" separator="," close=")">  
-                       #{typeList}  
-               </foreach>  -->
-     	</if>
+
 	    <if test="orderByClause != null" >
 	      order by ${orderByClause}
 	    </if>

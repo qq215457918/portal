@@ -73,7 +73,7 @@ public class PresentAction {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
         resultJson.put("result",
-                orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
+                orderInfoService.selectPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
@@ -101,8 +101,8 @@ public class PresentAction {
         criteria.put("deleteFlag", "0");
         criteria.put("financeFlag", "0");
         criteria.put("status", "0");
-        criteria.put("repurchaseList", "true");//5待审批  7回购待确认
-        criteria.setOrderByClause("create_date");
+        criteria.put("presentCheck", "true");//4赠品  6VIP赠品
+        criteria.setOrderByClause("create_date desc");
 
         List<OrderInfoFormNew> resultList = orderInfoService.updateCheckPresentList(criteria);
         int count = resultList.size();
@@ -119,10 +119,12 @@ public class PresentAction {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
         OrderInfo record = new OrderInfo();
-        record.setId(request.getParameter("iDisplayLength"));
+        Criteria criteria = new Criteria();
+        criteria.put("orderNumber", request.getParameter("orderId"));
         record.setFinanceFlag("1");
         record.setStatus("1");
-        resultJson.put("result", orderInfoService.updateByPrimaryKey(record) > 0 ? true : false);
+        resultJson.put("result",
+                orderInfoService.updateByExampleSelective(record, criteria) > 0 ? true : false);
         //  orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
