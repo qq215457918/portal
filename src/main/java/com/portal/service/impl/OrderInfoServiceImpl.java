@@ -439,23 +439,63 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 插入订单信息
+     * 
+     *modify： 修改为可以拆单，把礼物的商品单独拿出来，生成订单。
+     *1.首先判断订单里面是否有礼品
+     *2.如果 有则 吧good_info 里面的赠品信息拿出
+     *3.生成单独的礼品处理方法类
+     * @throws InterruptedException 
      */
     public boolean insertOrder(HttpServletRequest request) {
         //goodInfo=" + goodInfo + "&totalPrice="+totalPrice+"&submitType="+
         String uuid = UUidUtil.getUUId();
+        String puuid = UUidUtil.getUUId();//赠品的单独订单
         request.getSession().getAttribute("");
-        insertSelective(
-                insertOrderInfo(request.getParameter("cid"),
-                        request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
-                        request.getParameter("amount")));
-
         JSONArray json = JSONArray.fromObject(request.getParameter("goodInfo"));
+        boolean hasGoods = false;
+        boolean hasPresent = false;
+        Long amount = 0L;
+        String cid = request.getParameter("cid");
         if (json.size() > 0) {
             for (int i = 0; i < json.size(); i ++) {
                 JSONObject job = json.getJSONObject(i);
-                insertPresentDetailInfo(//查询商品信息插入到订单详情表中
-                        getOrderDetailInfo(job.get("id").toString(), job.get("num").toString().trim(), uuid,
-                                "1"));
+                String goodID = job.get("id").toString();
+                //通过查询goodID 查看goodType
+                GoodsInfoForm goodsInfo = goodsDao.selectByPrimaryKey(goodID);
+                if (goodsInfo == null) {
+                    return false;
+                }
+                //if goodType=1：赠品单独插入赠品表 
+                if (goodsInfo.getType().equals("1")) {
+                    hasPresent = true;
+                    insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
+                            getOrderDetailInfo(goodID, job.get("num").toString().trim(), puuid,
+                                    "6"));//6 为VIP赠品
+                } else {//其他类型单独插入goodType
+                    hasGoods = true;
+                    amount += Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
+                    insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
+                            getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
+                                    "1"));//1 为正常订单
+                }
+            }
+
+            if (hasPresent) {
+                insertSelective(
+                        insertOrderInfo(cid,
+                                request.getParameter("submitType").equals("deposit") ? "1" : "0", puuid,
+                                0L));//礼品的订单金额为0
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                logger.warn("Unexpected exception:", e);
+            }
+            if (hasGoods) {
+                insertSelective(
+                        insertOrderInfo(cid,
+                                request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
+                                amount));
             }
         }
         return true;
@@ -467,12 +507,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param uuid
      * @return
      */
-    OrderInfo insertOrderInfo(String cid, String payType, String uuid, String amount) {
+    OrderInfo insertOrderInfo(String cid, String payType, String uuid, Long amount) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setOrderNumber(StringUtil.getOrderNo());
         orderInfo.setPayType(payType);
-        orderInfo.setPayPrice(Long.parseLong(amount));
+        orderInfo.setPayPrice(amount);
         orderInfo.setCustomerId(cid);
         orderInfo.setOrderType("1");
         orderInfo.setStatus("0");
