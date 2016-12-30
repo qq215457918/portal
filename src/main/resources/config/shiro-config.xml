@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
        xmlns:aop="http://www.springframework.org/schema/aop"  
        xmlns:tx="http://www.springframework.org/schema/tx"  
+       xmlns:util="http://www.springframework.org/schema/util"
        xmlns:context="http://www.springframework.org/schema/context"  
        xsi:schemaLocation="  
 		http://www.springframework.org/schema/beans 
@@ -12,9 +13,21 @@
 		http://www.springframework.org/schema/aop 
 		http://www.springframework.org/schema/aop/spring-aop-4.3.xsd  
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-4.3.xsd">  
+		http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util.xsd">  
   
   	<description>apache shiro配置</description>
+  	
+  	    <!-- 基于Form表单的身份验证过滤器 -->
+    <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+        <property name="usernameParam" value="username"/>
+        <property name="passwordParam" value="password"/>
+        <property name="rememberMeParam" value="rememberMe"/>
+        <property name="loginUrl" value="/login"/>
+    </bean>
+
+   <!--  <bean id="sysUserFilter" class="com.github.zhangkaitao.shiro.chapter16.web.shiro.filter.SysUserFilter"/> -->
   	
   	<!-- 配置shiro的过滤器工厂类，shiroFilter要和我们在web.xml中配置的过滤器一致 -->  
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -22,24 +35,54 @@
         <property name="loginUrl" value="/login"/>
         <property name="successUrl" value="/index"/>
         <property name="unauthorizedUrl" value="/401"/>
+        <property name="filters">  
+	         <util:map>  
+	             <entry key="authc" value-ref="formAuthenticationFilter"/>
+	         </util:map>  
+	     </property>
         <property name="filterChainDefinitions">
             <value>
                 <!-- 静态资源允许访问 -->
                 /resources/** = anon
                 <!-- 登录页允许访问 -->
-                /login = anon
+                /login = authc
                 <!-- 其他资源需要认证 -->
-                /** = authc
+                /** = user,sysUser
             </value>
         </property>
     </bean>
+    
+    <!-- <bean id="kickoutSessionControlFilter"   
+	 class="com.github.zhangkaitao.shiro.chapter18.web.shiro.filter.KickoutSessionControlFilter">  
+	    <property name="cacheManager" ref="cacheManager"/>  
+	    <property name="sessionManager" ref="sessionManager"/>  
+	  
+	    <property name="kickoutAfter" value="false"/>  
+	    <property name="maxSession" value="1"/>  
+	    <property name="kickoutUrl" value="/login"/>  
+	</bean>  -->  
   	
-    <!-- 会话DAO -->
-    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.MemorySessionDAO"/>
+  	<!-- 会话DAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
+    </bean>
+
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionDAO" ref="sessionDAO"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
     </bean>
     
     <!-- 配置权限管理器 -->  

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib  uri="http://java.sun.com/jstl/core_rt" prefix="c" %> 
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,8 +15,9 @@
 
       <form action="<%=request.getContextPath() %>/login"  id="validate-form" method="post" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">
-            <input class="form-control" placeholder="登录名" type="text" id="userName" name="userName">
+            <input class="form-control" placeholder="登录名" type="text" id="userName" name="username" value="<shiro:principal/>">
             <input class="form-control" placeholder="密码" type="password" id="password" name="password">
+                                     自动登录：<input type="checkbox" name="rememberMe" value="true"><br/>
         </div>     
         <P>${message}</P>
        	<div class="social-login clearfix" style="margin:40px 0">

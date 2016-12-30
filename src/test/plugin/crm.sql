@@ -129,7 +129,7 @@ DROP TABLE IF EXISTS `goods_info`;
 CREATE TABLE `goods_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
   `sort_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '种类ID',
-  `type` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类 0:常规商品 1：礼品 2：配售 3：配送 4:兑换',
+  `type` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类 0:常规商品 1：赠品 2：配售 3：配送 4:兑换',
   `code` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品序号',
   `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '产品名称',
   `price` decimal(10,0) DEFAULT NULL COMMENT '商品金额',

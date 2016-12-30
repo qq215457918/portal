@@ -47,10 +47,6 @@ public class UserController {
             if (subject.isAuthenticated()) {
                 return "main";
             }
-            /* if (result.hasErrors()) {
-                model.addAttribute("error", "参数错误！");
-                return "login";
-            }*/
             // 身份验证
             subject.login(new UsernamePasswordToken(userName, password));
             // 验证成功在Session中保存用户信息
