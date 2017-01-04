@@ -7,11 +7,11 @@ import com.portal.service.EmployeeInfoService;
 import com.portal.service.PermissionInfoService;
 import com.portal.service.RoleInfoService;
 import java.util.List;
-import javax.annotation.Resource;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -30,10 +30,10 @@ public class SecurityRealm extends AuthorizingRealm {
     @Autowired
     private EmployeeInfoService employeeService;
 
-    @Resource
+    @Autowired
     private RoleInfoService roleService;
 
-    @Resource
+    @Autowired
     private PermissionInfoService permissionService;
 
     /**
@@ -62,20 +62,27 @@ public class SecurityRealm extends AuthorizingRealm {
 
     /**
      * 登录验证
+     * 修改为使用SimpleAuthenticationInfo 进行密码匹配。
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
             throws AuthenticationException {
-        String username = String.valueOf(token.getPrincipal());
-        String password = new String((char[]) token.getCredentials());
-        // 通过数据库进行验证
-        final EmployeeInfo authentication = employeeService.authentication(username, password);
-        if (authentication == null) {
-            throw new AuthenticationException("用户名或密码错误.");
+        String username = (String) token.getPrincipal();
+        EmployeeInfo employeeInfo = employeeService.selectByUserName(username);
+
+        if (employeeInfo == null) {
+            throw new UnknownAccountException();//没找到帐号
         }
-        SimpleAuthenticationInfo authenticationInfo =
-                new SimpleAuthenticationInfo(username, password, getName());
+
+        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+                employeeInfo.getLoginName(), //用户名
+                employeeInfo.getPassword(), //密码
+                // ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
+                getName()  //realm name
+        );
         return authenticationInfo;
+
     }
 
 }

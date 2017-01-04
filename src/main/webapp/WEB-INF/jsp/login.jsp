@@ -15,7 +15,7 @@
 
       <form action="<%=request.getContextPath() %>/login"  id="validate-form" method="post" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">
-            <input class="form-control" placeholder="登录名" type="text" id="userName" name="username" value="<shiro:principal/>">
+            <input class="form-control" placeholder="登录名" type="text" id="username" name="username" value="<shiro:principal/>">
             <input class="form-control" placeholder="密码" type="password" id="password" name="password">
                                      自动登录：<input type="checkbox" name="rememberMe" value="true"><br/>
         </div>     

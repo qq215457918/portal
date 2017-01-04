@@ -15,8 +15,8 @@
 		http://www.springframework.org/schema/context 
 		http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://www.springframework.org/schema/util 
-		http://www.springframework.org/schema/util/spring-util.xsd">  
-  
+		http://www.springframework.org/schema/util/spring-util-4.3.xsd">  
+		
   	<description>apache shiro配置</description>
   	
   	    <!-- 基于Form表单的身份验证过滤器 -->
@@ -27,7 +27,7 @@
         <property name="loginUrl" value="/login"/>
     </bean>
 
-   <!--  <bean id="sysUserFilter" class="com.github.zhangkaitao.shiro.chapter16.web.shiro.filter.SysUserFilter"/> -->
+   <bean id="sysUserFilter" class="com.portal.action.filter.SysUserFilter"/>
   	
   	<!-- 配置shiro的过滤器工厂类，shiroFilter要和我们在web.xml中配置的过滤器一致 -->  
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -38,6 +38,7 @@
         <property name="filters">  
 	         <util:map>  
 	             <entry key="authc" value-ref="formAuthenticationFilter"/>
+	             <entry key="sysUser" value-ref="sysUserFilter"/>
 	         </util:map>  
 	     </property>
         <property name="filterChainDefinitions">
@@ -61,33 +62,41 @@
 	    <property name="maxSession" value="1"/>  
 	    <property name="kickoutUrl" value="/login"/>  
 	</bean>  -->  
+	<!-- 会话ID生成器 -->
+    <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"/>
   	
   	<!-- 会话DAO -->
-    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+   <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
         <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
-    <!-- 会话验证调度器 -->
+<!--     会话验证调度器
     <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
         <property name="sessionValidationInterval" value="1800000"/>
         <property name="sessionManager" ref="sessionManager"/>
+    </bean> -->
+    
+        <!-- 会话Cookie模板 -->
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/>
     </bean>
 
-    <!-- 会话管理器 -->
+   <!--  会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
-        <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <!-- <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
     </bean>
     
     <!-- 配置权限管理器 -->  
-    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <!-- ref对应我们写的realm -->
+   <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms">
             <list>
                 <ref bean="securityRealm"/>
@@ -96,7 +105,6 @@
         <property name="cacheManager" ref="cacheManager"/> 
         <property name="sessionManager" ref="sessionManager" />   
     </bean> 
-
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />    
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />   
 </beans> 

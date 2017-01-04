@@ -14,12 +14,14 @@ public class EmployeeInfo implements Serializable {
     private String groupId;
 
     private String name;
-    
+
     private String positionType;
 
     private String loginName;
 
     private String password;
+
+    private String roleIds;
 
     /**
      * 接待标示(0未接待 1 正在接待)
@@ -30,6 +32,14 @@ public class EmployeeInfo implements Serializable {
 
     private String deleteFlag;
 
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+
     /**
      * @return 主键
      */
@@ -39,7 +49,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param id 
-	 *            主键
+     *            主键
      */
     public void setId(String id) {
         this.id = id;
@@ -62,14 +72,14 @@ public class EmployeeInfo implements Serializable {
     }
 
     public String getPositionType() {
-		return positionType;
-	}
+        return positionType;
+    }
 
-	public void setPositionType(String positionType) {
-		this.positionType = positionType;
-	}
+    public void setPositionType(String positionType) {
+        this.positionType = positionType;
+    }
 
-	public String getLoginName() {
+    public String getLoginName() {
         return loginName;
     }
 
@@ -94,7 +104,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param receptionFlag 
-	 *            接待标示(0未接待 1 正在接待)
+     *            接待标示(0未接待 1 正在接待)
      */
     public void setReceptionFlag(String receptionFlag) {
         this.receptionFlag = receptionFlag;
