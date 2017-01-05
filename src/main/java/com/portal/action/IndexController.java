@@ -28,6 +28,6 @@ public class IndexController {
         Set<String> permissions = employeeService.findPermissions(loginUser.getLoginName());
         List<Resource> menus = resourceService.findMenus(permissions);
         model.addAttribute("menus", menus);
-        return "index";
+        return "main";
     }
 }

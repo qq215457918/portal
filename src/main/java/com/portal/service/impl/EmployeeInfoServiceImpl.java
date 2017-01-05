@@ -36,7 +36,12 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         if (user == null) {
             return Collections.EMPTY_SET;
         }
-        return roleService.findRoles((Long) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
+        String roleIdStr[] = user.getRoleIds().split(",");
+        Long roleIdsLong[] = new Long[roleIdStr.length];
+        for (int i = 0; i < roleIdStr.length; i ++) {
+            roleIdsLong[i] = Long.valueOf(roleIdStr[i]);
+        }
+        return roleService.findRoles(roleIdsLong);
     }
 
     /**

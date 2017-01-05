@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class LoginController {
 
     /**
-     * 用户登录
+     * 转到login页面，具体的验证工作交给shiro
      * 密码匹配任务交给shiro 此处主要返回错误信息。
      * @param user
      * @param result

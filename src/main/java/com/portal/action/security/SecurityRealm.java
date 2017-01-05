@@ -1,12 +1,7 @@
 package com.portal.action.security;
 
 import com.portal.bean.EmployeeInfo;
-import com.portal.bean.PermissionInfo;
-import com.portal.bean.RoleInfo;
 import com.portal.service.EmployeeInfoService;
-import com.portal.service.PermissionInfoService;
-import com.portal.service.RoleInfoService;
-import java.util.List;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -30,18 +25,12 @@ public class SecurityRealm extends AuthorizingRealm {
     @Autowired
     private EmployeeInfoService employeeService;
 
-    @Autowired
-    private RoleInfoService roleService;
-
-    @Autowired
-    private PermissionInfoService permissionService;
-
     /**
      * 权限检查
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        /*SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         String username = String.valueOf(principals.getPrimaryPrincipal());
         //通过loginName 获取用户信息和用户的roleInfo
         final EmployeeInfo employeeInfo = employeeService.selectByUserName(username);
@@ -57,6 +46,12 @@ public class SecurityRealm extends AuthorizingRealm {
                 authorizationInfo.addStringPermission(permission.getMenuUrl());
             }
         }
+        return authorizationInfo;*/
+        String username = (String) principals.getPrimaryPrincipal();
+
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        authorizationInfo.setRoles(employeeService.findRoles(username));
+        authorizationInfo.setStringPermissions(employeeService.findPermissions(username));
         return authorizationInfo;
     }
 

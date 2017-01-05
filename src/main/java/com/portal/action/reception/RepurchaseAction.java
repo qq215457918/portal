@@ -63,18 +63,6 @@ public class RepurchaseAction {
     }
 
     /**
-     * 进入回购审批页面
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "manage", method = RequestMethod.GET)
-    public String manage(HttpServletRequest request, HttpServletResponse response) {
-        WebUtils.setAttributeToSession(request);
-        getBasePath(request, response);
-        return "myjob/repurchase_check";
-    }
-
-    /**
      * 获取待审批的回购页面
      * order_type = 7 回购
      * @param request
@@ -122,19 +110,6 @@ public class RepurchaseAction {
         JSONObject resultJson = new JSONObject();
         resultJson.put("result", orderInfoService.updateRepurchaseOrder(request));
         JsonUtils.outJsonString(resultJson.toString(), response);
-    }
-
-    /**
-     * 回购页面初始化
-     * @return
-     */
-    @RequestMapping(value = "job", method = RequestMethod.GET)
-    public ModelAndView job(HttpServletRequest request, HttpServletResponse response) {
-        WebUtils.setAttributeToSession(request);
-        getBasePath(request, response);
-        ModelAndView model = new ModelAndView();
-        model.setViewName("myjob/repurchase_query");
-        return model;
     }
 
     /**

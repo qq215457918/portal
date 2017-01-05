@@ -21,7 +21,7 @@
   	
   	    <!-- 基于Form表单的身份验证过滤器 -->
     <bean id="formAuthenticationFilter" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
-        <property name="usernameParam" value="username"/>
+        <property name="usernameParam" value="loginName"/>
         <property name="passwordParam" value="password"/>
         <property name="rememberMeParam" value="rememberMe"/>
         <property name="loginUrl" value="/login"/>
@@ -85,15 +85,15 @@
     </bean>
 
    <!--  会话管理器 -->
-    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+   <!--  <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
-        <!-- <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
-    </bean>
+    </bean> -->
     
     <!-- 配置权限管理器 -->  
    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -103,7 +103,7 @@
             </list>
         </property>
         <property name="cacheManager" ref="cacheManager"/> 
-        <property name="sessionManager" ref="sessionManager" />   
+       <!--  <property name="sessionManager" ref="sessionManager" /> -->   
     </bean> 
     <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />    
     <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />   

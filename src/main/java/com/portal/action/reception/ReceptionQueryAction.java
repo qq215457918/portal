@@ -40,22 +40,6 @@ public class ReceptionQueryAction {
     }
 
     /**
-     * 进入到myjob页面
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(value = "job")
-    public ModelAndView receptionJob(HttpServletRequest request, HttpServletResponse response) {
-        WebUtils.setAttributeToSession(request);
-        getBasePath(request, response);
-        ModelAndView model = new ModelAndView();
-        //model.addObject("cId", request.getParameter("cId"));
-        model.setViewName("myjob/inquiry_record");
-        return model;
-    }
-
-    /**
      * 异步查询
      * @param request
      * @param response

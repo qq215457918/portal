@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface CurrentUser {
-    public static final String CURRENT_USER = "user";
+    public static final String CURRENT_USER = "employeeInfo";
 
     /**
      * 当前用户在request中的名字

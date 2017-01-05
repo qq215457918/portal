@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
       <!-- Navigation -->
       <div class="navbar navbar-fixed-top scroll-hide">
         <div class="container-fluid top-bar">
@@ -28,18 +29,26 @@
           <!--menu start-->
           <div class="nav-collapse">
             <ul class="nav">
-              <li><a name="tab" href="${base}reception/job?active=1">
-                	<span aria-hidden="true" class="icon-coffee"></span>接待查询</a>
-              </li>
-              <li><a name="tab" href="${base}repurchase/job?active=2">
-                	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购管理</a>
-              </li>
-              <li><a name="tab" href="${base}repurchase/manage?active=3">
-                	<span aria-hidden="true" class="icon-file"></span>回购审批</a>
-              </li>
-              <li><a name="tab" href="${base}present/query?active=4">
-                	<span aria-hidden="true" class="icon-file-text"></span>礼品审批</a>
-              </li>
+            <shiro:hasPermission name="job:reception">
+	              <li><a name="tab" href="${base}job/reception?active=1">
+	                	<span aria-hidden="true" class="icon-coffee"></span>接待查询</a>
+	              </li>
+              </shiro:hasPermission>
+              <shiro:hasPermission name="job:repurchaseq">
+	              <li><a name="tab" href="${base}job/repurchaseq?active=2">
+	                	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购查询</a>
+	              </li>
+              </shiro:hasPermission> 
+              <shiro:hasPermission name="job:repurchasec">
+	              <li><a name="tab" href="${base}job/repurchasec?active=3">
+	                	<span aria-hidden="true" class="icon-file"></span>回购审批</a>
+	              </li>
+              </shiro:hasPermission> 
+              <shiro:hasPermission name="job:present">
+	              <li><a name="tab" href="${base}job/present?active=4">
+	                	<span aria-hidden="true" class="icon-file-text"></span>礼品审批</a>
+	              </li>
+              </shiro:hasPermission>
             </ul>
           </div>
           <!--menu end-->
