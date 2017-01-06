@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public interface RoleService {
 
-    public int createRole(Role role);
+    public int insertRole(Role role);
 
     public int updateRole(Role role);
 

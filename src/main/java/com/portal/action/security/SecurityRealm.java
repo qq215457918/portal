@@ -30,23 +30,6 @@ public class SecurityRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        /*SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
-        String username = String.valueOf(principals.getPrimaryPrincipal());
-        //通过loginName 获取用户信息和用户的roleInfo
-        final EmployeeInfo employeeInfo = employeeService.selectByUserName(username);
-        final List<RoleInfo> roleInfos = roleService.selectRoleByUserId(employeeInfo.getId());
-        for (RoleInfo role : roleInfos) {
-            // 添加角色信息
-            System.err.println(role);
-            authorizationInfo.addRole(role.getName());
-            final List<PermissionInfo> permissions = permissionService.selectByRoleId(role.getId());
-            for (PermissionInfo permission : permissions) {
-                // 添加权限
-                System.err.println(permission);
-                authorizationInfo.addStringPermission(permission.getMenuUrl());
-            }
-        }
-        return authorizationInfo;*/
         String username = (String) principals.getPrimaryPrincipal();
 
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();

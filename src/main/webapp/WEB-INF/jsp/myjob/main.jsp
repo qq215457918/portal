@@ -12,9 +12,11 @@
     <div class="modal-shiftfix">
       <div class="row">
         <div class="col-md-12">
-          <div class="widget-container fluid-height clearfix">
-	      请选择菜单。
-          </div>
+          <div class="page-title">
+          <h1>
+                  请选择菜单
+          </h1>
+        </div>
         </div>
       </div>
     </div>

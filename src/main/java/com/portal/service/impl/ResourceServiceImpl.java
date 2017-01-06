@@ -25,8 +25,8 @@ public class ResourceServiceImpl implements ResourceService {
     private ResourceMapper resourceDao;
 
     @Override
-    public int createResource(Resource resource) {
-        return resourceDao.createResource(resource);
+    public int insertResource(Resource resource) {
+        return resourceDao.insertResource(resource);
     }
 
     @Override

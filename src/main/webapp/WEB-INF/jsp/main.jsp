@@ -45,18 +45,22 @@
 			            </div>
 		          </div>
 	          </shiro:hasPermission>
-	          <div class="col-md-4">
-		            <div class="widget-container weather">
-		                <div class="row text-center">
-		                    <div class="number" style="font-size: 50px;margin-top: 20px;">
-		                      	电联管理
-		                    </div>
-		                    <a class="btn btn-warning" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
-		              </div>
-		            </div>
-	          </div>
+	          <shiro:hasPermission name="telephone:button">
+		          <div class="col-md-4">
+			            <div class="widget-container weather">
+			                <div class="row text-center">
+			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
+			                      	电联管理
+			                    </div>
+			                    <a class="btn btn-warning" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
+			              </div>
+			            </div>
+		          </div>
+	         </shiro:hasPermission>
 			</div>
-						 <div class="row">
+
+			<div class="row">
+			<shiro:hasPermission name="statistics:button">
 	          <div class="col-md-4">
 		            <div class="widget-container weather">
 		                <div class="row text-center">
@@ -67,16 +71,20 @@
 		              </div>
 		            </div>
 	          </div>
-	          <div class="col-md-4">
-		            <div class="widget-container weather">
-		                <div class="row text-center">
-		                    <div class="number" style="font-size: 50px;margin-top: 20px;">
-		                      	后台管理
-		                    </div>
-		                    <a class="btn btn-warning" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
-		              </div>
-		            </div>
-	          </div>
+	        </shiro:hasPermission>
+	         <shiro:hasPermission name="admin:button">
+		          <div class="col-md-4">
+			            <div class="widget-container weather">
+			                <div class="row text-center">
+			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
+			                      	后台管理
+			                    </div>
+			                    <a class="btn btn-warning" href="resource?active=1" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
+			                     <!-- <a class="btn btn-warning" href="role?active=1" style="margin-top:20px"><i class="icon-laptop"></i>角色管理</a> -->
+			              </div>
+			            </div>
+		          </div>
+	          </shiro:hasPermission>
 	          <div class="col-md-4">
 		            <div class="widget-container weather">
 		                <div class="row text-center">

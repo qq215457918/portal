@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
  * <p>Version: 1.0
  */
 @Service
-
 public class RoleServiceImpl implements RoleService {
 
     @Autowired
@@ -24,12 +23,13 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     private ResourceService resourceService;
 
-    public int createRole(Role role) {
-        return roleDao.createRole(role);
+    public int insertRole(Role role) {
+        String resourceIdsStr = role.getResourceIdsStr();
+        return roleDao.insertRole(role, resourceIdsStr);
     }
 
     public int updateRole(Role role) {
-        return roleDao.updateRole(role);
+        return roleDao.updateRole(role, role.getResourceIdsStr());
     }
 
     public void deleteRole(Long roleId) {

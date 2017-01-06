@@ -11,7 +11,7 @@ import java.util.Set;
  */
 public interface ResourceService {
 
-    public int createResource(Resource resource);
+    public int insertResource(Resource resource);
 
     public int updateResource(Resource resource);
 

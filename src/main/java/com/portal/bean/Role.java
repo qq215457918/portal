@@ -1,11 +1,10 @@
 package com.portal.bean;
 
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * <p>User: Zhang Kaitao
@@ -19,8 +18,7 @@ public class Role implements Serializable {
     private List<Long> resourceIds; //拥有的资源
     private Boolean available = Boolean.FALSE; //是否可用,如果不可用将不会添加给用户
 
-    public Role() {
-    }
+    public Role() {}
 
     public Role(String role, String description, Boolean available) {
         this.role = role;
@@ -53,7 +51,7 @@ public class Role implements Serializable {
     }
 
     public List<Long> getResourceIds() {
-        if(resourceIds == null) {
+        if (resourceIds == null) {
             resourceIds = new ArrayList<Long>();
         }
         return resourceIds;
@@ -64,11 +62,11 @@ public class Role implements Serializable {
     }
 
     public String getResourceIdsStr() {
-        if(CollectionUtils.isEmpty(resourceIds)) {
+        if (CollectionUtils.isEmpty(resourceIds)) {
             return "";
         }
         StringBuilder s = new StringBuilder();
-        for(Long resourceId : resourceIds) {
+        for (Long resourceId : resourceIds) {
             s.append(resourceId);
             s.append(",");
         }
@@ -76,12 +74,12 @@ public class Role implements Serializable {
     }
 
     public void setResourceIdsStr(String resourceIdsStr) {
-        if(StringUtils.isEmpty(resourceIdsStr)) {
+        if (StringUtils.isEmpty(resourceIdsStr)) {
             return;
         }
         String[] resourceIdStrs = resourceIdsStr.split(",");
-        for(String resourceIdStr : resourceIdStrs) {
-            if(StringUtils.isEmpty(resourceIdStr)) {
+        for (String resourceIdStr : resourceIdStrs) {
+            if (StringUtils.isEmpty(resourceIdStr)) {
                 continue;
             }
             getResourceIds().add(Long.valueOf(resourceIdStr));
@@ -98,12 +96,15 @@ public class Role implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
 
         Role role = (Role) o;
 
-        if (id != null ? !id.equals(role.id) : role.id != null) return false;
+        if (id != null ? !id.equals(role.id) : role.id != null)
+            return false;
 
         return true;
     }

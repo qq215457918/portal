@@ -1,7 +1,10 @@
 package com.portal.action.admin;
 
 import com.portal.bean.Organization;
+import com.portal.common.util.WebUtils;
 import com.portal.service.OrganizationService;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,20 +28,23 @@ public class OrganizationController {
 
     @RequiresPermissions("organization:view")
     @RequestMapping(method = RequestMethod.GET)
-    public String index(Model model) {
-        return "organization/index";
+    public String index(Model model, HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        return "admin/organization/index";
     }
 
     @RequiresPermissions("organization:view")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public String showTree(Model model) {
+    public String showTree(Model model, HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
         model.addAttribute("organizationList", organizationService.findAll());
-        return "organization/tree";
+        return "admin/organization/tree";
     }
 
     @RequiresPermissions("organization:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.GET)
-    public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model) {
+    public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model,
+            HttpServletRequest request, HttpServletResponse response) {
         Organization parent = organizationService.findOne(parentId);
         model.addAttribute("parent", parent);
         Organization child = new Organization();
@@ -46,21 +52,21 @@ public class OrganizationController {
         child.setParentIds(parent.makeSelfAsParentIds());
         model.addAttribute("child", child);
         model.addAttribute("op", "新增");
-        return "organization/appendChild";
+        return "admin/organization/appendChild";
     }
 
     @RequiresPermissions("organization:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.POST)
     public String create(Organization organization) {
         organizationService.createOrganization(organization);
-        return "redirect:/organization/success";
+        return "redirect:/admin/organization/success";
     }
 
     @RequiresPermissions("organization:update")
     @RequestMapping(value = "/{id}/maintain", method = RequestMethod.GET)
     public String showMaintainForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("organization", organizationService.findOne(id));
-        return "organization/maintain";
+        return "admin/organization/maintain";
     }
 
     @RequiresPermissions("organization:update")
@@ -68,7 +74,7 @@ public class OrganizationController {
     public String update(Organization organization, RedirectAttributes redirectAttributes) {
         organizationService.updateOrganization(organization);
         redirectAttributes.addFlashAttribute("msg", "修改成功");
-        return "redirect:/organization/success";
+        return "redirect:/admin/organization/success";
     }
 
     @RequiresPermissions("organization:delete")
@@ -76,7 +82,7 @@ public class OrganizationController {
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         organizationService.deleteOrganization(id);
         redirectAttributes.addFlashAttribute("msg", "删除成功");
-        return "redirect:/organization/success";
+        return "redirect:/admin/organization/success";
     }
 
     /*    @RequiresPermissions("organization:update")
@@ -102,7 +108,12 @@ public class OrganizationController {
     @RequiresPermissions("organization:view")
     @RequestMapping(value = "/success", method = RequestMethod.GET)
     public String success() {
-        return "organization/success";
+        return "admin/organization/success";
+    }
+
+    public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
+        String basePath = WebUtils.getBasePath(request, response);
+        request.getSession().setAttribute("basePath", basePath);
     }
 
 }
