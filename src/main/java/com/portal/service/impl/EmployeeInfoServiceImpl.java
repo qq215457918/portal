@@ -1,19 +1,32 @@
 package com.portal.service.impl;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.EmployeeInfo;
-import com.portal.dao.EmployeeInfoDao;
-import com.portal.service.EmployeeInfoService;
+import java.util.Date;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.portal.bean.Criteria;
+import com.portal.bean.EmployeeInfo;
+import com.portal.bean.result.EmployeeInfoForm;
+import com.portal.common.util.JsonUtils;
+import com.portal.common.util.StringUtil;
+import com.portal.common.util.UUidUtil;
+import com.portal.dao.EmployeeInfoDao;
+import com.portal.dao.extra.EmployeeInfoExtraDao;
+import com.portal.service.EmployeeInfoService;
+
+import net.sf.json.JSONObject;
+
 @Service
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     @Autowired
     private EmployeeInfoDao employeeInfoDao;
+    
+    @Autowired
+    private EmployeeInfoExtraDao employeeExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
@@ -77,4 +90,119 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     public int insertSelective(EmployeeInfo record) {
         return this.employeeInfoDao.insertSelective(record);
     }
+    
+    public List<EmployeeInfoForm> selectByConditions(Criteria example) {
+        return employeeExtraDao.selectByConditions(example);
+    }
+
+    public JSONObject ajaxEmployeeData(Criteria criteria, String sEcho) {
+        // 获取总记录数
+        int totalRecord = employeeExtraDao.countByConditions(criteria);
+        // 获取数据集
+        List<EmployeeInfoForm> list = selectByConditions(criteria);
+        
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", sEcho);
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", list);
+        return resultJson;
+    }
+
+    public JSONObject deleteEmployeeInfo(String employeeId, JSONObject result) {
+        EmployeeInfo employeeInfo = this.selectByPrimaryKey(employeeId);
+        if("1".equals(employeeInfo.getDeleteFlag())) {
+            // 逻辑删除--修改删除状态
+            employeeInfo.setDeleteFlag("1");
+            int count = this.updateByPrimaryKey(employeeInfo);
+            // TODO - 可能关联解除权限问题
+            if(count > 0) {
+                // 解除权限
+                
+                
+                
+                
+            }else {
+                result = JsonUtils.setError();
+                result.put("text", "系统异常,请刷新后重试");
+            }
+        }else {
+            result = JsonUtils.setError();
+            result.put("text", "操作失败,该员工已被删除");
+        }
+        return result;
+    }
+
+    public JSONObject saveEmployeeInfo(EmployeeInfo employeeInfo, JSONObject results) {
+        int count = 0;
+        if(StringUtil.isNull(employeeInfo.getName().trim())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 姓名不能为空");
+            return results;
+        }else {
+            // 过滤特殊字符
+            employeeInfo.setName(StringUtil.tstr(employeeInfo.getName().trim()));
+        }
+        if(StringUtil.isNull(employeeInfo.getLoginName().trim())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 登录名不能为空");
+            return results;
+        }else {
+            // 过滤特殊字符
+            employeeInfo.setLoginName(StringUtil.tstr(employeeInfo.getLoginName().trim()));
+        }
+        if(StringUtil.isNull(employeeInfo.getPassword().trim())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 密码不能为空");
+            return results;
+        }else {
+            // 过滤特殊字符
+            employeeInfo.setPassword(StringUtil.tstr(employeeInfo.getPassword().trim()));
+        }
+        if(StringUtil.isNull(employeeInfo.getPositionType())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 职位类型必须选择一项");
+            return results;
+        }
+        if(StringUtil.isNull(employeeInfo.getStatus())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 账号状态必须选择一项");
+            return results;
+        }
+        if(StringUtil.isNull(employeeInfo.getOrganizationId())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 所属机构不能为空");
+            return results;
+        }
+        if(StringUtil.isNull(employeeInfo.getPositionId())) {
+            results = JsonUtils.setError();
+            results.put("text", "操作失败, 所属角色不能为空");
+            return results;
+        }
+        if(StringUtil.isNotBlank(employeeInfo.getStaffNumber().trim())) {
+            // 过滤特殊字符
+            employeeInfo.setStaffNumber(StringUtil.tstr(employeeInfo.getStaffNumber().trim()));
+        }
+        if(StringUtil.isNotBlank(employeeInfo.getId())) {
+            // 修改
+            count = employeeInfoDao.updateByPrimaryKey(employeeInfo);
+        }else {
+            // 新增
+            employeeInfo.setId(UUidUtil.getUUId());
+            employeeInfo.setCreateDate(new Date());
+            employeeInfo.setDeleteFlag("0");
+            // TODO - 保存员工信息时设置默认头像路径
+            employeeInfo.setPhotoPath("");
+            employeeInfo.setReceptionFlag("0");
+            count = employeeInfoDao.insert(employeeInfo);
+        }
+        if(count > 0) {
+            results = JsonUtils.setSuccess();
+        }else {
+            results = JsonUtils.setError();
+            results.put("text", "系统异常, 请刷新后重试");
+        }
+        return results;
+    }
+
 }

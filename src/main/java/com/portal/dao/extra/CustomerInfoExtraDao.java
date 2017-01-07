@@ -50,5 +50,27 @@ public interface CustomerInfoExtraDao {
      * @version V1.0
      */
     Map<String, Object> getAllCategoryCustomer(Criteria example);
+    
+    /**
+     * @Title: countByConditions 
+     * @Description: 后台管理根据条件查询客户总数量
+     * @param example
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年1月3日 下午3:01:43 
+     * @version V1.0
+     */
+    int countByConditions(Criteria example);
+    
+    /**
+     * @Title: selectByConditions 
+     * @Description: 后台管理根据条件查询客户数据
+     * @param example
+     * @return List<CustomerSimpleInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月3日 下午3:02:39 
+     * @version V1.0
+     */
+    List<CustomerSimpleInfoForm> selectByConditions(Criteria example);
 
 }

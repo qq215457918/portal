@@ -185,6 +185,10 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
+    
+    public List<VisitReportInfoForm> getPerforByCondition(Criteria criteria) {
+        return visitReportExtDao.getPerforByCondition(criteria);
+    }
 
     public JSONObject ajaxSalesmanStatement(HttpServletRequest request) {
         // 请求开始页
@@ -233,5 +237,5 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
-    
+
 }

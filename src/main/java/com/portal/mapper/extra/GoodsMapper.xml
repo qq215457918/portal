@@ -86,60 +86,31 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      
+      <!-- 后台物品管理查询条件 -->
+      <if test="condition.bigSortId != null" >
+         and s.parents_id = #{condition.bigSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewSortId != null" >
+         and s.id = #{condition.viewSortId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewName != null" >
+         and g.name like CONCAT('%', #{condition.viewName,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.viewCode != null" >
+         and g.code like CONCAT('%', #{condition.viewCode,jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.viewType != null" >
+         and g.type = #{condition.viewType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.viewRepurchaseFlag != null" >
+         and g.repurchase_flag = #{condition.viewRepurchaseFlag,jdbcType=VARCHAR}
+      </if>
+      <!-- 后台物品管理查询条件 -->
+      
     </trim>
   </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <trim prefix="where" prefixOverrides="and|or" >
-      <if test="example.condition.sortId != null" >
-         and sort_id = #{example.condition.sortId,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.type != null" >
-         and type = #{example.condition.type,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.code != null" >
-         and code = #{example.condition.code,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.name != null" >
-         and name = #{example.condition.name,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.amount != null" >
-         and amount = #{example.condition.amount,jdbcType=INTEGER}
-      </if>
-      <if test="example.condition.price != null" >
-         and price = #{example.condition.price,jdbcType=INTEGER}
-      </if>
-      <if test="example.condition.trusteeshipFlag != null" >
-         and trusteeship_flag = #{example.condition.trusteeshipFlag,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.repurchaseFlag != null" >
-         and repurchase_flag = #{example.condition.repurchaseFlag,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.repurchaseInfo != null" >
-         and repurchase_info = #{example.condition.repurchaseInfo,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.repurchaseStarttime != null" >
-         and repurchase_starttime = #{example.condition.repurchaseStarttime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="example.condition.repurchaseEndtime != null" >
-         and repurchase_endtime = #{example.condition.repurchaseEndtime,jdbcType=TIMESTAMP}
-      </if>
-      <if test="example.condition.createDate != null" >
-         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
-      </if>
-      <if test="example.condition.updateDate != null" >
-         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
-      </if>
-      <if test="example.condition.createUserid != null" >
-         and create_userid = #{example.condition.createUserid,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.updateUserid != null" >
-         and update_userid = #{example.condition.updateUserid,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.deleteFlag != null" >
-         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
-      </if>
-    </trim>
-  </sql>
+  
   <sql id="Base_Column_List" >
     id, sort_id, type, code, name, amount, trusteeship_flag, repurchase_flag, repurchase_info, 
     repurchase_starttime, repurchase_endtime, create_date, update_date, create_userid, 
@@ -148,52 +119,52 @@
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-	i.id, 
-	i.sort_id, 
-	i.type, 
-	i.code, 
-	i.name, 
-	i.amount, 
-	i.price, 
-	i.trusteeship_flag, 
-	i.repurchase_flag, 
-	i.repurchase_info, 
-	i.repurchase_starttime, 
-	i.repurchase_endtime, 
-	i.create_date, 
-	i.update_date, 
-	i.create_userid, 
-	i.update_userid, 
-	i.delete_flag,
-	s.name as sort_name,
-	s.description as sort_description
-	from goods_info i left join goods_sort s on s.id=i.sort_id
+    i.id, 
+    i.sort_id, 
+    i.type, 
+    i.code, 
+    i.name, 
+    i.amount, 
+    i.price, 
+    i.trusteeship_flag, 
+    i.repurchase_flag, 
+    i.repurchase_info, 
+    i.repurchase_starttime, 
+    i.repurchase_endtime, 
+    i.create_date, 
+    i.update_date, 
+    i.create_userid, 
+    i.update_userid, 
+    i.delete_flag,
+    s.name as sort_name,
+    s.description as sort_description
+    from goods_info i left join goods_sort s on s.id=i.sort_id
     where i.id = #{id,jdbcType=VARCHAR}
   </select>
   
    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select 
-	i.id as id , 
-	i.sort_id as sort_id , 
-	i.type as type , 
-	i.code as code , 
-	i.name as name , 
-	i.amount as amount , 
-	i.unit as unit , 	
-	i.price as price ,	
-	if(i.trusteeship_flag=1,"是","否") as trusteeship_flag , 
-	i.repurchase_flag as repurchase_flag , 
-	i.repurchase_info as repurchase_info , 
-	i.repurchase_starttime as repurchase_starttime , 
-	i.repurchase_endtime as repurchase_endtime , 
-	i.create_date as create_date , 
-	i.update_date as update_date , 
-	i.create_userid as create_userid , 
-	i.update_userid as update_userid , 
-	i.delete_flag as delete_flag ,
-	s.name as sort_name ,
-	s.description as sort_description
-	from goods_info i left join goods_sort s on s.id=i.sort_id
+    i.id as id , 
+    i.sort_id as sort_id , 
+    i.type as type , 
+    i.code as code , 
+    i.name as name , 
+    i.amount as amount , 
+    i.unit as unit ,     
+    i.price as price ,    
+    if(i.trusteeship_flag=1,"是","否") as trusteeship_flag , 
+    i.repurchase_flag as repurchase_flag , 
+    i.repurchase_info as repurchase_info , 
+    i.repurchase_starttime as repurchase_starttime , 
+    i.repurchase_endtime as repurchase_endtime , 
+    i.create_date as create_date , 
+    i.update_date as update_date , 
+    i.create_userid as create_userid , 
+    i.update_userid as update_userid , 
+    i.delete_flag as delete_flag ,
+    s.name as sort_name ,
+    s.description as sort_description
+    from goods_info i left join goods_sort s on s.id=i.sort_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -202,4 +173,40 @@
     </if>
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
+  
+  <!-- 根据条件获取总记录数 -->
+  <select id="countByConditions" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(1) from goods_info g
+    left join goods_sort s on g.sort_id = s.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+  <!-- 根据条件获取数据 -->
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select 
+        g.id,
+        g.`name`,
+        g.`code`,
+        g.sort_id,
+        (select s.`name` from goods_sort s where g.sort_id = s.id) as sort_name,
+        g.type,
+        g.price,
+        g.amount,
+        g.trusteeship_flag,
+        g.repurchase_flag,
+        g.repurchase_starttime,
+        g.repurchase_endtime
+    from goods_info g
+    left join goods_sort s on g.sort_id = s.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
 </mapper>

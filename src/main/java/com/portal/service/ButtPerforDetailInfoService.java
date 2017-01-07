@@ -33,6 +33,17 @@ public interface ButtPerforDetailInfoService {
     int insertSelective(ButtPerforDetailInfo record);
     
     /**
+     * @Title: seleteByCondition 
+     * @Description: 根据条件获取数据
+     * @param criteria
+     * @return List<ButtPerforDetailInfo>
+     * @author Xia ZhengWei
+     * @date 2017年1月4日 下午11:39:02 
+     * @version V1.0
+     */
+    List<ButtPerforDetailInfo> seleteByCondition(Criteria criteria);
+    
+    /**
      * @Title: ajaxButtPerforDetail 
      * @Description: 异步获取展厅客服对接业绩详细数据
      * @param request

@@ -19,6 +19,7 @@ import com.portal.bean.SellGoodsDetail;
 import com.portal.bean.result.SellDailyInfoForm;
 import com.portal.common.exception.DBException;
 import com.portal.common.util.JsonUtils;
+import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
 import com.portal.dao.SellDailyDetailDao;
 import com.portal.dao.SellDailyInfoDao;
@@ -112,6 +113,8 @@ public class SellDailyInfoServiceImpl implements SellDailyInfoService {
                                 sellDailyDetail.setSellDailyId(sellDailyId);
                                 sellDailyDetail.setCreateUserId(employeeInfo.getId());
                                 sellDailyDetail.setCreateDate(new Date());
+                                // 过滤特殊字符
+                                sellDailyDetail.setRemarks(StringUtil.tstr(sellDailyDetail.getRemarks().trim()));
                                 sellDailyDatailDao.insert(sellDailyDetail);
                             }
                         }

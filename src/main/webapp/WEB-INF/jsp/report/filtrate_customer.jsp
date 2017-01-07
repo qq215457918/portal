@@ -50,7 +50,7 @@
 	          </div>
 	          <div class="condition fl">
 		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
-		        <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>
+		        <%-- <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button> --%>
 		      </div>
 			</div>
 			<div style="clear: both;"></div>

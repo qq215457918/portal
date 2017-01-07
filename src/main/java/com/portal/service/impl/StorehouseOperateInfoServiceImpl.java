@@ -145,4 +145,8 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         resultJson.put("aaData", performanceList);
         return resultJson;
     }
+
+    public List<StorehouseOperateInfoForm> getOrganiPerformance(Criteria criteria) {
+        return storehouseOperateInfoExtraDao.getOrganiPerformance(criteria);
+    }
 }

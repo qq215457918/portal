@@ -26,4 +26,14 @@ public interface GroupInfoService {
     int insert(GroupInfo record);
 
     int insertSelective(GroupInfo record);
+    
+    /**
+     * @Title: getAllCompany 
+     * @Description: 获取所有机构(公司)
+     * @return List<GroupInfo>
+     * @author Xia ZhengWei
+     * @date 2016年12月25日 下午6:14:03 
+     * @version V1.0
+     */
+    List<GroupInfo> getAllCompany();
 }

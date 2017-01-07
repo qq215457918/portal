@@ -43,7 +43,22 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var area = $('#area').val();
+		var receiveStaffName = $('#receiveStaffName').val();
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportSalesmanStatement" style="display:none;">' +
+						'<input type="hidden" name="area" value="' + area + '"/>' +
+						'<input type="hidden" name="receiveStaffName" value="' + receiveStaffName + '"/>' +
+						'<input type="hidden" name="startDate" value="' + startDate + '"/>' +
+						'<input type="hidden" name="endDate" value="' + endDate + '"/>';
+					'</form>';
+		$('body').append(exportHtml);
+		$('#exportExcel').submit();
 	});
 
 });

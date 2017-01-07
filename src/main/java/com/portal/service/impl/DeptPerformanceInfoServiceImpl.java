@@ -218,4 +218,8 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
         resultJson.put("aaData", performanceList);
         return resultJson;
     }
+
+    public List<DeptPerforInfoForm> getIndividualByCondition(Criteria criteria) {
+        return deptPerformanceInfoExtraDao.getIndividualByCondition(criteria);
+    }
 }

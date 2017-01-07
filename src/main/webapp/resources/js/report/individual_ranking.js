@@ -35,7 +35,20 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var employeeName = $('#employeeName').val();
+		var startReportDate = $('#startReportDate').val();
+		var endReportDate = $('#endReportDate').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportIndividualRanking" style="display:none;">' +
+						'<input type="hidden" name="employeeName" value="' + employeeName + '"/>' +
+						'<input type="hidden" name="startReportDate" value="' + startReportDate + '"/>' +
+						'<input type="hidden" name="endReportDate" value="' + endReportDate + '"/>';
+					'</form>';
+		$('body').append(exportHtml);
+		$('#exportExcel').submit();
 	});
 
 });

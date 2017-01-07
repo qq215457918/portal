@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.EmployeeInfoExtraDao" >
+
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.EmployeeInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="staff_number" property="staffNumber" jdbcType="VARCHAR" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="position_id" property="positionId" jdbcType="VARCHAR" />
+    <result column="position_type" property="positionType" jdbcType="VARCHAR" />
+    <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
+    <result column="reception_flag" property="receptionFlag" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.groupId != null" >
+         and e.group_id = #{condition.groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.departmentId != null" >
+         and e.department_id = #{condition.departmentId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.organizationId != null" >
+         and e.organization_id = #{condition.organizationId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.name != null" >
+         and e.name like CONCAT("%", #{condition.name,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.sex != null" >
+         and e.sex = #{condition.sex,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startCreateDate != null" >
+         <![CDATA[and e.create_date >= #{condition.startCreateDate,jdbcType=VARCHAR}]]>
+      </if>
+      <if test="condition.endCreateDate != null" >
+         <![CDATA[and e.create_date <= #{condition.endCreateDate,jdbcType=VARCHAR}]]>
+      </if>
+    </trim>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    id, name, sex, staff_number, login_name, password, organization_id, department_id, 
+    group_id, position_id, position_type, photo_path, reception_flag, create_date, delete_flag
+  </sql>
+  
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+        e.id,
+        e.`name`,
+        (CASE e.sex WHEN '1' THEN '男' WHEN '0' THEN '女' END) as sex,
+        e.login_name,
+        e.department_id,
+        (select g.`name` from group_info g where g.id = e.department_id) as department_name,
+        e.group_id,
+        (select g.`name` from group_info g where g.id = e.group_id) as group_name,
+        (CASE e.position_type WHEN '1' THEN "客服" WHEN '2' THEN "接待" END) as position_type,
+        (CASE e.reception_flag WHEN '0' THEN "未接待" WHEN '1' THEN "正在接待" END) as reception_flag,
+        e.create_date
+    from employee_info e
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="countByConditions" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(1) from employee_info e
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  
+</mapper>

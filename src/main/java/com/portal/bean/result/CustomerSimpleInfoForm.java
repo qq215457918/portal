@@ -75,6 +75,19 @@ public class CustomerSimpleInfoForm implements Serializable {
      * 筛选客户类型--占总业绩百分比
      */
     private String totalPerforPercentage;
+    
+    /**
+     * 后台管理--客户会员卡卡号
+     */
+    private String vipCard;
+
+    public String getVipCard() {
+        return vipCard;
+    }
+
+    public void setVipCard(String vipCard) {
+        this.vipCard = vipCard;
+    }
 
     public String getPhone() {
         return phone;
@@ -208,6 +221,8 @@ public class CustomerSimpleInfoForm implements Serializable {
                 return "锁定";
             } else if ("5".equals(this.type)) {
                 return "转介绍";
+            } else if ("0".equals(this.type)) {
+                return "空白客户";
             }
         }
         return viewType;

@@ -32,7 +32,18 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var area = $('#receiverArea').val();
+		var startDate = $('#startDate').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportCreditCard" style="display:none;">' +
+							'<input type="hidden" name="area" value="' + area + '"/>' +
+							'<input type="hidden" name="startDate" value="' + startDate + '"/>';
+						'</form>';
+		$('body').append(exportHtml);
+		$('#exportExcel').submit();
 	});
 
 });

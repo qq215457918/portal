@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.DeptPerformanceInfo;
+import com.portal.bean.result.DeptPerforInfoForm;
 
 import net.sf.json.JSONObject;
 
@@ -61,4 +62,15 @@ public interface DeptPerformanceInfoService {
      * @throws
      */
     JSONObject ajaxIndividualRanking(HttpServletRequest request, HttpServletResponse response);
+    
+    /**
+     * @Title: getIndividualByCondition 
+     * @Description: 根据条件查询数据-导出
+     * @param criteria
+     * @return List<DeptPerforInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月5日 下午10:43:36 
+     * @version V1.0
+     */
+    List<DeptPerforInfoForm> getIndividualByCondition(Criteria criteria);
 }

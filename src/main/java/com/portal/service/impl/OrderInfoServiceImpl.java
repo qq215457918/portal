@@ -1009,4 +1009,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         results.put("aaData", depositDetail);
         return results;
     }
+
+    public List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria) {
+        return orderInfoExtraDao.getCreditCardDepositDetail(criteria);
+    }
 }

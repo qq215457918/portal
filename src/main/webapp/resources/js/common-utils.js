@@ -32,3 +32,41 @@ function showTab() {
 		}
 	}
 }
+
+/**
+ * 切换选项,根据父级ID获取子级部门或组数据
+ * @param domId 元素ID
+ * @param condition 查询条件
+ * @author Xia ZhengWei
+ * @date 2016年12月25日 下午18:43:54 
+ */
+function changeDept(domId, condition) {
+	$.ajax({
+        "dataType": 'json',
+        "type": "POST",
+        "url": base + "admin/employeeManage/ajaxDeptOrGroupDataByParentsId",
+        "data": {
+        	parentsId : condition
+        },
+        "success": function(data){
+            var datas = data;
+            if(data) {
+            	// 清空原下拉框内容
+            	$(domId).empty();
+            	var html = '<option value="">请选择</option>';
+                for(var i = 0; i < datas.length; i ++) {
+                	html += '<option value="' + datas[i].id + '">' + datas[i].name + '</option>';
+                }
+                $(domId).html(html);
+            }else {
+            	// 清空原下拉框内容
+            	$(domId).empty();
+            	$(domId).html('<option value="">请选择</option>');
+            }
+        },
+        "error": function(data){
+            alert("加载数据失败, 请刷新后重试");
+        }
+    });
+}
+

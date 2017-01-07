@@ -79,6 +79,10 @@ public class ButtPerforDetailInfoServiceImpl implements ButtPerforDetailInfoServ
     public int insertSelective(ButtPerforDetailInfo record) {
         return this.buttPerforDetailInfoDao.insertSelective(record);
     }
+    
+    public List<ButtPerforDetailInfo> seleteByCondition(Criteria criteria) {
+        return buttPerforExtraDao.seleteByCondition(criteria);
+    }
 
     public JSONObject ajaxButtPerforDetail(HttpServletRequest request) {
      // 查询部门业绩（默认查询上一周的数据）
@@ -132,4 +136,5 @@ public class ButtPerforDetailInfoServiceImpl implements ButtPerforDetailInfoServ
         resultJson.put("aaData", list);
         return resultJson;
     }
+
 }

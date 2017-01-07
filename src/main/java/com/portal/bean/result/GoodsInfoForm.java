@@ -3,6 +3,9 @@ package com.portal.bean.result;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.portal.common.util.DateUtil;
+import com.portal.common.util.StringUtil;
+
 public class GoodsInfoForm implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -72,21 +75,41 @@ public class GoodsInfoForm implements Serializable {
      * 回购开始时间
      */
     private Date repurchaseStarttime;
+    
+    /**
+     * 表单字段-回购开始时间
+     */
+    private String viewRepurchaseStarttime;
 
     /**
      * 回购结束时间
      */
     private Date repurchaseEndtime;
+    
+    /**
+     * 表单字段-回购结束时间
+     */
+    private String viewRepurchaseEndtime;
 
     /**
      * 创建日期
      */
     private Date createDate;
+    
+    /**
+     * 表单字段-创建日期
+     */
+    private String viewCreateDate;
 
     /**
      * 更新日期
      */
     private Date updateDate;
+    
+    /**
+     * 表单字段-创建日期
+     */
+    private String viewUpdateDate;
 
     /**
      * 创建人id
@@ -102,6 +125,128 @@ public class GoodsInfoForm implements Serializable {
      * 删除标志 0正常 1删除
      */
     private String deleteFlag;
+    
+    /**
+     * 后台商品管理-商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     */
+    private String viewType;
+    
+    /**
+     * 后台商品管理-是否可托管
+     */
+    private String viewTrusteeshipFlag;
+    
+    /**
+     * 后台商品管理-回购标志
+     */
+    private String viewRepurchaseFlag;
+    
+    /**
+     * 后台商品管理-商品种类ID（大类）
+     */
+    private String bigSortId;
+
+    public String getViewRepurchaseStarttime() {
+        if(this.repurchaseStarttime != null) {
+            return DateUtil.formatDate(this.repurchaseStarttime, "yyyy-MM-dd");
+        }else {
+            return viewRepurchaseStarttime;
+        }
+    }
+
+    public void setViewRepurchaseStarttime(String viewRepurchaseStarttime) {
+        this.viewRepurchaseStarttime = viewRepurchaseStarttime;
+    }
+
+    public String getViewRepurchaseEndtime() {
+        if(this.repurchaseEndtime != null) {
+            return DateUtil.formatDate(this.repurchaseEndtime, "yyyy-MM-dd");
+        }else {
+            return viewRepurchaseEndtime;
+        }
+    }
+
+    public void setViewRepurchaseEndtime(String viewRepurchaseEndtime) {
+        this.viewRepurchaseEndtime = viewRepurchaseEndtime;
+    }
+
+    public String getViewCreateDate() {
+        return viewCreateDate;
+    }
+
+    public void setViewCreateDate(String viewCreateDate) {
+        this.viewCreateDate = viewCreateDate;
+    }
+
+    public String getViewUpdateDate() {
+        return viewUpdateDate;
+    }
+
+    public void setViewUpdateDate(String viewUpdateDate) {
+        this.viewUpdateDate = viewUpdateDate;
+    }
+
+    public String getBigSortId() {
+        return bigSortId;
+    }
+
+    public void setBigSortId(String bigSortId) {
+        this.bigSortId = bigSortId;
+    }
+
+    public String getViewType() {
+        if(StringUtil.isNotBlank(this.type)) {
+            switch (Integer.parseInt(this.type)) {
+            case 0:
+                return "常规商品";
+            case 1:
+                return "礼品";
+            case 2:
+                return "配售";
+            case 3:
+                return "配送";
+            default:
+                return "兑换";
+            }
+        }
+        return viewType;
+    }
+
+    public void setViewType(String viewType) {
+        this.viewType = viewType;
+    }
+
+    public String getViewTrusteeshipFlag() {
+        if(StringUtil.isNotBlank(this.trusteeshipFlag)) {
+            switch (Integer.parseInt(this.trusteeshipFlag)) {
+            case 0:
+                return "否";
+            default:
+                return "是";
+            }
+        }
+        return viewTrusteeshipFlag;
+    }
+
+    public void setViewTrusteeshipFlag(String viewTrusteeshipFlag) {
+        this.viewTrusteeshipFlag = viewTrusteeshipFlag;
+    }
+
+    public String getViewRepurchaseFlag() {
+        if(StringUtil.isNotBlank(this.repurchaseFlag)) {
+            switch (Integer.parseInt(this.repurchaseFlag)) {
+            case 0:
+                return "否";
+            default:
+                return "是";
+            }
+        }
+        return viewRepurchaseFlag;
+    }
+
+    public void setViewRepurchaseFlag(String viewRepurchaseFlag) {
+        this.viewRepurchaseFlag = viewRepurchaseFlag;
+    }
 
     public String getUnit() {
         return unit;

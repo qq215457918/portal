@@ -154,4 +154,28 @@ public interface CustomerInfoService {
      * @throws
      */
     public int selectCustomerOrderCount(Map<String, Object> paramMap);
+    
+    /**
+     * @Title: ajaxCustomerData 
+     * @Description: 后台异步获取客户信息
+     * @param criteria
+     * @param sEcho
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2017年1月2日 下午9:50:32 
+     * @version V1.0
+     */
+    JSONObject ajaxCustomerData(Criteria criteria, String sEcho);
+    
+    /**
+     * @Title: saveCustomerInfo 
+     * @Description: 后台修改客户基本信息
+     * @param customerForm
+     * @param results
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2017年1月2日 下午10:09:46 
+     * @version V1.0
+     */
+    JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results);
 }

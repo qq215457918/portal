@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.VisitEverydayInfo;
+import com.portal.bean.result.VisitEverydayInfoForm;
 
 import net.sf.json.JSONObject;
 
@@ -39,7 +40,6 @@ public interface VisitEverydayInfoService {
      * @param request
      * @param response 
      * @return void
-     * @throws
      */
     JSONObject ajaxVisitData(HttpServletRequest request, HttpServletResponse response);
     
@@ -48,9 +48,18 @@ public interface VisitEverydayInfoService {
      * @Description: 异步获取指定日期的登门情况
      * @param request
      * @param response
-     * @return 
      * @return JSONObject
-     * @throws
      */
     JSONObject ajaxVisitEveryDayList(HttpServletRequest request, HttpServletResponse response);
+    
+    /**
+     * @Title: selectByCondition 
+     * @Description: 根据条件获取数据
+     * @param criteria
+     * @return List<VisitEverydayInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月5日 下午10:03:31 
+     * @version V1.0
+     */
+    List<VisitEverydayInfoForm> selectByCondition(Criteria criteria);
 }

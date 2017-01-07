@@ -51,7 +51,26 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var viewPhoneStaffGroupName = $('#viewPhoneStaffGroupName').val();
+		var viewPhoneStaffName = $('#viewPhoneStaffName').val();
+		var viewReceiveStaffName = $('#viewReceiveStaffName').val();
+		var startReportDate = $('#startReportDate').val();
+		var endReportDate = $('#endReportDate').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportButtPerfor" style="display:none;">' +
+						'<input type="hidden" name="viewPhoneStaffGroupName" value="' + viewPhoneStaffGroupName + '"/>' +
+						'<input type="hidden" name="viewPhoneStaffName" value="' + viewPhoneStaffName + '"/>' +
+						'<input type="hidden" name="viewReceiveStaffName" value="' + viewReceiveStaffName + '"/>' +
+						'<input type="hidden" name="startReportDate" value="' + startReportDate + '"/>' +
+						'<input type="hidden" name="endReportDate" value="' + endReportDate + '"/>';
+					'</form>';
+		$('body').append(exportHtml);
+		
+		$('#exportExcel').submit();
 	});
 
 });

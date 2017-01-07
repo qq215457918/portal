@@ -49,7 +49,24 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var orderNumber = $("#orderNumber").val();
+		var goodsName = $("#goodsName").val();
+		var area = $('#area').val();
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+		
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportOutwarehouseDetail" style="display:none;">' +
+						'<input type="hidden" name="area" value="' + area + '"/>' +
+						'<input type="hidden" name="orderNumber" value="' + orderNumber + '"/>' +
+						'<input type="hidden" name="goodsName" value="' + goodsName + '"/>' +
+						'<input type="hidden" name="startDate" value="' + startDate + '"/>' +
+						'<input type="hidden" name="endDate" value="' + endDate + '"/>';
+					'</form>';
+		$('body').append(exportHtml);
+		$('#exportExcel').submit();
 	});
 
 });

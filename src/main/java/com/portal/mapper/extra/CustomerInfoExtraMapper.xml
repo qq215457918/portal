@@ -8,6 +8,7 @@
     <result column="season3" property="season3" jdbcType="VARCHAR" />
     <result column="season4" property="season4" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="phone_staff_id" property="phoneStaffId" jdbcType="VARCHAR" />
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
     <result column="business_phone" property="businessPhone" jdbcType="VARCHAR" />
@@ -27,6 +28,7 @@
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
+    <result column="vip_card" property="vipCard" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap id="FormResultMap" type="com.portal.bean.result.CustomerSimpleInfoForm" >
@@ -48,7 +50,7 @@
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
       <if test="condition.area != null" >
-      	 <![CDATA[and c.area = #{condition.area,jdbcType=VARCHAR}]]>
+      	 and c.area = #{condition.area,jdbcType=VARCHAR}
       </if>
       <if test="condition.startDate != null" >
       	 <![CDATA[and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
@@ -61,6 +63,19 @@
       </if>
       <if test="condition.endUpdateDate != null" >
       	 <![CDATA[and c.update_date <= #{condition.endUpdateDate,jdbcType=TIMESTAMP}]]>
+      </if>
+      <!-- 后台管理查询条件 -->
+      <if test="condition.name != null" >
+      	 and c.name like CONCAT("%", #{condition.name,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.vipCard != null" >
+      	 and c.vip_card = #{condition.vipCard,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.sex != null" >
+      	 and c.sex = #{condition.sex,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.type != null" >
+      	 and c.type = #{condition.type,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -249,6 +264,31 @@
 	    </if>
 		and c.type = '1') as '重复'
 	from customer_info
+  </select>
+  
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+        c.id,
+        c.`name`,
+		(CASE c.area WHEN '1' THEN '大连' WHEN '0' THEN '沈阳' END) as area,
+        (CASE c.sex WHEN '1' THEN '男' WHEN '0' THEN '女' END) as sex,
+		c.type,
+		c.vip_card
+    from customer_info c
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="countByConditions" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(1) from customer_info c
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
   </select>
   
 </mapper>

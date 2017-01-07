@@ -3,6 +3,7 @@ package com.portal.service.impl;
 import com.portal.bean.Criteria;
 import com.portal.bean.GroupInfo;
 import com.portal.dao.GroupInfoDao;
+import com.portal.dao.extra.GroupInfoExtraDao;
 import com.portal.service.GroupInfoService;
 import java.util.List;
 import org.slf4j.Logger;
@@ -14,6 +15,9 @@ import org.springframework.stereotype.Service;
 public class GroupInfoServiceImpl implements GroupInfoService {
     @Autowired
     private GroupInfoDao groupInfoDao;
+    
+    @Autowired
+    private GroupInfoExtraDao groupInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(GroupInfoServiceImpl.class);
 
@@ -61,5 +65,9 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
     public int insertSelective(GroupInfo record) {
         return this.groupInfoDao.insertSelective(record);
+    }
+
+    public List<GroupInfo> getAllCompany() {
+        return groupInfoExtraDao.getAllCompany();
     }
 }

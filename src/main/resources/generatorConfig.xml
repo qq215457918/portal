@@ -67,6 +67,6 @@
 		<table tableName="sell_daily_info"></table>
 		<table tableName="sell_goods_detail"></table>
 		<table tableName="sell_daily_detail"></table> -->
-		<table tableName="order_fund_settlement"></table>
+		<table tableName="customer_info"></table>
 	</context>
 </generatorConfiguration>

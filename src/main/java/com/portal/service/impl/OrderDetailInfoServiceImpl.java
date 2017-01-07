@@ -190,4 +190,8 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
+
+    public List<OrderDetailInfoForm> getGiftDetail(Criteria criteria) {
+        return orderDetailExtraDao.getGiftDetail(criteria);
+    }
 }

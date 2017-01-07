@@ -1,20 +1,27 @@
 package com.portal.service.impl;
 
-import com.portal.bean.Criteria;
-import com.portal.bean.GoodsSort;
-import com.portal.dao.GoodsSortDao;
-import com.portal.service.GoodsSortService;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.portal.bean.Criteria;
+import com.portal.bean.GoodsSort;
+import com.portal.dao.GoodsSortDao;
+import com.portal.dao.extra.GoodsSortExtraDao;
+import com.portal.service.GoodsSortService;
+
 @Service
 public class GoodsSortServiceImpl implements GoodsSortService {
+    
     @Autowired
     private GoodsSortDao goodsSortDao;
 
+    @Autowired
+    private GoodsSortExtraDao goodsSortExtraDao;
+    
     private static final Logger logger = LoggerFactory.getLogger(GoodsSortServiceImpl.class);
 
     public int countByExample(Criteria example) {
@@ -62,4 +69,9 @@ public class GoodsSortServiceImpl implements GoodsSortService {
     public int insertSelective(GoodsSort record) {
         return this.goodsSortDao.insertSelective(record);
     }
+
+    public List<GoodsSort> getGoodsBigSort() {
+        return this.goodsSortExtraDao.getGoodsBigSort();
+    }
+
 }

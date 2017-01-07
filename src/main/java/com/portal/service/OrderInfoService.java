@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderFundSettlementForm;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.bean.result.OrderInfoFormNew;
 import java.lang.reflect.InvocationTargetException;
@@ -209,5 +210,16 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results);
+    
+    /**
+     * @Title: getCreditCardDepositDetail 
+     * @Description: 根据自定义条件查询数据--导出当日刷卡定金明细
+     * @param criteria
+     * @return List<OrderFundSettlementForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月7日 下午12:34:06 
+     * @version V1.0
+     */
+    List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria);
 
 }

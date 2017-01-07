@@ -1,8 +1,12 @@
 package com.portal.service;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GoodsInfo;
 import com.portal.bean.result.GoodsInfoForm;
+
+import net.sf.json.JSONObject;
+
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
@@ -43,4 +47,52 @@ public interface GoodsInfoService {
     int insert(GoodsInfo record);
 
     int insertSelective(GoodsInfo record);
+    
+    /**
+     * @Title: selectByConditions 
+     * @Description: 根据条件查询数据
+     * @param criteria
+     * @return List<GoodsInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月4日 下午10:43:10 
+     * @version V1.0
+     */
+    List<GoodsInfoForm> selectByConditions(Criteria criteria);
+    
+    /**
+     * @Title: ajaxGoodsData 
+     * @Description: 异步获取商品信息
+     * @param criteria
+     * @param sEcho
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月26日 下午10:21:32 
+     * @version V1.0
+     */
+    JSONObject ajaxGoodsData(Criteria criteria, String sEcho);
+    
+    /**
+     * @Title: saveGoodsInfo 
+     * @Description: 保存商品信息
+     * @param goodsInfoForm 商品信息
+     * @param employee  员工信息
+     * @param result    返回结果集
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月28日 下午10:25:34 
+     * @version V1.0
+     */
+    JSONObject saveGoodsInfo(GoodsInfoForm goodsInfoForm, EmployeeInfo employee, JSONObject result);
+    
+    /**
+     * @Title: deleteGoodsInfo 
+     * @Description: 删除商品信息
+     * @param id    商品ID
+     * @param result
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月28日 下午10:04:27 
+     * @version V1.0
+     */
+    JSONObject deleteGoodsInfo(String id, JSONObject result);
 }

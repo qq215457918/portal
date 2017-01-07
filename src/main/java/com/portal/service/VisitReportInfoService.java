@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.VisitReportInfo;
+import com.portal.bean.result.VisitReportInfoForm;
 
 import net.sf.json.JSONObject;
 
@@ -63,5 +64,16 @@ public interface VisitReportInfoService {
      * @version V1.0
      */
     JSONObject ajaxSalesmanStatement(HttpServletRequest request);
+    
+    /**
+     * @Title: getPerforByCondition 
+     * @Description: 根据条件自定义获取数据
+     * @param criteria
+     * @return List<VisitReportInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月5日 下午9:28:12 
+     * @version V1.0
+     */
+    List<VisitReportInfoForm> getPerforByCondition(Criteria criteria);
     
 }

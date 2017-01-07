@@ -1,8 +1,9 @@
 package com.portal.service;
 
+import java.util.List;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.GoodsSort;
-import java.util.List;
 
 public interface GoodsSortService {
     int countByExample(Criteria example);
@@ -26,4 +27,15 @@ public interface GoodsSortService {
     int insert(GoodsSort record);
 
     int insertSelective(GoodsSort record);
+    
+    /**
+     * @Title: getGoodsBigSort 
+     * @Description: 获取物品的种类（大类-纸币/邮票/贵金属/赠品/兑换）
+     * @return List<GoodsSort>
+     * @author Xia ZhengWei
+     * @date 2016年12月26日 下午9:46:08 
+     * @version V1.0
+     */
+    List<GoodsSort> getGoodsBigSort();
+    
 }

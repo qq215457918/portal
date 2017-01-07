@@ -1,5 +1,18 @@
 package com.portal.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
@@ -14,17 +27,8 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -397,5 +401,23 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     @Override
     public List<OrderInfo> selectCustomerOrderList(Map<String, Object> paramMap) {
         return orderInfoDao.selectCustomerOrderList(paramMap);
+    }
+
+    public JSONObject ajaxCustomerData(Criteria criteria, String sEcho) {
+        // 获取总记录数
+        int totalRecord = customerInfoExtraDao.countByConditions(criteria);
+        // 获取数据集
+        List<CustomerSimpleInfoForm> list = customerInfoExtraDao.selectByConditions(criteria);
+        JSONObject resultJson =  new JSONObject();
+        resultJson.put("sEcho", sEcho);
+        resultJson.put("iTotalRecords", totalRecord);
+        resultJson.put("iTotalDisplayRecords", totalRecord);
+        resultJson.put("aaData", list);
+        return resultJson;
+    }
+
+    public JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

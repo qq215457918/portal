@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.result.OrderDetailInfoForm;
 
 import net.sf.json.JSONObject;
 
@@ -64,4 +65,15 @@ public interface OrderDetailInfoService {
      * @version V1.0
      */
     JSONObject ajaxGiftDetail(HttpServletRequest request, JSONObject results);
+    
+    /**
+     * @Title: getGiftDetail 
+     * @Description: 根据条件查询数据-导出赠品明细
+     * @param criteria
+     * @return List<OrderDetailInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月7日 下午12:57:00 
+     * @version V1.0
+     */
+    List<OrderDetailInfoForm> getGiftDetail(Criteria criteria);
 }

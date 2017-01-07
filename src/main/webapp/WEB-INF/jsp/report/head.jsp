@@ -3,7 +3,7 @@
   <div class="container-fluid top-bar">
     <div class="pull-right">
 	  <ul class="nav navbar-nav pull-right">
-		<li class="dropdown notifications hidden-xs">
+		<%-- <li class="dropdown notifications hidden-xs">
 		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		  	<span aria-hidden="true" class="se7en-flag"></span>
 			<div class="sr-only">Notifications</div>
@@ -92,7 +92,15 @@
 			  <li><a href="#"> <i class="icon-gear"></i>Account Settings</a></li>
 			  <li><a href="login1.html"> <i class="icon-signout"></i>Logout</a></li>
 			</ul>
-		</li>
+		</li> --%>
+		<li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	         	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="<%=request.getContextPath() %>/logout">
+	            <i class="icon-signout"></i>退出系统</a>
+	          </li>
+	        </ul>
+	      </li>
 	  </ul>
 	</div>
 	<button class="navbar-toggle">
@@ -101,7 +109,7 @@
 	  <span class="icon-bar"></span>
 	</button>
 	<!-- 系统LOGO -->
-	<a class="logo" href="index-2.html">se7en</a>
+	<!-- <a class="logo" href="index-2.html">se7en</a> -->
 	<!-- 系统全站查询 -->
 	<!-- <form class="navbar-form form-inline col-lg-2 hidden-xs">
 	  <input class="form-control" placeholder="Search" type="text">
@@ -115,11 +123,11 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="login"><span aria-hidden="true" class="se7en-home"></span>主页</a>
+		  <a href="login"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
-		  	<span aria-hidden="true" class="se7en-tables"></span>接待统计<b class="caret"></b>
+		  	<span aria-hidden="true" class="icon-male"></span>接待统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
 			<%-- <li><a name="tab" href="${base}report/toReceiveStatistics?active=0">接待客户统计</a></li> --%>
@@ -130,7 +138,7 @@
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
-		  	<span aria-hidden="true" class="se7en-tables"></span>业绩统计<b class="caret"></b>
+		  	<span aria-hidden="true" class="icon-bar-chart"></span>业绩统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
 			<li><a name="tab" href="${base}report/toOrganiPerformance?active=4">机构业绩统计</a></li>
@@ -141,7 +149,7 @@
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
-		  	<span aria-hidden="true" class="se7en-tables"></span>客户统计<b class="caret"></b>
+		  	<span aria-hidden="true" class="icon-user"></span>客户统计<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
 			<li><a name="tab" href="${base}report/toCustomerStatistics?active=8">客户统计</a></li>
@@ -149,14 +157,14 @@
 		  </ul>
 		</li>
 		<li>
-		  <a name="tab" href="${base}report/toClinchPerforEveryDay?active=10"> <span aria-hidden="true" class="se7en-tables"></span>每日成交业绩统计</a>
+		  <a name="tab" href="${base}report/toClinchPerforEveryDay?active=10"> <span aria-hidden="true" class="icon-money"></span>每日成交业绩统计</a>
 		</li>
 		<li>
-		  <a name="tab" href="${base}report/toButtPerforDetail?active=11" > <span aria-hidden="true" class="se7en-tables"></span>展厅客服对接业绩</a>
+		  <a name="tab" href="${base}report/toButtPerforDetail?active=11" > <span aria-hidden="true" class="icon-exchange"></span>展厅客服对接业绩</a>
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 
-		  	<span aria-hidden="true" class="se7en-tables"></span>销售日报表<b class="caret"></b>
+		  	<span aria-hidden="true" class="icon-list-alt"></span>销售日报表<b class="caret"></b>
 		  </a>
 		  <ul class="dropdown-menu">
 			<li><a name="tab" href="${base}report/toSellDaily?active=12">销售日报表</a></li>

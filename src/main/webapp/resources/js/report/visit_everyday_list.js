@@ -61,7 +61,27 @@ $(function() {
 	
 	// 导出功能
 	$("#export").click(function(){
-		alert("暂时还没有做......");
+		var customerArea = $('#customerArea').val();
+		var customerName = $('#customerName').val();
+		var customerType = $('#customerType').val();
+		var exercise = $('#exercise').val();
+		var receiverStaffName = $('#receiverStaffName').val();
+		var customServiceName = $('#customServiceName').val();
+		var visitDate = $('#visitDate').val();
+		if($('#exportExcel')){
+			$('#exportExcel').remove();
+		}
+		var exportHtml = '<form id="exportExcel" action="reportExport/exportVisitEveryDay" style="display:none;">' +
+						'<input type="hidden" name="customerArea" value="' + customerArea + '"/>' +
+						'<input type="hidden" name="customerName" value="' + customerName + '"/>' +
+						'<input type="hidden" name="customerType" value="' + customerType + '"/>' +
+						'<input type="hidden" name="exercise" value="' + exercise + '"/>' +
+						'<input type="hidden" name="receiverStaffName" value="' + receiverStaffName + '"/>' +
+						'<input type="hidden" name="customServiceName" value="' + customServiceName + '"/>' +
+						'<input type="hidden" name="visitDate" value="' + visitDate + '"/>';
+					'</form>';
+		$('body').append(exportHtml);
+		$('#exportExcel').submit();
 	});
 
 });

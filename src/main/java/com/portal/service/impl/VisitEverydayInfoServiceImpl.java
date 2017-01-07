@@ -255,5 +255,9 @@ public class VisitEverydayInfoServiceImpl implements VisitEverydayInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
+
+    public List<VisitEverydayInfoForm> selectByCondition(Criteria criteria) {
+        return visitEverydayInfoExtDao.selectByCondition(criteria);
+    }
     
 }

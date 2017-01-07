@@ -35,11 +35,14 @@
       <if test="condition.name != null" >
          and name = #{condition.name,jdbcType=VARCHAR}
       </if>
+      <if test="condition.price != null" >
+         and price = #{condition.price,jdbcType=DECIMAL}
+      </if>
       <if test="condition.amount != null" >
          and amount = #{condition.amount,jdbcType=INTEGER}
       </if>
-      <if test="condition.moreAmount != null" >
-         and amount > #{condition.moreAmount,jdbcType=INTEGER}
+      <if test="condition.unit != null" >
+         and unit = #{condition.unit,jdbcType=VARCHAR}
       </if>
       <if test="condition.trusteeshipFlag != null" >
          and trusteeship_flag = #{condition.trusteeshipFlag,jdbcType=VARCHAR}
@@ -87,8 +90,14 @@
       <if test="example.condition.name != null" >
          and name = #{example.condition.name,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.price != null" >
+         and price = #{example.condition.price,jdbcType=DECIMAL}
+      </if>
       <if test="example.condition.amount != null" >
          and amount = #{example.condition.amount,jdbcType=INTEGER}
+      </if>
+      <if test="example.condition.unit != null" >
+         and unit = #{example.condition.unit,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.trusteeshipFlag != null" >
          and trusteeship_flag = #{example.condition.trusteeshipFlag,jdbcType=VARCHAR}
@@ -123,9 +132,9 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, sort_id, type, code, name, amount,unit, trusteeship_flag, repurchase_flag, repurchase_info, 
-    repurchase_starttime, repurchase_endtime, create_date, update_date, create_userid, 
-    update_userid, delete_flag
+    id, sort_id, type, code, name, price, amount, unit, trusteeship_flag, repurchase_flag, 
+    repurchase_info, repurchase_starttime, repurchase_endtime, create_date, update_date, 
+    create_userid, update_userid, delete_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -160,17 +169,19 @@
   </delete>
   <insert id="insert" parameterType="com.portal.bean.GoodsInfo" >
     insert into goods_info (id, sort_id, type, 
-      code, name, amount, 
-      trusteeship_flag, repurchase_flag, repurchase_info, 
-      repurchase_starttime, repurchase_endtime, 
-      create_date, update_date, create_userid, 
-      update_userid, delete_flag)
+      code, name, price, 
+      amount, unit, trusteeship_flag, 
+      repurchase_flag, repurchase_info, repurchase_starttime, 
+      repurchase_endtime, create_date, update_date, 
+      create_userid, update_userid, delete_flag
+      )
     values (#{id,jdbcType=VARCHAR}, #{sortId,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{amount,jdbcType=INTEGER}, 
-      #{trusteeshipFlag,jdbcType=VARCHAR}, #{repurchaseFlag,jdbcType=VARCHAR}, #{repurchaseInfo,jdbcType=VARCHAR}, 
-      #{repurchaseStarttime,jdbcType=TIMESTAMP}, #{repurchaseEndtime,jdbcType=TIMESTAMP}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{createUserid,jdbcType=VARCHAR}, 
-      #{updateUserid,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR})
+      #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{amount,jdbcType=INTEGER}, #{unit,jdbcType=VARCHAR}, #{trusteeshipFlag,jdbcType=VARCHAR}, 
+      #{repurchaseFlag,jdbcType=VARCHAR}, #{repurchaseInfo,jdbcType=VARCHAR}, #{repurchaseStarttime,jdbcType=TIMESTAMP}, 
+      #{repurchaseEndtime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, 
+      #{createUserid,jdbcType=VARCHAR}, #{updateUserid,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.GoodsInfo" >
     insert into goods_info
@@ -190,8 +201,14 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="price != null" >
+        price,
+      </if>
       <if test="amount != null" >
         amount,
+      </if>
+      <if test="unit != null" >
+        unit,
       </if>
       <if test="trusteeshipFlag != null" >
         trusteeship_flag,
@@ -240,8 +257,14 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        #{price,jdbcType=DECIMAL},
+      </if>
       <if test="amount != null" >
         #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
       </if>
       <if test="trusteeshipFlag != null" >
         #{trusteeshipFlag,jdbcType=VARCHAR},
@@ -299,8 +322,14 @@
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DECIMAL},
+      </if>
       <if test="record.amount != null" >
         amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.unit != null" >
+        unit = #{record.unit,jdbcType=VARCHAR},
       </if>
       <if test="record.trusteeshipFlag != null" >
         trusteeship_flag = #{record.trusteeshipFlag,jdbcType=VARCHAR},
@@ -344,7 +373,9 @@
       type = #{record.type,jdbcType=VARCHAR},
       code = #{record.code,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
       amount = #{record.amount,jdbcType=INTEGER},
+      unit = #{record.unit,jdbcType=VARCHAR},
       trusteeship_flag = #{record.trusteeshipFlag,jdbcType=VARCHAR},
       repurchase_flag = #{record.repurchaseFlag,jdbcType=VARCHAR},
       repurchase_info = #{record.repurchaseInfo,jdbcType=VARCHAR},
@@ -374,8 +405,14 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DECIMAL},
+      </if>
       <if test="amount != null" >
         amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
       </if>
       <if test="trusteeshipFlag != null" >
         trusteeship_flag = #{trusteeshipFlag,jdbcType=VARCHAR},
@@ -416,7 +453,9 @@
       type = #{type,jdbcType=VARCHAR},
       code = #{code,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
       amount = #{amount,jdbcType=INTEGER},
+      unit = #{unit,jdbcType=VARCHAR},
       trusteeship_flag = #{trusteeshipFlag,jdbcType=VARCHAR},
       repurchase_flag = #{repurchaseFlag,jdbcType=VARCHAR},
       repurchase_info = #{repurchaseInfo,jdbcType=VARCHAR},

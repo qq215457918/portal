@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.StorehouseOperateInfo;
+import com.portal.bean.result.StorehouseOperateInfoForm;
 
 import net.sf.json.JSONObject;
 
@@ -42,4 +43,15 @@ public interface StorehouseOperateInfoService {
      * @version V1.0
      */
     JSONObject ajaxOutwarehouseDetail(HttpServletRequest request);
+    
+    /**
+     * @Title: getOrganiPerformance 
+     * @Description: 根据条件查询数据-导出出库明细
+     * @param criteria
+     * @return List<StorehouseOperateInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月7日 下午12:48:52 
+     * @version V1.0
+     */
+    List<StorehouseOperateInfoForm> getOrganiPerformance(Criteria criteria);
 }
