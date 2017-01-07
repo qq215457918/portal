@@ -34,7 +34,7 @@ public class IndexController {
         List<Resource> menus = resourceService.findMenus(permissions);
         model.addAttribute("menus", menus);
         getBasePath(request, response);
-        return "main";
+        return "main"; 
     }
     
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
