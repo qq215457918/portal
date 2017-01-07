@@ -727,4 +727,61 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     public List<Map<String, Object>> selectClerkDayList(Map<String, Object> paramMap) {
     	return workFlowDao.selectClerkDayList(paramMap);
     }
+    
+    /**
+	 * @Title: selectCivilizationOrderList 
+	 * @Description: 文交所订单列表
+	 * @param paramMap
+	 * @return 
+	 * @return List<Map<String,Object>>
+	 * @throws
+	 */
+    @Override
+    public List<Map<String, Object>> selectCivilizationOrderList(Map<String, Object> paramMap) {
+    	return workFlowDao.selectCivilizationOrderList(paramMap);
+    }
+    
+    /**
+	 * @Title: selectCivilizationOrderCount 
+	 * @Description: 文交所订单列表数量
+	 * @param paramMap
+	 * @return 
+	 * @return int
+	 * @throws
+	 */
+    @Override
+    public int selectCivilizationOrderCount(Map<String, Object> paramMap) {
+    	return workFlowDao.selectCivilizationOrderCount(paramMap);
+    }
+    
+    /**
+	 * @Title: getAccountAndPayTypeInfo 
+	 * @Description: 获取支付方式和账户列表
+	 * @return 
+	 * @return Map<String,Object>
+	 * @throws
+	 */
+    @Override
+    public Map<String, Object> getAccountAndPayTypeInfo() {
+    	List<Map<String,Object>> accountList = workFlowDao.getAccountList();
+    	List<Map<String,Object>> payTypeList = workFlowDao.getPayTypeList();
+    	
+    	Map<String, Object> result = new HashMap<String, Object>();
+    	result.put("accountList", accountList);
+    	result.put("payTypeList", payTypeList);
+    	
+    	return result;
+    }
+    
+    /**
+	 * @Title: getAuditorId 
+	 * @Description: 获取支付方式和账户列表
+	 * @param userId
+	 * @return String
+	 * @throws
+	 */
+    @Override
+    public String getAuditorId(String userId) {
+    	return workFlowDao.getAuditorId(userId);
+    }
 }

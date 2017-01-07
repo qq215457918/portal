@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.DailyEmployeeAuditDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.DailyEmployeeAudit" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="employee_id" property="employeeId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.employeeId != null" >
+         and employee_id = #{condition.employeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.status != null" >
+         and status = #{condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.auditorId != null" >
+         and auditor_id = #{condition.auditorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.employeeId != null" >
+         and employee_id = #{example.condition.employeeId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.status != null" >
+         and status = #{example.condition.status,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.auditorId != null" >
+         and auditor_id = #{example.condition.auditorId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.deleteFlag != null" >
+         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, employee_id, status, auditor_id, create_date, delete_flag
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from daily_employee_audit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from daily_employee_audit
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from daily_employee_audit
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from daily_employee_audit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.DailyEmployeeAudit" >
+    insert into daily_employee_audit (id, employee_id, status, 
+      auditor_id, create_date, delete_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{employeeId,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{auditorId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.DailyEmployeeAudit" >
+    insert into daily_employee_audit
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      id,
+      <if test="employeeId != null" >
+        employee_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      rand_string(16),
+      <if test="employeeId != null" >
+        #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from daily_employee_audit
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update daily_employee_audit
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeId != null" >
+        employee_id = #{record.employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditorId != null" >
+        auditor_id = #{record.auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update daily_employee_audit
+    set id = #{record.id,jdbcType=VARCHAR},
+      employee_id = #{record.employeeId,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      auditor_id = #{record.auditorId,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.DailyEmployeeAudit" >
+    update daily_employee_audit
+    <set >
+      <if test="employeeId != null" >
+        employee_id = #{employeeId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.DailyEmployeeAudit" >
+    update daily_employee_audit
+    set employee_id = #{employeeId,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      auditor_id = #{auditorId,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

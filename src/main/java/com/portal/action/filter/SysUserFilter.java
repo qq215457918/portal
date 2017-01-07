@@ -1,8 +1,11 @@
 package com.portal.action.filter;
 
+import com.portal.bean.EmployeeInfo;
 import com.portal.service.EmployeeInfoService;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;

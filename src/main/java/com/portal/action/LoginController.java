@@ -2,15 +2,24 @@
 package com.portal.action;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.portal.bean.EmployeeInfo;
+import com.portal.common.util.StringUtil;
+import com.portal.common.util.WebUtils;
+import com.portal.service.EmployeeInfoService;
 
 /**
  * 用户控制器
@@ -20,6 +29,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
  **/
 @Controller
 public class LoginController {
+	
+	@Autowired
+	private EmployeeInfoService employeeService;
 
     /**
      * 转到login页面，具体的验证工作交给shiro
@@ -29,7 +41,40 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/login")
-    public String showLoginForm(HttpServletRequest req, Model model) {
+    public String showLoginForm(HttpServletRequest req, Model model, HttpServletResponse response) {
+       /* String exceptionClassName = (String) req.getAttribute("shiroLoginFailure");
+        String error = null;
+        if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if (IncorrectCredentialsException.class.getName().equals(exceptionClassName)) {
+            error = "用户名/密码错误";
+        } else if (exceptionClassName != null) {
+            error = "其他错误：" + exceptionClassName;
+        }
+        model.addAttribute("error", error);
+        
+        String userName = req.getParameter("loginName");
+        if(StringUtils.isNotBlank(userName)){
+        	EmployeeInfo employeeInfo = employeeService.selectByUserName(userName);
+            req.getSession().setAttribute("userInfo", employeeInfo);
+            req.getSession().setAttribute("userId", employeeInfo.getId());
+            req.getSession().setAttribute("userName", employeeInfo.getName());
+        }
+        //获取项目基础路径
+        String basePath = WebUtils.getBasePath(req, response);
+        //供页面和后台引用项目路径使用
+        req.getSession().setAttribute("basePath", basePath);
+        
+        if(StringUtil.isNotBlank(exceptionClassName)) {
+            if(StringUtil.isNotBlank(error)) {
+                model.addAttribute("error", error);
+                return "login";
+            }else {
+                return "redirect:/index";
+            }
+        }else {
+            return "login";
+        }*/
         String exceptionClassName = (String) req.getAttribute("shiroLoginFailure");
         String error = null;
         if (UnknownAccountException.class.getName().equals(exceptionClassName)) {

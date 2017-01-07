@@ -134,7 +134,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
+        rand_string(16),
       </if>
       <if test="orderNumber != null" >
         #{orderNumber,jdbcType=VARCHAR},

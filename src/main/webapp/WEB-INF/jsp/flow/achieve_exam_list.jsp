@@ -74,8 +74,7 @@
 						<div class="col-md-4">
 							<div class="number">
 								<div class="icon visitors"></div>
-<%-- 								${result.commitCount } --%>
-								${tempCount }
+								${result.commitCount }
 							</div>
 							<div class="text">提交人数</div>
 						</div>
@@ -170,21 +169,21 @@
 					<h4 class="modal-title">审核</h4>
 				</div>
 				<div class="modal-body">
-					<form action="workflow/commitExam" method="post">
+					<form action="workflow/commitExam" method="post" id="commitExamForm">
 						<h4>
 							审核信息
 	                    </h4>
 	                    <p>
 	                    	<textarea class="examMessage" name="examMessage"></textarea>
 	                    </p>
-	                    <input type="hidden" name="taskId"/>
-	                    <input type="hidden" name="id"/>
+	                    <input type="hidden" name="employeeIds"/>
+	                    <input type="hidden" name="examDate"/>
 	                    <input type="hidden" name="suggestion"/>
                     </form>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" onclick="commitExam('pass');">通过</button>
-					<button class="btn btn-primary" type="button" onclick="commitExam('turnDown');">驳回</button>
+					<button class="btn btn-primary" type="button" onclick="commitExam('1');">通过</button>
+					<button class="btn btn-primary" type="button" onclick="commitExam('3');">驳回</button>
 					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
 				</div>
 			</div>

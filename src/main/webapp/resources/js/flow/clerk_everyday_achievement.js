@@ -17,11 +17,14 @@ $(document).ready(function(){
 	
 	$('#toAchieveExam').click(function(){
 		alert("提交成功");
+		$('#toAchieveExam').remove();
 		$.ajax({
 			"dataType": 'json',
 			"type": "POST",
 			"url": 'workflow/toAchieveExam',
-			"data": '',
+			"data": {
+				dateInfo : $('#dateInfo').val()
+			},
 			"success": function(data){
 				location.reload();
 			}
@@ -131,6 +134,48 @@ function initData(){
 						
 	});
 	
+	// 审核信息
+	$('#examHistoryInfo').dataTable({
+		"bSort": false, //是否显示排序
+		"bFilter": false, //去掉搜索
+		"sPaginationType": "full_numbers", //分页
+		"bProcessing": true, //显示正在处理
+		"bServerSide": true, // 后台请求
+		"bRetrieve": true,
+		"sAjaxSource": "workflow/examHistoryInfo", // 地址
+		"aoColumns": [ 
+		            {"mData": null, "target": 0},	//序列号
+		            {"mData": "auditorName"},
+		            {"mData": "auditDate"},
+		            {"mData": "message"}
+		           ],
+       "columnDefs" : [ {
+   			"render" : function(data, type, row) {
+   					return formatDate(data);
+   				},
+   			"targets" : 2
+   			}],
+       "fnDrawCallback": function(){
+			var api = this.api();
+			api.column(0).nodes().each(function(cell, i) {
+				cell.innerHTML =  i + 1;
+			});
+		},
+		"fnServerData": function (sSource, aoData, fnCallback) {
+							var dateInfo = $('#dateInfo').val();
+							aoData.push({'name':'dateInfo','value':dateInfo});
+							$.ajax({
+								"dataType": 'json',
+								"type": "POST",
+								"url": sSource,
+								"data": aoData,
+								"success": function(data){
+									fnCallback(data);
+								}
+							})
+						}
+						
+	});
 }
 
 function formatDate(data){

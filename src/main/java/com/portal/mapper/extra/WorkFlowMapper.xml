@@ -134,7 +134,7 @@
 	
 	<select id="selectClerkDayList" parameterType="map" resultType="map">
 		select ei.id as employeeId, ei.name as employeeName, count(distinct oi.id) orderCount, 
-			sum(distinct pay_price) payPrice, sum( distinct actual_price) actualPrice, count(distinct ri.id) receptionCount
+			ifnull(sum(distinct pay_price),0) payPrice, ifnull(sum( distinct actual_price),0) actualPrice, count(distinct ri.id) receptionCount
 		from employee_info ei
 		left join reception_info ri on ri.receiver_staff_id = ei.id
 		<if test="dateInfo != null">
@@ -152,7 +152,78 @@
 					#{item}
 				</foreach>
 			</if>
+			<if test="auditor != null">
+				and ei.id in
+				(select employee_id from daily_employee_audit 
+				  where auditor_id = ${auditor} 
+				  	and delete_flag = 0
+				  	and status in (0, 1)
+					and DATE_FORMAT(create_date, '%Y-%m-%d') = #{dateInfo})
+			</if>
 		</trim>
 		group by ei.id
+	</select>
+	
+	<select id="selectCivilizationOrderList" parameterType="map" resultType="map">
+		select oi.id, oi.order_number, oi.customer_id, oi.phone_staff_id, 
+			oi.receiver_staff_id, oi.status,
+			case when oi.order_type = 1 then '正常'
+			when oi.order_type = 2 then '退货'
+			when oi.order_type = 3 then '换货'
+			when oi.order_type = 4 then '赠品' else ' ' end as orderTypeName,
+			case when oi.pay_type = 0 then '全额支付'
+			when oi.pay_type = 1 then '订金支付'
+			when oi.pay_type = 2 then '派送支付' else ' ' end as payTypeName,
+			oi.pay_price, oi.actual_price, oi.finance_flag,oi.finance_type, 
+			oi.finance_operator_id, oi.finance_date, oi.warehouse_flag, 
+			oi.warehouse_operator_id, oi.warehouse_date,  
+			case when oi.culture_flag = 1 then '已审核' 
+			when oi.culture_flag = -1 then '未通过' 
+			else '未审核' end as culture_flag,
+			oi.culture_operator_id, oi.culture_date, oi.Remarks, 
+			oi.create_date, oi.create_id, oi.update_date, oi.update_id, oi.delete_flag,
+			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=2) as saleCount,
+			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=3) as freeCount
+		from order_info oi inner join order_detail_info odi on oi.id = odi.order_id
+		where odi.good_type in (2,3) and oi.finance_flag = 1
+		<if test="orderNumber != null and orderNumber != ''">
+			and oi.order_number = #{orderNumber}
+		</if>
+		group by oi.id 
+		order by culture_flag asc, oi.create_date desc
+	</select>
+	
+	<select id="selectCivilizationOrderCount" parameterType="map" resultType="int">
+		select count(1) from (select 1
+		from order_info oi inner join order_detail_info odi on oi.id = odi.order_id
+		where odi.good_type in (2,3)
+		group by oi.id 
+		order by culture_flag asc, oi.create_date desc) a
+	</select>
+	
+	<select id="getAccountList" resultType="map">
+		SELECT payment_account_id, payment_account_name FROM `payment_account_info` where delete_flag = 0
+	</select>
+
+	<select id="getPayTypeList" resultType="map">
+		SELECT payment_account_id, payment_account_name FROM `payment_account_info` where delete_flag = 0
+	</select>
+
+	<select id="getAuditorId" resultType="String" parameterType="String">
+		SELECT
+			id
+		FROM
+			employee_info
+		WHERE
+			group_id IN (
+				SELECT
+					gi.parents_id
+				FROM
+					employee_info ei
+				LEFT JOIN group_info gi ON ei.group_id = gi.id
+				WHERE
+					ei.id = #{userId}
+			)
+		LIMIT 1
 	</select>
 </mapper>
