@@ -3,24 +3,33 @@
 <mapper namespace="com.portal.dao.EmployeeInfoDao" >
   <resultMap id="BaseResultMap" type="com.portal.bean.EmployeeInfo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="staff_number" property="staffNumber" jdbcType="VARCHAR" />
+    <result column="position_type" property="positionType" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
-    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
-    <result column="position_id" property="positionId" jdbcType="VARCHAR" />
-    <result column="position_type" property="positionType" jdbcType="VARCHAR" />
     <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
     <result column="reception_flag" property="receptionFlag" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.groupId != null" >
+         and group_id = #{condition.groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.departmentId != null" >
+         and department_id = #{condition.departmentId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.organizationId != null" >
+         and organization_id = #{condition.organizationId,jdbcType=VARCHAR}
+      </if>
       <if test="condition.name != null" >
          and name = #{condition.name,jdbcType=VARCHAR}
       </if>
@@ -30,26 +39,14 @@
       <if test="condition.staffNumber != null" >
          and staff_number = #{condition.staffNumber,jdbcType=VARCHAR}
       </if>
+      <if test="condition.positionType != null" >
+         and position_type = #{condition.positionType,jdbcType=VARCHAR}
+      </if>
       <if test="condition.loginName != null" >
          and login_name = #{condition.loginName,jdbcType=VARCHAR}
       </if>
       <if test="condition.password != null" >
          and password = #{condition.password,jdbcType=VARCHAR}
-      </if>
-      <if test="condition.organizationId != null" >
-         and organization_id = #{condition.organizationId,jdbcType=VARCHAR}
-      </if>
-      <if test="condition.departmentId != null" >
-         and department_id = #{condition.departmentId,jdbcType=VARCHAR}
-      </if>
-      <if test="condition.groupId != null" >
-         and group_id = #{condition.groupId,jdbcType=VARCHAR}
-      </if>
-      <if test="condition.positionId != null" >
-         and position_id = #{condition.positionId,jdbcType=VARCHAR}
-      </if>
-      <if test="condition.positionType != null" >
-         and position_type = #{condition.positionType,jdbcType=VARCHAR}
       </if>
       <if test="condition.photoPath != null" >
          and photo_path = #{condition.photoPath,jdbcType=VARCHAR}
@@ -66,10 +63,22 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <if test="condition.roleIds != null" >
+         and role_ids = #{condition.roleIds,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.groupId != null" >
+         and group_id = #{example.condition.groupId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.departmentId != null" >
+         and department_id = #{example.condition.departmentId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.organizationId != null" >
+         and organization_id = #{example.condition.organizationId,jdbcType=VARCHAR}
+      </if>
       <if test="example.condition.name != null" >
          and name = #{example.condition.name,jdbcType=VARCHAR}
       </if>
@@ -79,26 +88,14 @@
       <if test="example.condition.staffNumber != null" >
          and staff_number = #{example.condition.staffNumber,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.positionType != null" >
+         and position_type = #{example.condition.positionType,jdbcType=VARCHAR}
+      </if>
       <if test="example.condition.loginName != null" >
          and login_name = #{example.condition.loginName,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.password != null" >
          and password = #{example.condition.password,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.organizationId != null" >
-         and organization_id = #{example.condition.organizationId,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.departmentId != null" >
-         and department_id = #{example.condition.departmentId,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.groupId != null" >
-         and group_id = #{example.condition.groupId,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.positionId != null" >
-         and position_id = #{example.condition.positionId,jdbcType=VARCHAR}
-      </if>
-      <if test="example.condition.positionType != null" >
-         and position_type = #{example.condition.positionType,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.photoPath != null" >
          and photo_path = #{example.condition.photoPath,jdbcType=VARCHAR}
@@ -115,12 +112,15 @@
       <if test="example.condition.deleteFlag != null" >
          and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.roleIds != null" >
+         and role_ids = #{example.condition.roleIds,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, name, sex, staff_number, login_name, password, organization_id, department_id, 
-    group_id, position_id, position_type, photo_path, reception_flag, status, create_date, 
-    delete_flag
+    id, group_id, department_id, organization_id, name, sex, staff_number, position_type, 
+    login_name, password, photo_path, reception_flag, status, create_date, delete_flag, 
+    role_ids
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -154,24 +154,33 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.portal.bean.EmployeeInfo" >
-    insert into employee_info (id, name, sex, 
-      staff_number, login_name, password, 
-      organization_id, department_id, group_id, 
-      position_id, position_type, photo_path, 
-      reception_flag, status, create_date, 
-      delete_flag)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{staffNumber,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{organizationId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, 
-      #{positionId,jdbcType=VARCHAR}, #{positionType,jdbcType=VARCHAR}, #{photoPath,jdbcType=VARCHAR}, 
-      #{receptionFlag,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=VARCHAR})
+    insert into employee_info (id, group_id, department_id, 
+      organization_id, name, sex, 
+      staff_number, position_type, login_name, 
+      password, photo_path, reception_flag, 
+      status, create_date, delete_flag, 
+      role_ids)
+    values (#{id,jdbcType=VARCHAR}, #{groupId,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, 
+      #{organizationId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{staffNumber,jdbcType=VARCHAR}, #{positionType,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{photoPath,jdbcType=VARCHAR}, #{receptionFlag,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=VARCHAR}, 
+      #{roleIds,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.EmployeeInfo" >
     insert into employee_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
+      </if>
+      <if test="groupId != null" >
+        group_id,
+      </if>
+      <if test="departmentId != null" >
+        department_id,
+      </if>
+      <if test="organizationId != null" >
+        organization_id,
       </if>
       <if test="name != null" >
         name,
@@ -182,26 +191,14 @@
       <if test="staffNumber != null" >
         staff_number,
       </if>
+      <if test="positionType != null" >
+        position_type,
+      </if>
       <if test="loginName != null" >
         login_name,
       </if>
       <if test="password != null" >
         password,
-      </if>
-      <if test="organizationId != null" >
-        organization_id,
-      </if>
-      <if test="departmentId != null" >
-        department_id,
-      </if>
-      <if test="groupId != null" >
-        group_id,
-      </if>
-      <if test="positionId != null" >
-        position_id,
-      </if>
-      <if test="positionType != null" >
-        position_type,
       </if>
       <if test="photoPath != null" >
         photo_path,
@@ -218,10 +215,22 @@
       <if test="deleteFlag != null" >
         delete_flag,
       </if>
+      <if test="roleIds != null" >
+        role_ids,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="groupId != null" >
+        #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationId != null" >
+        #{organizationId,jdbcType=VARCHAR},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
@@ -232,26 +241,14 @@
       <if test="staffNumber != null" >
         #{staffNumber,jdbcType=VARCHAR},
       </if>
+      <if test="positionType != null" >
+        #{positionType,jdbcType=VARCHAR},
+      </if>
       <if test="loginName != null" >
         #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null" >
-        #{organizationId,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentId != null" >
-        #{departmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupId != null" >
-        #{groupId,jdbcType=VARCHAR},
-      </if>
-      <if test="positionId != null" >
-        #{positionId,jdbcType=VARCHAR},
-      </if>
-      <if test="positionType != null" >
-        #{positionType,jdbcType=VARCHAR},
       </if>
       <if test="photoPath != null" >
         #{photoPath,jdbcType=VARCHAR},
@@ -268,6 +265,9 @@
       <if test="deleteFlag != null" >
         #{deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="roleIds != null" >
+        #{roleIds,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
@@ -282,6 +282,15 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
       </if>
+      <if test="record.groupId != null" >
+        group_id = #{record.groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.departmentId != null" >
+        department_id = #{record.departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationId != null" >
+        organization_id = #{record.organizationId,jdbcType=VARCHAR},
+      </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
@@ -291,26 +300,14 @@
       <if test="record.staffNumber != null" >
         staff_number = #{record.staffNumber,jdbcType=VARCHAR},
       </if>
+      <if test="record.positionType != null" >
+        position_type = #{record.positionType,jdbcType=VARCHAR},
+      </if>
       <if test="record.loginName != null" >
         login_name = #{record.loginName,jdbcType=VARCHAR},
       </if>
       <if test="record.password != null" >
         password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.organizationId != null" >
-        organization_id = #{record.organizationId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.departmentId != null" >
-        department_id = #{record.departmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.groupId != null" >
-        group_id = #{record.groupId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.positionId != null" >
-        position_id = #{record.positionId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.positionType != null" >
-        position_type = #{record.positionType,jdbcType=VARCHAR},
       </if>
       <if test="record.photoPath != null" >
         photo_path = #{record.photoPath,jdbcType=VARCHAR},
@@ -327,6 +324,9 @@
       <if test="record.deleteFlag != null" >
         delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="record.roleIds != null" >
+        role_ids = #{record.roleIds,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -335,21 +335,21 @@
   <update id="updateByExample" parameterType="map" >
     update employee_info
     set id = #{record.id,jdbcType=VARCHAR},
+      group_id = #{record.groupId,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      organization_id = #{record.organizationId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=VARCHAR},
       staff_number = #{record.staffNumber,jdbcType=VARCHAR},
+      position_type = #{record.positionType,jdbcType=VARCHAR},
       login_name = #{record.loginName,jdbcType=VARCHAR},
       password = #{record.password,jdbcType=VARCHAR},
-      organization_id = #{record.organizationId,jdbcType=VARCHAR},
-      department_id = #{record.departmentId,jdbcType=VARCHAR},
-      group_id = #{record.groupId,jdbcType=VARCHAR},
-      position_id = #{record.positionId,jdbcType=VARCHAR},
-      position_type = #{record.positionType,jdbcType=VARCHAR},
       photo_path = #{record.photoPath,jdbcType=VARCHAR},
       reception_flag = #{record.receptionFlag,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
       create_date = #{record.createDate,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR}
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      role_ids = #{record.roleIds,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -357,6 +357,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.EmployeeInfo" >
     update employee_info
     <set >
+      <if test="groupId != null" >
+        group_id = #{groupId,jdbcType=VARCHAR},
+      </if>
+      <if test="departmentId != null" >
+        department_id = #{departmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationId != null" >
+        organization_id = #{organizationId,jdbcType=VARCHAR},
+      </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -366,26 +375,14 @@
       <if test="staffNumber != null" >
         staff_number = #{staffNumber,jdbcType=VARCHAR},
       </if>
+      <if test="positionType != null" >
+        position_type = #{positionType,jdbcType=VARCHAR},
+      </if>
       <if test="loginName != null" >
         login_name = #{loginName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null" >
-        organization_id = #{organizationId,jdbcType=VARCHAR},
-      </if>
-      <if test="departmentId != null" >
-        department_id = #{departmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="groupId != null" >
-        group_id = #{groupId,jdbcType=VARCHAR},
-      </if>
-      <if test="positionId != null" >
-        position_id = #{positionId,jdbcType=VARCHAR},
-      </if>
-      <if test="positionType != null" >
-        position_type = #{positionType,jdbcType=VARCHAR},
       </if>
       <if test="photoPath != null" >
         photo_path = #{photoPath,jdbcType=VARCHAR},
@@ -402,26 +399,29 @@
       <if test="deleteFlag != null" >
         delete_flag = #{deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="roleIds != null" >
+        role_ids = #{roleIds,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.portal.bean.EmployeeInfo" >
     update employee_info
-    set name = #{name,jdbcType=VARCHAR},
+    set group_id = #{groupId,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=VARCHAR},
+      organization_id = #{organizationId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=VARCHAR},
       staff_number = #{staffNumber,jdbcType=VARCHAR},
+      position_type = #{positionType,jdbcType=VARCHAR},
       login_name = #{loginName,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
-      organization_id = #{organizationId,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR},
-      group_id = #{groupId,jdbcType=VARCHAR},
-      position_id = #{positionId,jdbcType=VARCHAR},
-      position_type = #{positionType,jdbcType=VARCHAR},
       photo_path = #{photoPath,jdbcType=VARCHAR},
       reception_flag = #{receptionFlag,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
       create_date = #{createDate,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=VARCHAR}
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      role_ids = #{roleIds,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

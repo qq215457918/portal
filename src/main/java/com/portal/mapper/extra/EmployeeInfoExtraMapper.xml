@@ -3,22 +3,22 @@
 <mapper namespace="com.portal.dao.extra.EmployeeInfoExtraDao" >
 
   <resultMap id="BaseResultMap" type="com.portal.bean.result.EmployeeInfoForm" >
-    <id column="id" property="id" jdbcType="VARCHAR" />
+  	<id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="staff_number" property="staffNumber" jdbcType="VARCHAR" />
+    <result column="position_type" property="positionType" jdbcType="VARCHAR" />
     <result column="login_name" property="loginName" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
-    <result column="group_id" property="groupId" jdbcType="VARCHAR" />
-    <result column="position_id" property="positionId" jdbcType="VARCHAR" />
-    <result column="position_type" property="positionType" jdbcType="VARCHAR" />
     <result column="photo_path" property="photoPath" jdbcType="VARCHAR" />
     <result column="reception_flag" property="receptionFlag" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
-    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="role_ids" property="roleIds" jdbcType="VARCHAR" />
     <result column="department_name" property="departmentName" jdbcType="VARCHAR" />
   </resultMap>
   
@@ -49,8 +49,9 @@
   </sql>
 
   <sql id="Base_Column_List" >
-    id, name, sex, staff_number, login_name, password, organization_id, department_id, 
-    group_id, position_id, position_type, photo_path, reception_flag, create_date, delete_flag
+    id, group_id, department_id, organization_id, name, sex, staff_number, position_type, 
+    login_name, password, photo_path, reception_flag, status, create_date, delete_flag, 
+    role_ids
   </sql>
   
   <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >

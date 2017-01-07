@@ -99,28 +99,6 @@ CREATE TABLE `customer_info` (
 -- Records of customer_info
 -- ----------------------------
 
--- ----------------------------
--- Table structure for `employee_info`
--- ----------------------------
-DROP TABLE IF EXISTS `employee_info`;
-CREATE TABLE `employee_info` (
-  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键',
-  `group_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '组ID',
-  `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
-  `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
-  `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
-  `position_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '职位类型 1-客服 2-业务员',
-  `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
-  `password` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录密码',
-  `reception_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '接待标示(0未接待 1 正在接待)',
-  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `delete_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='员工信息表';
-
--- ----------------------------
--- Records of employee_info
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `goods_info`
@@ -129,7 +107,7 @@ DROP TABLE IF EXISTS `goods_info`;
 CREATE TABLE `goods_info` (
   `id` varchar(16) COLLATE utf8_bin NOT NULL,
   `sort_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '种类ID',
-  `type` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类 0:常规商品 1：礼品 2：配售 3：配送 4:兑换',
+  `type` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品分类 0:常规商品 1：赠品 2：配售 3：配送 4:兑换',
   `code` varchar(5) COLLATE utf8_bin DEFAULT NULL COMMENT '商品序号',
   `name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '产品名称',
   `price` decimal(10,0) DEFAULT NULL COMMENT '商品金额',
@@ -621,3 +599,118 @@ CREATE TABLE `sell_goods_detail` (
   PRIMARY KEY (`id`),
   KEY `idx_sell_daily_id` (`sell_daily_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='销售藏品明细表';
+-- ----------------------------
+-- add shiro
+-- ----------------------------
+DROP TABLE IF EXISTS `employee_info`;
+
+CREATE TABLE `employee_info` (
+  `id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '主键',
+  `group_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '组ID',
+  `department_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '部门ID',
+  `organization_id` varchar(16) COLLATE utf8_bin NOT NULL COMMENT '机构ID',
+  `name` varchar(8) COLLATE utf8_bin DEFAULT NULL COMMENT '姓名',
+  `sex` varchar(1) COLLATE utf8_bin NOT NULL COMMENT '性别 1-男 0-女',
+  `staff_number` varchar(15) COLLATE utf8_bin DEFAULT NULL COMMENT '工号',
+  `position_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '职位类型 1-客服 2-业务员',
+  `login_name` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录名称',
+  `password` varchar(20) COLLATE utf8_bin NOT NULL COMMENT '登录密码',
+  `photo_path` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '头像',
+  `reception_flag` varchar(1) COLLATE utf8_bin DEFAULT '0' COMMENT '接待标示(0未接待 1 正在接待)',
+  `status` varchar(1) COLLATE utf8_bin NOT NULL DEFAULT '0' COMMENT '员工状态 0-未禁用 1-已禁用',
+  `create_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `delete_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL,
+  `role_ids` varchar(100) COLLATE utf8_bin DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='员工信息表';
+
+INSERT INTO `employee_info` VALUES ('1','1','1','1','z3','1',null,'1','z3','123123',null,'1','0','2016-12-07 19:11:24','0',NULL),('2','2','1','1','l4','1',null,'0','l4','123123',null,'1','0','2016-12-07 19:16:03','0','1');
+
+--
+-- Table structure for table `sys_organization`
+--
+
+DROP TABLE IF EXISTS `sys_organization`;
+CREATE TABLE `sys_organization` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  `parent_ids` varchar(100) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_sys_organization_parent_id` (`parent_id`),
+  KEY `idx_sys_organization_parent_ids` (`parent_ids`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sys_organization`
+--
+INSERT INTO `sys_organization` VALUES (1,'总公司',0,'0/',1),(2,'分公司1',1,'0/1/',1),(3,'分公司2',1,'0/1/',1),(4,'分公司11',2,'0/1/2/',1);
+
+--
+-- Table structure for table `sys_resource`
+--
+
+DROP TABLE IF EXISTS `sys_resource`;
+CREATE TABLE `sys_resource` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `url` varchar(200) DEFAULT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  `parent_ids` varchar(100) DEFAULT NULL,
+  `permission` varchar(100) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_sys_resource_parent_id` (`parent_id`),
+  KEY `idx_sys_resource_parent_ids` (`parent_ids`)
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `sys_resource`
+--
+INSERT INTO `sys_resource` VALUES (1,'资源','menu','',0,'0/','',1),(2,'我的工作','menu','/job',1,'0/1/','job:*',1),(3,'我的工作入口','button','',2,'0/1/2/','job:button',1),(4,'我的工作:接待访问','button',NULL,2,'0/1/2/','job:reception',1),(5,'回购查询','button',NULL,2,'0/1/2/','job:repurchaseq',1),(6,'回购审批','button',NULL,2,'0/1/2/','job:repurchasec',1),(7,'礼品审批','button',NULL,2,'0/1/2/','job:present',1),(8,'接待入口','button',NULL,1,'0/8/','visit:button',1);
+
+insert into sys_resource values(11, '组织机构管理', 'menu', '/organization', 1, '0/1/', 'organization:*', true);
+insert into sys_resource values(12, '组织机构新增', 'button', '', 11, '0/1/11/', 'organization:create', true);
+insert into sys_resource values(13, '组织机构修改', 'button', '', 11, '0/1/11/', 'organization:update', true);
+insert into sys_resource values(14, '组织机构删除', 'button', '', 11, '0/1/11/', 'organization:delete', true);
+insert into sys_resource values(15, '组织机构查看', 'button', '', 11, '0/1/11/', 'organization:view', true);
+
+insert into sys_resource values(21, '用户管理', 'menu', '/user', 1, '0/1/', 'user:*', true);
+insert into sys_resource values(22, '用户新增', 'button', '', 21, '0/1/21/', 'user:create', true);
+insert into sys_resource values(23, '用户修改', 'button', '', 21, '0/1/21/', 'user:update', true);
+insert into sys_resource values(24, '用户删除', 'button', '', 21, '0/1/21/', 'user:delete', true);
+insert into sys_resource values(25, '用户查看', 'button', '', 21, '0/1/21/', 'user:view', true);
+
+insert into sys_resource values(31, '资源管理', 'menu', '/resource', 1, '0/1/', 'resource:*', true);
+insert into sys_resource values(32, '资源新增', 'button', '', 31, '0/1/31/', 'resource:create', true);
+insert into sys_resource values(33, '资源修改', 'button', '', 31, '0/1/31/', 'resource:update', true);
+insert into sys_resource values(34, '资源删除', 'button', '', 31, '0/1/31/', 'resource:delete', true);
+insert into sys_resource values(35, '资源查看', 'button', '', 31, '0/1/31/', 'resource:view', true);
+
+insert into sys_resource values(41, '角色管理', 'menu', '/role', 1, '0/1/', 'role:*', true);
+insert into sys_resource values(42, '角色新增', 'button', '', 41, '0/1/41/', 'role:create', true);
+insert into sys_resource values(43, '角色修改', 'button', '', 41, '0/1/41/', 'role:update', true);
+insert into sys_resource values(44, '角色删除', 'button', '', 41, '0/1/41/', 'role:delete', true);
+insert into sys_resource values(45, '角色查看', 'button', '', 41, '0/1/41/', 'role:view', true);
+
+--
+-- Table structure for table `sys_role`
+--
+
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `role` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `resource_ids` varchar(100) DEFAULT NULL,
+  `available` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_sys_role_resource_ids` (`resource_ids`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+--
+-- Dumping data for table `sys_role`
+--
+INSERT INTO `sys_role` VALUES (1,'admin','超级管理员','1,3,4,8',1);
+

@@ -35,7 +35,7 @@ public class StringUtil {
 
     public static String getOrderNo() {
         LocalDateTime nowDate = LocalDateTime.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMddHHmmssS");
         return nowDate.format(format);
     }
 

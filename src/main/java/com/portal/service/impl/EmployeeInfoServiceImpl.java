@@ -1,8 +1,11 @@
 package com.portal.service.impl;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import com.portal.common.util.UUidUtil;
 import com.portal.dao.EmployeeInfoDao;
 import com.portal.dao.extra.EmployeeInfoExtraDao;
 import com.portal.service.EmployeeInfoService;
+import com.portal.service.RoleService;
 
 import net.sf.json.JSONObject;
 
@@ -28,9 +32,44 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     @Autowired
     private EmployeeInfoExtraDao employeeExtraDao;
 
+    @Autowired
+    private RoleService roleService;
+
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
     Criteria criteria = new Criteria();
+
+    /**
+     * 根据用户名查找其角色
+     * @param username
+     * @return
+     */
+    public Set<String> findRoles(String username) {
+        EmployeeInfo user = selectByUserName(username);
+        if (user == null) {
+            return Collections.EMPTY_SET;
+        }
+        String roleIdStr[] = user.getRoleIds().split(",");
+        Long roleIdsLong[] = new Long[roleIdStr.length];
+        for (int i = 0; i < roleIdStr.length; i ++) {
+            roleIdsLong[i] = Long.valueOf(roleIdStr[i]);
+        }
+        return roleService.findRoles(roleIdsLong);
+    }
+
+    /**
+     * 根据用户名查找其权限
+     * @param username
+     * @return
+     */
+    public Set<String> findPermissions(String username) {
+        EmployeeInfo user = selectByUserName(username);
+        if (user == null) {
+            return Collections.EMPTY_SET;
+        }
+        //        return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
+        return roleService.findPermissions((Long[]) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
+    }
 
     public EmployeeInfo authentication(String loginName, String password) {
         criteria.clear();
@@ -172,11 +211,6 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         if(StringUtil.isNull(employeeInfo.getOrganizationId())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 所属机构不能为空");
-            return results;
-        }
-        if(StringUtil.isNull(employeeInfo.getPositionId())) {
-            results = JsonUtils.setError();
-            results.put("text", "操作失败, 所属角色不能为空");
             return results;
         }
         if(StringUtil.isNotBlank(employeeInfo.getStaffNumber().trim())) {

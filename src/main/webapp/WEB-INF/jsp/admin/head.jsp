@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <div class="navbar navbar-fixed-top scroll-hide">
   <div class="container-fluid top-bar">
     <div class="pull-right">
 	  <ul class="nav navbar-nav pull-right">
-		<li class="dropdown notifications hidden-xs">
+		<%-- <li class="dropdown notifications hidden-xs">
 		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
 		  	<span aria-hidden="true" class="se7en-flag"></span>
 			<div class="sr-only">Notifications</div>
@@ -92,7 +93,15 @@
 			  <li><a href="#"> <i class="icon-gear"></i>Account Settings</a></li>
 			  <li><a href="login1.html"> <i class="icon-signout"></i>Logout</a></li>
 			</ul>
-		</li>
+		</li> --%>
+		<li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
+	         	你好： <shiro:principal/><b class="caret"></b></a>
+	        <ul class="dropdown-menu">
+	          <li><a href="<%=request.getContextPath() %>/logout">
+	            <i class="icon-signout"></i>退出系统</a>
+	          </li>
+	        </ul>
+	      </li>
 	  </ul>
 	</div>
 	<button class="navbar-toggle">
@@ -101,7 +110,7 @@
 	  <span class="icon-bar"></span>
 	</button>
 	<!-- 系统LOGO -->
-	<a class="logo" href="index-2.html">se7en</a>
+	<!-- <a class="logo" href="index-2.html">se7en</a> -->
 	<!-- 系统全站查询 -->
 	<!-- <form class="navbar-form form-inline col-lg-2 hidden-xs">
 	  <input class="form-control" placeholder="Search" type="text">
@@ -115,16 +124,25 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="login"><span aria-hidden="true" class="icon-home"></span>主页</a>
+		  <a href="${basePath}index"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
 		<li>
-		  <a name="tab" href="${base}admin/employeeManage/toEmployeeManage?active=1"> <span aria-hidden="true" class="icon-user"></span>员工管理</a>
+		  <a name="tab" href="${basePath}admin/resource?active=1"> <span aria-hidden="true" class="icon-user"></span>权限菜单管理</a>
 		</li>
 		<li>
-		  <a name="tab" href="${base}admin/goodsManage/toGoodsMagene?active=2"> <span aria-hidden="true" class="icon-barcode"></span>商品管理</a>
+		  <a name="tab" href="${basePath}admin/organization?active=2"> <span aria-hidden="true" class="icon-user"></span>组织机构管理</a>
+		</li>
+		<li>
+		  <a name="tab" href="${basePath}admin/role?active=3"> <span aria-hidden="true" class="icon-user"></span>角色管理</a>
+		</li>
+		<li>
+		  <a name="tab" href="${basePath}admin/employeeManage/toEmployeeManage?active=4"> <span aria-hidden="true" class="icon-user"></span>员工管理</a>
+		</li>
+		<li>
+		  <a name="tab" href="${basePath}admin/goodsManage/toGoodsMagene?active=5"> <span aria-hidden="true" class="icon-barcode"></span>商品管理</a>
 		</li>
 		<%-- <li>
-		  <a name="tab" href="${base}admin/customerManage/toCustomerManage?active=2"> <span aria-hidden="true" class="icon-barcode"></span>客户信息管理</a>
+		  <a name="tab" href="${basePath}admin/customerManage/toCustomerManage?active=6"> <span aria-hidden="true" class="icon-barcode"></span>客户信息管理</a>
 		</li> --%>
 	  </ul>
 	</div>

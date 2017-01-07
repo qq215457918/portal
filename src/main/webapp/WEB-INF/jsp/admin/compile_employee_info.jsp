@@ -67,7 +67,7 @@
                              </div>
                              
                              <div class="col-md-6">
-                                    <div class="form-group">
+                                 <div class="form-group">
                                    <label >工号</label>
                                    <input class="form-control" id="staffNumber" name="staffNumber" type="text" value="${employee.staffNumber}" >
                                  </div>
@@ -99,9 +99,12 @@
                                      </select>
                                  </div>
                                  <div class="form-group">
-                                     <label>所属岗位  &nbsp;</label><i class="icon-star"></i>
-                                     <select class="form-control" id="positionId" name="positionId">
+                                     <label>关联角色</label><i class="icon-star"></i>
+                                     <select class="form-control" id="roleIds" name="roleIds">
                                          <option value="">请选择</option>
+                                         <c:forEach items="${roleList}" var="role">
+                                             <option value="${role.id}" <c:if test="${employee.roleIds eq role.id }">selected="selected"</c:if>>${role.description}</option>
+                                         </c:forEach>
                                      </select>
                                  </div>
                               </div>

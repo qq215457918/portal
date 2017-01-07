@@ -12,6 +12,21 @@ public class EmployeeInfo implements Serializable {
     private String id;
 
     /**
+     * 组ID
+     */
+    private String groupId;
+
+    /**
+     * 部门ID
+     */
+    private String departmentId;
+
+    /**
+     * 机构ID
+     */
+    private String organizationId;
+
+    /**
      * 姓名
      */
     private String name;
@@ -27,6 +42,11 @@ public class EmployeeInfo implements Serializable {
     private String staffNumber;
 
     /**
+     * 职位类型 1-客服 2-接待
+     */
+    private String positionType;
+
+    /**
      * 登录名称
      */
     private String loginName;
@@ -35,31 +55,6 @@ public class EmployeeInfo implements Serializable {
      * 登录密码
      */
     private String password;
-
-    /**
-     * 机构ID
-     */
-    private String organizationId;
-
-    /**
-     * 部门ID
-     */
-    private String departmentId;
-
-    /**
-     * 组ID
-     */
-    private String groupId;
-
-    /**
-     * 岗位角色ID
-     */
-    private String positionId;
-
-    /**
-     * 职位类型 1-客服 2-接待
-     */
-    private String positionType;
 
     /**
      * 头像
@@ -83,6 +78,8 @@ public class EmployeeInfo implements Serializable {
      */
     private String deleteFlag;
 
+    private String roleIds;
+
     /**
      * @return 主键
      */
@@ -96,6 +93,51 @@ public class EmployeeInfo implements Serializable {
      */
     public void setId(String id) {
         this.id = id;
+    }
+
+    /**
+     * @return 组ID
+     */
+    public String getGroupId() {
+        return groupId;
+    }
+
+    /**
+     * @param groupId 
+	 *            组ID
+     */
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    /**
+     * @return 部门ID
+     */
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    /**
+     * @param departmentId 
+	 *            部门ID
+     */
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    /**
+     * @return 机构ID
+     */
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    /**
+     * @param organizationId 
+	 *            机构ID
+     */
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
     }
 
     /**
@@ -144,6 +186,21 @@ public class EmployeeInfo implements Serializable {
     }
 
     /**
+     * @return 职位类型 1-客服 2-接待
+     */
+    public String getPositionType() {
+        return positionType;
+    }
+
+    /**
+     * @param positionType 
+	 *            职位类型 1-客服 2-接待
+     */
+    public void setPositionType(String positionType) {
+        this.positionType = positionType;
+    }
+
+    /**
      * @return 登录名称
      */
     public String getLoginName() {
@@ -171,81 +228,6 @@ public class EmployeeInfo implements Serializable {
      */
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    /**
-     * @return 机构ID
-     */
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    /**
-     * @param organizationId 
-	 *            机构ID
-     */
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    /**
-     * @return 部门ID
-     */
-    public String getDepartmentId() {
-        return departmentId;
-    }
-
-    /**
-     * @param departmentId 
-	 *            部门ID
-     */
-    public void setDepartmentId(String departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    /**
-     * @return 组ID
-     */
-    public String getGroupId() {
-        return groupId;
-    }
-
-    /**
-     * @param groupId 
-	 *            组ID
-     */
-    public void setGroupId(String groupId) {
-        this.groupId = groupId;
-    }
-
-    /**
-     * @return 岗位角色ID
-     */
-    public String getPositionId() {
-        return positionId;
-    }
-
-    /**
-     * @param positionId 
-	 *            岗位角色ID
-     */
-    public void setPositionId(String positionId) {
-        this.positionId = positionId;
-    }
-
-    /**
-     * @return 职位类型 1-客服 2-接待
-     */
-    public String getPositionType() {
-        return positionType;
-    }
-
-    /**
-     * @param positionType 
-	 *            职位类型 1-客服 2-接待
-     */
-    public void setPositionType(String positionType) {
-        this.positionType = positionType;
     }
 
     /**
@@ -314,5 +296,13 @@ public class EmployeeInfo implements Serializable {
      */
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;
+    }
+
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
     }
 }

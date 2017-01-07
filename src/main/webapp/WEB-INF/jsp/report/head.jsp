@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <div class="navbar navbar-fixed-top scroll-hide">
   <div class="container-fluid top-bar">
     <div class="pull-right">
@@ -94,7 +95,7 @@
 			</ul>
 		</li> --%>
 		<li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-	         	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
+	         	你好： <shiro:principal/> <b class="caret"></b></a>
 	        <ul class="dropdown-menu">
 	          <li><a href="<%=request.getContextPath() %>/logout">
 	            <i class="icon-signout"></i>退出系统</a>
@@ -123,7 +124,7 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="login"><span aria-hidden="true" class="icon-home"></span>主页</a>
+		  <a href="${base}index"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
 		<li class="dropdown">
 		  <a data-toggle="dropdown" href="#"> 

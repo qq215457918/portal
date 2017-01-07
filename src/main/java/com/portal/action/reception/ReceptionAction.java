@@ -8,8 +8,7 @@ import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/visit")
 public class ReceptionAction {
-    private final Logger logger = LoggerFactory.getLogger(ReceptionAction.class);
+    //    private final Logger logger = LoggerFactory.getLogger(ReceptionAction.class);
 
     @Autowired
     protected ReceptionInfoService receptionInfoService;
@@ -38,6 +37,7 @@ public class ReceptionAction {
      * @param response
      * @return
      */
+    @RequiresPermissions("visit:button")
     @RequestMapping(value = "/query")
     public String queryCustomer(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);

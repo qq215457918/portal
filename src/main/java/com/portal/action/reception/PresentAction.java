@@ -77,13 +77,6 @@ public class PresentAction {
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
-    @RequestMapping(value = "/query")
-    public String checkList(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
-        WebUtils.setAttributeToSession(request);
-        return "myjob/present_check";
-    }
-
     /**
      * 查询需要确认的礼品单
      * order_type = 4 赠品  6 VIP赠品
