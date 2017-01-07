@@ -8,10 +8,10 @@ $(document).ready(function(){
 		$('#financeOrderExam').dataTable().fnDraw();
 	});
 	
-	$('#outNoTake').click(function(){
-		$('#hasPayInfo').show();
+	$('#outgoing').click(function(){
+		$('#outgoingInfo').show();
 //		$('#outgoingInfo').jqprint();
-		$("#hasPayInfo").print({
+		$("#outgoingInfo").print({
 	        globalStyles: true,
 	        mediaPrint: false,
 	        stylesheet: null,
@@ -48,7 +48,7 @@ $(document).ready(function(){
 	
 	// 关闭madel窗口隐藏打印条目
 	$('#printInfo').on('hidden.bs.modal', function () {
-		$('#hasPayInfo').hide();
+		$('#outgoingInfo').hide();
 		$('#receiveMoneyInfo').hide();
 	});
 	
@@ -175,10 +175,16 @@ $(document).on('click', '#toPrint', function () {
 				var payPriceCN = data[0].payPriceCN;
 				var today = data[0].today;
 				var payTypeName = data[0].payTypeName;
+				var receiveMoneyHtml = '';
 				var outgoingHtml = '';
-				var hasPayInfoHtml = '';
 				
 				for(var i in data){
+					receiveMoneyHtml += '<tr><td>' + data[i].goodName + '</td>';
+					receiveMoneyHtml += '<td>' + data[i].amount + '</td>';
+					receiveMoneyHtml += '<td>件</td>';
+					receiveMoneyHtml += '<td>' + data[i].price + '</td>';
+					receiveMoneyHtml += '<td>' + actualPrice + '</td></tr>';
+					
 					outgoingHtml += '<tr><td>' + data[i].goodName + '</td>';
 					outgoingHtml += '<td>' + data[i].amount + '</td>';
 					outgoingHtml += '<td>' + data[i].price + '</td>';
@@ -186,12 +192,14 @@ $(document).on('click', '#toPrint', function () {
 					outgoingHtml += '<td>' + payTypeName + '</td>';
 					outgoingHtml += '<td></td>';
 					outgoingHtml += '<td></td></tr>';
-					
-					hasPayInfoHtml += '<tr><td>' + data[i].goodName + '</td>';
-					hasPayInfoHtml += '<td>' + data[i].amount + '</td>';
-					hasPayInfoHtml += '<td>件</td>';
-					hasPayInfoHtml += '<td>' + actualPrice + '</td></tr>';
 				} 
+				
+				$('#receiveMoneyInfo span[name=customerName]').html('客户：' + customerName);
+				$('#receiveMoneyInfo span[name=today]').html('日期：' + today);
+				$('#receiveMoneyInfo tbody[name=detail]').html(receiveMoneyHtml);
+				$('#receiveMoneyInfo td[name=priceCn]').html(payPriceCN);
+				$('#receiveMoneyInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
+				$('#receiveMoneyInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
 				
 				$('#outgoingInfo span[name=customerName]').html('客户：' + customerName);
 				$('#outgoingInfo span[name=today]').html('日期：' + today);
@@ -199,13 +207,6 @@ $(document).on('click', '#toPrint', function () {
 				$('#outgoingInfo td[name=remark]').html(remark);
 				$('#outgoingInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
 				$('#outgoingInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
-				
-				$('#hasPayInfo span[name=customerName]').html('客户：' + customerName);
-				$('#hasPayInfo span[name=today]').html('日期：' + today);
-				$('#hasPayInfo tbody[name=detail]').html(hasPayInfoHtml);
-				$('#hasPayInfo td[name=remark]').html(remark);
-				$('#hasPayInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
-				$('#hasPayInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
 			}
 		}
 	})

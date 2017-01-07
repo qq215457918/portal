@@ -8,6 +8,44 @@ $(document).ready(function(){
 		$('#financeOrderExam').dataTable().fnDraw();
 	});
 	
+	$('#collect').click(function(){
+		$('#collectInfo').show();
+//		$('#outgoingInfo').jqprint();
+		$("#collectInfo").print({
+			globalStyles: true,
+			mediaPrint: false,
+			stylesheet: null,
+			noPrintSelector: ".no-print",
+			iframe: true,
+			append: null,
+			prepend: null,
+			manuallyCopyFormValues: true,
+			deferred: $.Deferred(),
+			timeout: 750,
+			title: null,
+			doctype: '<!doctype html>'
+		});
+	});
+	
+	$('#outNoTake').click(function(){
+		$('#hasPayInfo').show();
+//		$('#outgoingInfo').jqprint();
+		$("#hasPayInfo").print({
+	        globalStyles: true,
+	        mediaPrint: false,
+	        stylesheet: null,
+	        noPrintSelector: ".no-print",
+	        iframe: true,
+	        append: null,
+	        prepend: null,
+	        manuallyCopyFormValues: true,
+	        deferred: $.Deferred(),
+	        timeout: 750,
+	        title: null,
+	        doctype: '<!doctype html>'
+		});
+	});	
+	
 	$('#outgoing').click(function(){
 		$('#outgoingInfo').show();
 //		$('#outgoingInfo').jqprint();
@@ -47,6 +85,7 @@ $(document).ready(function(){
 	});
 	
 	$('#printInfo').on('hidden.bs.modal', function () {
+		$('#collectInfo').hide();
 		$('#outgoingInfo').hide();
 		$('#receiveMoneyInfo').hide();
 	});
@@ -105,6 +144,8 @@ $(document).on('click', '#toPrint', function () {
 				var payTypeName = data[0].payTypeName;
 				var outgoingHtml = '';
 				var receiveMoneyHtml = '';
+				var hasPayInfoHtml = '';
+				var collectHtml = '';
 				
 				for(var i in data){
 					outgoingHtml += '<tr><td>' + data[i].goodName + '</td>';
@@ -115,12 +156,27 @@ $(document).on('click', '#toPrint', function () {
 					outgoingHtml += '<td></td>';
 					outgoingHtml += '<td></td></tr>';
 					
+					hasPayInfoHtml += '<tr><td>' + data[i].goodName + '</td>';
+					hasPayInfoHtml += '<td>' + data[i].amount + '</td>';
+					hasPayInfoHtml += '<td>件</td>';
+					hasPayInfoHtml += '<td>' + actualPrice + '</td></tr>';
+					
+					collectHtml += '<tr><td>' + data[i].goodName + '</td>';
+					collectHtml += '<td>' + data[i].amount + '</td>';
+					collectHtml += '<td>件</td>';
+					collectHtml += '<td>' + data[i].price + '</td>';
+					collectHtml += '<td></td><td></td><td></td><td></td><td>';
+					collectHtml += '</td><td></td><td></td><td></td><td></td></tr>';
+					
 					receiveMoneyHtml += '<tr><td>' + data[i].goodName + '</td>';
 					receiveMoneyHtml += '<td>' + data[i].amount + '</td>';
 					receiveMoneyHtml += '<td>件</td>';
 					receiveMoneyHtml += '<td>' + data[i].price + '</td>';
 					receiveMoneyHtml += '<td>' + actualPrice + '</td></tr>';
 				} 
+				
+				$('#collectInfo tbody[name=detail]').html(collectHtml);
+				$('#collectInfo td[name=remark]').html(payPriceCN);
 				
 				$('#outgoingInfo span[name=customerName]').html('客户：' + customerName);
 				$('#outgoingInfo span[name=today]').html('日期：' + today);
@@ -131,10 +187,17 @@ $(document).on('click', '#toPrint', function () {
 				
 				$('#receiveMoneyInfo span[name=customerName]').html('客户：' + customerName);
 				$('#receiveMoneyInfo span[name=today]').html('日期：' + today);
-					$('#receiveMoneyInfo tbody[name=detail]').html(receiveMoneyHtml);
+				$('#receiveMoneyInfo tbody[name=detail]').html(receiveMoneyHtml);
 				$('#receiveMoneyInfo td[name=priceCn]').html(payPriceCN);
 				$('#receiveMoneyInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
 				$('#receiveMoneyInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
+				
+				$('#hasPayInfo span[name=customerName]').html('客户：' + customerName);
+				$('#hasPayInfo span[name=today]').html('日期：' + today);
+				$('#hasPayInfo tbody[name=detail]').html(hasPayInfoHtml);
+				$('#hasPayInfo td[name=remark]').html(remark);
+				$('#hasPayInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
+				$('#hasPayInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
 			}
 		}
 	})

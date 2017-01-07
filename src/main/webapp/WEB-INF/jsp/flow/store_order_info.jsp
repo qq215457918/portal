@@ -65,8 +65,8 @@
 						选择单一模版
                     </h4>
                     <p>
-                    	<button class="btn btn-primary" type="button" id="outgoing">出库单</button>
-<!-- 						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button> -->
+                    	<button class="btn btn-primary" type="button" id="collect">收藏票</button>
+						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button>
 <!-- 						<button class="btn btn-primary" type="button" id="receiveMoney">收款收据</button> -->
                     </p>
 				</div>
@@ -77,24 +77,46 @@
 		</div>
 	</div>
 	
-	<div id="outgoingInfo" style="display:none;">
-		<div class="tc"><h3>出库单</h3></div>
+	<div id="collectInfo" style="display:none;">
+		<div class="tc"><h3>国韵典藏文化中心</h3></div>
+		<div style="width: 40%;margin-left: 46%;"><span name="customerName">专用收藏票</div>
+		<div class="table-margin">
+			<table border="1">
+				<tr>
+					<th rowspan="2">藏品名称</th>
+					<th rowspan="2">数量</th>
+					<th rowspan="2">单位</th>
+					<th rowspan="2">单价（元）</th>
+					<th colspan="9">金额</th>
+				</tr>
+				<tr>
+					<th>佰</th><th>拾</th><th>万</th><th>仟</th><th>佰</th><th>拾</th><th>元</th><th>角</th><th>分</th>
+				</tr>
+				<tbody name="detail"></tbody>
+				<tr>
+					<td>大写金额：</td>
+					<td colspan="13" name="remark"></td>
+				</tr>
+			</table>
+		</div>
+		<div class="text-left"><span name="receiverStaffName">开票人：</span></div>
+	</div>
+	
+	<div id="hasPayInfo" style="display:none;">
+		<div class="tc"><h3>全款已付货未取</h3></div>
 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div>
 		<div class="table-margin">
 			<table border="1">
 				<tr>
-					<th>商品名称</th>
-					<th>数量</th>
-					<th>单价</th>
-					<th class="print-width50">金额</th>
-					<th>支付方式</th>
-					<th>手续费</th>
-					<th class="print-width50">备注</th>
+					<th style="width:150px;">商品名称</th>
+					<th style="width:150px;">单位</th>
+					<th style="width:150px;">数量</th>
+					<th style="width:150px;">金额</th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
 					<td>备注：</td>
-					<td colspan="7" name="remark"></td>
+					<td colspan="4" name="remark"></td>
 				</tr>
 			</table>
 		</div>
