@@ -29,14 +29,14 @@ $(function() {
 		var count = $('#applyCount').val();
 		var reason = $('#applyReason').val();
 		var goodId = $('#applyGoods').val();
-		//window.location.href=base+"/present/review?reason="+reason;
 		$.ajax({
 			method : "POST",
 			url : base+"/present/review",
 			data : {
 				"reason" : reason,
 				"count" : count,
-				"goodId" : goodId
+				"goodId" : goodId,
+				"isVIP" : true
 			},
 			dataType : "JSON",
 			success : function(data) {
@@ -55,9 +55,6 @@ $(function() {
 		});
 	});
 });
-
-
-
 
 
 function numControl(){
@@ -176,7 +173,7 @@ function getModalContent(type){
 				item+="<td>"+goodsForm.price+"</td>";
 				item+="<td>"+goodsForm.unit+"</td>";
 				item+="<td>"+goodsForm.amount+"</td>";
-				item+="<td><label class='checkbox-inline' style='padding-top:0px;margin-right:0px'><input type='checkbox' name='row_checkbox' id=check"+goodsForm.id+"><span></span></label></td></tr>";
+				item+="<td><label class='checkbox-inline' style='padding-top:0px;margin-right:0px'><input type='checkbox' name='row_checkbox' id='check"+goodsForm.id+"'><span></span></label></td></tr>";
 			});
 			$('#modal-data').append(item);
 			$('#myGoods').modal('show');
@@ -190,7 +187,8 @@ function getModalContent(type){
 }
 
 function addOtherGoods(){
-	if($('input[name="row_checkbox"]').prop('checked')==true){
+	//if($('input[name="row_checkbox"]').prop('checked')==true){
+	if($("input[name=row_checkbox]:checked").length > 0){
 		$("input[name=row_checkbox]:checked").each(function(){ 
 		    var id = $(this).attr("id");
 		    addGoodsDiv(id.substr(5,id.length), $(this).parent().parent().prev().prev().prev().prev().html(),$(this).parent().parent().prev().prev().prev().html());

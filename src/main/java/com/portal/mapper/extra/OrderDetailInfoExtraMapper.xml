@@ -16,6 +16,8 @@
     <result column="update_id" property="updateId" jdbcType="VARCHAR" />
     <result column="create_date" property="createDate" jdbcType="VARCHAR" />
     <result column="total_price" property="totalPrice" jdbcType="VARCHAR" />
+    <result column="visit_gift_counts" property="visitGiftCounts" jdbcType="INTEGER" />
+    <result column="vip_gift_counts" property="vipGiftCounts" jdbcType="INTEGER" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -65,6 +67,9 @@
       <if test="condition.endDate != null" >
       	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
+      <if test="condition.area != null" >
+         and c.area = #{condition.area,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   
@@ -112,6 +117,61 @@
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <!-- 根据条件获取赠品明细总条数 -->
+  <select id="getGiftDetailCounts" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(1) from (
+		select odi.good_name
+		from order_detail_info odi 
+		left join order_info o on odi.order_id = o.id
+		left join customer_info c on o.customer_id = c.id
+		<if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+		and (o.order_type = '6' or o.order_type = '4')
+		group by odi.good_name
+	) a
+  </select>
+  
+  <!-- 根据条件获取赠品明细 -->
+  <select id="getGiftDetail" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select 
+        odi.good_name as good_name,
+        (
+            select 
+                sum(amount)
+            from order_detail_info od 
+            left join order_info o on od.order_id = o.id
+            left join customer_info c on o.customer_id = c.id
+            <if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		    </if>
+            and o.order_type = '4'
+            and od.good_name = odi.good_name
+        ) as visit_gift_counts,
+        (
+            select 
+                sum(amount)
+            from order_detail_info od 
+            left join order_info o on od.order_id = o.id
+            left join customer_info c on o.customer_id = c.id
+            <if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		    </if>
+            and o.order_type = '6'
+            and od.good_name = odi.good_name
+        ) as vip_gift_counts
+    from order_detail_info odi 
+    left join order_info o on odi.order_id = o.id
+    left join customer_info c on o.customer_id = c.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    and (o.order_type = '6' or o.order_type = '4')
+    group by odi.good_name
+    order by CONVERT(odi.good_name USING gbk)
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   

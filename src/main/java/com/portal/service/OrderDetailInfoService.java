@@ -52,4 +52,16 @@ public interface OrderDetailInfoService {
 	 * @throws
 	 */
 	List<OrderDetailInfo> selectOrderInfoById(Map<String, Object> param);
+	
+	/**
+     * @Title: ajaxGiftDetail 
+     * @Description: 异步获取赠品明细数据
+     * @param request
+     * @param results
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:11:20 
+     * @version V1.0
+     */
+    JSONObject ajaxGiftDetail(HttpServletRequest request, JSONObject results);
 }

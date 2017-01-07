@@ -73,10 +73,13 @@
 	                   	<th colspan="3">成单个数</th>
 	                   	<th colspan="3">重复个数</th>
 	                   	<th colspan="3">说明会个数</th>
+	                   	<th colspan="3">新客户个数</th>
 	                   	<th colspan="3">合计个数</th>
-	                   	<th rowspan="2">新客户数</th>
 					</tr>
 					<tr>
+	                   	<th>个数</th>
+	                   	<th>单数</th>
+	                   	<th>业绩</th>
 	                   	<th>个数</th>
 	                   	<th>单数</th>
 	                   	<th>业绩</th>

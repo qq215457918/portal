@@ -9,6 +9,8 @@
     <result column="receiver_area" property="receiverArea" jdbcType="VARCHAR" />
     <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
     <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
+    <result column="new_orders" property="newOrders" jdbcType="INTEGER" />
+    <result column="new_amounts" property="newAmounts" jdbcType="INTEGER" />
     <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
     <result column="repeat_orders" property="repeatOrders" jdbcType="INTEGER" />
     <result column="repeat_amounts" property="repeatAmounts" jdbcType="INTEGER" />
@@ -89,9 +91,9 @@
   
   <sql id="Base_Column_List" >
     id, report_date, receiver_staff_id, receiver_staff_name, receiver_area, customer_counts, 
-    new_counts, repeat_counts, repeat_orders, repeat_amounts, roadshow_counts, roadshow_orders, 
-    roadshow_amounts, finish_order_counts, finish_orders, finish_amounts, locked_counts, 
-    locked_orders, locked_amounts
+    new_counts, new_orders, new_amounts, repeat_counts, repeat_orders, repeat_amounts, 
+    roadshow_counts, roadshow_orders, roadshow_amounts, finish_order_counts, finish_orders, 
+    finish_amounts, locked_counts, locked_orders, locked_amounts
   </sql>
   
   <!-- 根据条件查询数据总条数 -->
@@ -187,10 +189,12 @@
         sum(v.roadshow_counts) as roadshow_counts,
         sum(v.roadshow_orders) as roadshow_orders,
         sum(v.roadshow_amounts) as roadshow_amounts,
-        (sum(v.locked_counts) + sum(v.finish_order_counts) + sum(v.repeat_counts) + sum(v.roadshow_counts)) as total_counts,
-        (sum(v.locked_orders) + sum(v.finish_orders) + sum(v.repeat_orders) + sum(v.roadshow_orders)) as total_orders,
-        (sum(v.locked_amounts) + sum(v.finish_amounts) + sum(v.repeat_amounts) + sum(v.roadshow_amounts)) as total_amounts,
-        sum(v.new_counts) as new_counts
+		sum(v.new_counts) as new_counts,
+		sum(v.new_orders) as new_orders,
+        sum(v.new_amounts) as new_amounts,
+        (sum(v.locked_counts) + sum(v.finish_order_counts) + sum(v.repeat_counts) + sum(v.roadshow_counts) + sum(v.new_counts)) as total_counts,
+        (sum(v.locked_orders) + sum(v.finish_orders) + sum(v.repeat_orders) + sum(v.roadshow_orders) + sum(v.new_orders)) as total_orders,
+        (sum(v.locked_amounts) + sum(v.finish_amounts) + sum(v.repeat_amounts) + sum(v.roadshow_amounts) + sum(v.new_amounts)) as total_amounts
     from employee_info e
     left join visit_report_info v on e.id = v.receiver_staff_id
     <if test="_parameter != null" >

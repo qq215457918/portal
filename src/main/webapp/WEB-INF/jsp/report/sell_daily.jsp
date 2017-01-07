@@ -43,10 +43,15 @@
 		      </div>
 			</div>
 			<div style="clear: both;"></div>
-			
-			<table class="table table-bordered" id="sellDaily">
-			
-			</table>
+			<form id="form" action="report/saveSellDaily" method="post">
+				<input type="hidden" name="area" />
+				<table class="table table-bordered" id="sellDaily">
+				
+				</table>
+				<div style="float: right;">
+			        <button class="btn btn-primary" id="saveSell" style="display: none;">保&nbsp;存</button>
+			    </div>
+			</form>
 	      </div>
 	    </div>
 	  </div>

@@ -67,7 +67,7 @@
 			<!-- end DataTables Example -->
 
             </div>
-            <!--add myModal statr-->
+            <!--add myModal start-->
             <div class="widget-content padded">
               <a class="btn btn-primary btn" onclick='openDelivery();'>配 送</a>
               <a class="btn btn-warning btn" onclick='openPlacing();'>配 售</a>

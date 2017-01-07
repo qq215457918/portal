@@ -4,10 +4,14 @@ import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
+import com.portal.bean.SellDailyDetail;
+import com.portal.bean.SellGoodsDetail;
 import com.portal.bean.result.GoodsInfoForm;
 import com.portal.bean.result.OrderDetailInfoForm;
+import com.portal.bean.result.OrderFundSettlementForm;
 import com.portal.bean.result.OrderInfoForm;
 import com.portal.bean.result.OrderInfoFormNew;
+import com.portal.bean.result.SellDailyInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
@@ -16,6 +20,7 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.GoodsDao;
 import com.portal.dao.extra.OrderDetailInfoExtraDao;
 import com.portal.dao.extra.OrderInfoExtraDao;
+import com.portal.dao.extra.SellDailyInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
@@ -59,6 +64,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     @Autowired
     private OrderDetailInfoService orderDetailInfoService;
 
+    @Autowired
+    private SellDailyInfoExtraDao sellDailyInfoExreaDao;
+
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
@@ -71,10 +79,87 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return
      */
     public int updateRepurchaseOrder(HttpServletRequest request) {
-        OrderInfo record = new OrderInfo();
-        record.setId(request.getParameter("orderId"));
-        record.setStatus("0");// 6 回购待确认 ->1 未支付
-        return updateByPrimaryKeySelective(record);
+        //        OrderInfo record = new OrderInfo();
+        //        record.setId(request.getParameter("orderId"));
+        //        record.setStatus("0");// 7 回购待确认 ->1 未支付
+        //        return updateByPrimaryKeySelective(record);
+        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
+        orderInfo.setOrderType("5");// 5 回购确认完毕
+        orderInfoDao.updateByPrimaryKey(orderInfo);
+
+        detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
+        detailInfo.setOrderType("5");// 5 回购确认完毕
+        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+    }
+
+    /**
+     * 审批回购确认
+     * 找到DetailOrder的信息把状态改为 order_type = 5 
+     * @param request
+     * @return
+     */
+    public int updateConfirmRepurchase(HttpServletRequest request) {
+        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
+        orderInfo.setOrderType("5");
+        orderInfoDao.updateByPrimaryKey(orderInfo);
+
+        detailInfo.setOrderType("5");// 5 待回购
+        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+    }
+
+    /**
+     * 待回购确认
+     * 找到DetailOrder的信息把状态改为 order_type = 6 
+     * @param request
+     * @return
+     */
+    public int updateNormalRepurchase(HttpServletRequest request) {
+        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        detailInfo.setId(request.getParameter("detailId"));
+        detailInfo.setOrderType("7");// 6 回购待确认
+        detailInfo.setOldPrice(detailInfo.getPrice());
+        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+    }
+
+    /**
+     * 新增 一条带回购的订单order_info，订单状态为 order_type = 7 
+     *  
+     * @param request
+     * @return
+     */
+    public int updateSpecialRepurchase(HttpServletRequest request) {
+        String receiverStaffId = request.getSession().getAttribute("userId").toString();
+        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
+        OrderInfo orderInfoNew = new OrderInfo();
+        String UUid = UUidUtil.getUUId();
+        orderInfoNew.setId(UUid);
+        orderInfoNew.setCustomerId(request.getParameter("customerId"));
+        orderInfoNew.setOrderType("7");
+        orderInfoNew.setPayType("0");
+        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
+        orderInfoNew.setReceiverStaffId(receiverStaffId);
+        orderInfoNew.setPhoneStaffId(orderInfo.getPhoneStaffId());
+        orderInfoNew.setStatus("4");
+        //输入回购金额 price
+        orderInfoNew.setPayPrice(Long.valueOf(request.getParameter("price")));
+        orderInfoNew.setActualPrice(0L);
+        orderInfoNew.setRemarks(request.getParameter("reason"));
+        orderInfoNew.setCreateDate(new Date());
+        orderInfoNew.setCreateId(receiverStaffId);
+        orderInfoNew.setDeleteFlag("0");
+        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
+        orderInfoDao.insertSelective(orderInfoNew);
+
+        detailInfo.setOldOrderId(detailInfo.getOrderId());
+        detailInfo.setOrderId(UUid);
+        detailInfo.setOrderType("7");
+        detailInfo.setOldPrice(detailInfo.getPrice());
+        detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
+        detailInfo.setAmount(Integer.valueOf(request.getParameter("count")));
+        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
     }
 
     /**
@@ -103,6 +188,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     public boolean updateOrderReturn(HttpServletRequest request) {
         boolean result = false;
+        String cid = request.getSession().getAttribute("cId").toString();
         String receiverStaffId = request.getSession().getAttribute("userId").toString();
         OrderDetailInfo detailInfo =
                 orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
@@ -110,6 +196,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String UUid = UUidUtil.getUUId();
         OrderInfo orderInfoNew = new OrderInfo();
         orderInfoNew.setId(UUid);
+        orderInfoNew.setCustomerId(cid);
+        orderInfoNew.setPayType("0");
+        orderInfoNew.setOrderType("2");
         orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
         orderInfoNew.setReceiverStaffId(receiverStaffId);
         orderInfoNew.setPhoneStaffId(orderInfo.getPhoneStaffId());
@@ -350,22 +439,63 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 插入订单信息
+     * 
+     *modify： 修改为可以拆单，把礼物的商品单独拿出来，生成订单。
+     *1.首先判断订单里面是否有礼品
+     *2.如果 有则 吧good_info 里面的赠品信息拿出
+     *3.生成单独的礼品处理方法类
+     * @throws InterruptedException 
      */
     public boolean insertOrder(HttpServletRequest request) {
         //goodInfo=" + goodInfo + "&totalPrice="+totalPrice+"&submitType="+
         String uuid = UUidUtil.getUUId();
+        String puuid = UUidUtil.getUUId();//赠品的单独订单
         request.getSession().getAttribute("");
-        insertSelective(
-                insertOrderInfo(request.getParameter("cid"),
-                        request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
-                        request.getParameter("amount")));
-
         JSONArray json = JSONArray.fromObject(request.getParameter("goodInfo"));
+        boolean hasGoods = false;
+        boolean hasPresent = false;
+        Long amount = 0L;
+        String cid = request.getParameter("cid");
         if (json.size() > 0) {
             for (int i = 0; i < json.size(); i ++) {
                 JSONObject job = json.getJSONObject(i);
-                insertPresentDetailInfo(//查询商品信息插入到订单详情表中
-                        getOrderDetailInfo(job.get("id").toString(), job.get("num").toString().trim(), uuid));
+                String goodID = job.get("id").toString();
+                //通过查询goodID 查看goodType
+                GoodsInfoForm goodsInfo = goodsDao.selectByPrimaryKey(goodID);
+                if (goodsInfo == null) {
+                    return false;
+                }
+                //if goodType=1：赠品单独插入赠品表 
+                if (goodsInfo.getType().equals("1")) {
+                    hasPresent = true;
+                    insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
+                            getOrderDetailInfo(goodID, job.get("num").toString().trim(), puuid,
+                                    "6"));//6 为VIP赠品
+                } else {//其他类型单独插入goodType
+                    hasGoods = true;
+                    amount += Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
+                    insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
+                            getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
+                                    "1"));//1 为正常订单
+                }
+            }
+
+            if (hasPresent) {
+                insertSelective(
+                        insertOrderInfo(cid,
+                                request.getParameter("submitType").equals("deposit") ? "1" : "0", puuid,
+                                0L));//礼品的订单金额为0
+            }
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                logger.warn("Unexpected exception:", e);
+            }
+            if (hasGoods) {
+                insertSelective(
+                        insertOrderInfo(cid,
+                                request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
+                                amount));
             }
         }
         return true;
@@ -377,12 +507,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param uuid
      * @return
      */
-    OrderInfo insertOrderInfo(String cid, String payType, String uuid, String amount) {
+    OrderInfo insertOrderInfo(String cid, String payType, String uuid, Long amount) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setOrderNumber(StringUtil.getOrderNo());
         orderInfo.setPayType(payType);
-        orderInfo.setPayPrice(Long.parseLong(amount));
+        orderInfo.setPayPrice(amount);
         orderInfo.setCustomerId(cid);
         orderInfo.setOrderType("1");
         orderInfo.setStatus("0");
@@ -396,12 +526,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     /**
-     * add present 2 order_info for review
+     * 提交需要审批的礼品信息
+     * order_type=6 vip 赠品
      */
-    public boolean insertPresentOrder(HttpServletRequest request, int normalFlag) {
+    public boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP) {
         criteria.clear();
         String uuid = UUidUtil.getUUId();
-        insertSelective(getPresentOrderInfo(request, uuid, normalFlag));
+        insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
         //修改可以提交多个赠品
         String goodStr = request.getParameter("goodId");
         String count = request.getParameter("count");
@@ -409,14 +540,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
             for (String goodId : goodArr) {
                 insertPresentDetailInfo(
-                        getOrderDetailInfo(goodId.substring(5, goodId.length()), count, uuid));
+                        getOrderDetailInfo(goodId.substring(5, goodId.length()), count, uuid, "6"));
             }
         } else {
             // insertPresentDetailInfo(
             //        getOrderDetailInfo(goodStr.substring(5, goodStr.length()), count, uuid));
 
             insertPresentDetailInfo(
-                    getOrderDetailInfo(goodStr, count, uuid));
+                    getOrderDetailInfo(goodStr, count, uuid, "6"));
         }
 
         return true;
@@ -426,7 +557,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * ready for orderdetailInfo
      * add goodID count
      */
-    OrderDetailInfo getOrderDetailInfo(String goodId, String count, String uuid) {
+    OrderDetailInfo getOrderDetailInfo(String goodId, String count, String uuid, String orderType) {
         OrderDetailInfo detailInfo = new OrderDetailInfo();
         GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(goodId);
         detailInfo.setId(UUidUtil.getUUId());
@@ -438,7 +569,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setPrice(goodInfo.getPrice());
         detailInfo.setGoodName(goodInfo.getName());
         detailInfo.setDeleteFlag("0");
-        detailInfo.setOrderType("1");
+        detailInfo.setOrderType(orderType);
         if (StringUtil.isNull(count))
             count = "1";
         detailInfo.setAmount(Integer.parseInt(count));
@@ -447,24 +578,29 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * ready for PresentOrderInfo
-     * 是都正常支付？normalFlag=1：normalFlag=0
+     * normalFlag = 0 是正常的礼品领取
      * @param request
      * @param cid
      * @return
      */
-    OrderInfo getPresentOrderInfo(HttpServletRequest request, String uuid, int normalFlag) {
+    OrderInfo getPresentOrderInfo(HttpServletRequest request, String uuid, int normalFlag, Boolean isVIP) {
         //String cid = request.getParameter("customerId");
         String cid = request.getSession().getAttribute("cId").toString();
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setOrderNumber(StringUtil.getOrderNo());
         orderInfo.setCustomerId(cid);
-        orderInfo.setOrderType("4");
-        if (normalFlag == 0) {
+        orderInfo.setOrderType("4");//特殊赠品需要审批
+        if (isVIP) {
+            orderInfo.setOrderType("6");
+        }
+        if (normalFlag == 0) {//一般赠品信息，不需要审批
             orderInfo.setStatus("1");
             orderInfo.setFinanceFlag("1");
             orderInfo.setFinanceDate(new Date());
         } else {
+            orderInfo.setOrderType("4");//特殊赠品需要审批
+            orderInfo.setFinanceFlag("0");
             orderInfo.setStatus("0");
         }
         orderInfo.setCreateDate(new Date());
@@ -500,8 +636,40 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * 当天赠品记录查询
      * order_type='4'and create_date=now()
      */
-    public List<OrderInfoForm> selectTodayPresentList(String customerId) {
-        return getOrderInfoByDate(customerId, 1, 4, 0);
+    public List<OrderInfoForm> selectPresentList(String customerId) {
+        //getCriteria(customerId, 1, 4, 0)
+        criteria.clear();
+        criteria.put("customerId", customerId);
+        criteria.put("payType", 0);
+        criteria.put("deleteFlag", "0");
+        criteria.put("presentCheck", true);
+
+        criteria.setOrderByClause("create_date desc");
+        criteria.setMysqlLength(5);
+        List<OrderInfoForm> orderInfoResult =
+                orderInfoExtraDao
+                        .selectByExample4Page(criteria);
+        //把商品详情信息放入到form中
+        orderInfoResult.forEach(value -> {
+            value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
+            value.setCreateDateString(
+                    DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
+        });
+
+        return orderInfoResult;
+        // return getOrderInfoByDate(customerId, 1, 4, 0);
+    }
+
+    /**
+     * order_type = 4 赠品  6 VIP赠品
+     * finance_flag = 0
+     * 审批完毕审批finance_flag为 1 
+     * 查询需要审批的礼品信息
+     * @param customerId
+     * @return
+     */
+    public List<OrderInfoFormNew> updateCheckPresentList(Criteria example) {
+        return orderInfoExtraDao.selectByExampleNew4Page(example);
     }
 
     public int countByExample(Criteria example) {
@@ -799,9 +967,57 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return orderInfoDao.countFinanceEveryDay(criteria);
     }
 
-    //TODO - 销售日报表统计时，表中对应的支付接口还不确定，需要修改mapper.xml
     public JSONObject getSellDaily(HttpServletRequest request) {
+        logger.info("获取各地区的销售日报表数据");
         JSONObject result = new JSONObject();
+        // 所属区域
+        String area = request.getParameter("area");
+
+        // 查询日期
+        String startDate = request.getParameter("startDate");
+
+        criteria.clear();
+        if (StringUtil.isNotBlank(area)) {
+            criteria.put("area", area);
+        }
+        if (StringUtil.isNotBlank(startDate)) {
+            criteria.put("startDate", startDate);
+            criteria.put("endDate",
+                    DateUtil.formatDate(DateUtil.parseDate(startDate, "yyyy-MM-dd"), "yyyy-MM-dd 23:59:59"));
+        } else {
+            startDate = DateUtil.formatDate(new Date(), "yyyy-MM-dd");
+            // 为空, 默认查询当天的数据
+            criteria.put("startDate", startDate);
+            criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
+        }
+
+        // 如果根据传递的日期从数据库表中查询数据，查到了直接显示，差不多则统计;
+        // 查询之前统计的数据
+        criteria.put("reportDate", startDate);
+        // 获取数据库中之前保存的数据
+        List<SellDailyInfoForm> sellDailies = sellDailyInfoExreaDao.getSellDailiesByCondition(criteria);
+        if (sellDailies != null && sellDailies.size() > 0) {
+            // 获取销售商品信息
+            List<SellGoodsDetail> goodsDetail = sellDailies.get(0).getSellGoodsDetails();
+            // 获取销售结算明细
+            List<SellDailyDetail> dailyDetail = sellDailies.get(0).getSellDailyDetails();
+            result.put("type", "search");
+            result.put("goodsList", goodsDetail);
+            result.put("clearing", dailyDetail);
+        } else {
+            // 获取销售商品信息
+            List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
+            // 获取销售结算明细
+            List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
+            result.put("type", "compile");
+            result.put("goodsList", goodsList);
+            result.put("clearing", clearingList);
+        }
+        return result;
+    }
+
+    public JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results) {
+        logger.info("获取各地区的销售日报表数据");
         // 所属区域
         String area = request.getParameter("area");
         // 查询日期
@@ -820,15 +1036,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
+        // 设置排序
+        criteria.setOrderByClause("p.payment_account_name");
+        // 获取总条数
+        int totalRecord = orderInfoExtraDao.getCountsCardDetail(criteria);
+        // 获取数据
+        List<OrderFundSettlementForm> depositDetail = orderInfoExtraDao.getCreditCardDepositDetail(criteria);
 
-        // 获取销售商品信息
-        List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
-
-        // 获取销售结算明细
-        List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
-
-        result.put("goodsList", goodsList);
-        result.put("clearing", clearingList);
-        return result;
+        results.put("sEcho", request.getParameter("sEcho"));
+        results.put("iTotalRecords", totalRecord);
+        results.put("iTotalDisplayRecords", totalRecord);
+        results.put("aaData", depositDetail);
+        return results;
     }
 }

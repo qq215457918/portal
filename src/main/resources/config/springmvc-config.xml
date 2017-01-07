@@ -40,6 +40,7 @@
 		p:dataSource-ref="mysqlDataSource"
     	p:configLocation="classpath:/config/mybatis-config.xml"
         p:mapperLocations="classpath*:com/portal/mapper/**/*.xml"/>
+        <!-- p:typeAliasesPackage="portal.src.main.java.com.portal.bean" /> -->
 	
 	<!-- 数据连接事务-->
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
@@ -56,6 +57,7 @@
 	<!-- 事务传播方式 -->
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
+			<tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="Throwable" />
@@ -77,6 +79,13 @@
     <context:component-scan base-package="com.portal" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
+    
+    <!-- 此处注册了一个@CurrentUser参数解析器。 -->
+    <mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="com.portal.action.bind.method.CurrentUserMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
    
     <!-- 对某些静态资源，如css,图片等进行过滤 -->
     <mvc:resources location="/resources/" mapping="/resources/**"/>
@@ -104,7 +113,11 @@
 <!-- 	<mvc:interceptors> -->
 <!-- 		<bean class="com.portal.commond.interceptor.AuthenticatorInterceptor"></bean> -->
 <!-- 	</mvc:interceptors> -->
-		
+    <!--定义util 用于页面获取bean-->
+    <bean class="com.portal.common.util.SpringUtils"/>
+    <!-- 定义aop切面，用于代理如@RequiresPermissions注解的控制器，进行权限控制。 -->
+
+	<import resource="springmvc-shiro.xml"/>	
 	<import resource="classpath:/config/pool-config.xml" />
 	<import resource="classpath:/config/shiro-config.xml" />
 	<import resource="classpath:/config/activiti-config.xml" />

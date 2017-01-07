@@ -11,6 +11,12 @@ import net.sf.json.JSONObject;
 
 public interface OrderInfoService {
 
+    public int updateConfirmRepurchase(HttpServletRequest request);
+
+    public int updateSpecialRepurchase(HttpServletRequest request);
+
+    public int updateNormalRepurchase(HttpServletRequest request);
+
     public int updateRepurchaseOrder(HttpServletRequest request);
 
     public boolean updatePayDeposit(String orderId);
@@ -83,13 +89,20 @@ public interface OrderInfoService {
      * @param request
      * @return
      */
-    boolean insertPresentOrder(HttpServletRequest request, int normalFlag);
+    boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP);
 
     /**
      * 当天赠品记录查询
      * order_type='4'and create_date=now()
      */
-    List<OrderInfoForm> selectTodayPresentList(String customerId);
+    List<OrderInfoForm> selectPresentList(String customerId);
+
+    /**
+     * 查询需要审批的礼品记录
+     * @param example
+     * @return
+     */
+    public List<OrderInfoFormNew> updateCheckPresentList(Criteria example);
 
     int countByExample(Criteria example);
 
@@ -185,5 +198,16 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject getSellDaily(HttpServletRequest request);
+
+    /**
+     * @Title: ajaxCreditCardDepositDetail 
+     * @Description: 异步获取当日刷卡定金明细数据
+     * @param request
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午8:40:08 
+     * @version V1.0
+     */
+    JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results);
 
 }

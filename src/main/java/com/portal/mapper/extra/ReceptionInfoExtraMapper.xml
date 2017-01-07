@@ -148,7 +148,7 @@
         (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
         c.type as type,
         (select ci.`name` from customer_info ci where ci.id = c.relation_id) as relation_name,
-        date_format(c.birthday, '%Y-%m-%d') as birthday,
+        c.birthday as birthday,
         c.area as area,
         c.vip_card as vip_card,
         date_format(r.end_time, '%h:%i') as end_time,

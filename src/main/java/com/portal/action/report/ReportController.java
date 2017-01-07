@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.GroupInfo;
+import com.portal.bean.result.SellDailyInfoForm;
+import com.portal.common.exception.DBException;
 import com.portal.common.exception.SystemException;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.JsonUtils;
@@ -26,6 +28,7 @@ import com.portal.service.GroupInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
+import com.portal.service.SellDailyInfoService;
 import com.portal.service.StorehouseOperateInfoService;
 import com.portal.service.VisitEverydayInfoService;
 import com.portal.service.VisitReportInfoService;
@@ -84,11 +87,15 @@ public class ReportController {
     // 订单Service
     @Autowired
     private OrderInfoService orderService;
+    
+    // 销售日报表Service
+    @Autowired
+    private SellDailyInfoService sellDailyService;
 	
 	// 公共查询条件类
 	Criteria criteria = new Criteria();
 	
-	// ------------------------- 接待统计 入口：toReceiveStatistics ---------------------------------
+	// ------------------------- 接待统计 入口：toReceiveStatistics (与下面的接待统计toSalesmanStatement重复)---------------------------------
 	
 	/**
 	 * @Title: toReceiveStatistics 
@@ -97,22 +104,16 @@ public class ReportController {
 	 * @param response
 	 * @return String
 	 * @throws
-	 */
 	@RequestMapping(value = "/toReceiveStatistics")
 	public String toReceiveStatistics(HttpServletRequest request, HttpServletResponse response) {
-	    //获取项目基础路径
-        String basePath = WebUtils.getBasePath(request, response);
-        //供页面和后台引用项目路径使用
-        request.getSession().setAttribute("basePath", basePath);
         // 保存活动导航标识
         WebUtils.setAttributeToSession(request);
-        
         // 初始化页面输入框中的日期值（默认上一周的时间）
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
         
         return "report/receive_statistics";
-	}
+	}*/
 	
 	/**
 	 * @Title: ajaxStatistics 
@@ -121,7 +122,6 @@ public class ReportController {
 	 * @param response 
 	 * @return void
 	 * @throws
-	 */
 	@RequestMapping("/ajaxStatistics")
     public void ajaxStatistics(HttpServletRequest request, HttpServletResponse response) {
 	    // 异步获取数据
@@ -137,7 +137,6 @@ public class ReportController {
 	 * @param response
 	 * @return String
 	 * @throws
-	 */
 	@RequestMapping("/toReceiveAreaList")
 	public String toReceiveAreaList(HttpServletRequest request, HttpServletResponse response) {
 	    // 将上一个图表页面选中的日期传递到列表页中显示
@@ -154,7 +153,6 @@ public class ReportController {
 	 * @param response 
 	 * @return void
 	 * @throws
-	 */
 	@RequestMapping("/ajaxReceiveAreaList")
     public void ajaxReceiveAreaList(HttpServletRequest request, HttpServletResponse response) {
         // 异步获取数据
@@ -571,6 +569,7 @@ public class ReportController {
     
     // ------------------------- 销售日报表 入口：toSellDaily ---------------------------------
     
+    // TODO - 支付方式不确定
     /**
      * @Title: toSellDaily 
      * @Description: 进入销售日报表页面
@@ -585,6 +584,7 @@ public class ReportController {
     public String toSellDaily(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
         WebUtils.setAttributeToSession(request);
+        // 进入页面默认当前日期
         request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
         return "report/sell_daily";
     }
@@ -603,6 +603,32 @@ public class ReportController {
     public void ajaxSellDaily(HttpServletRequest request, HttpServletResponse response) {
         // 异步获取销售日报表数据
         JSONObject results = orderService.getSellDaily(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    /**
+     * @Title: saveSellDaily 
+     * @Description: 保存销售日报表数据
+     * @param sellDaily
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年10月25日 下午5:17:07 
+     * @version V1.0
+     */
+    @RequestMapping("/saveSellDaily")
+    public void saveSellDaily(SellDailyInfoForm sellDaily, HttpServletRequest request, HttpServletResponse response) {
+        JSONObject results = JsonUtils.setSuccess();
+        // 异步获取销售日报表数据
+        try {
+            results = sellDailyService.saveSellDaily(sellDaily, results, request);
+        } catch (DBException e) {
+            e.printStackTrace();
+            results = JsonUtils.setError();
+            results.put("text", "操作失败，请刷新后重试");
+        }
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }
@@ -751,6 +777,96 @@ public class ReportController {
     public void ajaxStaffPerfors(HttpServletRequest request, HttpServletResponse response) {
         // 异步获取数据
         JSONObject results = orderService.ajaxStaffPerfors(request);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    // ------------------------- 当日刷卡定金明细统计 入口：toCreditCardDepositDetail ---------------------------------
+    
+    // TODO - 支付方式不确定
+    /*select 
+        f.*
+    from order_info o
+    left join order_fund_settlement f on o.order_number = f.order_number
+    where o.pay_type = '1'
+    and f.customer_pay_type = '2'
+    and o.create_date like '%2016-10-25%'*/
+    
+    /**
+     * @Title: toCreditCardDepositDetail 
+     * @Description: 当日刷卡定金明细统计
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午8:39:02 
+     * @version V1.0
+     */
+    @RequestMapping("/toCreditCardDepositDetail")
+    public String toCreditCardDepositDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
+        // 初始化页面输入框中的日期值（默认当天时间）
+        request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        return "report/credit_card_deposit_detail";
+    }
+    
+    /**
+     * @Title: ajaxCreditCardDepositDetail 
+     * @Description: 异步获取当日刷卡定金明细数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年12月11日 下午8:38:53 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxCreditCardDepositDetail")
+    public void ajaxCreditCardDepositDetail(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject results = new JSONObject();
+        // 异步获取数据
+        results = orderService.ajaxCreditCardDepositDetail(request, results);
+        // 向前端输出
+        JsonUtils.outJsonString(results.toString(), response);
+    }
+    
+    // ------------------------- 赠品明细统计 入口：toGiftDetail ---------------------------------
+    
+    /**
+     * @Title: toGiftDetail 
+     * @Description: 进入赠品明细统计页面
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:07:32 
+     * @version V1.0
+     */
+    @RequestMapping("/toGiftDetail")
+    public String toGiftDetail(HttpServletRequest request, HttpServletResponse response) {
+        // 保存活动导航标识
+        WebUtils.setAttributeToSession(request);
+        // 初始化页面输入框中的日期值（默认当天时间）
+        request.setAttribute("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        request.setAttribute("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+        return "report/gift_detail";
+    }
+    
+    /**
+     * @Title: ajaxGiftDetail 
+     * @Description: 异步获取赠品明细数据
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:10:43 
+     * @version V1.0
+     */
+    @RequestMapping("/ajaxGiftDetail")
+    public void ajaxGiftDetail(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject results = new JSONObject();
+        // 异步获取数据
+        results = orderDetailService.ajaxGiftDetail(request, results);
         // 向前端输出
         JsonUtils.outJsonString(results.toString(), response);
     }

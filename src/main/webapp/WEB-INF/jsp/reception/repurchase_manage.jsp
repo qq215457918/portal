@@ -62,6 +62,33 @@
                 <tbody> 
                 </tbody>
               </table>
+			 <!-- 回购确认金额  modal Start -->
+			  <div class="modal fade" id="checkModal">
+			    <div class="modal-dialog">
+			      <div class="modal-content">
+			        <div class="modal-header">
+			          <button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+			          <h4 class="modal-title">
+			          	  请输入回购金额
+			          </h4>
+			        </div>            
+			        <div class="modal-body">
+			                         商品名称： <input class="form-control" value="" type="text" id="applyGoodsName" readonly ="readonly">
+			                         回购数量： <input class="form-control" value="" type="text" id="applyCount" readonly ="readonly">
+			                         交易金额： <input class="form-control" value="" type="text" id="applyPriceOld" readonly ="readonly">
+			                         回购单价：<div class="input-group">
+			                <span class="input-group-addon">¥</span><input class="form-control" type="text" id="applyPrice"><span class="input-group-addon">.00</span>
+			               </div>
+			        </div>
+			        <input id="applyGoodsId" name="applyGoodsId" type="hidden" />
+			        <div class="modal-footer">
+			          <button class="btn btn-primary" type="button" id="appConfirm">确 认</button>
+			          <button class="btn btn-default-outline" data-dismiss="modal" type="button">取 消</button>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			<!-- modal end -->
             </div>
           </div>
         </div>

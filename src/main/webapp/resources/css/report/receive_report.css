@@ -1,6 +1,6 @@
 
 /*
-  图表左侧图标样式
+   图表左侧图标样式  
 */
 #dlPicture {
 	position: absolute;
@@ -24,7 +24,7 @@
 	cursor: pointer;
 }
 
-/*查询条件样式*/
+/* 查询条件样式   */
 .condition-group {
 	margin-left: 9.2%;
 	height: 35px;
@@ -48,7 +48,7 @@
 	text-align: -webkit-center;
 }
 
-/*销售日报表页面样式*/
+/* 销售日报表页面样式  */
 #sellDaily tr td {
 	text-align: center;
 }

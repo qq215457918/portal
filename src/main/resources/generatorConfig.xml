@@ -63,6 +63,10 @@
 		<table tableName="dept_performance_info"></table>
 		<table tableName="storehouse_operate_info"></table>
 		<table tableName="exchange_operate_info"></table>
-		<table tableName="butt_perfor_detail_info"></table> -->
+		<table tableName="butt_perfor_detail_info"></table>
+		<table tableName="sell_daily_info"></table>
+		<table tableName="sell_goods_detail"></table>
+		<table tableName="sell_daily_detail"></table> -->
+		<table tableName="order_fund_settlement"></table>
 	</context>
 </generatorConfiguration>

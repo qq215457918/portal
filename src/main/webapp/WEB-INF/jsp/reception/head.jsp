@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
       <!-- Navigation -->
       <div class="navbar navbar-fixed-top scroll-hide">
         <div class="container-fluid top-bar">
           <div class="pull-right">
             <ul class="nav navbar-nav pull-right">
               <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                 	你好： <%=session.getAttribute("userName")%><b class="caret"></b></a>
+                 	你好：<shiro:principal/> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li><a href="<%=request.getContextPath() %>/login">
                     <i class="icon-home"></i>返回工作台</a>

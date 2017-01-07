@@ -1,6 +1,9 @@
 package com.portal.action.reception;
 
+import com.portal.bean.Criteria;
 import com.portal.bean.GoodsInfo;
+import com.portal.bean.OrderInfo;
+import com.portal.bean.result.OrderInfoFormNew;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.WebUtils;
 import com.portal.service.GoodsInfoService;
@@ -54,7 +57,9 @@ public class PresentAction {
     public void reviewPresent(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request, 1));
+        resultJson.put("result",
+                orderInfoService.insertPresentOrder(request, 1, request.getParameter("isVIP") == "true") ? true
+                        : false);
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
@@ -68,7 +73,52 @@ public class PresentAction {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
         resultJson.put("result",
-                orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
+                orderInfoService.selectPresentList(request.getSession().getAttribute("cId").toString()));
+        JsonUtils.outJsonString(resultJson.toString(), response);
+    }
+
+    /**
+     * 查询需要确认的礼品单
+     * order_type = 4 赠品  6 VIP赠品
+     * finance_flag = 0
+     * 审批完毕审批finance_flag为 1 
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/check", method = RequestMethod.POST)
+    public void check(HttpServletRequest request, HttpServletResponse response) {
+        Criteria criteria = new Criteria();
+        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+
+        criteria.put("deleteFlag", "0");
+        criteria.put("financeFlag", "0");
+        criteria.put("status", "0");
+        criteria.put("presentCheck", "true");//4赠品  6VIP赠品
+        criteria.setOrderByClause("create_date desc");
+
+        List<OrderInfoFormNew> resultList = orderInfoService.updateCheckPresentList(criteria);
+        int count = resultList.size();
+        JsonUtils.resultJson(resultList, count, response, request);
+    }
+
+    /**
+     * 审批确认 修改 finance_flag 0 -》 1
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    public void confirm(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        JSONObject resultJson = new JSONObject();
+        OrderInfo record = new OrderInfo();
+        Criteria criteria = new Criteria();
+        criteria.put("orderNumber", request.getParameter("orderId"));
+        record.setFinanceFlag("1");
+        record.setStatus("1");
+        resultJson.put("result",
+                orderInfoService.updateByExampleSelective(record, criteria) > 0 ? true : false);
+        //  orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
@@ -81,7 +131,9 @@ public class PresentAction {
     public void insertPresentOrder(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.insertPresentOrder(request, 0));
+        resultJson.put("result",
+                orderInfoService.insertPresentOrder(request, 0, request.getParameter("isVIP") == "true" ? true
+                        : false));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.SellDailyInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.SellDailyInfoForm" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="area" property="area" jdbcType="VARCHAR" />
+    <result column="report_date" property="reportDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <collection property="sellDailyDetails" resultMap="sellDailyResultMap" />
+    <collection property="sellGoodsDetails" resultMap="sellGoodsResultMap" />
+  </resultMap>
+  
+  <!-- 资金结算明细 -->
+  <resultMap id="sellDailyResultMap" type="com.portal.bean.SellDailyDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
+    <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
+    <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
+    <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
+    <result column="poundage" property="poundage" jdbcType="DECIMAL" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <!-- 销售藏品明细 -->
+  <resultMap id="sellGoodsResultMap" type="com.portal.bean.SellGoodsDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="total_prices" property="totalPrices" jdbcType="DECIMAL" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.area != null" >
+         and d.area = #{condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.reportDate != null" >
+         and d.report_date like CONCAT("%", #{condition.reportDate,jdbcType=TIMESTAMP}, "%")
+      </if>
+    </trim>
+  </sql>
+  
+  <!-- 根据条件获取记录 -->
+  <select id="getSellDailiesByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select * from sell_daily_info d
+    left join sell_daily_detail dd on d.id = dd.sell_daily_id
+	left join sell_goods_detail gd on d.id = gd.sell_daily_id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+</mapper>

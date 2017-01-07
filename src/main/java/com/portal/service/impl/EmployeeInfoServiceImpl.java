@@ -4,7 +4,11 @@ import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
 import com.portal.dao.EmployeeInfoDao;
 import com.portal.service.EmployeeInfoService;
+import com.portal.service.RoleService;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +19,46 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     @Autowired
     private EmployeeInfoDao employeeInfoDao;
 
+    @Autowired
+    private RoleService roleService;
+
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
     Criteria criteria = new Criteria();
+
+    /**
+     * 根据用户名查找其角色
+     * @param username
+     * @return
+     */
+    public Set<String> findRoles(String username) {
+        EmployeeInfo user = selectByUserName(username);
+        if (user == null) {
+            return Collections.EMPTY_SET;
+        }
+        String roleIdStr[] = user.getRoleIds().split(",");
+        Long roleIdsLong[] = new Long[roleIdStr.length];
+        for (int i = 0; i < roleIdStr.length; i ++) {
+            roleIdsLong[i] = Long.valueOf(roleIdStr[i]);
+        }
+        return roleService.findRoles(roleIdsLong);
+    }
+
+    /**
+     * 根据用户名查找其权限
+     * @param username
+     * @return
+     */
+    public Set<String> findPermissions(String username) {
+        EmployeeInfo user = selectByUserName(username);
+        if (user == null) {
+            return Collections.EMPTY_SET;
+        }
+        //        return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
+
+        return roleService
+                .findPermissions((Long[]) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
+    }
 
     public EmployeeInfo authentication(String loginName, String password) {
         criteria.clear();

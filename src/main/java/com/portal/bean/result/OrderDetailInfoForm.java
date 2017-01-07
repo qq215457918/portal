@@ -20,6 +20,16 @@ public class OrderDetailInfoForm extends OrderDetailInfo {
      * 销售日报表-商品显示备注信息
      */
     private String viewRemark;
+    
+    /**
+     * 赠品明细表-登门领取赠品数量
+     */
+    private Integer visitGiftCounts;
+    
+    /**
+     * 赠品明细表-VIP领取赠品数量
+     */
+    private Integer vipGiftCounts;
 
     public String getCreateDate() {
         return createDate;
@@ -43,6 +53,22 @@ public class OrderDetailInfoForm extends OrderDetailInfo {
 
     public void setViewRemark(String viewRemark) {
         this.viewRemark = viewRemark;
+    }
+
+    public Integer getVisitGiftCounts() {
+        return visitGiftCounts;
+    }
+
+    public void setVisitGiftCounts(Integer visitGiftCounts) {
+        this.visitGiftCounts = visitGiftCounts;
+    }
+
+    public Integer getVipGiftCounts() {
+        return vipGiftCounts;
+    }
+
+    public void setVipGiftCounts(Integer vipGiftCounts) {
+        this.vipGiftCounts = vipGiftCounts;
     }
     
 }

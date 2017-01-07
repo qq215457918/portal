@@ -76,10 +76,12 @@ function initData() {
 		            {"mData": "roadshowCounts"},
 		            {"mData": "roadshowOrders"},
 		            {"mData": "roadshowAmounts"},
+		            {"mData": "newCounts"},
+		            {"mData": "newOrders"},
+		            {"mData": "newAmounts"},
 		            {"mData": "totalCounts"},
 		            {"mData": "totalOrders"},
-		            {"mData": "totalAmounts"},
-		            {"mData": "newCounts"}
+		            {"mData": "totalAmounts"}
 		           ],
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var area = $('#area').val();
