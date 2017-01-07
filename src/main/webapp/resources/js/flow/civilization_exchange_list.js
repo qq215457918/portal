@@ -46,114 +46,54 @@ $(document).ready(function(){
 		});
 	});
 	
-	// 关闭madel窗口隐藏打印条目
 	$('#printInfo').on('hidden.bs.modal', function () {
 		$('#hasPayInfo').hide();
 		$('#receiveMoneyInfo').hide();
 	});
 	
-	// 添加收款条目
-	$('a[name=addSettlement]').click(function(){
-		$('#updateCivi .base-column:first').clone().appendTo('#updateCivi').find('a[name=delete]').show();
-	});
-	
-	$('#commitForm').click(function(){
-		$('.base-column .form-data').each(function(i){
-			$(this).find('select,input').each(function(){
-				$(this).attr('name', 'paymentList[' + i + '].' + $(this).attr('id'));
-			});
-		});
+	$('#goodsDetailList button').click(function(){
+		if(!$(this).attr('data-flag') || $(this).attr('data-flag') == ''){
+			return;
+		}
+		$('#goodsDetailList input[name=cultureFlag]').val($(this).attr('data-flag'));
 		$('#updateCivi').submit();
 	});
 }); 
 
-$(document).on('click', 'a[name=delete]', function(){
-	$(this).closest('.base-column').remove();
-});
-
-$(document).on('click', '#confirmReceipt', function () { 
-	var operate = $(this).attr('data-operate-id');
-	$('input[name=orderNumber]').val($(this).attr('data-order-number'));
-	$('input[name=orderId]').val($(this).attr('data-order-id'));
-	
-	// 初始化支付类型
-	$('#updateCivi .base-column:not(:first)').remove();
-	$("#updateCivi option").removeAttr("selected");
-    $("#updateCivi select[name$=paymentAccountId] option:first").attr("selected", true);
-    $('#updateCivi select[name$=customerPayType] option:first').attr("selected", true);
-    $('#updateCivi input[name$=payAmount]').val('');
-    $('#updateCivi input[name$=payAmountActual]').val('');
-    $('#updateCivi input[name$=poundage]').val('');
-	
+$(document).on('click', '#orderDetailInfo', function () { 
+	$('#goodsDetailList input[name=orderId]').val($(this).attr('data-order-id'));
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
-		"url": 'workflow/getAccountAndPayTypeInfo',
+		"url": 'workflow/selectOrderDetailById',
+		"data": {
+			orderId : $(this).attr('data-order-id')
+		},
 		"success": function(data){
-			var accountHtml = '<option value="">--请选择--</option>';
-			var payTypeHtml = '<option value="">--请选择--</option>';
-			
-			for(var i in data.accountList){
-				accountHtml += '<option value="' + data.accountList[i].payment_account_id + '">' + data.accountList[i].payment_account_name + '</option>'
+			var odHtml = '';
+			var j = 0;
+			for(var i in data){
+				if(j == 0) {
+					$('#goodsDetailList #cultureRemark').val(data[i].remark);
+					j++;
+				}
+				if(data[i].goodType != 2 && data[i].goodType != 3){
+					continue;
+				}
+				odHtml += '<tr><td>';
+				odHtml += data[i].goodName
+				odHtml += '</td><td>';
+				odHtml += data[i].goodId
+				odHtml += '</td><td>';
+				odHtml += data[i].goodTypeName
+				odHtml += '</td><td>';
+				odHtml += data[i].amount;
+				odHtml += '</td></tr>';
 			}
-			
-			for(var j in data.payTypeList){
-				payTypeHtml += '<option value="' + data.payTypeList[j].payment_account_id + '">' + data.payTypeList[j].payment_account_name + '</option>'
-			}
-			
-			$('#updateCivi select[name$=paymentAccountId]:first').html(accountHtml);
-			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
+			$('#goodsDetailList tbody').html(odHtml);
 		}
 	})
 	
-	/*
-	// 更新订单状态
-	$.ajax({
-		"dataType": 'text',
-		"type": "POST",
-		"url": 'workflow/updateOrderInfo',
-		"data": {
-			'orderId': $(this).attr('data-order-id'),
-			'operate': operate
-		},
-		"success": function(data){
-			if(1 == operate){
-				alert("已确认收款");
-			}else{
-				alert("更新成功,待仓库审核");
-			}
-			
-			$('#financeOrderExam').dataTable().fnDraw();
-		}
-	})*/
-});
-$(document).on('click', '#confirmReceipt1', function () { 
-	var operate = $(this).attr('data-operate-id');
-	
-	// 更新订单状态
-	$.ajax({
-		"dataType": 'text',
-		"type": "POST",
-		"url": 'workflow/updateOrderInfo',
-		"data": {
-			'orderId': $(this).attr('data-order-id'),
-			'operate': operate
-		},
-		"success": function(data){
-			if(1 == operate){
-				alert("已确认收款");
-			}else{
-				alert("更新成功,待仓库审核");
-			}
-			
-			$('#financeOrderExam').dataTable().fnDraw();
-		}
-	})
-});
-
-
-$(document).on('click', '#orderDetailInfo', function () { 
-	window.location.href = 'order/orderModifyIndex?orderId='+$(this).attr('data-order-id');
 });
 
 $(document).on('click', '#toPrint', function () { 
@@ -216,45 +156,30 @@ function commitExam(suggestion){
 }
 
 function initData(){
-	$('#financeOrderExam').dataTable({
+	$('#civilizationOrderList').dataTable({
 		"bSort": false, //是否显示排序
 		"bFilter": false, //去掉搜索
 		"sPaginationType": "full_numbers", //分页
 		"bProcessing": true, //显示正在处理
 		"bServerSide": true, // 后台请求
 		"bRetrieve": true,
-		"sAjaxSource": "workflow/selectFinanceOrder", // 地址
+		"sAjaxSource": "workflow/selectCivilizationOrder", // 地址
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
-		            {"mData": "orderNumber"},
+		            {"mData": "order_number"},
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
-		            {"mData": "payPrice"}, 
-		            {"mData": "wareHouseFlagName"}, 
+		            {"mData": "culture_flag"}, 
+		            {"mData": "saleCount"}, 
+		            {"mData": "freeCount"}, 
 		            {"mData": ""} 
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
-				var operation = '<a href="#orderSettlement" data-toggle="modal" data-order-id="' + row.id + '" data-order-number="' + row.orderNumber + '" id="confirmReceipt">确认收款</a>&nbsp;&nbsp;' + 
-					'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
-				if(row.warehouseFlag == -1){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" data-operate-id="1" id="confirmReceipt1">确认付款</a>&nbsp;&nbsp;' + 
-						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
-				}
-				if(row.financeFlag == 1){
-					operation = '<a href="javascript:;" data-toggle="modal">已收款</a>&nbsp;&nbsp;' + 
-						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
-				}
-				if(row.financeFlag == -1){
-					operation = '<a href="javascript:;" data-toggle="modal">已付款</a>&nbsp;&nbsp;' + 
-						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
-				}
-				
-				operation += '&nbsp;&nbsp;<a data-toggle="modal" data-order-id="' + row.id + '" id="orderDetailInfo">订单详情</a>';
-				
+				var operation = '<a href="#goodsDetailList" data-toggle="modal" data-order-id="' + row.id + '" id="orderDetailInfo">详情</a>';
 				return operation;
 			},
-			"targets" : 6
+			"targets" : 7
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
@@ -263,10 +188,9 @@ function initData(){
    			});
    		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
-							var orderId = $('#orderId').val();
 							var orderNumber = $('#orderNumber').val();
 							
-							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber});
+							aoData.push({'name':'orderNumber','value':orderNumber});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

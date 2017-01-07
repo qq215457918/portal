@@ -3,6 +3,7 @@ package com.portal.action;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,12 +27,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.DailyEmployeeAudit;
+import com.portal.bean.DailyEmployeeAuditHistory;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderDetailInfo;
+import com.portal.bean.OrderFundSettlement;
 import com.portal.bean.OrderInfo;
 import com.portal.common.util.JsonUtils;
+import com.portal.service.DailyEmployeeAuditHistoryService;
+import com.portal.service.DailyEmployeeAuditService;
 import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderDetailInfoService;
+import com.portal.service.OrderFundSettlementService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.WorkFlowService;
 
@@ -54,6 +61,15 @@ public class WorkFlowAction {
 	@Autowired
 	private OrderDetailInfoService orderDetailInfoService;
 	
+	@Autowired
+	private OrderFundSettlementService orderFundSettlementService;
+	
+	@Autowired
+	private DailyEmployeeAuditService dailyEmployeeAuditService;
+	
+	@Autowired
+	private DailyEmployeeAuditHistoryService dailyEmployeeAuditHistoryService;
+	
 	/**
 	 * @Title: flowInfoIndex 
 	 * @Description: 流程部署页面
@@ -67,6 +83,7 @@ public class WorkFlowAction {
 	}
 	
 	/**
+	 * @throws ParseException 
 	 * @Title: flowInfoIndex 
 	 * @Description: 审批列表
 	 * @return 
@@ -74,7 +91,7 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("/achieveExamList")
-	public String achieveExamList(HttpServletRequest request, HttpServletResponse response){
+	public String achieveExamList(HttpServletRequest request, HttpServletResponse response) throws ParseException{
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		
@@ -83,25 +100,19 @@ public class WorkFlowAction {
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
 		Criteria criteria = new Criteria();
-		criteria.put("positionType", 2);
+		criteria.put("positionType", 2); //只查业务员
 		int employeeCount = employeeInfoService.countByExample(criteria);
+		criteria.put("createDate", sdf.parse(dateInfo));
+		int hadCommit = dailyEmployeeAuditService.countByExample(criteria);
 		
-//		String userId = request.getSession().getAttribute("user").toString();
-		String userId = "1";
-		String defKey = request.getParameter("defKey");
-		int hadCommit = workFlowService.selectTaskCountById(userId, defKey);
-		
+//		String userId = (String) request.getSession().getAttribute("userId");
+//		String defKey = request.getParameter("defKey");
+//		int hadCommit = workFlowService.selectTaskCountById(userId, defKey);
 		result.put("commitCount", hadCommit + "/" + employeeCount);
 		
 		request.setAttribute("id", request.getParameter("id"));
 		request.setAttribute("dateInfo", dateInfo);
 		request.setAttribute("result", result);
-		
-		request.setAttribute("tempCount", "0/0");
-		if("2016-11-13".equals(dateInfo)){
-			request.setAttribute("tempCount", "2/2");
-		}
-		
 		
 		return "flow/achieve_exam_list";
 	}
@@ -259,24 +270,19 @@ public class WorkFlowAction {
 	public void selectTaskListById(HttpServletRequest request, HttpServletResponse response){
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		//获取当前用户id
-//		String userId = request.getSession().getAttribute("user").toString();
-		String userId = "1";
-		String defKey = request.getParameter("defKey");
+		String userId = (String) request.getSession().getAttribute("userId");
 		
-		List<Task> list = workFlowService.selectTaskListById(userId, defKey);
+//		String defKey = request.getParameter("defKey");
+//		List<Task> list = workFlowService.selectTaskListById(userId, defKey);
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		
 		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		paramMap.put("dateInfo", null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo"));
 		
-		List<String> list1 = new ArrayList<String>();
-		if("2016-11-13".equals(dateInfo)){
-			list1.add("233");
-			list1.add("2");
-		}
-		paramMap.put("userList", list1);
-		
+//		paramMap.put("userList", list);
+		paramMap.put("dateInfo", dateInfo);
+		paramMap.put("auditor", userId);
 		List<Map<String, Object>> result = workFlowService.selectClerkDayList(paramMap);
 		
 		try {
@@ -290,8 +296,6 @@ public class WorkFlowAction {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-//		JsonUtils.resultJson(list, list.size(), response, request);
 	}
 	
 	/**
@@ -308,8 +312,7 @@ public class WorkFlowAction {
 		
 		String employeeId = request.getParameter("employeeId");
 		
-//		String userId = null==employeeId?((EmployeeInfo)request.getSession().getAttribute("user")).getId():employeeId;
-		String userId = null==employeeId?"233":employeeId;
+		String userId = null==employeeId?(String)request.getSession().getAttribute("userId"):employeeId;
 		String dateInfo = null==request.getParameter("dateInfo")?sdf.format(new Date()):request.getParameter("dateInfo");
 		
 		Map<String, Object> paramMap = new HashMap<String, Object>();
@@ -317,6 +320,10 @@ public class WorkFlowAction {
 		paramMap.put("userId", userId);
 		Map<String, Object> result = workFlowService.selectlerkEverydayAchievenment(paramMap);
 		
+		Criteria criteria = new Criteria();
+		criteria.put("createDate", dateInfo);
+		criteria.put("employeeId", userId);
+		request.setAttribute("hasCommitDaily", dailyEmployeeAuditService.countByExample(criteria));		
 		request.setAttribute("id", request.getParameter("id"));
 		request.setAttribute("receiverStaffId", userId);
 		request.setAttribute("dateInfo", dateInfo);
@@ -327,6 +334,7 @@ public class WorkFlowAction {
 	}
 	
 	/**
+	 * @throws ParseException 
 	 * @Title: toAchieveExam 
 	 * @Description: 开始审批流程
 	 * @param request
@@ -334,19 +342,26 @@ public class WorkFlowAction {
 	 * @throws
 	 */
 	@RequestMapping("toAchieveExam")
-	public void toAchieveExam(HttpServletRequest request, HttpServletResponse response){
-//		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
-		String userId = "233";
+	public void toAchieveExam(HttpServletRequest request, HttpServletResponse response) throws ParseException{
+		String userId = (String)request.getSession().getAttribute("userId");
+		String dateInfo = request.getParameter("dateInfo");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("userId", userId);
-		paramMap.put("dateInfo", sdf.format(new Date()));
-		paramMap.put("orderInfo", request.getParameter("orderInfo"));
-		ProcessInstance pi = workFlowService.startProcess("leaderApprove", sdf.format(new Date())+userId, paramMap);
 		
-		request.setAttribute("piId", pi.getProcessInstanceId());
+		String auditorId = workFlowService.getAuditorId(userId);
 		
-		achieveExam(request, response);
+		DailyEmployeeAudit dailyEmployeeAudit = new DailyEmployeeAudit();
+		dailyEmployeeAudit.setCreateDate(null==dateInfo?new Date():sdf.parse(dateInfo));
+		dailyEmployeeAudit.setEmployeeId(userId);
+		dailyEmployeeAudit.setAuditorId(auditorId);
+		dailyEmployeeAuditService.insertSelective(dailyEmployeeAudit);
+		// 暂时不使用activity 20170104
+//		Map<String, Object> paramMap = new HashMap<String, Object>();
+//		paramMap.put("userId", userId);
+//		paramMap.put("dateInfo", sdf.format(new Date()));
+//		paramMap.put("orderInfo", request.getParameter("orderInfo"));
+//		ProcessInstance pi = workFlowService.startProcess("leaderApprove", sdf.format(new Date())+userId, paramMap);
+//		request.setAttribute("piId", pi.getProcessInstanceId());
+//		achieveExam(request, response);
 	}
 	
 	/**
@@ -407,27 +422,56 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("commitExam")
 	public String commitExam(HttpServletRequest request, HttpServletResponse response){
-		String taskId = request.getParameter("taskId");
-		String id = request.getParameter("taskId");
-		String examMessage = request.getParameter("taskId");
+		String employeeIds = request.getParameter("employeeIds");
 		String suggestion = request.getParameter("suggestion");
+		String examDate = request.getParameter("examDate");
+		String examMessage = request.getParameter("examMessage");
+		String userId = (String)request.getSession().getAttribute("userId");
+		if(StringUtils.isNotBlank(employeeIds)){
+			String[] employeeIdList = employeeIds.split(";");
+			for(int i = 0; i < employeeIdList.length; i++){
+				Criteria criteria = new Criteria();
+				criteria.put("createDate", examDate);
+				criteria.put("employeeId", employeeIdList[i]);
+				criteria.put("deleteFlag", 0);
+				// 通过日期和员工id 获取审核表的id
+				List<DailyEmployeeAudit> auditList = dailyEmployeeAuditService.selectByExample(criteria);
+				
+				DailyEmployeeAudit dailyEmployeeAudit = new DailyEmployeeAudit();
+				dailyEmployeeAudit.setId(auditList.get(0).getId());
+				dailyEmployeeAudit.setStatus(suggestion);
+				String auditorId = workFlowService.getAuditorId(userId);
+				dailyEmployeeAudit.setAuditorId(auditorId);
+				if(StringUtils.isBlank(auditorId)){
+					dailyEmployeeAudit.setStatus("2");
+				}
+				// 更新审核表 如果查询下一个审核人为空则审核结束
+				dailyEmployeeAuditService.updateByPrimaryKeySelective(dailyEmployeeAudit);
+				
+				DailyEmployeeAuditHistory dailyEmployeeAuditHistory = new DailyEmployeeAuditHistory();
+				dailyEmployeeAuditHistory.setAuditId(auditList.get(0).getId());
+				dailyEmployeeAuditHistory.setAuditorId(userId);
+				dailyEmployeeAuditHistory.setAuditDate(new Date());
+				dailyEmployeeAuditHistory.setMessage(examMessage);
+				// 插入审核历史信息 
+				dailyEmployeeAuditHistoryService.insertSelective(dailyEmployeeAuditHistory);
+				
+			}
+		}
 		
-		EmployeeInfo ei = (EmployeeInfo)request.getSession().getAttribute("user");
-		
-		Map<String, String> paramMap = new HashMap<String, String>();
-		
-		//获取任务ID
-		paramMap.put("taskId", taskId);
-		//获取连线的名称
-		paramMap.put("outcome", suggestion);
-		//批注信息
-		paramMap.put("comment", examMessage);
-		//订单编号
-		paramMap.put("id", id);
-		//用户id
-		paramMap.put("userId", ei.getId() + "," + ei.getName());
-		
-		workFlowService.saveSubmitTask(paramMap);
+//		EmployeeInfo ei = (EmployeeInfo)request.getSession().getAttribute("user");
+//		Map<String, String> paramMap = new HashMap<String, String>();
+//		//获取任务ID
+//		paramMap.put("taskId", taskId);
+//		//获取连线的名称
+//		paramMap.put("outcome", suggestion);
+//		//批注信息
+//		paramMap.put("comment", examMessage);
+//		//订单编号
+//		paramMap.put("id", id);
+//		//用户id
+//		paramMap.put("userId", ei.getId() + "," + ei.getName());
+//		workFlowService.saveSubmitTask(paramMap);
 		
 		return "redirect:achieveExamList";
 	}
@@ -484,6 +528,9 @@ public class WorkFlowAction {
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
 		criteria.put("financeOrder", "1");
+		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+		
 		List<OrderInfo> resultList = orderInfoService.selectByExample(criteria);
 		
 		int count = orderInfoService.countByExample(criteria);
@@ -538,16 +585,45 @@ public class WorkFlowAction {
 	 * @return void
 	 * @throws
 	 */
-	@RequestMapping("updateOrderInfo")
-	public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response){
-//		String userId = ((EmployeeInfo)request.getSession().getAttribute("user")).getId();
-		String userId = "1";
+	@RequestMapping("updateOrderAndInsert")
+	public String updateOrderAndInsert(HttpServletRequest request, HttpServletResponse response, OrderInfo orderInfo){
+		String userId = (String)request.getSession().getAttribute("userId");
 		
-		OrderInfo orderInfo = new OrderInfo();
 		orderInfo.setFinanceOperatorId(userId);
 		orderInfo.setFinanceDate(new Date());
 		orderInfo.setFinanceFlag("1");
-		if("1".equals(request.getParameter("operate"))){
+		if("1".equals(request.getParameter("operate"))){//进行付款
+			orderInfo.setFinanceFlag("-1");
+		}
+		orderInfo.setId(request.getParameter("orderId"));
+		
+		orderInfoService.updateByPrimaryKeySelective(orderInfo);
+		
+		for(OrderFundSettlement ofs : orderInfo.getPaymentList()){
+			ofs.setOrderNumber(orderInfo.getOrderNumber());
+			ofs.setId("1");
+			orderFundSettlementService.insertSelective(ofs);
+		}
+		
+		return "redirect:financeOrderList";
+	}
+	
+	/**
+	 * @Title: updateOrderInfo 
+	 * @Description: 更新订单信息
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("updateOrderInfo")
+	public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response, OrderInfo orderInfo){
+		String userId = (String)request.getSession().getAttribute("userId");
+		
+		orderInfo.setFinanceOperatorId(userId);
+		orderInfo.setFinanceDate(new Date());
+		orderInfo.setFinanceFlag("1");
+		if("1".equals(request.getParameter("operate"))){//进行付款
 			orderInfo.setFinanceFlag("-1");
 		}
 		orderInfo.setId(request.getParameter("orderId"));
@@ -585,5 +661,152 @@ public class WorkFlowAction {
 		int count = workFlowService.selectClerkReceiveCount(paramMap);
 		
 		JsonUtils.resultJson(resultList, count, response, request);
+	}
+	
+	/**
+	 * @Title: civilizationExchangeIndex 
+	 * @Description: 所交所页面初始化
+	 * @param request
+	 * @param response
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("civilizationExchangeIndex")
+	public String civilizationExchangeIndex(HttpServletRequest request, HttpServletResponse response){
+		return "flow/civilization_exchange_list";
+	}
+	
+	/**
+	 * @Title: selectCivilizationOrder 
+	 * @Description: 文交所列表
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectCivilizationOrder")
+	public void selectCivilizationOrder(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		
+		paramMap.put("orderNumber", request.getParameter("orderNumber"));
+		paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
+		paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
+		
+		List<Map<String, Object>> resultList = workFlowService.selectCivilizationOrderList(paramMap);
+		
+		int count = workFlowService.selectCivilizationOrderCount(paramMap);
+		
+		JsonUtils.resultJson(resultList, count, response, request);
+	}
+	
+	/**
+	 * @Title: selectOrderDetailById 
+	 * @Description: 文交所通过orderId获取订单详情
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("selectOrderDetailById")
+	public void selectOrderDetailById(HttpServletRequest request, HttpServletResponse response){
+		Criteria criteria = new Criteria();
+		
+		criteria.put("orderId", request.getParameter("orderId"));
+		criteria.put("deleteFlag", 0);
+		
+		List<OrderDetailInfo> resultList = orderDetailInfoService.selectByExample(criteria);
+		
+		OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(request.getParameter("orderId"));
+		
+		if(null != resultList && resultList.size() > 0) {
+			resultList.get(0).setRemark(orderInfo.getCultureRemark());
+		}
+		
+		try {
+			response.getWriter().print(JSONArray.fromObject(resultList).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @Title: updateCivilizationInfo 
+	 * @Description: 更新审核状态
+	 * @param request
+	 * @param response
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("updateCivilizationInfo")
+	public String updateCivilizationInfo(HttpServletRequest request, HttpServletResponse response){
+		String orderId = request.getParameter("orderId");
+		// 1 已审核 -1审核不通过
+		String cultureFlag = request.getParameter("cultureFlag");
+		String cultureRemark = request.getParameter("cultureRemark");
+		String userId = (String) request.getSession().getAttribute("userId");
+		
+		OrderInfo orderInfo = new OrderInfo();
+		orderInfo.setId(orderId);
+		orderInfo.setCultureFlag(cultureFlag);
+		orderInfo.setCultureRemark(cultureRemark);
+		orderInfo.setCultureOperatorId(userId);
+		orderInfo.setCultureDate(new Date());
+		orderInfoService.updateByPrimaryKeySelective(orderInfo);
+		
+		return "redirect:civilizationExchangeIndex";
+	}
+	
+	/**
+	 * @Title: getAccountAndPayTypeInfo 
+	 * @Description: 获取支付方式列表和账户列表
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("/getAccountAndPayTypeInfo")
+	public void getAccountAndPayTypeInfo(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> result = workFlowService.getAccountAndPayTypeInfo();
+		
+		try {
+			response.setContentType("text/json;charset=UTF-8");
+			response.getWriter().print(JSONObject.fromObject(result).toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * @Title: updateCivilizationInfo 
+	 * @Description: 更新审核状态
+	 * @param request
+	 * @param response
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("examHistoryInfo")
+	public void examHistoryInfo(HttpServletRequest request, HttpServletResponse response){
+		String userId = (String) request.getSession().getAttribute("userId");
+		String dateInfo = request.getParameter("dateInfo");
+		
+		Criteria criteria = new Criteria();
+		criteria.put("employeeId", userId);
+		criteria.put("createDate", dateInfo);
+		criteria.put("deleteFlag", 0);
+		List<DailyEmployeeAudit> tempList = dailyEmployeeAuditService.selectByExample(criteria);
+		
+		if(null != tempList && tempList.size() > 0) {
+			criteria.clear();
+			criteria.put("auditId", tempList.get(0).getId());
+			List<DailyEmployeeAuditHistory> resultList = dailyEmployeeAuditHistoryService.selectByExample(criteria);
+			int count = dailyEmployeeAuditHistoryService.countByExample(criteria);
+			JsonUtils.resultJson(resultList, count, response, request);
+		}else {
+			List<DailyEmployeeAuditHistory> resultList = new ArrayList<DailyEmployeeAuditHistory>();
+			JsonUtils.resultJson(resultList, 0, response, request);
+		}
 	}
 }

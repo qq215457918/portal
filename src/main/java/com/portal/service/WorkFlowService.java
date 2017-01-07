@@ -339,4 +339,42 @@ public interface WorkFlowService {
 	 */
 	public List<Map<String, Object>> selectClerkDayList(Map<String, Object> paramMap);
 
+	/**
+	 * @Title: selectCivilizationOrderList 
+	 * @Description: 文交所订单列表
+	 * @param paramMap
+	 * @return 
+	 * @return List<Map<String,Object>>
+	 * @throws
+	 */
+	public List<Map<String, Object>> selectCivilizationOrderList(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectCivilizationOrderCount 
+	 * @Description: 文交所订单列表数量
+	 * @param paramMap
+	 * @return 
+	 * @return int
+	 * @throws
+	 */
+	public int selectCivilizationOrderCount(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: getAccountAndPayTypeInfo 
+	 * @Description: 获取支付方式和账户列表
+	 * @return 
+	 * @return Map<String,Object>
+	 * @throws
+	 */
+	public Map<String, Object> getAccountAndPayTypeInfo();
+
+	/**
+	 * @Title: getAuditorId 
+	 * @Description: 通过用户id 获取领导id
+	 * @param userId
+	 * @return String
+	 * @throws
+	 */
+	public String getAuditorId(String userId);
+
 }

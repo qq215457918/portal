@@ -35,6 +35,7 @@
     <result column="receiver_staff_name" property="receiverStaffName" jdbcType="VARCHAR" />
     <result column="phone_staff_name" property="phoneStaffName" jdbcType="VARCHAR" />
     <result column="goodsQuantity" property="goodsQuantity" jdbcType="VARCHAR" />
+    <result column="culture_remark" property="cultureRemark" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -116,12 +117,17 @@
       <if test="condition.deleteFlag != null" >
          and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <if test="condition.cultureRemark != null" >
+         and culture_remark = #{condition.cultureRemark,jdbcType=VARCHAR}
+      </if>
       <!-- 新增查询今天的条件 -->
       <if test="condition.today_flag != null" >
          and to_days(create_date) = to_days(now())
       </if>
+      <!-- 财务查询订单为正常的或者订单为退货换货仓库为已入库的订单 -->
       <if test="condition.financeOrder != null and condition.financeOrder == 1" >
-         and (order_type = 1 or ((order_type = 2 or order_type = 3) and warehouse_flag = -1))
+         and (order_type = 1 or ((order_type = 2 or order_type = 3) and warehouse_flag = -1) or culture_flag = -1)
+         and order_type != 4
       </if>
     </trim>
   </sql>
@@ -199,6 +205,9 @@
       <if test="example.condition.deleteFlag != null" >
          and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.cultureRemark != null" >
+         and culture_remark = #{example.ondition.cultureRemark,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
@@ -206,7 +215,7 @@
     pay_type, pay_price, actual_price, finance_flag, finance_type, finance_operator_id, 
     finance_date, warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, 
     culture_operator_id, culture_date, create_date, create_id, update_date, update_id, 
-    delete_flag
+    delete_flag, culture_remark
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -611,6 +620,9 @@
       <if test="deleteFlag != null" >
         delete_flag = #{deleteFlag,jdbcType=VARCHAR},
       </if>
+      <if test="cultureRemark != null" >
+        culture_remark = #{cultureRemark,jdbcType=VARCHAR},
+      </if>
       <if test="customerPhone != null" >
         customer_id = (select id from customer_info where phone = #{customerPhone,jdbcType=VARCHAR}),
       </if>
@@ -694,8 +706,8 @@
   </select>
   
   <select id="selectOrderModifyList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
-  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '&amp;', od.amount)) goodsQuantity,
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(concat(od.good_name, '(', od.good_id, ')')) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
+  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '(', od.good_id, ')', '&amp;', od.amount)) goodsQuantity,
   		oi.order_number,oi.finance_date, oi.warehouse_flag
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
@@ -721,8 +733,9 @@
       <if test="condition.userId != null" >
          and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
       </if>
+      <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
-         and (finance_flag = 1 or ((order_type = 2 or order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)))
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)))
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}

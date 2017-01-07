@@ -1,8 +1,5 @@
 package com.portal.action.filter;
 
-import com.portal.common.util.StringUtil;
-import com.portal.common.util.WebUtils;
-import com.portal.service.EmployeeInfoService;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -11,6 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.web.filter.PathMatchingFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.portal.common.util.StringUtil;
+import com.portal.common.util.WebUtils;
+import com.portal.service.EmployeeInfoService;
 
 public class SysUserFilter extends PathMatchingFilter {
 

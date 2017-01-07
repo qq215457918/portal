@@ -10,6 +10,8 @@ import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderInfoService;
+
+import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -171,11 +173,9 @@ public class OrderAction {
         //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
         criteria.put("userId", userId);
-        if (StringUtils.isNotBlank(userId)) {
+        if (StringUtils.isNotBlank(userId) && !"1".equals(request.getParameter("store"))) {
             criteria.put("financeFlag", "-1");
-        }
-
-        if ("1".equals(request.getParameter("store"))) {
+        }else if ("1".equals(request.getParameter("store"))) {
             criteria.put("store", 1);
         }
 
@@ -215,6 +215,8 @@ public class OrderAction {
     public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setWarehouseFlag(request.getParameter("opt"));
+        orderInfo.setWarehouseOperatorId((String) request.getSession().getAttribute("userId"));
+        orderInfo.setWarehouseDate(new Date());
         orderInfo.setId(request.getParameter("orderId"));
         orderInfoService.updateByPrimaryKeySelective(orderInfo);
     }

@@ -232,6 +232,7 @@ function doStoreOp(opt, obj){
 		},
 		"success": function(data){
 			alert("更新成功");
+			$('#financeOrderDate').dataTable().fnDraw();
 		}
 	})
 }

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
-
-import com.portal.bean.OrderInfo;
 /**
  * @author miaowq
  * 审批流程业务查询
@@ -81,5 +79,52 @@ public interface WorkFlowDao {
 	 * @throws
 	 */
 	List<Map<String, String>> selectlerkEverydayTypeCount(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectCivilizationOrderList 
+	 * @Description: 文交所订单列表
+	 * @param paramMap
+	 * @return 
+	 * @return List<Map<String,Object>>
+	 * @throws
+	 */
+	List<Map<String, Object>> selectCivilizationOrderList(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: selectCivilizationOrderCount 
+	 * @Description: 文交所订单列表数量
+	 * @param paramMap
+	 * @return 
+	 * @return int
+	 * @throws
+	 */
+	int selectCivilizationOrderCount(Map<String, Object> paramMap);
+
+	/**
+	 * @Title: getAccountAndPayTypeInfo 
+	 * @Description: 获取支付方式和账户列表
+	 * @return 
+	 * @return List<Map<String, Object>>
+	 * @throws
+	 */
+	List<Map<String, Object>> getAccountList();
+
+	/**
+	 * @Title: getAccountAndPayTypeInfo 
+	 * @Description: 获取支付方式和账户列表
+	 * @return 
+	 * @return List<Map<String, Object>>
+	 * @throws
+	 */
+	List<Map<String, Object>> getPayTypeList();
+
+	/**
+	 * @Title: getAuditorId 
+	 * @Description: 获取支付方式和账户列表
+	 * @param userId
+	 * @return String
+	 * @throws
+	 */
+	String getAuditorId(String userId);
 	
 }
