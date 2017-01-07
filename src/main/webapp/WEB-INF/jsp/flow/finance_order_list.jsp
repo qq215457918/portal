@@ -118,5 +118,61 @@
 		</div>
 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div>
 	</div>
+	
+	<div class="modal fade" id="orderSettlement">
+		<div class="modal-dialog" style="width:1300px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal"
+						type="button">&times;</button>
+					<h4 class="modal-title">收款</h4>
+				</div>
+              	<form id="updateCivi" action="workflow/updateOrderAndInsert" method="post">
+              		<input type="hidden" name="orderNumber"/>
+              		<input type="hidden" name="orderId"/>
+              		<div class="row">
+	              		<div class="form-group">
+				            <div class="col-md-7">
+				            	<a name="addSettlement">添加收款</a>
+				            </div>
+				    	</div>
+			    	</div>
+              		<div class="row base-column">
+		              	<div class="form-group form-data">
+				            <label class="control-label col-md-1" style="width:6%;">收款账户</label>
+				            <div class="col-md-2">
+				            	<select name="paymentAccountId" id="paymentAccountId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
+				            </div>
+				            <label class="control-label col-md-1" style="width:6%;">收款方式</label>
+				            <div class="col-md-2">
+				            	<select name="customerPayType" id="customerPayType" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
+				            </div>
+				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>
+				            <div class="col-md-1">
+				            	<input class="form-control" name="payAmount" id="payAmount" type="text">
+				            </div>
+				            <label class="control-label col-md-1" style="width:6%;">实际收款金额</label>
+				            <div class="col-md-1">
+				            	<input class="form-control" name="payAmountActual" id="payAmountActual" type="text">
+				            </div>
+				            <label class="control-label col-md-1" style="width:6%;">手续费</label>
+				            <div class="col-md-1">
+				            	<input class="form-control" name="poundage" id="poundage" type="text">
+				            </div>
+				    	</div>
+				    	<div class="form-group">
+				            <div class="col-md-1">
+				            	<a name="delete" style="display:none;">删除</a>
+				            </div>
+				    	</div>
+			    	</div>
+              	</form>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="commitForm" data-flag="1">确认</button>
+					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

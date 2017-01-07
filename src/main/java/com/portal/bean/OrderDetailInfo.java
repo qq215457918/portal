@@ -1,9 +1,10 @@
 package com.portal.bean;
 
-import com.portal.common.util.NumberToCN;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.portal.common.util.NumberToCN;
 
 public class OrderDetailInfo implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -34,6 +35,8 @@ public class OrderDetailInfo implements Serializable {
      * 商品类型（同good_info type）
      */
     private String goodType;
+    
+    private String goodTypeName;
 
     /**
      * 商品名称
@@ -229,13 +232,27 @@ public class OrderDetailInfo implements Serializable {
     public String getGoodType() {
         return goodType;
     }
-
+    
+    public String getGoodTypeName() {
+		return goodTypeName;
+	}
+    
     /**
      * @param goodType 
      *            商品类型（同good_info type）
      */
     public void setGoodType(String goodType) {
         this.goodType = goodType;
+        
+        if ("1".equals(goodType)) {
+            this.goodTypeName = "礼品 ";
+        } else if ("2".equals(goodType)) {
+            this.goodTypeName = "配售";
+        } else if ("3".equals(goodType)) {
+            this.goodTypeName = "配送";
+        } else if ("4".equals(goodType)) {
+            this.goodTypeName = "兑换";
+        }
     }
 
     /**

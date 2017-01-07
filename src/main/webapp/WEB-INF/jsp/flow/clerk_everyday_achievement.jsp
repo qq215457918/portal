@@ -39,10 +39,10 @@
 										<button class="btn btn-primary" id="searchAchieve">查询</button>
 									</div>
 									<div class="col-md-7">
-										<c:if test="${id==1 }">
-											<button class="btn btn-primary">已审核</button>
+										<c:if test="${hasCommitDaily>0 }">
+											<button class="btn btn-primary">已提交</button>
 										</c:if>
-										<c:if test="${id!=1 }">
+										<c:if test="${hasCommitDaily==0 }">
 											<button class="btn btn-primary" id="toAchieveExam">提交审核</button>
 										</c:if>
 									</div>
@@ -104,6 +104,33 @@
 							</div>
 							<div class="text">接待统计</div>
 						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="modal-shiftfix">
+		<div class="container-fluid main-content">
+			<div class="col-lg-12">
+				<div class="widget-container fluid-height clearfix">
+					<div class="heading">
+						<i class="icon-table"></i>
+						审核信息
+			        </div>
+					<div class="widget-content padded">
+						<!-- DataTables Example -->
+						<table class="table table-bordered" id="examHistoryInfo">
+							<thead>
+								<th>序号</th>
+								<th>审核人</th>
+								<th>审核日期</th>
+								<th>审核意见</th>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+						<!-- end DataTables Example -->
 					</div>
 				</div>
 			</div>

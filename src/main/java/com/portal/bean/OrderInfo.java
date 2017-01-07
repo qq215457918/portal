@@ -2,7 +2,9 @@ package com.portal.bean;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.portal.common.util.NumberToCN;
 
@@ -112,6 +114,11 @@ public class OrderInfo implements Serializable {
      * 1 已审核
      */
     private String cultureFlag;
+    
+    /**
+     * 文交所审批备注
+     */
+    private String cultureRemark;
 
     /**
      * 文交所人员id
@@ -157,6 +164,8 @@ public class OrderInfo implements Serializable {
     private String orderTypeName;
     
     private String goodsQuantity;
+    
+    private List<OrderFundSettlement> paymentList = new ArrayList<OrderFundSettlement>();
 
     public String getRemarks() {
         return remarks;
@@ -629,5 +638,20 @@ public class OrderInfo implements Serializable {
 	public void setGoodsQuantity(String goodsQuantity) {
 		this.goodsQuantity = goodsQuantity;
 	}
-    
+
+	public String getCultureRemark() {
+		return cultureRemark;
+	}
+
+	public void setCultureRemark(String cultureRemark) {
+		this.cultureRemark = cultureRemark;
+	}
+
+	public List<OrderFundSettlement> getPaymentList() {
+		return paymentList;
+	}
+
+	public void setPaymentList(List<OrderFundSettlement> paymentList) {
+		this.paymentList = paymentList;
+	}
 }

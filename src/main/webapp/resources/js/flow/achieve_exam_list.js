@@ -55,24 +55,23 @@ $(document).on('click', '#itemExam', function () {
 });
 
 function commitExam(suggestion){
-	$('#examModel inout[name=suggestion]').val(suggestion);
+	$('#examModel input[name=suggestion]').val(suggestion);
+	$('#examModel input[name=examDate]').val($('#dateInfo').val());
 	$('#examModel').modal('hide');
-	if(suggestion=='pass'){
-		$('#itemExam').html('已审核');
-	}else {
-		$('#itemExam').html('已拒绝');
-	}
 	
+	var employeeIds = "";
 	$('input[type=checkbox]:checked').each(function(){
-		if($(this).attr(name) == 'checkAll'){
+		if($(this).attr('name') == 'checkAll'){
 			return;
 		}
-		if(suggestion=='pass'){
-			$(this).closest('tr').find('td:last').append('  已审核')
-		}else {
-			$(this).closest('tr').find('td:last').append('  已拒绝')
-		}
+		
+		employeeIds += $(this).val() + ";";
 	});
+	if("" != employeeIds){
+		$('input[name=employeeIds]').val(employeeIds);
+	}
+	
+	$('#commitExamForm').submit();
 }
 
 function initData(){
@@ -96,7 +95,7 @@ function initData(){
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
-				return '<label><input name="optionsRadios1" type="checkbox" value="' + row.clerkId + '"><span></span></label>';
+				return '<label><input name="optionsRadios1" type="checkbox" value="' + row.employeeId + '"><span></span></label>';
 			},
 			"targets" : 0
 			},{

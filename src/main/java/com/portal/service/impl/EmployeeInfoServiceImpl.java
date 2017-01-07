@@ -55,9 +55,13 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             return Collections.EMPTY_SET;
         }
         //        return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
-
+        String [] roleStr = user.getRoleIds().split(",");
+        Long [] roleStrLong = new Long[roleStr.length];
+        for(int i=0;i<roleStr.length;i++){
+        	roleStrLong[i]= Long.valueOf(roleStr[i]);
+        }
         return roleService
-                .findPermissions((Long[]) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
+                .findPermissions(roleStrLong);
     }
 
     public EmployeeInfo authentication(String loginName, String password) {

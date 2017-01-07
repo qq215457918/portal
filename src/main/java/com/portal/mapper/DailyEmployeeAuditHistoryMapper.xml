@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.DailyEmployeeAuditHistoryDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.DailyEmployeeAuditHistory" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="audit_id" property="auditId" jdbcType="VARCHAR" />
+    <result column="auditor_id" property="auditorId" jdbcType="VARCHAR" />
+    <result column="audit_date" property="auditDate" jdbcType="TIMESTAMP" />
+    <result column="message" property="message" jdbcType="VARCHAR" />
+    <result column="auditor_name" property="auditorName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.auditId != null" >
+         and audit_id = #{condition.auditId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.auditorId != null" >
+         and auditor_id = #{condition.auditorId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.auditDate != null" >
+         and audit_date = #{condition.auditDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.message != null" >
+         and message = #{condition.message,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.auditId != null" >
+         and audit_id = #{example.condition.auditId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.auditorId != null" >
+         and auditor_id = #{example.condition.auditorId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.auditDate != null" >
+         and audit_date = #{example.condition.auditDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.message != null" >
+         and message = #{example.condition.message,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, audit_id, auditor_id, audit_date, message
+  </sql>
+  <sql id="Base_Column_List_info" >
+    de.id, audit_id, auditor_id, audit_date, message, ei.name as auditor_name
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List_info" />
+    from daily_employee_audit_history de
+    left join employee_info ei on de.auditor_id = ei.id
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from daily_employee_audit_history
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from daily_employee_audit_history
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from daily_employee_audit_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.DailyEmployeeAuditHistory" >
+    insert into daily_employee_audit_history (id, audit_id, auditor_id, 
+      audit_date, message)
+    values (#{id,jdbcType=VARCHAR}, #{auditId,jdbcType=VARCHAR}, #{auditorId,jdbcType=VARCHAR}, 
+      #{auditDate,jdbcType=TIMESTAMP}, #{message,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.DailyEmployeeAuditHistory" >
+    insert into daily_employee_audit_history
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+      <if test="auditId != null" >
+        audit_id,
+      </if>
+      <if test="auditorId != null" >
+        auditor_id,
+      </if>
+      <if test="auditDate != null" >
+        audit_date,
+      </if>
+      <if test="message != null" >
+        message,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+        rand_string(16),
+      <if test="auditId != null" >
+        #{auditId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        #{message,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from daily_employee_audit_history
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update daily_employee_audit_history
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditId != null" >
+        audit_id = #{record.auditId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditorId != null" >
+        auditor_id = #{record.auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.auditDate != null" >
+        audit_date = #{record.auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.message != null" >
+        message = #{record.message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update daily_employee_audit_history
+    set id = #{record.id,jdbcType=VARCHAR},
+      audit_id = #{record.auditId,jdbcType=VARCHAR},
+      auditor_id = #{record.auditorId,jdbcType=VARCHAR},
+      audit_date = #{record.auditDate,jdbcType=TIMESTAMP},
+      message = #{record.message,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.DailyEmployeeAuditHistory" >
+    update daily_employee_audit_history
+    <set >
+      <if test="auditId != null" >
+        audit_id = #{auditId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditorId != null" >
+        auditor_id = #{auditorId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditDate != null" >
+        audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="message != null" >
+        message = #{message,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.DailyEmployeeAuditHistory" >
+    update daily_employee_audit_history
+    set audit_id = #{auditId,jdbcType=VARCHAR},
+      auditor_id = #{auditorId,jdbcType=VARCHAR},
+      audit_date = #{auditDate,jdbcType=TIMESTAMP},
+      message = #{message,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

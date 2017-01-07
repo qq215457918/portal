@@ -23,6 +23,14 @@ public class IndexController {
     @Autowired
     private EmployeeInfoService employeeService;
 
+    /*@RequestMapping("/index")
+    public String index(@CurrentUser EmployeeInfo loginUser, Model model) {
+        Set<String> permissions = employeeService.findPermissions(loginUser.getLoginName());
+        List<Resource> menus = resourceService.findMenus(permissions);
+        model.addAttribute("menus", menus);
+        return "main";
+    }*/
+    
     @RequestMapping("/")
     public String index(@CurrentUser EmployeeInfo loginUser, Model model) {
         Set<String> permissions = employeeService.findPermissions(loginUser.getLoginName());
