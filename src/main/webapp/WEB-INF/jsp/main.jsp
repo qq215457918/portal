@@ -50,7 +50,7 @@
 			            <div class="widget-container weather">
 			                <div class="row text-center">
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
-			                      	电联管理
+			                      	数据管理
 			                    </div>
 			                    <a class="btn btn-warning" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
 			              </div>
