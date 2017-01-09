@@ -27,7 +27,7 @@ public class GoodsInfoForm implements Serializable {
     private String sortDescription;
 
     /**
-     * 商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     * 商品类型 0:常规商品 1：赠品 2：配售 3：配送 4:兑换
      */
     private String type;
 
@@ -127,7 +127,7 @@ public class GoodsInfoForm implements Serializable {
     private String deleteFlag;
     
     /**
-     * 后台商品管理-商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     * 后台商品管理-商品类型 0:常规商品 1：赠品 2：配售 3：配送 4:兑换
      */
     private String viewType;
     
@@ -308,7 +308,7 @@ public class GoodsInfoForm implements Serializable {
     }
 
     /**
-     * @return 商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     * @return 商品类型 0:常规商品 1：赠品 2：配售 3：配送 4:兑换
      */
     public String getType() {
         return type;
@@ -316,7 +316,7 @@ public class GoodsInfoForm implements Serializable {
 
     /**
      * @param type 
-     *            商品类型 0:常规商品 1：礼品 2：配售 3：配送 4:兑换
+     *            商品类型 0:常规商品 1：赠品 2：配售 3：配送 4:兑换
      */
     public void setType(String type) {
         this.type = type;
