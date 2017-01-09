@@ -217,15 +217,19 @@ public class GoodsInfoForm implements Serializable {
     }
 
     public String getViewTrusteeshipFlag() {
-        if(StringUtil.isNotBlank(this.trusteeshipFlag)) {
-            switch (Integer.parseInt(this.trusteeshipFlag)) {
-            case 0:
-                return "否";
-            default:
-                return "是";
+        if("1".equals(this.trusteeshipFlag) || "0".equals(this.trusteeshipFlag)) {
+            if(StringUtil.isNotBlank(this.trusteeshipFlag)) {
+                switch (Integer.parseInt(this.trusteeshipFlag)) {
+                case 0:
+                    return "否";
+                default:
+                    return "是";
+                }
             }
+            return viewTrusteeshipFlag;
+        }else {
+            return this.trusteeshipFlag;
         }
-        return viewTrusteeshipFlag;
     }
 
     public void setViewTrusteeshipFlag(String viewTrusteeshipFlag) {
