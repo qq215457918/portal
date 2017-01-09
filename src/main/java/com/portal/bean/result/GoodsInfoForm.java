@@ -14,7 +14,7 @@ public class GoodsInfoForm implements Serializable {
     /**
      * 种类ID
      */
-    private String sortId; 
+    private String sortId;
 
     /**
      * 种类名称
