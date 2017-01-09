@@ -594,6 +594,7 @@ public class WorkFlowAction {
 		orderInfo.setFinanceFlag("1");
 		if("1".equals(request.getParameter("operate"))){//进行付款
 			orderInfo.setFinanceFlag("-1");
+			orderInfo.setStatus("4");
 		}
 		orderInfo.setId(request.getParameter("orderId"));
 		

@@ -214,7 +214,11 @@ public class OrderAction {
     @RequestMapping("updateOrderInfo")
     public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response) {
         OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setWarehouseFlag(request.getParameter("opt"));
+        String opt = request.getParameter("opt");
+        if("1".equals(opt)){
+        	orderInfo.setStatus("4");
+        }
+        orderInfo.setWarehouseFlag(opt);
         orderInfo.setWarehouseOperatorId((String) request.getSession().getAttribute("userId"));
         orderInfo.setWarehouseDate(new Date());
         orderInfo.setId(request.getParameter("orderId"));
