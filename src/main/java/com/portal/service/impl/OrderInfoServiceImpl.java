@@ -24,6 +24,7 @@ import com.portal.dao.extra.SellDailyInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
+import com.portal.service.ReceptionInfoService;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -66,6 +67,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     private SellDailyInfoExtraDao sellDailyInfoExreaDao;
+
+    @Autowired
+    ReceptionInfoService receptionInfoService;
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
@@ -444,6 +448,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      *1.首先判断订单里面是否有礼品
      *2.如果 有则 吧good_info 里面的赠品信息拿出
      *3.生成单独的礼品处理方法类
+     *
+     *0110modify：新增reception_info 中添加orderID 和presentOrderID
      * @throws InterruptedException 
      */
     public boolean insertOrder(HttpServletRequest request) {
@@ -456,6 +462,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         boolean hasPresent = false;
         Long amount = 0L;
         String cid = request.getParameter("cid");
+        StringBuffer presentNameList = new StringBuffer();
         if (json.size() > 0) {
             for (int i = 0; i < json.size(); i ++) {
                 JSONObject job = json.getJSONObject(i);
@@ -471,12 +478,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), puuid,
                                     "6"));//6 为VIP赠品
+                    presentNameList.append(goodsInfo.getName() + ",");
                 } else {//其他类型单独插入goodType
                     hasGoods = true;
                     amount += Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
                                     "1"));//1 为正常订单
+
                 }
             }
 
@@ -485,6 +494,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                         insertOrderInfo(cid,
                                 request.getParameter("submitType").equals("deposit") ? "1" : "0", puuid,
                                 0L));//礼品的订单金额为0
+                //在接待表中添加赠品订单 puuid
+                receptionInfoService.updatePresentOrderID(puuid, presentNameList.toString(), cid);
             }
             try {
                 Thread.sleep(1000);
@@ -496,6 +507,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                         insertOrderInfo(cid,
                                 request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
                                 amount));
+                //在接待表中添加赠品订单 uuid
+                receptionInfoService.updateOrderID(uuid, cid);
             }
         }
         return true;

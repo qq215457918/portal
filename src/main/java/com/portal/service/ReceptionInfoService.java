@@ -11,6 +11,22 @@ import net.sf.json.JSONObject;
 public interface ReceptionInfoService {
 
     /**
+     * 更新订单信息orderID
+     * @param orderID
+     * @param customerId
+     * @return
+     */
+    public boolean updatePresentOrderID(String presentID, String presentName, String customerId);
+
+    /**
+     * 更新订单信息orderID
+     * @param orderID
+     * @param customerId
+     * @return
+     */
+    public boolean updateOrderID(String orderID, String customerId);
+
+    /**
      * 查询正在接待的业务员信息
      * @param date
      * @return
@@ -31,7 +47,7 @@ public interface ReceptionInfoService {
      * @return
      */
     public boolean updateEndReceptionTime(String customerId);
-    
+
     public boolean insertReceptionTime(String customerId, String receiverStaffId);
 
     int countByExample(Criteria example);

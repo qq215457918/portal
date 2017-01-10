@@ -26,7 +26,7 @@
         </div>
         <div class="container-fluid main-nav clearfix">
   			<input type="hidden" id="active" name="active" value="${active}" />
-  			<input type="hidden" id="cId" name="cId" value='<%=session.getAttribute("cId")%>' />
+  			<%-- <input type="hidden" id="cId" name="cId" value='<%=session.getAttribute("cId")%>' /> --%>
           <!--menu start-->
           <div class="nav-collapse">
             <ul class="nav">
@@ -81,8 +81,9 @@
 				base = $("base").attr('href');
 				// 查询功能
 				$("#quitConfirm").click(function(){
-					var cId = $("#cId");
-					window.location.href=base+"/visit/quit?cId="+cId;
+					/* var cId = $("#cId"); */
+					/* window.location.href=base+"/visit/quit?cId="+cId; */
+					window.location.href=base+"visit/quit"
 				});
 				showTab();
 			});

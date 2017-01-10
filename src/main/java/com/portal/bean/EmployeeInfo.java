@@ -89,7 +89,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param id 
-	 *            主键
+     *            主键
      */
     public void setId(String id) {
         this.id = id;
@@ -104,7 +104,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param groupId 
-	 *            组ID
+     *            组ID
      */
     public void setGroupId(String groupId) {
         this.groupId = groupId;
@@ -119,7 +119,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param departmentId 
-	 *            部门ID
+     *            部门ID
      */
     public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
@@ -134,7 +134,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param organizationId 
-	 *            机构ID
+     *            机构ID
      */
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId;
@@ -149,7 +149,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param name 
-	 *            姓名
+     *            姓名
      */
     public void setName(String name) {
         this.name = name;
@@ -164,7 +164,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param sex 
-	 *            性别 1-男 0-女
+     *            性别 1-男 0-女
      */
     public void setSex(String sex) {
         this.sex = sex;
@@ -179,7 +179,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param staffNumber 
-	 *            工号
+     *            工号
      */
     public void setStaffNumber(String staffNumber) {
         this.staffNumber = staffNumber;
@@ -194,7 +194,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param positionType 
-	 *            职位类型 1-客服 2-接待
+     *            职位类型 1-客服 2-接待
      */
     public void setPositionType(String positionType) {
         this.positionType = positionType;
@@ -209,7 +209,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param loginName 
-	 *            登录名称
+     *            登录名称
      */
     public void setLoginName(String loginName) {
         this.loginName = loginName;
@@ -224,7 +224,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param password 
-	 *            登录密码
+     *            登录密码
      */
     public void setPassword(String password) {
         this.password = password;
@@ -239,7 +239,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param photoPath 
-	 *            头像
+     *            头像
      */
     public void setPhotoPath(String photoPath) {
         this.photoPath = photoPath;
@@ -254,7 +254,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param receptionFlag 
-	 *            接待标示(0未接待 1 正在接待)
+     *            接待标示(0未接待 1 正在接待)
      */
     public void setReceptionFlag(String receptionFlag) {
         this.receptionFlag = receptionFlag;
@@ -269,7 +269,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param status 
-	 *            员工状态 0-未禁用 1-已禁用
+     *            员工状态 0-未禁用 1-已禁用
      */
     public void setStatus(String status) {
         this.status = status;
@@ -292,7 +292,7 @@ public class EmployeeInfo implements Serializable {
 
     /**
      * @param deleteFlag 
-	 *            删除标识 0-未删除 1-已删除
+     *            删除标识 0-未删除 1-已删除
      */
     public void setDeleteFlag(String deleteFlag) {
         this.deleteFlag = deleteFlag;

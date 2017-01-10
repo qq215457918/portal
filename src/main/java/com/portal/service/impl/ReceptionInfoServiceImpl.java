@@ -32,6 +32,22 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
+    public boolean updateOrderID(String orderId, String customerId) {
+        criteria.clear();
+        criteria.put("orderId", orderId);
+        criteria.put("customerId", customerId);
+        return receptionInfoExtraDao.updateOrderId(criteria) > 0 ? true : false;
+    }
+
+    public boolean updatePresentOrderID(String presentID, String presentName, String customerId) {
+        criteria.clear();
+        //presentOrderId  customerId
+        criteria.put("presentOrderId", presentID);
+        criteria.put("presentName", presentName);
+        criteria.put("customerId", customerId);
+        return receptionInfoExtraDao.updatePresentOrderId(criteria) > 0 ? true : false;
+    }
+
     /**
      * 记录开始接待时间
      * by meng.yue
@@ -79,8 +95,14 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         return resultJson;
     }
 
+    /**
+     * 接待业务查询的查询条件类
+     * @param request
+     * @return
+     */
     public Criteria setPageCriteria(HttpServletRequest request) {
         criteria.clear();
+        criteria.setOrderByClause("create_date desc");
         int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         criteria.setMysqlOffset(currentPage);

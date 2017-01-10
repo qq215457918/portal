@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-    <title>接待业务</title>
+    <title>我的工作</title>
     <base href="${basePath}">
 	<jsp:include page="head.jsp" />
   </head>

@@ -79,4 +79,17 @@ public interface ReceptionInfoExtraDao {
      */
     int updateById4Quit(Criteria criteria);
 
+    /**
+     * 更新订单表中的orderID
+     * @param criteria
+     * @return
+     */
+    int updateOrderId(Criteria criteria);
+
+    /**
+     * 更新订单中的presentID 和 presentName 
+     * @param criteria
+     * @return
+     */
+    int updatePresentOrderId(Criteria criteria);
 }
