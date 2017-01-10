@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * 回购商品类
+ */
 @Controller
 @RequestMapping("/repurchase")
 public class RepurchaseAction {
