@@ -36,8 +36,8 @@
         <property name="rememberMeParam" value="rememberMe"/>
         <property name="loginUrl" value="/login"/>
     </bean>
-
-   <bean id="sysUserFilter" class="com.portal.action.filter.SysUserFilter"/>
+ 
+	<bean id="sysUserFilter" class="com.portal.action.filter.SysUserFilter"/>
   	
   	<!-- 配置shiro的过滤器工厂类，shiroFilter要和我们在web.xml中配置的过滤器一致 -->  
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -57,8 +57,11 @@
                 /resources/** = anon
                 <!-- 登录页允许访问 -->
                 /login = authc
+                 <!-- 退出方法 -->
+                 /logout = logout
                 <!-- 其他资源需要认证 -->
                 /** = user,sysUser
+
             </value>
         </property>
     </bean>
