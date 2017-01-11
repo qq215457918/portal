@@ -88,6 +88,7 @@ $(document).ready(function(){
 		$('#collectInfo').hide();
 		$('#outgoingInfo').hide();
 		$('#receiveMoneyInfo').hide();
+		$('#hasPayInfo').hide();
 	});
 }); 
 
