@@ -102,7 +102,7 @@ $(document).on('click', '#confirmReceipt', function () {
 			}
 			
 			$('#updateCivi select[name$=paymentAccountId]:first').html(accountHtml);
-			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
+//			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
 		}
 	})
 	
@@ -227,6 +227,7 @@ function initData(){
 		"sAjaxSource": "workflow/selectFinanceOrder", // 地址
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
+			        {"mData": "receiverStaffName"},
 		            {"mData": "orderNumber"},
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
@@ -255,7 +256,7 @@ function initData(){
 				
 				return operation;
 			},
-			"targets" : 6
+			"targets" : 7
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();

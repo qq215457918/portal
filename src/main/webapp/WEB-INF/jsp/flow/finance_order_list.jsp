@@ -34,6 +34,7 @@
 						<table class="table table-bordered" id="financeOrderExam">
 							<thead>
 								<th>序号</th>
+								<th>接待人员</th>
 								<th>订单编号</th>
 								<th>订单类型</th>
 								<th>支付类型</th>
@@ -169,7 +170,14 @@
 				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款方式</label>
 				            <div class="col-md-2">
-				            	<select name="customerPayType" id="customerPayType" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
+				            	<select name="customerPayType" id="customerPayType" class="form-control">
+				            		<option value="">--请选择--</option>
+				            		<option value="1">信用卡</option>
+				            		<option value="2">储蓄卡（封顶）</option>
+				            		<option value="3">储蓄卡（不封顶）</option>
+				            		<option value="4">支付宝</option>
+				            		<option value="5">微信</option>
+				            	</select>
 				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>
 				            <div class="col-md-1">

@@ -55,7 +55,7 @@
          and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="condition.status != null" >
-         and status = #{condition.status,jdbcType=VARCHAR}
+         and order_info.status = #{condition.status,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderType != null" >
          and order_type = #{condition.orderType,jdbcType=VARCHAR}
@@ -115,7 +115,7 @@
          and update_id = #{condition.updateId,jdbcType=VARCHAR}
       </if>
       <if test="condition.deleteFlag != null" >
-         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+         and order_info.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
       <if test="condition.cultureRemark != null" >
          and culture_remark = #{condition.cultureRemark,jdbcType=VARCHAR}
@@ -128,6 +128,7 @@
       <if test="condition.financeOrder != null and condition.financeOrder == 1" >
          and (order_type = 1 or ((order_type = 2 or order_type = 3) and warehouse_flag = -1) or culture_flag = -1)
          and order_type != 4
+         and order_type != 6
       </if>
     </trim>
   </sql>
@@ -146,7 +147,7 @@
          and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.status != null" >
-         and status = #{example.condition.status,jdbcType=VARCHAR}
+         and order_info.status = #{example.condition.status,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.orderType != null" >
          and order_type = #{example.condition.orderType,jdbcType=VARCHAR}
@@ -203,7 +204,7 @@
          and update_id = #{example.condition.updateId,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.deleteFlag != null" >
-         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+         and order_info.delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.cultureRemark != null" >
          and culture_remark = #{example.ondition.cultureRemark,jdbcType=VARCHAR}
@@ -211,11 +212,17 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_number, customer_id, phone_staff_id, receiver_staff_id, status, order_type, 
-    pay_type, pay_price, actual_price, finance_flag, finance_type, finance_operator_id, 
-    finance_date, warehouse_flag, warehouse_operator_id, warehouse_date, culture_flag, 
-    culture_operator_id, culture_date, create_date, create_id, update_date, update_id, 
-    delete_flag, culture_remark
+    order_info.id, order_info.order_number, order_info.customer_id, order_info.phone_staff_id, 
+    order_info.receiver_staff_id, order_info.status, order_info.order_type, order_info.pay_type, 
+    order_info.pay_price, order_info.actual_price, order_info.finance_flag, order_info.finance_type, 
+    order_info.finance_operator_id, order_info.finance_date, order_info.warehouse_flag, 
+    order_info.warehouse_operator_id, order_info.warehouse_date, order_info.culture_flag, 
+    order_info.culture_operator_id, order_info.culture_date, order_info.create_date, 
+    order_info.create_id, order_info.update_date, order_info.update_id, order_info.delete_flag, 
+    order_info.culture_remark
+    <if test="condition.financeOrder == 1" >
+    	,ei.name as receiver_staff_name
+    </if>
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -224,6 +231,9 @@
     </if>
     <include refid="Base_Column_List" />
     from order_info
+    <if test="condition.financeOrder == 1" >
+    left join employee_info ei on ei.id = order_info.receiver_staff_id
+    </if>
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -740,6 +750,9 @@
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
       </if>
+      <if test="condition.deleteFlag != null" >
+         and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
     group by id
     <include refid="common.Mysql_Pagination_Limit" />
@@ -768,6 +781,9 @@
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
     ) a

@@ -34,10 +34,10 @@
 						<table class="table table-bordered" id="financeOrderDate">
 							<thead>
 								<th>序号</th>
+								<th>接待人员</th>
 								<th>订单编号</th>
 								<th>成交商品&数量</th>
 								<th>成交金额</th>
-								<th>接待人员</th>
 								<th>订单状态</th>
 								<th>成交时间</th>
 								<th>操作</th>

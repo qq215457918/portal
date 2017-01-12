@@ -1,6 +1,7 @@
 
 package com.portal.action.reception;
 
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerInfoService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 接待客户模块
  * 接待模块查询业务
  */
 @Controller
@@ -71,8 +73,11 @@ public class ReceptionAction {
         getBasePath(request, response);
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
-        // receptionInfoService.insertReceptionTime("1", "1");
         String customerId = request.getParameter("cId");
+        //查询接待表
+        EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
+        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId());
+
         model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
@@ -105,7 +110,9 @@ public class ReceptionAction {
     @RequestMapping(value = "/quit")
     public String receptionQuit(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        receptionInfoService.updateEndReceptionTime(request.getParameter("cId"));
+        //String cId = request.getParameter("cId");
+        String cId = (String) request.getSession().getAttribute("cId");
+        receptionInfoService.updateEndReceptionTime(cId);
         return "reception/inquiry_query";
     }
 

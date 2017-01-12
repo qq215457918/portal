@@ -148,7 +148,11 @@ public class OrderAction {
      */
     @RequestMapping("orderDelete")
     public String orderDelete(HttpServletRequest request, HttpServletResponse response) {
-        orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
+    	OrderInfo orderInfo = new OrderInfo();
+    	orderInfo.setId(request.getParameter("orderId"));
+    	orderInfo.setDeleteFlag("1");
+    	orderInfoService.updateByPrimaryKeySelective(orderInfo);
+//        orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
         return "redirect:orderModifyIndex";
     }
 
@@ -180,6 +184,8 @@ public class OrderAction {
         }
 
         criteria.put("orderId", request.getParameter("orderId"));
+        
+        criteria.put("deleteFlag", 0);
 
         List<OrderInfo> resultList = orderInfoService.selectOrderModifyList(criteria);
 
@@ -214,7 +220,11 @@ public class OrderAction {
     @RequestMapping("updateOrderInfo")
     public void updateOrderInfo(HttpServletRequest request, HttpServletResponse response) {
         OrderInfo orderInfo = new OrderInfo();
-        orderInfo.setWarehouseFlag(request.getParameter("opt"));
+        String opt = request.getParameter("opt");
+        if("1".equals(opt)){
+        	orderInfo.setStatus("4");
+        }
+        orderInfo.setWarehouseFlag(opt);
         orderInfo.setWarehouseOperatorId((String) request.getSession().getAttribute("userId"));
         orderInfo.setWarehouseDate(new Date());
         orderInfo.setId(request.getParameter("orderId"));

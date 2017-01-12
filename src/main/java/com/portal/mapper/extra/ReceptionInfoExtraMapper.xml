@@ -67,8 +67,8 @@
         (select e.`name` from employee_info e where e.id = r.phone_staff_id) as phone_staff_name,
         (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
         c.type as type,
-	    date_format(r.start_time, '%h:%i') as start_time,
-		date_format(r.end_time, '%h:%i') as end_time,
+	    date_format(r.start_time, '%H:%i') as start_time,
+		date_format(r.end_time, '%H:%i') as end_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
     left join customer_info c on r.customer_id = c.id
@@ -171,10 +171,30 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
+  <!-- 设置接待结束标志，取得此用户的最新的一条登门记录进行结束标志 -->
   <update id="updateById4Quit" parameterType="com.portal.bean.Criteria" >
     update reception_info
     set end_time = now() 
     where customer_id = #{condition.customerId,jdbcType=VARCHAR}
-    and end_time is null;
+    and end_time is null
+    order by create_date Desc limit 1 ;
+  </update>
+  
+    <!-- 更新订单ID -->
+  <update id="updateOrderId" parameterType="com.portal.bean.Criteria" >
+    update reception_info
+    set order_id = #{condition.orderId,jdbcType=VARCHAR}
+    where customer_id = #{condition.customerId,jdbcType=VARCHAR}
+    and end_time is null
+    order by create_date Desc limit 1 ;
+  </update>  
+  
+      <!-- 更新礼品订单ID  如果ID 可以为多个使用：concat(present_name,',x') -->
+  <update id="updatePresentOrderId" parameterType="com.portal.bean.Criteria" >
+    update reception_info
+    set present_order_id = #{condition.presentOrderId,jdbcType=VARCHAR},present_name = #{condition.presentName,jdbcType=VARCHAR}
+    where customer_id = #{condition.customerId,jdbcType=VARCHAR}
+    and end_time is null
+    order by create_date Desc limit 1 ;
   </update> 
 </mapper>

@@ -153,4 +153,9 @@
         <error-code>500</error-code>
         <location>/resources/pages/500.html</location>
     </error-page>
+    <!--在获取会话时验证了会话已过期，将抛出InvalidSessionException-->
+    <error-page>  
+	    <exception-type>org.apache.shiro.session.InvalidSessionException</exception-type>  
+	    <location>/resources/pages/404.html</location>  
+	</error-page>
 </web-app>

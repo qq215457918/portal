@@ -88,6 +88,7 @@ $(document).ready(function(){
 		$('#collectInfo').hide();
 		$('#outgoingInfo').hide();
 		$('#receiveMoneyInfo').hide();
+		$('#hasPayInfo').hide();
 	});
 }); 
 
@@ -218,10 +219,10 @@ function initData(){
 		"sAjaxSource": "order/orderModifyList", // 地址
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
+			        {"mData": "receiverStaffName"},  
 		            {"mData": "orderNumber"},
 		            {"mData": "goodsQuantity"},
 		            {"mData": "payPrice"}, 
-		            {"mData": "receiverStaffName"},    
 		            {"mData": "orderTypeName"},
 		            {"mData": "financeDate"},
 		            {"mData": ""}		            

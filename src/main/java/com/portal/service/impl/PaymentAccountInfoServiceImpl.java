@@ -121,7 +121,7 @@ public class PaymentAccountInfoServiceImpl implements PaymentAccountInfoService 
             // 过滤特殊字符
             payment.setAccountNumber(StringUtil.tstr(payment.getAccountNumber().trim()));
         }
-        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser(request);
+        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
         if(StringUtil.isNotBlank(payment.getPaymentAccountId())) {
             // 修改
             payment.setUpdateUserId(employee.getId());
@@ -147,7 +147,7 @@ public class PaymentAccountInfoServiceImpl implements PaymentAccountInfoService 
     }
 
     public JSONObject updatePaymentAccount(String paymentAccountId, JSONObject results, HttpServletRequest request) {
-        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser(request);
+        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
         PaymentAccountInfo paymentAccountInfo = selectByPrimaryKey(paymentAccountId);
         paymentAccountInfo.setDeleteFlag("1");
         paymentAccountInfo.setUpdateUserId(employee.getId());

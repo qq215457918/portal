@@ -528,6 +528,7 @@ public class WorkFlowAction {
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
 		criteria.put("financeOrder", "1");
+		criteria.put("deleteFlag", 0);
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 		
@@ -594,6 +595,7 @@ public class WorkFlowAction {
 		orderInfo.setFinanceFlag("1");
 		if("1".equals(request.getParameter("operate"))){//进行付款
 			orderInfo.setFinanceFlag("-1");
+			orderInfo.setStatus("4");
 		}
 		orderInfo.setId(request.getParameter("orderId"));
 		

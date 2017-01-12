@@ -36,14 +36,14 @@
         <property name="rememberMeParam" value="rememberMe"/>
         <property name="loginUrl" value="/login"/>
     </bean>
-
-   <bean id="sysUserFilter" class="com.portal.action.filter.SysUserFilter"/>
+ 
+	<bean id="sysUserFilter" class="com.portal.action.filter.SysUserFilter"/>
   	
   	<!-- 配置shiro的过滤器工厂类，shiroFilter要和我们在web.xml中配置的过滤器一致 -->  
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/index"/>
+        <property name="successUrl" value="/"/>
         <property name="unauthorizedUrl" value="/401"/>
         <property name="filters">  
 	         <util:map>  
@@ -57,8 +57,11 @@
                 /resources/** = anon
                 <!-- 登录页允许访问 -->
                 /login = authc
+                 <!-- 退出方法 -->
+                 /logout = logout
                 <!-- 其他资源需要认证 -->
                 /** = user,sysUser
+
             </value>
         </property>
     </bean>
@@ -81,11 +84,7 @@
         <property name="sessionIdGenerator" ref="sessionIdGenerator"/>
     </bean>
 
-<!--     会话验证调度器
-    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
-        <property name="sessionValidationInterval" value="1800000"/>
-        <property name="sessionManager" ref="sessionManager"/>
-    </bean> -->
+
     
         <!-- 会话Cookie模板 -->
     <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -93,13 +92,19 @@
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="-1"/>
     </bean>
+    
+    <!--     会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
 
    <!--  会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
-       <!--  <property name="sessionValidationSchedulerEnabled" value="true"/>
-        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> -->
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>

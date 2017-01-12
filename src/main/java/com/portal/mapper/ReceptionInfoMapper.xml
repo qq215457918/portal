@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
     <result column="receiver_staff_id" property="receiverStaffId" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="TIME" />
-    <result column="end_time" property="endTime" jdbcType="TIME" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -18,10 +18,10 @@
          and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="condition.startTime != null" >
-         and start_time = #{condition.startTime,jdbcType=TIME}
+         and start_time = #{condition.startTime,jdbcType=TIMESTAMP}
       </if>
       <if test="condition.endTime != null" >
-         and end_time = #{condition.endTime,jdbcType=TIME}
+         and end_time = #{condition.endTime,jdbcType=TIMESTAMP}
       </if>
       <if test="condition.createDate != null" >
          and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
@@ -37,10 +37,10 @@
          and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.startTime != null" >
-         and start_time = #{example.condition.startTime,jdbcType=TIME}
+         and start_time = #{example.condition.startTime,jdbcType=TIMESTAMP}
       </if>
       <if test="example.condition.endTime != null" >
-         and end_time = #{example.condition.endTime,jdbcType=TIME}
+         and end_time = #{example.condition.endTime,jdbcType=TIMESTAMP}
       </if>
       <if test="example.condition.createDate != null" >
          and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
@@ -86,7 +86,7 @@
       start_time, end_time, create_date
       )
     values (#{id,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, #{receiverStaffId,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIME}, #{endTime,jdbcType=TIME}, #{createDate,jdbcType=TIMESTAMP}
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{createDate,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.ReceptionInfo" >
@@ -122,10 +122,10 @@
         #{receiverStaffId,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null" >
-        #{startTime,jdbcType=TIME},
+        #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null" >
-        #{endTime,jdbcType=TIME},
+        #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
@@ -151,10 +151,10 @@
         receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
       </if>
       <if test="record.startTime != null" >
-        start_time = #{record.startTime,jdbcType=TIME},
+        start_time = #{record.startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.endTime != null" >
-        end_time = #{record.endTime,jdbcType=TIME},
+        end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createDate != null" >
         create_date = #{record.createDate,jdbcType=TIMESTAMP},
@@ -169,8 +169,8 @@
     set id = #{record.id,jdbcType=VARCHAR},
       customer_id = #{record.customerId,jdbcType=VARCHAR},
       receiver_staff_id = #{record.receiverStaffId,jdbcType=VARCHAR},
-      start_time = #{record.startTime,jdbcType=TIME},
-      end_time = #{record.endTime,jdbcType=TIME},
+      start_time = #{record.startTime,jdbcType=TIMESTAMP},
+      end_time = #{record.endTime,jdbcType=TIMESTAMP},
       create_date = #{record.createDate,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -186,10 +186,10 @@
         receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null" >
-        start_time = #{startTime,jdbcType=TIME},
+        start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime != null" >
-        end_time = #{endTime,jdbcType=TIME},
+        end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
       <if test="createDate != null" >
         create_date = #{createDate,jdbcType=TIMESTAMP},
@@ -201,8 +201,8 @@
     update reception_info
     set customer_id = #{customerId,jdbcType=VARCHAR},
       receiver_staff_id = #{receiverStaffId,jdbcType=VARCHAR},
-      start_time = #{startTime,jdbcType=TIME},
-      end_time = #{endTime,jdbcType=TIME},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
       create_date = #{createDate,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=VARCHAR}
   </update>

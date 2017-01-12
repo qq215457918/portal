@@ -17,6 +17,7 @@ import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GroupInfo;
 import com.portal.bean.Role;
 import com.portal.bean.result.EmployeeInfoForm;
+import com.portal.common.util.BeanUtils;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.ExportBean;
 import com.portal.common.util.ExportExcelJxl;
@@ -68,7 +69,7 @@ public class EmployeeManageController {
         // 默认是当前登录人所属机构, 该机构下的所有部门
         Criteria criteria = new Criteria();
         // 获取登录用户所属机构ID
-        EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
         if(employee != null) {
             criteria.put("parentsId", employee.getOrganizationId());
             // 按照名称排序

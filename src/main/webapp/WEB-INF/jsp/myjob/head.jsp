@@ -49,6 +49,21 @@
 	                	<span aria-hidden="true" class="icon-file-text"></span>礼品审批</a>
 	              </li>
               </shiro:hasPermission>
+              <shiro:hasPermission name="job:culture">
+	              <li><a name="tab" href="${base}workflow/civilizationExchangeIndex">
+	                	<span aria-hidden="true" class="icon-file-text"></span>文交所管理</a>
+	              </li>
+              </shiro:hasPermission>
+              <shiro:hasPermission name="job:finance">
+	              <li><a name="tab" href="${base}workflow/financeOrderList">
+	                	<span aria-hidden="true" class="icon-file-text"></span>财务审批</a>
+	              </li>
+              </shiro:hasPermission>
+              <shiro:hasPermission name="job:warehouse">
+	              <li><a name="tab" href="${base}workflow/storeOrderinfo">
+	                	<span aria-hidden="true" class="icon-file-text"></span>库房审批</a>
+	              </li>
+              </shiro:hasPermission>
             </ul>
           </div>
           <!--menu end-->
