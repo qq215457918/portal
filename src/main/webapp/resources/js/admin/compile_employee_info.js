@@ -41,6 +41,43 @@ $(function() {
     
     // 保存信息
     $("#saveEmployee").click(function(){
+    	var name = $("#name").val();
+    	var loginName = $("#loginName").val();
+    	var password = $("#password").val();
+    	var organizationId = $("#organizationId").val();
+    	var roleIds = $("#roleIds").val();
+    	
+    	if(name == null || name == "") {
+    		$("#name").css({"border": "1px solid red"});
+    		return false;
+    	}else {
+    		$("#name").removeAttr("style");
+    	}
+    	if(loginName == null || loginName == "") {
+    		$("#loginName").css({"border": "1px solid red"});
+    		return false;
+    	}else {
+    		$("#loginName").removeAttr("style");
+    	}
+    	if(password == null || password == "") {
+    		$("#password").css({"border": "1px solid red"});
+    		return false;
+    	}else {
+    		$("#password").removeAttr("style");
+    	}
+    	if(organizationId == null || organizationId == "") {
+    		$("#organizationId").css({"border": "1px solid red"});
+    		return false;
+    	}else {
+    		$("#organizationId").removeAttr("style");
+    	}
+    	if(roleIds == null || roleIds == "") {
+    		$("#roleIds").css({"border": "1px solid red"});
+    		return false;
+    	}else {
+    		$("#roleIds").removeAttr("style");
+    	}
+    	
     	var options = {
     		 url: $('#form').attr("action"),
    		     type:"POST",

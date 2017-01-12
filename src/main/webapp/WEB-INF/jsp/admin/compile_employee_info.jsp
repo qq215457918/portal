@@ -28,7 +28,9 @@
 		                   	<input type="hidden" id="id" name="id" value="${employee.id}" />
 		                   	<input type="hidden" id="photoPath" name="photoPath" value="${employee.photoPath}" />
 		                   	<input type="hidden" id="receptionFlag" name="receptionFlag" value="${employee.receptionFlag}" />
-		                   	<input type="hidden" id="createDate" name="createDate" value="${employee.createDate}" />
+		                   	<c:if test="not empty ${employee}">
+			                   	<input type="hidden" id="createDate" name="createDate" value="${employee.createDate}" />
+		                   	</c:if>
 		                   	<input type="hidden" id="deleteFlag" name="deleteFlag" value="${employee.deleteFlag}" />
                              <div class="col-md-6">
                                  <div class="form-group">
@@ -53,7 +55,7 @@
                                  <div class="form-group">
                                      <label>职位类型</label><i class="icon-star"></i>
                                      <div class="col-md-7" style="width: 100%;">
-                                       <label class="radio-inline" style="width: 15%; margin-left: 10%;"><input name="positionType" type="radio" <c:if test="${employee.positionType eq 1 }">checked="checked"</c:if> value="1"><span>客服</span></label>
+                                       <label class="radio-inline" style="width: 15%; margin-left: 10%;"><input name="positionType" type="radio" checked="checked" value="1"><span>客服</span></label>
                                        <label class="radio-inline" style="width: 15%;"><input name="positionType" type="radio" <c:if test="${employee.positionType eq 2 }">checked="checked"</c:if> value="2"><span>接待</span></label>
                                      </div>
                                  </div>
