@@ -578,7 +578,6 @@ public class ReportController {
     
     // ------------------------- 销售日报表 入口：toSellDaily ---------------------------------
     
-    // TODO - 支付方式不确定
     /**
      * @Title: toSellDaily 
      * @Description: 进入销售日报表页面
@@ -796,15 +795,6 @@ public class ReportController {
     }
     
     // ------------------------- 当日刷卡定金明细统计 入口：toCreditCardDepositDetail ---------------------------------
-    
-    // TODO - 支付方式不确定
-    /*select 
-        f.*
-    from order_info o
-    left join order_fund_settlement f on o.order_number = f.order_number
-    where o.pay_type = '1'
-    and f.customer_pay_type = '2'
-    and o.create_date like '%2016-10-25%'*/
     
     /**
      * @Title: toCreditCardDepositDetail 

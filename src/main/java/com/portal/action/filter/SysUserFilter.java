@@ -28,8 +28,9 @@ public class SysUserFilter extends PathMatchingFilter {
         
         // 存储BasePath
         HttpServletRequest requests = (HttpServletRequest) request;
-        String basePath = WebUtils.getBasePath(requests, (HttpServletResponse)response);
+        String basePath = (String) requests.getSession().getAttribute("basePath");
         if(!StringUtil.isNotBlank(basePath)) {
+            basePath = WebUtils.getBasePath(requests, (HttpServletResponse)response);
             requests.getSession().setAttribute("basePath", basePath);
         }
         

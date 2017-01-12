@@ -497,7 +497,7 @@
     ) a
   </select>
   
-  <!-- 获取当日刷卡定金明细数据 -->
+  <!-- 获取当日刷卡定金明细数据  1,2,3为信用卡、储蓄卡（封顶及不封顶） -->
   <select id="getCreditCardDepositDetail" resultMap="OrderFundResultMap" parameterType="com.portal.bean.Criteria" >
     select 
 		f.*,
@@ -510,7 +510,7 @@
       <include refid="Example_Where_Clause" />
     </if>
 	and o.pay_type = '1'
-	and f.customer_pay_type = '2'
+	and f.customer_pay_type in ('1','2','3')
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
