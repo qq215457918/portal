@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,6 +60,7 @@ public class EmployeeManageController {
      * @date 2016年12月20日 下午10:49:59 
      * @version V1.0
      */
+    @RequiresPermissions("employeeManage:view")
     @RequestMapping("/toEmployeeManage")
     public String toEmployeeManage(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -283,6 +285,7 @@ public class EmployeeManageController {
         String startCreateDate = request.getParameter("startCreateDate");
         String endCreateDate = request.getParameter("endCreateDate");
         
+        criteria.put("deleteFlag", "0");
         criteria.setOrderByClause("department_id asc");
         if(StringUtil.isNotBlank(name)) {
             criteria.put("name", name.trim());

@@ -126,21 +126,36 @@
 		<li>
 		  <a href="${basePath}index"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
-		<li>
-		  <a name="tab" href="${basePath}admin/resource?active=1"> <span aria-hidden="true" class="icon-user"></span>权限菜单管理</a>
-		</li>
-		<li>
-		  <a name="tab" href="${basePath}admin/organization?active=2"> <span aria-hidden="true" class="icon-user"></span>组织机构管理</a>
-		</li>
-		<li>
-		  <a name="tab" href="${basePath}admin/role?active=3"> <span aria-hidden="true" class="icon-user"></span>角色管理</a>
-		</li>
-		<li>
-		  <a name="tab" href="${basePath}admin/employeeManage/toEmployeeManage?active=4"> <span aria-hidden="true" class="icon-user"></span>员工管理</a>
-		</li>
-		<li>
-		  <a name="tab" href="${basePath}admin/goodsManage/toGoodsMagene?active=5"> <span aria-hidden="true" class="icon-barcode"></span>商品管理</a>
-		</li>
+		<shiro:hasPermission name="resource:view">
+	        <li>
+			  <a name="tab" href="${basePath}admin/resource?active=1"> <span aria-hidden="true" class="icon-user"></span>权限菜单管理</a>
+			</li>
+        </shiro:hasPermission>
+        <shiro:hasPermission name="organization:view">
+	        <li>
+			  <a name="tab" href="${basePath}admin/organization?active=2"> <span aria-hidden="true" class="icon-user"></span>组织机构管理</a>
+			</li>
+        </shiro:hasPermission>
+		<shiro:hasPermission name="role:view">
+			<li>
+			  <a name="tab" href="${basePath}admin/role?active=3"> <span aria-hidden="true" class="icon-user"></span>角色管理</a>
+			</li>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="employeeManage:view">
+			<li>
+			  <a name="tab" href="${basePath}admin/employeeManage/toEmployeeManage?active=4"> <span aria-hidden="true" class="icon-user"></span>员工管理</a>
+			</li>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="goodsMagene:view">
+			<li>
+			  <a name="tab" href="${basePath}admin/goodsManage/toGoodsMagene?active=5"> <span aria-hidden="true" class="icon-barcode"></span>商品管理</a>
+			</li>
+		</shiro:hasPermission>
+		<shiro:hasPermission name="paymentAccount:view">
+			<li>
+			  <a name="tab" href="${basePath}admin/paymentAccount/toPaymentAccountList?active=6"> <span aria-hidden="true" class="icon-barcode"></span>收款账户管理</a>
+			</li>
+		</shiro:hasPermission>
 		<%-- <li>
 		  <a name="tab" href="${basePath}admin/customerManage/toCustomerManage?active=6"> <span aria-hidden="true" class="icon-barcode"></span>客户信息管理</a>
 		</li> --%>

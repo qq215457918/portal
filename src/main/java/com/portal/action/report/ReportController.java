@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -171,6 +172,7 @@ public class ReportController {
 	 * @return String
 	 * @throws
 	 */
+	@RequiresPermissions("visitEveryDay:view")
 	@RequestMapping("/toVisitEveryDay")
 	public String toVisitEveryDay(HttpServletRequest request, HttpServletResponse response) {
 	    // 保存活动导航标识
@@ -239,6 +241,7 @@ public class ReportController {
 	 * @return String
 	 * @throws
 	 */
+	@RequiresPermissions("organiPerformance:view")
 	@RequestMapping("/toOrganiPerformance")
     public String toOrganiPerformance(HttpServletRequest request, HttpServletResponse response) {
 	    // 保存活动导航标识
@@ -312,7 +315,7 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
- // ------------------------- 进入个人业绩排名 入口：toIndividualRanking ---------------------------------
+    // ------------------------- 进入个人业绩排名 入口：toIndividualRanking ---------------------------------
     
     /**
      * @Title: toIndividualRanking 
@@ -322,6 +325,7 @@ public class ReportController {
      * @return String
      * @throws
      */
+    @RequiresPermissions("individualRanking:view")
     @RequestMapping("/toIndividualRanking")
     public String toIndividualRanking(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -351,6 +355,7 @@ public class ReportController {
     // ------------------------- 筛选客户类型统计 入口：toFiltrateCustomers ---------------------------------
     
     // 进入筛选客户类型页面
+    @RequiresPermissions("filtrateCustomers:view")
     @RequestMapping("/toFiltrateCustomers")
     public String toFiltrateCustomers(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -385,6 +390,7 @@ public class ReportController {
      * @param response
      * @return String
      */
+    @RequiresPermissions("visitAndOutOrder:view")
     @RequestMapping("/toVisitAndOutOrder")
     public String toVisitAndOutOrder(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -447,11 +453,11 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // ------------------------- 接待统计 入口：toSalesmanStatement ---------------------------------
+    // ------------------------- 接待客户及业绩统计 入口：toSalesmanStatement ---------------------------------
     
     /**
      * @Title: toSalesmanStatement 
-     * @Description: 进入接待统计报表页
+     * @Description: 进入接待客户及业绩统计报表页
      * @param request
      * @param response
      * @return String
@@ -459,6 +465,7 @@ public class ReportController {
      * @date 2016年10月26日 下午11:53:03 
      * @version V1.0
      */
+    @RequiresPermissions("salesmanStatement:view")
     @RequestMapping("/toSalesmanStatement")
     public String toSalesmanStatement(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -499,6 +506,7 @@ public class ReportController {
      * @date 2016年10月24日 下午10:14:58 
      * @version V1.0
      */
+    @RequiresPermissions("buttPerforDetail:view")
     @RequestMapping("/toButtPerforDetail")
     public String toButtPerforDetail(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -539,6 +547,7 @@ public class ReportController {
      * @date 2016年10月20日 下午10:22:40 
      * @version V1.0
      */
+    @RequiresPermissions("outwarehouseDetail:view")
     @RequestMapping("/toOutwarehouseDetail")
     public String toOutwarehouseDetail(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -580,6 +589,7 @@ public class ReportController {
      * @date 2016年11月26日 下午2:30:42 
      * @version V1.0
      */
+    @RequiresPermissions("sellDaily:view")
     @RequestMapping("/toSellDaily")
     public String toSellDaily(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -637,7 +647,7 @@ public class ReportController {
     
     /**
      * @Title: toCustomerStatistics 
-     * @Description: 进入统计客户页面
+     * @Description: 进入客户统计客户页面
      * @param request
      * @param response
      * @return String
@@ -645,6 +655,7 @@ public class ReportController {
      * @date 2016年10月29日 下午7:30:21 
      * @version V1.0
      */
+    @RequiresPermissions("customerStatistics:view")
     @RequestMapping(value = "/toCustomerStatistics")
     public String toCustomerStatistics(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -688,6 +699,7 @@ public class ReportController {
      * @date 2016年10月30日 下午6:28:31 
      * @version V1.0
      */
+    @RequiresPermissions("clinchPerforEveryDay:view")
     @RequestMapping("/toClinchPerforEveryDay")
     public String toClinchPerforEveryDay(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -729,6 +741,7 @@ public class ReportController {
      * @date 2016年10月31日 下午11:01:00 
      * @version V1.0
      */
+    @RequiresPermissions("serviceStaffPerfor:view")
     @RequestMapping("/toServiceStaffPerfor")
     public String toServiceStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -752,6 +765,7 @@ public class ReportController {
      * @date 2016年10月31日 下午11:03:26 
      * @version V1.0
      */
+    @RequiresPermissions("receiveStaffPerfor:view")
     @RequestMapping("/toReceiveStaffPerfor")
     public String toReceiveStaffPerfor(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -802,6 +816,7 @@ public class ReportController {
      * @date 2016年12月11日 下午8:39:02 
      * @version V1.0
      */
+    @RequiresPermissions("creditCardDepositDetail:view")
     @RequestMapping("/toCreditCardDepositDetail")
     public String toCreditCardDepositDetail(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -842,6 +857,7 @@ public class ReportController {
      * @date 2016年12月12日 下午10:07:32 
      * @version V1.0
      */
+    @RequiresPermissions("giftDetail:view")
     @RequestMapping("/toGiftDetail")
     public String toGiftDetail(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识

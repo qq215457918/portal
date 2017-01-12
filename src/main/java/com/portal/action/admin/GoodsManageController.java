@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -54,6 +55,7 @@ public class GoodsManageController {
      * @date 2016年12月21日 上午1:16:53 
      * @version V1.0
      */
+    @RequiresPermissions("goodsMagene:view")
     @RequestMapping("/toGoodsMagene")
     public String toGoodsMagene(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -264,11 +266,8 @@ public class GoodsManageController {
         String type = request.getParameter("type");
         String repurchaseFlag = request.getParameter("repurchaseFlag");
         
-        // 分页参数
-        criteria.clear();
         criteria.put("deleteFlag", "0");
         criteria.setOrderByClause("CONVERT(g.`name` USING gbk) asc");
-        
         // 非空判断
         if(StringUtil.isNotBlank(name)) {
             criteria.put("viewName", name.trim());

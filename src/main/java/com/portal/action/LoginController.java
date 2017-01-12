@@ -127,10 +127,11 @@ public class LoginController {
      */
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpSession session) {
+        session.getAttribute("userInfo");
         session.removeAttribute("userInfo");
         // 登出操作
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
-        return "login";
+        return "redirect:/login";
     }
 }

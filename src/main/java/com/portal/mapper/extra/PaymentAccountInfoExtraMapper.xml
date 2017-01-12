@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.extra.PaymentAccountInfoExtraDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.result.PaymentAccountInfoFom" >
+    <id column="payment_account_id" property="paymentAccountId" jdbcType="VARCHAR" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="is_usable" property="isUsable" jdbcType="VARCHAR" />
+    <result column="delete_reason" property="deleteReason" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.paymentAccountName != null" >
+         and payment_account_name like CONCAT("%", #{condition.paymentAccountName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.bankName != null" >
+         and bank_name like CONCAT("%", #{condition.bankName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.accountNumber != null" >
+         and account_number like CONCAT("%", #{condition.accountNumber,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.isUsable != null" >
+         and is_usable = #{condition.isUsable,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteReason != null" >
+         and delete_reason = #{condition.deleteReason,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createUserId != null" >
+         and create_user_id = #{condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateUserId != null" >
+         and update_user_id = #{condition.updateUserId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    payment_account_id, payment_account_name, bank_name, account_number, is_usable, delete_reason, 
+    delete_flag, create_date, create_user_id, update_date, update_user_id
+  </sql>
+  
+  <!-- 根据条件查询记录总数 -->
+  <select id="countByConditions" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from payment_account_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+
+  <!-- 根据条件查询记录集 -->
+  <select id="selectByConditions" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payment_account_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  
+</mapper>
