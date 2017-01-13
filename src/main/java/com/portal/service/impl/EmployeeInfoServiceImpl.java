@@ -12,11 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.DailyEmployeeAudit;
+import com.portal.bean.DailyEmployeeAuditHistory;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.EmployeeInfoForm;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
+import com.portal.dao.DailyEmployeeAuditDao;
+import com.portal.dao.DailyEmployeeAuditHistoryDao;
 import com.portal.dao.EmployeeInfoDao;
 import com.portal.dao.extra.EmployeeInfoExtraDao;
 import com.portal.service.EmployeeInfoService;
@@ -34,6 +38,12 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     @Autowired
     private RoleService roleService;
+    
+    @Autowired
+    private DailyEmployeeAuditDao auditDao;
+    
+    @Autowired
+    private DailyEmployeeAuditHistoryDao auditHistoryDao;
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
@@ -154,13 +164,26 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             // 逻辑删除--修改删除状态
             employeeInfo.setDeleteFlag("1");
             int count = this.updateByPrimaryKey(employeeInfo);
-            // TODO - 可能关联解除权限问题
             if(count > 0) {
-                // 解除权限
-                
-                
-                
-                
+                // TODO - 判断是否有到该用户审批的流程, 直接结束流程
+                // 每日业绩审批 走daily_employee_audit  daily_employee_audit_history
+                criteria.clear();
+                criteria.put("auditorId", employeeInfo.getId());
+                List<DailyEmployeeAudit> auditList = auditDao.selectByExample(criteria);
+                if(auditList.size() > 0) {
+                    for (DailyEmployeeAudit dailyEmployeeAudit : auditList) {
+                        dailyEmployeeAudit.setStatus("2");
+                        count = auditDao.updateByPrimaryKey(dailyEmployeeAudit);
+                        if(count > 0) {
+                            DailyEmployeeAuditHistory auditHistory = new DailyEmployeeAuditHistory();
+                            auditHistory.setId(UUidUtil.getUUId());
+                            auditHistory.setAuditId(dailyEmployeeAudit.getId());
+                            auditHistory.setAuditorId(employeeInfo.getId());
+                            auditHistory.setAuditDate(new Date());
+                            auditHistoryDao.insert(auditHistory);
+                        }
+                    }
+                }
             }else {
                 result = JsonUtils.setError();
                 result.put("text", "系统异常,请刷新后重试");

@@ -55,7 +55,7 @@
          and receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="condition.status != null" >
-         and status = #{condition.status,jdbcType=VARCHAR}
+         and order_info.status = #{condition.status,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderType != null" >
          and order_type = #{condition.orderType,jdbcType=VARCHAR}
@@ -115,7 +115,7 @@
          and update_id = #{condition.updateId,jdbcType=VARCHAR}
       </if>
       <if test="condition.deleteFlag != null" >
-         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+         and order_info.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
       <if test="condition.cultureRemark != null" >
          and culture_remark = #{condition.cultureRemark,jdbcType=VARCHAR}
@@ -147,7 +147,7 @@
          and receiver_staff_id = #{example.condition.receiverStaffId,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.status != null" >
-         and status = #{example.condition.status,jdbcType=VARCHAR}
+         and order_info.status = #{example.condition.status,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.orderType != null" >
          and order_type = #{example.condition.orderType,jdbcType=VARCHAR}
@@ -204,7 +204,7 @@
          and update_id = #{example.condition.updateId,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.deleteFlag != null" >
-         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+         and order_info.delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
       </if>
       <if test="example.condition.cultureRemark != null" >
          and culture_remark = #{example.ondition.cultureRemark,jdbcType=VARCHAR}
@@ -750,6 +750,9 @@
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
       </if>
+      <if test="condition.deleteFlag != null" >
+         and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
     group by id
     <include refid="common.Mysql_Pagination_Limit" />
@@ -778,6 +781,9 @@
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
     ) a

@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GroupInfo;
 import com.portal.bean.Role;
 import com.portal.bean.result.EmployeeInfoForm;
+import com.portal.common.util.BeanUtils;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.ExportBean;
 import com.portal.common.util.ExportExcelJxl;
@@ -59,6 +61,7 @@ public class EmployeeManageController {
      * @date 2016年12月20日 下午10:49:59 
      * @version V1.0
      */
+    @RequiresPermissions("employeeManage:view")
     @RequestMapping("/toEmployeeManage")
     public String toEmployeeManage(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
@@ -66,7 +69,7 @@ public class EmployeeManageController {
         // 默认是当前登录人所属机构, 该机构下的所有部门
         Criteria criteria = new Criteria();
         // 获取登录用户所属机构ID
-        EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
         if(employee != null) {
             criteria.put("parentsId", employee.getOrganizationId());
             // 按照名称排序
@@ -283,6 +286,7 @@ public class EmployeeManageController {
         String startCreateDate = request.getParameter("startCreateDate");
         String endCreateDate = request.getParameter("endCreateDate");
         
+        criteria.put("deleteFlag", "0");
         criteria.setOrderByClause("department_id asc");
         if(StringUtil.isNotBlank(name)) {
             criteria.put("name", name.trim());

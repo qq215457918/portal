@@ -102,7 +102,7 @@ $(document).on('click', '#confirmReceipt', function () {
 			}
 			
 			$('#updateCivi select[name$=paymentAccountId]:first').html(accountHtml);
-			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
+//			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
 		}
 	})
 	

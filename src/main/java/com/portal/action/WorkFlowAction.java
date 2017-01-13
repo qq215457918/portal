@@ -528,6 +528,7 @@ public class WorkFlowAction {
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
 		criteria.put("financeOrder", "1");
+		criteria.put("deleteFlag", 0);
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 		

@@ -148,7 +148,11 @@ public class OrderAction {
      */
     @RequestMapping("orderDelete")
     public String orderDelete(HttpServletRequest request, HttpServletResponse response) {
-        orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
+    	OrderInfo orderInfo = new OrderInfo();
+    	orderInfo.setId(request.getParameter("orderId"));
+    	orderInfo.setDeleteFlag("1");
+    	orderInfoService.updateByPrimaryKeySelective(orderInfo);
+//        orderInfoService.deleteByPrimaryKey(request.getParameter("orderId"));
         return "redirect:orderModifyIndex";
     }
 
@@ -180,6 +184,8 @@ public class OrderAction {
         }
 
         criteria.put("orderId", request.getParameter("orderId"));
+        
+        criteria.put("deleteFlag", 0);
 
         List<OrderInfo> resultList = orderInfoService.selectOrderModifyList(criteria);
 

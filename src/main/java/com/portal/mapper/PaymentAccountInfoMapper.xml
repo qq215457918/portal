@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.portal.dao.PaymentAccountInfoDao" >
+  <resultMap id="BaseResultMap" type="com.portal.bean.PaymentAccountInfo" >
+    <id column="payment_account_id" property="paymentAccountId" jdbcType="VARCHAR" />
+    <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
+    <result column="bank_name" property="bankName" jdbcType="VARCHAR" />
+    <result column="account_number" property="accountNumber" jdbcType="VARCHAR" />
+    <result column="is_usable" property="isUsable" jdbcType="VARCHAR" />
+    <result column="delete_reason" property="deleteReason" jdbcType="VARCHAR" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.paymentAccountName != null" >
+         and payment_account_name = #{condition.paymentAccountName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.bankName != null" >
+         and bank_name = #{condition.bankName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.accountNumber != null" >
+         and account_number = #{condition.accountNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.isUsable != null" >
+         and is_usable = #{condition.isUsable,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteReason != null" >
+         and delete_reason = #{condition.deleteReason,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.createDate != null" >
+         and create_date = #{condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.createUserId != null" >
+         and create_user_id = #{condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.updateDate != null" >
+         and update_date = #{condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.updateUserId != null" >
+         and update_user_id = #{condition.updateUserId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <trim prefix="where" prefixOverrides="and|or" >
+      <if test="example.condition.paymentAccountName != null" >
+         and payment_account_name = #{example.condition.paymentAccountName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.bankName != null" >
+         and bank_name = #{example.condition.bankName,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.accountNumber != null" >
+         and account_number = #{example.condition.accountNumber,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.isUsable != null" >
+         and is_usable = #{example.condition.isUsable,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.deleteReason != null" >
+         and delete_reason = #{example.condition.deleteReason,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.deleteFlag != null" >
+         and delete_flag = #{example.condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.createDate != null" >
+         and create_date = #{example.condition.createDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.createUserId != null" >
+         and create_user_id = #{example.condition.createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.updateDate != null" >
+         and update_date = #{example.condition.updateDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="example.condition.updateUserId != null" >
+         and update_user_id = #{example.condition.updateUserId,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </sql>
+  <sql id="Base_Column_List" >
+    payment_account_id, payment_account_name, bank_name, account_number, is_usable, delete_reason, 
+    delete_flag, create_date, create_user_id, update_date, update_user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from payment_account_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from payment_account_info
+    where payment_account_id = #{paymentAccountId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from payment_account_info
+    where payment_account_id = #{paymentAccountId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.portal.bean.Criteria" >
+    delete from payment_account_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.portal.bean.PaymentAccountInfo" >
+    insert into payment_account_info (payment_account_id, payment_account_name, 
+      bank_name, account_number, is_usable, 
+      delete_reason, delete_flag, create_date, 
+      create_user_id, update_date, update_user_id
+      )
+    values (#{paymentAccountId,jdbcType=VARCHAR}, #{paymentAccountName,jdbcType=VARCHAR}, 
+      #{bankName,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{isUsable,jdbcType=VARCHAR}, 
+      #{deleteReason,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.portal.bean.PaymentAccountInfo" >
+    insert into payment_account_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paymentAccountId != null" >
+        payment_account_id,
+      </if>
+      <if test="paymentAccountName != null" >
+        payment_account_name,
+      </if>
+      <if test="bankName != null" >
+        bank_name,
+      </if>
+      <if test="accountNumber != null" >
+        account_number,
+      </if>
+      <if test="isUsable != null" >
+        is_usable,
+      </if>
+      <if test="deleteReason != null" >
+        delete_reason,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paymentAccountId != null" >
+        #{paymentAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentAccountName != null" >
+        #{paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsable != null" >
+        #{isUsable,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteReason != null" >
+        #{deleteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select count(*) from payment_account_info
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update payment_account_info
+    <set >
+      <if test="record.paymentAccountId != null" >
+        payment_account_id = #{record.paymentAccountId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paymentAccountName != null" >
+        payment_account_name = #{record.paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bankName != null" >
+        bank_name = #{record.bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountNumber != null" >
+        account_number = #{record.accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isUsable != null" >
+        is_usable = #{record.isUsable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteReason != null" >
+        delete_reason = #{record.deleteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update payment_account_info
+    set payment_account_id = #{record.paymentAccountId,jdbcType=VARCHAR},
+      payment_account_name = #{record.paymentAccountName,jdbcType=VARCHAR},
+      bank_name = #{record.bankName,jdbcType=VARCHAR},
+      account_number = #{record.accountNumber,jdbcType=VARCHAR},
+      is_usable = #{record.isUsable,jdbcType=VARCHAR},
+      delete_reason = #{record.deleteReason,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=VARCHAR},
+      create_date = #{record.createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=VARCHAR},
+      update_date = #{record.updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.portal.bean.PaymentAccountInfo" >
+    update payment_account_info
+    <set >
+      <if test="paymentAccountName != null" >
+        payment_account_name = #{paymentAccountName,jdbcType=VARCHAR},
+      </if>
+      <if test="bankName != null" >
+        bank_name = #{bankName,jdbcType=VARCHAR},
+      </if>
+      <if test="accountNumber != null" >
+        account_number = #{accountNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="isUsable != null" >
+        is_usable = #{isUsable,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteReason != null" >
+        delete_reason = #{deleteReason,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where payment_account_id = #{paymentAccountId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.portal.bean.PaymentAccountInfo" >
+    update payment_account_info
+    set payment_account_name = #{paymentAccountName,jdbcType=VARCHAR},
+      bank_name = #{bankName,jdbcType=VARCHAR},
+      account_number = #{accountNumber,jdbcType=VARCHAR},
+      is_usable = #{isUsable,jdbcType=VARCHAR},
+      delete_reason = #{deleteReason,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      update_date = #{updateDate,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=VARCHAR}
+    where payment_account_id = #{paymentAccountId,jdbcType=VARCHAR}
+  </update>
+</mapper>

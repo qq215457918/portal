@@ -25,9 +25,9 @@
 
 		<!-- 数据库连接信息 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-		                       connectionURL="jdbc:mysql://localhost:3306/crm?useSSL=false"
+		                       connectionURL="jdbc:mysql://59.110.4.222:3306/crm?useSSL=false"
 			                   userId="root"
-			                   password="root" />
+			                   password="123456" />
 
 		<!-- java实体类 -->
 		<javaModelGenerator targetPackage="com.portal.bean" targetProject="D:\escape_workspace\portal\src\test">
@@ -67,6 +67,6 @@
 		<table tableName="sell_daily_info"></table>
 		<table tableName="sell_goods_detail"></table>
 		<table tableName="sell_daily_detail"></table> -->
-		<table tableName="customer_info"></table>
+		<table tableName="payment_account_info"></table>
 	</context>
 </generatorConfiguration>
