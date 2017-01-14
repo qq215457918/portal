@@ -78,22 +78,43 @@
 	</div>
 	
 	<div id="outgoingInfo" style="display:none;">
-		<div class="tc"><h3>出库单</h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div>
+<!-- 		<div class="tc"><h3>出库单</h3></div> -->
+<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
+<!-- 		<div class="table-margin"> -->
+<!-- 			<table border="1"> -->
+<!-- 				<tr> -->
+<!-- 					<th>商品名称</th> -->
+<!-- 					<th>数量</th> -->
+<!-- 					<th>单价</th> -->
+<!-- 					<th class="print-width50">金额</th> -->
+<!-- 					<th>支付方式</th> -->
+<!-- 					<th>手续费</th> -->
+<!-- 					<th class="print-width50">备注</th> -->
+<!-- 				</tr> -->
+<!-- 				<tbody name="detail"></tbody> -->
+<!-- 				<tr> -->
+<!-- 					<td>备注：</td> -->
+<!-- 					<td colspan="7" name="remark"></td> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
+<!-- 		</div> -->
+<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
+		<div class="tc"><h3></h3></div>
+		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
 		<div class="table-margin">
-			<table border="1">
+			<table border="0">
 				<tr>
-					<th>商品名称</th>
-					<th>数量</th>
-					<th>单价</th>
-					<th class="print-width50">金额</th>
-					<th>支付方式</th>
-					<th>手续费</th>
-					<th class="print-width50">备注</th>
+					<th></th>
+					<th></th>
+					<th></th>
+					<th class="print-width50"></th>
+					<th></th>
+					<th></th>
+					<th class="print-width50"></th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
-					<td>备注：</td>
+					<td></td>
 					<td colspan="7" name="remark"></td>
 				</tr>
 			</table>
@@ -102,20 +123,39 @@
 	</div>
 	
 	<div id="receiveMoneyInfo" style="display:none;">
-		<div class="tc"><h3>定金 收 据</h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div>
+<!-- 		<div class="tc"><h3>定金 收 据</h3></div> -->
+<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
+<!-- 		<div class="table-margin"> -->
+<!-- 			<table border="1"> -->
+<!-- 				<tr> -->
+<!-- 					<th>商品名称</th> -->
+<!-- 					<th>数量</th> -->
+<!-- 					<th>单位</th> -->
+<!-- 					<th>单价</th> -->
+<!-- 					<th>订 金</th> -->
+<!-- 				</tr> -->
+<!-- 				<tbody name="detail"></tbody> -->
+<!-- 				<tr> -->
+<!-- 					<td>大写金额：</td> -->
+<!-- 					<td colspan="4" name="priceCn"></td> -->
+<!-- 				</tr> -->
+<!-- 			</table> -->
+<!-- 		</div> -->
+<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
+		<div class="tc"><h3></h3></div>
+		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
 		<div class="table-margin">
-			<table border="1">
+			<table border="0">
 				<tr>
-					<th>商品名称</th>
-					<th>数量</th>
-					<th>单位</th>
-					<th>单价</th>
-					<th>订 金</th>
+					<th style="width:135px;"></th>
+					<th style="width:135px;"></th>
+					<th style="width:135px;"></th>
+					<th style="width:135px;"></th>
+					<th style="width:135px;"></th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
-					<td>大写金额：</td>
+					<td></td>
 					<td colspan="4" name="priceCn"></td>
 				</tr>
 			</table>
@@ -125,7 +165,7 @@
 	
 	<div id="hasPayInfo" style="display:none;">
 		<div class="tc"><h3>全款已付货未取</h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div>
+		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
 		<div class="table-margin">
 			<table border="1">
 				<tr>

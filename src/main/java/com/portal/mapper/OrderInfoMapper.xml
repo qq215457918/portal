@@ -220,9 +220,6 @@
     order_info.culture_operator_id, order_info.culture_date, order_info.create_date, 
     order_info.create_id, order_info.update_date, order_info.update_id, order_info.delete_flag, 
     order_info.culture_remark
-    <if test="condition.financeOrder == 1" >
-    	,ei.name as receiver_staff_name
-    </if>
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -230,6 +227,9 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
+    <if test="condition.financeOrder == 1" >
+    	,ei.name as receiver_staff_name
+    </if>
     from order_info
     <if test="condition.financeOrder == 1" >
     left join employee_info ei on ei.id = order_info.receiver_staff_id
@@ -777,7 +777,17 @@
          and oi.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
       <if test="condition.financeDate != null" >
-         and finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+         and oi.finance_date = #{condition.financeDate,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.financeFlag != null" >
+         and oi.finance_flag = #{condition.financeFlag,jdbcType=TIMESTAMP}
+      </if>
+      <if test="condition.userId != null" >
+         and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
+      </if>
+      <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
+      <if test="condition.store != null and condition.store == 1" >
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)))
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}

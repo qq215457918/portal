@@ -170,8 +170,8 @@ function initData(){
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
 		            {"mData": "culture_flag"}, 
-		            {"mData": "saleCount"}, 
 		            {"mData": "freeCount"}, 
+		            {"mData": "saleCount"}, 
 		            {"mData": ""} 
 		           ],
        "columnDefs" : [ {

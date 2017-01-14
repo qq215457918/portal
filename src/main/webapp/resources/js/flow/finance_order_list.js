@@ -48,8 +48,8 @@ $(document).ready(function(){
 	
 	// 关闭madel窗口隐藏打印条目
 	$('#printInfo').on('hidden.bs.modal', function () {
-		$('#outgoingInfo').hide();
-		$('#receiveMoneyInfo').hide();
+//		$('#outgoingInfo').hide();
+//		$('#receiveMoneyInfo').hide();
 	});
 	
 	// 添加收款条目
@@ -178,7 +178,9 @@ $(document).on('click', '#toPrint', function () {
 				var receiveMoneyHtml = '';
 				var outgoingHtml = '';
 				
+				var count = 0
 				for(var i in data){
+					count++;
 					receiveMoneyHtml += '<tr><td>' + data[i].goodName + '</td>';
 					receiveMoneyHtml += '<td>' + data[i].amount + '</td>';
 					receiveMoneyHtml += '<td>件</td>';
@@ -193,20 +195,26 @@ $(document).on('click', '#toPrint', function () {
 					outgoingHtml += '<td></td>';
 					outgoingHtml += '<td></td></tr>';
 				} 
+				if(count < 4){
+					for(var j=0; j < 4-count; j++){
+						outgoingHtml += '<tr style="height:24px;"><td colspan="8"><td></tr>';
+						receiveMoneyHtml += '<tr style="height:24px;"><td colspan="4"><td></tr>';
+					}
+				}
 				
-				$('#receiveMoneyInfo span[name=customerName]').html('客户：' + customerName);
-				$('#receiveMoneyInfo span[name=today]').html('日期：' + today);
+				$('#receiveMoneyInfo span[name=customerName]').html('' + customerName);
+				$('#receiveMoneyInfo span[name=today]').html('' + today);
 				$('#receiveMoneyInfo tbody[name=detail]').html(receiveMoneyHtml);
 				$('#receiveMoneyInfo td[name=priceCn]').html(payPriceCN);
-				$('#receiveMoneyInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
-				$('#receiveMoneyInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
+				$('#receiveMoneyInfo span[name=receiverStaffName]').html('' + receiverStaffName);
+				$('#receiveMoneyInfo span[name=phoneStaffName]').html('' + phoneStaffName);
 				
-				$('#outgoingInfo span[name=customerName]').html('客户：' + customerName);
-				$('#outgoingInfo span[name=today]').html('日期：' + today);
+				$('#outgoingInfo span[name=customerName]').html('' + customerName);
+				$('#outgoingInfo span[name=today]').html('' + today);
 				$('#outgoingInfo tbody[name=detail]').html(outgoingHtml);
 				$('#outgoingInfo td[name=remark]').html(remark);
-				$('#outgoingInfo span[name=receiverStaffName]').html('接待：' + receiverStaffName);
-				$('#outgoingInfo span[name=phoneStaffName]').html('客服：' + phoneStaffName);
+				$('#outgoingInfo span[name=receiverStaffName]').html('' + receiverStaffName);
+				$('#outgoingInfo span[name=phoneStaffName]').html('' + phoneStaffName);
 			}
 		}
 	})

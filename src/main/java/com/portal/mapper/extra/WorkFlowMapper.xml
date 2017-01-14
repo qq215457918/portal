@@ -185,7 +185,7 @@
 			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=2) as saleCount,
 			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=3) as freeCount
 		from order_info oi inner join order_detail_info odi on oi.id = odi.order_id
-		where odi.good_type in (2,3) and oi.finance_flag = 1
+		where odi.good_type in (2,3) and oi.finance_flag = 1 and odi.delete_flag != 1 and oi.delete_flag != 1
 		<if test="orderNumber != null and orderNumber != ''">
 			and oi.order_number = #{orderNumber}
 		</if>

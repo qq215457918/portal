@@ -599,6 +599,15 @@ public class WorkFlowAction {
 		}
 		orderInfo.setId(request.getParameter("orderId"));
 		
+		//如果订单没有配售配送商品将订单的文交所审批直接置为1
+		Criteria criteria = new Criteria();
+		criteria.put("countCulture", 1);
+		criteria.put("orderId", request.getParameter("orderId"));
+		int count = orderDetailInfoService.countByExample(criteria);
+		if(0 == count){
+			orderInfo.setCultureFlag("1");
+		}
+		
 		orderInfoService.updateByPrimaryKeySelective(orderInfo);
 		
 		for(OrderFundSettlement ofs : orderInfo.getPaymentList()){

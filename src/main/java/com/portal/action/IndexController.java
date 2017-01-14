@@ -41,6 +41,7 @@ public class IndexController {
         Subject currentUser = SecurityUtils.getSubject();
         Session session = currentUser.getSession();
         session.setAttribute("userInfo", loginUser);
+        session.setAttribute("userId", loginUser.getId());
         
         return "main";
     }
