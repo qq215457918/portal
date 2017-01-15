@@ -8,7 +8,7 @@
               <li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
                  	你好：<shiro:principal/> <b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="<%=request.getContextPath() %>/login">
+                  <li><a href="<%=request.getContextPath() %>/">
                     <i class="icon-home"></i>返回工作台</a>
                   </li>
                   <li><a href="<%=request.getContextPath() %>/logout">

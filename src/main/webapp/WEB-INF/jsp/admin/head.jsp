@@ -124,7 +124,7 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="${basePath}index"><span aria-hidden="true" class="icon-home"></span>主页</a>
+		  <a href="${basePath}"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
 		<shiro:hasPermission name="resource:view">
 	        <li>

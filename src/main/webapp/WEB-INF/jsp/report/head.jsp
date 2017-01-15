@@ -124,7 +124,7 @@
 	<div class="nav-collapse">
 	  <ul class="nav">
 		<li>
-		  <a href="${base}index"><span aria-hidden="true" class="icon-home"></span>主页</a>
+		  <a href="${base}"><span aria-hidden="true" class="icon-home"></span>主页</a>
 		</li>
 		<shiro:hasPermission name="salesmanStatement:view">
 			<li class="dropdown">
