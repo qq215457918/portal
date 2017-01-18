@@ -56,6 +56,7 @@
                   <th>定金金额</th>
                   <th>定金日期</th>
                   <th>剩余尾款</th>
+                  <th>状态</th>
                   <th>操作</th>
                 </tr></thead>
                 <tbody>

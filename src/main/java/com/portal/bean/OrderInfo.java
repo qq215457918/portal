@@ -1,18 +1,17 @@
 package com.portal.bean;
 
+import com.portal.common.util.NumberToCN;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.portal.common.util.NumberToCN;
-
 public class OrderInfo implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
-    
+
     private String orderId;
 
     /**
@@ -39,26 +38,26 @@ public class OrderInfo implements Serializable {
      * 订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
      */
     private String status;
-    
+
     private String statusName;
 
     /**
      * 订单类型 1正常 2退货 3换货
      */
     private String orderType;
-    
+
     /**
      * 支付类型  0全额支付 1定金支付 2派送支付
      */
     private String payType;
-    
+
     private String payTypeName;
 
     /**
      * 订单金额
      */
     private Long payPrice;
-    
+
     private String payPriceCN;
 
     /**
@@ -95,7 +94,7 @@ public class OrderInfo implements Serializable {
      * 1 已审核
      */
     private String warehouseFlag;
-    
+
     private String wareHouseFlagName;
 
     /**
@@ -114,7 +113,7 @@ public class OrderInfo implements Serializable {
      * 1 已审核
      */
     private String cultureFlag;
-    
+
     /**
      * 文交所审批备注
      */
@@ -134,16 +133,21 @@ public class OrderInfo implements Serializable {
      * 备注信息
      */
     private String remarks;
-    
+
     /**
      * 电联人
      */
     private String phoneStaffName;
-    
+
     /**
      * 接待人
      */
     private String receiverStaffName;
+
+    /**
+     * 大连订单 1 沈阳订单 0 
+     */
+    private String areaFlag;
 
     private Date createDate;
 
@@ -154,18 +158,26 @@ public class OrderInfo implements Serializable {
     private String updateId;
 
     private String deleteFlag;
-    
+
     private String customerName;
-    
+
     private String customerPhone;
-    
+
     private String goodsName;
-    
+
     private String orderTypeName;
-    
+
     private String goodsQuantity;
-    
+
     private List<OrderFundSettlement> paymentList = new ArrayList<OrderFundSettlement>();
+
+    public String getAreaFlag() {
+        return areaFlag;
+    }
+
+    public void setAreaFlag(String areaFlag) {
+        this.areaFlag = areaFlag;
+    }
 
     public String getRemarks() {
         return remarks;
@@ -257,17 +269,17 @@ public class OrderInfo implements Serializable {
      */
     public void setStatus(String status) {
         this.status = status;
-        
-        if("0".equals(status)){
-        	statusName = "未支付";
-        }else if("1".equals(status)){
-        	statusName = "已支付";
-        }else if("2".equals(status)){
-        	statusName = "已出库";
-        }else if("3".equals(status)){
-        	statusName = "文交所审核";
-        }else if("4".equals(status)){
-        	statusName = "已完成";
+
+        if ("0".equals(status)) {
+            statusName = "未支付";
+        } else if ("1".equals(status)) {
+            statusName = "已支付";
+        } else if ("2".equals(status)) {
+            statusName = "已出库";
+        } else if ("3".equals(status)) {
+            statusName = "文交所审核";
+        } else if ("4".equals(status)) {
+            statusName = "已完成";
         }
     }
 
@@ -277,7 +289,7 @@ public class OrderInfo implements Serializable {
     public String getOrderType() {
         return orderType;
     }
-    
+
     /**
      * @return 订单类型 1正常 2退货 3换货
      */
@@ -291,13 +303,13 @@ public class OrderInfo implements Serializable {
      */
     public void setOrderType(String orderType) {
         this.orderType = orderType;
-        
-        if("1".equals(orderType)){
-        	this.orderTypeName = "已售商品";
-        } else if ("2".equals(orderType)){
-        	this.orderTypeName = "退货商品";
-        } else if ("3".equals(orderType)){
-        	this.orderTypeName = "换货商品";
+
+        if ("1".equals(orderType)) {
+            this.orderTypeName = "已售商品";
+        } else if ("2".equals(orderType)) {
+            this.orderTypeName = "退货商品";
+        } else if ("3".equals(orderType)) {
+            this.orderTypeName = "换货商品";
         }
     }
 
@@ -314,15 +326,15 @@ public class OrderInfo implements Serializable {
      */
     public void setPayType(String payType) {
         this.payType = payType;
-        
-        if("0".equals(payType)){
-        	this.payTypeName = "全额支付";
-        } else if ("1".equals(payType)){
-        	this.payTypeName = "订金支付";
-        } else if ("2".equals(payType)){
-        	this.payTypeName = "派送支付";
+
+        if ("0".equals(payType)) {
+            this.payTypeName = "全额支付";
+        } else if ("1".equals(payType)) {
+            this.payTypeName = "订金支付";
+        } else if ("2".equals(payType)) {
+            this.payTypeName = "派送支付";
         }
-        
+
     }
 
     /**
@@ -338,7 +350,7 @@ public class OrderInfo implements Serializable {
      */
     public void setPayPrice(Long payPrice) {
         this.payPrice = payPrice;
-        
+
         this.payPriceCN = NumberToCN.number2CNMontrayUnit(new BigDecimal(payPrice));
     }
 
@@ -440,23 +452,23 @@ public class OrderInfo implements Serializable {
      */
     public void setWarehouseFlag(String warehouseFlag) {
         this.warehouseFlag = warehouseFlag;
-        
-        if("0".equals(warehouseFlag)){
-        	wareHouseFlagName = "未出库";
-        }else if("1".equals(warehouseFlag)){
-        	wareHouseFlagName = "已出库";
-        }else if("-1".equals(warehouseFlag)){
-        	wareHouseFlagName = "已确认入库";
-        }else if("".equals(warehouseFlag)){
-        	wareHouseFlagName = "未出库";
+
+        if ("0".equals(warehouseFlag)) {
+            wareHouseFlagName = "未出库";
+        } else if ("1".equals(warehouseFlag)) {
+            wareHouseFlagName = "已出库";
+        } else if ("-1".equals(warehouseFlag)) {
+            wareHouseFlagName = "已确认入库";
+        } else if ("".equals(warehouseFlag)) {
+            wareHouseFlagName = "未出库";
         }
     }
-    
-    public String getWareHouseFlagName() {
-		return wareHouseFlagName;
-	}
 
-	/**
+    public String getWareHouseFlagName() {
+        return wareHouseFlagName;
+    }
+
+    /**
      * @return 仓库人员id
      */
     public String getWarehouseOperatorId() {
@@ -575,83 +587,83 @@ public class OrderInfo implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
-	public String getCustomerName() {
-		return customerName;
-	}
+    public String getCustomerName() {
+        return customerName;
+    }
 
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
-	}
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
-	public String getGoodsName() {
-		return goodsName;
-	}
+    public String getGoodsName() {
+        return goodsName;
+    }
 
-	public void setGoodsName(String goodsName) {
-		this.goodsName = goodsName;
-	}
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
 
-	public String getCustomerPhone() {
-		return customerPhone;
-	}
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
 
-	public void setCustomerPhone(String customerPhone) {
-		this.customerPhone = customerPhone;
-	}
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
 
-	public String getOrderId() {
-		return orderId;
-	}
+    public String getOrderId() {
+        return orderId;
+    }
 
-	public String getStatusName() {
-		return statusName;
-	}
+    public String getStatusName() {
+        return statusName;
+    }
 
-	public String getPayTypeName() {
-		return payTypeName;
-	}
+    public String getPayTypeName() {
+        return payTypeName;
+    }
 
-	public String getPayPriceCN() {
-		return payPriceCN;
-	}
+    public String getPayPriceCN() {
+        return payPriceCN;
+    }
 
-	public String getPhoneStaffName() {
-		return phoneStaffName;
-	}
+    public String getPhoneStaffName() {
+        return phoneStaffName;
+    }
 
-	public void setPhoneStaffName(String phoneStaffName) {
-		this.phoneStaffName = phoneStaffName;
-	}
+    public void setPhoneStaffName(String phoneStaffName) {
+        this.phoneStaffName = phoneStaffName;
+    }
 
-	public String getReceiverStaffName() {
-		return receiverStaffName;
-	}
+    public String getReceiverStaffName() {
+        return receiverStaffName;
+    }
 
-	public void setReceiverStaffName(String receiverStaffName) {
-		this.receiverStaffName = receiverStaffName;
-	}
+    public void setReceiverStaffName(String receiverStaffName) {
+        this.receiverStaffName = receiverStaffName;
+    }
 
-	public String getGoodsQuantity() {
-		return goodsQuantity;
-	}
+    public String getGoodsQuantity() {
+        return goodsQuantity;
+    }
 
-	public void setGoodsQuantity(String goodsQuantity) {
-		this.goodsQuantity = goodsQuantity;
-	}
+    public void setGoodsQuantity(String goodsQuantity) {
+        this.goodsQuantity = goodsQuantity;
+    }
 
-	public String getCultureRemark() {
-		return cultureRemark;
-	}
+    public String getCultureRemark() {
+        return cultureRemark;
+    }
 
-	public void setCultureRemark(String cultureRemark) {
-		this.cultureRemark = cultureRemark;
-	}
+    public void setCultureRemark(String cultureRemark) {
+        this.cultureRemark = cultureRemark;
+    }
 
-	public List<OrderFundSettlement> getPaymentList() {
-		return paymentList;
-	}
+    public List<OrderFundSettlement> getPaymentList() {
+        return paymentList;
+    }
 
-	public void setPaymentList(List<OrderFundSettlement> paymentList) {
-		this.paymentList = paymentList;
-	}
+    public void setPaymentList(List<OrderFundSettlement> paymentList) {
+        this.paymentList = paymentList;
+    }
 }

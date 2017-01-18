@@ -2,6 +2,7 @@ package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.SellDailyDetail;
@@ -22,6 +23,7 @@ import com.portal.dao.extra.OrderDetailInfoExtraDao;
 import com.portal.dao.extra.OrderInfoExtraDao;
 import com.portal.dao.extra.SellDailyInfoExtraDao;
 import com.portal.service.CustomerInfoService;
+import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
@@ -70,6 +72,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     @Autowired
     ReceptionInfoService receptionInfoService;
+
+    @Autowired
+    EmployeeInfoService employeeInfoService;
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
@@ -533,6 +538,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String[] staff = getStaffInfo(cid);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
+        orderInfo.setAreaFlag(staff[2]);
         orderInfo.setDeleteFlag("0");
         orderInfo.setCreateDate(new Date());
         return orderInfo;
@@ -633,7 +639,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     String[] getStaffInfo(String customerId) {
         CustomerInfo cInfo = customerInfoService.selectByPrimaryKey(customerId);
-        String[] staff = { cInfo.getReceiverStaffId(), cInfo.getPhoneStaffId() };
+        EmployeeInfo employeeInfo = employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId());
+        String[] staff =
+                { cInfo.getReceiverStaffId(), cInfo.getPhoneStaffId(), employeeInfo.getOrganizationId() };
         return staff;
     }
 

@@ -47,6 +47,19 @@ function initData() {
 		            {"mData": "payPrice"},      
 		            {"mData": "createDateString"},
 		            {"mData": "depositPrice"},
+		            //deleteFlag
+		            {"data": "deleteFlag",
+						"render": function(data, type, full) {
+							var type;
+							switch (data)
+							{
+							case "0": type ="正常";break;
+							case "1": type ="已删除";break;
+							default: type =" ";break;
+						 }
+							return type;
+						}
+					  },
 		            {"data": "id",
 						"render": function(data, type, full) {
 							return "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='cancelDeposit("+data+");'>  撤销定金   </button>"+

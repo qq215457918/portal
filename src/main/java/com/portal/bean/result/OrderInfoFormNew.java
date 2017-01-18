@@ -146,6 +146,16 @@ public class OrderInfoFormNew implements Serializable {
      */
     private String deleteFlag;
 
+    private String updateId;
+
+    public String getUpdateId() {
+        return updateId;
+    }
+
+    public void setUpdateId(String updateId) {
+        this.updateId = updateId;
+    }
+
     public Long getOldPrice() {
         return oldPrice;
     }

@@ -341,6 +341,9 @@
       <if test="cultureDate != null" >
         culture_date,
       </if>
+      <if test="areaFlag != null" >
+        area_flag,
+      </if>
       <if test="createDate != null" >
         create_date,
       </if>
@@ -417,6 +420,9 @@
       </if>
       <if test="cultureDate != null" >
         #{cultureDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="areaFlag != null" >
+        #{areaFlag,jdbcType=VARCHAR},
       </if>
       <if test="createDate != null" >
         #{createDate,jdbcType=TIMESTAMP},
