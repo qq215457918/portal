@@ -11,7 +11,8 @@
   <body class="login1 signup">
 <!-- Login Screen -->
   <div class="login-wrapper">
-    <div class="login-container" style="top:60%;height: 250px;">
+    <div class="login-container" style="top:60%;height: 400px;">
+	  <img width="150" height="150" src="resources/images/logo.png" style="margin:0px">
 
       <form action=""  id="validate-form" method="post" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">

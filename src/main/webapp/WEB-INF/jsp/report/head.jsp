@@ -4,96 +4,6 @@
   <div class="container-fluid top-bar">
     <div class="pull-right">
 	  <ul class="nav navbar-nav pull-right">
-		<%-- <li class="dropdown notifications hidden-xs">
-		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-		  	<span aria-hidden="true" class="se7en-flag"></span>
-			<div class="sr-only">Notifications</div>
-			<p class="counter">4</p>
-		  </a>
-		  <ul class="dropdown-menu">
-			<li>
-			  <a href="#">
-				<div class="notifications label label-info">New</div>
-				<p>New user added: Jane Smith</p>
-			  </a>
-			</li>
-			<li>
-			  <a href="#">
-				<div class="notifications label label-info">New</div>
-				<p>Sales targets available</p>
-			  </a>
-			</li>
-			<li>
-			  <a href="#">
-				<div class="notifications label label-info">New</div>
-				<p>New performance metric added</p>
-			  </a>
-			</li>
-			<li>
-			  <a href="#">
-				<div class="notifications label label-info">New</div>
-				<p>New growth data available</p>
-			  </a>
-			</li>
-		  </ul>
-		</li>
-		<li class="dropdown messages hidden-xs">
-		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-		  	<span aria-hidden="true" class="se7en-envelope"></span>
-				<div class="sr-only">Messages</div>
-				<p class="counter">3</p>
-		  </a>
-		  <ul class="dropdown-menu messages">
-			<li>
-			  <a href="#">
-			  	<img width="34" height="34" src="${basePath}resources/images/avatar-male2.png" />Could we meet today? I wanted...
-			  </a>
-			</li>
-			<li>
-			  <a href="#">
-				<img width="34" height="34" src="${basePath}resources/images/avatar-female.png" />Important data needs your analysis...
-			  </a>
-			</li>
-			<li>
-			  <a href="#">
-			    <img width="34" height="34" src="${basePath}resources/images/avatar-male2.png" />Buy Se7en today, it's a great theme...
-			  </a>
-			</li>
-		  </ul>
-		</li>
-		<li class="dropdown settings hidden-xs">
-		  <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-		  	<span aria-hidden="true" class="se7en-gear"></span>
-			<div class="sr-only">Settings</div>
-		  </a>
-		  <ul class="dropdown-menu">
-			<li>
-			  <a class="settings-link blue" href="javascript:chooseStyle('none', 30)"><span></span>Blue</a>
-			</li>
-			<li>
-			  <a class="settings-link green" href="javascript:chooseStyle('green-theme', 30)"><span></span>Green</a>
-			</li>
-			<li>
-			  <a class="settings-link orange" href="javascript:chooseStyle('orange-theme', 30)"><span></span>Orange</a>
-			</li>
-			<li>
-			  <a class="settings-link magenta" href="javascript:chooseStyle('magenta-theme', 30)"><span></span>Magenta</a>
-			</li>
-			<li>
-				<a class="settings-link gray" href="javascript:chooseStyle('gray-theme', 30)"><span></span>Gray</a>
-			</li>
-		  </ul>
-		</li>
-		<li class="dropdown user hidden-xs">
-		  <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-		  	<img width="34" height="34" src="${basePath}resources/images/avatar-male.jpg" />John Smith<b class="caret"></b>
-		  </a>
-			<ul class="dropdown-menu">
-			  <li><a href="#"><i class="icon-user"></i>My Account</a></li>
-			  <li><a href="#"> <i class="icon-gear"></i>Account Settings</a></li>
-			  <li><a href="login1.html"> <i class="icon-signout"></i>Logout</a></li>
-			</ul>
-		</li> --%>
 		<li class="dropdown user hidden-xs"><a data-toggle="dropdown" class="dropdown-toggle" href="#">
 	         	你好： <shiro:principal/> <b class="caret"></b></a>
 	        <ul class="dropdown-menu">
@@ -103,6 +13,7 @@
 	        </ul>
 	      </li>
 	  </ul>
+	  <img width="40" height="40" src="resources/images/logo.png" style="margin:1px">
 	</div>
 	<button class="navbar-toggle">
 	  <span class="icon-bar"></span>

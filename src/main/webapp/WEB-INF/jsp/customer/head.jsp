@@ -17,6 +17,7 @@
 					</ul></li>
 			</ul>
 		</div>
+		<img width="40" height="40" src="resources/images/logo.png" style="margin:1px">
 		<button class="navbar-toggle">
 			<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 				class="icon-bar"></span>

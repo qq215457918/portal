@@ -8,14 +8,15 @@
     <title>控制台</title>
     <base href="${basePath}">
   </head>
-  <body>
+  <body style="padding-top: 0px;">
   <div class="modal-shiftfix">
-	  <div class="container-fluid main-content">
+	  <div class=" main-content">
 		  <div class="page-title">
-		  <div class="col-lg-12">
+		  <div class="col-lg-12" style="40px">
+		   
             <ul class="breadcrumb">
               <li>
-                <i class="icon-home"> 你好：<shiro:principal/> , 欢迎使用本系统，祝您工作愉快  ^ ^ </i>
+                <i><img width="40" height="40" src="resources/images/logo.png" style="margin-right:20px">你好：<shiro:principal/> , 欢迎使用本系统，祝您工作愉快  ^ ^ </i>
               </li>
             </ul>
           </div>
