@@ -130,6 +130,9 @@
          and order_type != 4
          and order_type != 6
       </if>
+      <if test="condition.areaFlag != null" >
+         and area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -229,10 +232,12 @@
     <include refid="Base_Column_List" />
     <if test="condition.financeOrder == 1" >
     	,ei.name as receiver_staff_name
+    	,ci.name as customer_name
     </if>
     from order_info
     <if test="condition.financeOrder == 1" >
     left join employee_info ei on ei.id = order_info.receiver_staff_id
+    left join customer_info ci on ci.id = order_info.customer_id
     </if>
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

@@ -201,8 +201,8 @@
 		order by culture_flag asc, oi.create_date desc) a
 	</select>
 	
-	<select id="getAccountList" resultType="map">
-		SELECT payment_account_id, payment_account_name FROM `payment_account_info` where delete_flag = 0
+	<select id="getAccountList" resultType="map" parameterType="map">
+		SELECT payment_account_id, payment_account_name FROM `payment_account_info` where delete_flag = 0 and organization_id = #{org}
 	</select>
 
 	<select id="getPayTypeList" resultType="map">

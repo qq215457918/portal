@@ -524,11 +524,13 @@ public class WorkFlowAction {
 	@RequestMapping("selectFinanceOrder")
 	public void selectFinanceOrder(HttpServletRequest request, HttpServletResponse response){
 		Criteria criteria = new Criteria();
+		EmployeeInfo empInfo = (EmployeeInfo) request.getSession().getAttribute("userInfo");
 		
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
 		criteria.put("financeOrder", "1");
 		criteria.put("deleteFlag", 0);
+		criteria.put("areaFlag", empInfo.getOrganizationId());
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 		
@@ -779,7 +781,11 @@ public class WorkFlowAction {
 	 */
 	@RequestMapping("/getAccountAndPayTypeInfo")
 	public void getAccountAndPayTypeInfo(HttpServletRequest request, HttpServletResponse response){
-		Map<String, Object> result = workFlowService.getAccountAndPayTypeInfo();
+		EmployeeInfo empInfo = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("org", empInfo.getOrganizationId());
+		Map<String, Object> result = workFlowService.getAccountAndPayTypeInfo(paramMap);
 		
 		try {
 			response.setContentType("text/json;charset=UTF-8");

@@ -105,27 +105,6 @@ $(document).on('click', '#confirmReceipt', function () {
 //			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
 		}
 	})
-	
-	/*
-	// 更新订单状态
-	$.ajax({
-		"dataType": 'text',
-		"type": "POST",
-		"url": 'workflow/updateOrderInfo',
-		"data": {
-			'orderId': $(this).attr('data-order-id'),
-			'operate': operate
-		},
-		"success": function(data){
-			if(1 == operate){
-				alert("已确认收款");
-			}else{
-				alert("更新成功,待仓库审核");
-			}
-			
-			$('#financeOrderExam').dataTable().fnDraw();
-		}
-	})*/
 });
 $(document).on('click', '#confirmReceipt1', function () { 
 	var operate = $(this).attr('data-operate-id');
@@ -236,6 +215,7 @@ function initData(){
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
 			        {"mData": "receiverStaffName"},
+			        {"mData": "customerName"},
 		            {"mData": "orderNumber"},
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
@@ -264,7 +244,7 @@ function initData(){
 				
 				return operation;
 			},
-			"targets" : 7
+			"targets" : 8
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();

@@ -101,13 +101,14 @@ public interface WorkFlowDao {
 	int selectCivilizationOrderCount(Map<String, Object> paramMap);
 
 	/**
+	 * @param paramMap 
 	 * @Title: getAccountAndPayTypeInfo 
 	 * @Description: 获取支付方式和账户列表
 	 * @return 
 	 * @return List<Map<String, Object>>
 	 * @throws
 	 */
-	List<Map<String, Object>> getAccountList();
+	List<Map<String, Object>> getAccountList(Map<String, Object> paramMap);
 
 	/**
 	 * @Title: getAccountAndPayTypeInfo 

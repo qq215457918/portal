@@ -360,13 +360,14 @@ public interface WorkFlowService {
 	public int selectCivilizationOrderCount(Map<String, Object> paramMap);
 
 	/**
+	 * @param paramMap 
 	 * @Title: getAccountAndPayTypeInfo 
 	 * @Description: 获取支付方式和账户列表
 	 * @return 
 	 * @return Map<String,Object>
 	 * @throws
 	 */
-	public Map<String, Object> getAccountAndPayTypeInfo();
+	public Map<String, Object> getAccountAndPayTypeInfo(Map<String, Object> paramMap);
 
 	/**
 	 * @Title: getAuditorId 

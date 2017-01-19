@@ -762,8 +762,8 @@ public class WorkFlowServiceImpl implements WorkFlowService {
 	 * @throws
 	 */
     @Override
-    public Map<String, Object> getAccountAndPayTypeInfo() {
-    	List<Map<String,Object>> accountList = workFlowDao.getAccountList();
+    public Map<String, Object> getAccountAndPayTypeInfo(Map<String, Object> paramMap) {
+    	List<Map<String,Object>> accountList = workFlowDao.getAccountList(paramMap);
     	List<Map<String,Object>> payTypeList = workFlowDao.getPayTypeList();
     	
     	Map<String, Object> result = new HashMap<String, Object>();
