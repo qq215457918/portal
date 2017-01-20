@@ -78,7 +78,7 @@
 		</div>
 	</div>
 	
-	<div id="outgoingInfo" style="display:none;">
+	<div id="outgoingInfo" style="display:none;margin-top: 12px;">
 <!-- 		<div class="tc"><h3>出库单</h3></div> -->
 <!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
 <!-- 		<div class="table-margin"> -->
@@ -105,13 +105,13 @@
 		<div class="table-margin">
 			<table border="0">
 				<tr>
-					<th></th>
-					<th></th>
-					<th></th>
-					<th class="print-width50"></th>
-					<th></th>
-					<th></th>
-					<th class="print-width50"></th>
+					<th style="width:150px;"></th>
+					<th style="width:40px;"></th>
+					<th style="width:40px;"></th>
+					<th style="width:40px;"></th>
+					<th style="width:70px;"></th>
+					<th style="width:70px;"></th>
+					<th style="width:40px;"></th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>

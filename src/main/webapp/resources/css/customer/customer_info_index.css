@@ -35,9 +35,9 @@ print css
 }
 
 .text-left {
-	width: 50%;
+	width: 40%;
     float: left;
-    margin-left: 8%;
+    margin-left: 14%;
 }
 
 .table-margin {
@@ -45,7 +45,6 @@ print css
 }
 
 .table-margin td,.table-margin th {
-	width: 100px;
     text-align: center;
 }
 
