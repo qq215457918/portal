@@ -21,7 +21,7 @@
         </div>     
         <P>${message}</P>
        	<div class="social-login clearfix" style="margin:40px 0">
-        	<button class="btn btn-primary" type="submit">提交</button>
+        	<button class="btn btn-primary" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
       	</div>
       </form>
     </div>

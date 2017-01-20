@@ -14,7 +14,7 @@
 	      </li>
 	  </ul>
 	</div>
-	<img width="40" height="40" src="resources/images/logo.png" style="margin:1px">
+	<img width="40" height="40" src="${basePath}resources/images/logo.png" style="margin:1px">
 	<button class="navbar-toggle">
 	  <span class="icon-bar"></span>
 	  <span class="icon-bar"></span>
@@ -39,12 +39,12 @@
 		</li>
 		<shiro:hasPermission name="resource:view">
 	        <li>
-			  <a name="tab" href="${basePath}admin/resource?active=1"> <span aria-hidden="true" class="icon-user"></span>权限菜单管理</a>
+			  <a name="tab" href="${basePath}admin/resource?active=1"> <span aria-hidden="true" class="icon-key"></span>权限菜单管理</a>
 			</li>
         </shiro:hasPermission>
         <shiro:hasPermission name="organization:view">
 	        <li>
-			  <a name="tab" href="${basePath}admin/organization?active=2"> <span aria-hidden="true" class="icon-user"></span>组织机构管理</a>
+			  <a name="tab" href="${basePath}admin/organization?active=2"> <span aria-hidden="true" class="icon-sitemap"></span>组织机构管理</a>
 			</li>
         </shiro:hasPermission>
 		<shiro:hasPermission name="role:view">
@@ -64,7 +64,7 @@
 		</shiro:hasPermission>
 		<shiro:hasPermission name="paymentAccount:view">
 			<li>
-			  <a name="tab" href="${basePath}admin/paymentAccount/toPaymentAccountList?active=6"> <span aria-hidden="true" class="icon-barcode"></span>收款账户管理</a>
+			  <a name="tab" href="${basePath}admin/paymentAccount/toPaymentAccountList?active=6"> <span aria-hidden="true" class="icon-book"></span>收款账户管理</a>
 			</li>
 		</shiro:hasPermission>
 		<%-- <li>
