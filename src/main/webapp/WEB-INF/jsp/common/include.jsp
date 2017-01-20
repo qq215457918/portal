@@ -2,7 +2,7 @@
 <meta charset="UTF-8" />
 
 <!-- 浏览器标签左侧小图标（公司LOGO小图标） -->
-<!-- <link rel="shortcut icon" type="image/x-icon" href="${basePath}resources/images/favicon_48.ico"> -->
+<link rel="shortcut icon" type="image/x-icon" href="${basePath}resources/images/logo.png">
 
 <!-- 引入css颜色样式 -->
 <link type="text/css" rel="stylesheet" href="${basePath}resources/css/color/gray.css" />
