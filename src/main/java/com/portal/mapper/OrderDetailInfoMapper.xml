@@ -23,6 +23,7 @@
     <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
     <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="old_order_id" property="oldOrderId" jdbcType="VARCHAR" />    
+    <result column="unit" property="unit" jdbcType="VARCHAR" />    
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -402,13 +403,15 @@
 		odi.price,
 		odi.amount,
 		odi.delete_flag,
-		DATE_FORMAT(now(), '%Y-%m-%d') AS today
+		DATE_FORMAT(now(), '%Y-%m-%d') AS today,
+		gi.unit
 	FROM
 		order_info oi
 	LEFT JOIN order_detail_info odi ON oi.id = odi.order_id
 	LEFT JOIN customer_info ci on oi.customer_id = ci.id
 	LEFT JOIN employee_info eip on eip.id = oi.phone_staff_id
 	LEFT JOIN employee_info eir on eir.id = oi.receiver_staff_id
+	left join goods_info gi on gi.id = odi.good_id
 	<trim prefix="where" prefixOverrides="and|or" >
       <if test="orderId != null" >
 		and oi.id = #{orderId, jdbcType=VARCHAR}

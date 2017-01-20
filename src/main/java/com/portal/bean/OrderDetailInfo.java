@@ -125,6 +125,8 @@ public class OrderDetailInfo implements Serializable {
     private String payPriceCN;
 
     private String today;
+    
+    private String unit;
 
     public Long getOldPrice() {
         return oldPrice;
@@ -434,5 +436,13 @@ public class OrderDetailInfo implements Serializable {
     public String getPayTypeName() {
         return payTypeName;
     }
+
+	public String getUnit() {
+		return unit;
+	}
+
+	public void setUnit(String unit) {
+		this.unit = unit;
+	}
 
 }

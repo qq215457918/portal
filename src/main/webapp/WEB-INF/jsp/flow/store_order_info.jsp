@@ -106,7 +106,7 @@
 		<div class="tc"><h3>全款已付货未取</h3></div>
 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div>
 		<div class="table-margin">
-			<table border="1">
+			<table border="0">
 				<tr>
 					<th style="width:150px;">商品名称</th>
 					<th style="width:150px;">单位</th>

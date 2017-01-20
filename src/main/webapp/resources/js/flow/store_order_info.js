@@ -158,13 +158,13 @@ $(document).on('click', '#toPrint', function () {
 					outgoingHtml += '<td></td></tr>';
 					
 					hasPayInfoHtml += '<tr><td>' + data[i].goodName + '</td>';
+					hasPayInfoHtml += '<td>' + data[i].unit + '</td>';
 					hasPayInfoHtml += '<td>' + data[i].amount + '</td>';
-					hasPayInfoHtml += '<td>件</td>';
 					hasPayInfoHtml += '<td>' + actualPrice + '</td></tr>';
 					
 					collectHtml += '<tr><td>' + data[i].goodName + '</td>';
-					collectHtml += '<td>' + data[i].amount + '</td>';
-					collectHtml += '<td>件</td>';
+					collectHtml += '<td></td>';
+					collectHtml += '<td>' + data[i].unit + '</td>';
 					collectHtml += '<td>' + data[i].price + '</td>';
 					collectHtml += '<td></td><td></td><td></td><td></td><td>';
 					collectHtml += '</td><td></td><td></td><td></td><td></td></tr>';

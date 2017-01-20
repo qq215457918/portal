@@ -346,7 +346,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
-            if (String.valueOf(data.get(i).get("p9")).length() != 11) {
+            if (!(String.valueOf(data.get(i).get("p9")).length() == 11 || String.valueOf(data.get(i).get("p9")).length() == 8
+            		|| String.valueOf(data.get(i).get("p9")).length() == 12 || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
             customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
