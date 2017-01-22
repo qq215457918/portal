@@ -37,6 +37,8 @@
     <result column="recent_create_date" property="recentCreateDate" jdbcType="VARCHAR" />
     <result column="pay_price" property="payPrice" jdbcType="VARCHAR" />
     <result column="visitCount" property="visitCount" jdbcType="VARCHAR" />
+    <result column="receiver_staff_date" property="receiverStaffDate" jdbcType="VARCHAR" />
+    <result column="gift" property="gift" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -752,11 +754,13 @@
   </select>
   
 <select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT type, season2, season3, season4, ci.name,  eip.name phone_staff_name, eir.name receiver_staff_name,
-		business_phone, phone, visit_date, area, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount
+  	SELECT type, season2, season3, season4, ci.name,  eip.name phone_staff_name, ci.receiver_staff_name,
+		business_phone, phone, visit_date, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount,
+		gift, date_format(receiver_staff_date, '%Y-%m-%d') receiver_staff_date,
+		case when area = 0 then '沈阳' when area = 1 then '大连' end as area
 	FROM `customer_info` ci 
 	left join employee_info eip on ci.phone_staff_id = eip.id
-	left join employee_info eir on ci.phone_staff_id = eir.id
+<!-- 	left join employee_info eir on ci.phone_staff_id = eir.id -->
 	<if test="_parameter != null" >
       <trim prefix="where" prefixOverrides="and|or" >
       	<if test="condition.type != null" >
