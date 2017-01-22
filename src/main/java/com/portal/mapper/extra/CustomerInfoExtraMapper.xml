@@ -79,6 +79,25 @@
       </if>
     </trim>
   </sql>
+  
+  <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
+    update customer_info 
+    set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}) 
+    where id =#{condition.cid,jdbcType=VARCHAR};
+  </update>
+  
+   <update id="updateGift" parameterType="com.portal.bean.Criteria" >
+    update customer_info 
+    set gift = CONCAT(ifnull(gift,''),#{condition.gift,jdbcType=VARCHAR}) 
+    where id =#{condition.cid,jdbcType=VARCHAR};
+  </update>
+  
+ <update id="updateReceiverStaff" parameterType="com.portal.bean.Criteria" >
+    update customer_info 
+    set receiver_staff_name = CONCAT(ifnull(receiver_staff_name,''),#{condition.receptionName,jdbcType=VARCHAR}),
+    receiver_staff_date = CONCAT(ifnull(receiver_staff_date,''),#{condition.receptionDate,jdbcType=VARCHAR})  
+    where id =#{condition.cid,jdbcType=VARCHAR};
+  </update>
 
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

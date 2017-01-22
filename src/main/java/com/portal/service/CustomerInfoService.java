@@ -12,6 +12,22 @@ import net.sf.json.JSONObject;
 public interface CustomerInfoService {
 
     /**
+     * 更新商品的列表信息
+     * @param cid
+     * @param product
+     * @return
+     */
+    public int updateProduct(String cid, String product);
+
+    /**
+     * 更新赠品的列表信息
+     * @param cid
+     * @param product
+     * @return
+     */
+    public int updateGift(String cid, String gift);
+
+    /**
      * 通过id查询用户
      * @param phone
      * @return
@@ -154,7 +170,7 @@ public interface CustomerInfoService {
      * @throws
      */
     public int selectCustomerOrderCount(Map<String, Object> paramMap);
-    
+
     /**
      * @Title: ajaxCustomerData 
      * @Description: 后台异步获取客户信息
@@ -166,7 +182,7 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject ajaxCustomerData(Criteria criteria, String sEcho);
-    
+
     /**
      * @Title: saveCustomerInfo 
      * @Description: 后台修改客户基本信息

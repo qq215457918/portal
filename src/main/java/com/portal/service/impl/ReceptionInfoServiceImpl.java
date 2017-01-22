@@ -7,6 +7,7 @@ import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
 import com.portal.dao.ReceptionInfoDao;
+import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.dao.extra.ReceptionInfoExtraDao;
 import com.portal.service.ReceptionInfoService;
 import java.util.Date;
@@ -26,6 +27,9 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
 
     @Autowired
     private ReceptionInfoExtraDao receptionInfoExtraDao;
+
+    @Autowired
+    private CustomerInfoExtraDao customerInfoExtraDao;
 
     private static final Logger logger = LoggerFactory.getLogger(ReceptionInfoServiceImpl.class);
 
@@ -53,7 +57,7 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
      * by meng.yue
      * @return
      */
-    public boolean insertReceptionTime(String customerId, String receiverStaffId) {
+    public boolean insertReceptionTime(String customerId, String receiverStaffId, String receiverStaffName) {
         ReceptionInfo receptionInfo = new ReceptionInfo();
         receptionInfo.setId(UUidUtil.getUUId());
         receptionInfo.setCustomerId(customerId);
@@ -61,7 +65,29 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         receptionInfo.setCreateDate(new Date());
         receptionInfo.setStartTime(new Date());
         int result = insertSelective(receptionInfo);
+        insertCustomerInfo(customerId, receiverStaffName, getTodayDate());
         return result > 0 ? true : false;
+    }
+
+    /**
+     * 获取当前日期
+     * @return
+     */
+    public String getTodayDate() {
+        return DateUtil.formatDate(new Date(), DateUtil.DATE_FMT_YYYYMMDD_NS);
+    }
+
+    /**
+     * 查询登门记录到用户基本信息表中
+     * modify 2017-01-22
+     * @return
+     */
+    public boolean insertCustomerInfo(String customerId, String receptionName, String receptionDate) {
+        criteria.clear();
+        criteria.put("cid", customerId);
+        criteria.put("receptionName", "\\n" + receptionName);
+        criteria.put("receptionDate", "\\n" + receptionDate);
+        return customerInfoExtraDao.updateReceiverStaff(criteria) > 0 ? true : false;
     }
 
     /**

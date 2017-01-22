@@ -76,7 +76,7 @@ public class ReceptionAction {
         String customerId = request.getParameter("cId");
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
-        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId());
+        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
 
         model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
