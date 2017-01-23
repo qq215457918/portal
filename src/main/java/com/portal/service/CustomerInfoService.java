@@ -17,7 +17,7 @@ public interface CustomerInfoService {
      * @param product
      * @return
      */
-    public int updateProduct(String cid, String product);
+    public int updateProduct(String cid, String product, String amount);
 
     /**
      * 更新赠品的列表信息

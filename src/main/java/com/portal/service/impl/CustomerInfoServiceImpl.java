@@ -46,10 +46,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     Criteria criteria = new Criteria();
 
     // product 使用\n连接
-    public int updateProduct(String cid, String product) {
+    public int updateProduct(String cid, String product, String amount) {
         criteria.clear();
         criteria.put("cid", cid);
         criteria.put("product", product);
+        criteria.put("amount", amount);
         return customerInfoExtraDao.updateProduct(criteria);
     }
 

@@ -490,7 +490,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     giftNameList.append(goodsInfo.getName() + "\\n");
                 } else {//其他类型单独插入goodType
                     hasGoods = true;
-                    amount += Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
+
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
                                     "1"));//1 为正常订单
@@ -514,6 +514,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 logger.warn("Unexpected exception:", e);
             }
             if (hasGoods) {
+                amount = Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
                 insertSelective(
                         insertOrderInfo(cid,
                                 request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
@@ -521,7 +522,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 //在接待表中添加赠品订单 uuid
                 receptionInfoService.updateOrderID(uuid, cid);
                 //在客户信息中家商品信息
-                customerInfoService.updateProduct(cid, productNameList.toString());
+                customerInfoService.updateProduct(cid, productNameList.toString(), amount.toString());
             }
         }
         return true;
