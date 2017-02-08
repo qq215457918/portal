@@ -756,7 +756,7 @@
 <select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
   	SELECT type, season2, season3, season4, ci.name,  eip.name phone_staff_name, ci.receiver_staff_name,
 		business_phone, phone, visit_date, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount,
-		gift, date_format(receiver_staff_date, '%Y-%m-%d') receiver_staff_date,
+		gift, receiver_staff_date,
 		case when area = 0 then '沈阳' when area = 1 then '大连' end as area
 	FROM `customer_info` ci 
 	left join employee_info eip on ci.phone_staff_id = eip.id
@@ -812,8 +812,8 @@
   <insert id="insertAndUpdateCustomerInfo" parameterType="map">
   	insert into customer_info (
   		id,type,season2,season3,season4,
-  		name,sex,phone_staff_id,receiver_staff_id,
-  		business_phone,phone,visit_date,
+  		name,sex,phone_staff_id,receiver_staff_name,gift,
+  		business_phone,phone, receiver_staff_date,
   		area,update_date,
   		phone2,relation_id,qq,msn,
   		site,id_card,product,transaction_amount,
@@ -821,8 +821,8 @@
   		) values 
         (
         rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
-        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1), (select a.id from employee_info a where a.name=#{p6} limit 1),
-        #{p8}, #{p9}, case when #{p10} = '' then null else DATE_FORMAT(#{p10},'%Y-%m-%d') end, 
+        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1), #{p6}, #{p7},
+        #{p8}, #{p9}, #{p10}, 
         #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
         #{p13}, #{p14}, #{p15}, #{p16},
         #{p17},#{p18},#{p19}, case when #{p20} = '' then null else #{p20} end, 
