@@ -123,6 +123,9 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 						content = "5";
 					}
 				}
+				if(content.indexOf("\n") > -1){
+					content = content.replace("\r\n", "\\n");
+				}
 				data.put("p" + k, content);
 			}
 			dataSet.add(data);
