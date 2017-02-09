@@ -38,6 +38,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -467,7 +468,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         boolean hasGoods = false;
         boolean hasPresent = false;
         Long amount = 0L;
-        String cid = request.getParameter("cid");
+        //        String cid = request.getParameter("cid");
+        String cid = request.getSession().getAttribute("cId").toString();
         StringBuffer presentNameList = new StringBuffer();
         StringBuffer giftNameList = new StringBuffer();//客户基本信息表用的赠品信息
         StringBuffer productNameList = new StringBuffer();//客户基本信息表用的商品信息
@@ -502,7 +504,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 insertSelective(
                         insertOrderInfo(cid,
                                 request.getParameter("submitType").equals("deposit") ? "1" : "0", puuid,
-                                0L));//礼品的订单金额为0
+                                0L, request));//礼品的订单金额为0
                 //在接待表中添加赠品订单 puuid
                 receptionInfoService.updatePresentOrderID(puuid, presentNameList.toString(), cid);
                 //在客户信息中家赠品信息
@@ -518,7 +520,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                 insertSelective(
                         insertOrderInfo(cid,
                                 request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
-                                amount));
+                                amount, request));
                 //在接待表中添加赠品订单 uuid
                 receptionInfoService.updateOrderID(uuid, cid);
                 //在客户信息中家商品信息
@@ -534,7 +536,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param uuid
      * @return
      */
-    OrderInfo insertOrderInfo(String cid, String payType, String uuid, Long amount) {
+    OrderInfo insertOrderInfo(String cid, String payType, String uuid, Long amount,
+            HttpServletRequest request) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setOrderNumber(StringUtil.getOrderNo());
@@ -544,7 +547,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setOrderType("1");
         orderInfo.setStatus("0");
         orderInfo.setCreateDate(new Date());
-        String[] staff = getStaffInfo(cid);
+        String[] staff = getStaffInfo(cid, request);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
         orderInfo.setAreaFlag(staff[2]);
@@ -632,7 +635,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             orderInfo.setStatus("0");
         }
         orderInfo.setCreateDate(new Date());
-        String[] staff = getStaffInfo(cid);
+        String[] staff = getStaffInfo(cid, request);
         orderInfo.setReceiverStaffId(staff[0]);
         orderInfo.setPhoneStaffId(staff[1]);
         orderInfo.setPayType("0");//礼品订单都是全额支付
@@ -643,14 +646,20 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 获取接待人员信息
+     * 加判断，如果customer的没有接待人员则获取当前session登陆的employeeInfo
      * @param customerId
      * @return
      */
-    String[] getStaffInfo(String customerId) {
+    String[] getStaffInfo(String customerId, HttpServletRequest request) {
         CustomerInfo cInfo = customerInfoService.selectByPrimaryKey(customerId);
-        EmployeeInfo employeeInfo = employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId());
+        EmployeeInfo employee = new EmployeeInfo();
+        if (StringUtils.isEmpty(cInfo.getReceiverStaffId())) {
+            employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+        } else {
+            employee = employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId());
+        }
         String[] staff =
-                { cInfo.getReceiverStaffId(), cInfo.getPhoneStaffId(), employeeInfo.getOrganizationId() };
+                { cInfo.getReceiverStaffId(), cInfo.getPhoneStaffId(), employee.getOrganizationId() };
         return staff;
     }
 

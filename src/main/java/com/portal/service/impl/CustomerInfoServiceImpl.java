@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.CustomerType;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.DateUtil;
@@ -148,10 +149,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     /**
      * 新增客户员工
+     * add receiverStaffName & receiverStaffId
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request) {
+    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo) {
         String phone = request.getParameter("phone");
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setId(UUidUtil.getUUId());
@@ -164,6 +166,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cInfo.setArea(request.getParameter("area"));
         cInfo.setSite(request.getParameter("email"));
         cInfo.setRecentVisitDate(new Date());
+
+        cInfo.setReceiverStaffId(employeeInfo.getId());
+        cInfo.setReceiverStaffName(employeeInfo.getName());
         insertSelective(cInfo);
         return getFristQueryInfo(phone);
 
