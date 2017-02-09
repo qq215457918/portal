@@ -98,7 +98,7 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 			throw new Exception("没有可导入的数据");
 		}
 		List<Map<String, Object>> dataSet = new ArrayList<Map<String, Object>>();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Cell cell = null;
 		String content = null;
 		for (int i = beginRow; i < rows; i++) {
@@ -122,6 +122,12 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 					}else if(content.indexOf("介绍") > -1){
 						content = "5";
 					}
+				}
+				if(content.indexOf("\r\n") > -1){
+					content = content.replace("\r\n", "\\n");
+				}
+				if(content.indexOf("\n") > -1){
+					content = content.replace("\n", "\\n");
 				}
 				data.put("p" + k, content);
 			}

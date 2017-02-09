@@ -279,7 +279,7 @@
 		base = $("base").attr('href');
 		// 修改基本信息
 		$("#modifyInfo").click(function(){
-			var id = $('#').val();
+			var id = $('#cid').val();
 			window.location.href = base+"/customer/modify/basic?cId="+id;
 		});
 		$("#modifyExchange").click(function(){

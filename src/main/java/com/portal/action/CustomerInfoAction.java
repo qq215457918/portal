@@ -203,11 +203,11 @@ public class CustomerInfoAction {
 			data[i][3] = null == ci.getSeason4()?"":ci.getSeason4();
 			data[i][4] = null == ci.getName()?"":ci.getName();
 			data[i][5] = null == ci.getPhoneStaffName()?"":ci.getPhoneStaffName();
-			data[i][6] = null == ci.getReceiverStaffName()?"":ci.getReceiverStaffName();
-			data[i][7] = null == "";
+			data[i][6] = (null == ci.getReceiverStaffName()?"":ci.getReceiverStaffName()).replace("\\n", "\n");
+			data[i][7] = (null == ci.getGift()?"":ci.getGift()).replace("\\n", "\n");
 			data[i][8] = null == ci.getBusinessPhone()?"":ci.getBusinessPhone();
 			data[i][9] = null == ci.getPhone()?"":ci.getPhone();
-			data[i][10] = null == ci.getVisitDate()?"":ci.getVisitDate();
+			data[i][10] = (null == ci.getReceiverStaffDate()?"":ci.getReceiverStaffDate()).replace("\\n", "\n");
 			data[i][11] = null == ci.getArea()?"":ci.getArea();
 			data[i][12] = null == ci.getUpdateDate()?"":ci.getUpdateDate();
 			data[i][13] = null == ci.getPhone2()?"":ci.getPhone2();
@@ -216,7 +216,7 @@ public class CustomerInfoAction {
 			data[i][16] = null == ci.getMsn()?"":ci.getMsn();
 			data[i][17] = null == ci.getSite()?"":ci.getSite();
 			data[i][18] = null == ci.getIdCard()?"":ci.getIdCard();
-			data[i][19] = null == ci.getProduct()?"":ci.getProduct();
+			data[i][19] = (null == ci.getProduct()?"":ci.getProduct()).replace("\\n", "\n");
 			data[i][20] = null == ci.getTransactionAmount()?"":ci.getTransactionAmount();
 			i++;
 		}

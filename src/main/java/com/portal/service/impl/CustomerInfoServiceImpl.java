@@ -1,22 +1,10 @@
 package com.portal.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.CustomerType;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.DateUtil;
@@ -27,8 +15,17 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -39,7 +36,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     private OrderInfoDao orderInfoDao;
 
     @Autowired
-    EmployeeInfoService EmployeeInfoService;
+    EmployeeInfoService employeeInfoService;
 
     @Autowired
     private CustomerInfoExtraDao customerInfoExtraDao;
@@ -48,6 +45,23 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
+
+    // product 使用\n连接
+    public int updateProduct(String cid, String product, String amount) {
+        criteria.clear();
+        criteria.put("cid", cid);
+        criteria.put("product", product);
+        criteria.put("amount", amount);
+        return customerInfoExtraDao.updateProduct(criteria);
+    }
+
+    // gift 使用\n连接
+    public int updateGift(String cid, String gift) {
+        criteria.clear();
+        criteria.put("cid", cid);
+        criteria.put("gift", gift);
+        return customerInfoExtraDao.updateGift(criteria);
+    }
 
     /**
      * 通过电话号码查询客户信息
@@ -101,12 +115,12 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             cSimpleForm.setPhoneStaffId(cInfo.getPhoneStaffId());
             cSimpleForm
                     .setPhoneStaffName(
-                            EmployeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
+                            employeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
         }
         if (!StringUtils.isEmpty(cInfo.getReceiverStaffId())) {
             cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
             cSimpleForm.setReceiverStaffName(
-                    EmployeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
+                    employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
         }
         cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag() == "1" ? "是" : "否");
         return cSimpleForm;
@@ -135,10 +149,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     /**
      * 新增客户员工
+     * add receiverStaffName & receiverStaffId
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request) {
+    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo) {
         String phone = request.getParameter("phone");
         CustomerInfo cInfo = new CustomerInfo();
         cInfo.setId(UUidUtil.getUUId());
@@ -151,6 +166,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cInfo.setArea(request.getParameter("area"));
         cInfo.setSite(request.getParameter("email"));
         cInfo.setRecentVisitDate(new Date());
+
+        cInfo.setReceiverStaffId(employeeInfo.getId());
+        cInfo.setReceiverStaffName(employeeInfo.getName());
         insertSelective(cInfo);
         return getFristQueryInfo(phone);
 
@@ -346,8 +364,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
-            if (!(String.valueOf(data.get(i).get("p9")).length() == 11 || String.valueOf(data.get(i).get("p9")).length() == 8
-            		|| String.valueOf(data.get(i).get("p9")).length() == 12 || String.valueOf(data.get(i).get("p9")).length() == 13)) {
+            if (!(String.valueOf(data.get(i).get("p9")).length() == 11
+                    || String.valueOf(data.get(i).get("p9")).length() == 8
+                    || String.valueOf(data.get(i).get("p9")).length() == 12
+                    || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
             customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
@@ -409,7 +429,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         int totalRecord = customerInfoExtraDao.countByConditions(criteria);
         // 获取数据集
         List<CustomerSimpleInfoForm> list = customerInfoExtraDao.selectByConditions(criteria);
-        JSONObject resultJson =  new JSONObject();
+        JSONObject resultJson = new JSONObject();
         resultJson.put("sEcho", sEcho);
         resultJson.put("iTotalRecords", totalRecord);
         resultJson.put("iTotalDisplayRecords", totalRecord);

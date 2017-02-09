@@ -76,7 +76,7 @@ public class ReceptionAction {
         String customerId = request.getParameter("cId");
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
-        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId());
+        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
 
         model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
@@ -93,7 +93,8 @@ public class ReceptionAction {
     public ModelAndView customerAdd(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         //新增用户信息
-        CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request);
+        EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+        CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request, employee);
         ModelAndView model = new ModelAndView();
         model.addObject("result", info);
         model.setViewName("reception/query_frist");

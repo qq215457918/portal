@@ -2,6 +2,7 @@ package com.portal.service;
 
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import java.util.List;
@@ -10,6 +11,22 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 
 public interface CustomerInfoService {
+
+    /**
+     * 更新商品的列表信息
+     * @param cid
+     * @param product
+     * @return
+     */
+    public int updateProduct(String cid, String product, String amount);
+
+    /**
+     * 更新赠品的列表信息
+     * @param cid
+     * @param product
+     * @return
+     */
+    public int updateGift(String cid, String gift);
 
     /**
      * 通过id查询用户
@@ -37,7 +54,7 @@ public interface CustomerInfoService {
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request);
+    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo);
 
     /**
      * 查询是否为已经注册的用户
@@ -154,7 +171,7 @@ public interface CustomerInfoService {
      * @throws
      */
     public int selectCustomerOrderCount(Map<String, Object> paramMap);
-    
+
     /**
      * @Title: ajaxCustomerData 
      * @Description: 后台异步获取客户信息
@@ -166,7 +183,7 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject ajaxCustomerData(Criteria criteria, String sEcho);
-    
+
     /**
      * @Title: saveCustomerInfo 
      * @Description: 后台修改客户基本信息

@@ -210,7 +210,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results);
-    
+
     /**
      * @Title: getCreditCardDepositDetail 
      * @Description: 根据自定义条件查询数据--导出当日刷卡定金明细

@@ -106,6 +106,10 @@ public class CustomerInfo implements Serializable {
     private String phoneHidden;
 
     private String phone2Hidden;
+    
+    private String receiverStaffDate;
+    
+    private String gift;
 
     public String getHomePhone() {
         return homePhone;
@@ -469,5 +473,21 @@ public class CustomerInfo implements Serializable {
     public void setPhone2Hidden(String phone2Hidden) {
         this.phone2Hidden = phone2Hidden;
     }
+
+	public String getReceiverStaffDate() {
+		return receiverStaffDate;
+	}
+
+	public void setReceiverStaffDate(String receiverStaffDate) {
+		this.receiverStaffDate = receiverStaffDate;
+	}
+
+	public String getGift() {
+		return gift;
+	}
+
+	public void setGift(String gift) {
+		this.gift = gift;
+	}
 
 }
