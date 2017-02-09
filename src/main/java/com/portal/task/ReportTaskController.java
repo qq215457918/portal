@@ -416,17 +416,17 @@ public class ReportTaskController {
         criteria.put("deleteFlag", "0");
         criteria.put("status", "0");
         criteria.put("positionType", "1");
-        List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
+        /*List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
         if(employeeList != null && employeeList.size() > 0) {
             for (EmployeeInfo employeeInfo : employeeList) {
-                String employeeId = employeeInfo.getId();
+                String employeeId = employeeInfo.getId(); 
                 
                 
                 
                 
                 
             }
-        }
+        }*/
         
         int count = 0;
         criteria.clear();
