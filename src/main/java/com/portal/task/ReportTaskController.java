@@ -415,7 +415,7 @@ public class ReportTaskController {
         criteria.clear();
         criteria.put("deleteFlag", "0");
         criteria.put("status", "0");
-        criteria.put("positionType", "1");
+        criteria.put("positionType", "1");  
         /*List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
         if(employeeList != null && employeeList.size() > 0) {
             for (EmployeeInfo employeeInfo : employeeList) {
