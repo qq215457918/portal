@@ -93,7 +93,8 @@ public class ReceptionAction {
     public ModelAndView customerAdd(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         //新增用户信息
-        CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request);
+        EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+        CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request, employee);
         ModelAndView model = new ModelAndView();
         model.addObject("result", info);
         model.setViewName("reception/query_frist");
