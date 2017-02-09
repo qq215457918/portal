@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.DeptPerformanceInfo;
 import com.portal.bean.result.DeptPerforInfoForm;
 
 @Repository
@@ -54,5 +55,16 @@ public interface DeptPerformanceInfoExtraDao {
      * @throws
      */
     List<DeptPerforInfoForm> getIndividualByCondition(Criteria criteria);
+    
+    /**
+     * @Title: getPerformanceForTask 
+     * @Description: 每日定时器获取所有员工的业绩
+     * @param criteria
+     * @return List<DeptPerformanceInfo>
+     * @author Xia ZhengWei
+     * @date 2017年2月8日 下午11:28:17 
+     * @version V1.0
+     */
+    List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria);
     
 }

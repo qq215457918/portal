@@ -55,4 +55,15 @@ public interface VisitReportInfoExtDao {
      */
     List<VisitReportInfoForm> getPerforByCondition(Criteria example);
     
+    /**
+     * @Title: checkIsNewCount 
+     * @Description: 判断客户是否为新客户
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年1月23日 下午10:30:50 
+     * @version V1.0
+     */
+    int checkIsNewCount(Criteria criteria);
+    
 }

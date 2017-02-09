@@ -222,4 +222,8 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
     public List<DeptPerforInfoForm> getIndividualByCondition(Criteria criteria) {
         return deptPerformanceInfoExtraDao.getIndividualByCondition(criteria);
     }
+
+    public List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria) {
+        return deptPerformanceInfoExtraDao.getPerformanceForTask(criteria);
+    }
 }

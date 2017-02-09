@@ -84,6 +84,13 @@
       <if test="condition.remark != null" >
          and remark = #{condition.remark,jdbcType=VARCHAR}
       </if>
+      <!-- 定时器查询条件 -->
+      <if test="condition.startTime != null" >
+      	 <![CDATA[and r.start_time >= #{condition.startTime,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endTime != null" >
+      	 <![CDATA[and r.end_time <= #{condition.endTime,jdbcType=TIMESTAMP}]]>
+      </if>
     </trim>
   </sql>
   
@@ -170,5 +177,29 @@
 	from visit_report_info
   </select>
    -->
+   
+   <!-- 获取定时器需要的数据 -->
+   <select id="getTaskDataByCondition" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
+		select 
+            r.customer_id as customer_id,
+            c.`name` as customer_name,
+            c.type as customer_type,
+            c.area as customer_area,
+            r.phone_staff_id as custom_service_id,
+            (select e.`name` from employee_info e where e.id = r.phone_staff_id) as custom_service_name,
+            r.receiver_staff_id as receiver_staff_id,
+            (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
+            o.actual_price as transaction_amount,
+            r.create_date as visit_date
+        from 
+            reception_info r
+        left join customer_info c on r.customer_id = c.id
+        left join order_info o on r.order_id = o.id
+        <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+        and (o.`status` = '4' or o.pay_type = '1')
+        order by c.`name`
+   </select>
   
 </mapper>

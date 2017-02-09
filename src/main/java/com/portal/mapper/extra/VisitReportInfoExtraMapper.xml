@@ -207,4 +207,20 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
+  <!-- 定时器判断客户是否为新客户 -->
+  <select id="checkIsNewCount" parameterType="com.portal.bean.Criteria">
+  	select count(1) from (
+  		select o.customer_id from order_info o 
+  		where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
+        <![CDATA[
+	        and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+	        and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+        ]]>
+  		and (o.`status` = '4' or o.pay_type = '1')
+  		group by  o.customer_id
+  		having count(*) = 1
+  	) a
+  </select>
+  
+  
 </mapper>

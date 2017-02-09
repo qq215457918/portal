@@ -517,4 +517,28 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
+  <!-- 获取对应客户指定时间段的出单数（定时器使用, 其他地方也可以使用） -->
+  <select id="getOrderCounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+    select count(1)
+	from order_info o
+	where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
+    <![CDATA[
+     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+    ]]>
+ 	and (o.`status` = '4' or o.pay_type = '1')
+  </select>
+  
+  <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
+  <select id="getOrderAmounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+    select sum(o.actual_price)
+	from order_info o
+	where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
+    <![CDATA[
+     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+    ]]>
+ 	and (o.`status` = '4' or o.pay_type = '1')
+  </select>
+  
 </mapper>
