@@ -62,4 +62,15 @@ public interface VisitEverydayInfoService {
      * @version V1.0
      */
     List<VisitEverydayInfoForm> selectByCondition(Criteria criteria);
+    
+    /**
+     * @Title: getTaskDataByCondition 
+     * @Description: 定时器获取数据
+     * @param criteria
+     * @return List<VisitEverydayInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月19日 下午9:11:56 
+     * @version V1.0
+     */
+    List<VisitEverydayInfoForm> getTaskDataByCondition(Criteria criteria);
 }

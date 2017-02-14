@@ -55,8 +55,18 @@ $(document).ready(function(){
 		if(!$(this).attr('data-flag') || $(this).attr('data-flag') == ''){
 			return;
 		}
-		$('#goodsDetailList input[name=cultureFlag]').val($(this).attr('data-flag'));
-		$('#updateCivi').submit();
+		
+		var flag = $(this).attr('data-flag');
+		var content = '';
+		if(1 == flag){
+			content = '确定要通过审核吗？';
+		}else {
+			content = '确定要拒绝通过审核吗？';
+		}
+		$('#goodsDetailList input[name=cultureFlag]').val(flag);
+		if(confirm(content)) {
+			$('#updateCivi').submit();
+		}
 	});
 }); 
 

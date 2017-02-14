@@ -1095,4 +1095,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria) {
         return orderInfoExtraDao.getCreditCardDepositDetail(criteria);
     }
+
+    public int getOrderCounts(Criteria criteria) {
+        return orderInfoExtraDao.getOrderCounts(criteria);
+    }
+
+    public int getOrderAmounts(Criteria criteria) {
+        return orderInfoExtraDao.getOrderAmounts(criteria);
+    }
 }

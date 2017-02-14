@@ -238,4 +238,8 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         return resultJson;
     }
 
+    public int checkIsNewCount(Criteria criteria) {
+        return visitReportExtDao.checkIsNewCount(criteria);
+    }
+
 }

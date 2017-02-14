@@ -221,5 +221,27 @@ public interface OrderInfoService {
      * @version V1.0
      */
     List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria);
+    
+    /**
+     * @Title: getOrderCounts 
+     * @Description: 获取对应客户指定时间段的出单数（定时器使用, 其他地方也可以使用）
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年2月8日 下午10:47:46 
+     * @version V1.0
+     */
+    int getOrderCounts(Criteria criteria);
+    
+    /**
+     * @Title: getOrderAmounts 
+     * @Description: 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用）
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年2月8日 下午10:49:14 
+     * @version V1.0
+     */
+    int getOrderAmounts(Criteria criteria);
 
 }

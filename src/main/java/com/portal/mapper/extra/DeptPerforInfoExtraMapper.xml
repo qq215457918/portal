@@ -158,4 +158,32 @@
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
+  <!-- 每日定时器获取所有员工的业绩 -->
+  <select id="getPerformanceForTask" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+  	select 
+		e.id,
+		(
+		select sum(o.actual_price) 
+		from order_info o 
+		where e.id = o.receiver_staff_id 
+		<![CDATA[
+	     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+	     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+	    ]]>
+		) as actual_price,
+		(
+		select sum(od.amount) 
+		from order_detail_info od 
+		where od.order_id in (
+			select o.id from order_info o 
+			where e.id = o.receiver_staff_id 
+			<![CDATA[
+		     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+		     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+		    ]]>)
+		) as amount,
+		getNewCustomerCounts(e.id, #{condition.startTime}, #{condition.endTime}) as new_counts
+	from employee_info e
+  </select>
+  
 </mapper>

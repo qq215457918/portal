@@ -529,6 +529,7 @@ public class WorkFlowAction {
 		criteria.put("id", request.getParameter("orderId"));
 		criteria.put("orderNumber", request.getParameter("orderNumber"));
 		criteria.put("financeOrder", "1");
+		criteria.put("createDate", request.getParameter("createDate"));
 		criteria.put("deleteFlag", 0);
 		criteria.put("areaFlag", empInfo.getOrganizationId());
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));

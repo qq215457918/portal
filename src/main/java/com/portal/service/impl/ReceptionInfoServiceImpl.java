@@ -304,4 +304,8 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         resultJson.put("aaData", list);
         return resultJson;
     }
+
+    public List<String> getByConditions(Criteria example) {
+        return receptionInfoExtraDao.getByConditions(example);
+    }
 }

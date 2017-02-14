@@ -9,12 +9,12 @@ public class ReportTrack implements Serializable {
     private String id;
 
     /**
-     * 客户id
+     * 员工id
      */
-    private Date reportDate;
+    private String staffId;
 
     /**
-     * 客户类型 :0锁定 1 成单 2重复登门 3新登门 4说明会<br>
+     * 客户分类 0-空白客户 1-重复登门 2-说明会 3-成单 4-锁定
 	 * 
      */
     private String customerType;
@@ -39,7 +39,17 @@ public class ReportTrack implements Serializable {
      */
     private Integer newChangeCustomer;
 
+    /**
+     * 报表时间
+     */
+    private Date reportDate;
+
     private Date createDate;
+
+    /**
+     * 审核状态 : 0未审核 1已审核
+     */
+    private String status;
 
     public String getId() {
         return id;
@@ -50,22 +60,22 @@ public class ReportTrack implements Serializable {
     }
 
     /**
-     * @return 客户id
+     * @return 员工id
      */
-    public Date getReportDate() {
-        return reportDate;
+    public String getStaffId() {
+        return staffId;
     }
 
     /**
-     * @param reportDate 
-	 *            客户id
+     * @param staffId 
+	 *            员工id
      */
-    public void setReportDate(Date reportDate) {
-        this.reportDate = reportDate;
+    public void setStaffId(String staffId) {
+        this.staffId = staffId;
     }
 
     /**
-     * @return 客户类型 :0锁定 1 成单 2重复登门 3新登门 4说明会<br>
+     * @return 客户分类 0-空白客户 1-重复登门 2-说明会 3-成单 4-锁定
 	 * 
      */
     public String getCustomerType() {
@@ -74,7 +84,7 @@ public class ReportTrack implements Serializable {
 
     /**
      * @param customerType 
-	 *            客户类型 :0锁定 1 成单 2重复登门 3新登门 4说明会<br>
+	 *            客户分类 0-空白客户 1-重复登门 2-说明会 3-成单 4-锁定
 	 * 
      */
     public void setCustomerType(String customerType) {
@@ -141,11 +151,41 @@ public class ReportTrack implements Serializable {
         this.newChangeCustomer = newChangeCustomer;
     }
 
+    /**
+     * @return 报表时间
+     */
+    public Date getReportDate() {
+        return reportDate;
+    }
+
+    /**
+     * @param reportDate 
+	 *            报表时间
+     */
+    public void setReportDate(Date reportDate) {
+        this.reportDate = reportDate;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    /**
+     * @return 审核状态 : 0未审核 1已审核
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status 
+	 *            审核状态 : 0未审核 1已审核
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

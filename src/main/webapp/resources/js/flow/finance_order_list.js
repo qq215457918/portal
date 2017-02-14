@@ -1,8 +1,21 @@
 $(document).ready(function(){
 	initData();
 	
+	// 初始化日期插件
+	nowTemp = new Date();
+	now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+	checkin = $("#createDate").datepicker({
+		onRender : function(date) {
+			if (date.valueOf() < now.valueOf()) {
+				return "disabled";
+			} else {
+				return "";
+			}
+		}
+	}).data("datepicker");
+	
 	$('#searchList').click(function(){
-		if('' == $('#orderNumber').val()){
+		if('' == $('#orderNumber').val() && '' == $('#createDate').val()){
 			return;
 		}
 		$('#financeOrderExam').dataTable().fnDraw();
@@ -255,8 +268,10 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderId = $('#orderId').val();
 							var orderNumber = $('#orderNumber').val();
+							var createDate = $('#createDate').val();
 							
-							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber});
+							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber},
+									{'name':'createDate','value':createDate});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

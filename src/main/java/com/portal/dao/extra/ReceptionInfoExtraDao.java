@@ -92,4 +92,15 @@ public interface ReceptionInfoExtraDao {
      * @return
      */
     int updatePresentOrderId(Criteria criteria);
+    
+    /**
+     * @Title: getByConditions 
+     * @Description: 定时器获取每日接待信息
+     * @param example
+     * @return List<String>
+     * @author Xia ZhengWei
+     * @date 2017年1月19日 下午10:41:49 
+     * @version V1.0
+     */
+    List<String> getByConditions(Criteria example);
 }

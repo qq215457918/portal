@@ -38,4 +38,15 @@ public interface VisitEverydayInfoExtDao {
      * 根据条件查询记录集
      */
     List<VisitEverydayInfoForm> selectByCondition(Criteria example);
+    
+    /**
+     * @Title: getTaskDataByCondition 
+     * @Description: 定时器获取数据
+     * @param criteria
+     * @return List<VisitEverydayInfoForm>
+     * @author Xia ZhengWei
+     * @date 2017年1月19日 下午9:11:56 
+     * @version V1.0
+     */
+    List<VisitEverydayInfoForm> getTaskDataByCondition(Criteria criteria);
 }

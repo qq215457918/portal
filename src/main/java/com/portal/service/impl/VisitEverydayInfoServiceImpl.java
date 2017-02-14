@@ -259,5 +259,9 @@ public class VisitEverydayInfoServiceImpl implements VisitEverydayInfoService {
     public List<VisitEverydayInfoForm> selectByCondition(Criteria criteria) {
         return visitEverydayInfoExtDao.selectByCondition(criteria);
     }
+
+    public List<VisitEverydayInfoForm> getTaskDataByCondition(Criteria criteria) {
+        return visitEverydayInfoExtDao.getTaskDataByCondition(criteria);
+    }
     
 }

@@ -24,6 +24,11 @@
 							<div class="col-sm-2">
 				            	<input class="form-control" id="orderNumber" type="text">
 				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">创建日期</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="createDate" type="text">
+				            </div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-7">

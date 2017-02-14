@@ -73,4 +73,15 @@ public interface DeptPerformanceInfoService {
      * @version V1.0
      */
     List<DeptPerforInfoForm> getIndividualByCondition(Criteria criteria);
+    
+    /**
+     * @Title: getPerformanceForTask 
+     * @Description: 每日定时器获取所有员工的业绩
+     * @param criteria
+     * @return List<DeptPerforInfo>
+     * @author Xia ZhengWei
+     * @date 2017年2月8日 下午11:28:17 
+     * @version V1.0
+     */
+    List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria);
 }

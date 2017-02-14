@@ -44,6 +44,16 @@
       <if test="condition.endDate != null" >
       	 <![CDATA[and r.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
+      <!-- 定时器查询条件 -->
+      <if test="condition.receiverStaffId != null" >
+      	 and r.receiver_staff_id = #{condition.receiverStaffId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.startTime != null" >
+      	 <![CDATA[and r.start_time >= #{condition.startTime,jdbcType=TIMESTAMP}]]>
+      </if>
+      <if test="condition.endTime != null" >
+      	 <![CDATA[and r.end_time <= #{condition.endTime,jdbcType=TIMESTAMP}]]>
+      </if>
     </trim>
   </sql>
   
@@ -197,4 +207,17 @@
     and end_time is null
     order by create_date Desc limit 1 ;
   </update> 
+  
+  <!-- 获取定时器需要的数据 -->
+  <select id="getByConditions" resultType="java.lang.String" parameterType="com.portal.bean.Criteria">
+  	select 
+    	r.customer_id
+    from reception_info r
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 </mapper>
