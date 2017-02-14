@@ -42,7 +42,7 @@
 								<td>${list.unit}</td>	
 								<td>
 									<label class='checkbox-inline' style='padding-top:0px;margin-right:0px'>
-										<input type='checkbox' name='row_checkbox' id="check${list.id}"><span></span>
+										<input type='checkbox' name='row_checkbox' id="${list.id}"><span></span>
 									</label>
 								</td>
 							</tr>

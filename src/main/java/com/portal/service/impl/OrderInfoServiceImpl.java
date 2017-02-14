@@ -571,7 +571,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
             for (String goodId : goodArr) {
                 insertPresentDetailInfo(
-                        getOrderDetailInfo(goodId.substring(5, goodId.length()), count, uuid, "6"));
+                        getOrderDetailInfo(goodId, count, uuid, "6"));
             }
         } else {
             // insertPresentDetailInfo(
@@ -590,6 +590,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     OrderDetailInfo getOrderDetailInfo(String goodId, String count, String uuid, String orderType) {
         OrderDetailInfo detailInfo = new OrderDetailInfo();
+        if (goodId.indexOf(",") > -1) {
+            goodId = goodId.replace(",", "");
+        }
         GoodsInfoForm goodInfo = goodsDao.selectByPrimaryKey(goodId);
         detailInfo.setId(UUidUtil.getUUId());
         detailInfo.setOrderId(uuid);
@@ -659,7 +662,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             employee = employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId());
         }
         String[] staff =
-                { cInfo.getReceiverStaffId(), cInfo.getPhoneStaffId(), employee.getOrganizationId() };
+                { employee.getId(), cInfo.getPhoneStaffId(), employee.getOrganizationId() };
         return staff;
     }
 

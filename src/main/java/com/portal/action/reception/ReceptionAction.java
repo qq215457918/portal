@@ -89,16 +89,29 @@ public class ReceptionAction {
         return model;
     }
 
+    /**
+     * modify 查询add 是否电话号码是否存在
+     * @param request
+     * @param response
+     * @return
+     */
     @RequestMapping(value = "/add")
     public ModelAndView customerAdd(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
-        //新增用户信息
-        EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
-        CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request, employee);
+        CustomerSimpleInfoForm customerInfo =
+                customerInfoService.getFristQueryInfo(request.getParameter("phone").toString());
         ModelAndView model = new ModelAndView();
-        model.addObject("result", info);
-        model.setViewName("reception/query_frist");
-        return model;
+        if (customerInfo != null) {
+            model.setViewName("reception/query_frist");
+            model.addObject("result", customerInfo);
+            return model;
+        } else {
+            EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
+            CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request, employee);
+            model.addObject("result", info);
+            model.setViewName("reception/query_frist");
+            return model;
+        }
 
     }
 
