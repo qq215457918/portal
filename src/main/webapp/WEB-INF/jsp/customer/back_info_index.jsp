@@ -19,6 +19,10 @@
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
 						<div class="form-group">
+							<label class="control-label col-md-2 swidth">电话号码</label>
+							<div class="col-md-2">
+								<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">
+							</div>
 							<label class="control-label col-md-2 swidth">登门次数</label>
 							<div class="col-sm-2">
 				            	<input class="form-control" id="backCountS" type="text">

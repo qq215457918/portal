@@ -122,6 +122,7 @@ public class CustomerInfoAction {
 		criteria.put("payPriceE", request.getParameter("payPriceE"));
 		criteria.put("createDateS", request.getParameter("createDateS"));
 		criteria.put("createDateE", request.getParameter("createDateE"));
+		criteria.put("phoneStage", request.getParameter("phoneStage"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExList(criteria);
 		
