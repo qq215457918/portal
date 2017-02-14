@@ -771,7 +771,9 @@
   
   <select id="countOrderModifyList" resultType="int" parameterType="com.portal.bean.Criteria">
   	select count(1) from (
-  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(od.good_name) good_name, oi.pay_price, oi.order_type
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(concat(od.good_name, '(', od.good_id, ')')) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
+  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '(', od.good_id, ')', '&amp;', od.amount)) goodsQuantity,
+  		oi.order_number,oi.finance_date, oi.warehouse_flag
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
 	left join customer_info ci on oi.customer_id = ci.id
@@ -798,7 +800,7 @@
       </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
-         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)))
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
@@ -807,6 +809,7 @@
          and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
+    group by id
     ) a
   </select>
   
