@@ -5,6 +5,8 @@ import com.portal.bean.OrderFundSettlement;
 import com.portal.dao.OrderFundSettlementDao;
 import com.portal.service.OrderFundSettlementService;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +63,18 @@ public class OrderFundSettlementServiceImpl implements OrderFundSettlementServic
 
     public int insertSelective(OrderFundSettlement record) {
         return this.orderFundSettlementDao.insertSelective(record);
+    }
+    
+    /**
+     * @Title: getOrderFundInfo 
+     * @Description: 获取收款信息和商品信息
+     * @param orderId
+     * @return 
+     * @return List<Map<String,Object>>
+     * @throws
+     */
+    @Override
+    public List<Map<String, String>> getOrderFundInfo(String orderId) {
+    	return orderFundSettlementDao.getOrderFundInfo(orderId);
     }
 }

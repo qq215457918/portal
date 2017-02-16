@@ -45,6 +45,11 @@ public class OrderFundSettlement implements Serializable {
      * 备注
      */
     private String remark;
+    
+    /**
+     * 订单明细id
+     */
+    private String orderDetailId;
 
     /**
      * @return 主键id
@@ -165,4 +170,13 @@ public class OrderFundSettlement implements Serializable {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+	public String getOrderDetailId() {
+		return orderDetailId;
+	}
+
+	public void setOrderDetailId(String orderDetailId) {
+		this.orderDetailId = orderDetailId;
+	}
+    
 }

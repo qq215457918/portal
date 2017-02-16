@@ -3,6 +3,8 @@ package com.portal.dao;
 import com.portal.bean.Criteria;
 import com.portal.bean.OrderFundSettlement;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -62,4 +64,14 @@ public interface OrderFundSettlementDao {
      * 根据主键更新记录
      */
     int updateByPrimaryKey(OrderFundSettlement record);
+
+    /**
+     * @Title: getOrderFundInfo 
+     * @Description: 获取收款信息和商品信息
+     * @param orderId
+     * @return 
+     * @return List<Map<String,Object>>
+     * @throws
+     */
+	List<Map<String, String>> getOrderFundInfo(String orderId);
 }

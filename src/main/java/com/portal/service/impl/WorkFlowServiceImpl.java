@@ -35,7 +35,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.portal.bean.Criteria;
+import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderInfo;
+import com.portal.dao.OrderDetailInfoDao;
 import com.portal.dao.extra.WorkFlowDao;
 import com.portal.service.WorkFlowService;
 
@@ -66,6 +69,9 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     
     @Autowired
     private WorkFlowDao workFlowDao;
+    
+    @Autowired
+    private OrderDetailInfoDao orderDetailInfoDao;
     
     /**
 	 * @Title: insertFlowZip 
@@ -765,10 +771,14 @@ public class WorkFlowServiceImpl implements WorkFlowService {
     public Map<String, Object> getAccountAndPayTypeInfo(Map<String, Object> paramMap) {
     	List<Map<String,Object>> accountList = workFlowDao.getAccountList(paramMap);
     	List<Map<String,Object>> payTypeList = workFlowDao.getPayTypeList();
+    	Criteria criteria = new Criteria();
+    	criteria.put("orderId", paramMap.get("orderId"));
+    	List<OrderDetailInfo> orderDetailList = orderDetailInfoDao.selectByExample(criteria);
     	
     	Map<String, Object> result = new HashMap<String, Object>();
     	result.put("accountList", accountList);
     	result.put("payTypeList", payTypeList);
+    	result.put("orderDetailList", orderDetailList);
     	
     	return result;
     }
