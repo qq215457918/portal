@@ -55,6 +55,23 @@ $(function() {
 		}
 		$('#form').ajaxForm(options);
 	});
+	
+	$('#print').click(function(){
+		$("#sellDaily").print({
+			globalStyles: true,
+			mediaPrint: false,
+			stylesheet: null,
+			noPrintSelector: ".no-print",
+			iframe: true,
+			append: null,
+			prepend: null,
+			manuallyCopyFormValues: true,
+			deferred: $.Deferred(),
+			timeout: 750,
+			title: null,
+			doctype: '<!doctype html>'
+		});
+	});
 
 });
 
@@ -75,12 +92,14 @@ function initData() {
 			var type = data.type;
 			var goodsList = data.goodsList;
 			var clearing = data.clearing;
+			var depositRefund = data.depositRefund;
+			var depositReturn = data.depositReturn;
 			$("#sellDaily").empty();
-			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0)) {
+			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositRefund.length > 0 || depositReturn.length > 0)) {
 				$("#saveSell").show();
 			}
 			var html =  "<tr><td colspan='6' style='background: #CCDDFF; font-size: 20px; font-weight: bold;'>" + area + "销售日报表</td></tr>" +
-						"<tr><td colspan='6' style='text-align: left;'><div style='width: 15%; margin-left: 10%;'>日&nbsp;&nbsp;&nbsp;&nbsp;期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
+						"<tr><td colspan='6' style='text-align: left;'><div style='width: 20%; margin-left: 10%;'>日&nbsp;&nbsp;&nbsp;&nbsp;期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
 						"<tr><td colspan='6' style='font-weight: bold;'>销售藏品明细</td></tr>" +
 						"<tr>" +
 							"<td>藏品名称</td>" +
@@ -155,18 +174,56 @@ function initData() {
 					html += contents;
 				}
 			}else if(type == "compile") {
+				var rows = 0;
 				for (var int = 0; int < clearing.length; int++) {
+					rows = int;
 					contents = "<tr>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].paymentAccountName' readonly='readonly' value='" + clearing[int].paymentAccountName + "'/></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].customerPayType' readonly='readonly' value='" + clearing[int].customerPayType + "'/></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].payAmount' readonly='readonly' value='" + clearing[int].payAmountActual + "'/></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].payAmountActual' readonly='readonly' value='" + clearing[int].income + "'/></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].poundage' readonly='readonly' value='" + clearing[int].poundage + "'/></td>" + 
-								"<td><input type='text' name='sellDailyDetails["+int+"].remark'/></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+int+"].remarks'/></td>" + 
 							"<tr>";
 					total += clearing[int].payAmountActual;
 					income += clearing[int].income;
 					poundages += clearing[int].poundage;
+					html += contents;
+				}
+				// 回显定金退款
+				for (var int = 0; int < depositRefund.length; int++) {
+					if(rows > 0) {
+						rows += 1;						
+					}
+					contents = "<tr>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositRefund[int] + "'/></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金退款'/></td>" + 
+							"<tr>";
+					total += depositRefund[int];
+					income += 0;
+					poundages += 0;
+					html += contents;
+				}
+				// 回显定金回款
+				for (var int = 0; int < depositReturn.length; int++) {
+					if(rows > 0) {
+						rows += 1;						
+					}
+					contents = "<tr>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositReturn[int] + "'/></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+								"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金回款'/></td>" + 
+							"<tr>";
+					total += depositReturn[int];
+					income += 0;
+					poundages += 0;
 					html += contents;
 				}
 			}

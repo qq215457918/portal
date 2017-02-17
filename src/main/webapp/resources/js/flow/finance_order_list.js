@@ -22,41 +22,43 @@ $(document).ready(function(){
 	});
 	
 	$('#outgoing').click(function(){
-		$('#outgoingInfo').show();
-//		$('#outgoingInfo').jqprint();
-		$("#outgoingInfo").print({
-	        globalStyles: true,
-	        mediaPrint: false,
-	        stylesheet: null,
-	        noPrintSelector: ".no-print",
-	        iframe: true,
-	        append: null,
-	        prepend: null,
-	        manuallyCopyFormValues: true,
-	        deferred: $.Deferred(),
-	        timeout: 750,
-	        title: null,
-	        doctype: '<!doctype html>'
-		});
+//		$('#outgoingInfo').show();
+////		$('#outgoingInfo').jqprint();
+//		$("#outgoingInfo").print({
+//	        globalStyles: true,
+//	        mediaPrint: false,
+//	        stylesheet: null,
+//	        noPrintSelector: ".no-print",
+//	        iframe: true,
+//	        append: null,
+//	        prepend: null,
+//	        manuallyCopyFormValues: true,
+//	        deferred: $.Deferred(),
+//	        timeout: 750,
+//	        title: null,
+//	        doctype: '<!doctype html>'
+//		});
+		window.location.href = "workflow/downloadExcel?orderId=" + $('input[name=orderId]').val();
 	});
 	
 	$('#receiveMoney').click(function(){
-		$('#receiveMoneyInfo').show();
-//		$('#outgoingInfo').jqprint();
-		$("#receiveMoneyInfo").print({
-	        globalStyles: true,
-	        mediaPrint: false,
-	        stylesheet: null,
-	        noPrintSelector: ".no-print",
-	        iframe: true,
-	        append: null,
-	        prepend: null,
-	        manuallyCopyFormValues: true,
-	        deferred: $.Deferred(),
-	        timeout: 750,
-	        title: null,
-	        doctype: '<!doctype html>'
-		});
+//		$('#receiveMoneyInfo').show();
+////		$('#outgoingInfo').jqprint();
+//		$("#receiveMoneyInfo").print({
+//	        globalStyles: true,
+//	        mediaPrint: false,
+//	        stylesheet: null,
+//	        noPrintSelector: ".no-print",
+//	        iframe: true,
+//	        append: null,
+//	        prepend: null,
+//	        manuallyCopyFormValues: true,
+//	        deferred: $.Deferred(),
+//	        timeout: 750,
+//	        title: null,
+//	        doctype: '<!doctype html>'
+//		});
+		window.location.href = "workflow/downloadExcel?orderId=" + $('input[name=orderId]').val();
 	});
 	
 	// 关闭madel窗口隐藏打印条目
@@ -97,7 +99,8 @@ $(document).on('click', 'a[name=delete]', function(){
 $(document).on('click', '#confirmReceipt', function () { 
 	var operate = $(this).attr('data-operate-id');
 	$('input[name=orderNumber]').val($(this).attr('data-order-number'));
-	$('input[name=orderId]').val($(this).attr('data-order-id'));
+	var orderId = $(this).attr('data-order-id');
+	$('input[name=orderId]').val(orderId);
 	
 	// 初始化支付类型
 	$('#updateCivi .base-column:not(:first)').remove();
@@ -112,19 +115,28 @@ $(document).on('click', '#confirmReceipt', function () {
 		"dataType": 'json',
 		"type": "POST",
 		"url": 'workflow/getAccountAndPayTypeInfo',
+		"data": {
+			'orderId': orderId
+		},
 		"success": function(data){
 			var accountHtml = '<option value="">--请选择--</option>';
-			var payTypeHtml = '<option value="">--请选择--</option>';
+//			var payTypeHtml = '<option value="">--请选择--</option>';
+			var orderDetailHtml = '<option value="">--请选择--</option>';
 			
 			for(var i in data.accountList){
 				accountHtml += '<option value="' + data.accountList[i].payment_account_id + '">' + data.accountList[i].payment_account_name + '</option>'
 			}
 			
-			for(var j in data.payTypeList){
-				payTypeHtml += '<option value="' + data.payTypeList[j].payment_account_id + '">' + data.payTypeList[j].payment_account_name + '</option>'
+			for(var i in data.orderDetailList){
+				orderDetailHtml += '<option value="' + data.orderDetailList[i].id + '">' + data.orderDetailList[i].goodName + '</option>'
 			}
 			
+//			for(var j in data.payTypeList){
+//				payTypeHtml += '<option value="' + data.payTypeList[j].payment_account_id + '">' + data.payTypeList[j].payment_account_name + '</option>'
+//			}
+			
 			$('#updateCivi select[name$=paymentAccountId]:first').html(accountHtml);
+			$('#updateCivi select[name$=orderDetailId]:first').html(orderDetailHtml);
 //			$('#updateCivi select[name$=customerPayType]:first').html(payTypeHtml);
 		}
 	})
@@ -158,7 +170,8 @@ $(document).on('click', '#orderDetailInfo', function () {
 	window.location.href = 'order/orderModifyIndex?orderId='+$(this).attr('data-order-id');
 });
 
-$(document).on('click', '#toPrint', function () { 
+$(document).on('click', '#toPrint', function () {
+	$('input[name=orderId]').val($(this).attr('data-order-id'));
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",

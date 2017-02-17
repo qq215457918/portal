@@ -3,6 +3,7 @@ package com.portal.service.impl;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -260,6 +261,10 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             results.put("text", "系统异常, 请刷新后重试");
         }
         return results;
+    }
+
+    public Map<String, String> getReceiveNameByPhoneId(Criteria criteria) {
+        return employeeExtraDao.getReceiveNameByPhoneId(criteria);
     }
 
 }

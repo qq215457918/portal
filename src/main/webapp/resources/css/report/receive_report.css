@@ -52,3 +52,8 @@
 #sellDaily tr td {
 	text-align: center;
 }
+
+/* 销售日报表打印页面样式  */
+#printTable tr td {
+	text-align: center;
+}

@@ -161,7 +161,7 @@
   <!-- 每日定时器获取所有员工的业绩 -->
   <select id="getPerformanceForTask" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
   	select 
-		e.id,
+		e.id as employee_id,
 		(
 		select sum(o.actual_price) 
 		from order_info o 

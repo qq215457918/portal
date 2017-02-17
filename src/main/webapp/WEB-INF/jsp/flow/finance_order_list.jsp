@@ -210,12 +210,16 @@
 			    	</div>
               		<div class="row base-column">
 		              	<div class="form-group form-data">
+		              		<label class="control-label col-md-1" style="width:6%;">商品</label>
+				            <div class="col-md-1">
+				            	<select name="orderDetailId" id="orderDetailId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
+				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款账户</label>
-				            <div class="col-md-2">
+				            <div class="col-md-1">
 				            	<select name="paymentAccountId" id="paymentAccountId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
 				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款方式</label>
-				            <div class="col-md-2">
+				            <div class="col-md-1">
 				            	<select name="customerPayType" id="customerPayType" class="form-control">
 				            		<option value="">--请选择--</option>
 				            		<option value="1">信用卡</option>
@@ -223,8 +227,6 @@
 				            		<option value="3">储蓄卡（不封顶）</option>
 				            		<option value="4">支付宝</option>
 				            		<option value="5">微信</option>
-				            		<option value="6">卡6</option>
-				            		<option value="7">沈阳对公</option>
 				            	</select>
 				            </div>
 				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>

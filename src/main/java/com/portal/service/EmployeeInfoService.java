@@ -1,6 +1,7 @@
 package com.portal.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.portal.bean.Criteria;
@@ -108,4 +109,15 @@ public interface EmployeeInfoService {
      * @version V1.0
      */
     JSONObject deleteEmployeeInfo(String employeeId, JSONObject result);
+    
+    /**
+     * @Title: getReceiveNameByPhoneId 
+     * @Description: 统计每周对接业绩根据客服ID获取接待信息
+     * @param criteria
+     * @return Map<String, String>
+     * @author Xia ZhengWei
+     * @date 2017年2月13日 下午9:55:26 
+     * @version V1.0
+     */
+    Map<String, String> getReceiveNameByPhoneId(Criteria criteria);
 }

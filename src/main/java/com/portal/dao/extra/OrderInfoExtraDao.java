@@ -136,4 +136,37 @@ public interface OrderInfoExtraDao {
      */
     int getOrderAmounts(Criteria criteria);
     
+    /**
+     * @Title: getOrderGoodsCounts 
+     * @Description: 获取对应人员在指定时间段的出售藏品件数（定时器使用）
+     * @param criteria
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午11:59:00 
+     * @version V1.0
+     */
+    int getOrderGoodsCounts(Criteria criteria);
+    
+    /**
+     * @Title: getDepositRefund 
+     * @Description: 获取每天的定金退款数据（定时器使用）
+     * @param criteria
+     * @return List<Integer>
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:46:18 
+     * @version V1.0
+     */
+    List<Integer> getDepositRefund(Criteria criteria);
+    
+    /**
+     * @Title: getDepositReturn 
+     * @Description: 获取每天的定金回款数据（定时器使用）
+     * @param criteria
+     * @return List<Integer>
+     * @author Xia ZhengWei
+     * @date 2016年12月12日 下午10:47:21 
+     * @version V1.0
+     */
+    List<Integer> getDepositReturn(Criteria criteria);
+    
 }

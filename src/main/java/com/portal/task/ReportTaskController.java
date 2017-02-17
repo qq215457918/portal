@@ -2,25 +2,31 @@ package com.portal.task;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import com.portal.bean.ButtPerforDetailInfo;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.DeptPerformanceInfo;
 import com.portal.bean.EmployeeInfo;
+import com.portal.bean.GroupInfo;
 import com.portal.bean.VisitEverydayInfo;
 import com.portal.bean.VisitReportInfo;
 import com.portal.bean.result.VisitEverydayInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.UUidUtil;
+import com.portal.service.ButtPerforDetailInfoService;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.DeptPerformanceInfoService;
 import com.portal.service.EmployeeInfoService;
+import com.portal.service.GroupInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import com.portal.service.ReportTrackService;
@@ -71,87 +77,19 @@ public class ReportTaskController {
     // 部门业绩统计Service
     @Autowired
     private DeptPerformanceInfoService deptPerforService;
+    
+    // 展厅客服对接业绩Service
+    @Autowired
+    private ButtPerforDetailInfoService buttperforService;
+    
+    // 组织机构Service
+    @Autowired
+    private GroupInfoService groupInfoService;
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
     
-    
-    /**
-     * @Title: everyPerformances 
-     * @Description: 每日业绩统计任务(每日各个客户类型对应的登门数、出单数(订单状态为已完成/支付类型为支付定金)、金额及新客户数量)
-     * @return void
-     * @author Xia ZhengWei
-     * @date 2016年11月7日 下午10:03:26 
-     * @version V1.0
-     */
-    // 每日业绩提交审核那块直接走的查询 没走这张表, 暂时不做这个了
-    //@Scheduled(cron = "0 00 19 * * ?")  
-    public void everyPerformances(){  
-        logger.info("启动每日19点的定时任务, 操作内容：统计每日业绩存储到每日业绩表-------------------");
-        
-        /*
-         * 先查询所有未离职或删除的员工信息
-         * 循环根据员工ID查询对应客户类型的登门数量（日常接待表中的数据）
-         * 再查询订单表中的出单数量及金额
-         */
-        // 查询所有未禁用或删除的员工信息
-        /*criteria.put("deleteFlag", "0");
-        criteria.put("status", "0");
-        List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
-        if(employeeList != null && employeeList.size() > 0) {
-            // 循环根据员工ID查询对应客户类型的登门数量（日常接待表中的数据）
-            for (EmployeeInfo employeeInfo : employeeList) {
-                
-            }
-        }*/
-        
-        /*select 
-        (select COUNT(1) 
-            from reception_info r 
-            left join customer_info c on r.customer_id = c.id
-            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
-            and r.create_date >= '2016-10-19'
-            and r.create_date <= '2016-10-19 23:59:59'
-            and c.type = '0') as no_buy_counts,
-            (select COUNT(1) 
-            from reception_info r 
-            left join customer_info c on r.customer_id = c.id
-            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
-            and r.create_date >= '2016-10-19'
-            and r.create_date <= '2016-10-19 23:59:59'
-            and c.type = '1') as repeat_counts,
-            (select COUNT(1) 
-            from reception_info r 
-            left join customer_info c on r.customer_id = c.id
-            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
-            and r.create_date >= '2016-10-19'
-            and r.create_date <= '2016-10-19 23:59:59'
-            and c.type = '2') as roadshow_counts,
-            (select COUNT(1) 
-            from reception_info r 
-            left join customer_info c on r.customer_id = c.id
-            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
-            and r.create_date >= '2016-10-19'
-            and r.create_date <= '2016-10-19 23:59:59'
-            and c.type = '3') as finish_counts,
-            (select COUNT(1) 
-            from reception_info r 
-            left join customer_info c on r.customer_id = c.id
-            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
-            and r.create_date >= '2016-10-19'
-            and r.create_date <= '2016-10-19 23:59:59'
-            and c.type = '4') as locked_counts
-            from reception_info
-            where (receiver_staff_id = '123' or phone_staff_id = '123')
-            and create_date >= '2016-10-19'
-            and create_date <= '2016-10-19 23:59:59'
-        */
-        
-        logger.info("每日19点的定时任务结束, 共存储" + 10 + "条记录-------------------");
-    } 
-    
-    
-    // 第二个定时任务：每日晚19点05分统计向每日登门表中插入数据（根据日常接待表）
+    // 第一个定时任务：每日晚19点05分统计向每日登门表中插入数据（根据日常接待表）
     
     /**
      * @Title: visitEveryDay 
@@ -161,7 +99,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:14:44 
      * @version V1.0
      */
-    //@Scheduled(cron = "0 00 19 * * ?")  
+    @Scheduled(cron = "0 00 19 * * ?")  
     public void visitEveryDay(){  
         logger.info("启动每日19点05分的定时任务, 操作内容：统计每日接待情况存储到每日登门表-------------------");
         criteria.clear();
@@ -183,7 +121,7 @@ public class ReportTaskController {
     }
     
     
-    // 第三个定时任务：每日晚19点10分统计向接待统计表中插入数据（日常接待、订单）
+    // 第二个定时任务：每日晚19点10分统计向接待统计表中插入数据（日常接待、订单）
     
     /**
      * @Title: receiveReport 
@@ -193,7 +131,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:15:03 
      * @version V1.0
      */
-    //@Scheduled(cron = "0 10 19 * * ?")  
+    @Scheduled(cron = "0 10 19 * * ?")  
     public void receiveReport(){  
         logger.info("启动每日19点10分的定时任务, 操作内容：统计每日接待情况存储到每日接待统计表-------------------");
         /**
@@ -232,6 +170,7 @@ public class ReportTaskController {
             // 创建对象并赋值
             info = new VisitReportInfo();
             info.setId(UUidUtil.getUUId());
+            info.setReportDate(new Date());
             info.setReceiverStaffId(employeeInfo.getId());
             info.setReceiverStaffName(employeeInfo.getName());
             info.setReceiverArea(employeeInfo.getOrganizationId());
@@ -365,7 +304,7 @@ public class ReportTaskController {
     }
     
     
-    // 第四个定时任务：每日晚19点20分统计向部门业绩统计表插入数据（查询订单、员工、客户表）
+    // 第三个定时任务：每日晚19点20分统计向部门业绩统计表插入数据（查询订单、员工、客户表）
     // 表数据：机构ID、机构名称、部门ID、部门名称、小组ID、小组名称、人员ID、人员名称、业绩、件数、新客户数量、统计日期
     
     /**
@@ -376,7 +315,7 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:15:50 
      * @version V1.0
      */
-    //@Scheduled(cron = "0 20 19 * * ?")  
+    @Scheduled(cron = "0 20 19 * * ?")  
     public void deptPerfors(){  
         logger.info("启动每日19点20分的定时任务, 操作内容：统计订单、员工、客户表向部门业绩统计表插入数据-------------------");
         int count = 0;
@@ -396,7 +335,7 @@ public class ReportTaskController {
     }
     
     
-    // 第五个定时任务：每周日晚19点30统计向对接业绩表中插入数据（）
+    // 第四个定时任务：每周日晚19点30统计向对接业绩表中插入数据（）
     // 表数据：客服ID、客服姓名、接待姓名、成单接待数、出单数、出单率、业绩、单均、件均、锁定接待数、出单数、出单率、业绩、单均、件均、单均产品件数
     /**
      * @Title: buttPerfors 
@@ -406,362 +345,220 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:16:06 
      * @version V1.0
      */
-    //@Scheduled(cron = "0 30 19 ? * SUN")  
+    @Scheduled(cron = "0 30 19 ? * SUN")
     public void buttPerfors(){  
         logger.info("启动每周日19点30分的定时任务, 操作内容：统计向对接业绩表中插入数据-------------------");
         
+        int count = 0;
         // 先获取所有客服信息, 根据客服ID获取其他数据
         // 获取所有客服人员
         criteria.clear();
         criteria.put("deleteFlag", "0");
         criteria.put("status", "0");
         criteria.put("positionType", "1");  
-        /*List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
+        List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
         if(employeeList != null && employeeList.size() > 0) {
+            // 获取本周一和周日
+            String startTime = DateUtil.formatDate(DateUtil.getNowWeekMonday(new Date()), "yyyy-MM-dd");
+            String endTime = DateUtil.formatDate(DateUtil.getNowWeekSunday(new Date()), "yyyy-MM-dd 23:59:59");
+            // 创建对接对象
+            ButtPerforDetailInfo buttPerforInfo = null;
             for (EmployeeInfo employeeInfo : employeeList) {
                 String employeeId = employeeInfo.getId(); 
-                
-                
-                
-                
-                
+                // 统计每周对接业绩根据客服ID获取接待名称
+                criteria.clear();
+                criteria.put("deleteFlag", "0");
+                criteria.put("employeeId", employeeId);
+                criteria.put("startTime", startTime);
+                criteria.put("endTime", endTime);
+                Map<String, String> receiveNameAndId = employeeService.getReceiveNameByPhoneId(criteria);
+                // 如果接待信息为空则略过跳至下一个
+                if(receiveNameAndId != null) {
+                    buttPerforInfo = new ButtPerforDetailInfo();
+                    // 设置客服ID
+                    buttPerforInfo.setPhoneStaffId(employeeId);
+                    // 根据客服ID获取客服信息
+                    EmployeeInfo info = employeeService.selectByPrimaryKey(employeeId);
+                    // 设置客服姓名
+                    buttPerforInfo.setPhoneStaffName(info.getName());
+                    // 根据客服信息中的组织机构ID获取对应信息
+                    GroupInfo groupInfo = groupInfoService.selectByPrimaryKey(info.getOrganizationId());
+                    // 设置机构名称
+                    buttPerforInfo.setPhoneStaffGroupName(groupInfo.getName());
+                    
+                    // 设置接待姓名
+                    buttPerforInfo.setReceiveStaffName(receiveNameAndId.get("name"));
+                    // 获取成单/锁定-接待数/出单数
+                    criteria.clear();
+                    criteria.put("receiverStaffId", receiveNameAndId.get("id"));
+                    criteria.put("startDate", startTime);
+                    criteria.put("endDate", endTime);
+                    Map<String, Integer> countsAndOrders = visitReportService.getRecevieCountsAndOrders(criteria);
+                    // 成单出单率=接待数/出单数
+                    // 锁定出单率=接待数/出单数
+                    if(countsAndOrders != null) {
+                        Integer finishOrderCounts = countsAndOrders.get("finishOrderCounts");
+                        Integer finishOrders = countsAndOrders.get("finishOrders");
+                        Integer finishAmounts = countsAndOrders.get("finishAmounts");
+                        Integer lockedCounts = countsAndOrders.get("lockedCounts");
+                        Integer lockedOrders = countsAndOrders.get("lockedOrders");
+                        Integer lockedAmounts = countsAndOrders.get("lockedAmounts");
+                        // 设置成单接待数
+                        buttPerforInfo.setReceiveFinishedCounts(finishOrderCounts);
+                        // 设置成单出单数
+                        buttPerforInfo.setOutOrdersOfFinished(finishOrders);
+                        // 设置成单业绩
+                        buttPerforInfo.setPerformanceOfFinished(finishAmounts.longValue());
+                        // 设置锁定接待数
+                        buttPerforInfo.setReceiveLockedCounts(lockedCounts);
+                        // 设置锁定出单数
+                        buttPerforInfo.setOutOrdersOfLocked(lockedOrders);
+                        // 设置锁定业绩
+                        buttPerforInfo.setPerformanceOfLocked(lockedAmounts.longValue());
+                        // 设置成单出单率
+                        if(finishOrderCounts == 0 || finishOrders == 0) {
+                            buttPerforInfo.setOutOrderRateOfFinished("0");
+                        }else {
+                            buttPerforInfo.setOutOrderRateOfFinished(String.format("%.2f", finishOrderCounts/finishOrders) + "%");
+                            // 设置成单单均
+                            buttPerforInfo.setOrderAvgOfFinished(String.format("%.2f", finishAmounts/finishOrders));
+                        }
+                        // 设置锁定出单率
+                        if(lockedCounts == 0 || lockedOrders == 0) {
+                            buttPerforInfo.setOutOrderRateOfLocked("0");
+                        }else {
+                            buttPerforInfo.setOutOrderRateOfLocked(String.format("%.2f", lockedCounts/lockedOrders) + "%");
+                            // 设置锁定单均
+                            buttPerforInfo.setOrderAvgOfLocked(String.format("%.2f", lockedAmounts/lockedOrders));
+                        }
+                        // 获取成单件数
+                        criteria.clear();
+                        criteria.put("type", "3");
+                        criteria.put("employeeId", employeeId);
+                        criteria.put("startDate", startTime);
+                        criteria.put("endDate", endTime);
+                        int finishOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
+                        // 获取锁定件数
+                        criteria.put("type", "4");
+                        int lockedOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
+                        
+                        // 设置成单/锁定-件均=订单金额/件数
+                        if(finishOrderGoodsCounts == 0) {
+                            buttPerforInfo.setPieceAvgOfFinished("0");
+                        }else {
+                            buttPerforInfo.setPieceAvgOfFinished(String.format("%.2f", finishAmounts/finishOrderGoodsCounts));
+                        }
+                        if(lockedOrderGoodsCounts == 0) {
+                            buttPerforInfo.setPieceAvgOfLocked("0");
+                        }else {
+                            buttPerforInfo.setPieceAvgOfLocked(String.format("%.2f", lockedAmounts/lockedOrderGoodsCounts));
+                        }
+                        
+                        // 单均产品件数=成单锁定的总件数/成单锁定的总单数
+                        if((finishOrders == 0 & lockedOrders == 0) || (finishOrderGoodsCounts == 0 & lockedOrderGoodsCounts == 0)) {
+                            buttPerforInfo.setOrderAvgOfGoodsCounts("0");
+                        }else {
+                            buttPerforInfo.setOrderAvgOfGoodsCounts(String.format("%.2f", (finishOrderGoodsCounts + lockedOrderGoodsCounts) / (finishOrders + lockedOrders)));
+                        }
+                    }else {
+                        buttPerforInfo.setReceiveFinishedCounts(0);
+                        buttPerforInfo.setOutOrdersOfFinished(0);
+                        buttPerforInfo.setPerformanceOfFinished(0L);
+                        buttPerforInfo.setReceiveLockedCounts(0);
+                        buttPerforInfo.setOutOrdersOfLocked(0);
+                        buttPerforInfo.setPerformanceOfLocked(0L);
+                        buttPerforInfo.setOutOrderRateOfFinished("0");
+                        buttPerforInfo.setOutOrderRateOfLocked("0");
+                        buttPerforInfo.setOrderAvgOfFinished("0");
+                        buttPerforInfo.setOrderAvgOfLocked("0");
+                        buttPerforInfo.setPieceAvgOfFinished("0");
+                        buttPerforInfo.setPieceAvgOfLocked("0");
+                        buttPerforInfo.setOrderAvgOfGoodsCounts("0");
+                    }
+                    buttPerforInfo.setId(UUidUtil.getUUId());
+                    buttPerforInfo.setReportDate(new Date());
+                    count += buttperforService.insert(buttPerforInfo);
+                }else {
+                    // 没有对接接待人员, 继续向下执行
+                    continue;
+                }
             }
-        }*/
-        
-        int count = 0;
-        criteria.clear();
-        criteria.put("deleteFlag", "0");
-        criteria.put("startTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
-        criteria.put("endTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
-        
-        
-        
-        
-        
-        
-        
-        
+        }
         logger.info("每日19点30分的定时任务结束, 共存储" + count + "条记录-------------------");
     }
     
     /**
-     * 
-     * -- 接待名称
-        -- select ei.`name` 
-        -- from employee_info ei 
-        -- left join order_info o on ei.id = o.receiver_staff_id 
-        -- inner join employee_info e on o.phone_staff_id = e.id 
-        -- where e.id = '5002'
-        -- and o.create_date >= '2016-12-12'
-        -- and o.create_date <= '2016-12-18 23:59:59'
-        -- group by ei.`name`
-        
-        -- 成单/锁定-接待数
-        --  select sum(v.finish_order_counts), sum(v.locked_counts) 
-        --  from visit_report_info v
-        --  where v.receiver_staff_id = '5002'
-        --  and v.report_date >= '2016-09-26'
-        --  and v.report_date <= '2016-09-26 23:59:59'
-        
-        -- 成单/锁定-出单数
-        --  select sum(v.finish_orders), sum(v.locked_orders) 
-        --  from visit_report_info v
-        --  where v.receiver_staff_id = '5002'
-        --  and v.report_date >= '2016-09-26'
-        --  and v.report_date <= '2016-09-26 23:59:59'
-        
-        -- 成单出单率=接待数/出单数
-        -- 锁定出单率=接待数/出单数
-        
-        -- 成单/锁定-业绩
-        --  select sum(v.finish_amounts), sum(v.locked_amounts) 
-        --  from visit_report_info v
-        --  where v.receiver_staff_id = '5002'
-        --  and v.report_date >= '2016-09-26'
-        --  and v.report_date <= '2016-09-26 23:59:59'
-        
-        -- 成单/锁定-单均=订单金额/成单数量
-        
-        
-        -- 成单/锁定-件均=订单金额/件数
-        
-        -- 成单/锁定-件数(3/4)
-        -- select count(1) from (
-        --  select od.order_id 
-        --  from order_info o 
-        --  left join order_detail_info od on o.id = od.order_id 
-        --  left join customer_info c on o.customer_id = c.id 
-        --  inner join employee_info e on o.phone_staff_id = e.id 
-        --  where c.type = '3' 
-        --   and e.id = '5002'
-        --   and o.create_date >= '2016-12-12'
-        --   and o.create_date <= '2016-12-18 23:59:59'
-        --  group by od.order_id
-        -- ) a
-        
-        -- 单均产品件数=成单锁定的总件数/成单锁定的总单数
-        -- (select sum(od.amount) as amounts
-        -- from order_info o 
-        -- left join order_detail_info od on o.id = od.order_id 
-        -- left join customer_info c on o.customer_id = c.id 
-        -- inner join employee_info e on o.phone_staff_id = e.id 
-        -- where c.type = '3'
-
-     * 
-     * 数据库建表--每周生成一次---SQL文
-     * 
-     * 单均=订单金额/成单数量
-     * 件均=订单金额/件数
-     * 单均产品件数=件数/成单数量
-     * 
-     * 
-     * SELECT
-            e.id,
-            e.`name` as 客服,
-            (select g.`name` from group_info g where g.id = getOrganiId(e.group_id)) as area,
-            (select ei.`name` 
-                from employee_info ei 
-                left join order_info o on ei.id = o.receiver_staff_id 
-                inner join employee_info e on o.phone_staff_id = e.id 
-                group by ei.`name`
-            ) as 接待,
-        
-            (select sum(a.finish_order_counts) from (
-                    select v.finish_order_counts, v.receiver_staff_id 
-                    from visit_report_info v 
-                    left join order_info o on v.receiver_staff_id = o.receiver_staff_id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    group by v.receiver_staff_id
-                ) a
-            ) as 成单接待数,
-            
-            (select count(1) from (
-                    select o.id 
-                    from order_info o 
-                    left join order_detail_info od on o.id = od.order_id 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '3' 
-                    group by od.order_id) a
-            ) as 成单出单数,
-        
-            # 成单率=接待数/出单数
-        
-            concat(
-                round(
-                    (select sum(a.finish_order_counts) from (
-                            select v.finish_order_counts, v.receiver_staff_id 
-                            from visit_report_info v 
-                            left join order_info o on v.receiver_staff_id = o.receiver_staff_id 
-                            inner join employee_info e on o.phone_staff_id = e.id 
-                            group by v.receiver_staff_id
-                        ) a
-                    )
-                /
-                    (select count(1) from (
-                            select od.order_id 
-                            from order_info o 
-                            left join order_detail_info od on o.id = od.order_id 
-                            left join customer_info c on o.customer_id = c.id 
-                            inner join employee_info e on o.phone_staff_id = e.id 
-                            where c.type = '3' 
-                            group by od.order_id) a
-                    )
-                *100,2),'%') as 成单出单率,
-            
-            (select sum(o.actual_price) 
-                from order_info o 
-                left join customer_info c on o.customer_id = c.id 
-                inner join employee_info e on o.phone_staff_id = e.id 
-                where c.type = '3'
-            ) as 成单业绩,
-        
-            # 单均=订单金额/成单数量
-        
-            round(
-                (select sum(o.actual_price) 
-                    from order_info o 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '3'
-                )
-            /
-                (select count(1) from (
-                        select od.order_id 
-                        from order_info o 
-                        left join order_detail_info od on o.id = od.order_id 
-                        left join customer_info c on o.customer_id = c.id 
-                        inner join employee_info e on o.phone_staff_id = e.id 
-                        where c.type = '3' 
-                        group by od.order_id) a
-                )
-            ,2) as 成单单均,
-        
-            # 件均=订单金额/件数
-        
-            round(
-                (select sum(o.actual_price) 
-                    from order_info o 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '3'
-                )
-            /
-                (select count(1) from (
-                    select od.order_id 
-                    from order_info o 
-                    left join order_detail_info od on o.id = od.order_id 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '3' 
-                    group by od.order_id) a
-                )
-            ,2) as 成单件均,
-        
-        #=============================
-        
-            (select sum(a.locked_counts) from (
-                    select v.locked_counts, v.receiver_staff_id 
-                    from visit_report_info v 
-                    left join order_info o on v.receiver_staff_id = o.receiver_staff_id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    group by v.receiver_staff_id
-                ) a
-            ) as 锁定接待数,
-            
-            (select count(1) from (
-                    select o.id 
-                    from order_info o 
-                    left join order_detail_info od on o.id = od.order_id 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '4' 
-                    group by od.order_id) a
-            ) as 锁定出单数,
-        
-            # 成单率=接待数/出单数
-        
-            concat(
-                round(
-                    (select sum(a.locked_counts) from (
-                            select v.locked_counts, v.receiver_staff_id 
-                            from visit_report_info v 
-                            left join order_info o on v.receiver_staff_id = o.receiver_staff_id 
-                            inner join employee_info e on o.phone_staff_id = e.id 
-                            group by v.receiver_staff_id
-                        ) a
-                    )
-                /
-                    (select count(1) from (
-                            select od.order_id 
-                            from order_info o 
-                            left join order_detail_info od on o.id = od.order_id 
-                            left join customer_info c on o.customer_id = c.id 
-                            inner join employee_info e on o.phone_staff_id = e.id 
-                            where c.type = '4' 
-                            group by od.order_id) a
-                    )
-                *100,2),'%') as 锁定出单率,
-            
-            (select sum(o.actual_price) 
-                from order_info o 
-                left join customer_info c on o.customer_id = c.id 
-                inner join employee_info e on o.phone_staff_id = e.id 
-                where c.type = '4'
-            ) as 锁定业绩,
-        
-            # 单均=订单金额/成单数量
-        
-            round(
-                (select sum(o.actual_price) 
-                    from order_info o 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '4'
-                )
-            /
-                (select count(1) from (
-                        select od.order_id 
-                        from order_info o 
-                        left join order_detail_info od on o.id = od.order_id 
-                        left join customer_info c on o.customer_id = c.id 
-                        inner join employee_info e on o.phone_staff_id = e.id 
-                        where c.type = '4' 
-                        group by od.order_id) a
-                )
-            ,2) as 锁定单均,
-        
-            # 件均=订单金额/件数
-        
-            round(
-                (select sum(o.actual_price) 
-                    from order_info o 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '4'
-                )
-            /
-                (select count(1) from (
-                    select od.order_id 
-                    from order_info o 
-                    left join order_detail_info od on o.id = od.order_id 
-                    left join customer_info c on o.customer_id = c.id 
-                    inner join employee_info e on o.phone_staff_id = e.id 
-                    where c.type = '4' 
-                    group by od.order_id) a
-                )
-            ,2) as 锁定件均,
-        
-            # 单均产品件数=件数/成单数量
-        
-            round(
-                (select sum(amounts) from (
-                                (select sum(od.amount) as amounts
-                                from order_info o 
-                                left join order_detail_info od on o.id = od.order_id 
-                                left join customer_info c on o.customer_id = c.id 
-                                inner join employee_info e on o.phone_staff_id = e.id 
-                                where c.type = '3')
-                    UNION
-                                (select sum(od.amount) as amounts
-                                from order_info o 
-                                left join order_detail_info od on o.id = od.order_id 
-                                left join customer_info c on o.customer_id = c.id 
-                                inner join employee_info e on o.phone_staff_id = e.id 
-                                where c.type = '4')
-                    ) a
-                )
-            /
-                (select sum(counts) from (
-                                (select count(1) as counts from (
-                                select o.id 
-                                from order_info o 
-                                left join order_detail_info od on o.id = od.order_id 
-                                left join customer_info c on o.customer_id = c.id 
-                                inner join employee_info e on o.phone_staff_id = e.id 
-                                where c.type = '3' 
-                                group by od.order_id) a
-                            )
-                    UNION
-                            (select count(1) as counts from (
-                                select o.id 
-                                from order_info o 
-                                left join order_detail_info od on o.id = od.order_id 
-                                left join customer_info c on o.customer_id = c.id 
-                                inner join employee_info e on o.phone_staff_id = e.id 
-                                where c.type = '4' 
-                                group by od.order_id) a
-                            )   
-                    ) a
-                )
-            ,2) as 单均产品件数
-        
-        from employee_info e
-        where e.position_type = '1'
-        group by e.`name`
-        order by e.`name`
-     * 
+     * @Title: everyPerformances 
+     * @Description: 每日业绩统计任务(每日各个客户类型对应的登门数、出单数(订单状态为已完成/支付类型为支付定金)、金额及新客户数量)
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2016年11月7日 下午10:03:26 
+     * @version V1.0
      */
-    
+    // 每日业绩提交审核那块直接走的查询 没走这张表, 暂时不做这个了
+    //@Scheduled(cron = "0 00 19 * * ?")  
+    public void everyPerformances(){  
+        logger.info("启动每日19点的定时任务, 操作内容：统计每日业绩存储到每日业绩表-------------------");
+        
+        /*
+         * 先查询所有未离职或删除的员工信息
+         * 循环根据员工ID查询对应客户类型的登门数量（日常接待表中的数据）
+         * 再查询订单表中的出单数量及金额
+         */
+        // 查询所有未禁用或删除的员工信息
+        /*criteria.put("deleteFlag", "0");
+        criteria.put("status", "0");
+        List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
+        if(employeeList != null && employeeList.size() > 0) {
+            // 循环根据员工ID查询对应客户类型的登门数量（日常接待表中的数据）
+            for (EmployeeInfo employeeInfo : employeeList) {
+                
+            }
+        }*/
+        
+        /*select 
+        (select COUNT(1) 
+            from reception_info r 
+            left join customer_info c on r.customer_id = c.id
+            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
+            and r.create_date >= '2016-10-19'
+            and r.create_date <= '2016-10-19 23:59:59'
+            and c.type = '0') as no_buy_counts,
+            (select COUNT(1) 
+            from reception_info r 
+            left join customer_info c on r.customer_id = c.id
+            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
+            and r.create_date >= '2016-10-19'
+            and r.create_date <= '2016-10-19 23:59:59'
+            and c.type = '1') as repeat_counts,
+            (select COUNT(1) 
+            from reception_info r 
+            left join customer_info c on r.customer_id = c.id
+            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
+            and r.create_date >= '2016-10-19'
+            and r.create_date <= '2016-10-19 23:59:59'
+            and c.type = '2') as roadshow_counts,
+            (select COUNT(1) 
+            from reception_info r 
+            left join customer_info c on r.customer_id = c.id
+            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
+            and r.create_date >= '2016-10-19'
+            and r.create_date <= '2016-10-19 23:59:59'
+            and c.type = '3') as finish_counts,
+            (select COUNT(1) 
+            from reception_info r 
+            left join customer_info c on r.customer_id = c.id
+            where (r.receiver_staff_id = '123' or r.phone_staff_id = '123')
+            and r.create_date >= '2016-10-19'
+            and r.create_date <= '2016-10-19 23:59:59'
+            and c.type = '4') as locked_counts
+            from reception_info
+            where (receiver_staff_id = '123' or phone_staff_id = '123')
+            and create_date >= '2016-10-19'
+            and create_date <= '2016-10-19 23:59:59'
+        */
+        
+        logger.info("每日19点的定时任务结束, 共存储" + 10 + "条记录-------------------");
+    } 
     
 }

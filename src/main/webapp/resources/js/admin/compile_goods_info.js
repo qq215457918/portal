@@ -58,7 +58,7 @@ $(function() {
    		     success:function(data){
    		    	 if(data.status == 1) {
    		    		 alert("操作成功");
-   		    		 location.href = base + "admin/goodsManage/toGoodsMagene?active=2";
+   		    		 location.href = base + "admin/goodsManage/toGoodsMagene?active=5";
    		    	 }else {
    		    		 if(data.text) {
    		    			 alert(data.text);
@@ -76,6 +76,8 @@ $(function() {
     })
 	
 	$("#back").click(function(){
+		// 禁止之前的错误弹窗
+		window.alert = function(str){return false;}
 		window.history.back(-1);
 	});
 });

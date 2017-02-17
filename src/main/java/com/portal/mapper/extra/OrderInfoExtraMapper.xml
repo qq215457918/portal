@@ -541,4 +541,43 @@
  	and (o.`status` = '4' or o.pay_type = '1')
   </select>
   
+  <!-- 获取对应人员在指定时间段的出售藏品件数（定时器使用） -->
+  <select id="getOrderGoodsCounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+    select sum(od.amount) 
+	from order_detail_info od 
+	left join order_info o on od.order_id = o.id
+	left join customer_info c on o.customer_id = c.id
+	left join employee_info e on o.phone_staff_id = e.id
+	where c.type = #{condition.type,jdbcType=VARCHAR} 
+	and e.id = #{condition.employeeId,jdbcType=VARCHAR}
+    <![CDATA[
+       and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
+       and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
+    ]]>
+  </select>
+  
+  <!-- 获取每天的定金退款数据（定时器使用） -->
+  <select id="getDepositRefund" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+    select actual_price 
+    from order_info o 
+    where o.pay_type = '1' and o.order_type = '2'
+    and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
+    <![CDATA[
+     and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}
+     and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}
+    ]]>
+  </select>
+  
+  <!-- 获取每天的定金回款数据（定时器使用） -->
+  <select id="getDepositReturn" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
+    select actual_price 
+    from order_info o 
+    where o.pay_type = '3'
+    and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
+    <![CDATA[
+     and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}
+     and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}
+    ]]>
+  </select>
+  
 </mapper>
