@@ -96,6 +96,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     //根据电话号码查询ID信息
     public CustomerSimpleInfoForm getFristQueryInfo(String phone) {
         CustomerInfo cInfo = selectByPhone(phone);
+        if (cInfo == null) {
+            return null;
+        }
         return getSimpleInfoForm(cInfo);
     }
 
