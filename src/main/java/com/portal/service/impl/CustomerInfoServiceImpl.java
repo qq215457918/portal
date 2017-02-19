@@ -460,4 +460,27 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         // TODO Auto-generated method stub
         return null;
     }
+    
+    /**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 插入用户信息 如果电话重复则更新
+     * @param resultList 
+     * @return void
+     * @throws
+     */
+    @Override
+    public void insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
+        for (int i = 0; i < data.size(); i ++) {
+            if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
+                continue;
+            }
+            if (!(String.valueOf(data.get(i).get("p9")).length() == 11
+                    || String.valueOf(data.get(i).get("p9")).length() == 8
+                    || String.valueOf(data.get(i).get("p9")).length() == 12
+                    || String.valueOf(data.get(i).get("p9")).length() == 13)) {
+                continue;
+            }
+            customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+        }
+    }
 }

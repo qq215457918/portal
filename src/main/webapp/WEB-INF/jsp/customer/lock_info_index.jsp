@@ -20,6 +20,14 @@
 					<div class="widget-content padded">
 						<div class="form-group">
 							<div class="form-group">
+							<label class="control-label col-md-2 swidth">区域</label>
+							<div class="col-md-2">
+								<select id="area" class="form-control fl">
+						    		<option value="1" selected="selected">大连</option>
+						    		<option value="0">沈阳</option>
+						    	</select>
+							</div>
+							
 							<label class="control-label col-md-2 swidth">电话号码</label>
 							<div class="col-md-2">
 								<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">

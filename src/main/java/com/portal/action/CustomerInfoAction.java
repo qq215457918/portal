@@ -91,6 +91,7 @@ public class CustomerInfoAction {
 		criteria.put("backCountE", request.getParameter("backCountE"));
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
+		criteria.put("area", request.getParameter("area"));
 		
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("type", request.getParameter("type"));
@@ -123,6 +124,7 @@ public class CustomerInfoAction {
 		criteria.put("createDateS", request.getParameter("createDateS"));
 		criteria.put("createDateE", request.getParameter("createDateE"));
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
+		criteria.put("area", request.getParameter("area"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExList(criteria);
 		
@@ -158,6 +160,10 @@ public class CustomerInfoAction {
 		criteria.put("backCountE", request.getParameter("backCountE"));
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
+		criteria.put("area", request.getParameter("area"));
+		
+		criteria.put("phone", request.getParameter("phone"));
+		criteria.put("updateDate", request.getParameter("updateDate"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExportList(criteria);
 		
@@ -316,6 +322,37 @@ public class CustomerInfoAction {
 			
 //			if(StringUtils.isBlank(type) || "0".equals(type)){
 				customerInfoService.insertAndUpdateCustomerInfo(data);
+//			}else {
+//				customerInfoService.updateCustomerInfo(data);
+//			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:costomerInfoIndex?type=" + type;
+	}
+	
+	/**
+	 * @throws IOException 
+	 * @Title: importCustomer 
+	 * @Description: 导入用户
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("importCustomerAdd")
+	public String importCustomerAdd(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="importFile", required=false) MultipartFile file) {
+		String type = "";
+		try {
+			//如果导入模版修改需要修改第二和第三个参数
+			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
+			
+			type = request.getParameter("type");
+			
+//			if(StringUtils.isBlank(type) || "0".equals(type)){
+				customerInfoService.insertAndUpdateCustomerInfoAdd(data);
 //			}else {
 //				customerInfoService.updateCustomerInfo(data);
 //			}

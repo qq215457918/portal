@@ -19,6 +19,14 @@
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
 						<div class="form-group">
+							<label class="control-label col-md-2 swidth">区域</label>
+							<div class="col-md-2">
+								<select id="area" class="form-control fl">
+						    		<option value="1" selected="selected">大连</option>
+						    		<option value="0">沈阳</option>
+						    	</select>
+							</div>
+							
 							<label class="control-label col-md-2 swidth">电话号码</label>
 							<div class="col-md-2">
 								<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">
@@ -51,7 +59,8 @@
 							<div class="col-md-7">
 								<button class="btn btn-success" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>
-								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel">导入</button>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel" self="0" name="importExcel">导入</button>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel" self="1" name="importExcel">导入（累计）</button>
 							</div>
 						</div>
 						<!-- DataTables Example -->

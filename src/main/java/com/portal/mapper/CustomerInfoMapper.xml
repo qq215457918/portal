@@ -236,8 +236,8 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-   	,(select count(1) from reception_info x where x.customer_id = customer_info.id) as visitCount
-   	,(select name from employee_info y where y.id = customer_info.phone_staff_id) as phoneStaffName
+   	,visit_count as visitCount
+   	,phone_staff_name as phoneStaffName
     from customer_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -681,9 +681,9 @@
   </update>
   
   <sql id="Columnex_List" >
-    ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.sex, ci.address, ci.phone_staff_id, ei.name as phone_staff_name, ci.receiver_staff_id, ci.business_phone, 
-    ci.phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount, 
-    ci.recent_visit_date, ci.recent_export_date, ci.blacklist_flag, ci.update_date, ci.update_flag,a.recent_create_date, a.pay_price
+    ci.id, ci.type, ci.season2, ci.season3, ci.season4, ci.name, ci.sex, ci.address, ci.phone_staff_id, ci.phone_staff_name, ci.receiver_staff_id, ci.business_phone, 
+    ci.phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, ci.visit_date, ci.area, ci.phone2, ci.relation_id, ci.qq, ci.msn, ci.site, ci.id_card, ci.product, ci.transaction_amount pay_price, 
+    ci.recent_visit_date, ci.recent_export_date, ci.blacklist_flag, ci.update_date, ci.update_flag,a.recent_create_date
   </sql>
   <select id="selectCustomerExList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
   	select  
@@ -703,6 +703,9 @@
       <trim prefix="where" prefixOverrides="and|or" >
         <if test="condition.type != null" >
         	and type = #{condition.type,jdbcType=VARCHAR}
+      	</if>
+        <if test="condition.area != null" >
+        	and area = #{condition.area,jdbcType=VARCHAR}
       	</if>
       	<if test="condition.payPriceS != null" >
         	and a.pay_price >= #{condition.payPriceS,jdbcType=DECIMAL}
@@ -742,6 +745,9 @@
       	<if test="condition.type != null" >
         	and type = #{condition.type,jdbcType=VARCHAR}
       	</if>
+      	<if test="condition.area != null" >
+        	and area = #{condition.area,jdbcType=VARCHAR}
+      	</if>
       	<if test="condition.payPriceS != null" >
         	and a.pay_price >= #{condition.payPriceS,jdbcType=DECIMAL}
       	</if>
@@ -759,7 +765,7 @@
   </select>
   
 <select id="selectCustomerExportList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT type, season2, season3, season4, ci.name,  eip.name phone_staff_name, ci.receiver_staff_name,
+  	SELECT type, season2, season3, season4, ci.name, ci.phone_staff_name, ci.receiver_staff_name,
 		business_phone, phone, visit_date, update_date, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount,
 		gift, receiver_staff_date,
 		case when area = 0 then '沈阳' when area = 1 then '大连' end as area
@@ -770,6 +776,9 @@
       <trim prefix="where" prefixOverrides="and|or" >
       	<if test="condition.type != null" >
 		   and type = #{condition.type,jdbcType=VARCHAR}
+		</if>
+		<if test="condition.area != null" >
+		   and area = #{condition.area,jdbcType=VARCHAR}
 		</if>
 		<!-- 号码段条件 -->
 		<if test="condition.phoneStage != null" >
@@ -817,7 +826,7 @@
   <insert id="insertAndUpdateCustomerInfo" parameterType="map">
   	insert into customer_info (
   		id,type,season2,season3,season4,
-  		name,sex,phone_staff_id,receiver_staff_name,gift,
+  		name,sex,phone_staff_id,phone_staff_name,receiver_staff_name,gift,
   		business_phone,phone, receiver_staff_date,
   		area,update_date,
   		phone2,relation_id,qq,msn,
@@ -826,15 +835,56 @@
   		) values 
         (
         rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
-        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1), #{p6}, #{p7},
+        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1),#{p5}, #{p6}, #{p7},
         #{p8}, #{p9}, #{p10}, 
         #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
         #{p13}, #{p14}, #{p15}, #{p16},
         #{p17},#{p18},#{p19}, case when #{p20} = '' then null else #{p20} end, 
         now()
     	)
-  	on duplicate key update recent_import_date = now(), type = #{p0}, update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
-  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1)
+  	on duplicate key update recent_import_date = now(), 
+  		type = (case when type <![CDATA[<]]> #{p0} then #{p0} else type end), 
+  		update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
+  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1),
+  		phone_staff_name = #{p5},
+  		receiver_staff_name = #{p6},
+  		receiver_staff_date = #{p10},
+  		product = #{p19},
+  		transaction_amount = #{p20},
+  		visit_count = (case when type = 1 then visit_count + 1 else visit_count end),
+  		gift = #{p7}
+  </insert>
+
+  <insert id="insertAndUpdateCustomerInfoAdd" parameterType="map">
+  	insert into customer_info (
+  		id,type,season2,season3,season4,
+  		name,sex,phone_staff_id,phone_staff_name,receiver_staff_name,gift,
+  		business_phone,phone, receiver_staff_date,
+  		area,update_date,
+  		phone2,relation_id,qq,msn,
+  		site,id_card,product,transaction_amount,
+  		recent_import_date
+  		) values 
+        (
+        rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
+        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1),#{p5}, #{p6}, #{p7},
+        #{p8}, #{p9}, #{p10}, 
+        #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
+        #{p13}, #{p14}, #{p15}, #{p16},
+        #{p17},#{p18},#{p19}, case when #{p20} = '' then null else #{p20} end, 
+        now()
+    	)
+  	on duplicate key update recent_import_date = now(), 
+  		type = (case when type <![CDATA[<]]> #{p0} then #{p0} else type end), 
+  		update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
+  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1),
+  		phone_staff_name = concat(phone_staff_name, <![CDATA['\\n']]>, #{p5}),
+  		receiver_staff_name = concat(receiver_staff_name, <![CDATA['\\n']]>, #{p6}),
+  		receiver_staff_date = concat(receiver_staff_date, <![CDATA['\\n']]>, #{p10}),
+  		product = concat(product, <![CDATA['\\n']]>, #{p19}),
+  		transaction_amount = (case when #{p20} != '' then transaction_amount + #{p20} else transaction_amount end),
+  		visit_count = (case when type = 1 then visit_count + 1 else visit_count end),
+  		gift = concat(gift, <![CDATA['\\n']]>, #{p7})
   </insert>
   
   <update id="updateCustomerInfo" parameterType="map">

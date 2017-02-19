@@ -813,4 +813,14 @@
     ) a
   </select>
   
+  <select id="selectPirntInfoById" resultMap="BaseResultMap" parameterType="String">
+  	select 
+  		ci.name as customer_name, oi.create_date, eir.name as receiver_staff_name,
+  		eip.name as phone_staff_name, oi.Remarks
+  	from order_info oi
+  	left join customer_info ci on ci.id = oi.customer_id
+  	left join employee_info eir on oi.receiver_staff_id = eir.id
+  	left join employee_info eip on oi.phone_staff_id = eip.id
+  	where oi.id = #{orderId}
+  </select>
 </mapper>

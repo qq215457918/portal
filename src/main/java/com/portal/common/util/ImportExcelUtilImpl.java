@@ -122,6 +122,11 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 					}else if(content.indexOf("介绍") > -1){
 						content = "5";
 					}
+					if(content.indexOf("沈阳") > -1 && k == 11){
+						content = "0";
+					}else if(content.indexOf("大连") > -1 && k == 11){
+						content = "1";
+					}
 				}
 				if(content.indexOf("\r\n") > -1){
 					content = content.replace("\r\n", "\\n");

@@ -195,4 +195,13 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results);
+
+    /**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 插入用户信息 如果电话重复则累计
+     * @param data 
+     * @return void
+     * @throws
+     */
+	public void insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
 }

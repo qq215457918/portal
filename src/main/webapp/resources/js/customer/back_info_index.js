@@ -9,6 +9,7 @@ $(document).ready(function(){
 		
 		var dpd1 = $('#dpd1').val();
 		var dpd2 = $('#dpd2').val();
+		var area = $('#area').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -18,11 +19,21 @@ $(document).ready(function(){
 		exportHtml += '<form id="exportExcel" action="customerInfo/exportCustomer" style="display:none;">';
 		exportHtml += '<input type="hidden" name="startTime" value="' + dpd1 + '"/>'
 		exportHtml += '<input type="hidden" name="endTime" value="' + dpd2 + '"/>'
+		exportHtml += '<input type="hidden" name="area" value="' + area + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="1"/>'
 		exportHtml += '</form>';
 		$('body').append(exportHtml);
 		
 		$('#exportExcel').submit();
+	});
+	
+	$('button[name=importExcel]').click(function(){
+		var flag = $(this).attr('self');
+		if(flag == 1){
+			$('#importExcelForm').attr('action','customerInfo/importCustomerAdd');
+		}else {
+			$('#importExcelForm').attr('action','customerInfo/importCustomer');
+		}
 	});
 }); 
 
@@ -63,9 +74,11 @@ function initData(){
 							var phoneStage = $('#phoneStage').val();
 							var visiteDate1 = $('#dpd1').val();
 							var visiteDate2 = $('#dpd2').val();
+							var area = $('#area').val();
 							aoData.push({'name':'backCountS','value':backCountS},{'name':'backCountE','value':backCountE},
 									{'name':'visiteDate1','value':visiteDate1},{'name':'visiteDate2','value':visiteDate2},
-									{'name':'type','value':1},{'name':'phoneStage','value':phoneStage});
+									{'name':'type','value':1},{'name':'phoneStage','value':phoneStage},
+									{'name':'area','value':area});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

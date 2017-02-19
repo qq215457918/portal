@@ -1,5 +1,6 @@
 package com.portal.action;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -43,6 +44,7 @@ import com.portal.service.OrderInfoService;
 import com.portal.service.WorkFlowService;
 
 import jxl.Workbook;
+import jxl.WorkbookSettings;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -848,11 +850,13 @@ public class WorkFlowAction {
 		
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		
-		OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(orderId);
+		OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
 		
 		List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
 		
 		try {
+			@SuppressWarnings("deprecation")
+			String path = request.getRealPath("/resources/excel/print_template.xls");
 			OutputStream os = response.getOutputStream();// 取得输出流
 			response.reset();// 清空输出流
 			
@@ -861,28 +865,38 @@ public class WorkFlowAction {
 			response.setHeader("Content-Disposition",
 					"attachment; filename=" + orderId + ".xls");
 
-			WritableWorkbook workbook = Workbook.createWorkbook(os);
-
-			WritableSheet sheet = workbook.createSheet("Sheet1", 0);
-
-			sheet.addCell(new Label(3, 2, orderInfo.getCustomerName()));
-			sheet.addCell(new Label(3, 6, sdf.format(orderInfo.getCreateDate())));
-			sheet.addCell(new Label(9, 2, orderInfo.getReceiverStaffName()));
-			sheet.addCell(new Label(9, 6, orderInfo.getPhoneStaffName()));
-			sheet.addCell(new Label(8, 3, orderInfo.getRemarks()));
+			File file = new File(path);
 			
-			for(int i = 5, j = 0; i < 8; i++, j++){
-				sheet.addCell(new Label(i, 2, result.get(j).get("good_name")));
-				sheet.addCell(new Label(i, 3, result.get(j).get("amount")));
-				sheet.addCell(new Label(i, 4, result.get(j).get("price")));
-				sheet.addCell(new Label(i, 5, String.valueOf(result.get(j).get("pay_amount_actual"))));
-				sheet.addCell(new Label(i, 6, result.get(j).get("payment_account_name")));
-				sheet.addCell(new Label(i, 7, result.get(j).get("pay_type_name")));
-				sheet.addCell(new Label(i, 8, String.valueOf(result.get(j).get("poundage"))));
-				sheet.addCell(new Label(i, 9, result.get(j).get("remark")));
+			Workbook wb = Workbook.getWorkbook(file);
+			WorkbookSettings settings = new WorkbookSettings();  
+			settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+			WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+
+			WritableSheet sheet = workbook.getSheet(0);
+
+			sheet.addCell(new Label(0, 0, "          " + orderInfo.getCustomerName()==null?"":orderInfo.getCustomerName()));
+			sheet.addCell(new Label(5, 0, "          " + sdf.format(orderInfo.getCreateDate())));
+			sheet.addCell(new Label(0, 6, "          " + orderInfo.getReceiverStaffName()==null?"":orderInfo.getReceiverStaffName()));
+			sheet.addCell(new Label(5, 6, "          " + orderInfo.getPhoneStaffName()==null?"":orderInfo.getPhoneStaffName()));
+			sheet.addCell(new Label(0, 5, "              " + orderInfo.getRemarks()==null?"":orderInfo.getRemarks()));
+			
+			for(int i = 2, j = 0; j < result.size(); i++, j++){
+				sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
+				sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
+				sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("price"))));
+				sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount_actual"))));
+				sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
+				sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
+				sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
+				sheet.addCell(new Label(7, i, result.get(j).get("remark")));
 			}
 
 			os.flush();
+			workbook.write();
+			wb.close();
+			workbook.close();
+			os.close();
+			response.flushBuffer();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
