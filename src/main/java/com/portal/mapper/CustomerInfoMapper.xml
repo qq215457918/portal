@@ -878,7 +878,7 @@
   		type = (case when type <![CDATA[<]]> #{p0} then #{p0} else type end), 
   		update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
   		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1),
-  		phone_staff_name = concat(phone_staff_name, <![CDATA['\\n']]>, #{p5}),
+  		phone_staff_name = (case when #{p5} = '' then '' else concat(phone_staff_name, <![CDATA['\\n']]>, #{p5}) end),
   		receiver_staff_name = concat(receiver_staff_name, <![CDATA['\\n']]>, #{p6}),
   		receiver_staff_date = concat(receiver_staff_date, <![CDATA['\\n']]>, #{p10}),
   		product = concat(product, <![CDATA['\\n']]>, #{p19}),
