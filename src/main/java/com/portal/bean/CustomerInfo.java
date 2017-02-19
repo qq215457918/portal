@@ -78,6 +78,9 @@ public class CustomerInfo implements Serializable {
 
     private Date recentImportDate;
 
+    //历史拨打时间
+    private String callDates;
+
     private String blacklistFlag;
 
     private Date updateDate;
@@ -106,10 +109,18 @@ public class CustomerInfo implements Serializable {
     private String phoneHidden;
 
     private String phone2Hidden;
-    
+
     private String receiverStaffDate;
-    
+
     private String gift;
+
+    public String getCallDates() {
+        return callDates;
+    }
+
+    public void setCallDates(String callDates) {
+        this.callDates = callDates;
+    }
 
     public String getHomePhone() {
         return homePhone;
@@ -474,20 +485,20 @@ public class CustomerInfo implements Serializable {
         this.phone2Hidden = phone2Hidden;
     }
 
-	public String getReceiverStaffDate() {
-		return receiverStaffDate;
-	}
+    public String getReceiverStaffDate() {
+        return receiverStaffDate;
+    }
 
-	public void setReceiverStaffDate(String receiverStaffDate) {
-		this.receiverStaffDate = receiverStaffDate;
-	}
+    public void setReceiverStaffDate(String receiverStaffDate) {
+        this.receiverStaffDate = receiverStaffDate;
+    }
 
-	public String getGift() {
-		return gift;
-	}
+    public String getGift() {
+        return gift;
+    }
 
-	public void setGift(String gift) {
-		this.gift = gift;
-	}
+    public void setGift(String gift) {
+        this.gift = gift;
+    }
 
 }

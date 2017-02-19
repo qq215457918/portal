@@ -126,6 +126,22 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
         }
         cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag() == "1" ? "是" : "否");
+
+        //20170219 add
+        String staffDate = null;
+        if (!StringUtils.isEmpty(cInfo.getReceiverStaffDate())) {
+            staffDate = cInfo.getReceiverStaffDate().replace("\\n", "-----");
+        }
+        cSimpleForm.setReceiverStaffDate(staffDate);
+        cSimpleForm.setProduct(cInfo.getProduct());
+        cSimpleForm.setTransactionAmount(cInfo.getTransactionAmount());
+        cSimpleForm.setCallDates(cInfo.getCallDates());
+        cSimpleForm.setGift(cInfo.getGift());
+        String staffName = null;
+        if (!StringUtils.isEmpty(cInfo.getReceiverStaffName())) {
+            staffName = cInfo.getReceiverStaffName().replace("\\n", "-----");
+        }
+        cSimpleForm.setHisReceiverStaffName(staffName);
         return cSimpleForm;
     }
 

@@ -25,6 +25,7 @@
     <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
     <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
     <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
+    <result column="call_dates" property="callDates" jdbcType="VARCHAR" />
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
@@ -42,8 +43,8 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
-    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
+    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, receiver_staff_date,
+    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, call_dates ,gift,
     recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
   </sql>
   
@@ -80,13 +81,6 @@
     </trim>
   </sql>
   
-  <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
-    update customer_info 
-    set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}), 
-    transaction_amount = transaction_amount + #{condition.amount,jdbcType=DECIMAL}
-    where id =#{condition.cid,jdbcType=VARCHAR};
-  </update>
-  
    <update id="updateGift" parameterType="com.portal.bean.Criteria" >
     update customer_info 
     set gift = CONCAT(ifnull(gift,''),#{condition.gift,jdbcType=VARCHAR}) 
@@ -99,6 +93,13 @@
     receiver_staff_date = CONCAT(ifnull(receiver_staff_date,''),#{condition.receptionDate,jdbcType=VARCHAR})  
     where id =#{condition.cid,jdbcType=VARCHAR};
   </update>
+  
+   <select id="selectHistoryByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_info
+    where phone = #{phone,jdbcType=VARCHAR}
+  </select>
 
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

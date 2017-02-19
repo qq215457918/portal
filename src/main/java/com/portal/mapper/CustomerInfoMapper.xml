@@ -31,6 +31,7 @@
     <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
     <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
     <result column="recent_import_date" property="recentImportDate" jdbcType="TIMESTAMP" />
+    <result column="call_dates" property="callDates" jdbcType="VARCHAR" />
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
@@ -224,10 +225,10 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, type, season2, season3, season4, name, sex, phone_staff_id, receiver_staff_id, business_phone, 
+    id, type, season2, season3, season4, name, sex, phone_staff_id, receiver_staff_id,receiver_staff_name, business_phone, 
     phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, visit_date, area, address, 
-    phone2, REPLACE(phone2, SUBSTR(phone2,4,4), '****') phone2Hidden, relation_id, qq, msn, site, id_card, product, transaction_amount, 
-    recent_visit_date, recent_export_date, recent_import_date, blacklist_flag, update_date, update_flag
+    phone2, REPLACE(phone2, SUBSTR(phone2,4,4), '****') phone2Hidden, relation_id, qq, msn, site, id_card,receiver_staff_date, product, transaction_amount, 
+    call_dates,gift,recent_visit_date, recent_export_date, recent_import_date, blacklist_flag, update_date, update_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
