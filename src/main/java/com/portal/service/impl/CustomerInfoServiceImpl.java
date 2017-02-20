@@ -130,18 +130,27 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         //20170219 add
         String staffDate = null;
         if (!StringUtils.isEmpty(cInfo.getReceiverStaffDate())) {
-            staffDate = cInfo.getReceiverStaffDate().replace("\\n", "-----");
+            staffDate = cInfo.getReceiverStaffDate().replace("\\n", "<br/>");
         }
         cSimpleForm.setReceiverStaffDate(staffDate);
-        cSimpleForm.setProduct(cInfo.getProduct());
+        String product = null;
+        if (!StringUtils.isEmpty(cInfo.getProduct())) {
+            product = cInfo.getProduct().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setProduct(product);
         cSimpleForm.setTransactionAmount(cInfo.getTransactionAmount());
         cSimpleForm.setCallDates(cInfo.getCallDates());
-        cSimpleForm.setGift(cInfo.getGift());
+        String gift = null;
+        if (!StringUtils.isEmpty(cInfo.getGift())) {
+            gift = cInfo.getReceiverStaffName().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setGift(gift);
         String staffName = null;
         if (!StringUtils.isEmpty(cInfo.getReceiverStaffName())) {
-            staffName = cInfo.getReceiverStaffName().replace("\\n", "-----");
+            staffName = cInfo.getReceiverStaffName().replace("\\n", "<br/>");
         }
         cSimpleForm.setHisReceiverStaffName(staffName);
+        cSimpleForm.setVisitCount(Integer.valueOf(cInfo.getVisitCount() == null ? "0" : cInfo.getVisitCount()));
         return cSimpleForm;
     }
 
@@ -470,7 +479,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     /**
      * @Title: insertAndUpdateCustomerInfo 
      * @Description: 插入用户信息 如果电话重复则更新

@@ -226,7 +226,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, type, season2, season3, season4, name, sex, phone_staff_id, receiver_staff_id,receiver_staff_name, business_phone, 
-    phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, visit_date, area, address, 
+    phone, REPLACE(phone, SUBSTR(phone,4,4), '****') phoneHidden, visit_date,visit_count as visitCount, area, address, 
     phone2, REPLACE(phone2, SUBSTR(phone2,4,4), '****') phone2Hidden, relation_id, qq, msn, site, id_card,receiver_staff_date, product, transaction_amount, 
     call_dates,gift,recent_visit_date, recent_export_date, recent_import_date, blacklist_flag, update_date, update_flag
   </sql>
