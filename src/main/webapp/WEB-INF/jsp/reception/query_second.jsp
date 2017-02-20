@@ -67,6 +67,9 @@
         	<table class="table table-bordered">
               <thead>
               <tr>
+              	<th>
+                	 重复登门次数
+                </th>
                 <th>
                 	 登门历史
                 </th>
@@ -88,6 +91,9 @@
               </tr></thead>
               <tbody>
 	              <tr>
+	              <td>
+					  ${info.visitCount}
+	                </td>
 	                <td>
 					  ${info.receiverStaffDate}
 	                </td>
