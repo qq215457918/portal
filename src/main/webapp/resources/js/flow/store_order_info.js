@@ -9,22 +9,23 @@ $(document).ready(function(){
 	});
 	
 	$('#collect').click(function(){
-		$('#collectInfo').show();
-//		$('#outgoingInfo').jqprint();
-		$("#collectInfo").print({
-			globalStyles: true,
-			mediaPrint: false,
-			stylesheet: null,
-			noPrintSelector: ".no-print",
-			iframe: true,
-			append: null,
-			prepend: null,
-			manuallyCopyFormValues: true,
-			deferred: $.Deferred(),
-			timeout: 750,
-			title: null,
-			doctype: '<!doctype html>'
-		});
+//		$('#collectInfo').show();
+////		$('#outgoingInfo').jqprint();
+//		$("#collectInfo").print({
+//			globalStyles: true,
+//			mediaPrint: false,
+//			stylesheet: null,
+//			noPrintSelector: ".no-print",
+//			iframe: true,
+//			append: null,
+//			prepend: null,
+//			manuallyCopyFormValues: true,
+//			deferred: $.Deferred(),
+//			timeout: 750,
+//			title: null,
+//			doctype: '<!doctype html>'
+//		});
+		window.location.href = "workflow/downloadExcelCollect?orderId=" + $('input[name=orderId]').val();
 	});
 	
 	$('#outNoTake').click(function(){

@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -900,5 +903,108 @@ public class WorkFlowAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * @Title: updateCivilizationInfo 
+	 * @Description: 下载打印模版
+	 * @param request
+	 * @param response
+	 * @return 
+	 * @return String
+	 * @throws
+	 */
+	@RequestMapping("downloadExcelCollect")
+	public void downloadExcelCollect(HttpServletRequest request, HttpServletResponse response){
+		String orderId = request.getParameter("orderId");
+		
+		OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(orderId);
+		
+		List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+		
+		try {
+			@SuppressWarnings("deprecation")
+			String path = request.getRealPath("/resources/excel/print_template_collect.xls");
+			OutputStream os = response.getOutputStream();// 取得输出流
+			response.reset();// 清空输出流
+			
+			// 设定输出文件头
+			response.setContentType("application/vnd.ms-excel");
+			response.setHeader("Content-Disposition",
+					"attachment; filename=" + orderId + ".xls");
+			
+			File file = new File(path);
+			
+			Workbook wb = Workbook.getWorkbook(file);
+			WorkbookSettings settings = new WorkbookSettings();  
+			settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+			WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+			
+			WritableSheet sheet = workbook.getSheet(0);
+			
+			Calendar a = Calendar.getInstance();
+			System.out.println();//得到年
+			System.out.println();//由于月份是从0开始的所以加1
+			System.out.println(a.get(Calendar.DATE));
+			
+			sheet.addCell(new Label(1, 7, ((EmployeeInfo)request.getSession().getAttribute("userInfo")).getName()));
+			sheet.addCell(new Label(6, 7, String.valueOf(a.get(Calendar.YEAR))));
+			sheet.addCell(new Label(8, 7, String.valueOf(a.get(Calendar.MONTH)+1)));
+			sheet.addCell(new Label(10, 7, String.valueOf(a.get(Calendar.DATE))));
+			
+			for(int i = 2, j = 0; j < result.size(); i++, j++){
+				sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
+				sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
+				sheet.addCell(new Label(2, i, result.get(j).get("unit")));
+				sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("price"))));
+				double payPrice = Double.valueOf(String.valueOf(result.get(j).get("pay_amount_actual")))*100;
+				DecimalFormat format = new DecimalFormat("#");
+				String[] sMoney = format.format(payPrice).split("");
+				for(int l = 12, k = sMoney.length - 1; k < 0; k--, l--){
+					sheet.addCell(new Label(l, i, sMoney[k]));
+				}
+				int count = 0;
+				if((9 - sMoney.length) > 0){
+					count = 9 - sMoney.length;
+					for(int m = 0, n = 4; m < count; m++, n++){
+						sheet.addCell(new Label(n, i, "0"));
+					}
+				}
+			}
+			
+			if(null != orderInfo.getPayPrice()){
+				double orderPirce = orderInfo.getPayPrice()*100;
+				String[] bigOrderPrice = numberToStr(orderPirce);
+				sheet.addCell(new Label(0, 6, "                               "+bigOrderPrice[0] +
+						"   " + bigOrderPrice[1] + "   " + bigOrderPrice[2] + "   " + bigOrderPrice[3] + 
+						"   " + bigOrderPrice[4] + "   " + bigOrderPrice[5] + "   " + bigOrderPrice[6] + 
+						"   " + bigOrderPrice[7] + "   " + bigOrderPrice[8]));
+			}
+			
+			os.flush();
+			workbook.write();
+			wb.close();
+			workbook.close();
+			os.close();
+			response.flushBuffer();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String[] numberToStr(double p){
+		StringBuilder sb = new StringBuilder();
+		String[] str = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
+		DecimalFormat format = new DecimalFormat("#");
+		String[] sMoney = format.format(p).split("");
+		if((9 - sMoney.length) > 0){
+			for(int j = 0; j < 9 - sMoney.length; j++){
+				sb.append("零");
+			}
+		}
+		for(int i = 0; i < sMoney.length; i++){
+			sb.append(str[Integer.valueOf(sMoney[i])]);
+		}
+		return sb.toString().split("");
 	}
 }

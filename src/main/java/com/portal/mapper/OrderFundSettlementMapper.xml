@@ -259,7 +259,7 @@
   
   <select id="getOrderFundInfo" parameterType="String" resultType="map">
   	select 
-		pai.payment_account_name, ofs.pay_amount_actual, 
+		pai.payment_account_name, ofs.pay_amount_actual, gi.unit, 
 		ofs.poundage, remark, odi.good_name, odi.amount, gi.price,
 		case ofs.customer_pay_type 
 		when 1 then '信用卡'
