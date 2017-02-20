@@ -378,8 +378,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @throws
      */
     @Override
-    public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-        for (int i = 0; i < data.size(); i ++) {
+    public String insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
+    	StringBuffer sb = new StringBuffer();
+    	int i = 0;
+        for (;i < data.size(); i ++) {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
@@ -389,8 +391,16 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
-            customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+            
+            try {
+            	customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+            }catch(Exception e) {
+            	e.printStackTrace();
+            	sb.append(i+1).append(",");
+            	continue;
+            }
         }
+        return sb.toString();
     }
 
     /**
@@ -469,8 +479,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @throws
      */
     @Override
-    public void insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
-        for (int i = 0; i < data.size(); i ++) {
+    public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
+    	StringBuffer sb = new StringBuffer();
+    	int i = 0;
+        for (; i < data.size(); i ++) {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
@@ -480,7 +492,14 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
-            customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+            try {
+            	customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+            }catch(Exception e) {
+            	e.printStackTrace();
+            	sb.append(i+1).append(",");
+            	continue;
+            }
         }
+        return sb.toString();
     }
 }

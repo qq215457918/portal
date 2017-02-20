@@ -13,6 +13,7 @@
 <body>
 	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
 	<jsp:include page="head.jsp" />
+	<input type="hidden" id="importResult" value="${importResult }"/>
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
 			<div class="col-lg-12">

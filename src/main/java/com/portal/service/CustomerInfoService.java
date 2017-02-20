@@ -134,7 +134,7 @@ public interface CustomerInfoService {
      * @return void
      * @throws
      */
-    public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+    public String insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
 
     /**
      * @Title: insertAndUpdateCustomerInfo 
@@ -203,5 +203,5 @@ public interface CustomerInfoService {
      * @return void
      * @throws
      */
-	public void insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
+	public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
 }

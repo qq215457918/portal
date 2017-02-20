@@ -50,7 +50,9 @@ public class CustomerInfoAction {
 	@RequestMapping("costomerInfoIndex")
 	public String costomerInfoIndex(HttpServletRequest request){
 		String type = request.getParameter("type");
+		String result = request.getParameter("result");
 		
+		request.setAttribute("importResult", result);
 		if("0".equals(type)){
 			return "customer/blank_info_index";
 		}else if("1".equals(type)){
@@ -314,6 +316,7 @@ public class CustomerInfoAction {
 	public String importCustomer(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value="importFile", required=false) MultipartFile file) {
 		String type = "";
+		String result = "";
 		try {
 			//如果导入模版修改需要修改第二和第三个参数
 			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
@@ -321,7 +324,7 @@ public class CustomerInfoAction {
 			type = request.getParameter("type");
 			
 //			if(StringUtils.isBlank(type) || "0".equals(type)){
-				customerInfoService.insertAndUpdateCustomerInfo(data);
+			result = customerInfoService.insertAndUpdateCustomerInfo(data);
 //			}else {
 //				customerInfoService.updateCustomerInfo(data);
 //			}
@@ -329,7 +332,7 @@ public class CustomerInfoAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:costomerInfoIndex?type=" + type;
+		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
 	}
 	
 	/**
@@ -345,6 +348,7 @@ public class CustomerInfoAction {
 	public String importCustomerAdd(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value="importFile", required=false) MultipartFile file) {
 		String type = "";
+		String result = "";
 		try {
 			//如果导入模版修改需要修改第二和第三个参数
 			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
@@ -352,7 +356,7 @@ public class CustomerInfoAction {
 			type = request.getParameter("type");
 			
 //			if(StringUtils.isBlank(type) || "0".equals(type)){
-				customerInfoService.insertAndUpdateCustomerInfoAdd(data);
+			result = customerInfoService.insertAndUpdateCustomerInfoAdd(data);
 //			}else {
 //				customerInfoService.updateCustomerInfo(data);
 //			}
@@ -360,7 +364,7 @@ public class CustomerInfoAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:costomerInfoIndex?type=" + type;
+		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
 	}
 	
 	/**

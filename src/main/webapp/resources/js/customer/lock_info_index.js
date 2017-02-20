@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	initData();
 	
+	if($('#importResult').val() != ''){
+		alert("部分数据导入失败，第" + $('#importResult').val() + "行出现问题，请检查数据");
+	}
+	
 	$('#searchCustomer').click(function(){
 		if($('#payPriceS').val() &&
 			'' == $('#payPriceE').val() &&
