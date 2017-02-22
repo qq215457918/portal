@@ -109,7 +109,7 @@ function initData() {
 				           	"<td colspan='2'>备&nbsp;&nbsp;注</td>" +
 						"</tr>";
 			var contents = "";
-			var total = "";
+			var total = parseInt(0);
 			
 			if(type == "search") {
 				for (var int = 0; int < goodsList.length; int++) {
@@ -120,7 +120,7 @@ function initData() {
 								"<td>" + goodsList[int].totalPrices + "</td>" + 
 								"<td colspan='2'>" + goodsList[int].remark + "</td>" +
 							"<tr>";
-					total += goodsList[int].totalPrices;
+					total += parseInt(goodsList[int].totalPrices);
 					html += contents;
 				}
 				
@@ -133,7 +133,7 @@ function initData() {
 								"<td><input type='text' name='sellGoodsDetails["+int+"].totalPrices' readonly='readonly' value='" + goodsList[int].totalPrice + "'/></td>" + 
 								"<td colspan='2'><input type='text' name='sellGoodsDetails["+int+"].remark' readonly='readonly' value='" + goodsList[int].viewRemark + "'/></td>" +
 							"<tr>";
-					total += goodsList[int].totalPrice;
+					total += parseInt(goodsList[int].totalPrice);
 					html += contents;
 				}
 			}
@@ -154,9 +154,9 @@ function initData() {
 						"<td>备&nbsp;&nbsp;注</td>" +
 						"</tr>";
 			html += contents;
-			total = "";
-			var income = "";
-			var poundages = "";
+			total = parseInt(0);
+			var income = parseInt(0);
+			var poundages = parseInt(0);
 			
 			if(type == "search") {
 				for (var int = 0; int < clearing.length; int++) {
@@ -168,9 +168,9 @@ function initData() {
 								"<td>" + clearing[int].poundage + "</td>" + 
 								"<td>" + clearing[int].remarks + "</td>" + 
 							"<tr>";
-					total += clearing[int].payAmount;
-					income += clearing[int].payAmountActual;
-					poundages += clearing[int].poundage;
+					total += parseInt(clearing[int].payAmount);
+					income += parseInt(clearing[int].payAmountActual);
+					poundages += parseInt(clearing[int].poundage);
 					html += contents;
 				}
 			}else if(type == "compile") {
@@ -185,9 +185,9 @@ function initData() {
 								"<td><input type='text' name='sellDailyDetails["+int+"].poundage' readonly='readonly' value='" + clearing[int].poundage + "'/></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+int+"].remarks'/></td>" + 
 							"<tr>";
-					total += clearing[int].payAmountActual;
-					income += clearing[int].income;
-					poundages += clearing[int].poundage;
+					total += parseInt(clearing[int].payAmountActual);
+					income += parseInt(clearing[int].income);
+					poundages += parseInt(clearing[int].poundage);
 					html += contents;
 				}
 				// 回显定金退款
@@ -203,7 +203,7 @@ function initData() {
 								"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金退款'/></td>" + 
 							"<tr>";
-					total += depositRefund[int];
+					total += parseFloat(depositRefund[int]).toFixed(2);
 					income += 0;
 					poundages += 0;
 					html += contents;
@@ -221,7 +221,7 @@ function initData() {
 								"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
 								"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金回款'/></td>" + 
 							"<tr>";
-					total += depositReturn[int];
+					total += parseFloat(depositReturn[int]).toFixed(2);
 					income += 0;
 					poundages += 0;
 					html += contents;
