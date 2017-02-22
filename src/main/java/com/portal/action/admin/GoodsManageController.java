@@ -179,14 +179,15 @@ public class GoodsManageController {
                 // 根据商品的种类ID获取种类对象信息
                 GoodsSort goodsSort = goodsSortService.selectByPrimaryKey(goodsInfo.getSortId());
                 // 如果种类不为空, 则商品对应的种类为小类; 不为空则对应种类为大类
-                if(goodsSort != null) {
-                    goodsForm.setBigSortId(goodsSort.getParentsId());
-                }else {
-                    goodsForm.setBigSortId(goodsInfo.getSortId());
-                }
                 // 根据对应种类的大类ID获取所有小类
                 Criteria criteria = new Criteria();
-                criteria.put("parentsId", goodsSort.getParentsId());
+                if(goodsSort != null) {
+                    goodsForm.setBigSortId(goodsSort.getParentsId());
+                    criteria.put("parentsId", goodsSort.getParentsId());
+                }else {
+                    goodsForm.setBigSortId(goodsInfo.getSortId());
+                    criteria.put("parentsId", goodsInfo.getSortId());
+                }
                 List<GoodsSort> sortList = goodsSortService.selectByExample(criteria);
                 request.setAttribute("sortList", sortList);
                 // 向域中存储对象信息

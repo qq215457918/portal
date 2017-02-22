@@ -25,6 +25,7 @@
     <result column="transaction_amount" property="transactionAmount" jdbcType="DECIMAL" />
     <result column="recent_visit_date" property="recentVisitDate" jdbcType="TIMESTAMP" />
     <result column="recent_export_date" property="recentExportDate" jdbcType="TIMESTAMP" />
+    <result column="call_dates" property="callDates" jdbcType="VARCHAR" />
     <result column="blacklist_flag" property="blacklistFlag" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_flag" property="updateFlag" jdbcType="VARCHAR" />
@@ -44,7 +45,7 @@
   <sql id="Base_Column_List" >
     id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
     phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
-    recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
+    recent_visit_date, recent_export_date, call_dates, blacklist_flag, update_date, update_flag
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -310,5 +311,27 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  
+  <!-- 获取所有客户信息(主键、电话、拨打时间) -->
+  <select id="getAllCustomer" resultMap="BaseResultMap" >
+    select id, phone, call_dates from customer_info
+  </select>
+  
+  <!-- 插入空白用户 -->
+  <insert id="insertEmptyCustomer" parameterType="com.portal.bean.CustomerInfo" >
+    insert into customer_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+        id,
+        phone,
+        area,
+        call_dates,
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      rand_string(16),
+      #{phone,jdbcType=VARCHAR},
+      #{area,jdbcType=VARCHAR},
+      #{callDates,jdbcType=VARCHAR},
+    </trim>
+  </insert>
   
 </mapper>

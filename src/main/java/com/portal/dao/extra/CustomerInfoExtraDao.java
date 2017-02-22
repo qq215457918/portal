@@ -91,5 +91,26 @@ public interface CustomerInfoExtraDao {
      * @version V1.0
      */
     List<CustomerSimpleInfoForm> selectByConditions(Criteria example);
+    
+    /**
+     * @Title: getAllCustomer 
+     * @Description: 获取所有客户信息(主键、电话、拨打时间)
+     * @return List<CustomerInfo>
+     * @author Xia ZhengWei
+     * @date 2017年2月21日 下午9:14:32 
+     * @version V1.0
+     */
+    public List<CustomerInfo> getAllCustomer();
+    
+    /**
+     * @Title: insertEmptyCustomer 
+     * @Description: 插入空白客户信息
+     * @param info
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年2月21日 下午10:11:45 
+     * @version V1.0
+     */
+    public int insertEmptyCustomer(CustomerInfo info);
 
 }

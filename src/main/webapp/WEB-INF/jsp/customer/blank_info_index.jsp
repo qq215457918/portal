@@ -48,6 +48,8 @@
 								<button class="btn btn-success" id="searchCustomer">搜索</button>
 								<button class="btn btn-primary" id="exportCustomer">导出</button>
 								<button class="btn btn-primary" data-toggle="modal" data-target="#importExcel">导入</button>
+								<%-- 只有在管理人员导入空白客户信息时才打开此按钮 --%>
+								<button class="btn btn-primary" data-toggle="modal" data-target="#importEmptyExcel">导入空白客户</button>
 							</div>
 						</div>
 						<!-- DataTables Example -->
@@ -106,6 +108,50 @@
 				</div>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="button" onclick="javascript: $('#importExcelForm').submit()">导入</button>
+					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<%-- 下面是后台管理人员导入空白客户信息弹窗 --%>
+	<div class="modal fade" id="importEmptyExcel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal" type="button">&times;</button>
+					<h4 class="modal-title">导入用户信息</h4>
+				</div>
+				<div class="modal-body">
+					<form action="customerInfo/importEmptyCustomer" method="post" id="importEmptyExcelForm" enctype="multipart/form-data">
+						<h4>客户所属区域</h4>
+						<p>
+							<select id="area" name="area">
+								<option value="1">大连</option>
+								<option value="0">沈阳</option>
+							</select>
+						</p>
+						<h4>选择文件</h4>
+	                    <p>
+	                    	<div class="fileupload fileupload-new" data-provides="fileupload">
+								<div class="input-group">
+									<div class="form-control">
+										<i class="icon-file fileupload-exists"></i>
+										<span class="fileupload-preview"></span>
+									</div>
+									<div class="input-group-btn">
+										<span class="btn btn-default btn-file">
+											<span class="fileupload-new">选择文件</span>
+											<input type="file" id="eptyCustomerFile" name="eptyCustomerFile" multiple="multiple">
+										</span>
+									</div>
+								</div>
+							</div>
+	                    </p>
+	                    <input type="hidden" value="0" name="type" />
+                    </form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" onclick="javascript: $('#importEmptyExcelForm').submit()">导入</button>
 					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
 				</div>
 			</div>

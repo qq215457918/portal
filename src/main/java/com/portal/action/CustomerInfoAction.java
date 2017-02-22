@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.SystemException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,8 @@ import com.portal.common.util.ExportExcelJxl;
 import com.portal.common.util.ImportExcelUtil;
 import com.portal.common.util.JsonUtils;
 import com.portal.service.CustomerInfoService;
+
+import jxl.read.biff.BiffException;
 
 /**
  * @ClassName: CustomerInfoAction 
@@ -366,4 +369,46 @@ public class CustomerInfoAction {
 		
 		JsonUtils.resultJson(resultList, count, response, request);
 	}
+	
+	/**
+	 * @Title: importEmptyCustomer 
+	 * @Description: 后台导入空白客户时调用的方法(不需要时可先将页面上的内容注释掉)
+	 * @param request
+	 * @param response
+	 * @param file
+	 * @return String
+	 * @author Xia ZhengWei
+	 * @date 2017年2月18日 下午10:18:36 
+	 * @version V1.0
+	 * @throws SystemException 
+	 */
+	@RequestMapping("/importEmptyCustomer")
+    public String importEmptyCustomer(HttpServletRequest request, HttpServletResponse response,
+            @RequestParam(value="eptyCustomerFile", required=false) MultipartFile[] files) throws SystemException {
+	    if(files[0].getSize() > 0) {
+	        // 获取客户所属区域
+	        String area = request.getParameter("area");
+	        try {
+	            // 存储数据对象容器
+	            Map<String, Object> customers = new HashMap<String, Object>();
+	            // 获取所有表中现有的客户信息
+	            List<CustomerInfo> allCustomer = customerInfoService.getAllCustomer();
+	            // 循环现有客户存入到容器中, 电话为key
+	            for (CustomerInfo customerInfo : allCustomer) {
+	                customers.put(customerInfo.getPhone(), customerInfo);
+                }
+	            
+	            // 解析空白客户Excel并存储到List中, 供后续存储到数据库中
+	            customers = importExcelUtil.readXLSDocument(files, customers);
+	            // 插入数据库
+	            int counts = customerInfoService.insertEmptyCustomer(customers, area);
+	            if(counts == 0) {
+	                throw new SystemException("导入失败");
+	            }
+	        } catch (BiffException | IOException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return "redirect:costomerInfoIndex?type=0";
+    }
 }

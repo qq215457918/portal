@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.portal.bean.CustomerInfo;
 
 import jxl.Cell;
 import jxl.CellType;
 import jxl.DateCell;
 import jxl.Sheet;
 import jxl.Workbook;
+import jxl.read.biff.BiffException;
 
 @Service
 public class ImportExcelUtilImpl implements ImportExcelUtil {
@@ -186,5 +190,100 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
 		}
 		return list;
 	}
+	
+	/**
+     * @Title: readXLSDocument2 
+     * @Description: 解析后台导入的空白客户Excel文件, 并存储到数据库中
+     * @param files 解析文件
+     * @param result 返回结果
+     * @return JSONObject
+     * @author Xia ZhengWei
+     * @date 2017年2月18日 下午10:24:45 
+     * @version V1.0
+	 * @throws IOException, BiffException 
+     */
+    public Map<String, Object> readXLSDocument(MultipartFile[] files, Map<String, Object> customers) throws IOException, BiffException {
+        // 文件输入流
+        InputStream inputStream = null;
+        //从输入流读取EXCEL文件
+        Workbook workBook = null;
+        Sheet sheet = null;
+        Cell cell = null;
+        int rows = 0;
+        // 电话号码
+        String tellPhone = "";
+        // 拨打时间
+        String callTime = "";
+        //Map<String, String> data = new HashMap<String, String>();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        CustomerInfo customerInfo = null;
+        try {
+            for (MultipartFile multipartFile : files) {
+                // 循环获取文件对应的输入流
+                inputStream = multipartFile.getInputStream();
+                // 获取文件工作薄
+                workBook = Workbook.getWorkbook(inputStream);
+                //获取EXCEL文件工作薄内容，从sheet0开始
+                sheet = workBook.getSheet(0);
+                // 获取文件的行数
+                rows = sheet.getRows();
+                // 如果文件内容为空, 则继续读取下一个文件
+                if(rows < 2) {
+                    continue;
+                }
+                // 循环获取每行的内容并存入到数据库中
+                for (int i = 1; i < rows; i++) {
+                    // 获取电话号码
+                    tellPhone = sheet.getCell(0, i).getContents();
+                    // 获取拨打时间
+                    cell = sheet.getCell(1,i);
+                    if(StringUtil.isNotBlank(cell.getContents())) {
+                        if(cell.getType() == CellType.DATE){
+                            callTime = sdf.format(((DateCell)cell).getDate());
+                        }else {
+                            callTime = cell.getContents();
+                        }
+                    }
+                    // 如果电话号码为空, 继续下一行
+                    if(StringUtil.isNull(tellPhone)) {
+                        continue;
+                    }
+                    
+                    // 判断map是否包含次电话号码, 如果包含, 判断拨打时间是否重复, 不重复追加
+                    // 根据电话查询map中是否存在
+                    Object object = customers.get(tellPhone);
+                    if(object != null) {
+                        // 存在， 重新赋值
+                        customerInfo = (CustomerInfo) object;
+                        if(StringUtil.isNotBlank(customerInfo.getCallDates())) {
+                            // 如果原来的拨打时间包含该时间则忽略
+                            if(!customerInfo.getCallDates().contains(callTime)) {
+                                customerInfo.setCallDates(customerInfo.getCallDates() + "," + callTime);
+                            }
+                        }else {
+                            customerInfo.setCallDates(callTime);
+                        }
+                    }else {
+                        // 不存在
+                        customerInfo = new CustomerInfo();
+                        customerInfo.setPhone(tellPhone);
+                        customerInfo.setCallDates(callTime);
+                        customers.put(tellPhone, customerInfo);
+                    }
+                }
+            }
+        } catch (IOException e) {
+            throw e;
+        } catch (BiffException e) {
+            throw e;
+        } finally{
+            try {
+                if(inputStream!=null){inputStream.close();}
+            } catch (IOException e) {
+                throw e;
+            }
+        }
+        return customers;
+    }
 
 }

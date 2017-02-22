@@ -1,5 +1,20 @@
 package com.portal.service.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
@@ -15,17 +30,8 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
+
 import net.sf.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -109,7 +115,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setName(cInfo.getName());
         cSimpleForm.setPhone(cInfo.getPhone());
         cSimpleForm.setEncryptPhone(StringUtil.encryptPhone(cInfo.getPhone()));
-        cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
+        if(StringUtil.isNotBlank(cInfo.getPhone2())) {
+            cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));            
+        }
         //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
         //String cType = cInfo.getType();
         cSimpleForm.setType(CustomerType.getName(Integer.parseInt(cInfo.getType())));
@@ -443,5 +451,96 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    /**
+     * @Title: insertEmptyCustomer 
+     * @Description: 后台管理员导入空白客户
+     * @param customerList
+     * @param area 客户所属区域
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年2月19日 上午12:12:09 
+     * @version V1.0
+     */
+    public int insertEmptyCustomer(Map<String, Object> customerList, String area) {
+        int count = 0;
+        Set<Entry<String,Object>> entrySet = customerList.entrySet();
+        for (Entry<String, Object> entry : entrySet) {
+            CustomerInfo info = (CustomerInfo) entry.getValue();
+            if(StringUtil.isNotBlank(info.getId())) {
+                // 修改
+                count += customerInfoDao.updateByPrimaryKeySelective(info);
+            }else {
+                // 新增
+                info.setType("0");
+                info.setArea(area);
+                count += customerInfoExtraDao.insertEmptyCustomer(info);
+            }
+        }
+        return count;
+        
+        /*// 循环判断map中的key（客户电话）数据库中是否存在, 更新客户对应的拨打时间
+        Set<String> tellPhoneSet = customerList.keySet();
+        criteria.clear();
+        CustomerInfo info = null;
+        String uuid = null;
+        for (String tellPhone : tellPhoneSet) {
+            // 获取对应map中的值
+            String values = customerList.get(tellPhone);
+            // 根据电话查询对应客户
+            criteria.put("phone", tellPhone);
+            List<CustomerInfo> exitsList = customerInfoDao.selectByExample(criteria);
+            if(CollectionUtils.isNotEmpty(exitsList)) {
+                // 存在, 更新
+                if(StringUtil.isNotBlank(values)) {
+                    info = exitsList.get(0);
+                    // 获取已有拨打时间
+                    String callDates = info.getCallDates();
+                    // 如果原有客户的拨打时间为空, 则赋值并更新
+                    if(StringUtil.isNotBlank(callDates)) {
+                        // 判断values中是否包含分隔符'，'
+                        if(values.contains(",")) {
+                            String[] dates = values.split(",");
+                            for (String string : dates) {
+                                if(!callDates.contains(string)) {
+                                    callDates = callDates + "," + string;
+                                    info.setCallDates(callDates);
+                                }
+                            }
+                        }else {
+                            if(!callDates.contains(values)) {
+                                info.setCallDates(callDates + "," + values);
+                            }
+                        }
+                    }else {
+                        info.setCallDates(values);
+                    }
+                    count += customerInfoDao.updateByPrimaryKeySelective(info);
+                }
+            }else {
+                // 不存在, 新增
+                uuid = UUidUtil.getUUId();
+                // 先根据主键查询数据库, 看是否存在
+                CustomerInfo customerInfo = customerInfoDao.selectByPrimaryKey(uuid);
+                if(customerInfo != null) {
+                    uuid = StringUtil.getUUID();
+                }
+                info = new CustomerInfo();
+                info.setId(uuid);
+                info.setType("0");
+                info.setArea(area);
+                info.setPhone(tellPhone);
+                if(StringUtil.isNotBlank(values)) {
+                    info.setCallDates(values);
+                }
+                count += customerInfoDao.insert(info);
+            }
+        }
+        return count;*/
+    }
+
+    public List<CustomerInfo> getAllCustomer() {
+        return customerInfoExtraDao.getAllCustomer();
     }
 }

@@ -77,6 +77,11 @@ public class CustomerInfo implements Serializable {
     private Date recentExportDate;
 
     private Date recentImportDate;
+    
+    /**
+     * 拨打时间
+     */
+    private String callDates;
 
     private String blacklistFlag;
 
@@ -452,6 +457,20 @@ public class CustomerInfo implements Serializable {
 
     public void setRecentImportDate(Date recentImportDate) {
         this.recentImportDate = recentImportDate;
+    }
+    
+    /**
+     * @return 拨打时间
+     */
+    public String getCallDates() {
+        return callDates;
+    }
+
+    /**
+     * @param callDates 拨打时间
+     */
+    public void setCallDates(String callDates) {
+        this.callDates = callDates;
     }
 
     public String getSexShow() {

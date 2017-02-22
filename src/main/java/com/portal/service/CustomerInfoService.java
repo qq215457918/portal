@@ -195,4 +195,26 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results);
+    
+    /**
+     * @Title: insertEmptyCustomer 
+     * @Description: 后台管理员导入空白客户
+     * @param customerList
+     * @param area 客户所属区域
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年2月19日 上午12:12:09 
+     * @version V1.0
+     */
+    int insertEmptyCustomer(Map<String, Object> customerList, String area);
+    
+    /**
+     * @Title: getAllCustomer 
+     * @Description: 获取所有客户信息(主键、电话、拨打时间)
+     * @return List<CustomerInfo>
+     * @author Xia ZhengWei
+     * @date 2017年2月21日 下午9:14:32 
+     * @version V1.0
+     */
+    public List<CustomerInfo> getAllCustomer();
 }

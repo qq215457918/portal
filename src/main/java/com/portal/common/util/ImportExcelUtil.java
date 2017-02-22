@@ -1,9 +1,14 @@
 package com.portal.common.util;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import jxl.read.biff.BiffException;
 
 public interface ImportExcelUtil {
 
@@ -49,4 +54,17 @@ public interface ImportExcelUtil {
 	 * @throws Exception
 	 */
 	public List<Map<String, Object>> readXLSDocument(File file, int beginRow, int colspan) throws Exception ;
+	
+	/**
+	 * @Title: readXLSDocument2 
+	 * @Description: 解析后台导入的空白客户Excel文件, 并存储到List结果集中
+	 * @param files 解析文件
+	 * @param customers 原数据库中所有客户信息
+	 * @return Map<String, Object>
+	 * @author Xia ZhengWei
+	 * @date 2017年2月18日 下午10:24:45 
+	 * @version V1.0
+	 * @throws 
+	 */
+	public Map<String, Object> readXLSDocument(MultipartFile[] files, Map<String, Object> customers) throws IOException, BiffException;
 }
