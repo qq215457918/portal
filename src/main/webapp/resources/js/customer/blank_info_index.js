@@ -1,6 +1,10 @@
 $(document).ready(function(){
 	initData();
 	
+	if($('#importResult').val() != ''){
+		alert("部分数据导入失败，第" + $('#importResult').val() + "行出现问题，请检查数据");
+	}
+	
 	$('#searchCustomer').click(function(){
 		$('#customerInfo').dataTable().fnDraw();
 	});
@@ -12,6 +16,7 @@ $(document).ready(function(){
 		var dpd2 = $('#dpd2').val();
 		var importDate1 = $('#importDate1').val();
 		var importDate2 = $('#importDate2').val();
+		var area = $('#area').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -24,6 +29,7 @@ $(document).ready(function(){
 		exportHtml += '<input type="hidden" name="exportDate2" value="' + dpd2 + '"/>'
 		exportHtml += '<input type="hidden" name="importDate1" value="' + importDate1 + '"/>'
 		exportHtml += '<input type="hidden" name="importDate2" value="' + importDate2 + '"/>'
+		exportHtml += '<input type="hidden" name="area" value="' + area + '"/>'
 //		exportHtml += '<input type="hidden" name="exportCount" value="' + exportCount + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="0"/>'
 		exportHtml += '</form>';
@@ -109,9 +115,11 @@ function initData(){
 							var dpd2 = $('#dpd2').val();
 							var importDate1 = $('#importDate1').val();
 							var importDate2 = $('#importDate2').val();
-							aoData.push({'name':'phoneStage','value':phoneStage}, {'name':'costomerType','value':0},
+							var area = $('#area').val();
+							aoData.push({'name':'phoneStage','value':phoneStage}, {'name':'type','value':0},
 									{'name':'importDate1','value':importDate1}, {'name':'importDate2','value':importDate2},
-									{'name':'exportDate1','value':dpd1}, {'name':'exportDate2','value':dpd2});
+									{'name':'exportDate1','value':dpd1}, {'name':'exportDate2','value':dpd2},
+									{'name':'area','value':area});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

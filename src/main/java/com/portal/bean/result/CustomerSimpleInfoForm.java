@@ -46,6 +46,21 @@ public class CustomerSimpleInfoForm implements Serializable {
 
     private String blacklistFlag;
 
+    //20170219 add start
+
+    private String receiverStaffDate;//拜访记录
+
+    private String product;//购买商品
+
+    private Long transactionAmount;//缴费金额
+
+    private String callDates;// 拨打记录
+
+    private String gift;//客户领取赠品
+
+    private String hisReceiverStaffName;//历史接待人员
+
+    //20170219 add end
     /**
      * 筛选客户类型--客户类型
      */
@@ -75,11 +90,59 @@ public class CustomerSimpleInfoForm implements Serializable {
      * 筛选客户类型--占总业绩百分比
      */
     private String totalPerforPercentage;
-    
+
     /**
      * 后台管理--客户会员卡卡号
      */
     private String vipCard;
+
+    public String getHisReceiverStaffName() {
+        return hisReceiverStaffName;
+    }
+
+    public void setHisReceiverStaffName(String hisReceiverStaffName) {
+        this.hisReceiverStaffName = hisReceiverStaffName;
+    }
+
+    public String getReceiverStaffDate() {
+        return receiverStaffDate;
+    }
+
+    public void setReceiverStaffDate(String receiverStaffDate) {
+        this.receiverStaffDate = receiverStaffDate;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public void setProduct(String product) {
+        this.product = product;
+    }
+
+    public Long getTransactionAmount() {
+        return transactionAmount;
+    }
+
+    public void setTransactionAmount(Long transactionAmount) {
+        this.transactionAmount = transactionAmount;
+    }
+
+    public String getCallDates() {
+        return callDates;
+    }
+
+    public void setCallDates(String callDates) {
+        this.callDates = callDates;
+    }
+
+    public String getGift() {
+        return gift;
+    }
+
+    public void setGift(String gift) {
+        this.gift = gift;
+    }
 
     public String getVipCard() {
         return vipCard;

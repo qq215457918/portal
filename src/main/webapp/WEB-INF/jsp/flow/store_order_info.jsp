@@ -52,6 +52,7 @@
 		</div>
 	</div>
 	<input type="hidden" value="${userId }" id="hiddenUserId"/>
+	<input type="hidden" name="orderId"/>
 	<div class="modal fade" id="printInfo">
 		<div class="modal-dialog">
 			<div class="modal-content">

@@ -134,7 +134,7 @@ public interface CustomerInfoService {
      * @return void
      * @throws
      */
-    public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
+    public String insertAndUpdateCustomerInfo(List<Map<String, Object>> data);
 
     /**
      * @Title: insertAndUpdateCustomerInfo 
@@ -217,4 +217,14 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     public List<CustomerInfo> getAllCustomer();
+
+    /**
+     * @Title: insertAndUpdateCustomerInfo 
+     * @Description: 插入用户信息 如果电话重复则累计
+     * @param data 
+     * @return void
+     * @throws
+     */
+	public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
+
 }

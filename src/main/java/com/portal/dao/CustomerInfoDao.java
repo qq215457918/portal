@@ -112,4 +112,13 @@ public interface CustomerInfoDao {
      * @throws
      */
 	List<CustomerInfo> selectCustomerExportList(Criteria criteria);
+
+	/**
+     * @Title: insertAndUpdateCustomerInfoAdd 
+     * @Description: 插入用户信息 如果电话重复则累计
+     * @param resultList 
+     * @return void
+     * @throws
+     */
+	void insertAndUpdateCustomerInfoAdd(Map<String, Object> map);
 }

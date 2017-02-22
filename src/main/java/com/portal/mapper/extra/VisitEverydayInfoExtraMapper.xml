@@ -198,7 +198,7 @@
         <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
-        and (o.`status` = '4' or o.pay_type = '1')
+        and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
         order by c.`name`
    </select>
   

@@ -341,20 +341,20 @@
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '1' and (o.status = '4' or o.pay_type = '1')) as dl_amounts,
+			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as dl_amounts,
 		(select sum(o.actual_price) 
 			from order_info o
 			left join customer_info c on o.customer_id = c.id
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '0' and (o.status = '4' or o.pay_type = '1')) as sy_amounts
+			and c.area = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as sy_amounts
 	from order_info o
 	left join customer_info c on o.customer_id = c.id
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-	and (o.status = '4' or o.pay_type = '1')
+	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
   </select>
   
   <!-- 获取每日业绩统计线形图数据 -->
@@ -367,7 +367,7 @@
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-	and (o.status = '4' or o.pay_type = '1')
+	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
 	group by DATE_FORMAT(o.create_date, '%Y%m%d')
 	ORDER BY o.create_date
   </select>
@@ -418,7 +418,7 @@
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
-		and o.status = '4' or o.pay_type = '1'
+		and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
 		group by e.`name`
 		
 		UNION
@@ -451,9 +451,9 @@
     <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
     </if>
-    and od.good_sort_id != '1'
+    and od.good_sort_id != '27'
     and o.finance_flag = '1'
-    and (o.`status` = '4' or o.pay_type = '1')
+    and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
     group by od.good_name
   </select>
   
@@ -473,9 +473,9 @@
 	<if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
     </if>
-	and od.good_sort_id != '1'
+	and od.good_sort_id != '27'
 	and o.finance_flag = '1'
-	and (o.`status` = '4' or o.pay_type = '1')
+	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
 	group by p.payment_account_name
 	order by p.payment_account_name
   </select>
@@ -526,7 +526,7 @@
      and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
- 	and (o.`status` = '4' or o.pay_type = '1')
+ 	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
   </select>
   
   <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
@@ -538,7 +538,7 @@
      and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
- 	and (o.`status` = '4' or o.pay_type = '1')
+ 	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
   </select>
   
   <!-- 获取对应人员在指定时间段的出售藏品件数（定时器使用） -->

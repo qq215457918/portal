@@ -43,9 +43,9 @@
   </resultMap>
   
   <sql id="Base_Column_List" >
-    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, 
-    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, 
-    recent_visit_date, recent_export_date, call_dates, blacklist_flag, update_date, update_flag
+    id, type, season2, season3, season4, name, phone_staff_id, receiver_staff_id, business_phone, receiver_staff_date,
+    phone, visit_date, area, phone2, relation_id, qq, msn, site, id_card, product, transaction_amount, call_dates ,gift,
+    recent_visit_date, recent_export_date, blacklist_flag, update_date, update_flag
   </sql>
   
   <sql id="Example_Where_Clause" >
@@ -81,7 +81,7 @@
     </trim>
   </sql>
   
-  <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
+   <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
     update customer_info 
     set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}), 
     transaction_amount = transaction_amount + #{condition.amount,jdbcType=DECIMAL}

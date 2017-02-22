@@ -123,4 +123,13 @@ public interface OrderInfoDao {
      * @throws
      */
 	int countFinanceEveryDay(Criteria criteria);
+
+	/**
+     * @Title: selectPirntInfoById 
+     * @Description: 通过id获取打印订单信息
+     * @param criteria
+     * @return OrderInfo
+     */
+	OrderInfo selectPirntInfoById(String orderId);
+    
 }

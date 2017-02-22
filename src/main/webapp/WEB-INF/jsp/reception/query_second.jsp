@@ -20,7 +20,7 @@
               <div class="widget-content padded">
                 <dl>
                   <dd>
-                  	<strong> 客户类型： </strong>${info.type }   ${info.id }
+                  	<strong> 客户类型： </strong>${info.type }
                   </dd>
                   <dd>
                   	 <strong>用户姓名：</strong> ${info.name } 
@@ -51,6 +51,70 @@
                   </dd>
                 </dl>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+      <div class="row">
+        <div class="col-md-12">
+          <div class="widget-container fluid-height clearfix">
+          <div class="heading">
+            <i class="icon-table"></i>历史信息
+          </div>
+            <div class="widget-content padded clearfix">
+        	<table class="table table-bordered">
+              <thead>
+              <tr>
+              	<th>
+                	 重复登门次数
+                </th>
+                <th>
+                	 登门历史
+                </th>
+                <th>
+                	 历史接待人员
+                </th>
+                <th>
+       				购买商品
+                </th>
+                <th>
+       				领取赠品
+                </th>
+                <th>
+                	购买金额总计
+                </th>
+                <th>
+                	拨打记录
+                </th>
+              </tr></thead>
+              <tbody>
+	              <tr>
+	              <td>
+					  ${info.visitCount}
+	                </td>
+	                <td>
+					  ${info.receiverStaffDate}
+	                </td>
+	                <td>
+	                   ${info.hisReceiverStaffName}
+	                </td> 
+	                <td>
+	                  ${info.product }
+	                </td>
+	                <td>
+	                   ${info.gift }
+	                </td>
+	                <td>
+	                   ${info.transactionAmount }
+	                </td>
+	                <td>
+	                   ${info.callDates}
+	                </td>
+	              </tr>
+              </tbody>
+            </table>
             </div>
           </div>
         </div>

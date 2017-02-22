@@ -176,8 +176,8 @@ public class OrderAction {
         criteria.put("orderType", request.getParameter("orderType"));
         //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
-        criteria.put("userId", userId);
         if (StringUtils.isNotBlank(userId) && !"1".equals(request.getParameter("store"))) {
+        	criteria.put("userId", userId);
             criteria.put("financeFlag", "-1");
         } else if ("1".equals(request.getParameter("store"))) {
             criteria.put("store", 1);

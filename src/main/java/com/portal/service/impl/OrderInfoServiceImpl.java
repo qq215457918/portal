@@ -1114,4 +1114,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public int getOrderGoodsCounts(Criteria criteria) {
         return orderInfoExtraDao.getOrderGoodsCounts(criteria);
     }
+    
+    @Override
+    public OrderInfo selectPirntInfoById(String orderId) {
+    	return orderInfoDao.selectPirntInfoById(orderId);
+    }
 }

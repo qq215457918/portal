@@ -1,12 +1,17 @@
 $(document).ready(function(){
 	initData();
 	
+	if($('#importResult').val() != ''){
+		alert("部分数据导入失败，第" + $('#importResult').val() + "行出现问题，请检查数据");
+	}
+	
 	$('#searchCustomer').click(function(){
 		if($('#payPriceS').val() &&
 			'' == $('#payPriceE').val() &&
 			'' == $('#dpd1').val() &&
 			'' == $('#dpd2').val() &&
-			'' == $('#phoneStage').val()){
+			'' == $('#phoneStage').val() &&
+			'' == $('#area').val()){
 			return;
 		}
 		$('#customerInfo').dataTable().fnDraw();
@@ -17,6 +22,7 @@ $(document).ready(function(){
 		var payPriceE = $('#payPriceE').val();
 		var dpd1 = $('#dpd1').val();
 		var dpd2 = $('#dpd2').val();
+		var area = $('#area').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
@@ -28,6 +34,7 @@ $(document).ready(function(){
 		exportHtml += '<input type="hidden" name="payPriceE" value="' + payPriceE + '"/>'
 		exportHtml += '<input type="hidden" name="dpd1" value="' + dpd1 + '"/>'
 		exportHtml += '<input type="hidden" name="dpd2" value="' + dpd2 + '"/>'
+		exportHtml += '<input type="hidden" name="area" value="' + area + '"/>'
 		exportHtml += '<input type="hidden" name="type" value="4"/>'
 		exportHtml += '</form>';
 		$('body').append(exportHtml);
@@ -80,9 +87,11 @@ function initData(){
 			var phoneStage = $('#phoneStage').val();
 			var createDateS = $('#dpd1').val();
 			var createDateE = $('#dpd2').val();
+			var area = $('#area').val();
 			aoData.push({'name':'payPriceS','value':payPriceS},{'name':'payPriceE','value':payPriceE},
 					{'name':'type','value':4},{'name':'createDateS','value':createDateS},
-					{'name':'createDateE','value':createDateE},{'name':'phoneStage','value':phoneStage});
+					{'name':'createDateE','value':createDateE},{'name':'phoneStage','value':phoneStage},
+					{'name':'area','value':area});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

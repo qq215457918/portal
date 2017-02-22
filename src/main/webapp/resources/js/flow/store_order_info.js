@@ -9,41 +9,43 @@ $(document).ready(function(){
 	});
 	
 	$('#collect').click(function(){
-		$('#collectInfo').show();
-//		$('#outgoingInfo').jqprint();
-		$("#collectInfo").print({
-			globalStyles: true,
-			mediaPrint: false,
-			stylesheet: null,
-			noPrintSelector: ".no-print",
-			iframe: true,
-			append: null,
-			prepend: null,
-			manuallyCopyFormValues: true,
-			deferred: $.Deferred(),
-			timeout: 750,
-			title: null,
-			doctype: '<!doctype html>'
-		});
+//		$('#collectInfo').show();
+////		$('#outgoingInfo').jqprint();
+//		$("#collectInfo").print({
+//			globalStyles: true,
+//			mediaPrint: false,
+//			stylesheet: null,
+//			noPrintSelector: ".no-print",
+//			iframe: true,
+//			append: null,
+//			prepend: null,
+//			manuallyCopyFormValues: true,
+//			deferred: $.Deferred(),
+//			timeout: 750,
+//			title: null,
+//			doctype: '<!doctype html>'
+//		});
+		window.location.href = "workflow/downloadExcelCollect?orderId=" + $('input[name=orderId]').val();
 	});
 	
 	$('#outNoTake').click(function(){
-		$('#hasPayInfo').show();
-//		$('#outgoingInfo').jqprint();
-		$("#hasPayInfo").print({
-	        globalStyles: true,
-	        mediaPrint: false,
-	        stylesheet: null,
-	        noPrintSelector: ".no-print",
-	        iframe: true,
-	        append: null,
-	        prepend: null,
-	        manuallyCopyFormValues: true,
-	        deferred: $.Deferred(),
-	        timeout: 750,
-	        title: null,
-	        doctype: '<!doctype html>'
-		});
+//		$('#hasPayInfo').show();
+////		$('#outgoingInfo').jqprint();
+//		$("#hasPayInfo").print({
+//	        globalStyles: true,
+//	        mediaPrint: false,
+//	        stylesheet: null,
+//	        noPrintSelector: ".no-print",
+//	        iframe: true,
+//	        append: null,
+//	        prepend: null,
+//	        manuallyCopyFormValues: true,
+//	        deferred: $.Deferred(),
+//	        timeout: 750,
+//	        title: null,
+//	        doctype: '<!doctype html>'
+//		});
+		window.location.href = "workflow/downloadExcel?orderId=" + $('input[name=orderId]').val();
 	});	
 	
 	$('#outgoing').click(function(){
@@ -125,6 +127,7 @@ $(document).on('click', '#examError', function () {
 });
 
 $(document).on('click', '#toPrint', function () { 
+	$('input[name=orderId]').val($(this).attr('data-order-id'));
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",

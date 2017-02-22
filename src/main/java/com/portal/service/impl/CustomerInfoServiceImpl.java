@@ -134,6 +134,31 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
         }
         cSimpleForm.setBlacklistFlag(cInfo.getBlacklistFlag() == "1" ? "是" : "否");
+
+        //20170219 add
+        String staffDate = null;
+        if (!StringUtils.isEmpty(cInfo.getReceiverStaffDate())) {
+            staffDate = cInfo.getReceiverStaffDate().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setReceiverStaffDate(staffDate);
+        String product = null;
+        if (!StringUtils.isEmpty(cInfo.getProduct())) {
+            product = cInfo.getProduct().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setProduct(product);
+        cSimpleForm.setTransactionAmount(cInfo.getTransactionAmount());
+        cSimpleForm.setCallDates(cInfo.getCallDates());
+        String gift = null;
+        if (!StringUtils.isEmpty(cInfo.getGift())) {
+            gift = cInfo.getGift().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setGift(gift);
+        String staffName = null;
+        if (!StringUtils.isEmpty(cInfo.getReceiverStaffName())) {
+            staffName = cInfo.getReceiverStaffName().replace("\\n", "<br/>");
+        }
+        cSimpleForm.setHisReceiverStaffName(staffName);
+        cSimpleForm.setVisitCount(Integer.valueOf(cInfo.getVisitCount() == null ? "0" : cInfo.getVisitCount()));
         return cSimpleForm;
     }
 
@@ -299,14 +324,14 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         if (StringUtil.isNotBlank(startUpdateDate)) {
             criteria.put("startUpdateDate", startUpdateDate);
         } else {
-            criteria.put("startReportDate",
+            criteria.put("startUpdateDate",
                     DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         }
         if (StringUtil.isNotBlank(endUpdateDate)) {
             criteria.put("endUpdateDate", DateUtil.formatDate(DateUtil.parseDate(endUpdateDate, "yyyy-MM-dd"),
                     "yyyy-MM-dd 23:59:59"));
         } else {
-            criteria.put("endReportDate",
+            criteria.put("endUpdateDate",
                     DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         // 获取用户数量
@@ -370,8 +395,10 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @throws
      */
     @Override
-    public void insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-        for (int i = 0; i < data.size(); i ++) {
+    public String insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
+        StringBuffer sb = new StringBuffer();
+        int i = 0;
+        for (; i < data.size(); i ++) {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
@@ -381,8 +408,16 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
-            customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+
+            try {
+                customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+            } catch (Exception e) {
+                e.printStackTrace();
+                sb.append(i + 1).append(",");
+                continue;
+            }
         }
+        return sb.toString();
     }
 
     /**
@@ -479,68 +514,41 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             }
         }
         return count;
-        
-        /*// 循环判断map中的key（客户电话）数据库中是否存在, 更新客户对应的拨打时间
-        Set<String> tellPhoneSet = customerList.keySet();
-        criteria.clear();
-        CustomerInfo info = null;
-        String uuid = null;
-        for (String tellPhone : tellPhoneSet) {
-            // 获取对应map中的值
-            String values = customerList.get(tellPhone);
-            // 根据电话查询对应客户
-            criteria.put("phone", tellPhone);
-            List<CustomerInfo> exitsList = customerInfoDao.selectByExample(criteria);
-            if(CollectionUtils.isNotEmpty(exitsList)) {
-                // 存在, 更新
-                if(StringUtil.isNotBlank(values)) {
-                    info = exitsList.get(0);
-                    // 获取已有拨打时间
-                    String callDates = info.getCallDates();
-                    // 如果原有客户的拨打时间为空, 则赋值并更新
-                    if(StringUtil.isNotBlank(callDates)) {
-                        // 判断values中是否包含分隔符'，'
-                        if(values.contains(",")) {
-                            String[] dates = values.split(",");
-                            for (String string : dates) {
-                                if(!callDates.contains(string)) {
-                                    callDates = callDates + "," + string;
-                                    info.setCallDates(callDates);
-                                }
-                            }
-                        }else {
-                            if(!callDates.contains(values)) {
-                                info.setCallDates(callDates + "," + values);
-                            }
-                        }
-                    }else {
-                        info.setCallDates(values);
-                    }
-                    count += customerInfoDao.updateByPrimaryKeySelective(info);
-                }
-            }else {
-                // 不存在, 新增
-                uuid = UUidUtil.getUUId();
-                // 先根据主键查询数据库, 看是否存在
-                CustomerInfo customerInfo = customerInfoDao.selectByPrimaryKey(uuid);
-                if(customerInfo != null) {
-                    uuid = StringUtil.getUUID();
-                }
-                info = new CustomerInfo();
-                info.setId(uuid);
-                info.setType("0");
-                info.setArea(area);
-                info.setPhone(tellPhone);
-                if(StringUtil.isNotBlank(values)) {
-                    info.setCallDates(values);
-                }
-                count += customerInfoDao.insert(info);
-            }
-        }
-        return count;*/
     }
 
     public List<CustomerInfo> getAllCustomer() {
         return customerInfoExtraDao.getAllCustomer();
+    }
+    
+    /*
+    * @Title: insertAndUpdateCustomerInfo 
+    * @Description: 插入用户信息 如果电话重复则更新
+    * @param resultList 
+    * @return void
+    * @throws
+    */
+   @Override
+   public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
+       StringBuffer sb = new StringBuffer();
+       int i = 0;
+       for (; i < data.size(); i ++) {
+           if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
+               continue;
+           }
+           if (!(String.valueOf(data.get(i).get("p9")).length() == 11
+                   || String.valueOf(data.get(i).get("p9")).length() == 8
+                   || String.valueOf(data.get(i).get("p9")).length() == 12
+                   || String.valueOf(data.get(i).get("p9")).length() == 13)) {
+               continue;
+           }
+           try {
+               customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+           } catch (Exception e) {
+               e.printStackTrace();
+               sb.append(i + 1).append(",");
+               continue;
+           }
+       }
+       return sb.toString();
     }
 }

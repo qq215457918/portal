@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="${basePath}resources/css/admin/layout-default-latest.css">
 </head>
 <body>
-
+<!-- 左侧树形结构 -->
+<iframe name="tree" class="ui-layout-west"
+        src="${basePath}admin/organization/tree" frameborder="0" scrolling="auto"></iframe>
+<!-- 右侧内容 -->
 <iframe name="content" class="ui-layout-center"
         src="" frameborder="0" scrolling="auto"></iframe>
 
-<iframe name="tree" class="ui-layout-west"
-        src="${basePath}admin/organization/tree" frameborder="0" scrolling="auto"></iframe>
 <script src="${basePath}resources/js/jquery-1.10.2.min.js"></script>
 <script src="${basePath}resources/js/jquery.layout-latest.min.js"></script>
 <script>

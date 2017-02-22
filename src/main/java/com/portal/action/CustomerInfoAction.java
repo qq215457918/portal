@@ -53,7 +53,9 @@ public class CustomerInfoAction {
 	@RequestMapping("costomerInfoIndex")
 	public String costomerInfoIndex(HttpServletRequest request){
 		String type = request.getParameter("type");
+		String result = request.getParameter("result");
 		
+		request.setAttribute("importResult", result);
 		if("0".equals(type)){
 			return "customer/blank_info_index";
 		}else if("1".equals(type)){
@@ -94,6 +96,7 @@ public class CustomerInfoAction {
 		criteria.put("backCountE", request.getParameter("backCountE"));
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
+		criteria.put("area", request.getParameter("area"));
 		
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("type", request.getParameter("type"));
@@ -126,6 +129,7 @@ public class CustomerInfoAction {
 		criteria.put("createDateS", request.getParameter("createDateS"));
 		criteria.put("createDateE", request.getParameter("createDateE"));
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
+		criteria.put("area", request.getParameter("area"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExList(criteria);
 		
@@ -161,6 +165,10 @@ public class CustomerInfoAction {
 		criteria.put("backCountE", request.getParameter("backCountE"));
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
+		criteria.put("area", request.getParameter("area"));
+		
+		criteria.put("phone", request.getParameter("phone"));
+		criteria.put("updateDate", request.getParameter("updateDate"));
 		
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExportList(criteria);
 		
@@ -311,6 +319,7 @@ public class CustomerInfoAction {
 	public String importCustomer(HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value="importFile", required=false) MultipartFile file) {
 		String type = "";
+		String result = "";
 		try {
 			//如果导入模版修改需要修改第二和第三个参数
 			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
@@ -318,7 +327,7 @@ public class CustomerInfoAction {
 			type = request.getParameter("type");
 			
 //			if(StringUtils.isBlank(type) || "0".equals(type)){
-				customerInfoService.insertAndUpdateCustomerInfo(data);
+			result = customerInfoService.insertAndUpdateCustomerInfo(data);
 //			}else {
 //				customerInfoService.updateCustomerInfo(data);
 //			}
@@ -326,7 +335,39 @@ public class CustomerInfoAction {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return "redirect:costomerInfoIndex?type=" + type;
+		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
+	}
+	
+	/**
+	 * @throws IOException 
+	 * @Title: importCustomer 
+	 * @Description: 导入用户
+	 * @param request
+	 * @param response 
+	 * @return void
+	 * @throws
+	 */
+	@RequestMapping("importCustomerAdd")
+	public String importCustomerAdd(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="importFile", required=false) MultipartFile file) {
+		String type = "";
+		String result = "";
+		try {
+			//如果导入模版修改需要修改第二和第三个参数
+			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
+			
+			type = request.getParameter("type");
+			
+//			if(StringUtils.isBlank(type) || "0".equals(type)){
+			result = customerInfoService.insertAndUpdateCustomerInfoAdd(data);
+//			}else {
+//				customerInfoService.updateCustomerInfo(data);
+//			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
 	}
 	
 	/**

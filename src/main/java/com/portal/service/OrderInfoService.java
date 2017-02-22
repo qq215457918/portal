@@ -255,4 +255,12 @@ public interface OrderInfoService {
      */
     int getOrderGoodsCounts(Criteria criteria);
 
+    /**
+     * @Title: selectPirntInfoById 
+     * @Description: 通过id获取打印订单信息
+     * @param criteria
+     * @return OrderInfo
+     */
+	public OrderInfo selectPirntInfoById(String orderId);
+
 }
