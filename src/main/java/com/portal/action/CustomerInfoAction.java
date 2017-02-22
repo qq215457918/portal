@@ -46,9 +46,7 @@ public class CustomerInfoAction {
 	 * @Title: selectCostomerInfoList 
 	 * @Description: 用户信息首页
 	 * @param request
-	 * @return 
 	 * @return String
-	 * @throws
 	 */
 	@RequestMapping("costomerInfoIndex")
 	public String costomerInfoIndex(HttpServletRequest request){
