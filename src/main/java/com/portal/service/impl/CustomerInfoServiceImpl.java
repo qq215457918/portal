@@ -142,7 +142,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setCallDates(cInfo.getCallDates());
         String gift = null;
         if (!StringUtils.isEmpty(cInfo.getGift())) {
-            gift = cInfo.getReceiverStaffName().replace("\\n", "<br/>");
+            gift = cInfo.getGift().replace("\\n", "<br/>");
         }
         cSimpleForm.setGift(gift);
         String staffName = null;
@@ -388,9 +388,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public String insertAndUpdateCustomerInfo(List<Map<String, Object>> data) {
-    	StringBuffer sb = new StringBuffer();
-    	int i = 0;
-        for (;i < data.size(); i ++) {
+        StringBuffer sb = new StringBuffer();
+        int i = 0;
+        for (; i < data.size(); i ++) {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
             }
@@ -400,13 +400,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     || String.valueOf(data.get(i).get("p9")).length() == 13)) {
                 continue;
             }
-            
+
             try {
-            	customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
-            }catch(Exception e) {
-            	e.printStackTrace();
-            	sb.append(i+1).append(",");
-            	continue;
+                customerInfoDao.insertAndUpdateCustomerInfo(data.get(i));
+            } catch (Exception e) {
+                e.printStackTrace();
+                sb.append(i + 1).append(",");
+                continue;
             }
         }
         return sb.toString();
@@ -489,8 +489,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     @Override
     public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
-    	StringBuffer sb = new StringBuffer();
-    	int i = 0;
+        StringBuffer sb = new StringBuffer();
+        int i = 0;
         for (; i < data.size(); i ++) {
             if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
                 continue;
@@ -502,11 +502,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                 continue;
             }
             try {
-            	customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
-            }catch(Exception e) {
-            	e.printStackTrace();
-            	sb.append(i+1).append(",");
-            	continue;
+                customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+            } catch (Exception e) {
+                e.printStackTrace();
+                sb.append(i + 1).append(",");
+                continue;
             }
         }
         return sb.toString();

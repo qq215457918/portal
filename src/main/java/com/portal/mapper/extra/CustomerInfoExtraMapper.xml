@@ -81,6 +81,13 @@
     </trim>
   </sql>
   
+   <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
+    update customer_info 
+    set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}), 
+    transaction_amount = transaction_amount + #{condition.amount,jdbcType=DECIMAL}
+    where id =#{condition.cid,jdbcType=VARCHAR};
+  </update>
+  
    <update id="updateGift" parameterType="com.portal.bean.Criteria" >
     update customer_info 
     set gift = CONCAT(ifnull(gift,''),#{condition.gift,jdbcType=VARCHAR}) 
@@ -93,13 +100,6 @@
     receiver_staff_date = CONCAT(ifnull(receiver_staff_date,''),#{condition.receptionDate,jdbcType=VARCHAR})  
     where id =#{condition.cid,jdbcType=VARCHAR};
   </update>
-  
-   <select id="selectHistoryByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from customer_info
-    where phone = #{phone,jdbcType=VARCHAR}
-  </select>
 
   <select id="selectByPhone" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
