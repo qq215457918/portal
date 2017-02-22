@@ -766,6 +766,7 @@
       </if>
     </trim>
     group by id
+    order by oi.finance_date desc
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
