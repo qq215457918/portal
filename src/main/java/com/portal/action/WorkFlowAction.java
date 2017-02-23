@@ -840,6 +840,7 @@ public class WorkFlowAction {
         }
     }
 
+
     /**
      * @Title: updateCivilizationInfo 
      * @Description: 下载打印模版
@@ -851,66 +852,131 @@ public class WorkFlowAction {
      */
     @RequestMapping("downloadExcel")
     public void downloadExcel(HttpServletRequest request, HttpServletResponse response) {
-        String orderId = request.getParameter("orderId");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-        OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
-
-        List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
-
-        try {
-            @SuppressWarnings("deprecation")
-            String path = request.getRealPath("/resources/excel/print_template.xls");
-            OutputStream os = response.getOutputStream();// 取得输出流
-            response.reset();// 清空输出流
-
-            // 设定输出文件头
-            response.setContentType("application/vnd.ms-excel");
-            response.setHeader("Content-Disposition",
-                    "attachment; filename=" + orderId + ".xls");
-
-            File file = new File(path);
-
-            Workbook wb = Workbook.getWorkbook(file);
-            WorkbookSettings settings = new WorkbookSettings();
-            settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
-            WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
-
-            WritableSheet sheet = workbook.getSheet(0);
-
-            sheet.addCell(new Label(0, 0,
-                    "          " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
-            sheet.addCell(new Label(5, 0, "          " + sdf.format(orderInfo.getCreateDate())));
-            sheet.addCell(new Label(0, 6, "          " + orderInfo.getReceiverStaffName() == null ? ""
-                    : orderInfo.getReceiverStaffName()));
-            sheet.addCell(new Label(5, 6,
-                    "          " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
-            sheet.addCell(new Label(0, 5,
-                    "              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
-
-            for (int i = 2, j = 0; j < result.size(); i ++, j ++) {
-                sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
-                sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
-                sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("price"))));
-                sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount_actual"))));
-                sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
-                sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
-                sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
-                sheet.addCell(new Label(7, i, result.get(j).get("remark")));
-            }
-
-            os.flush();
-            workbook.write();
-            wb.close();
-            workbook.close();
-            os.close();
-            response.flushBuffer();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    	String orderId = request.getParameter("orderId");
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
+    	
+    	List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+    	
+    	try {
+    		@SuppressWarnings("deprecation")
+    		String path = request.getRealPath("/resources/excel/print_template.xls");
+    		OutputStream os = response.getOutputStream();// 取得输出流
+    		response.reset();// 清空输出流
+    		
+    		// 设定输出文件头
+    		response.setContentType("application/vnd.ms-excel");
+    		response.setHeader("Content-Disposition",
+    				"attachment; filename=" + orderId + ".xls");
+    		
+    		File file = new File(path);
+    		
+    		Workbook wb = Workbook.getWorkbook(file);
+    		WorkbookSettings settings = new WorkbookSettings();
+    		settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+    		WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+    		
+    		WritableSheet sheet = workbook.getSheet(0);
+    		
+    		sheet.addCell(new Label(0, 1,
+    				"        " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
+    		sheet.addCell(new Label(0, 12, "          " + orderInfo.getReceiverStaffName() == null ? ""
+    				: orderInfo.getReceiverStaffName()));
+    		sheet.addCell(new Label(6, 12,
+    				"    " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
+    		sheet.addCell(new Label(0, 10,
+    				"              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
+    		
+    		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
+    			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
+    			sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
+    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("price"))));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount_actual"))));
+    			sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
+    			sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
+    			sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
+    			sheet.addCell(new Label(7, i, result.get(j).get("remark")));
+    		}
+    		
+    		os.flush();
+    		workbook.write();
+    		wb.close();
+    		workbook.close();
+    		os.close();
+    		response.flushBuffer();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
-
+    
+    /**
+     * @Title: downloadExcelPay 
+     * @Description: 下载打印模版
+     * @param request
+     * @param response
+     * @return 
+     * @return String
+     * @throws
+     */
+    @RequestMapping("downloadExcelPay")
+    public void downloadExcelPay(HttpServletRequest request, HttpServletResponse response) {
+    	String orderId = request.getParameter("orderId");
+    	
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
+    	
+    	List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+    	
+    	try {
+    		@SuppressWarnings("deprecation")
+    		String path = request.getRealPath("/resources/excel/print_template_pay.xls");
+    		OutputStream os = response.getOutputStream();// 取得输出流
+    		response.reset();// 清空输出流
+    		
+    		// 设定输出文件头
+    		response.setContentType("application/vnd.ms-excel");
+    		response.setHeader("Content-Disposition",
+    				"attachment; filename=" + orderId + ".xls");
+    		
+    		File file = new File(path);
+    		
+    		Workbook wb = Workbook.getWorkbook(file);
+    		WorkbookSettings settings = new WorkbookSettings();
+    		settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+    		WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+    		
+    		WritableSheet sheet = workbook.getSheet(0);
+    		
+    		sheet.addCell(new Label(0, 1,
+    				"             " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
+    		sheet.addCell(new Label(0, 12, "          " + orderInfo.getReceiverStaffName() == null ? ""
+    				: orderInfo.getReceiverStaffName()));
+    		sheet.addCell(new Label(5, 12,
+    				"            " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
+    		
+    		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
+    			sheet.addCell(new Label(1, i, result.get(j).get("good_name")));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("unit"))));
+    			sheet.addCell(new Label(4, i, String.valueOf(result.get(j).get("amount"))));
+    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).get("pay_amount_actual"))));
+    		}
+    		
+    		os.flush();
+    		workbook.write();
+    		wb.close();
+    		workbook.close();
+    		os.close();
+    		response.flushBuffer();
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
     /**
      * @Title: updateCivilizationInfo 
      * @Description: 下载打印模版
@@ -953,13 +1019,12 @@ public class WorkFlowAction {
             System.out.println();//由于月份是从0开始的所以加1
             System.out.println(a.get(Calendar.DATE));
 
-            sheet.addCell(
-                    new Label(1, 7, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
-            sheet.addCell(new Label(6, 7, String.valueOf(a.get(Calendar.YEAR))));
-            sheet.addCell(new Label(8, 7, String.valueOf(a.get(Calendar.MONTH) + 1)));
-            sheet.addCell(new Label(10, 7, String.valueOf(a.get(Calendar.DATE))));
+            sheet.addCell(new Label(1, 15, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
+            sheet.addCell(new Label(7, 15, String.valueOf(a.get(Calendar.YEAR))));
+            sheet.addCell(new Label(9, 7, String.valueOf(a.get(Calendar.MONTH) + 1)));
+            sheet.addCell(new Label(11, 7, String.valueOf(a.get(Calendar.DATE))));
 
-            for (int i = 2, j = 0; j < result.size(); i ++, j ++) {
+            for (int i = 6, j = 0; j < result.size(); i ++, j ++) {
                 sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
                 sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
                 sheet.addCell(new Label(2, i, result.get(j).get("unit")));
@@ -982,7 +1047,7 @@ public class WorkFlowAction {
             if (null != orderInfo.getPayPrice()) {
                 double orderPirce = orderInfo.getPayPrice() * 100;
                 String[] bigOrderPrice = numberToStr(orderPirce);
-                sheet.addCell(new Label(0, 6, "                               " + bigOrderPrice[0] +
+                sheet.addCell(new Label(0, 12, "                                     " + bigOrderPrice[0] +
                         "   " + bigOrderPrice[1] + "   " + bigOrderPrice[2] + "   " + bigOrderPrice[3] +
                         "   " + bigOrderPrice[4] + "   " + bigOrderPrice[5] + "   " + bigOrderPrice[6] +
                         "   " + bigOrderPrice[7] + "   " + bigOrderPrice[8]));

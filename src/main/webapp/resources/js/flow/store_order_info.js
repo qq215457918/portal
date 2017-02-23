@@ -45,7 +45,7 @@ $(document).ready(function(){
 //	        title: null,
 //	        doctype: '<!doctype html>'
 //		});
-		window.location.href = "workflow/downloadExcel?orderId=" + $('input[name=orderId]').val();
+		window.location.href = "workflow/downloadExcelPay?orderId=" + $('input[name=orderId]').val();
 	});	
 	
 	$('#outgoing').click(function(){
