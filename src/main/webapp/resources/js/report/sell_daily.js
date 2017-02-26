@@ -57,7 +57,8 @@ $(function() {
 	});
 	
 	$('#print').click(function(){
-		$("#sellDaily").print({
+		$("#printTable").show();
+		$("#printTable").print({
 			globalStyles: true,
 			mediaPrint: false,
 			stylesheet: null,
@@ -71,8 +72,9 @@ $(function() {
 			title: null,
 			doctype: '<!doctype html>'
 		});
+		$("#printTable").hide();
 	});
-
+	
 });
 
 // 初始获取数据
@@ -95,6 +97,7 @@ function initData() {
 			var depositRefund = data.depositRefund;
 			var depositReturn = data.depositReturn;
 			$("#sellDaily").empty();
+			$("#printTable").empty();
 			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositRefund.length > 0 || depositReturn.length > 0)) {
 				$("#saveSell").show();
 			}
@@ -238,6 +241,7 @@ function initData() {
 						"<tr>";
 			html += contents;
 			$("#sellDaily").append(html);
+			$("#printTable").append(html);
 		}
 	});
 }

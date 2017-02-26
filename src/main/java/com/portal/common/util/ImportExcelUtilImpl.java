@@ -263,6 +263,8 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
                         if(StringUtil.isNotBlank(customerInfo.getCallDates())) {
                             // 如果原来的拨打时间包含该时间则忽略
                             if(!customerInfo.getCallDates().contains(callTime)) {
+                                // 拨打时间有变化标识, 修改时再清空该值
+                                customerInfo.setSeason4("1");
                                 customerInfo.setCallDates(customerInfo.getCallDates() + "," + callTime);
                             }
                         }else {

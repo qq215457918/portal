@@ -503,8 +503,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         Set<Entry<String,Object>> entrySet = customerList.entrySet();
         for (Entry<String, Object> entry : entrySet) {
             CustomerInfo info = (CustomerInfo) entry.getValue();
-            if(StringUtil.isNotBlank(info.getId())) {
+            if(StringUtil.isNotBlank(info.getId()) & StringUtil.isNotBlank(info.getSeason4())) {
                 // 修改
+                info.setSeason4("");
                 count += customerInfoDao.updateByPrimaryKeySelective(info);
             }else {
                 // 新增

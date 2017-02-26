@@ -10,6 +10,11 @@
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/report/sell_daily.js"></script>
 <script type="text/javascript" src="resources/js/jQuery.print.js"></script>
+<style type="text/css">
+	#printTable tbody>tr>td {
+		padding: 0;
+	}
+</style>
 <jsp:include page="/WEB-INF/jsp/report/head.jsp" />
 </head>
 <body>
@@ -58,5 +63,7 @@
 	  </div>
     </div>
   </div>
+  <table class="table table-bordered" id="printTable" style="display: none;">
+  </table>
 </body>
 </html>
