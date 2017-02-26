@@ -995,7 +995,10 @@ public class WorkFlowAction {
 
         OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(orderId);
 
-        List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+        Criteria criteria = new Criteria();
+        criteria.put("orderId", orderId);
+        criteria.put("amountType", "1");
+        List<OrderDetailInfo> result = orderDetailInfoService.selectByExample(criteria);
 
         try {
             @SuppressWarnings("deprecation")
@@ -1022,26 +1025,27 @@ public class WorkFlowAction {
             System.out.println();//由于月份是从0开始的所以加1
             System.out.println(a.get(Calendar.DATE));
 
-            sheet.addCell(new Label(1, 15, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
-            sheet.addCell(new Label(7, 15, String.valueOf(a.get(Calendar.YEAR))));
-            sheet.addCell(new Label(9, 7, String.valueOf(a.get(Calendar.MONTH) + 1)));
-            sheet.addCell(new Label(11, 7, String.valueOf(a.get(Calendar.DATE))));
+            sheet.addCell(new Label(2, 14, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
+            sheet.addCell(new Label(7, 14, String.valueOf(a.get(Calendar.YEAR))));
+            sheet.addCell(new Label(9, 14, String.valueOf(a.get(Calendar.MONTH) + 1)));
+            sheet.addCell(new Label(10, 14, String.valueOf(a.get(Calendar.DATE))));
 
             for (int i = 6, j = 0; j < result.size(); i ++, j ++) {
-                sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
-                sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
-                sheet.addCell(new Label(2, i, result.get(j).get("unit")));
-                sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("price"))));
-                double payPrice = Double.valueOf(String.valueOf(result.get(j).get("pay_amount_actual"))) * 100;
+                sheet.addCell(new Label(1, i, result.get(j).getGoodName()));
+                sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount())));
+                sheet.addCell(new Label(3, i, result.get(j).getUnit()));
+                sheet.addCell(new Label(4, i, String.valueOf(result.get(j).getPrice())));
+                double payPrice = Double.valueOf(String.valueOf(result.get(j).getPrice())) * 100;
                 DecimalFormat format = new DecimalFormat("#");
                 String[] sMoney = format.format(payPrice).split("");
-                for (int l = 12, k = sMoney.length - 1; k < 0; k --, l --) {
+                int k = (sMoney.length - 1);
+                for (int l = 13; k >= 0; k--, l--) {
                     sheet.addCell(new Label(l, i, sMoney[k]));
                 }
                 int count = 0;
                 if ((9 - sMoney.length) > 0) {
                     count = 9 - sMoney.length;
-                    for (int m = 0, n = 4; m < count; m ++, n ++) {
+                    for (int m = 0, n = 5; m < count; m ++, n ++) {
                         sheet.addCell(new Label(n, i, "0"));
                     }
                 }
@@ -1050,7 +1054,7 @@ public class WorkFlowAction {
             if (null != orderInfo.getPayPrice()) {
                 double orderPirce = orderInfo.getPayPrice() * 100;
                 String[] bigOrderPrice = numberToStr(orderPirce);
-                sheet.addCell(new Label(0, 12, "                                     " + bigOrderPrice[0] +
+                sheet.addCell(new Label(1, 13, "                                     " + bigOrderPrice[0] +
                         "   " + bigOrderPrice[1] + "   " + bigOrderPrice[2] + "   " + bigOrderPrice[3] +
                         "   " + bigOrderPrice[4] + "   " + bigOrderPrice[5] + "   " + bigOrderPrice[6] +
                         "   " + bigOrderPrice[7] + "   " + bigOrderPrice[8]));
