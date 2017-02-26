@@ -959,10 +959,13 @@ public class WorkFlowAction {
     		sheet.addCell(new Label(5, 12,
     				"            " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
     		
-    		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
-    			sheet.addCell(new Label(1, i, result.get(j).get("good_name")));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("unit"))));
-    			sheet.addCell(new Label(4, i, String.valueOf(result.get(j).get("amount"))));
+    		sheet.addCell(new Label(0, 10,
+    				"              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
+    		
+    		for (int i = 5, j = 0; j < result.size(); i=i+2, j ++) {
+    			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
+    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("unit"))));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("amount"))));
     			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).get("pay_amount_actual"))));
     		}
     		
