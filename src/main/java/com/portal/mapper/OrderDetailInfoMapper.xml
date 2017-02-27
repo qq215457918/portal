@@ -66,6 +66,9 @@
       <if test="condition.countCulture != null" >
          and (good_type = 2 or good_type = 3)
       </if>
+      <if test="condition.amountType == 1" >
+         and amount > 0
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >

@@ -431,7 +431,7 @@ public class CustomerInfoAction {
 	        try {
 	            // 存储数据对象容器
 	            Map<String, Object> customers = new HashMap<String, Object>();
-	            // 获取所有表中现有的客户信息
+	            // 获取表中现有的所有客户信息
 	            List<CustomerInfo> allCustomer = customerInfoService.getAllCustomer();
 	            // 循环现有客户存入到容器中, 电话为key
 	            for (CustomerInfo customerInfo : allCustomer) {

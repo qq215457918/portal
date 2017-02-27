@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +93,11 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     public EmployeeInfo selectByUserName(String loginName) {
         Criteria example = new Criteria();
         example.put("loginName", loginName);
-        return selectByExample(example).get(0);
+        List<EmployeeInfo> example2 = selectByExample(example);
+        if(CollectionUtils.isNotEmpty(example2)) {
+            return example2.get(0);
+        }
+        return null;
     }
 
     public int countByExample(Criteria example) {
