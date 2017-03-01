@@ -938,7 +938,7 @@
         confirm_password: {
           required: "请输入你的密码",
           minlength: "您的密码必须至少为5个字符",
-          equalTo: "Please enter the same password"
+          equalTo: "请输入相同的密码"
         },
         email: "Please enter a valid email address"
       }
