@@ -444,7 +444,7 @@
       <if test="recentExportDate != null" >
         #{recentExportDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.callDates != null" >
+      <if test="callDates != null" >
         #{callDates,jdbcType=VARCHAR},
       </if>
       <if test="blacklistFlag != null" >
