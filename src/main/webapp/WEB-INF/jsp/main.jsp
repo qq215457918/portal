@@ -81,7 +81,7 @@
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 			                      	后台管理
 			                    </div>
-			                    <a class="btn btn-lg btn-warning" href="admin/resource?active=1" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" href="admin/resource/init?active=1" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
 			                     <!-- <a class="btn btn-warning" href="role?active=1" style="margin-top:20px"><i class="icon-laptop"></i>角色管理</a> -->
 			              </div>
 			            </div>

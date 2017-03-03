@@ -1,8 +1,10 @@
 package com.portal.action.admin;
 
+import com.portal.bean.Resource;
+import com.portal.common.util.WebUtils;
+import com.portal.service.ResourceService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,11 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import com.portal.bean.Resource;
-import com.portal.common.util.WebUtils;
-import com.portal.service.ResourceService;
 
 /**
  * <p>User: Zhang Kaitao
@@ -28,6 +27,21 @@ public class ResourceController {
 
     @Autowired
     private ResourceService resourceService;
+
+    /**
+     * 进入到myjob页面
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "init")
+    public ModelAndView init(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.setAttributeToSession(request);
+        getBasePath(request, response);
+        ModelAndView model = new ModelAndView();
+        model.setViewName("admin/main");
+        return model;
+    }
 
     @ModelAttribute("types")
     public Resource.ResourceType[] resourceTypes() {
@@ -91,6 +105,11 @@ public class ResourceController {
         resourceService.deleteResource(id);
         redirectAttributes.addFlashAttribute("msg", "删除成功");
         return "redirect:/resource";
+    }
+
+    public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
+        String basePath = WebUtils.getBasePath(request, response);
+        request.getSession().setAttribute("basePath", basePath);
     }
 
 }
