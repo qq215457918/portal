@@ -13,12 +13,13 @@
 	  <div class=" main-content">
 		  <div class="page-title">
 		  <div class="col-lg-12" style="40px">
-		   
             <ul class="breadcrumb">
               <li>
                 <i><img width="40" height="40" src="resources/images/logo.png" style="margin-right:20px">你好：<shiro:principal/> , 欢迎使用本系统，祝您工作愉快  ^ ^ </i>
               </li>
+              <a class="btn btn-xs btn-default" style="margin-top:10px;float: right;" href="<%=request.getContextPath() %>/password/modify">修改密码</a>
             </ul>
+            
           </div>
 			 <div class="row">
 			  <shiro:hasPermission name="job:button">
@@ -28,7 +29,7 @@
 			                    <div class="number" style="font-size: 50px; margin-top: 20px;">
 			                      	我的工作
 			                    </div>
-			                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/job/init?active=1"><i class="icon-briefcase"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/job/init?active=1"><i class="icon-briefcase"></i>点击登陆</a>
 			              </div>
 			            </div>
 		          </div>
@@ -41,7 +42,7 @@
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 			                      	接待管理
 			                    </div>
-			                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/visit/query?active=1"><i class="icon-glass"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/visit/query?active=1"><i class="icon-glass"></i>点击登陆</a>
 			              </div>
 			            </div>
 		          </div>
@@ -53,7 +54,7 @@
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 			                      	数据管理
 			                    </div>
-			                    <a class="btn btn-warning" href="customerInfo/costomerInfoIndex?type=0" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" href="customerInfo/costomerInfoIndex?type=0" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
 			              </div>
 			            </div>
 		          </div>
@@ -68,7 +69,7 @@
 		                    <div class="number" style="font-size: 50px; margin-top: 20px;">
 		                      	统计/报表
 		                    </div>
-		                    <a class="btn btn-warning" href="report/toSalesmanStatement?active=1" style="margin-top:20px"><i class="icon-qrcode"></i>点击登陆</a>
+		                    <a class="btn btn-lg btn-warning" href="report/toSalesmanStatement?active=1" style="margin-top:20px"><i class="icon-qrcode"></i>点击登陆</a>
 		              </div>
 		            </div>
 	          </div>
@@ -80,7 +81,7 @@
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 			                      	后台管理
 			                    </div>
-			                    <a class="btn btn-warning" href="admin/resource?active=1" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" href="admin/resource/init?active=1" style="margin-top:20px"><i class="icon-laptop"></i>点击登陆</a>
 			                     <!-- <a class="btn btn-warning" href="role?active=1" style="margin-top:20px"><i class="icon-laptop"></i>角色管理</a> -->
 			              </div>
 			            </div>
@@ -92,7 +93,7 @@
 		                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 		                      	退出
 		                    </div>
-		                    <a class="btn btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/logout"><i class="icon-mail-forward"></i>点击退出</a>
+		                    <a class="btn btn-lg btn-warning" style="margin-top:20px" href="<%=request.getContextPath() %>/logout"><i class="icon-mail-forward"></i>点击退出</a>
 		              </div>
 		            </div>
 	          </div>

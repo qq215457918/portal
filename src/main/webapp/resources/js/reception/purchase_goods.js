@@ -86,6 +86,9 @@ function initGoodsData(){
 		"bServerSide": true, // 后台请求
 		"bRetrieve": true,
 		"sAjaxSource": "order/receive", // 地址
+		data : {
+			"type" : "0"
+		},
 		"aoColumns": [ 
 		            {"mData": null, "target": 0},	//序列号   
 		            {"mData": "code"},

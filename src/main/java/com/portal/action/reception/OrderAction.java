@@ -44,6 +44,7 @@ public class OrderAction {
 
     /**
      * 购买商品页面初始化
+     * 加载赠品信息
      * @param request
      * @param response
      * @return
@@ -177,7 +178,7 @@ public class OrderAction {
         //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
         if (StringUtils.isNotBlank(userId) && !"1".equals(request.getParameter("store"))) {
-        	criteria.put("userId", userId);
+            criteria.put("userId", userId);
             criteria.put("financeFlag", "-1");
         } else if ("1".equals(request.getParameter("store"))) {
             criteria.put("store", 1);

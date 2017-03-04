@@ -1,17 +1,5 @@
 package com.portal.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GoodsInfo;
@@ -23,12 +11,20 @@ import com.portal.common.util.UUidUtil;
 import com.portal.dao.GoodsInfoDao;
 import com.portal.dao.extra.GoodsDao;
 import com.portal.service.GoodsInfoService;
-
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class GoodsInfoServiceImpl implements GoodsInfoService {
-    
+
     @Autowired
     private GoodsInfoDao goodsInfoDao;
 
@@ -79,9 +75,10 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
      */
     public List<GoodsInfo> selectPresentInfo(HttpServletRequest request) {
         criteria.clear();
-        criteria.put("type", 1);
-        criteria.put("moreAmount", 0);
-        criteria.put("deleteFlag", 0);
+        criteria.put("type", "1");
+        //        criteria.put("moreAmount", 0);
+        criteria.put("deleteFlag", "0");
+        criteria.setOrderByClause("seq desc");
         return selectByExample(criteria);
     }
 
@@ -113,6 +110,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         //商品数量大于0
         criteria.put("moreAmount", 0);
         criteria.put("deleteFlag", 0);
+        criteria.setOrderByClause("seq desc");
         return criteria;
     }
 
@@ -194,7 +192,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     public int insertSelective(GoodsInfo record) {
         return this.goodsInfoDao.insertSelective(record);
     }
-    
+
     public List<GoodsInfoForm> selectByConditions(Criteria criteria) {
         return goodsDao.selectByConditions(criteria);
     }
@@ -204,8 +202,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         int totalRecord = goodsDao.countByConditions(criteria);
         // 获取数据集
         List<GoodsInfoForm> list = goodsDao.selectByConditions(criteria);
-        
-        JSONObject resultJson =  new JSONObject();
+
+        JSONObject resultJson = new JSONObject();
         resultJson.put("sEcho", sEcho);
         resultJson.put("iTotalRecords", totalRecord);
         resultJson.put("iTotalDisplayRecords", totalRecord);
@@ -215,16 +213,16 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 
     public JSONObject deleteGoodsInfo(String id, JSONObject result) {
         GoodsInfo goodsInfo = this.selectByPrimaryKey(id);
-        if("0".equals(goodsInfo.getDeleteFlag())) {
+        if ("0".equals(goodsInfo.getDeleteFlag())) {
             goodsInfo.setDeleteFlag("1");
             int count = this.updateByPrimaryKey(goodsInfo);
-            if(count > 0) {
+            if (count > 0) {
                 result = JsonUtils.setSuccess();
-            }else {
+            } else {
                 result = JsonUtils.setError();
                 result.put("text", "删除数据失败, 请刷新后重试");
             }
-        }else {
+        } else {
             result = JsonUtils.setError();
             result.put("text", "该商品已被删除, 请刷新后重试");
         }
@@ -234,53 +232,55 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     @SuppressWarnings("deprecation")
     public JSONObject saveGoodsInfo(GoodsInfoForm goodsInfoForm, EmployeeInfo employee, JSONObject results) {
         int count = 0;
-        if(StringUtil.isNull(goodsInfoForm.getName().trim())) {
+        if (StringUtil.isNull(goodsInfoForm.getName().trim())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 商品名称不能为空");
             return results;
-        }else {
+        } else {
             // 过滤特殊字符
             goodsInfoForm.setName(StringUtil.tstr(goodsInfoForm.getName().trim()));
         }
-        if(StringUtil.isNull(goodsInfoForm.getCode().trim())) {
+        if (StringUtil.isNull(goodsInfoForm.getCode().trim())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 商品序号不能为空");
             return results;
-        }else {
+        } else {
             // 过滤特殊字符
             goodsInfoForm.setCode(StringUtil.tstr(goodsInfoForm.getCode().trim()));
         }
-        if(StringUtil.isNull(goodsInfoForm.getSortId())) {
+        if (StringUtil.isNull(goodsInfoForm.getSortId())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 商品种类必须选择一项");
             return results;
         }
-        if(StringUtil.isNull(goodsInfoForm.getType())) {
+        if (StringUtil.isNull(goodsInfoForm.getType())) {
             results = JsonUtils.setError();
             results.put("text", "系统异常, 商品分类必须选择一项");
             return results;
         }
-        if(StringUtil.isNotBlank(goodsInfoForm.getUnit())) {
+        if (StringUtil.isNotBlank(goodsInfoForm.getUnit())) {
             // 过滤特殊字符
             goodsInfoForm.setUnit(StringUtil.tstr(goodsInfoForm.getUnit().trim()));
         }
-        if(StringUtil.isNotBlank(goodsInfoForm.getViewRepurchaseStarttime())) {
+        if (StringUtil.isNotBlank(goodsInfoForm.getViewRepurchaseStarttime())) {
             // 设置回购开始时间
-            goodsInfoForm.setRepurchaseStarttime(DateUtil.parseDate(goodsInfoForm.getViewRepurchaseStarttime(), "yyyy-MM-dd"));
+            goodsInfoForm.setRepurchaseStarttime(
+                    DateUtil.parseDate(goodsInfoForm.getViewRepurchaseStarttime(), "yyyy-MM-dd"));
         }
-        if(StringUtil.isNotBlank(goodsInfoForm.getViewRepurchaseEndtime())) {
+        if (StringUtil.isNotBlank(goodsInfoForm.getViewRepurchaseEndtime())) {
             // 设置回购结束时间
-            goodsInfoForm.setRepurchaseEndtime(DateUtil.parseDate(goodsInfoForm.getViewRepurchaseEndtime(), "yyyy-MM-dd"));
+            goodsInfoForm.setRepurchaseEndtime(
+                    DateUtil.parseDate(goodsInfoForm.getViewRepurchaseEndtime(), "yyyy-MM-dd"));
         }
         GoodsInfo goodsInfo = new GoodsInfo();
         BeanUtils.copyProperties(goodsInfoForm, goodsInfo);
-        if(StringUtil.isNotBlank(goodsInfoForm.getId())) {
+        if (StringUtil.isNotBlank(goodsInfoForm.getId())) {
             // 修改
             goodsInfo.setCreateDate(new Date(goodsInfoForm.getViewCreateDate()));
             goodsInfo.setUpdateUserid(employee.getId());
             goodsInfo.setUpdateDate(new Date());
             count = this.updateByPrimaryKey(goodsInfo);
-        }else {
+        } else {
             // 新增
             goodsInfo.setId(UUidUtil.getUUId());
             goodsInfo.setCreateUserid(employee.getId());
@@ -290,9 +290,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
             goodsInfo.setDeleteFlag("0");
             count = goodsInfoDao.insert(goodsInfo);
         }
-        if(count > 0) {
+        if (count > 0) {
             results = JsonUtils.setSuccess();
-        }else {
+        } else {
             results = JsonUtils.setError();
             results.put("text", "系统异常, 请刷新后重试");
         }

@@ -19,7 +19,7 @@
             <input class="form-control" placeholder="登录名" type="text" id="loginName" name="loginName" value="<shiro:principal/>">
             <input class="form-control" placeholder="密码" type="password" id="password" name="password">
         </div>     
-        <P>${message}</P>
+        <div style="color:#F00">${error}</div>
        	<div class="social-login clearfix" style="margin:40px 0">
         	<button class="btn btn-primary" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
       	</div>

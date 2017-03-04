@@ -1,20 +1,5 @@
 package com.portal.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
@@ -30,8 +15,19 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -115,8 +111,8 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setName(cInfo.getName());
         cSimpleForm.setPhone(cInfo.getPhone());
         cSimpleForm.setEncryptPhone(StringUtil.encryptPhone(cInfo.getPhone()));
-        if(StringUtil.isNotBlank(cInfo.getPhone2())) {
-            cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));            
+        if (StringUtil.isNotBlank(cInfo.getPhone2())) {
+            cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
         }
         //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
         //String cType = cInfo.getType();
@@ -128,7 +124,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     .setPhoneStaffName(
                             employeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
         }
-        if (!StringUtils.isEmpty(cInfo.getReceiverStaffId())) {
+        if (StringUtil.isNotBlank(cInfo.getReceiverStaffId())) {
             cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
             cSimpleForm.setReceiverStaffName(
                     employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
@@ -500,13 +496,14 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     public int insertEmptyCustomer(Map<String, Object> customerList, String area) {
         int count = 0;
-        Set<Entry<String,Object>> entrySet = customerList.entrySet();
+        Set<Entry<String, Object>> entrySet = customerList.entrySet();
         for (Entry<String, Object> entry : entrySet) {
             CustomerInfo info = (CustomerInfo) entry.getValue();
-            if(StringUtil.isNotBlank(info.getId())) {
+            if (StringUtil.isNotBlank(info.getId()) & StringUtil.isNotBlank(info.getSeason4())) {
                 // 修改
+                info.setSeason4("");
                 count += customerInfoDao.updateByPrimaryKeySelective(info);
-            }else {
+            } else {
                 // 新增
                 info.setType("0");
                 info.setArea(area);
@@ -519,7 +516,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     public List<CustomerInfo> getAllCustomer() {
         return customerInfoExtraDao.getAllCustomer();
     }
-    
+
     /*
     * @Title: insertAndUpdateCustomerInfo 
     * @Description: 插入用户信息 如果电话重复则更新
@@ -527,28 +524,28 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     * @return void
     * @throws
     */
-   @Override
-   public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
-       StringBuffer sb = new StringBuffer();
-       int i = 0;
-       for (; i < data.size(); i ++) {
-           if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
-               continue;
-           }
-           if (!(String.valueOf(data.get(i).get("p9")).length() == 11
-                   || String.valueOf(data.get(i).get("p9")).length() == 8
-                   || String.valueOf(data.get(i).get("p9")).length() == 12
-                   || String.valueOf(data.get(i).get("p9")).length() == 13)) {
-               continue;
-           }
-           try {
-               customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
-           } catch (Exception e) {
-               e.printStackTrace();
-               sb.append(i + 1).append(",");
-               continue;
-           }
-       }
-       return sb.toString();
+    @Override
+    public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data) {
+        StringBuffer sb = new StringBuffer();
+        int i = 0;
+        for (; i < data.size(); i ++) {
+            if (null == data.get(i).get("p9") || "".equals(data.get(i).get("p9"))) {
+                continue;
+            }
+            if (!(String.valueOf(data.get(i).get("p9")).length() == 11
+                    || String.valueOf(data.get(i).get("p9")).length() == 8
+                    || String.valueOf(data.get(i).get("p9")).length() == 12
+                    || String.valueOf(data.get(i).get("p9")).length() == 13)) {
+                continue;
+            }
+            try {
+                customerInfoDao.insertAndUpdateCustomerInfoAdd(data.get(i));
+            } catch (Exception e) {
+                e.printStackTrace();
+                sb.append(i + 1).append(",");
+                continue;
+            }
+        }
+        return sb.toString();
     }
 }
