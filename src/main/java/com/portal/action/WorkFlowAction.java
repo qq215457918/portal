@@ -881,9 +881,9 @@ public class WorkFlowAction {
     		WritableSheet sheet = workbook.getSheet(0);
     		
     		sheet.addCell(new Label(0, 1,
-    				"        " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    				"            " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
     		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "          " + orderInfo.getReceiverStaffName() == null ? ""
+    		sheet.addCell(new Label(0, 12, "              " + orderInfo.getReceiverStaffName() == null ? ""
     				: orderInfo.getReceiverStaffName()));
     		sheet.addCell(new Label(6, 12,
     				"    " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
@@ -929,7 +929,10 @@ public class WorkFlowAction {
     	
     	OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
     	
-    	List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+    	Criteria criteria = new Criteria();
+    	criteria.put("orderId", orderId);
+    	criteria.put("printInfo", "1");
+    	List<OrderDetailInfo> result = orderDetailInfoService.selectByExample(criteria);
     	
     	try {
     		@SuppressWarnings("deprecation")
@@ -952,9 +955,9 @@ public class WorkFlowAction {
     		WritableSheet sheet = workbook.getSheet(0);
     		
     		sheet.addCell(new Label(0, 1,
-    				"             " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    				"                 " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
     		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "          " + orderInfo.getReceiverStaffName() == null ? ""
+    		sheet.addCell(new Label(0, 12, "              " + orderInfo.getReceiverStaffName() == null ? ""
     				: orderInfo.getReceiverStaffName()));
     		sheet.addCell(new Label(5, 12,
     				"            " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
@@ -963,10 +966,10 @@ public class WorkFlowAction {
     				"              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
     		
     		for (int i = 5, j = 0; j < result.size(); i=i+2, j ++) {
-    			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
-    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("unit"))));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("amount"))));
-    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).get("pay_amount_actual"))));
+    			sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
+    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getUnit())));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).getAmount())));
+    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).getPrice())));
     		}
     		
     		os.flush();
