@@ -182,11 +182,25 @@ function initData() {
 			var income = parseInt(0);
 			var poundages = parseInt(0);
 			
+			var payType = "";
 			if(type == "search") {
 				for (var int = 0; int < clearing.length; int++) {
+					// 判断客户支付方式
+					if(clearing[int].customerPayType == 1) {
+						payType = "信用卡";
+					}else if(clearing[int].customerPayType == 2) {
+						payType = "储蓄卡（封顶）";
+					}else if(clearing[int].customerPayType == 3) {
+						payType = "储蓄卡（不封顶）";
+					}else if(clearing[int].customerPayType == 4) {
+						payType = "支付宝";
+					}else if(clearing[int].customerPayType == 5) {
+						payType = "微信";
+					}
+					
 					contents = "<tr>" + 
 								"<td>" + clearing[int].paymentAccountName + "</td>" + 
-								"<td>" + clearing[int].customerPayType + "</td>" + 
+								"<td>" + payType + "</td>" + 
 								"<td>" + clearing[int].payAmount + "</td>" + 
 								"<td>" + clearing[int].payAmountActual + "</td>" + 
 								"<td>" + clearing[int].poundage + "</td>" + 
@@ -202,10 +216,24 @@ function initData() {
 			}else if(type == "compile") {
 				var rows = 0;
 				for (var int = 0; int < clearing.length; int++) {
+					
+					// 判断客户支付方式
+					if(clearing[int].customerPayType == 1) {
+						payType = "信用卡";
+					}else if(clearing[int].customerPayType == 2) {
+						payType = "储蓄卡（封顶）";
+					}else if(clearing[int].customerPayType == 3) {
+						payType = "储蓄卡（不封顶）";
+					}else if(clearing[int].customerPayType == 4) {
+						payType = "支付宝";
+					}else if(clearing[int].customerPayType == 5) {
+						payType = "微信";
+					}
+					
 					rows = int;
 					contents = "<tr>" + 
 									"<td><input type='text' name='sellDailyDetails["+int+"].paymentAccountName' readonly='readonly' value='" + clearing[int].paymentAccountName + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].customerPayType' readonly='readonly' value='" + clearing[int].customerPayType + "'/></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+int+"].customerPayType' readonly='readonly' value='" + payType + "'/></td>" + 
 									"<td><input type='text' name='sellDailyDetails["+int+"].payAmount' readonly='readonly' value='" + clearing[int].payAmountActual + "'/></td>" + 
 									"<td><input type='text' name='sellDailyDetails["+int+"].payAmountActual' readonly='readonly' value='" + clearing[int].income + "'/></td>" + 
 									"<td><input type='text' name='sellDailyDetails["+int+"].poundage' readonly='readonly' value='" + clearing[int].poundage + "'/></td>" + 
@@ -213,7 +241,7 @@ function initData() {
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td>" + clearing[int].paymentAccountName + "</td>" + 
-										"<td>" + clearing[int].customerPayType + "</td>" + 
+										"<td>" + payType + "</td>" + 
 										"<td>" + clearing[int].payAmountActual + "</td>" + 
 										"<td>" + clearing[int].income + "</td>" + 
 										"<td>" + clearing[int].poundage + "</td>" + 

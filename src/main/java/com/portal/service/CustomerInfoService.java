@@ -205,8 +205,8 @@ public interface CustomerInfoService {
      * @author Xia ZhengWei
      * @date 2017年2月19日 上午12:12:09 
      * @version V1.0
-     */
-    int insertEmptyCustomer(Map<String, Object> customerList, String area);
+     
+    int insertEmptyCustomer(Map<String, Object> customerList, String area);*/
     
     /**
      * @Title: getAllCustomer 

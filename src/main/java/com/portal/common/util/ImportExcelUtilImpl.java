@@ -10,10 +10,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.portal.bean.CustomerInfo;
+import com.portal.dao.extra.CustomerInfoExtraDao;
 
 import jxl.Cell;
 import jxl.CellType;
@@ -24,6 +25,9 @@ import jxl.read.biff.BiffException;
 
 @Service
 public class ImportExcelUtilImpl implements ImportExcelUtil {
+    
+    @Autowired
+    private CustomerInfoExtraDao customerInfoExtraDao;
 
 	/**
 	 * 解析导入的excel文件，返回数据集
@@ -200,14 +204,13 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
      * @Title: readXLSDocument2 
      * @Description: 解析后台导入的空白客户Excel文件, 并存储到数据库中
      * @param files 解析文件
-     * @param result 返回结果
-     * @return JSONObject
+     * @param area 所属区域
      * @author Xia ZhengWei
      * @date 2017年2月18日 下午10:24:45 
      * @version V1.0
 	 * @throws IOException, BiffException 
      */
-    public Map<String, Object> readXLSDocument(MultipartFile[] files, Map<String, Object> customers) throws IOException, BiffException {
+    public void readXLSDocument(MultipartFile[] files, String area) throws IOException, BiffException {
         // 文件输入流
         InputStream inputStream = null;
         //从输入流读取EXCEL文件
@@ -221,7 +224,6 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
         String callTime = "";
         //Map<String, String> data = new HashMap<String, String>();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        CustomerInfo customerInfo = null;
         try {
             for (MultipartFile multipartFile : files) {
                 // 循环获取文件对应的输入流
@@ -254,29 +256,13 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
                         continue;
                     }
                     
-                    // 判断map是否包含次电话号码, 如果包含, 判断拨打时间是否重复, 不重复追加
-                    // 根据电话查询map中是否存在
-                    Object object = customers.get(tellPhone);
-                    if(object != null) {
-                        // 存在， 重新赋值
-                        customerInfo = (CustomerInfo) object;
-                        if(StringUtil.isNotBlank(customerInfo.getCallDates())) {
-                            // 如果原来的拨打时间包含该时间则忽略
-                            if(!customerInfo.getCallDates().contains(callTime)) {
-                                // 拨打时间有变化标识, 修改时再清空该值
-                                customerInfo.setSeason4("1");
-                                customerInfo.setCallDates(customerInfo.getCallDates() + "," + callTime);
-                            }
-                        }else {
-                            customerInfo.setCallDates(callTime);
-                        }
-                    }else {
-                        // 不存在
-                        customerInfo = new CustomerInfo();
-                        customerInfo.setPhone(tellPhone);
-                        customerInfo.setCallDates(callTime);
-                        customers.put(tellPhone, customerInfo);
-                    }
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("tellPhone", tellPhone);
+                    params.put("callTime", callTime);
+                    params.put("area", area);
+                    
+                    // 插入数据库
+                    customerInfoExtraDao.insertEmptyCustomer(params);
                 }
             }
         } catch (IOException e) {
@@ -290,7 +276,6 @@ public class ImportExcelUtilImpl implements ImportExcelUtil {
                 throw e;
             }
         }
-        return customers;
     }
 
 }

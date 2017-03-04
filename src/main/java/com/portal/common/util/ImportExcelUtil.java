@@ -59,12 +59,11 @@ public interface ImportExcelUtil {
 	 * @Title: readXLSDocument2 
 	 * @Description: 解析后台导入的空白客户Excel文件, 并存储到List结果集中
 	 * @param files 解析文件
-	 * @param customers 原数据库中所有客户信息
-	 * @return Map<String, Object>
+	 * @param area 所属区域
 	 * @author Xia ZhengWei
 	 * @date 2017年2月18日 下午10:24:45 
 	 * @version V1.0
 	 * @throws 
 	 */
-	public Map<String, Object> readXLSDocument(MultipartFile[] files, Map<String, Object> customers) throws IOException, BiffException;
+	public void readXLSDocument(MultipartFile[] files, String area) throws IOException, BiffException;
 }

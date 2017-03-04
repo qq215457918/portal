@@ -429,22 +429,8 @@ public class CustomerInfoAction {
 	        // 获取客户所属区域
 	        String area = request.getParameter("area");
 	        try {
-	            // 存储数据对象容器
-	            Map<String, Object> customers = new HashMap<String, Object>();
-	            // 获取表中现有的所有客户信息
-	            List<CustomerInfo> allCustomer = customerInfoService.getAllCustomer();
-	            // 循环现有客户存入到容器中, 电话为key
-	            for (CustomerInfo customerInfo : allCustomer) {
-	                customers.put(customerInfo.getPhone(), customerInfo);
-                }
-	            
-	            // 解析空白客户Excel并存储到List中, 供后续存储到数据库中
-	            customers = importExcelUtil.readXLSDocument(files, customers);
-	            // 插入数据库
-	            int counts = customerInfoService.insertEmptyCustomer(customers, area);
-	            if(counts == 0) {
-	                throw new SystemException("导入失败");
-	            }
+	            // 解析空白客户Excel并存储到数据库中
+	            importExcelUtil.readXLSDocument(files, area);
 	        } catch (BiffException | IOException e) {
 	            e.printStackTrace();
 	        }

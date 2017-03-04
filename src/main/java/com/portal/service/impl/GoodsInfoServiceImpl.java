@@ -276,7 +276,9 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         BeanUtils.copyProperties(goodsInfoForm, goodsInfo);
         if(StringUtil.isNotBlank(goodsInfoForm.getId())) {
             // 修改
-            goodsInfo.setCreateDate(new Date(goodsInfoForm.getViewCreateDate()));
+            if(StringUtil.isNotBlank(goodsInfoForm.getViewCreateDate())) {
+                goodsInfo.setCreateDate(new Date(goodsInfoForm.getViewCreateDate()));
+            }
             goodsInfo.setUpdateUserid(employee.getId());
             goodsInfo.setUpdateDate(new Date());
             count = this.updateByPrimaryKey(goodsInfo);

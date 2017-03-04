@@ -318,20 +318,8 @@
   </select>
   
   <!-- 插入空白用户 -->
-  <insert id="insertEmptyCustomer" parameterType="com.portal.bean.CustomerInfo" >
-    insert into customer_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-        id,
-        phone,
-        area,
-        call_dates,
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      rand_string(16),
-      #{phone,jdbcType=VARCHAR},
-      #{area,jdbcType=VARCHAR},
-      #{callDates,jdbcType=VARCHAR},
-    </trim>
+  <insert id="insertEmptyCustomer" parameterType="java.util.Map" >
+  	call importEmptyCustomer(#{tellPhone,jdbcType=VARCHAR}, #{callTime,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR});
   </insert>
   
 </mapper>

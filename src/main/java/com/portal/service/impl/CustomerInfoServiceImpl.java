@@ -4,9 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -497,7 +495,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @author Xia ZhengWei
      * @date 2017年2月19日 上午12:12:09 
      * @version V1.0
-     */
+     
     public int insertEmptyCustomer(Map<String, Object> customerList, String area) {
         int count = 0;
         Set<Entry<String,Object>> entrySet = customerList.entrySet();
@@ -515,7 +513,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
             }
         }
         return count;
-    }
+    }*/
 
     public List<CustomerInfo> getAllCustomer() {
         return customerInfoExtraDao.getAllCustomer();

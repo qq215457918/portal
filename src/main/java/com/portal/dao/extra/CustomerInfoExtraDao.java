@@ -1,11 +1,13 @@
 package com.portal.dao.extra;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.stereotype.Repository;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
-import java.util.List;
-import java.util.Map;
-import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerInfoExtraDao {
@@ -105,12 +107,12 @@ public interface CustomerInfoExtraDao {
     /**
      * @Title: insertEmptyCustomer 
      * @Description: 插入空白客户信息
-     * @param info
+     * @param params
      * @return int
      * @author Xia ZhengWei
      * @date 2017年2月21日 下午10:11:45 
      * @version V1.0
      */
-    public int insertEmptyCustomer(CustomerInfo info);
+    public int insertEmptyCustomer(Map<String, String> params);
 
 }

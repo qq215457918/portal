@@ -193,17 +193,17 @@ public class OrderInfoForm implements Serializable {
     /**
      * 销售日报表--实际入账金额
      */
-    private Integer income;
+    private Double income;
     
     /**
      * 销售日报表--手续费
      */
-    private Integer poundage;
+    private Double poundage;
     
     /**
      * 销售日报表--金额
      */
-    private Integer payAmountActual;
+    private Double payAmountActual;
     
     /**
      * 销售日报表--账户
@@ -504,27 +504,27 @@ public class OrderInfoForm implements Serializable {
         this.performance = performance;
     }
 
-    public Integer getIncome() {
+    public Double getIncome() {
         return income;
     }
 
-    public void setIncome(Integer income) {
+    public void setIncome(Double income) {
         this.income = income;
     }
 
-    public Integer getPoundage() {
+    public Double getPoundage() {
         return poundage;
     }
 
-    public void setPoundage(Integer poundage) {
+    public void setPoundage(Double poundage) {
         this.poundage = poundage;
     }
 
-    public Integer getPayAmountActual() {
+    public Double getPayAmountActual() {
         return payAmountActual;
     }
 
-    public void setPayAmountActual(Integer payAmountActual) {
+    public void setPayAmountActual(Double payAmountActual) {
         this.payAmountActual = payAmountActual;
     }
 

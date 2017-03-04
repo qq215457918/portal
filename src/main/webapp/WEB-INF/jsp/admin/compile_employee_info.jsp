@@ -28,7 +28,7 @@
 		                   	<input type="hidden" id="id" name="id" value="${employee.id}" />
 		                   	<input type="hidden" id="photoPath" name="photoPath" value="${employee.photoPath}" />
 		                   	<input type="hidden" id="receptionFlag" name="receptionFlag" value="${employee.receptionFlag}" />
-		                   	<c:if test="not empty ${employee}">
+		                   	<c:if test="${not empty employee}">
 			                   	<input type="hidden" id="createDate" name="createDate" value="${employee.createDate}" />
 		                   	</c:if>
 		                   	<input type="hidden" id="deleteFlag" name="deleteFlag" value="${employee.deleteFlag}" />
