@@ -100,6 +100,7 @@ public class CustomerInfoAction {
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("type", request.getParameter("type"));
 		criteria.put("updateDate", request.getParameter("updateDate"));
+		criteria.put("blackUser", "1");
 		
 		List<CustomerInfo> resultList = customerInfoService.selectByExample(criteria);
 		
