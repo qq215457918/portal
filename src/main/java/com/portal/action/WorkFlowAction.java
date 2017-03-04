@@ -1001,6 +1001,7 @@ public class WorkFlowAction {
         Criteria criteria = new Criteria();
         criteria.put("orderId", orderId);
         criteria.put("amountType", "1");
+        criteria.put("printInfo", "1");
         List<OrderDetailInfo> result = orderDetailInfoService.selectByExample(criteria);
 
         try {

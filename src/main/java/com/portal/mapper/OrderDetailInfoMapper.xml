@@ -67,7 +67,7 @@
          and (good_type = 2 or good_type = 3)
       </if>
       <if test="condition.amountType == 1" >
-         and amount > 0
+         and order_detail_info.amount > 0
       </if>
     </trim>
   </sql>
