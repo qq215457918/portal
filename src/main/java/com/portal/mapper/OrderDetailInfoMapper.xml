@@ -67,7 +67,7 @@
          and (good_type = 2 or good_type = 3)
       </if>
       <if test="condition.amountType == 1" >
-         and amount > 0
+         and order_detail_info.amount > 0
       </if>
     </trim>
   </sql>
@@ -115,8 +115,10 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_id, good_sort_id, good_sort_name, good_id, good_type, good_name, price, 
-    amount, delete_flag, update_date, update_id, order_type
+    order_detail_info.id, order_detail_info.order_id, order_detail_info.good_sort_id, order_detail_info.good_sort_name, 
+    order_detail_info.good_id, order_detail_info.good_type, order_detail_info.good_name, order_detail_info.price, 
+    order_detail_info.amount, order_detail_info.delete_flag, order_detail_info.update_date, order_detail_info.update_id, 
+    order_detail_info.order_type
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -124,7 +126,13 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
+    <if test="condition.printInfo == 1" >
+    	,gi.unit
+    </if>
     from order_detail_info
+    <if test="condition.printInfo == 1" >
+       left join goods_info gi on gi.id = order_detail_info.good_id
+    </if> 
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

@@ -142,12 +142,15 @@
       <if test="condition.exportDate2 != null" >
          and recent_export_date <![CDATA[<=]]> date_format(#{condition.exportDate2,jdbcType=TIMESTAMP}, '%Y-%m-%d 23:59:59') 
       </if>
-       <!-- 登门次数 -->
-      <if test="condition.backCountS != null" >
-         and (select count(1) from reception_info x where x.customer_id = customer_info.id) >= #{condition.backCountS, jdbcType=DECIMAL}
-      </if>
-      <if test="condition.backCountE != null" >
-         and (select count(1) from reception_info x where x.customer_id = customer_info.id) <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
+      <!-- 登门次数 -->
+	  <if test="condition.backCountS != null" >
+		 and visit_count >= #{condition.backCountS, jdbcType=DECIMAL}
+	  </if>
+	  <if test="condition.backCountE != null" >
+		 and visit_count <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
+	  </if>
+      <if test="condition.blackUser != null" >
+         and blacklist_flag != 1
       </if>
     </trim>
   </sql>
@@ -444,7 +447,7 @@
       <if test="recentExportDate != null" >
         #{recentExportDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.callDates != null" >
+      <if test="callDates != null" >
         #{callDates,jdbcType=VARCHAR},
       </if>
       <if test="blacklistFlag != null" >
@@ -720,6 +723,7 @@
     	from order_info group by customer_id)a on ci.id = a.customer_id
     <if test="_parameter != null" >
       <trim prefix="where" prefixOverrides="and|or" >
+      	blacklist_flag != 1
         <if test="condition.type != null" >
         	and type = #{condition.type,jdbcType=VARCHAR}
       	</if>
@@ -793,6 +797,7 @@
 <!-- 	left join employee_info eir on ci.phone_staff_id = eir.id -->
 	<if test="_parameter != null" >
       <trim prefix="where" prefixOverrides="and|or" >
+      	blacklist_flag != 1
       	<if test="condition.type != null" >
 		   and type = #{condition.type,jdbcType=VARCHAR}
 		</if>
@@ -825,10 +830,10 @@
 		</if>
 		 <!-- 登门次数 -->
 		<if test="condition.backCountS != null" >
-		   and (select count(1) from reception_info x where x.customer_id = customer_info.id) >= #{condition.backCountS, jdbcType=DECIMAL}
+		   and visit_count >= #{condition.backCountS, jdbcType=DECIMAL}
 		</if>
 		<if test="condition.backCountE != null" >
-		   and (select count(1) from reception_info x where x.customer_id = customer_info.id) <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
+		   and visit_count <![CDATA[<=]]> #{condition.backCountE, jdbcType=DECIMAL}
 		</if>
       </trim>
     </if>
