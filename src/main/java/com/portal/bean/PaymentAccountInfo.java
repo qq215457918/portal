@@ -60,6 +60,11 @@ public class PaymentAccountInfo implements Serializable {
      * 修改用户ID
      */
     private String updateUserId;
+    
+    /**
+     * 机构 0沈阳 1大连
+     */
+    private String organizationId;
 
     /**
      * @return 收款账户ID
@@ -225,4 +230,12 @@ public class PaymentAccountInfo implements Serializable {
     public void setUpdateUserId(String updateUserId) {
         this.updateUserId = updateUserId;
     }
+
+	public String getOrganizationId() {
+		return organizationId;
+	}
+
+	public void setOrganizationId(String organizationId) {
+		this.organizationId = organizationId;
+	}
 }
