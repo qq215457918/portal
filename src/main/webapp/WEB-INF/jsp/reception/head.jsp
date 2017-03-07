@@ -43,9 +43,11 @@
               </li>
               <li><a name="tab" href="${base}order/manage/init?active=5&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-file-text"></span>退换货管理</a>
               </li>
-              <li><a name="tab" href="${base}present/list?active=6&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              <li><a name="tab" href="${base}repurchase/init?active=6"><span aria-hidden="true" class="icon-file-text"></span>回购管理</a>
               </li>
-              <li><a name="tab" href="${base}reception/init?active=7&cId=<%=session.getAttribute("cId")%>">
+              <li><a name="tab" href="${base}present/list?active=7&cId=<%=session.getAttribute("cId")%>"><span aria-hidden="true" class="icon-gift"></span>领取赠品</a>
+              </li>
+              <li><a name="tab" href="${base}reception/init?active=8&cId=<%=session.getAttribute("cId")%>">
               		<span aria-hidden="true" class="icon-group"></span>来访查询</a>
               </li>
               <li>
