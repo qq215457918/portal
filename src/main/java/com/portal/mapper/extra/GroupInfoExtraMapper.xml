@@ -34,7 +34,7 @@
     </if>
     <include refid="Base_Column_List" />
     from group_info
-    where parents_id is null
+    where parents_id = 's9f7f23r23q01s3w'
     order by CONVERT(name USING gbk) asc
   </select>
 </mapper>

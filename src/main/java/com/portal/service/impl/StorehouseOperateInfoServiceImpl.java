@@ -104,7 +104,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         criteria.setMysqlLength(perpage);
         
         // 已支付
-        criteria.put("financeFlag", "1");
+        criteria.put("warehouseFlag", "1");
         if(StringUtil.isNotBlank(orderNumber)){
             criteria.put("orderNumber", orderNumber);
         }

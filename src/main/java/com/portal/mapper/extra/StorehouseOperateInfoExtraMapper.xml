@@ -63,6 +63,9 @@
       <if test="condition.orderNumber != null" >
          and o.order_number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
       </if>
+      <if test="condition.warehouseFlag != null" >
+         and o.warehouse_flag = #{condition.warehouseFlag,jdbcType=VARCHAR}
+      </if>
       <if test="condition.startDate != null" >
          <![CDATA[and s.operate_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>

@@ -109,7 +109,8 @@ $(function() {
   		     success:function(data){
   		    	 if(data.status == 1) {
   		    		 alert("操作成功");
-  		    		 location.href = location.reload();
+  		    		$(".cengBox").hide();
+  		    		 location.reload();
   		    	 }else {
   		    		 if(data.text) {
   		    			 alert(data.text);
@@ -149,9 +150,9 @@ $(function() {
             },
             "success": function(data){
                 if(data.status == '1') {
-                	alert("操作成功", function(){
-                		location.reload();
-                	});
+                	alert("操作成功");
+                	$(".deleteCengBox").hide();
+                	location.reload();
                 }else {
                 	if(data.text) {
                 		alert(data.text);
@@ -187,6 +188,7 @@ function initData() {
                     {"mData": "paymentAccountName"},
                     {"mData": "bankName"},
                     {"mData": "accountNumber"},
+                    {"mData": "organization"},
                     {"mData": "viewIsUsable"},
                     {"mData": null}
                    ],

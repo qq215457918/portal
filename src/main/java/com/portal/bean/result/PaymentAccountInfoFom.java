@@ -11,6 +11,11 @@ public class PaymentAccountInfoFom extends PaymentAccountInfo {
      * 显示是否可用
      */
     private String viewIsUsable;
+    
+    /**
+     * 收款账户所属区域
+     */
+    private String organization;
 
     public String getViewIsUsable() {
         if(StringUtil.isNotBlank(super.getIsUsable())) {
@@ -25,6 +30,21 @@ public class PaymentAccountInfoFom extends PaymentAccountInfo {
 
     public void setViewIsUsable(String viewIsUsable) {
         this.viewIsUsable = viewIsUsable;
+    }
+
+    public String getOrganization() {
+        if(StringUtil.isNotBlank(super.getOrganizationId())) {
+            if("1".equals(super.getOrganizationId())) {
+                return "大连";
+            }else {
+                return "沈阳";
+            }
+        }
+        return organization;
+    }
+
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
     
     

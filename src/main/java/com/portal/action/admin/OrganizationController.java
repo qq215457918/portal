@@ -1,5 +1,7 @@
 package com.portal.action.admin;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.portal.bean.Criteria;
+import com.portal.bean.GroupInfo;
 import com.portal.bean.Organization;
 import com.portal.common.util.WebUtils;
+import com.portal.service.GroupInfoService;
 import com.portal.service.OrganizationService;
 
 /**
@@ -26,11 +31,11 @@ import com.portal.service.OrganizationService;
 public class OrganizationController {
 
     @Autowired
-    private OrganizationService organizationService;
+    private GroupInfoService groupService;
 
     @RequiresPermissions("organization:view")
     @RequestMapping(method = RequestMethod.GET)
-    public String index(Model model, HttpServletRequest request, HttpServletResponse response) {
+    public String index(HttpServletRequest request, HttpServletResponse response) {
         // 保存活动导航标识
         WebUtils.setAttributeToSession(request);
         return "admin/organization/index";
@@ -39,8 +44,10 @@ public class OrganizationController {
     // TODO - 现在这个类有问题
     @RequiresPermissions("organization:view")
     @RequestMapping(value = "/tree", method = RequestMethod.GET)
-    public String showTree(Model model, HttpServletRequest request, HttpServletResponse response) {
-        model.addAttribute("organizationList", organizationService.findAll());
+    public String showTree(HttpServletRequest request, HttpServletResponse response) {
+        Criteria example = new Criteria();
+        List<GroupInfo> groupList = groupService.selectByExample(example);
+        request.setAttribute("organizationList", groupList);
         return "admin/organization/tree";
     }
 

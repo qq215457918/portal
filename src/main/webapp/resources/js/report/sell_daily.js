@@ -116,6 +116,7 @@ function initData() {
 			var contents = "";
 			var printContents = "";
 			var total = parseInt(0);
+			var totalCount = parseInt(0);
 			
 			if(type == "search") {
 				for (var int = 0; int < goodsList.length; int++) {
@@ -133,7 +134,16 @@ function initData() {
 										"<td>" + goodsList[int].totalPrices + "</td>" + 
 										"<td colspan='2'>" + goodsList[int].remark + "</td>" +
 									"<tr>";
-					total += parseInt(goodsList[int].totalPrices);
+					if(goodsList[int].count) {
+						totalCount += goodsList[int].count;
+					}else {
+						totalCount += 0;
+					}
+					if(goodsList[int].totalPrices) {
+						total += parseInt(goodsList[int].totalPrices);
+					}else {
+						total += parseInt(0);
+					}
 					html += contents;
 					printHtml += printContents;
 				}
@@ -154,14 +164,23 @@ function initData() {
 										"<td>" + goodsList[int].totalPrice + "</td>" + 
 										"<td colspan='2'>" + goodsList[int].viewRemark + "</td>" +
 									"<tr>";
-					total += parseInt(goodsList[int].totalPrice);
+					if(goodsList[int].amount) {
+						totalCount += goodsList[int].amount;
+					}else {
+						totalCount += 0;
+					}
+					if(goodsList[int].totalPrice) {
+						total += parseInt(goodsList[int].totalPrice);
+					}else {
+						total += parseInt(0);
+					}
 					html += contents;
 					printHtml += printContents;
 				}
 			}
 			contents = "<tr style='background: #CCDDFF;'>" + 
 							"<td>合&nbsp;&nbsp;计</td>" + 
-							"<td></td>" + 
+							"<td>" + totalCount + "</td>" + 
 							"<td></td>" + 
 							"<td>" + total + "</td>" + 
 							"<td colspan='2'></td>" +
@@ -207,9 +226,9 @@ function initData() {
 								"<td>" + clearing[int].remarks + "</td>" + 
 							"<tr>";
 					printContents = contents;
-					total += parseInt(clearing[int].payAmount);
-					income += parseInt(clearing[int].payAmountActual);
-					poundages += parseInt(clearing[int].poundage);
+					total += clearing[int].payAmount;
+					income += clearing[int].payAmountActual;
+					poundages += clearing[int].poundage;
 					html += contents;
 					printHtml += printContents;
 				}
@@ -247,9 +266,9 @@ function initData() {
 										"<td>" + clearing[int].poundage + "</td>" + 
 										"<td></td>" + 
 									"<tr>";
-					total += parseInt(clearing[int].payAmountActual);
-					income += parseInt(clearing[int].income);
-					poundages += parseInt(clearing[int].poundage);
+					total += clearing[int].payAmountActual;
+					income += clearing[int].income;
+					poundages += clearing[int].poundage;
 					html += contents;
 					printHtml += printContents;
 				}
@@ -274,7 +293,7 @@ function initData() {
 										"<td></td>" + 
 										"<td>定金退款</td>" + 
 									"<tr>";
-					total += parseFloat(depositRefund[int]).toFixed(2);
+					total += depositRefund[int];
 					income += 0;
 					poundages += 0;
 					html += contents;
@@ -301,7 +320,7 @@ function initData() {
 										"<td></td>" + 
 										"<td>定金回款</td>" + 
 									"<tr>";
-					total += parseFloat(depositReturn[int]).toFixed(2);
+					total += depositReturn[int];
 					income += 0;
 					poundages += 0;
 					html += contents;
