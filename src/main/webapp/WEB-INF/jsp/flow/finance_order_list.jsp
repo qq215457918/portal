@@ -201,6 +201,7 @@
               	<form id="updateCivi" action="workflow/updateOrderAndInsert" method="post">
               		<input type="hidden" name="orderNumber"/>
               		<input type="hidden" name="orderId"/>
+              		<input type="hidden" name="payType"/>
               		<div class="row">
 	              		<div class="form-group">
 				            <div class="col-md-7">

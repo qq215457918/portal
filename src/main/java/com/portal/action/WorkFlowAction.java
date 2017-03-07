@@ -611,6 +611,12 @@ public class WorkFlowAction {
             orderInfo.setStatus("4");
         }
         orderInfo.setId(request.getParameter("orderId"));
+        
+        // 定金支付则财务确认完成后订单结束,设置库房为-2(不能查看该数据)
+        if("1".equals(request.getParameter("payType"))){
+        	orderInfo.setStatus("4");
+        	orderInfo.setWarehouseFlag("-2");
+        }
 
         //如果订单没有配售配送商品将订单的文交所审批直接置为1
         Criteria criteria = new Criteria();

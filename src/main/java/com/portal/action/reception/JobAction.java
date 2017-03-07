@@ -63,21 +63,21 @@ public class JobAction {
         return "myjob/repurchase_check";
     }
 
-    /**
-     * job:repurchaseq= job:repurchase query
-     * 回购查询页面初始化
-     * 普通员工使用
-     * @return
-     */
-    @RequiresPermissions("job:repurchaseq")
-    @RequestMapping(value = "repurchaseq", method = RequestMethod.GET)
-    public ModelAndView repurchase(HttpServletRequest request, HttpServletResponse response) {
-        WebUtils.setAttributeToSession(request);
-        getBasePath(request, response);
-        ModelAndView model = new ModelAndView();
-        model.setViewName("myjob/repurchase_query");
-        return model;
-    }
+    //    /**
+    //     * job:repurchaseq= job:repurchase query
+    //     * 回购查询页面初始化
+    //     * 普通员工使用
+    //     * @return
+    //     */
+    //    @RequiresPermissions("job:repurchaseq")
+    //    @RequestMapping(value = "repurchaseq", method = RequestMethod.GET)
+    //    public ModelAndView repurchase(HttpServletRequest request, HttpServletResponse response) {
+    //        WebUtils.setAttributeToSession(request);
+    //        getBasePath(request, response);
+    //        ModelAndView model = new ModelAndView();
+    //        model.setViewName("myjob/repurchase_query");
+    //        return model;
+    //    }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
         String basePath = WebUtils.getBasePath(request, response);

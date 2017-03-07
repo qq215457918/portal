@@ -257,6 +257,9 @@
      <if test="condition.customerId != null" >
          and i.customer_id = #{condition.customerId,jdbcType=VARCHAR}
       </if>   
+      <if test="condition.goodsName != null" >
+         and d.good_name = #{condition.goodName,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   
@@ -292,6 +295,7 @@
 			d.good_sort_name,
 			d.good_id,
 			d.good_name,
+			d.old_price,
 			d.price,
 			d.repurchase_price,
 			d.amount,

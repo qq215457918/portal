@@ -27,6 +27,7 @@ public class RepurchaseAction {
     OrderInfoService orderInfoService;
 
     /**
+     * 登陆客户电话号码的回购页面
      * 回购页面初始化
      * @return
      */
@@ -35,13 +36,53 @@ public class RepurchaseAction {
         WebUtils.setAttributeToSession(request);
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
-        model.addObject("cId", request.getSession().getAttribute("cId"));
-        model.setViewName("reception/repurchase_manage");
+        //        model.addObject("cId", request.getSession().getAttribute("cId"));
+        model.setViewName("reception/repurchase_query");
         return model;
     }
 
     /**
-     * 获取客户的回购商品订单信息
+     * 可回购商品查询
+     * 查询商品信息
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "query", method = RequestMethod.POST)
+    public void query(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        Criteria criteria = new Criteria();
+        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
+        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
+        //        criteria.put("status", "4");//已完成订单
+        criteria.put("payType", "0");//全款支付
+        //criteria.put("orderType", "1");
+        criteria.put("repurchased", true);//回购商品查询 order_type in（'1','5','7'）
+        criteria.put("deleteFlag", "0");
+        criteria.put("goodName", request.getParameter("goodName"));
+        criteria.put("customerId", request.getSession().getAttribute("cId"));
+        //criteria.put("typeList", request.getParameter("typeList").split(","));
+        //List<OrderInfoFormNew> getOrderInfoNew
+        List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
+        int count = resultList.size();
+        JsonUtils.resultJson(resultList, count, response, request);
+    }
+
+    /**
+     * 回购页面初始化
+     * @return
+     */
+    @RequestMapping(value = "manage", method = RequestMethod.GET)
+    public ModelAndView manage(HttpServletRequest request, HttpServletResponse response) {
+        WebUtils.setAttributeToSession(request);
+        getBasePath(request, response);
+        ModelAndView model = new ModelAndView();
+        model.addObject("cId", request.getSession().getAttribute("cId"));
+        model.setViewName("myjob/repurchase_manage");
+        return model;
+    }
+
+    /**
+     * 获取单个客户的回购商品订单信息
      * 修改订单回购类型为订单详情进行回购
      * order_type = 5 回购
      * order_detail_info count 为负数
@@ -89,11 +130,11 @@ public class RepurchaseAction {
     }
 
     /**
-     * 领导审批回购页面，确认修改回购标志order_type =5
+     * 领导审批回购页面，确认修改回购标志order_type =5 和金额
      * @param request
      * @param response
      */
-    @RequestMapping(value = "apply", method = RequestMethod.GET)
+    @RequestMapping(value = "apply", method = RequestMethod.POST)
     public void apply(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
@@ -116,32 +157,6 @@ public class RepurchaseAction {
     }
 
     /**
-     * 可回购商品查询
-     * 查询商品信息
-     * @param request
-     * @param response
-     */
-    @RequestMapping(value = "query", method = RequestMethod.POST)
-    public void query(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
-        Criteria criteria = new Criteria();
-        criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
-        criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
-        criteria.put("status", "4");//已完成订单
-        criteria.put("payType", "0");//全款支付
-        //criteria.put("orderType", "1");
-        criteria.put("repurchased", true);//回购商品查询 order_type in（'1','5'）
-        criteria.put("deleteFlag", "0");
-        criteria.put("goodsName", request.getParameter("goodsName"));
-        criteria.put("staffName", request.getParameter("staffName"));
-        //criteria.put("typeList", request.getParameter("typeList").split(","));
-        //List<OrderInfoFormNew> getOrderInfoNew
-        List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
-        int count = resultList.size();
-        JsonUtils.resultJson(resultList, count, response, request);
-    }
-
-    /**
      * 查询哪些商品可以回购
      * status 6待确认
      * @param request
@@ -151,7 +166,7 @@ public class RepurchaseAction {
     public void normal(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
-        resultJson.put("result", orderInfoService.updateNormalRepurchase(request));
+        resultJson.put("result", orderInfoService.updateNormalRepurchase(request) > 0 ? true : false);
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 
