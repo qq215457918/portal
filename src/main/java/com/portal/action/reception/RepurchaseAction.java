@@ -130,11 +130,11 @@ public class RepurchaseAction {
     }
 
     /**
-     * 领导审批回购页面，确认修改回购标志order_type =5
+     * 领导审批回购页面，确认修改回购标志order_type =5 和金额
      * @param request
      * @param response
      */
-    @RequestMapping(value = "apply", method = RequestMethod.GET)
+    @RequestMapping(value = "apply", method = RequestMethod.POST)
     public void apply(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();

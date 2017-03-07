@@ -14,7 +14,7 @@ $(function() {
 		$('#orderTable').dataTable().fnDraw();
 	});
 	
-	// 特殊审批
+	// 审批
 	$("#appConfirm").click(function(){
 		var count = $('#applyCount').val();
 		var goodName = $('#applyGoodsName').val();
@@ -23,12 +23,11 @@ $(function() {
 		var customerId = $('#customerId').val();
 		$.ajax({
 			method : "POST",
-			url : base+"/repurchase/apply",
+			url : base+"repurchase/apply",
 			data : {
 				"count" : count,
 				"goodName" : goodName,	
 				"detailId" : detailId,
-				"oldPrice" : oldPrice,
 				"price" : price,
 				"customerId":customerId
 			},
@@ -84,7 +83,7 @@ function initData() {
 		            {"data": "id",
 						"render": function(data, type, full) {
 						   var result = "";
-						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='approved(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;);'>特殊回购</button>";
+						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='approved(&quot;"+data+"&quot;,&quot;"+full.goodName+"&quot;,&quot;"+full.amount+"&quot;,&quot;"+full.price+"&quot;,&quot;"+full.customerId+"&quot;);'>回购审批</button>";
 							return specialButton;
 						 }
 					  }
@@ -111,12 +110,12 @@ function initData() {
 				}
 	});
 }
-
-/**
+/*
+*//**
  * 正常回购流程
  * @param orderId
  * @returns
- */
+ *//*
 function normal(detailId){
 	$.ajax({
 		"dataType": 'json',
@@ -133,7 +132,7 @@ function normal(detailId){
 			alert("error");
 		}
 	})
-}
+}*/
 
 /**
  * 审批通过页面：显示名称，数量，修改单价回购
@@ -142,6 +141,7 @@ function normal(detailId){
  * @returns
  */
 function approved(detailId , goodName , amount , price ,customerId){
+	alert(detailId+'_'+goodName+'_'+amount+'_'+price+'_'+customerId)
 	$('#applyGoodsName').val(goodName);
 	$('#applyCount').val(amount);
 	$('#applyPrice').val(price);

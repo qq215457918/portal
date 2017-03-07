@@ -35,11 +35,11 @@
 	                	<span aria-hidden="true" class="icon-coffee"></span>接待查询</a>
 	              </li>
               </shiro:hasPermission>
-              <shiro:hasPermission name="job:repurchaseq">
+              <%-- <shiro:hasPermission name="job:repurchaseq">
 	              <li><a name="tab" href="${base}job/repurchaseq?active=2">
 	                	<span aria-hidden="true" class="icon-mail-reply-all"></span>回购查询</a>
 	              </li>
-              </shiro:hasPermission> 
+              </shiro:hasPermission>  --%>
               <shiro:hasPermission name="job:repurchasec">
 	              <li><a name="tab" href="${base}job/repurchasec?active=3">
 	                	<span aria-hidden="true" class="icon-file"></span>回购审批</a>

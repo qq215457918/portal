@@ -21,7 +21,7 @@ $(function() {
 		var goodName = $('#specialGoodsName').val();
 		var detailId = $('#specialGoodsId').val();
 		var price = $('#specialPrice').val();
-		var price = $('#specialPriceOld').val();
+//		var price = $('#specialPriceOld').val();
 //		var customerId = $('#customerId').val();
 		$.ajax({
 			method : "POST",
@@ -57,8 +57,7 @@ $(function() {
 		var goodName = $('#normalGoodsName').val();
 		var detailId = $('#normalGoodsId').val();
 		var price = $('#normalPrice').val();
-		var price = $('#normalPriceOld').val();
-//		var customerId = $('#customerId').val();
+		alert(price)
 		$.ajax({
 			method : "POST",
 			url : base+"/repurchase/normal",
@@ -118,7 +117,11 @@ function initData() {
 							return type + "元";
 						}
 					  },
-			        {"mData": "oldPrice"},
+					  {"data": "price",
+							"render": function(data, type, full) {
+								return data + "元";
+							}
+						  },
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
 		            {"data": "orderType",
@@ -128,12 +131,28 @@ function initData() {
 							{
 							case "1": type ="正常";break;
 							case "5": type ="已回购";break;
-							case "7": type ="待回购";break;
+							case "7": type ="待审批";break;
 							default:type =" ";break;
 						 }
 							return type;
 						}
 					  },
+					  {"data": "status",
+							"render": function(data, type, full) {
+								var type;
+								switch (data)
+								{
+								case "0": type ="未支付";break;
+								case "1": type ="已支付";break;
+								case "2": type ="已出库";break;
+								case "3": type ="文交所已审核";break;
+								case "4": type ="已完成";break;
+								case "5": type ="待审批";break;
+								default:type =" ";break;
+							 }
+								return type;
+							}
+						  },
 		            {"data": "id",
 						"render": function(data, type, full) {
 						   var result = "";
@@ -169,21 +188,6 @@ function initData() {
  * @returns
  */
 function normal(detailId , goodName , amount, price ){
-//	$.ajax({
-//		"dataType": 'json',
-//		"type": "POST",
-//		"url": base+"repurchase/normal",
-//		"data": {
-//			"detailId":detailId
-//		},
-//		"success": function(data){
-//			alert("回购信息已经修改，待客户登门即可进行回购确认操作");
-//			$('#orderTable').dataTable().fnDraw();
-//		},
-//		error : function(XMLHttpRequest, textStatus, errorThrown) {
-//			alert("error");
-//		}
-//	})
 	$('#normalGoodsName').val(goodName);
 	$('#normalCount').val(amount);
 	$('#normalPrice').val(price);
