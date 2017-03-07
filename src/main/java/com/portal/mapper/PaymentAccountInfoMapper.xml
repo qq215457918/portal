@@ -13,6 +13,7 @@
     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -45,6 +46,9 @@
       </if>
       <if test="condition.updateUserId != null" >
          and update_user_id = #{condition.updateUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.organizationId != null" >
+         and organization_id = #{condition.organizationId,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -80,11 +84,14 @@
       <if test="example.condition.updateUserId != null" >
          and update_user_id = #{example.condition.updateUserId,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.organizationId != null" >
+         and organization_id = #{example.condition.organizationId,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   <sql id="Base_Column_List" >
     payment_account_id, payment_account_name, bank_name, account_number, is_usable, delete_reason, 
-    delete_flag, create_date, create_user_id, update_date, update_user_id
+    delete_flag, create_date, create_user_id, update_date, update_user_id, organization_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -121,12 +128,12 @@
     insert into payment_account_info (payment_account_id, payment_account_name, 
       bank_name, account_number, is_usable, 
       delete_reason, delete_flag, create_date, 
-      create_user_id, update_date, update_user_id
+      create_user_id, update_date, update_user_id, organization_id
       )
     values (#{paymentAccountId,jdbcType=VARCHAR}, #{paymentAccountName,jdbcType=VARCHAR}, 
       #{bankName,jdbcType=VARCHAR}, #{accountNumber,jdbcType=VARCHAR}, #{isUsable,jdbcType=VARCHAR}, 
       #{deleteReason,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR}
+      #{createUserId,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=VARCHAR},#{organizationId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.PaymentAccountInfo" >
@@ -165,6 +172,9 @@
       <if test="updateUserId != null" >
         update_user_id,
       </if>
+      <if test="organizationId != null" >
+        organization_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="paymentAccountId != null" >
@@ -199,6 +209,9 @@
       </if>
       <if test="updateUserId != null" >
         #{updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationId != null" >
+        #{organizationId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +256,9 @@
       </if>
       <if test="record.updateUserId != null" >
         update_user_id = #{record.updateUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationId != null" >
+        organization_id = #{record.organizationId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >

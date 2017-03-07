@@ -98,9 +98,11 @@ $(document).on('click', 'a[name=delete]', function(){
 
 $(document).on('click', '#confirmReceipt', function () { 
 	var operate = $(this).attr('data-operate-id');
+	
 	$('input[name=orderNumber]').val($(this).attr('data-order-number'));
 	var orderId = $(this).attr('data-order-id');
 	$('input[name=orderId]').val(orderId);
+	$('input[name=payType]').val($(this).attr('data-pay-type'));
 	
 	// 初始化支付类型
 	$('#updateCivi .base-column:not(:first)').remove();
@@ -261,7 +263,7 @@ function initData(){
 		           ],
        "columnDefs" : [ {
 			"render" : function(data, type, row) {
-				var operation = '<a href="#orderSettlement" data-toggle="modal" data-order-id="' + row.id + '" data-order-number="' + row.orderNumber + '" id="confirmReceipt">确认收款</a>&nbsp;&nbsp;' + 
+				var operation = '<a href="#orderSettlement" data-toggle="modal" data-order-id="' + row.id + '" data-pay-type="' + row.payType + '"  data-order-number="' + row.orderNumber + '" id="confirmReceipt">确认收款</a>&nbsp;&nbsp;' + 
 					'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				if(row.warehouseFlag == -1){
 					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" data-operate-id="1" id="confirmReceipt1">确认付款</a>&nbsp;&nbsp;' + 
