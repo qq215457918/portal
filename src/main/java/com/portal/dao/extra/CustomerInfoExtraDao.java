@@ -1,16 +1,21 @@
 package com.portal.dao.extra;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
+import java.util.List;
+import java.util.Map;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerInfoExtraDao {
+
+    /**
+     * 更新客户类型
+     * @param criteria
+     * @return
+     */
+    int updateType(Criteria criteria);
 
     /**
      * 更新商品信息
@@ -93,7 +98,7 @@ public interface CustomerInfoExtraDao {
      * @version V1.0
      */
     List<CustomerSimpleInfoForm> selectByConditions(Criteria example);
-    
+
     /**
      * @Title: getAllCustomer 
      * @Description: 获取所有客户信息(主键、电话、拨打时间)
@@ -103,7 +108,7 @@ public interface CustomerInfoExtraDao {
      * @version V1.0
      */
     public List<CustomerInfo> getAllCustomer();
-    
+
     /**
      * @Title: insertEmptyCustomer 
      * @Description: 插入空白客户信息
