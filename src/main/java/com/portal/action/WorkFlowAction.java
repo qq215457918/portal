@@ -886,15 +886,11 @@ public class WorkFlowAction {
     		
     		WritableSheet sheet = workbook.getSheet(0);
     		
-    		sheet.addCell(new Label(0, 1,
-    				"            " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    		sheet.addCell(new Label(0, 1, "           " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
     		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "              " + orderInfo.getReceiverStaffName() == null ? ""
-    				: orderInfo.getReceiverStaffName()));
-    		sheet.addCell(new Label(6, 12,
-    				"    " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
-    		sheet.addCell(new Label(0, 10,
-    				"              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
+    		sheet.addCell(new Label(0, 12, "           " + (orderInfo.getReceiverStaffName() == null ? "":orderInfo.getReceiverStaffName())));
+    		sheet.addCell(new Label(6, 12, "    " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
+    		sheet.addCell(new Label(0, 10, "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
     		
     		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
     			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
@@ -960,16 +956,11 @@ public class WorkFlowAction {
     		
     		WritableSheet sheet = workbook.getSheet(0);
     		
-    		sheet.addCell(new Label(0, 1,
-    				"                 " + orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName()));
+    		sheet.addCell(new Label(0, 1,"              " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
     		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "              " + orderInfo.getReceiverStaffName() == null ? ""
-    				: orderInfo.getReceiverStaffName()));
-    		sheet.addCell(new Label(5, 12,
-    				"            " + orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName()));
-    		
-    		sheet.addCell(new Label(0, 10,
-    				"              " + orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks()));
+    		sheet.addCell(new Label(0, 12, "       " + (orderInfo.getReceiverStaffName() == null ? "":orderInfo.getReceiverStaffName())));
+    		sheet.addCell(new Label(5, 12, "            " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
+    		sheet.addCell(new Label(0, 10, "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
     		
     		for (int i = 5, j = 0; j < result.size(); i=i+2, j ++) {
     			sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
@@ -1045,7 +1036,7 @@ public class WorkFlowAction {
                 sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount())));
                 sheet.addCell(new Label(3, i, result.get(j).getUnit()));
                 sheet.addCell(new Label(4, i, String.valueOf(result.get(j).getPrice())));
-                double payPrice = Double.valueOf(String.valueOf(result.get(j).getPrice())) * 100;
+                double payPrice = Double.valueOf(String.valueOf(null==result.get(j).getPrice()?0:result.get(j).getPrice())) * 100;
                 DecimalFormat format = new DecimalFormat("#");
                 String[] sMoney = format.format(payPrice).split("");
                 int k = (sMoney.length - 1);
@@ -1064,7 +1055,7 @@ public class WorkFlowAction {
             if (null != orderInfo.getPayPrice()) {
                 double orderPirce = orderInfo.getPayPrice() * 100;
                 String[] bigOrderPrice = numberToStr(orderPirce);
-                sheet.addCell(new Label(1, 13, "                                     " + bigOrderPrice[0] +
+                sheet.addCell(new Label(1, 13, "                                 " + bigOrderPrice[0] +
                         "   " + bigOrderPrice[1] + "   " + bigOrderPrice[2] + "   " + bigOrderPrice[3] +
                         "   " + bigOrderPrice[4] + "   " + bigOrderPrice[5] + "   " + bigOrderPrice[6] +
                         "   " + bigOrderPrice[7] + "   " + bigOrderPrice[8]));

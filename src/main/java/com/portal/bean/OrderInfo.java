@@ -265,7 +265,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param status 
-     *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成
+     *            订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成  5 待审批
      */
     public void setStatus(String status) {
         this.status = status;
@@ -299,7 +299,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param orderType 
-     *            订单类型 1正常 2退货 3换货
+     *            订单类型 1正常 2退货(detail) 3换货(去掉) 4赠品 5回购 6VIP赠品 7回购待确认',
      */
     public void setOrderType(String orderType) {
         this.orderType = orderType;
@@ -310,6 +310,14 @@ public class OrderInfo implements Serializable {
             this.orderTypeName = "退货商品";
         } else if ("3".equals(orderType)) {
             this.orderTypeName = "换货商品";
+        } else if ("4".equals(orderType)) {
+            this.orderTypeName = "赠品";
+        } else if ("5".equals(orderType)) {
+            this.orderTypeName = "回购商品";
+        } else if ("6".equals(orderType)) {
+            this.orderTypeName = "VIP赠品";
+        } else if ("7".equals(orderType)) {
+            this.orderTypeName = "回购待确认";
         }
     }
 

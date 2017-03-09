@@ -77,7 +77,8 @@ public class ReceptionAction {
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
         receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
-
+        //修改客户类型 登门客户类型为1
+        customerInfoService.updateType(customerId, "1");
         model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));

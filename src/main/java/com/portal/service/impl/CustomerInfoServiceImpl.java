@@ -1,18 +1,5 @@
 package com.portal.service.impl;
 
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.alibaba.druid.util.StringUtils;
 import com.portal.bean.Criteria;
 import com.portal.bean.CustomerInfo;
@@ -28,8 +15,17 @@ import com.portal.dao.OrderInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
-
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerInfoServiceImpl implements CustomerInfoService {
@@ -49,6 +45,24 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     // 公共查询条件类
     Criteria criteria = new Criteria();
+
+    //修改客户类型 登门之后修改  客户分类 0 空白客户  1 重复登门 2说明会  3成单  4锁定 5转介绍
+    // 登门修改为1 成单修改为3
+
+    public int updateType(String cid, String newType) {
+        CustomerInfo customerInfo = customerInfoDao.selectByPrimaryKey(cid);
+        if (customerInfo == null) {
+            return 0;
+        }
+        String oldType = customerInfo.getType().equals("") ? "0" : customerInfo.getType();
+        if (Integer.valueOf(oldType) < Integer.valueOf(newType)) {
+            criteria.clear();
+            criteria.put("cid", cid);
+            criteria.put("type", newType);
+            return customerInfoExtraDao.updateType(criteria);
+        }
+        return 0;
+    }
 
     // product 使用\n连接
     public int updateProduct(String cid, String product, String amount) {
