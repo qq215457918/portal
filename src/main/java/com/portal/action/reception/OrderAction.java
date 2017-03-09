@@ -124,6 +124,7 @@ public class OrderAction {
     public String insertOrder(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         orderInfoService.insertOrder(request);
+        customerInfoService.updateType(request.getSession().getAttribute("cId").toString(), "3");//修改客户类型为 3 成单客户
         return "redirect:/order/init?submitFlag=true";
     }
 

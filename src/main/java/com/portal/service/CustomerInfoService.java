@@ -13,6 +13,15 @@ import net.sf.json.JSONObject;
 public interface CustomerInfoService {
 
     /**
+     * 修改客户类型
+     * @param cid
+     * @param oldType
+     * @param newType
+     * @return
+     */
+    public int updateType(String cid, String newType);
+
+    /**
      * 更新商品的列表信息
      * @param cid
      * @param product
@@ -195,7 +204,7 @@ public interface CustomerInfoService {
      * @version V1.0
      */
     JSONObject saveCustomerInfo(CustomerSimpleInfoForm customerForm, JSONObject results);
-    
+
     /**
      * @Title: getAllCustomer 
      * @Description: 获取所有客户信息(主键、电话、拨打时间)
@@ -213,6 +222,6 @@ public interface CustomerInfoService {
      * @return void
      * @throws
      */
-	public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
+    public String insertAndUpdateCustomerInfoAdd(List<Map<String, Object>> data);
 
 }

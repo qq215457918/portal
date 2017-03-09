@@ -54,7 +54,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     private OrderInfoDao orderInfoDao;
 
     @Autowired
-    private OrderDetailInfoDao orderInfoDetailDao;
+    private OrderDetailInfoDao orderDetailInfoDao;
 
     @Autowired
     private OrderInfoExtraDao orderInfoExtraDao;
@@ -93,44 +93,84 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         //        record.setId(request.getParameter("orderId"));
         //        record.setStatus("0");// 7 回购待确认 ->1 未支付
         //        return updateByPrimaryKeySelective(record);
-        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderDetailInfo detailInfo = orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
         orderInfo.setOrderType("5");// 5 回购确认完毕
         orderInfoDao.updateByPrimaryKey(orderInfo);
 
         detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
         detailInfo.setOrderType("5");// 5 回购确认完毕
-        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+        return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
     }
 
     /**
      * 审批回购确认
-     * 找到DetailOrder的信息把状态改为 order_type = 5 
+     * 找到DetailOrder的信息把状态改为 order_type = 5 和审批的金额
      * @param request
      * @return
      */
     public int updateConfirmRepurchase(HttpServletRequest request) {
-        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderDetailInfo detailInfo = orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
+        Long price = Long.valueOf(request.getParameter("price"));
+        orderInfo.setPayPrice(price);
         orderInfo.setOrderType("5");
         orderInfoDao.updateByPrimaryKey(orderInfo);
 
+        detailInfo.setPrice(price);
         detailInfo.setOrderType("5");// 5 待回购
-        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+        return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
     }
 
     /**
-     * 待回购确认
-     * 找到DetailOrder的信息把状态改为 order_type = 6 
+     * 正常回购
+     * 找到DetailOrder的信息把状态改为 order_type = 5 修改金额，保存旧金额，加一条新的订单信息
      * @param request
      * @return
      */
     public int updateNormalRepurchase(HttpServletRequest request) {
-        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
-        detailInfo.setId(request.getParameter("detailId"));
-        detailInfo.setOrderType("7");// 6 回购待确认
+        OrderDetailInfo detailInfo = orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
+        String UUid = UUidUtil.getUUId();
+        setDeleteFlag(orderInfo);
+        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "5");
+        detailInfo.setOldOrderId(detailInfo.getId());
+        detailInfo.setOrderId(UUid);
+        detailInfo.setOrderType("5");// 5回购订单类型
         detailInfo.setOldPrice(detailInfo.getPrice());
-        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+        detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
+        return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
+    }
+
+    /**
+     * set orderInfo deleteFlag ='1'
+     * @param orderInfo
+     */
+    public void setDeleteFlag(OrderInfo orderInfo) {
+        orderInfo.setDeleteFlag("1");
+        orderInfoDao.updateByPrimaryKeySelective(orderInfo);
+    }
+
+    public void addNewOrder(HttpServletRequest request, String UUid, String phoneStaffId, String OrderType) {
+        String employeeId = (String) request.getSession().getAttribute("userId");
+        OrderInfo orderInfoNew = new OrderInfo();
+        orderInfoNew.setId(UUid);
+        orderInfoNew.setCustomerId(request.getSession().getAttribute("cId").toString());
+        orderInfoNew.setOrderType(OrderType);
+        orderInfoNew.setPayType("0");
+        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
+        orderInfoNew.setReceiverStaffId(employeeId);
+        orderInfoNew.setPhoneStaffId(phoneStaffId);
+        orderInfoNew.setStatus("0");
+        //输入回购金额 price
+        orderInfoNew.setPayPrice(Long.valueOf(request.getParameter("price")));
+        orderInfoNew.setActualPrice(0L);
+        orderInfoNew.setRemarks(request.getParameter("reason"));
+        orderInfoNew.setCreateDate(new Date());
+        orderInfoNew.setCreateId(employeeId);
+        orderInfoNew.setDeleteFlag("0");
+        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
+        orderInfoDao.insertSelective(orderInfoNew);
     }
 
     /**
@@ -140,36 +180,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return
      */
     public int updateSpecialRepurchase(HttpServletRequest request) {
-        String receiverStaffId = request.getSession().getAttribute("userId").toString();
-        OrderDetailInfo detailInfo = orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+        OrderDetailInfo detailInfo = orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
-        OrderInfo orderInfoNew = new OrderInfo();
         String UUid = UUidUtil.getUUId();
-        orderInfoNew.setId(UUid);
-        orderInfoNew.setCustomerId(request.getParameter("customerId"));
-        orderInfoNew.setOrderType("7");
-        orderInfoNew.setPayType("0");
-        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
-        orderInfoNew.setReceiverStaffId(receiverStaffId);
-        orderInfoNew.setPhoneStaffId(orderInfo.getPhoneStaffId());
-        orderInfoNew.setStatus("4");
-        //输入回购金额 price
-        orderInfoNew.setPayPrice(Long.valueOf(request.getParameter("price")));
-        orderInfoNew.setActualPrice(0L);
-        orderInfoNew.setRemarks(request.getParameter("reason"));
-        orderInfoNew.setCreateDate(new Date());
-        orderInfoNew.setCreateId(receiverStaffId);
-        orderInfoNew.setDeleteFlag("0");
-        orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
-        orderInfoDao.insertSelective(orderInfoNew);
-
+        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "7");
         detailInfo.setOldOrderId(detailInfo.getOrderId());
         detailInfo.setOrderId(UUid);
         detailInfo.setOrderType("7");
         detailInfo.setOldPrice(detailInfo.getPrice());
         detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
         detailInfo.setAmount(Integer.valueOf(request.getParameter("count")));
-        return orderInfoDetailDao.updateByPrimaryKeySelective(detailInfo);
+        return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
     }
 
     /**
@@ -177,7 +198,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return
      */
     public boolean updateOrderReplace(String orderId) {
-
         OrderInfo orderCriteria = new OrderInfo();
         orderCriteria.setId(orderId);
         orderCriteria.setPayType("3");
@@ -201,7 +221,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String cid = request.getSession().getAttribute("cId").toString();
         String receiverStaffId = request.getSession().getAttribute("userId").toString();
         OrderDetailInfo detailInfo =
-                orderInfoDetailDao.selectByPrimaryKey(request.getParameter("detailId"));
+                orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
         String UUid = UUidUtil.getUUId();
         OrderInfo orderInfoNew = new OrderInfo();
@@ -224,7 +244,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setOrderId(UUid);
         detailInfo.setPayType("2");//状态为退货
         detailInfo.setAmount(~detailInfo.getAmount() + 1);//数量为负数
-        result = orderInfoDetailDao.updateByPrimaryKey(detailInfo) > 0 ? true : false;
+        result = orderDetailInfoDao.updateByPrimaryKey(detailInfo) > 0 ? true : false;
         return result;
     }
 
@@ -232,12 +252,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         Criteria criteria = new Criteria();
         criteria.put("orderId", orderId);
         criteria.put("deleteFlag", "0");
-        orderInfoDetailDao.selectByExample(criteria).forEach(value -> {
+        orderDetailInfoDao.selectByExample(criteria).forEach(value -> {
             value.setId(UUidUtil.getUUId());
             value.setAmount(~value.getAmount() + 1);
             value.setUpdateDate(new Date());
             value.setOrderType("2");//修改订单状态为“退货”
-            orderInfoDetailDao.insertSelective(value);
+            orderDetailInfoDao.insertSelective(value);
         });
     }
 
@@ -291,9 +311,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         Criteria criteria = new Criteria();
         criteria.put("orderId", orderId);
         criteria.put("deleteFlag", "0");
-        orderInfoDetailDao.selectByExample(criteria).forEach(value -> {
+        orderDetailInfoDao.selectByExample(criteria).forEach(value -> {
             value.setAmount(~value.getAmount() + 1);
-            orderInfoDetailDao.updateByExampleSelective(value, criteria);
+            orderDetailInfoDao.updateByExampleSelective(value, criteria);
         });
         return true;
     }
@@ -444,7 +464,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     List<OrderDetailInfo> queryDetaiInfo(String orderId) {
         criteria.clear();
         criteria.put("orderId", orderId);
-        return orderInfoDetailDao.selectByExample(criteria);
+        return orderDetailInfoDao.selectByExample(criteria);
     }
 
     /**
@@ -1055,7 +1075,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
             // 获取定金回款
             List<Integer> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
-            
+
             result.put("type", "compile");
             result.put("goodsList", goodsList);
             result.put("clearing", clearingList);
@@ -1114,9 +1134,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     public int getOrderGoodsCounts(Criteria criteria) {
         return orderInfoExtraDao.getOrderGoodsCounts(criteria);
     }
-    
+
     @Override
     public OrderInfo selectPirntInfoById(String orderId) {
-    	return orderInfoDao.selectPirntInfoById(orderId);
+        return orderInfoDao.selectPirntInfoById(orderId);
     }
 }

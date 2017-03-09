@@ -376,6 +376,9 @@
      <if test="oldOrderId != null" >
         old_order_id = #{oldOrderId,jdbcType=VARCHAR},
       </if>   
+      <if test="oldPrice != null" >
+        old_price = #{oldPrice,jdbcType=VARCHAR},
+      </if> 
       
     </set>
     where id = #{id,jdbcType=VARCHAR}

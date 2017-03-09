@@ -244,12 +244,12 @@ function initData(){
 					if(row.warehouseFlag==1){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已出库</a>';
 					}
-				}else if(row.orderType == 2 || row.orderType == 3){
+				}else if(row.orderType == 2 || row.orderType == 3 || row.orderType == 5){
 					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(-1, this)">入库确认</a>';
-					if(row.warehouseFlag==2){
+					if(row.warehouseFlag==-1){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已入库</a>';
 					}
-				}else if(row.orderType == 4){
+				}else if(row.orderType == 4 || row.orderType == 6){
 					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" onclick="doStoreOp(3, this)">赠品领取</a>';
 					if(row.warehouseFlag==3){
 						operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已领取</a>';

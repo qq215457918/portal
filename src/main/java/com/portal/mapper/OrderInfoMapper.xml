@@ -126,7 +126,7 @@
       </if>
       <!-- 财务查询订单为正常的或者订单为退货换货仓库为已入库的订单 -->
       <if test="condition.financeOrder != null and condition.financeOrder == 1" >
-         and (order_type = 1 or ((order_type = 2 or order_type = 3) and warehouse_flag = -1) or culture_flag = -1 or pay_type = 1)
+         and (order_type = 1 or ((order_type = 2 or order_type = 3 or order_type = 5) and warehouse_flag = -1) or culture_flag = -1 or pay_type = 1 or pay_type = 3)
          and order_type != 4
          and order_type != 6
       </if>
@@ -756,7 +756,7 @@
       </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
-         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
       </if>
       <if test="condition.orderId != null" >
@@ -802,7 +802,8 @@
       </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
-         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
+         and warehouse_flag != -2
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}

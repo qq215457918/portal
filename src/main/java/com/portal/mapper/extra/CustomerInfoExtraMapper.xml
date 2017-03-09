@@ -81,6 +81,12 @@
     </trim>
   </sql>
   
+     <update id="updateType" parameterType="com.portal.bean.Criteria" >
+    update customer_info 
+    set type = #{condition.type,jdbcType=VARCHAR}
+    where id =#{condition.cid,jdbcType=VARCHAR};
+  </update>
+  
    <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
     update customer_info 
     set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}), 
