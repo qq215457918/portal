@@ -29,8 +29,8 @@
 	<context:annotation-config />
 	<mvc:annotation-driven />
 	
-	<!-- task任务扫描注解   -->  
-	<task:annotation-driven/> 
+	<!-- task任务扫描注解  -->
+	<task:annotation-driven/>    
 	<!-- <context:component-scan base-package="com.portal.task"></context:component-scan> -->   
 	<!-- 如果不配置下面这两块, 会报错 -->
 	<!-- <task:annotation-driven scheduler="qbScheduler" mode="proxy"/>  
@@ -58,6 +58,7 @@
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="save*" propagation="REQUIRED" rollback-for="Throwable" />
+			<tx:method name="add*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="insert*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="update*" propagation="REQUIRED" rollback-for="Throwable" />
 			<tx:method name="del*" propagation="REQUIRED" rollback-for="Throwable" />

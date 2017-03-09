@@ -146,10 +146,11 @@ public class PaymentAccountInfoServiceImpl implements PaymentAccountInfoService 
         return results;
     }
 
-    public JSONObject updatePaymentAccount(String paymentAccountId, JSONObject results, HttpServletRequest request) {
+    public JSONObject updatePaymentAccount(String paymentAccountId, String deleteReason, JSONObject results, HttpServletRequest request) {
         EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
         PaymentAccountInfo paymentAccountInfo = selectByPrimaryKey(paymentAccountId);
         paymentAccountInfo.setDeleteFlag("1");
+        paymentAccountInfo.setDeleteReason(deleteReason);
         paymentAccountInfo.setUpdateUserId(employee.getId());
         paymentAccountInfo.setUpdateDate(new Date());
         int count = updateByPrimaryKey(paymentAccountInfo);

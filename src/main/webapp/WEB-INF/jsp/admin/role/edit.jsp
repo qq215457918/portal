@@ -20,29 +20,22 @@
     <form:form method="post" commandName="role">
         <form:hidden path="id"/>
         <form:hidden path="available"/>
-
         <div class="form-group">
             <form:label path="role">角色名：</form:label>
             <form:input path="role"/>
         </div>
-
         <div class="form-group">
             <form:label path="description">角色描述：</form:label>
             <form:input path="description"/>
         </div>
-
-
         <div class="form-group">
             <form:label path="resourceIds">拥有的资源列表：</form:label>
             <form:hidden path="resourceIds"/>
             <input type="text" id="resourceName" name="resourceName" value="${zhangfn:resourceNames(role.resourceIds)}" readonly>
             <a id="menuBtn" href="javascript:void(0);">选择</a>
         </div>
-
         <form:button>${op}</form:button>
-
     </form:form>
-
 
     <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
         <ul id="tree" class="ztree" style="margin-top:0; width:160px;"></ul>
@@ -73,7 +66,7 @@
              var zNodes =[
                 <c:forEach items="${resourceList}" var="r">
 	                <c:if test="${not r.rootNode}">
-	                	{ id:${r.id}, pId:${r.parentId}, name:"${r.name}", checked:${zhangfn:in(role.resourceIds, r.id)}},
+	                	{id:${r.id}, pId:${r.parentId}, name:"${r.name}", checked:${zhangfn:in(role.resourceIds, r.id)}},
 	                </c:if>
                 </c:forEach>
             ]; 
@@ -111,8 +104,10 @@
                     //hideMenu();
                 }
             } 
-
+			// 初始化树信息
             $.fn.zTree.init($("#tree"), setting, zNodes);
+            
+            // 显示下拉勾选菜单
             $("#menuBtn").click(showMenu);
         });
     </script>

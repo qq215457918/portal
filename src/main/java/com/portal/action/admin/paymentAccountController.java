@@ -72,6 +72,7 @@ public class paymentAccountController {
         String paymentAccountName = request.getParameter("paymentAccountName");
         String bankName = request.getParameter("bankName");
         String accountNumber = request.getParameter("accountNumber");
+        String organizationId = request.getParameter("organizationId");
         String isUsable = request.getParameter("isUsable");
         
         // 分页参数
@@ -90,6 +91,9 @@ public class paymentAccountController {
         }
         if(StringUtil.isNotBlank(accountNumber)) {
             criteria.put("accountNumber", accountNumber.trim());
+        }
+        if(StringUtil.isNotBlank(organizationId)) {
+            criteria.put("organizationId", organizationId);
         }
         if(StringUtil.isNotBlank(isUsable)) {
             criteria.put("isUsable", isUsable);
@@ -165,7 +169,7 @@ public class paymentAccountController {
         String paymentAccountId = request.getParameter("paymentAccountId");
         String deleteReason = request.getParameter("deleteReason");
         if(StringUtil.isNotBlank(paymentAccountId)) {
-            results = paymentAccountService.updatePaymentAccount(paymentAccountId, results, request);
+            results = paymentAccountService.updatePaymentAccount(paymentAccountId, deleteReason, results, request);
         }else {
             if(StringUtil.isNotBlank(deleteReason)) {
                 results = JsonUtils.setError();

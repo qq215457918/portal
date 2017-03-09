@@ -37,4 +37,13 @@
     where parents_id = 's9f7f23r23q01s3w'
     order by CONVERT(name USING gbk) asc
   </select>
+  
+  <!-- 新增组织机构部门信息 -->
+  <insert id="addGroupInfo" parameterType="com.portal.bean.GroupInfo" >
+    insert into group_info (id, parents_id, name, 
+      create_date)
+    values (rand_string(16), #{parentsId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  
 </mapper>

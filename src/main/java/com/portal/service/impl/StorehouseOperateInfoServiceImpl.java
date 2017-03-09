@@ -103,7 +103,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
         
-        // 已支付
+        // 库房已审批通过的订单
         criteria.put("warehouseFlag", "1");
         if(StringUtil.isNotBlank(orderNumber)){
             criteria.put("orderNumber", orderNumber);

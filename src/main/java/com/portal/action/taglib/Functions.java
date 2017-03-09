@@ -1,14 +1,16 @@
 package com.portal.action.taglib;
 
-import com.portal.bean.Organization;
+import java.util.Collection;
+
+import org.springframework.util.CollectionUtils;
+
+import com.portal.bean.GroupInfo;
 import com.portal.bean.Resource;
 import com.portal.bean.Role;
 import com.portal.common.util.SpringUtils;
-import com.portal.service.OrganizationService;
+import com.portal.service.GroupInfoService;
 import com.portal.service.ResourceService;
 import com.portal.service.RoleService;
-import java.util.Collection;
-import org.springframework.util.CollectionUtils;
 
 /**
  * <p>User: Zhang Kaitao
@@ -25,11 +27,11 @@ public class Functions {
     }
 
     public static String organizationName(Long organizationId) {
-        Organization organization = getOrganizationService().findOne(organizationId);
-        if (organization == null) {
+        GroupInfo group = groupService.selectByPrimaryKey(organizationId.toString());
+        if (group == null) {
             return "";
         }
-        return organization.getName();
+        return group.getName();
     }
 
     public static String organizationNames(Collection<Long> organizationIds) {
@@ -39,12 +41,12 @@ public class Functions {
 
         StringBuilder s = new StringBuilder();
         for (Long organizationId : organizationIds) {
-            Organization organization = getOrganizationService().findOne(organizationId);
-            if (organization == null) {
+            GroupInfo group = groupService.selectByPrimaryKey(organizationId.toString());
+            if (group == null) {
                 return "";
             }
-            s.append(organization.getName());
-            s.append(",");
+            s.append(group.getName());
+            s.append(",");  
         }
 
         if (s.length() > 0) {
@@ -114,15 +116,15 @@ public class Functions {
         return s.toString();
     }
 
-    private static OrganizationService organizationService;
+    private static GroupInfoService groupService;
     private static RoleService roleService;
     private static ResourceService resourceService;
 
-    public static OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = SpringUtils.getBean(OrganizationService.class);
+    public static GroupInfoService getGroupInfoService() {
+        if (groupService == null) {
+            groupService = SpringUtils.getBean(GroupInfoService.class);
         }
-        return organizationService;
+        return groupService;
     }
 
     public static RoleService getRoleService() {

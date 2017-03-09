@@ -84,4 +84,16 @@ public interface DeptPerformanceInfoService {
      * @version V1.0
      */
     List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria);
+    
+    /**
+     * @Title: addPerformance 
+     * @Description: 定时器：校验当日是否已存在员工的业绩
+     * @param perforList
+     * @param count
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年3月10日 上午12:17:53 
+     * @version V1.0
+     */
+    int addPerformance(List<DeptPerformanceInfo> perforList, int count);
 }
