@@ -1,16 +1,20 @@
 package com.portal.service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.EmployeeInfoForm;
-
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.sf.json.JSONObject;
 
 public interface EmployeeInfoService {
+
+    /**
+     * 通过区域ID 查询旗下所有客服人员
+     * @return
+     */
+    public List<EmployeeInfo> getPhoneEmpByOrganization();
 
     /**
      * 根据用户名查找其角色
@@ -62,7 +66,7 @@ public interface EmployeeInfoService {
     int insert(EmployeeInfo record);
 
     int insertSelective(EmployeeInfo record);
-    
+
     /**
      * @Title: selectByConditions 
      * @Description: 根据条件自定义方法获取数据
@@ -73,7 +77,7 @@ public interface EmployeeInfoService {
      * @version V1.0
      */
     List<EmployeeInfoForm> selectByConditions(Criteria example);
-    
+
     /**
      * @Title: ajaxEmployeeData 
      * @Description: 异步获取员工数据
@@ -85,7 +89,7 @@ public interface EmployeeInfoService {
      * @version V1.0
      */
     JSONObject ajaxEmployeeData(Criteria example, String sEcho);
-    
+
     /**
      * @Title: saveEmployeeInfo 
      * @Description: 保存员工信息
@@ -97,7 +101,7 @@ public interface EmployeeInfoService {
      * @version V1.0
      */
     JSONObject saveEmployeeInfo(EmployeeInfo employeeInfo, JSONObject results);
-    
+
     /**
      * @Title: deleteEmployeeInfo 
      * @Description: 删除员工信息并解除权限关系
@@ -109,7 +113,7 @@ public interface EmployeeInfoService {
      * @version V1.0
      */
     JSONObject deleteEmployeeInfo(String employeeId, JSONObject result);
-    
+
     /**
      * @Title: getReceiveNameByPhoneId 
      * @Description: 统计每周对接业绩根据客服ID获取接待信息

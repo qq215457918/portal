@@ -26,7 +26,7 @@
         <i class="icon-shield"></i>修改用户基本信息
       </div>
       <div class="widget-content padded">
-        <form action="<%=request.getContextPath() %>/customer/modify/basic/save" id="validate-form" method="post" novalidate="novalidate">
+        <form action="customer/modify/basic/save" id="validate-form" method="post" novalidate="novalidate">
           <fieldset>
             <div class="row">
               <div class="col-md-6">
@@ -74,26 +74,14 @@
 	                <div class="form-group">
 	                  <label>生日</label>
 	                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-		                  <input class="form-control" type="text" id="birthday" name="birthday" >
+		                  <input class="form-control" type="text" id="birthday" name="birthday" value=${customerInfo.birthday} >
 		                  <span class="input-group-addon"><i class="icon-calendar"></i></span>
 	           		</div>
-	           	    <!-- <div class="form-group">
-        	    	    <label style="margin-right:30px;margin-top:20px;">所属区域</label>
-			              <label class="radio-inline">
-				              <input name="area"  checked="checked"   type="radio" value="大连">
-				              <span>大连</span>
-			              </label>
-			              <label class="radio-inline">
-				              <input name="area"  type="radio" value="沈阳">
-				              <span>沈阳</span>
-			              </label>
-	                </div> -->
 	           		<div class="form-group" style="margin-top:20px">
 			            <label class="checkbox"><input type="checkbox" id="blacklistFlag" name="blacklistFlag"><span>加入黑名单</span></label>  		              
 			        </div>     		
 	           </div>
             </div>
-            <input type="hidden" name="cId" id="cId" value="${customerInfo.id }"/>
             <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
             </div>
           </fieldset>
@@ -110,6 +98,5 @@
 			init_city_select($("#address"));
 		});
 	</script>
-
   </body>
 </html>

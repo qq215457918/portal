@@ -578,29 +578,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 提交需要审批的礼品信息
-     * order_type=6 vip 赠品
+     * order_type=6 vip 赠品 4 正常正品
+     * 20170309 add //在客户信息中家赠品信息
+     * customerInfoService.updateGift(cid, giftNameList.toString());
      */
     public boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP) {
-        criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
-        //修改可以提交多个赠品
         String goodStr = request.getParameter("goodId");
-        String count = request.getParameter("count");
-        if (goodStr.substring(0, goodStr.length() - 1).indexOf(",") > 0) {
-            String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
-            for (String goodId : goodArr) {
-                insertPresentDetailInfo(
-                        getOrderDetailInfo(goodId, count, uuid, "6"));
-            }
-        } else {
-            // insertPresentDetailInfo(
-            //        getOrderDetailInfo(goodStr.substring(5, goodStr.length()), count, uuid));
-
-            insertPresentDetailInfo(
-                    getOrderDetailInfo(goodStr, count, uuid, "6"));
+        customerInfoService.updateGift(request.getSession().getAttribute("cId").toString(),
+                request.getParameter("goodName").replace(",", "\n"));
+        if (StringUtils.isEmpty(goodStr)) {
+            return false;
         }
-
+        for (String goodId : goodStr.split(",")) {
+            insertPresentDetailInfo(getOrderDetailInfo(goodId, "1", uuid, isVIP ? "4" : "6"));
+        }
         return true;
     }
 

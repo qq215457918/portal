@@ -49,7 +49,7 @@ public class CustomerAction {
         getBasePath(request, response);
         customerInfoService.updateCustomer(request);
         return "redirect:/visit/second?cId="
-                + request.getParameter("cId");
+                + request.getSession().getAttribute("cId");
     }
 
     /**

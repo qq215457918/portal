@@ -896,7 +896,7 @@
 
     $("#validate-form").validate({
       rules: {
-        firstname: "required",
+        name: "required",
         lastname: "required",
         phone: {
 	        required: true,
@@ -921,7 +921,7 @@
         }
       },
       messages: {
-        firstname: "请输入您的名称",
+    	name: "请输入您的名称",
         lastname: "Please enter your last name",
         phone: {
             required: "请输入您的电话号码",

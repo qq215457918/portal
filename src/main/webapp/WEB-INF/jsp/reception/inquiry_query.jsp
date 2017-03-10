@@ -19,7 +19,7 @@
             <input class="form-control" placeholder="请输入客户的电话号码" type="text" id="phoneNo">
         </div>     
        	<div class="social-login clearfix"  style="margin:40px 0">
-        	<a class="btn btn-default pull-left" href="<%=request.getContextPath() %>/"><i class="icon-mail-reply-all"></i>返 回</a>
+        	<a class="btn btn-default pull-left" href="/"><i class="icon-mail-reply-all"></i>返 回</a>
         	<a class="btn btn-primary pull-right twitter"id="queryId" ><i class="icon-foursquare"></i>查 询</a>
       	</div>
       </form>

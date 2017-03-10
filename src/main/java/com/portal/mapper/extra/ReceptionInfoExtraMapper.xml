@@ -90,8 +90,8 @@
 	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%")
 	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%"))
 	    </if>
-	    <if test="condition.receiverStaffIdNew != null" >  
-	      	 and and r.receiver_staff_id = #{condition.receiverStaffIdNew,jdbcType=VARCHAR}
+	    <if test="condition.cId != null" >  
+	      	 and c.id = #{condition.cId,jdbcType=VARCHAR}
 	    </if>
     </trim> 
     <if test="_parameter != null" >

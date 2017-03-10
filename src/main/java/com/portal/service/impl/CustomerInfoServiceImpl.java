@@ -176,7 +176,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
 
     public int updateCustomer(HttpServletRequest request) {
         CustomerInfo cInfo = new CustomerInfo();
-        Optional.ofNullable(request.getParameter("cid")).ifPresent(value -> cInfo.setId(value));
+        cInfo.setId((String) request.getSession().getAttribute("cId"));
         Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
         Optional.ofNullable(request.getParameter("businessPhone"))
                 .ifPresent(value -> cInfo.setBusinessPhone(value));
@@ -201,24 +201,15 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo) {
-        String phone = request.getParameter("phone");
-        CustomerInfo cInfo = new CustomerInfo();
+    public CustomerSimpleInfoForm insertCustomer(CustomerInfo cInfo, EmployeeInfo employeeInfo) {
         cInfo.setId(UUidUtil.getUUId());
         cInfo.setType("0");
-        cInfo.setName(request.getParameter("firstname"));
-        cInfo.setQq(request.getParameter("qqno"));
-        cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));
-        cInfo.setPhone(phone);
-        cInfo.setAddress(request.getParameter("address"));
-        cInfo.setArea(request.getParameter("area"));
-        cInfo.setSite(request.getParameter("email"));
+        cInfo.setBirthday(DateUtil.parseDate(cInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
         cInfo.setRecentVisitDate(new Date());
-
         cInfo.setReceiverStaffId(employeeInfo.getId());
         cInfo.setReceiverStaffName(employeeInfo.getName());
         insertSelective(cInfo);
-        return getFristQueryInfo(phone);
+        return getFristQueryInfo(cInfo.getPhone());
 
     }
 

@@ -40,6 +40,7 @@
     <result column="visitCount" property="visitCount" jdbcType="VARCHAR" />
     <result column="receiver_staff_date" property="receiverStaffDate" jdbcType="VARCHAR" />
     <result column="gift" property="gift" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
@@ -185,6 +186,9 @@
       </if>
       <if test="example.condition.visitDate != null" >
          and visit_date = #{example.condition.visitDate,jdbcType=TIMESTAMP}
+      </if>
+     <if test="example.condition.birthday != null" >
+         and birthday = #{example.condition.birthday,jdbcType=TIMESTAMP}
       </if>
       <if test="example.condition.area != null" >
          and area = #{example.condition.area,jdbcType=VARCHAR}
@@ -533,6 +537,9 @@
       <if test="record.recentVisitDate != null" >
         recent_visit_date = #{record.recentVisitDate,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.birthday != null" >
+        birthday = #{record.birthday,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.recentExportDate != null" >
         recent_export_date = #{record.recentExportDate,jdbcType=TIMESTAMP},
       </if>
@@ -653,6 +660,9 @@
       </if>
       <if test="recentVisitDate != null" >
         recent_visit_date = #{recentVisitDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
       </if>
       <if test="recentExportDate != null" >
         recent_export_date = #{recentExportDate,jdbcType=TIMESTAMP},
