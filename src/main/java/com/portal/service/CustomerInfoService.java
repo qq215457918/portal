@@ -77,7 +77,7 @@ public interface CustomerInfoService {
       * @param request
      * @return
      */
-    public int updateCustomer(HttpServletRequest request);
+    //    public int updateCustomer(CustomerInfo customerInfo);
 
     public int insertSelective(CustomerInfo record);
 

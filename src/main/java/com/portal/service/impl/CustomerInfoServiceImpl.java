@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -172,27 +171,6 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cSimpleForm.setHisReceiverStaffName(staffName);
         cSimpleForm.setVisitCount(Integer.valueOf(cInfo.getVisitCount() == null ? "0" : cInfo.getVisitCount()));
         return cSimpleForm;
-    }
-
-    public int updateCustomer(HttpServletRequest request) {
-        CustomerInfo cInfo = new CustomerInfo();
-        cInfo.setId((String) request.getSession().getAttribute("cId"));
-        Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("businessPhone"))
-                .ifPresent(value -> cInfo.setBusinessPhone(value));
-        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
-        Optional.ofNullable(request.getParameter("phone2")).ifPresent(value -> cInfo.setPhone2(value));
-        Optional.ofNullable(request.getParameter("relationId")).ifPresent(value -> cInfo.setRelationId(value));
-        Optional.ofNullable(request.getParameter("homePhone")).ifPresent(value -> cInfo.setHomePhone(value));
-        Optional.ofNullable(request.getParameter("idCard")).ifPresent(value -> cInfo.setIdCard(value));
-        Optional.ofNullable(request.getParameter("area")).ifPresent(value -> cInfo.setArea(value));
-        Optional.ofNullable(request.getParameter("blacklistFlag"))
-                .ifPresent(value -> cInfo.setBlacklistFlag(value == "on" ? "1" : "0"));
-        Optional.ofNullable(request.getParameter("sex")).ifPresent(value -> cInfo.setSex(value));
-        Optional.ofNullable(request.getParameter("birthday"))
-                .ifPresent(value -> cInfo.setBirthday(DateUtil.parseDate(value, DateUtil.DATE_FMT_YYYY_MM_DD)));
-        Optional.ofNullable(request.getParameter("address")).ifPresent(value -> cInfo.setAddress(value));
-        return updateByPrimaryKeySelective(cInfo);
     }
 
     /**

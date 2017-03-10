@@ -120,6 +120,7 @@
     order_detail_info.amount, order_detail_info.delete_flag, order_detail_info.update_date, order_detail_info.update_id, 
     order_detail_info.order_type
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
     <if test="distinct" >
@@ -354,6 +355,9 @@
       </if>
       <if test="goodName != null" >
         good_name = #{goodName,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
       </if>
       <if test="price != null" >
         price = #{price,jdbcType=DECIMAL},

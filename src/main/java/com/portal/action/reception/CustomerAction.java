@@ -1,5 +1,7 @@
 package com.portal.action.reception;
 
+import com.portal.bean.CustomerInfo;
+import com.portal.common.util.DateUtil;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
@@ -45,9 +47,10 @@ public class CustomerAction {
      * @return
      */
     @RequestMapping(value = "basic/save")
-    public String saveCustomerInfo(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
-        customerInfoService.updateCustomer(request);
+    public String saveCustomerInfo(CustomerInfo customerInfo, HttpServletRequest request) {
+        customerInfo
+                .setBirthday(DateUtil.parseDate(customerInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
+        customerInfoService.updateByPrimaryKeySelective(customerInfo);
         return "redirect:/visit/second?cId="
                 + request.getSession().getAttribute("cId");
     }

@@ -11,6 +11,7 @@ import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -79,6 +80,9 @@ public class ReceptionAction {
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         String customerId = request.getParameter("cId");
+        if (StringUtils.isEmpty(customerId)) {
+            customerId = request.getAttribute("cId").toString();
+        }
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
         receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());

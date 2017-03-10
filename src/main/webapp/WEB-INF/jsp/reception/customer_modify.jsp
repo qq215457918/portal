@@ -32,7 +32,7 @@
               <div class="col-md-6">
 	                <div class="form-group">
 	                  <label for="firstname">姓名  &nbsp;</label><i class="icon-star"></i>
-	                  <input class="form-control" id="firstname" name="firstname" type="text" value=${customerInfo.name}>
+	                  <input class="form-control" id="name" name="name" type="text" value=${customerInfo.name}>
 	                </div>
 	               <div class="form-group">
 	                  <label for="phone">手机  &nbsp;</label><i class="icon-star"></i>
@@ -74,7 +74,7 @@
 	                <div class="form-group">
 	                  <label>生日</label>
 	                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-		                  <input class="form-control" type="text" id="birthday" name="birthday" value=${customerInfo.birthday} >
+		                  <input class="form-control" type="text" id="birthdayStr" name="birthdayStr" value=${customerInfo.birthday} >
 		                  <span class="input-group-addon"><i class="icon-calendar"></i></span>
 	           		</div>
 	           		<div class="form-group" style="margin-top:20px">

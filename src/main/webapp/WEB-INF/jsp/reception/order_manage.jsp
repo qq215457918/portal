@@ -31,27 +31,6 @@
                       <input class="form-control" placeholder="请输入商品名称" type="text" id="goodName">
                     </div>
                   </div>
-                  <div class="col-md-6">
-                    <label class="control-label col-md-4">接待人员</label>
-                    <div class="col-md-8">
-                      <input class="form-control" placeholder="请输入接待人员名称" type="text" id="staffName">
-                    </div>
-                  </div>
-                </div>
-
-                <div class="form-group col-md-6">
-                  <label class="control-label col-md-4">商品状态</label>
-                  <div class="col-md-8">
-                    <label class="checkbox-inline">
-                      <input type="checkbox" name="checkbox" checked="checked" value="1"><span>正常</span>
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" name="checkbox" checked="checked" value="2"><span>已退货</span>
-                    </label>
-                    <label class="checkbox-inline">
-                      <input type="checkbox" name="checkbox" checked="checked" value="3"><span>已换货</span>
-                    </label>
-                  </div>
                 </div>
 
               </form>
@@ -69,7 +48,8 @@
 					<th>交易金额</th>
 					<th>交易日期</th>
 					<th>接待员</th>
-					<th>订单状态</th>
+					<th>支付状态</th>
+					<th>成单状态</th>
 					<th>是否删除</th>
 					<th>操作</th>
                 </tr>
