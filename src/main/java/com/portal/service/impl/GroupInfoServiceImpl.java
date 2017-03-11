@@ -6,6 +6,7 @@ import com.portal.dao.GroupInfoDao;
 import com.portal.dao.extra.GroupInfoExtraDao;
 import com.portal.service.GroupInfoService;
 import java.util.List;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,12 @@ import org.springframework.stereotype.Service;
 public class GroupInfoServiceImpl implements GroupInfoService {
     @Autowired
     private GroupInfoDao groupInfoDao;
-    
+
     @Autowired
     private GroupInfoExtraDao groupInfoExtraDao;
+
+    // 公共查询条件类
+    Criteria criteria = new Criteria();
 
     private static final Logger logger = LoggerFactory.getLogger(GroupInfoServiceImpl.class);
 
@@ -69,5 +73,23 @@ public class GroupInfoServiceImpl implements GroupInfoService {
 
     public List<GroupInfo> getAllCompany() {
         return groupInfoExtraDao.getAllCompany();
+    }
+
+    public int addGroupInfo(GroupInfo record) {
+        return groupInfoExtraDao.addGroupInfo(record);
+    }
+
+    public int deleteGroupInfo(String id) {
+        int count = 0;
+        count = deleteByPrimaryKey(id);
+        criteria.clear();
+        criteria.put("parentsId", id);
+        List<GroupInfo> groupList = selectByExample(criteria);
+        if (CollectionUtils.isNotEmpty(groupList)) {
+            for (GroupInfo groupInfo : groupList) {
+                count += deleteByPrimaryKey(groupInfo.getId());
+            }
+        }
+        return count;
     }
 }

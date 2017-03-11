@@ -1,23 +1,11 @@
 package com.portal.service.impl;
 
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.DailyEmployeeAudit;
 import com.portal.bean.DailyEmployeeAuditHistory;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.EmployeeInfoForm;
+import com.portal.common.util.BeanUtils;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
@@ -27,29 +15,50 @@ import com.portal.dao.EmployeeInfoDao;
 import com.portal.dao.extra.EmployeeInfoExtraDao;
 import com.portal.service.EmployeeInfoService;
 import com.portal.service.RoleService;
-
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import net.sf.json.JSONObject;
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     @Autowired
     private EmployeeInfoDao employeeInfoDao;
-    
+
     @Autowired
     private EmployeeInfoExtraDao employeeExtraDao;
 
     @Autowired
     private RoleService roleService;
-    
+
     @Autowired
     private DailyEmployeeAuditDao auditDao;
-    
+
     @Autowired
     private DailyEmployeeAuditHistoryDao auditHistoryDao;
 
     private static final Logger logger = LoggerFactory.getLogger(EmployeeInfoServiceImpl.class);
 
     Criteria criteria = new Criteria();
+
+    public List<EmployeeInfo> getPhoneEmpByOrganization() {
+        criteria.clear();
+        EmployeeInfo employee = (EmployeeInfo) BeanUtils.getLoginUser();
+        if (employee == null) {
+            return null;
+        }
+        criteria.put("organizationId", employee.getOrganizationId());
+        criteria.setOrderByClause("CONVERT(name USING gbk) asc");
+        return selectByExample(criteria);
+    }
 
     /**
      * 根据用户名查找其角色
@@ -80,7 +89,8 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             return Collections.EMPTY_SET;
         }
         //        return roleService.findPermissions(user.getRoleIds().toArray(new Long[0]));
-        return roleService.findPermissions((Long[]) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
+        return roleService
+                .findPermissions((Long[]) ConvertUtils.convert(user.getRoleIds().split(","), Long.class));
     }
 
     public EmployeeInfo authentication(String loginName, String password) {
@@ -94,7 +104,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         Criteria example = new Criteria();
         example.put("loginName", loginName);
         List<EmployeeInfo> example2 = selectByExample(example);
-        if(CollectionUtils.isNotEmpty(example2)) {
+        if (CollectionUtils.isNotEmpty(example2)) {
             return example2.get(0);
         }
         return null;
@@ -145,7 +155,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
     public int insertSelective(EmployeeInfo record) {
         return this.employeeInfoDao.insertSelective(record);
     }
-    
+
     public List<EmployeeInfoForm> selectByConditions(Criteria example) {
         return employeeExtraDao.selectByConditions(example);
     }
@@ -155,8 +165,8 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         int totalRecord = employeeExtraDao.countByConditions(criteria);
         // 获取数据集
         List<EmployeeInfoForm> list = selectByConditions(criteria);
-        
-        JSONObject resultJson =  new JSONObject();
+
+        JSONObject resultJson = new JSONObject();
         resultJson.put("sEcho", sEcho);
         resultJson.put("iTotalRecords", totalRecord);
         resultJson.put("iTotalDisplayRecords", totalRecord);
@@ -166,21 +176,21 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     public JSONObject deleteEmployeeInfo(String employeeId, JSONObject result) {
         EmployeeInfo employeeInfo = this.selectByPrimaryKey(employeeId);
-        if("1".equals(employeeInfo.getDeleteFlag())) {
+        if ("1".equals(employeeInfo.getDeleteFlag())) {
             // 逻辑删除--修改删除状态
             employeeInfo.setDeleteFlag("1");
             int count = this.updateByPrimaryKey(employeeInfo);
-            if(count > 0) {
+            if (count > 0) {
                 // TODO - 判断是否有到该用户审批的流程, 直接结束流程
                 // 每日业绩审批 走daily_employee_audit  daily_employee_audit_history
                 criteria.clear();
                 criteria.put("auditorId", employeeInfo.getId());
                 List<DailyEmployeeAudit> auditList = auditDao.selectByExample(criteria);
-                if(auditList.size() > 0) {
+                if (auditList.size() > 0) {
                     for (DailyEmployeeAudit dailyEmployeeAudit : auditList) {
                         dailyEmployeeAudit.setStatus("2");
                         count = auditDao.updateByPrimaryKey(dailyEmployeeAudit);
-                        if(count > 0) {
+                        if (count > 0) {
                             DailyEmployeeAuditHistory auditHistory = new DailyEmployeeAuditHistory();
                             auditHistory.setId(UUidUtil.getUUId());
                             auditHistory.setAuditId(dailyEmployeeAudit.getId());
@@ -190,11 +200,11 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
                         }
                     }
                 }
-            }else {
+            } else {
                 result = JsonUtils.setError();
                 result.put("text", "系统异常,请刷新后重试");
             }
-        }else {
+        } else {
             result = JsonUtils.setError();
             result.put("text", "操作失败,该员工已被删除");
         }
@@ -203,53 +213,53 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     public JSONObject saveEmployeeInfo(EmployeeInfo employeeInfo, JSONObject results) {
         int count = 0;
-        if(StringUtil.isNull(employeeInfo.getName().trim())) {
+        if (StringUtil.isNull(employeeInfo.getName().trim())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 姓名不能为空");
             return results;
-        }else {
+        } else {
             // 过滤特殊字符
             employeeInfo.setName(StringUtil.tstr(employeeInfo.getName().trim()));
         }
-        if(StringUtil.isNull(employeeInfo.getLoginName().trim())) {
+        if (StringUtil.isNull(employeeInfo.getLoginName().trim())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 登录名不能为空");
             return results;
-        }else {
+        } else {
             // 过滤特殊字符
             employeeInfo.setLoginName(StringUtil.tstr(employeeInfo.getLoginName().trim()));
         }
-        if(StringUtil.isNull(employeeInfo.getPassword().trim())) {
+        if (StringUtil.isNull(employeeInfo.getPassword().trim())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 密码不能为空");
             return results;
-        }else {
+        } else {
             // 过滤特殊字符
             employeeInfo.setPassword(StringUtil.tstr(employeeInfo.getPassword().trim()));
         }
-        if(StringUtil.isNull(employeeInfo.getPositionType())) {
+        if (StringUtil.isNull(employeeInfo.getPositionType())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 职位类型必须选择一项");
             return results;
         }
-        if(StringUtil.isNull(employeeInfo.getStatus())) {
+        if (StringUtil.isNull(employeeInfo.getStatus())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 账号状态必须选择一项");
             return results;
         }
-        if(StringUtil.isNull(employeeInfo.getOrganizationId())) {
+        if (StringUtil.isNull(employeeInfo.getOrganizationId())) {
             results = JsonUtils.setError();
             results.put("text", "操作失败, 所属机构不能为空");
             return results;
         }
-        if(StringUtil.isNotBlank(employeeInfo.getStaffNumber().trim())) {
+        if (StringUtil.isNotBlank(employeeInfo.getStaffNumber().trim())) {
             // 过滤特殊字符
             employeeInfo.setStaffNumber(StringUtil.tstr(employeeInfo.getStaffNumber().trim()));
         }
-        if(StringUtil.isNotBlank(employeeInfo.getId())) {
+        if (StringUtil.isNotBlank(employeeInfo.getId())) {
             // 修改
             count = employeeInfoDao.updateByPrimaryKey(employeeInfo);
-        }else {
+        } else {
             // 新增
             employeeInfo.setId(UUidUtil.getUUId());
             employeeInfo.setCreateDate(new Date());
@@ -259,9 +269,9 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             employeeInfo.setReceptionFlag("0");
             count = employeeInfoDao.insert(employeeInfo);
         }
-        if(count > 0) {
+        if (count > 0) {
             results = JsonUtils.setSuccess();
-        }else {
+        } else {
             results = JsonUtils.setError();
             results.put("text", "系统异常, 请刷新后重试");
         }

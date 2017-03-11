@@ -26,33 +26,39 @@
         <i class="icon-shield"></i>新增用户
       </div>
       <div class="widget-content padded">
-        <form action="<%=request.getContextPath() %>/visit/add" id="validate-form" method="get" novalidate="novalidate">
+        <form action="visit/add" id="validate-form" method="post" novalidate="novalidate">
           <fieldset>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="firstname">姓名</label><i class="icon-star"></i><input class="form-control" id="firstname" name="firstname" type="text">
+                  <label for="firstname">姓名</label><i class="icon-star"></i><input class="form-control" id="name" name="name" type="text">
                 </div>
                 <div class="form-group">
-                  <label>QQ</label><input class="form-control" id="qqno" name="qqno" type="text">
+                  <label>QQ</label><input class="form-control" id="qq" name="qq" type="text">
                 </div>
                 <div class="form-group">
                   <label>生日</label>
                   <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-                  <input class="form-control" type="text" id="birthday" name="birthday" ><span class="input-group-addon"><i class="icon-calendar"></i></span>
+                  <input class="form-control" type="text" id="birthdayStr" name="birthdayStr" ><span class="input-group-addon"><i class="icon-calendar"></i></span>
               </div>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="phone">电话号码</label><i class="icon-star"></i><input class="form-control" id="phone" name="phone" data-inputmask="'mask': ['19999999999']" type="text">
+                  <label for="phone">电话号码</label><i class="icon-star"></i><input class="form-control" id="phone" name="phone" value=${phone} data-inputmask="'mask': ['19999999999']" type="text">
                 </div>
     	        <div class="form-group">
 	              <label>地址</label>
-	              <input id="address" name="address"  type="text" value="辽宁省-大连市-中山区" class="form-control city_input" readonly="readonly">
+	              <input id="area" name="area"  type="text" value="辽宁省-大连市-中山区" class="form-control city_input" readonly="readonly">
 	            </div>  
                 <div class="form-group">
-                  <label >邮件</label><input class="form-control" id="email" type="text">
+                  <label>客服</label><!-- <input class="form-control" id="phone2" name="phone2" type="text"> -->
+                  <select id="phoneStaffId" name="phoneStaffId" class="form-control" style="width: 100%;">
+                       <option value="">请选择</option>	
+                       <c:forEach items="${phoneEmp}" var="emp">
+                       <option value="${emp.id}">${emp.name}</option>	
+                       </c:forEach>
+                   </select>
                 </div>
               </div>
             </div>

@@ -64,16 +64,17 @@ public class OrderManageAction {
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
         criteria.put("customerId", request.getSession().getAttribute("cId"));//从session中获取cid
-        criteria.put("status", "4");
+        //        criteria.put("status", "4");
         criteria.put("payType", "0");
         //criteria.put("orderType", "1");
-        criteria.put("deleteFlag", "0");
+        //        criteria.put("deleteFlag", "0");
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("staffName", request.getParameter("staffName"));
+        criteria.setOrderByClause("create_date desc");
         //criteria.put("typeList", request.getParameter("typeList").split(","));
         //List<OrderInfoFormNew> getOrderInfoNew
         List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);
-        int count = resultList.size();
+        int count = orderInfoService.countByExample(criteria);
         JsonUtils.resultJson(resultList, count, response, request);
     }
 
@@ -88,18 +89,6 @@ public class OrderManageAction {
         boolean result = orderInfoService.updateOrderReturn(request);
         JsonUtils.outJsonString(String.valueOf(result), response);
     }
-
-    /*    *//**
-            * 换货业务
-            * @param request
-            * @param response
-            *//*
-              @RequestMapping(value = "/replace", method = RequestMethod.POST)
-              public void payDeposit(HttpServletRequest request, HttpServletResponse response) {
-               getBasePath(request, response);
-               boolean result = orderInfoService.updateOrderReplace(request.getParameter("orderId"));
-               JsonUtils.outJsonString(String.valueOf(result), response);
-              }*/
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {
         String basePath = WebUtils.getBasePath(request, response);

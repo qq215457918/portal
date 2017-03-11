@@ -497,7 +497,7 @@
 	      <include refid="Example_Where_Clause" />
 	    </if>
 		and o.pay_type = '1'
-		and f.customer_pay_type = '2'
+		and f.customer_pay_type in ('1','2','3')
     ) a
   </select>
   

@@ -61,6 +61,7 @@ public interface PaymentAccountInfoService {
      * @Title: updatePaymentAccount 
      * @Description: 删除收款账户信息对象
      * @param paymentAccountId
+     * @param deleteReason
      * @param results
      * @param request
      * @return JSONObject
@@ -68,5 +69,5 @@ public interface PaymentAccountInfoService {
      * @date 2017年1月9日 下午10:31:53 
      * @version V1.0
      */
-    JSONObject updatePaymentAccount(String paymentAccountId, JSONObject results, HttpServletRequest request);
+    JSONObject updatePaymentAccount(String paymentAccountId, String deleteReason, JSONObject results, HttpServletRequest request);
 }

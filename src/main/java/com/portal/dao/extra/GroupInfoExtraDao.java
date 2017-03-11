@@ -19,5 +19,15 @@ public interface GroupInfoExtraDao {
      */
     List<GroupInfo> getAllCompany();
     
+    /**
+     * @Title: addGroupInfo 
+     * @Description: 新增组织机构部门信息
+     * @param record
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年3月7日 下午11:39:04 
+     * @version V1.0
+     */
+    int addGroupInfo(GroupInfo record);
 
 }

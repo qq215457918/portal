@@ -67,4 +67,15 @@ public interface DeptPerformanceInfoExtraDao {
      */
     List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria);
     
+    /**
+     * @Title: getPerformanceForTask 
+     * @Description: 定时器：校验当日是否已存在员工的业绩
+     * @param criteria
+     * @return List<DeptPerformanceInfo>
+     * @author Xia ZhengWei
+     * @date 2017年3月10日 上午12:13:03 
+     * @version V1.0
+     */
+    List<DeptPerformanceInfo> checkPerformance(Criteria criteria);
+    
 }

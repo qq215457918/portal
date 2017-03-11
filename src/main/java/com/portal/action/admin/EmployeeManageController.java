@@ -182,6 +182,7 @@ public class EmployeeManageController {
     public String toCompileEmployeeInfo(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         // 获取所有公司
+        // TODO - 获取指定公司ID：s9f7f23r23q01s3w
         List<GroupInfo> companyList = groupService.getAllCompany();
         request.setAttribute("companyList", companyList);
         // 获取所有角色信息

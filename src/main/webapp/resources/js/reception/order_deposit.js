@@ -48,13 +48,16 @@ function initData() {
 		            {"mData": "createDateString"},
 		            {"mData": "depositPrice"},
 		            //deleteFlag
-		            {"data": "deleteFlag",
+		            {"data": "status",
 						"render": function(data, type, full) {
 							var type;
 							switch (data)
 							{
-							case "0": type ="正常";break;
-							case "1": type ="已删除";break;
+							case "0": type ="未支付";break;
+							case "1": type ="已支付";break;
+							case "2": type ="已出库";break;
+							case "3": type ="文交所已审核";break;
+							case "4": type ="已完成";break;
 							default: type =" ";break;
 						 }
 							return type;
@@ -62,8 +65,11 @@ function initData() {
 					  },
 		            {"data": "id",
 						"render": function(data, type, full) {
-							return "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='cancelDeposit("+data+");'>  撤销定金   </button>"+
+							if(full.status=='4'){
+								return "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='cancelDeposit("+data+");'>  撤销定金   </button>"+
 							      "<button class='btn btn-xs btn-warning' id='pId"+data+"' onclick='payDeposit("+data+");'>  支付定金   </button>";
+							}
+							return " ";
 						}
 					}
 		           ],   	           

@@ -13,6 +13,7 @@
     <result column="create_user_id" property="createUserId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
+    <result column="organization_id" property="organizationId" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -47,12 +48,15 @@
       <if test="condition.updateUserId != null" >
          and update_user_id = #{condition.updateUserId,jdbcType=VARCHAR}
       </if>
+      <if test="condition.organizationId != null" >
+         and organization_id = #{condition.organizationId,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   
   <sql id="Base_Column_List" >
     payment_account_id, payment_account_name, bank_name, account_number, is_usable, delete_reason, 
-    delete_flag, create_date, create_user_id, update_date, update_user_id
+    delete_flag, create_date, create_user_id, update_date, update_user_id, organization_id
   </sql>
   
   <!-- 根据条件查询记录总数 -->

@@ -26,7 +26,7 @@ public interface GroupInfoService {
     int insert(GroupInfo record);
 
     int insertSelective(GroupInfo record);
-    
+
     /**
      * @Title: getAllCompany 
      * @Description: 获取所有机构(公司)
@@ -36,4 +36,26 @@ public interface GroupInfoService {
      * @version V1.0
      */
     List<GroupInfo> getAllCompany();
+
+    /**
+     * @Title: addGroupInfo 
+     * @Description: 新增组织机构部门信息
+     * @param record
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年3月7日 下午11:39:04 
+     * @version V1.0
+     */
+    int addGroupInfo(GroupInfo record);
+
+    /**
+     * @Title: deleteGroupInfo 
+     * @Description: 删除组织机构部门信息(会关联删除所有子部门)
+     * @param id
+     * @return int
+     * @author Xia ZhengWei
+     * @date 2017年3月8日 上午12:25:13 
+     * @version V1.0
+     */
+    int deleteGroupInfo(String id);
 }

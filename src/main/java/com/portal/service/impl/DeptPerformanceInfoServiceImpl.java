@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import com.portal.bean.DeptPerformanceInfo;
 import com.portal.bean.result.DeptPerforInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
+import com.portal.common.util.UUidUtil;
 import com.portal.dao.DeptPerformanceInfoDao;
 import com.portal.dao.extra.DeptPerformanceInfoExtraDao;
 import com.portal.service.DeptPerformanceInfoService;
@@ -225,5 +227,30 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
 
     public List<DeptPerformanceInfo> getPerformanceForTask(Criteria criteria) {
         return deptPerformanceInfoExtraDao.getPerformanceForTask(criteria);
+    }
+
+    public int addPerformance(List<DeptPerformanceInfo> perforList, int count) {
+        for (DeptPerformanceInfo deptPerforInfo : perforList) {
+            // 先判断该员工当日是否统计过, 没统计过新增, 统计过修改
+            criteria.clear();
+            criteria.put("employeeId", deptPerforInfo.getEmployeeId());
+            criteria.put("reportDate2", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
+            List<DeptPerformanceInfo> employeePerfor = deptPerformanceInfoExtraDao.checkPerformance(criteria);
+            if(CollectionUtils.isNotEmpty(employeePerfor)) {
+                deptPerforInfo.setId(employeePerfor.get(0).getId());
+                count += updateByPrimaryKey(deptPerforInfo);
+            }else {
+                deptPerforInfo.setId(UUidUtil.getUUId());
+                deptPerforInfo.setReportDate(new Date());
+                if(deptPerforInfo.getPerformance() == null) {
+                    deptPerforInfo.setPerformance(0L);
+                }
+                if(deptPerforInfo.getOrderAmounts() == null) {
+                    deptPerforInfo.setOrderAmounts(0);
+                }
+                count += insert(deptPerforInfo);
+            }
+        }
+        return count;
     }
 }

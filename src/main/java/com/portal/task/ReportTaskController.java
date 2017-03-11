@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -304,7 +305,7 @@ public class ReportTaskController {
     }
     
     
-    // 第三个定时任务：每日晚19点20分统计向部门业绩统计表插入数据（查询订单、员工、客户表）
+    // 第三个定时任务：每日晚19点20分统计向部门业绩统计表插入数据（查询订单、员工、客户表）改为每半小时一次
     // 表数据：机构ID、机构名称、部门ID、部门名称、小组ID、小组名称、人员ID、人员名称、业绩、件数、新客户数量、统计日期
     
     /**
@@ -315,23 +316,19 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:15:50 
      * @version V1.0
      */
-    @Scheduled(cron = "0 20 19 * * ?")  
+    @Scheduled(cron = "0 0/30 * * * ?")  
     public void deptPerfors(){  
-        logger.info("启动每日19点20分的定时任务, 操作内容：统计订单、员工、客户表向部门业绩统计表插入数据-------------------");
+        logger.info("启动每日半小时执行一次的定时任务, 操作内容：统计订单、员工、客户表向部门业绩统计表插入数据-------------------");
         int count = 0;
         criteria.clear();
         criteria.put("deleteFlag", "0");
         criteria.put("startTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
         criteria.put("endTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         List<DeptPerformanceInfo> perforList = deptPerforService.getPerformanceForTask(criteria);
-        if(perforList != null && perforList.size() > 0) {
-            for (DeptPerformanceInfo deptPerforInfo : perforList) {
-                deptPerforInfo.setId(UUidUtil.getUUId());
-                deptPerforInfo.setReportDate(new Date());
-                count += deptPerforService.insert(deptPerforInfo);
-            }
+        if(CollectionUtils.isNotEmpty(perforList)) {
+            count = deptPerforService.addPerformance(perforList, count);
         }
-        logger.info("每日19点20分的定时任务结束, 共存储" + count + "条记录-------------------");
+        logger.info("每日每日半小时执行一次的定时任务结束, 共存储" + count + "条记录-------------------");
     }
     
     

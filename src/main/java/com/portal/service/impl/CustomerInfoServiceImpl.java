@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -174,51 +173,21 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         return cSimpleForm;
     }
 
-    public int updateCustomer(HttpServletRequest request) {
-        CustomerInfo cInfo = new CustomerInfo();
-        Optional.ofNullable(request.getParameter("cid")).ifPresent(value -> cInfo.setId(value));
-        Optional.ofNullable(request.getParameter("firstname")).ifPresent(value -> cInfo.setName(value));
-        Optional.ofNullable(request.getParameter("businessPhone"))
-                .ifPresent(value -> cInfo.setBusinessPhone(value));
-        Optional.ofNullable(request.getParameter("phone")).ifPresent(value -> cInfo.setPhone(value));
-        Optional.ofNullable(request.getParameter("phone2")).ifPresent(value -> cInfo.setPhone2(value));
-        Optional.ofNullable(request.getParameter("relationId")).ifPresent(value -> cInfo.setRelationId(value));
-        Optional.ofNullable(request.getParameter("homePhone")).ifPresent(value -> cInfo.setHomePhone(value));
-        Optional.ofNullable(request.getParameter("idCard")).ifPresent(value -> cInfo.setIdCard(value));
-        Optional.ofNullable(request.getParameter("area")).ifPresent(value -> cInfo.setArea(value));
-        Optional.ofNullable(request.getParameter("blacklistFlag"))
-                .ifPresent(value -> cInfo.setBlacklistFlag(value == "on" ? "1" : "0"));
-        Optional.ofNullable(request.getParameter("sex")).ifPresent(value -> cInfo.setSex(value));
-        Optional.ofNullable(request.getParameter("birthday"))
-                .ifPresent(value -> cInfo.setBirthday(DateUtil.parseDate(value, DateUtil.DATE_FMT_YYYY_MM_DD)));
-        Optional.ofNullable(request.getParameter("address")).ifPresent(value -> cInfo.setAddress(value));
-        return updateByPrimaryKeySelective(cInfo);
-    }
-
     /**
      * 新增客户员工
      * add receiverStaffName & receiverStaffId
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo) {
-        String phone = request.getParameter("phone");
-        CustomerInfo cInfo = new CustomerInfo();
+    public CustomerSimpleInfoForm insertCustomer(CustomerInfo cInfo, EmployeeInfo employeeInfo) {
         cInfo.setId(UUidUtil.getUUId());
         cInfo.setType("0");
-        cInfo.setName(request.getParameter("firstname"));
-        cInfo.setQq(request.getParameter("qqno"));
-        cInfo.setBirthday(DateUtil.parseDate(request.getParameter("birthday"), DateUtil.DATE_FMT_YYYY_MM_DD));
-        cInfo.setPhone(phone);
-        cInfo.setAddress(request.getParameter("address"));
-        cInfo.setArea(request.getParameter("area"));
-        cInfo.setSite(request.getParameter("email"));
+        cInfo.setBirthday(DateUtil.parseDate(cInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
         cInfo.setRecentVisitDate(new Date());
-
         cInfo.setReceiverStaffId(employeeInfo.getId());
         cInfo.setReceiverStaffName(employeeInfo.getName());
         insertSelective(cInfo);
-        return getFristQueryInfo(phone);
+        return getFristQueryInfo(cInfo.getPhone());
 
     }
 

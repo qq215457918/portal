@@ -1,9 +1,3 @@
-/**
- * 文件名：receive_arealist
- * 用途：接待统计列表页相关js
- * 作者：Xia ZhengWei
- * 时间: 2016-10-04
- */
 // base:项目根路径
 var base;
 // json:图标容器
@@ -19,7 +13,7 @@ $(function() {
 			alert("请输入电话号码")
 			return;
 		}else{
-			window.location.href=base+"/visit/first?phoneNo="+phone;
+			window.location.href="visit/first?phoneNo="+phone;
 		}
 	});
 });

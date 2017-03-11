@@ -42,7 +42,7 @@
 								<td>${list.unit}</td>	
 								<td>
 									<label class='checkbox-inline' style='padding-top:0px;margin-right:0px'>
-										<input type='checkbox' name='row_checkbox' id="${list.id}"><span></span>
+										<input type='checkbox' name='row_checkbox' id="${list.id}" value="${list.name}"><span></span>
 									</label>
 								</td>
 							</tr>
@@ -156,13 +156,12 @@
         //领取赠品		
 		$("#presentReceive").click(function(){	
 			var goodId ="";
+			var goodName ="";
 			//获取所选赠品
-			//if($('input[name="row_checkbox"]').prop('checked')==true){
-				//$(":checkbox[name=subcheck]:checked").size() == 0
 			if($(":checkbox[name=row_checkbox]:checked").size() > 0){	
 				$("input[name=row_checkbox]:checked").each(function(){ 
-				    var id = $(this).attr("id");
-				    goodId += id +",";
+				    goodId += $(this).attr("id") +",";
+				    goodName += $(this).attr("value") +",";
 				}); 
 			}else{
 				alert("请选择至少一个赠品");
@@ -172,7 +171,7 @@
 				url : base+"/present/receive",
 				data : {
 					"goodId" : goodId,
-					"customerId":"1"
+					"goodName" : goodName
 				},
 				dataType : "JSON",
 				success : function(data) {

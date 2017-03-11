@@ -63,7 +63,7 @@ public interface CustomerInfoService {
      * @param request
      * @return
      */
-    public CustomerSimpleInfoForm insertCustomer(HttpServletRequest request, EmployeeInfo employeeInfo);
+    public CustomerSimpleInfoForm insertCustomer(CustomerInfo record, EmployeeInfo employeeInfo);
 
     /**
      * 查询是否为已经注册的用户
@@ -77,7 +77,7 @@ public interface CustomerInfoService {
       * @param request
      * @return
      */
-    public int updateCustomer(HttpServletRequest request);
+    //    public int updateCustomer(CustomerInfo customerInfo);
 
     public int insertSelective(CustomerInfo record);
 

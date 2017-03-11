@@ -44,6 +44,10 @@
       <if test="condition.organiId != null" >
          and e.organization_id = #{condition.organiId,jdbcType=VARCHAR}
       </if>
+      <!-- 定时器使用 -->
+      <if test="condition.reportDate2 != null" >
+         and dp.report_date like CONCAT("%", #{condition.reportDate2,jdbcType=VARCHAR} ,"%")
+      </if>
     </trim>
   </sql>
   
@@ -170,7 +174,7 @@
 	     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
 	     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
 	    ]]>
-		) as actual_price,
+		) as performance,
 		(
 		select sum(od.amount) 
 		from order_detail_info od 
@@ -181,9 +185,18 @@
 		     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
 		     and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
 		    ]]>)
-		) as amount,
-		getNewCustomerCounts(e.id, #{condition.startTime}, #{condition.endTime}) as new_counts
+		) as order_amounts,
+		getNewCustomerCounts(e.id, #{condition.startTime}, #{condition.endTime}) as new_customer_counts
 	from employee_info e
+  </select>
+  
+  <select id="checkPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    	id, employee_id, performance, order_amounts, new_customer_counts, report_date
+    from dept_performance_info dp
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
   </select>
   
 </mapper>

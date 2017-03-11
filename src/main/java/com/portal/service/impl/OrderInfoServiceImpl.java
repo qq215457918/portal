@@ -204,7 +204,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setStatus("0");
         orderCriteria.setWarehouseFlag("0");
         orderCriteria.setCultureFlag("0");
-        updateCancelDetail(orderId);        //更新detail的数量为负
+        //        updateCancelDetail(orderId);        //更新detail的数量为负
         return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
     }
 
@@ -220,10 +220,21 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         boolean result = false;
         String cid = request.getSession().getAttribute("cId").toString();
         String receiverStaffId = request.getSession().getAttribute("userId").toString();
+        String UUid = UUidUtil.getUUId();
+
         OrderDetailInfo detailInfo =
                 orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
-        String UUid = UUidUtil.getUUId();
+
+        detailInfo.setOldOrderId(detailInfo.getOrderId());
+        detailInfo.setOrderId(UUid);
+        detailInfo.setOrderType("2");
+        detailInfo.setOldOrderId(orderInfo.getId());
+        //        detailInfo.setAmount(~detailInfo.getAmount() + 1);//数量为负数
+        //        result = orderDetailInfoDao.updateByPrimaryKey(detailInfo) > 0 ? true : false;
+
+        result = orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo) > 0 ? true : false;
+
         OrderInfo orderInfoNew = new OrderInfo();
         orderInfoNew.setId(UUid);
         orderInfoNew.setCustomerId(cid);
@@ -240,11 +251,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setDeleteFlag("0");
         result = orderInfoDao.insertSelective(orderInfoNew) > 0 ? true : false;
 
-        detailInfo.setOldOrderId(detailInfo.getOrderId());
-        detailInfo.setOrderId(UUid);
-        detailInfo.setPayType("2");//状态为退货
-        detailInfo.setAmount(~detailInfo.getAmount() + 1);//数量为负数
-        result = orderDetailInfoDao.updateByPrimaryKey(detailInfo) > 0 ? true : false;
         return result;
     }
 
@@ -297,8 +303,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setFinanceOperatorId("");
         orderCriteria.setFinanceFlag("0");
         orderCriteria.setFinanceType("");
+        orderCriteria.setStatus("0");
+        orderCriteria.setActualPrice(null);
         //        orderInfoDetailDao.selectByExample(criteria);
-        updateCancelDetail(orderId);
+        //        updateCancelDetail(orderId);
         return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
     }
 
@@ -307,16 +315,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param orderId
      * @return
      */
-    public boolean updateCancelDetail(String orderId) {
+    /*    public boolean updateCancelDetail(String orderId) {
         Criteria criteria = new Criteria();
         criteria.put("orderId", orderId);
         criteria.put("deleteFlag", "0");
-        orderDetailInfoDao.selectByExample(criteria).forEach(value -> {
+        orderDetailInfoDao.selectByExampleOld(criteria).forEach(value -> {
             value.setAmount(~value.getAmount() + 1);
-            orderDetailInfoDao.updateByExampleSelective(value, criteria);
+            orderDetailInfoDao.updateByPrimaryKeySelective(value);
         });
         return true;
-    }
+    }*/
 
     public List<OrderInfoForm> getOrderInfo(Criteria example) {
         List<OrderInfoForm> orderInfoForm =
@@ -346,12 +354,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             value.setCreateDateString(
                     DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
             Long totalPrice = getCountPrice4Deposit(value.getId());
-            Long depositPrice = orderInfoDao.selectByPrimaryKey(value.getId()).getPayPrice();
+            Long depositPrice = value.getPayPrice() == null ? 0L : value.getPayPrice();
             value.setDepositPrice(
                     totalPrice - depositPrice);
             value.setTotalPrice(totalPrice);
         });
-
         return orderInfoForm;
     }
 
@@ -483,16 +490,16 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         //goodInfo=" + goodInfo + "&totalPrice="+totalPrice+"&submitType="+
         String uuid = UUidUtil.getUUId();
         String puuid = UUidUtil.getUUId();//赠品的单独订单
-        request.getSession().getAttribute("");
         JSONArray json = JSONArray.fromObject(request.getParameter("goodInfo"));
         boolean hasGoods = false;
         boolean hasPresent = false;
         Long amount = 0L;
-        //        String cid = request.getParameter("cid");
         String cid = request.getSession().getAttribute("cId").toString();
         StringBuffer presentNameList = new StringBuffer();
         StringBuffer giftNameList = new StringBuffer();//客户基本信息表用的赠品信息
         StringBuffer productNameList = new StringBuffer();//客户基本信息表用的商品信息
+
+        boolean deposit = request.getParameter("submitType").equals("deposit");
         if (json.size() > 0) {
             for (int i = 0; i < json.size(); i ++) {
                 JSONObject job = json.getJSONObject(i);
@@ -512,7 +519,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     giftNameList.append(goodsInfo.getName() + "\\n");
                 } else {//其他类型单独插入goodType
                     hasGoods = true;
-
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
                                     "1"));//1 为正常订单
@@ -521,10 +527,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
 
             if (hasPresent) {
-                insertSelective(
-                        insertOrderInfo(cid,
-                                request.getParameter("submitType").equals("deposit") ? "1" : "0", puuid,
-                                0L, request));//礼品的订单金额为0
+                insertSelective(insertOrderInfo(cid, deposit ? "1" : "0", puuid, 0L, request));//礼品的订单金额为0
                 //在接待表中添加赠品订单 puuid
                 receptionInfoService.updatePresentOrderID(puuid, presentNameList.toString(), cid);
                 //在客户信息中家赠品信息
@@ -537,14 +540,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (hasGoods) {
                 amount = Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
-                insertSelective(
-                        insertOrderInfo(cid,
-                                request.getParameter("submitType").equals("deposit") ? "1" : "0", uuid,
-                                amount, request));
+                insertSelective(insertOrderInfo(cid, deposit ? "1" : "0", uuid, amount, request));
                 //在接待表中添加赠品订单 uuid
                 receptionInfoService.updateOrderID(uuid, cid);
-                //在客户信息中家商品信息
-                customerInfoService.updateProduct(cid, productNameList.toString(), amount.toString());
+                if (!deposit) {
+                    //在客户信息中家商品信息
+                    customerInfoService.updateProduct(cid, productNameList.toString(), amount.toString());
+                }
             }
         }
         return true;
@@ -578,29 +580,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
      * 提交需要审批的礼品信息
-     * order_type=6 vip 赠品
+     * order_type=6 vip 赠品 4 正常正品
+     * 20170309 add //在客户信息中家赠品信息
+     * customerInfoService.updateGift(cid, giftNameList.toString());
      */
     public boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP) {
-        criteria.clear();
         String uuid = UUidUtil.getUUId();
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
-        //修改可以提交多个赠品
         String goodStr = request.getParameter("goodId");
-        String count = request.getParameter("count");
-        if (goodStr.substring(0, goodStr.length() - 1).indexOf(",") > 0) {
-            String[] goodArr = goodStr.substring(0, goodStr.length() - 1).split(",");
-            for (String goodId : goodArr) {
-                insertPresentDetailInfo(
-                        getOrderDetailInfo(goodId, count, uuid, "6"));
-            }
-        } else {
-            // insertPresentDetailInfo(
-            //        getOrderDetailInfo(goodStr.substring(5, goodStr.length()), count, uuid));
-
-            insertPresentDetailInfo(
-                    getOrderDetailInfo(goodStr, count, uuid, "6"));
+        customerInfoService.updateGift(request.getSession().getAttribute("cId").toString(),
+                request.getParameter("goodName").replace(",", "\n"));
+        if (StringUtils.isEmpty(goodStr)) {
+            return false;
         }
-
+        for (String goodId : goodStr.split(",")) {
+            insertPresentDetailInfo(getOrderDetailInfo(goodId, "1", uuid, isVIP ? "4" : "6"));
+        }
         return true;
     }
 

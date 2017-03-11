@@ -71,13 +71,6 @@
     <div class="row">
       <div class="col-lg-12">
         <div class="widget-container fluid-height clearfix">
-         <%--  <div class="heading" style="color:#666666; font-weight: bold;">
-            <i class="icon-reorder fl" style="margin-top: 0.8%; cursor: default;"></i>
-            <select id="organizationId" class="form-control fl" style="width: 9%;">
-                <option value="1" <c:if test="${organizationId == '1'}">selected="selected"</c:if> >大连</option>
-                <option value="0" <c:if test="${organizationId == '0'}">selected="selected"</c:if> >沈阳</option>
-            </select>
-          </div> --%>
           <div class="widget-content padded">
             <div class="form-group condition-group">
               <div class="condition fl">
@@ -86,8 +79,8 @@
                   </div>
                   <div class="condition-control fl">
                     <div class="col-md-7" style="width: 100%;">
-                    <input class="form-control" placeholder="收款账户" id="paymentAccountName" type="text" style="width: 100%;">
-                  </div>
+                      <input class="form-control" placeholder="收款账户" id="paymentAccountName" type="text" style="width: 100%;">
+                    </div>
                   </div>
               </div>
               <div class="condition fl">
@@ -108,6 +101,20 @@
                     <div class="col-md-7" style="width: 100%;">
                     <input class="form-control" placeholder="账号" id="accountNumber" type="text" style="width: 100%;">
                   </div>
+                  </div>
+              </div>
+              <div class="condition fl">
+                  <div class="condition-label fl">
+                      <label class="control-label col-md-2" style=" width: 100%;">所属区域</label>
+                  </div>
+                  <div class="condition-control fl">
+                      <div class="col-md-7" style="width: 100%;">
+                        <select id="organizationId" class="form-control" style="width: 100%;">
+                            <option value="">请选择</option>
+                            <option value="1">大连</option>
+                            <option value="0">沈阳</option>
+                        </select>
+                    </div>
                   </div>
               </div>
               <div class="condition fl">
@@ -137,6 +144,7 @@
                     <th>收款账户</th>
                     <th>银行名称</th>
                     <th>账号</th>
+                    <th>所属区域</th>
                     <th>是否可用</th>
                     <th>操&nbsp;&nbsp;作</th>
                 </thead>
@@ -165,6 +173,14 @@
           <div class="form-group">
               <label>帐&nbsp;&nbsp;号</label><i class="icon-star" style="color: red;"></i>
               <input class="form-control" name="accountNumber" type="text" maxlength="20">
+          </div>
+          <div class="form-group">
+              <label>所属区域</label><i class="icon-star" style="color: red;"></i>
+              <select class="form-control" name="organizationId" style="width: 96%; margin-left: 2%;">
+              	<option value="">请选择</option>
+              	<option value="1">大连</option>
+              	<option value="0">沈阳</option>
+              </select>
           </div>
           <div class="form-group" style="margin-bottom: 25px;">
                <label>是否可用</label><i class="icon-star" style="color: red;"></i>

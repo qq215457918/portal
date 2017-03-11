@@ -9,23 +9,27 @@
     <jsp:include page="/WEB-INF/jsp/admin/head.jsp" />
     <base href="${basePath}">
     <link rel="stylesheet" href="resources/css/admin/css.css">
+    <style type="text/css">
+    	th {
+    		text-align: center;
+    	}
+    	.table {
+    		margin-left: 10%;
+    		margin-top: 1%;
+    	}
+    </style>
 </head>
 <body>
-
-<c:if test="${not empty msg}">
-    <div class="message">${msg}</div>
-</c:if>
-
 <shiro:hasPermission name="role:create">
-    <a href="admin/role/create">角色新增</a><br/>
+    <a href="admin/role/create" style="float: right; margin-right: 12%;">新增角色</a><br/>
 </shiro:hasPermission>
 <table class="table">
-    <thead>
+    <thead style="border-top: 1px solid #666;">
         <tr>
-            <th>角色名称</th>
-            <th>角色描述</th>
+            <th style="width: 10%;">角色名称</th>
+            <th style="width: 10%;">角色描述</th>
             <th>拥有的资源</th>
-            <th>操作</th>
+            <th style="width: 10%;">操作</th>
         </tr>
     </thead>
     <tbody>

@@ -109,7 +109,8 @@ $(function() {
   		     success:function(data){
   		    	 if(data.status == 1) {
   		    		 alert("操作成功");
-  		    		 location.href = location.reload();
+  		    		$(".cengBox").hide();
+  		    		 location.reload();
   		    	 }else {
   		    		 if(data.text) {
   		    			 alert(data.text);
@@ -149,9 +150,9 @@ $(function() {
             },
             "success": function(data){
                 if(data.status == '1') {
-                	alert("操作成功", function(){
-                		location.reload();
-                	});
+                	alert("操作成功");
+                	$(".deleteCengBox").hide();
+                	location.reload();
                 }else {
                 	if(data.text) {
                 		alert(data.text);
@@ -187,22 +188,25 @@ function initData() {
                     {"mData": "paymentAccountName"},
                     {"mData": "bankName"},
                     {"mData": "accountNumber"},
+                    {"mData": "organization"},
                     {"mData": "viewIsUsable"},
                     {"mData": null}
                    ],
         // 自定义最后一列的字段内容为修改和删除按钮
-        "aoColumnDefs": [{"aTargets":[5],"mRender":function(data,type,full){
+        "aoColumnDefs": [{"aTargets":[6],"mRender":function(data,type,full){
     		return '<div style="display: inherit;"><button class="btn btn-xs btn-warning update" data_id="'+data.paymentAccountId+'" style="float: left; margin: 0 10px 0 0;">修&nbsp;改</button><button class="btn btn-xs btn-warning delete" data_id="'+data.paymentAccountId+'" data_name="'+data.paymentAccountName+'" style="margin: 0 0 0 0;">删&nbsp;除</button></div>';
         }}],
         "fnServerData": function (sSource, aoData, fnCallback) {
                             var paymentAccountName = $('#paymentAccountName').val();
                             var bankName = $('#bankName').val();
                             var accountNumber = $('#accountNumber').val();
+                            var organizationId = $('#organizationId').val();
                             var isUsable = $('#isUsable').val();
                             aoData.push(
                                         {'name':'paymentAccountName','value':paymentAccountName},
                                         {'name':'bankName','value':bankName},
                                         {'name':'accountNumber','value':accountNumber},
+                                        {'name':'organizationId','value':organizationId},
                                         {'name':'isUsable','value':isUsable}
                                     );
                             $.ajax({
@@ -251,6 +255,11 @@ function loadPayment(id) {
             	$("input[name='paymentAccountName']").val(payment.paymentAccountName);
             	$("input[name='bankName']").val(payment.bankName);
             	$("input[name='accountNumber']").val(payment.accountNumber);
+            	
+            	
+            	$("select[name='organizationId']").val(payment.organizationId);
+            	
+            	
             	$("input[name='isUsable']").each(function(){
             		if($(this).attr("value") == payment.isUsable) {
             			$(this).attr("checked", "checked");
