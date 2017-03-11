@@ -42,7 +42,6 @@ import net.sf.json.JSONObject;
 @RequestMapping("admin/employeeManage")
 public class EmployeeManageController {
     
-    
     @Autowired
     private EmployeeInfoService employeeService;
     
