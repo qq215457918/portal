@@ -33,7 +33,6 @@
 								<div class="col-md-2">
 									<input class="form-control" placeholder="电话号码" type="text" id="phoneStage">
 								</div>
-	
 								<label class="control-label col-md-2 swidth">上次导入时间</label>
 								<div class="col-sm-2">
 					            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="importDate1" placeholder="开始时间" type="text">
@@ -43,13 +42,15 @@
 					            </div>
 							</div>
 						</div>
-						<div class="row">
-							<label class="control-label col-md-2 swidth">上次导出时间</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd1" placeholder="开始时间" type="text">
-				            </div>
-				            <div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间" type="text">
+						<div class="row" style="margin-top:10px;">
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">上次导出时间</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd1" placeholder="开始时间" type="text">
+					            </div>
+					            <div class="col-sm-2">
+					            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间" type="text">
+					            </div>
 				            </div>
 						</div>
 						<div class="form-group" style="margin-top:10px;">
