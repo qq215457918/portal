@@ -249,6 +249,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setCreateDate(new Date());
         orderInfoNew.setCreateId(receiverStaffId);
         orderInfoNew.setDeleteFlag("0");
+        orderInfoNew.setAreaFlag(orderInfo.getAreaFlag());
         result = orderInfoDao.insertSelective(orderInfoNew) > 0 ? true : false;
 
         return result;

@@ -220,7 +220,7 @@
     order_info.pay_price, order_info.actual_price, order_info.finance_flag, order_info.finance_type, 
     order_info.finance_operator_id, order_info.finance_date, order_info.warehouse_flag, 
     order_info.warehouse_operator_id, order_info.warehouse_date, order_info.culture_flag, 
-    order_info.culture_operator_id, order_info.culture_date, order_info.create_date, 
+    order_info.culture_operator_id, order_info.culture_date,order_info.area_flag, order_info.create_date, 
     order_info.create_id, order_info.update_date, order_info.update_id, order_info.delete_flag, 
     order_info.culture_remark
   </sql>
