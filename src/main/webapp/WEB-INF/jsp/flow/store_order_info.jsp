@@ -20,9 +20,9 @@
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
 						<div class="form-group">
-							<label class="control-label col-md-2 swidth">对账日期</label>
+							<label class="control-label col-md-2 swidth">订单编号</label>
 							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="financeDate" placeholder="开始时间" type="text">
+				            	<input class="form-control" placeholder="订单编号" type="text" id="orderNumber" name="orderNumber">
 				            </div>
 						</div>
 						<div class="form-group">

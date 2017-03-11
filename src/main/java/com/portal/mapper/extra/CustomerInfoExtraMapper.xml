@@ -90,7 +90,7 @@
    <update id="updateProduct" parameterType="com.portal.bean.Criteria" >
     update customer_info 
     set product = CONCAT(ifnull(product,''),#{condition.product,jdbcType=VARCHAR}), 
-    transaction_amount = transaction_amount + #{condition.amount,jdbcType=DECIMAL}
+    transaction_amount = ifnull(transaction_amount,0) + #{condition.amount,jdbcType=DECIMAL}
     where id =#{condition.cid,jdbcType=VARCHAR};
   </update>
   

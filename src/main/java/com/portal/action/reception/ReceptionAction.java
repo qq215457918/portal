@@ -1,14 +1,17 @@
 
 package com.portal.action.reception;
 
+import com.portal.bean.CustomerInfo;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerInfoService;
+import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,16 +25,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/visit")
 public class ReceptionAction {
-    //    private final Logger logger = LoggerFactory.getLogger(ReceptionAction.class);
+    @Autowired
+    private ReceptionInfoService receptionInfoService;
 
     @Autowired
-    protected ReceptionInfoService receptionInfoService;
+    private CustomerInfoService customerInfoService;
 
     @Autowired
-    protected CustomerInfoService customerInfoService;
+    private OrderInfoService orderInfoService;
 
     @Autowired
-    protected OrderInfoService orderInfoService;
+    private EmployeeInfoService employeeService;
 
     /**
      * 进入用户查询页面
@@ -42,7 +46,6 @@ public class ReceptionAction {
     @RequiresPermissions("visit:button")
     @RequestMapping(value = "/query")
     public String queryCustomer(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
         return "reception/inquiry_query";
     }
 
@@ -59,6 +62,9 @@ public class ReceptionAction {
         boolean exist = customerInfoService.isCustomer(phoneNo);
         ModelAndView model = new ModelAndView();
         if (!exist) {
+            //找到此区域下的所有客服信息
+            model.addObject("phoneEmp", employeeService.getPhoneEmpByOrganization());
+            model.addObject("phone", phoneNo);
             model.setViewName("reception/inquiry_add");
             return model;
         }
@@ -74,6 +80,9 @@ public class ReceptionAction {
         WebUtils.setAttributeToSession(request);
         ModelAndView model = new ModelAndView();
         String customerId = request.getParameter("cId");
+        if (StringUtils.isEmpty(customerId)) {
+            customerId = request.getAttribute("cId").toString();
+        }
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
         receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
@@ -92,28 +101,26 @@ public class ReceptionAction {
 
     /**
      * modify 查询add 是否电话号码是否存在
+     * modify 0310
      * @param request
      * @param response
      * @return
      */
     @RequestMapping(value = "/add")
-    public ModelAndView customerAdd(HttpServletRequest request, HttpServletResponse response) {
-        getBasePath(request, response);
-        CustomerSimpleInfoForm customerInfo =
-                customerInfoService.getFristQueryInfo(request.getParameter("phone").toString());
+    public ModelAndView customerAdd(CustomerInfo customerInfo, HttpServletRequest request) {
+        CustomerSimpleInfoForm isExist =
+                customerInfoService.getFristQueryInfo(customerInfo.getPhone());
         ModelAndView model = new ModelAndView();
-        if (customerInfo != null) {
+        if (isExist != null) {
             model.setViewName("reception/query_frist");
-            model.addObject("result", customerInfo);
+            model.addObject("result", isExist);
             return model;
         } else {
-            EmployeeInfo employee = (EmployeeInfo) request.getSession().getAttribute("userInfo");
-            CustomerSimpleInfoForm info = customerInfoService.insertCustomer(request, employee);
-            model.addObject("result", info);
+            model.addObject("result", customerInfoService.insertCustomer(customerInfo,
+                    (EmployeeInfo) request.getSession().getAttribute("userInfo")));
             model.setViewName("reception/query_frist");
             return model;
         }
-
     }
 
     /**

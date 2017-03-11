@@ -109,7 +109,9 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         criteria.put("startDate", request.getParameter("startReportDate"));
         criteria.put("endDate", request.getParameter("endReportDate"));
         criteria.put("staff_name", request.getParameter("staff_name"));
-        criteria.put("receiverStaffIdNew", (String) request.getSession().getAttribute("userId"));
+        //cId
+        criteria.put("cId", request.getSession().getAttribute("cId"));
+        //        criteria.put("receiverStaffIdNew", (String) request.getSession().getAttribute("userId"));
         if (request.getParameter("isReceiver") == "true") {
             criteria.put("endtimeflag", true);
         }
@@ -130,6 +132,7 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     public Criteria setPageCriteria(HttpServletRequest request) {
         criteria.clear();
         criteria.setOrderByClause("create_date desc");
+        criteria.put("cId", request.getSession().getAttribute("cId"));
         int currentPage = StringUtil.getIntValue(request.getParameter("iDisplayStart"));
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         criteria.setMysqlOffset(currentPage);

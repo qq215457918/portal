@@ -41,6 +41,22 @@ function initData() {
 					  },
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
+		            {"data": "status",
+						"render": function(data, type, full) {
+							var type;
+							switch (data)
+							{
+							case "0": type ="未支付";break;
+							case "1": type ="已支付";break;
+							case "2": type ="已出库";break;
+							case "3": type ="文交所已审核";break;
+							case "4": type ="已完成";break;
+							case "5": type ="待审批";break;
+							default:type =" ";break;
+						 }
+							return type;
+						}
+					  },
 		            {"data": "orderType",
 						"render": function(data, type, full) {
 							var type;
@@ -48,7 +64,10 @@ function initData() {
 							{
 							case "1": type ="正常";break;
 							case "2": type ="退货";break;
-							//case "3": type ="换货";break; 去掉换货业务。
+							case "4": type ="赠品";break;
+							case "5": type ="回购";break;
+							case "6": type ="vip赠品";break;
+							case "7": type ="回购待确认";break;
 							default:type =" ";break;
 						 }
 							return type;
@@ -71,8 +90,7 @@ function initData() {
 						"render": function(data, type, full) {
 						   var result = "";
 						   var returnsButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='returnsOrder("+data+");'>退货 </button>";
-						   var orderType = full.orderType; 
-						   if(orderType==1){
+						   if(full.orderType==1 && full.status==4){
 							   result = returnsButton;
 						   }
 							return result;

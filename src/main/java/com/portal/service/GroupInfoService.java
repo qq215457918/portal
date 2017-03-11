@@ -26,7 +26,7 @@ public interface GroupInfoService {
     int insert(GroupInfo record);
 
     int insertSelective(GroupInfo record);
-    
+
     /**
      * @Title: getAllCompany 
      * @Description: 获取所有机构(公司)
@@ -36,7 +36,7 @@ public interface GroupInfoService {
      * @version V1.0
      */
     List<GroupInfo> getAllCompany();
-    
+
     /**
      * @Title: addGroupInfo 
      * @Description: 新增组织机构部门信息
@@ -47,7 +47,7 @@ public interface GroupInfoService {
      * @version V1.0
      */
     int addGroupInfo(GroupInfo record);
-    
+
     /**
      * @Title: deleteGroupInfo 
      * @Description: 删除组织机构部门信息(会关联删除所有子部门)

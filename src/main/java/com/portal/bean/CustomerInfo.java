@@ -65,6 +65,8 @@ public class CustomerInfo implements Serializable {
 
     private Date birthday;
 
+    private String birthdayStr;
+
     /**
      * 产品
      */
@@ -77,7 +79,7 @@ public class CustomerInfo implements Serializable {
     private Date recentExportDate;
 
     private Date recentImportDate;
-    
+
     /**
      * 拨打时间
      */
@@ -115,6 +117,14 @@ public class CustomerInfo implements Serializable {
     private String receiverStaffDate;
 
     private String gift;
+
+    public String getBirthdayStr() {
+        return birthdayStr;
+    }
+
+    public void setBirthdayStr(String birthdayStr) {
+        this.birthdayStr = birthdayStr;
+    }
 
     public String getHomePhone() {
         return homePhone;
@@ -458,7 +468,7 @@ public class CustomerInfo implements Serializable {
     public void setRecentImportDate(Date recentImportDate) {
         this.recentImportDate = recentImportDate;
     }
-    
+
     /**
      * @return 拨打时间
      */

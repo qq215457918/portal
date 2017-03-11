@@ -63,15 +63,12 @@ public class DepositAction {
         Criteria criteria = new Criteria();
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
-
-        criteria.put("status", "4");
         criteria.put("payType", "1");
         criteria.put("orderType", "1");
         criteria.put("deleteFlag", "0");
+        criteria.put("customerId", (String) request.getSession().getAttribute("cId"));
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("goodCode", request.getParameter("goodCode"));
-        criteria.put("lprice", request.getParameter("lprice"));
-        criteria.put("hprice", request.getParameter("hprice"));
         List<OrderInfoForm> resultList = orderInfoService.getDepositInfo(criteria);
         int count = orderInfoService.countByExample(criteria);
         JsonUtils.resultJson(resultList, count, response, request);
