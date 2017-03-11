@@ -5,7 +5,7 @@ $(document).ready(function(){
 		if('' == $('#orderNumber').val()){
 			return;
 		}
-		$('#financeOrderExam').dataTable().fnDraw();
+		$('#financeOrderDate').dataTable().fnDraw();
 	});
 	
 	$('#collect').click(function(){
@@ -268,10 +268,10 @@ function initData(){
    		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderId = $('#orderId').val();
-							var financeDate = $('#financeDate').val();
+							var orderNumber = $('#orderNumber').val();
 							var userId = $('#hiddenUserId').val();
 							
-							aoData.push({'name':'orderId','value':orderId}, {'name':'financeDate','value':financeDate}, 
+							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber}, 
 									{'name':'userId','value':userId}, {'name':'store','value':1});
 							$.ajax({
 								"dataType": 'json',

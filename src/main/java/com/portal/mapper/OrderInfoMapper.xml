@@ -43,7 +43,7 @@
          and id = #{condition.id,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderNumber != null" >
-         and order_number = #{condition.orderNumber,jdbcType=VARCHAR}
+         and order_number like concat('%', #{condition.orderNumber,jdbcType=TIMESTAMP}, '%')
       </if>
       <if test="condition.customerId != null" >
          and customer_id = #{condition.customerId,jdbcType=VARCHAR}
@@ -754,6 +754,9 @@
       <if test="condition.userId != null" >
          and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
       </if>
+      <if test="condition.orderNumber != null" >
+         and oi.order_number like concat('%', #{condition.orderNumber,jdbcType=TIMESTAMP}, '%')
+      </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
@@ -762,12 +765,15 @@
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
       </if>
+      <if test="condition.areaFlag != null" >
+         and oi.area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
+      </if>
       <if test="condition.deleteFlag != null" >
          and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
     group by id
-    order by oi.finance_date desc
+    order by oi.order_number desc
     <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
@@ -800,10 +806,16 @@
       <if test="condition.userId != null" >
          and oi.receiver_staff_id = #{condition.userId,jdbcType=TIMESTAMP}
       </if>
+      <if test="condition.orderNumber != null" >
+         and oi.order_number like concat('%', #{condition.orderNumber,jdbcType=TIMESTAMP}, '%')
+      </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
+      </if>
+      <if test="condition.areaFlag != null" >
+         and oi.area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}

@@ -1,6 +1,7 @@
 package com.portal.action.reception;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GoodsInfo;
 import com.portal.bean.OrderInfo;
 import com.portal.bean.result.GoodsInfoForm;
@@ -170,12 +171,15 @@ public class OrderAction {
     @RequestMapping("orderModifyList")
     public void orderModifyList(HttpServletRequest request, HttpServletResponse response) {
         Criteria criteria = new Criteria();
+        EmployeeInfo empInfo = (EmployeeInfo) request.getSession().getAttribute("userInfo");
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 
         criteria.put("goodsName", request.getParameter("goodsName"));
+        criteria.put("orderNumber", request.getParameter("orderNumber"));
         criteria.put("customerName", request.getParameter("customerName"));
         criteria.put("orderType", request.getParameter("orderType"));
+        criteria.put("areaFlag", empInfo.getOrganizationId());
         //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
         if (StringUtils.isNotBlank(userId) && !"1".equals(request.getParameter("store"))) {
