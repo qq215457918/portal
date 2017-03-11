@@ -48,7 +48,7 @@
       <if test="condition.roleIds != null" >
          and e.role_ids like CONCAT("%", #{condition.roleIds,jdbcType=VARCHAR}, "%")
       </if>
-      
+       
       <!-- 定时器执行查询条件 -->
       <if test="condition.employeeId != null" >
          and e.id = #{condition.employeeId,jdbcType=VARCHAR}
