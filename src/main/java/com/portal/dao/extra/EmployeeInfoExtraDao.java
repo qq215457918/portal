@@ -20,6 +20,11 @@ public interface EmployeeInfoExtraDao {
      * 根据条件查询记录集
      */
     List<EmployeeInfoForm> selectByConditions(Criteria example);
+    
+    /**
+     * 根据条件查询记录集(数据库默认字段)
+     */
+    List<EmployeeInfoForm> selectByExamples(Criteria example);
 
     /**
      * @Title: getReceiveNameByPhoneId 

@@ -5,25 +5,23 @@
 <head>
 	<jsp:include page="/WEB-INF/jsp/common/include.jsp" />
     <title>权限菜单管理</title>
+    <base href="${basePath}">
     <jsp:include page="/WEB-INF/jsp/admin/head.jsp" />
     <link rel="stylesheet" href="${basePath}/resources/css/admin/css.css">
-    <link rel="stylesheet" href="${basePath}/resources/jquery-treetable/stylesheets/jquery.treetable.css">
-    <link rel="stylesheet" href="${basePath}/resources/jquery-treetable/stylesheets/jquery.treetable.theme.default.css">
     <style>
         #table th, #table td {
             font-size: 14px;
             padding : 8px;
         }
-
     </style>
 </head>
 <body>
 
-<c:if test="${not empty msg}">
-    <div class="message">${msg}</div>
-</c:if>
+<shiro:hasPermission name="resource:create">
+    <a href="${basePath}admin/resource/-1/appendChild" style="float: right; margin-right: 12%;">新增权限菜单</a><br/>
+</shiro:hasPermission>
 
-<table id="table">
+<table id="table" style="margin-left: 15%; width: 70%;">
     <thead>
         <tr>
             <th>名称</th>
@@ -43,33 +41,55 @@
                 <td>
                     <shiro:hasPermission name="resource:create">
                         <c:if test="${resource.type ne 'button'}">
-                        <a href="${pageContext.request.contextPath}/resource/${resource.id}/appendChild">添加子节点</a>
+                        	<a href="${basePath}admin/resource/${resource.id}/appendChild">添加子菜单</a>
                         </c:if>
                     </shiro:hasPermission>
 
                     <shiro:hasPermission name="resource:update">
-                        <a href="${pageContext.request.contextPath}/resource/${resource.id}/update">修改</a>
+                        <a href="${basePath}admin/resource/${resource.id}/update">修改</a>
                     </shiro:hasPermission>
                     <c:if test="${not resource.rootNode}">
-
-                    <shiro:hasPermission name="resource:delete">
-                        <a class="deleteBtn" href="#" data-id="${resource.id}">删除</a>
-                    </shiro:hasPermission>
+	                    <shiro:hasPermission name="resource:delete">
+	                        <a class="deleteBtn" href="javascript:;" data-id="${resource.id}">删除</a>
+	                    </shiro:hasPermission>
                     </c:if>
                 </td>
             </tr>
         </c:forEach>
     </tbody>
 </table>
-<script src="${basePath}/resources/js/jquery-1.10.2.min.js"></script>
-<script src="${basePath}/resources/jquery-treetable/javascripts/src/jquery.treetable.js"></script>
 <script>
     $(function() {
-        $("#table").treetable({ expandable: true }).treetable("expandNode", 1);
+    	var basePath = $("base").attr('href');
+    	
         $(".deleteBtn").click(function() {
-            if(confirm("确认删除吗?")) {
-                location.href = "${pageContext.request.contextPath}/resource/"+$(this).data("id")+"/delete";
-            }
+        	var resourcesId = $(this).data("id");
+        	$.ajax({
+                "dataType": 'json',
+                "type": "POST",
+                "url": basePath + "admin/resource/checkHasChildAndPromi",
+                "data": {
+                	parentId : $(this).data("id")
+                },
+                "success": function(data){
+                	if(data) {
+                		if(data.status == 1) {
+                    		if(confirm("该菜单含有子菜单或关联权限, 会级联删除或移除关联关系, 确认删除吗?")) {
+                                location.href = basePath + "admin/resource/" + resourcesId + "/delete";
+                            }
+                    	}else {
+                    		if(confirm("确认删除吗?")) {
+                                location.href = basePath + "admin/resource/" + resourcesId + "/delete";
+                            }
+                    	}
+                	}else {
+                		alert("操作失败, 请刷新后重试");
+                	}
+                },
+                "error": function(data){
+                    alert("操作失败, 请刷新后重试");
+                }
+            });
         });
     });
 </script>

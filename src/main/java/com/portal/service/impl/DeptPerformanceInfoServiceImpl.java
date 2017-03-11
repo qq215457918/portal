@@ -238,6 +238,13 @@ public class DeptPerformanceInfoServiceImpl implements DeptPerformanceInfoServic
             List<DeptPerformanceInfo> employeePerfor = deptPerformanceInfoExtraDao.checkPerformance(criteria);
             if(CollectionUtils.isNotEmpty(employeePerfor)) {
                 deptPerforInfo.setId(employeePerfor.get(0).getId());
+                deptPerforInfo.setReportDate(new Date());
+                if(deptPerforInfo.getPerformance() == null) {
+                    deptPerforInfo.setPerformance(0L);
+                }
+                if(deptPerforInfo.getOrderAmounts() == null) {
+                    deptPerforInfo.setOrderAmounts(0);
+                }
                 count += updateByPrimaryKey(deptPerforInfo);
             }else {
                 deptPerforInfo.setId(UUidUtil.getUUId());

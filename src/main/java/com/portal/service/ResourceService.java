@@ -34,4 +34,7 @@ public interface ResourceService {
      * @return
      */
     List<Resource> findMenus(Set<String> permissions);
+    
+    // 删除菜单时判断是否存在子菜单和关联权限关系
+    int checkHasChildAndPromi(Long resourcesId);
 }

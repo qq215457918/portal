@@ -2,6 +2,7 @@ package com.portal.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -141,6 +142,7 @@ public class EmployeeManageController {
         criteria.setMysqlLength(perpage);
         criteria.setOrderByClause("department_id asc");
         
+        criteria.put("deleteFlag", "0");
         if(StringUtil.isNotBlank(name)) {
             criteria.put("name", name.trim());
         }
@@ -205,6 +207,14 @@ public class EmployeeManageController {
                     criteria.put("parentsId", employeeInfo.getDepartmentId());
                     groupList = groupService.selectByExample(criteria);
                 }
+                String roleIds = employeeInfo.getRoleIds();
+                if(StringUtil.isNotBlank(roleIds)) {
+                    roleIds = roleIds.substring(1, roleIds.length());
+                    String[] ids = roleIds.split(",");
+                    List<String> idsList = Arrays.asList(ids);
+                    request.setAttribute("idsList", idsList);
+                }
+                
                 // 向域中存储对象信息
                 request.setAttribute("employee", employeeInfo);
                 request.setAttribute("departmentList", departmentList);
