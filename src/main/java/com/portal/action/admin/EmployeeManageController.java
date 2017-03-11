@@ -87,7 +87,7 @@ public class EmployeeManageController {
      * @Title: ajaxDeptOrGroupDataByParentsId 
      * @Description: 根据父级ID获取子级部门或组数据
      * @param request
-     * @param response 
+     * @param response
      * @return void
      * @author Xia ZhengWei
      * @date 2016年12月22日 下午9:34:14 
