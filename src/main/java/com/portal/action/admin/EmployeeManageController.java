@@ -126,7 +126,7 @@ public class EmployeeManageController {
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         String sEcho = request.getParameter("sEcho");
         
-        // 获取查询条件
+        // 获取查询条件 
         String name = request.getParameter("name");
         String sex = request.getParameter("sex");
         String organizationId = request.getParameter("organizationId");
