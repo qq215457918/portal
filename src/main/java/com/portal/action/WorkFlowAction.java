@@ -897,10 +897,10 @@ public class WorkFlowAction {
     			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
     			sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
     			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("price"))));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount_actual"))));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount"))));
     			sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
     			sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
-    			sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
+//    			sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
     			sheet.addCell(new Label(7, i, result.get(j).get("remark")));
     		}
     		
