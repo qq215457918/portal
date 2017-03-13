@@ -214,6 +214,7 @@
   <!-- 获取定时器需要的数据 -->
   <select id="getByConditions" resultType="java.lang.String" parameterType="com.portal.bean.Criteria">
   	select 
+  		distinct
     	r.customer_id
     from reception_info r
     <if test="_parameter != null" >

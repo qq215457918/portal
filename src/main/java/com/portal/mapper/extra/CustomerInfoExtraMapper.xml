@@ -118,23 +118,43 @@
   <select id="getFiltrateCustomers" resultMap="FormResultMap" parameterType="com.portal.bean.Criteria" >
 	select 
 		'成单' as type,
-        count(r.customer_id) as visit_count,
+        (select count(r.customer_id) from reception_info r
+			left join customer_info c on r.customer_id = c.id
+			left join order_info o on c.id = o.customer_id
+			<if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		      and c.type = '3'
+			  and o.finance_flag = '1'
+		    </if>
+		) as visit_count,
         count(o.id) as out_order_count,
-        sum(o.actual_price) as out_prices,
-		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+        sum(ofs.pay_amount_actual) as out_prices,
 		concat(
 			round(
-				sum(o.actual_price)/(
-										select SUM(oi.actual_price) 
-										from order_info oi 
+				count(o.id)/
+					(select count(r.customer_id) from reception_info r
+						left join customer_info c on r.customer_id = c.id
+						left join order_info o on c.id = o.customer_id
+						<if test="_parameter != null" >
+					      <include refid="Example_Where_Clause" />
+					      and c.type = '3'
+						  and o.finance_flag = '1'
+					    </if>
+					)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(ofs.pay_amount_actual)/(
+										select SUM(of.pay_amount_actual) 
+										from order_info oi
+										left join order_fund_settlement of on oi.order_number = of.order_number
 										<if test="_parameter != null" >
 									      <include refid="Example_Where_Clause" />
 									      and o.finance_flag = '1'
 									    </if>
 									    )*100,2),'%') as total_perfor_percentage			
     from customer_info c
-    left join reception_info r on c.id = r.customer_id
     left join order_info o on c.id = o.customer_id
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
       and c.type = '3'
@@ -143,23 +163,43 @@
 	UNION
 	select 
 		'锁定' as type,
-	    count(r.customer_id) as visit_count,
+	    (select count(r.customer_id) from reception_info r
+			left join customer_info c on r.customer_id = c.id
+			left join order_info o on c.id = o.customer_id
+			<if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		      and c.type = '4'
+			  and o.finance_flag = '1'
+		    </if>
+		) as visit_count,
         count(o.id) as out_order_count,
-        sum(o.actual_price) as out_prices,
-		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+        sum(ofs.pay_amount_actual) as out_prices,
 		concat(
 			round(
-				sum(o.actual_price)/(
-										select SUM(oi.actual_price) 
-										from order_info oi 
+				count(o.id)/
+					(select count(r.customer_id) from reception_info r
+						left join customer_info c on r.customer_id = c.id
+						left join order_info o on c.id = o.customer_id
+						<if test="_parameter != null" >
+					      <include refid="Example_Where_Clause" />
+					      and c.type = '4'
+						  and o.finance_flag = '1'
+					    </if>
+					)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(ofs.pay_amount_actual)/(
+										select SUM(of.pay_amount_actual) 
+										from order_info oi
+										left join order_fund_settlement of on oi.order_number = of.order_number
 										<if test="_parameter != null" >
 									      <include refid="Example_Where_Clause" />
 									      and o.finance_flag = '1'
 									    </if>
 									    )*100,2),'%') as total_perfor_percentage			
     from customer_info c
-    left join reception_info r on c.id = r.customer_id
     left join order_info o on c.id = o.customer_id
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
       and c.type = '4'
@@ -168,23 +208,43 @@
 	UNION
 	select 
 		'说明会' as type,
-	    count(r.customer_id) as visit_count,
+	    (select count(r.customer_id) from reception_info r
+			left join customer_info c on r.customer_id = c.id
+			left join order_info o on c.id = o.customer_id
+			<if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		      and c.type = '2'
+			  and o.finance_flag = '1'
+		    </if>
+		) as visit_count,
         count(o.id) as out_order_count,
-        sum(o.actual_price) as out_prices,
-		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+        sum(ofs.pay_amount_actual) as out_prices,
 		concat(
 			round(
-				sum(o.actual_price)/(
-										select SUM(oi.actual_price) 
-										from order_info oi 
+				count(o.id)/
+					(select count(r.customer_id) from reception_info r
+						left join customer_info c on r.customer_id = c.id
+						left join order_info o on c.id = o.customer_id
+						<if test="_parameter != null" >
+					      <include refid="Example_Where_Clause" />
+					      and c.type = '2'
+						  and o.finance_flag = '1'
+					    </if>
+					)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(ofs.pay_amount_actual)/(
+										select SUM(of.pay_amount_actual) 
+										from order_info oi
+										left join order_fund_settlement of on oi.order_number = of.order_number
 										<if test="_parameter != null" >
 									      <include refid="Example_Where_Clause" />
 									      and o.finance_flag = '1'
 									    </if>
 									    )*100,2),'%') as total_perfor_percentage			
     from customer_info c
-    left join reception_info r on c.id = r.customer_id
     left join order_info o on c.id = o.customer_id
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
       and c.type = '2'
@@ -193,23 +253,43 @@
 	UNION
 	select 
 		'重复登门' as type,
-	    count(r.customer_id) as visit_count,
+	    (select count(r.customer_id) from reception_info r
+			left join customer_info c on r.customer_id = c.id
+			left join order_info o on c.id = o.customer_id
+			<if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		      and c.type = '1'
+			  and o.finance_flag = '1'
+		    </if>
+		) as visit_count,
         count(o.id) as out_order_count,
-        sum(o.actual_price) as out_prices,
-		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+        sum(ofs.pay_amount_actual) as out_prices,
 		concat(
 			round(
-				sum(o.actual_price)/(
-										select SUM(oi.actual_price) 
-										from order_info oi 
+				count(o.id)/
+					(select count(r.customer_id) from reception_info r
+						left join customer_info c on r.customer_id = c.id
+						left join order_info o on c.id = o.customer_id
+						<if test="_parameter != null" >
+					      <include refid="Example_Where_Clause" />
+					      and c.type = '1'
+						  and o.finance_flag = '1'
+					    </if>
+					)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(ofs.pay_amount_actual)/(
+										select SUM(of.pay_amount_actual) 
+										from order_info oi
+										left join order_fund_settlement of on oi.order_number = of.order_number
 										<if test="_parameter != null" >
 									      <include refid="Example_Where_Clause" />
 									      and o.finance_flag = '1'
 									    </if>
-									    )*100,2),'%') as total_perfor_percentage			
+									    )*100,2),'%') as total_perfor_percentage
     from customer_info c
-    left join reception_info r on c.id = r.customer_id
     left join order_info o on c.id = o.customer_id
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
       and c.type = '1'
@@ -218,23 +298,43 @@
 	UNION
 	select 
 		'转介绍' as type,
-	    count(r.customer_id) as visit_count,
+	    (select count(r.customer_id) from reception_info r
+			left join customer_info c on r.customer_id = c.id
+			left join order_info o on c.id = o.customer_id
+			<if test="_parameter != null" >
+		      <include refid="Example_Where_Clause" />
+		      and c.type = '5'
+			  and o.finance_flag = '1'
+		    </if>
+		) as visit_count,
         count(o.id) as out_order_count,
-        sum(o.actual_price) as out_prices,
-		concat(round(count(r.customer_id)/count(o.id)*100,2),'%') as out_rate,
+        sum(ofs.pay_amount_actual) as out_prices,
 		concat(
 			round(
-				sum(o.actual_price)/(
-										select SUM(oi.actual_price) 
-										from order_info oi 
+				count(o.id)/
+					(select count(r.customer_id) from reception_info r
+						left join customer_info c on r.customer_id = c.id
+						left join order_info o on c.id = o.customer_id
+						<if test="_parameter != null" >
+					      <include refid="Example_Where_Clause" />
+					      and c.type = '5'
+						  and o.finance_flag = '1'
+					    </if>
+					)*100,2),'%') as out_rate,
+		concat(
+			round(
+				sum(ofs.pay_amount_actual)/(
+										select SUM(of.pay_amount_actual) 
+										from order_info oi
+										left join order_fund_settlement of on oi.order_number = of.order_number
 										<if test="_parameter != null" >
 									      <include refid="Example_Where_Clause" />
 									      and o.finance_flag = '1'
 									    </if>
-									    )*100,2),'%') as total_perfor_percentage			
+									    )*100,2),'%') as total_perfor_percentage
     from customer_info c
-    left join reception_info r on c.id = r.customer_id
     left join order_info o on c.id = o.customer_id
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
       and c.type = '5'

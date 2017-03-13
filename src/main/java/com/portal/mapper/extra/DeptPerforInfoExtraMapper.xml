@@ -167,8 +167,9 @@
   	select 
 		e.id as employee_id,
 		(
-		select sum(o.actual_price) 
-		from order_info o 
+		select sum(of.pay_amount_actual) 
+		from order_info o
+		left join order_fund_settlement of on o.order_number = of.order_number 
 		where e.id = o.receiver_staff_id 
 		<![CDATA[
 	     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}

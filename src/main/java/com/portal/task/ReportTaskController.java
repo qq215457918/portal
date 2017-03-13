@@ -102,7 +102,7 @@ public class ReportTaskController {
      */
     @Scheduled(cron = "0 00 19 * * ?")  
     public void visitEveryDay(){  
-        logger.info("启动每日19点05分的定时任务, 操作内容：统计每日接待情况存储到每日登门表-------------------");
+        logger.info("启动每日19点00分的定时任务, 操作内容：统计每日接待情况存储到每日登门表-------------------");
         criteria.clear();
         criteria.put("startTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
         criteria.put("endTime", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
@@ -118,7 +118,7 @@ public class ReportTaskController {
                 count = visitEverydayService.insert(info);
             }
         }
-        logger.info("每日19点05分的定时任务结束, 共存储" + count + "条记录-------------------");
+        logger.info("每日19点00分的定时任务结束, 共存储" + count + "条记录-------------------");
     }
     
     
@@ -175,7 +175,7 @@ public class ReportTaskController {
             info.setReceiverStaffId(employeeInfo.getId());
             info.setReceiverStaffName(employeeInfo.getName());
             info.setReceiverArea(employeeInfo.getOrganizationId());
-            // 根据员工ID到每日接待表中获取接待过的所有客户ID
+            // 根据员工ID到每日接待表中获取接待过的所有客户ID(去重)
             criteria.clear();
             criteria.put("receiverStaffId", employeeInfo.getId());
             criteria.put("startTime", startTime);
@@ -305,7 +305,7 @@ public class ReportTaskController {
     }
     
     
-    // 第三个定时任务：每日晚19点20分统计向部门业绩统计表插入数据（查询订单、员工、客户表）改为每半小时一次
+    // 第三个定时任务：每日晚19点20分（改为每半小时一次）统计向部门业绩统计表插入数据（查询订单、员工、客户表）
     // 表数据：机构ID、机构名称、部门ID、部门名称、小组ID、小组名称、人员ID、人员名称、业绩、件数、新客户数量、统计日期
     
     /**
@@ -332,7 +332,7 @@ public class ReportTaskController {
     }
     
     
-    // 第四个定时任务：每周日晚19点30统计向对接业绩表中插入数据（）
+    // 第四个定时任务：每周日晚19点20统计向对接业绩表中插入数据（）
     // 表数据：客服ID、客服姓名、接待姓名、成单接待数、出单数、出单率、业绩、单均、件均、锁定接待数、出单数、出单率、业绩、单均、件均、单均产品件数
     /**
      * @Title: buttPerfors 
@@ -342,9 +342,9 @@ public class ReportTaskController {
      * @date 2016年11月7日 下午10:16:06 
      * @version V1.0
      */
-    @Scheduled(cron = "0 30 19 ? * SUN")
+    @Scheduled(cron = "0 20 19 ? * SUN")
     public void buttPerfors(){  
-        logger.info("启动每周日19点30分的定时任务, 操作内容：统计向对接业绩表中插入数据-------------------");
+        logger.info("启动每周日19点20分的定时任务, 操作内容：统计向对接业绩表中插入数据-------------------");
         
         int count = 0;
         // 先获取所有客服信息, 根据客服ID获取其他数据
@@ -354,7 +354,7 @@ public class ReportTaskController {
         criteria.put("status", "0");
         criteria.put("positionType", "1");  
         List<EmployeeInfo> employeeList = employeeService.selectByExample(criteria);
-        if(employeeList != null && employeeList.size() > 0) {
+        if(CollectionUtils.isNotEmpty(employeeList)) {
             // 获取本周一和周日
             String startTime = DateUtil.formatDate(DateUtil.getNowWeekMonday(new Date()), "yyyy-MM-dd");
             String endTime = DateUtil.formatDate(DateUtil.getNowWeekSunday(new Date()), "yyyy-MM-dd 23:59:59");
@@ -481,7 +481,7 @@ public class ReportTaskController {
                 }
             }
         }
-        logger.info("每日19点30分的定时任务结束, 共存储" + count + "条记录-------------------");
+        logger.info("每日19点20分的定时任务结束, 共存储" + count + "条记录-------------------");
     }
     
     /**

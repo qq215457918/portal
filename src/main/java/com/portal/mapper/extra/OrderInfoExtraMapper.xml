@@ -338,22 +338,25 @@
   
   <!-- 根据条件查询对应业绩 -->
   <select id="getClinchPerfors" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
-  	select sum(o.actual_price) as total_amounts,
-		(select sum(o.actual_price) 
+  	select sum(ofs.pay_amount_actual) as total_amounts,
+		(select sum(ofs.pay_amount_actual) 
 			from order_info o
+			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			left join customer_info c on o.customer_id = c.id
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
 			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as dl_amounts,
-		(select sum(o.actual_price) 
+		(select sum(ofs.pay_amount_actual) 
 			from order_info o
+			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			left join customer_info c on o.customer_id = c.id
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
 			and c.area = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as sy_amounts
 	from order_info o
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	left join customer_info c on o.customer_id = c.id
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -365,8 +368,9 @@
   <select id="getDayAndPerfors" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
   	select 
 		DATE_FORMAT(o.create_date, '%Y-%m-%d') as create_date,
-		sum(o.actual_price) as performance
+		sum(ofs.pay_amount_actual) as performance
 	from order_info o 
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	left join customer_info c on o.customer_id = c.id
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -415,9 +419,10 @@
 		select 
 	  		e.id as staff_id,
 	  		e.`name` as staff_name,
-	  		sum(o.actual_price) as performance
+	  		sum(ofs.pay_amount_actual) as performance
 		from employee_info e
 		left join order_info o on e.id = <if test="condition.conditionId != null" >${condition.conditionId}</if>
+		left join order_fund_settlement ofs on o.order_number = ofs.order_number
 		left join customer_info c on o.customer_id = c.id
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
@@ -431,12 +436,12 @@
 	    	e.id as staff_id, e.`name` as staff_name, 0 as performance
 	    from employee_info e
 	    where 1=1
-		    <if test="condition.area != null" >
-	         and e.organization_id = #{condition.area,jdbcType=VARCHAR}
-	      	</if>
-			<if test="condition.positionType != null" >
-	         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
-	      	</if>
+	    <if test="condition.area != null" >
+         and e.organization_id = #{condition.area,jdbcType=VARCHAR}
+      	</if>
+		<if test="condition.positionType != null" >
+         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+      	</if>
 	    group by e.`name`
 	) a group by a.staff_name
   </select>
@@ -535,8 +540,9 @@
   
   <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
   <select id="getOrderAmounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select sum(o.actual_price)
+    select sum(ofs.pay_amount_actual)
 	from order_info o
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
     <![CDATA[
      and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
@@ -560,10 +566,11 @@
     ]]>
   </select>
   
-  <!-- 获取每天的定金退款数据（定时器使用） -->
+  <!-- 获取每天的定金退款数据（销售日报表使用） -->
   <select id="getDepositRefund" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select actual_price 
-    from order_info o 
+    select ofs.pay_amount_actual 
+    from order_info o
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '1' and o.order_type = '2'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[
@@ -572,10 +579,11 @@
     ]]>
   </select>
   
-  <!-- 获取每天的定金回款数据（定时器使用） -->
+  <!-- 获取每天的定金回款数据（销售日报表使用） -->
   <select id="getDepositReturn" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select actual_price 
-    from order_info o 
+    select ofs.pay_amount_actual  
+    from order_info o
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '3'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[

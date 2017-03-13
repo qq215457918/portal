@@ -189,12 +189,12 @@
             (select e.`name` from employee_info e where e.id = r.phone_staff_id) as custom_service_name,
             r.receiver_staff_id as receiver_staff_id,
             (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
-            o.actual_price as transaction_amount,
+            ofs.pay_amount_actual as transaction_amount,
             r.create_date as visit_date
-        from 
-            reception_info r
+        from reception_info r
         left join customer_info c on r.customer_id = c.id
         left join order_info o on r.order_id = o.id
+        left join order_fund_settlement ofs on o.order_number = ofs.order_number
         <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
