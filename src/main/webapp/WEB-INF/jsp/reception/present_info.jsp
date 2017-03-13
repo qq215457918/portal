@@ -122,9 +122,10 @@
  	$(function(){
 		base = $("base").attr('href'); 	
 		getPresent();
-		var goodId = $('#applyGoods').val();
-		// 查询功能
+		// 特殊申请
 		$("#appConfirm").click(function(){
+			var goodId = $('#applyGoods').find("option:selected").val();
+			var goodName = $('#applyGoods').find("option:selected").text();
 			var count = $('#applyCount').val();
 			var reason = $('#applyReason').val();
 			$.ajax({
@@ -134,6 +135,7 @@
 					"reason" : reason,
 					"count" : count,
 					"goodId" : goodId,
+					"goodName":goodName,
 					"isVIP" : false,
 					"customerId":"1"
 				},

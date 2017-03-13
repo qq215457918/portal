@@ -76,7 +76,6 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
     public List<GoodsInfo> selectPresentInfo(HttpServletRequest request) {
         criteria.clear();
         criteria.put("type", "1");
-        //        criteria.put("moreAmount", 0);
         criteria.put("deleteFlag", "0");
         criteria.setOrderByClause("seq desc");
         return selectByExample(criteria);
@@ -276,7 +275,7 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         BeanUtils.copyProperties(goodsInfoForm, goodsInfo);
         if (StringUtil.isNotBlank(goodsInfoForm.getId())) {
             // 修改
-            if(StringUtil.isNotBlank(goodsInfoForm.getViewCreateDate())) {
+            if (StringUtil.isNotBlank(goodsInfoForm.getViewCreateDate())) {
                 goodsInfo.setCreateDate(new Date(goodsInfoForm.getViewCreateDate()));
             }
             goodsInfo.setUpdateUserid(employee.getId());

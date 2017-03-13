@@ -16,12 +16,12 @@ $(function() {
 	
 	// 审批确认
 	$("#appConfirm").click(function(){
-		var orderId = $('#orderId').val();
+		var orderNum = $('#orderNum').val();
 		$.ajax({
 			method : "POST",
 			url : base+"/present/confirm",
 			data : {
-				"orderId" : orderId
+				"orderNum" : orderNum
 			},
 			dataType : "JSON",
 			success : function(data) {
@@ -64,28 +64,27 @@ function initData() {
 		            {"mData": "createDateString"},
 		            {"mData": "receiverStaffName"},
 		            {"mData": "remarks"},
-		            {"data": "financeFlag",
+		            {"data": "status",
 						"render": function(data, type, full) {
 							var type;
 							switch (data)
 							{
-							case "0": type ="未审批";break;
-							case "1": type ="审核通过";break;
+							case "0": type ="审核通过";break;
+							case "5": type ="待审批";break;
 							default:type =" ";break;
 						 }
 							return type;
 						}
 					  },
-		            {"data": "orderNumber",
-						"render": function(data, type, full) {
-						   var result = "";
-						   var specialButton = "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='approved(&quot;"+data+"&quot;,&quot;"+full.receiverStaffName+"&quot;,&quot;"+full.customerName+"&quot;,&quot;"+full.goodName+"&quot;,&quot;"+full.amount+"&quot;);'>审批确认</button>";
-							if(full.financeFlag=='0'){
-								return specialButton;
+					  {"data": "orderNumber",
+							"render": function(data, type, full) {
+							var specialButton = "<button class='btn btn-xs btn-warning' onclick='approved(&quot;"+full.orderNumber+"&quot;,&quot;"+full.customerName+"&quot;,&quot;"+full.goodName+"&quot;,&quot;"+full.amount+"&quot;);'>审批确认</button>";
+								if(full.status=='5'){
+									return specialButton;
+								}
+							return '';
 							}
-						   
-						 }
-					  }
+						  }
 		           ],   	           
 		"fnServerData": function (sSource, aoData, fnCallback) {//查询项
 				var goodName = $('#goodName').val();
@@ -110,11 +109,10 @@ function initData() {
  * @param orderId
  * @returns
  */
-function approved(orderId ,receiverStaffName,customerName, goodName ,amount){
-	alert(orderId)
-	$('#orderId').val(orderId);
+function approved(orderNum ,receiverStaffName, goodName ,amount){
+	$('#orderNum').val(orderNum);
 	$('#applyGoodsName').val(goodName);
-	$('#customerName').val(customerName);
+/*	$('#customerName').val(customerName);*/
 	$('#receiverStaffName').val(receiverStaffName);
 	//applyCount
 	$('#applyCount').val(amount);

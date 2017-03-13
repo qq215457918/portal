@@ -587,16 +587,18 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      */
     public boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP) {
         String uuid = UUidUtil.getUUId();
-        insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
         String goodStr = request.getParameter("goodId");
-        customerInfoService.updateGift(request.getSession().getAttribute("cId").toString(),
-                request.getParameter("goodName").replace(",", "\n"));
         if (StringUtils.isEmpty(goodStr)) {
             return false;
         }
         for (String goodId : goodStr.split(",")) {
-            insertPresentDetailInfo(getOrderDetailInfo(goodId, "1", uuid, isVIP ? "4" : "6"));
+            insertPresentDetailInfo(
+                    getOrderDetailInfo(goodId, request.getParameter("count").toString(), uuid,
+                            isVIP ? "6" : "4"));
         }
+        insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
+        customerInfoService.updateGift(request.getSession().getAttribute("cId").toString(),
+                request.getParameter("goodName").replace(",", "\n"));
         return true;
     }
 
@@ -634,25 +636,22 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @return
      */
     OrderInfo getPresentOrderInfo(HttpServletRequest request, String uuid, int normalFlag, Boolean isVIP) {
-        //String cid = request.getParameter("customerId");
         String cid = request.getSession().getAttribute("cId").toString();
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
         orderInfo.setOrderNumber(StringUtil.getOrderNo());
         orderInfo.setCustomerId(cid);
-        orderInfo.setOrderType("4");//特殊赠品需要审批
-        if (isVIP) {
+
+        if (isVIP)
             orderInfo.setOrderType("6");
-        }
-        if (normalFlag == 0) {//一般赠品信息，不需要审批
+        else
+            orderInfo.setOrderType("4");
+
+        if (normalFlag == 0) //一般赠品信息，不需要审批
             orderInfo.setStatus("1");
-            orderInfo.setFinanceFlag("1");
-            orderInfo.setFinanceDate(new Date());
-        } else {
-            orderInfo.setOrderType("4");//特殊赠品需要审批
-            orderInfo.setFinanceFlag("0");
-            orderInfo.setStatus("0");
-        }
+        else
+            orderInfo.setStatus("5");
+
         orderInfo.setCreateDate(new Date());
         String[] staff = getStaffInfo(cid, request);
         orderInfo.setReceiverStaffId(staff[0]);
@@ -660,6 +659,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setPayType("0");//礼品订单都是全额支付
         orderInfo.setDeleteFlag("0");
         orderInfo.setRemarks(request.getParameter("reason"));
+        orderInfo.setAreaFlag(staff[2]);
         return orderInfo;
     }
 

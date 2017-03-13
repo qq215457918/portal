@@ -45,6 +45,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
     // 公共查询条件类
     Criteria criteria = new Criteria();
 
+    //登门次数加1
+    public void updateVisitCount(String cid) {
+        criteria.clear();
+        criteria.put("cid", cid);
+        customerInfoExtraDao.updateVisitCount(criteria);
+    }
+
     //修改客户类型 登门之后修改  客户分类 0 空白客户  1 重复登门 2说明会  3成单  4锁定 5转介绍
     // 登门修改为1 成单修改为3
 
@@ -105,9 +112,9 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      * @param id
      * @return
      */
-    public CustomerSimpleInfoForm getCutomerInfoById(String id) {
+    public CustomerSimpleInfoForm getCutomerInfoById(String id, EmployeeInfo employeeInfo) {
         CustomerInfo cInfo = selectByPrimaryKey(id);
-        return getSimpleInfoForm(cInfo);
+        return getSimpleInfoForm(cInfo, employeeInfo);
     }
 
     //根据电话号码查询ID信息
@@ -116,11 +123,11 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         if (cInfo == null) {
             return null;
         }
-        return getSimpleInfoForm(cInfo);
+        return getSimpleInfoForm(cInfo, null);
     }
 
     //转为页面显示的 customerForm
-    CustomerSimpleInfoForm getSimpleInfoForm(CustomerInfo cInfo) {
+    CustomerSimpleInfoForm getSimpleInfoForm(CustomerInfo cInfo, EmployeeInfo employeeInfo) {
         CustomerSimpleInfoForm cSimpleForm = new CustomerSimpleInfoForm();
         cSimpleForm.setId(cInfo.getId());
         cSimpleForm.setName(cInfo.getName());
@@ -129,8 +136,6 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         if (StringUtil.isNotBlank(cInfo.getPhone2())) {
             cSimpleForm.setEncryptPhone2(StringUtil.encryptPhone(cInfo.getPhone2()));
         }
-        //cSimpleForm.setType(cInfo.getType() == "3" ? "成单" : "登门");
-        //String cType = cInfo.getType();
         cSimpleForm.setType(CustomerType.getName(Integer.parseInt(cInfo.getType())));
         cSimpleForm.setRelationId(cInfo.getRelationId());
         if (!StringUtils.isEmpty(cInfo.getPhoneStaffId())) {
@@ -139,7 +144,13 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
                     .setPhoneStaffName(
                             employeeInfoService.selectByPrimaryKey(cInfo.getPhoneStaffId()).getName());
         }
-        if (StringUtil.isNotBlank(cInfo.getReceiverStaffId())) {
+        if (StringUtils.isEmpty(cInfo.getReceiverStaffId())) {
+            if (employeeInfo != null) {
+                cSimpleForm.setReceiverStaffId(employeeInfo.getId());
+                cSimpleForm.setReceiverStaffName(employeeInfo.getName());
+
+            }
+        } else {
             cSimpleForm.setReceiverStaffId(cInfo.getReceiverStaffId());
             cSimpleForm.setReceiverStaffName(
                     employeeInfoService.selectByPrimaryKey(cInfo.getReceiverStaffId()).getName());
