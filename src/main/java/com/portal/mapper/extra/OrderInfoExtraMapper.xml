@@ -335,7 +335,6 @@
 	    <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
-  
   <!-- 根据条件查询对应业绩 -->
   <select id="getClinchPerfors" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
   	select sum(ofs.pay_amount_actual) as total_amounts,
