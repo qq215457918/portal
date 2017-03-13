@@ -345,7 +345,8 @@
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as dl_amounts,
+			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+		) as dl_amounts,
 		(select sum(ofs.pay_amount_actual) 
 			from order_info o
 			left join order_fund_settlement ofs on o.order_number = ofs.order_number
