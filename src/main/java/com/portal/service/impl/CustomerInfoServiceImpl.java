@@ -181,7 +181,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
      */
     public CustomerSimpleInfoForm insertCustomer(CustomerInfo cInfo, EmployeeInfo employeeInfo) {
         cInfo.setId(UUidUtil.getUUId());
-        cInfo.setType("0");
+        cInfo.setType("1");
         cInfo.setBirthday(DateUtil.parseDate(cInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
         cInfo.setRecentVisitDate(new Date());
         cInfo.setReceiverStaffId(employeeInfo.getId());
