@@ -86,9 +86,16 @@ public class ReceptionAction {
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
         receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+        customerInfoService.updateVisitCount(customerId);
         //修改客户类型 登门客户类型为1
         customerInfoService.updateType(customerId, "1");
-        model.addObject("info", customerInfoService.getCutomerInfoById(customerId));
+        if (StringUtils.isEmpty((String) request.getAttribute("receiverStaffName"))) {//receiverStaffName
+            CustomerInfo cInfoNew = new CustomerInfo();
+            cInfoNew.setId(customerId);
+            cInfoNew.setReceiverStaffId(employeeInfo.getId());
+            customerInfoService.updateByPrimaryKeySelective(cInfoNew);
+        }
+        model.addObject("info", customerInfoService.getCutomerInfoById(customerId, employeeInfo));
         model.addObject("goods", orderInfoService.queryGoodsInfo(customerId));
         model.addObject("returnGoods", orderInfoService.queryReturnGoodsInfo(customerId));
         model.addObject("revokeDeposit", orderInfoService.queryRevokeDepositInfo(customerId));

@@ -111,8 +111,8 @@
         (select e.`name` from employee_info e where e.id = r.phone_staff_id) as phone_staff_name,
         (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
         c.type as type,
-	    date_format(r.start_time, '%h:%i') as start_time,
-		date_format(r.end_time, '%h:%i') as end_time,
+	    date_format(r.start_time, '%H:%i') as start_time,
+		date_format(r.end_time, '%H:%i') as end_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
 	left join customer_info c on r.customer_id = c.id

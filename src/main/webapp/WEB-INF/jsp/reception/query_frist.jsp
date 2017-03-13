@@ -59,6 +59,7 @@
             </div>
             <input type="hidden" name="cid" id="cid" value="${result.id }"/>
             <input type="hidden" name="phone" id="cphone" value="${result.phone }"/>
+            <input type="hidden" name="receiverStaffName" id="receiverStaffName" value="${result.receiverStaffName}"/>  
             <div  class="col-md-2">
               <button class="btn btn-lg btn-primary" id ="receiveId">开始接待</button>
             </div>
@@ -77,7 +78,8 @@
 		$("#receiveId").click(function(){
 			var cid = $('#cid').val();
 			var phone = $('#cphone').val();
-			window.location.href=base+"/visit/second?active=1&cId="+cid;
+			var receiverStaffName = $('#receiverStaffName').val();
+			window.location.href=base+"/visit/second?active=1&cId="+cid+"&receiverStaffName="+receiverStaffName;
 		});
 		
 		// 查询功能

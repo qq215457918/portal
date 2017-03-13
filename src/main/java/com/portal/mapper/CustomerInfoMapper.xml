@@ -860,7 +860,8 @@
   <insert id="insertAndUpdateCustomerInfo" parameterType="map">
   	insert into customer_info (
   		id,type,season2,season3,season4,
-  		name,sex,phone_staff_id,phone_staff_name,receiver_staff_name,gift,
+  		name,sex,phone_staff_id,phone_staff_name,
+  		receiver_staff_id,receiver_staff_name,gift,
   		business_phone,phone, receiver_staff_date,
   		area,update_date,
   		phone2,relation_id,qq,msn,
@@ -869,7 +870,8 @@
   		) values 
         (
         rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
-        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1),#{p5}, #{p6}, #{p7},
+        #{p4}, '', (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p5}),INSTR(REVERSE(#{p5}),<![CDATA['n\\']]>)-1)) limit 1),#{p5}, 
+        (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p6}),INSTR(REVERSE(#{p6}),<![CDATA['n\\']]>)-1)) limit 1), #{p6}, #{p7},
         #{p8}, #{p9}, #{p10}, 
         #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
         #{p13}, #{p14}, #{p15}, #{p16},
@@ -879,7 +881,8 @@
   	on duplicate key update recent_import_date = now(), 
   		type = (case when type <![CDATA[<]]> #{p0} then #{p0} else type end), 
   		update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
-  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1),
+  		phone_staff_id = (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p5}),INSTR(REVERSE(#{p5}),<![CDATA['n\\']]>)-1)) limit 1),
+  		receiver_staff_id = (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p6}),INSTR(REVERSE(#{p6}),<![CDATA['n\\']]>)-1)) limit 1),
   		phone_staff_name = #{p5},
   		receiver_staff_name = #{p6},
   		receiver_staff_date = #{p10},
@@ -892,7 +895,8 @@
   <insert id="insertAndUpdateCustomerInfoAdd" parameterType="map">
   	insert into customer_info (
   		id,type,season2,season3,season4,
-  		name,sex,phone_staff_id,phone_staff_name,receiver_staff_name,gift,
+  		name,sex,phone_staff_id,phone_staff_name,
+  		receiver_staff_id,receiver_staff_name,gift,
   		business_phone,phone, receiver_staff_date,
   		area,update_date,
   		phone2,relation_id,qq,msn,
@@ -901,7 +905,8 @@
   		) values 
         (
         rand_string(16), #{p0}, #{p1}, #{p2}, #{p3},
-        #{p4}, '', (select a.id from employee_info a where a.name=#{p5} limit 1),#{p5}, #{p6}, #{p7},
+        #{p4}, '', (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p5}),INSTR(REVERSE(#{p5}),<![CDATA['n\\']]>)-1)) limit 1),#{p5}, 
+        (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p6}),INSTR(REVERSE(#{p6}),<![CDATA['n\\']]>)-1)) limit 1), #{p6}, #{p7},
         #{p8}, #{p9}, #{p10}, 
         #{p11}, case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end, 
         #{p13}, #{p14}, #{p15}, #{p16},
@@ -911,8 +916,9 @@
   	on duplicate key update recent_import_date = now(), 
   		type = (case when type <![CDATA[<]]> #{p0} then #{p0} else type end), 
   		update_date = (case when #{p12} = '' then null else DATE_FORMAT(#{p12},'%Y-%m-%d') end),
-  		phone_staff_id = (select a.id from employee_info a where a.name=#{p5} limit 1),
+  		phone_staff_id = (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p5}),INSTR(REVERSE(#{p5}),<![CDATA['n\\']]>)-1)) limit 1),
   		phone_staff_name = (case when #{p5} = '' then '' else concat(phone_staff_name, <![CDATA['\\n']]>, #{p5}) end),
+  		receiver_staff_id = (select a.id from employee_info a where a.name=REVERSE(LEFT(REVERSE(#{p6}),INSTR(REVERSE(#{p6}),<![CDATA['n\\']]>)-1)) limit 1),
   		receiver_staff_name = concat(receiver_staff_name, <![CDATA['\\n']]>, #{p6}),
   		receiver_staff_date = concat(receiver_staff_date, <![CDATA['\\n']]>, #{p10}),
   		product = concat(product, <![CDATA['\\n']]>, #{p19}),
