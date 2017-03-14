@@ -337,8 +337,8 @@
   
   <!-- 根据条件查询对应业绩 -->
   <select id="getClinchPerfors" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
-  	select sum(ofs.pay_amount_actual) as total_amounts,
-		(select sum(ofs.pay_amount_actual) 
+  	select IFNULL(sum(ofs.pay_amount_actual),0) as total_amounts,
+		(select IFNULL(sum(ofs.pay_amount_actual),0) 
 			from order_info o
 			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			left join customer_info c on o.customer_id = c.id
@@ -347,7 +347,7 @@
 		    </if>
 			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
 		) as dl_amounts,
-		(select sum(ofs.pay_amount_actual) 
+		(select IFNULL(sum(ofs.pay_amount_actual),0) 
 			from order_info o
 			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			left join customer_info c on o.customer_id = c.id
@@ -369,7 +369,7 @@
   <select id="getDayAndPerfors" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
   	select 
 		DATE_FORMAT(o.create_date, '%Y-%m-%d') as create_date,
-		sum(ofs.pay_amount_actual) as performance
+		IFNULL(sum(ofs.pay_amount_actual),0) as performance
 	from order_info o 
 	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	left join customer_info c on o.customer_id = c.id
@@ -420,7 +420,7 @@
 		select 
 	  		e.id as staff_id,
 	  		e.`name` as staff_name,
-	  		sum(ofs.pay_amount_actual) as performance
+	  		IFNULL(sum(ofs.pay_amount_actual),0) as performance
 		from employee_info e
 		left join order_info o on e.id = <if test="condition.conditionId != null" >${condition.conditionId}</if>
 		left join order_fund_settlement ofs on o.order_number = ofs.order_number
@@ -451,9 +451,9 @@
   <select id="getSellGoods" parameterType="com.portal.bean.Criteria" resultMap="SellGoodsResultMap">
     select 
         od.good_name as good_name,
-        sum(od.amount) as amount,
+        IFNULL(sum(od.amount),0) as amount,
         od.price as price,
-        sum(od.amount)*od.price as total_price,
+        IFNULL(sum(od.amount),0)*od.price as total_price,
         o.Remarks as remarks
     from order_detail_info od
     left join order_info o on od.order_id = o.id
@@ -472,9 +472,9 @@
   	select 
 		p.payment_account_name as payment_account_name,
 		of.customer_pay_type as customer_pay_type,
-		sum(of.pay_amount_actual) as pay_amount_actual,
-		(sum(of.pay_amount_actual) - sum(of.poundage)) as income,
-		sum(of.poundage) as poundage
+		IFNULL(sum(of.pay_amount_actual),0) as pay_amount_actual,
+		(IFNULL(sum(of.pay_amount_actual),0) - IFNULL(sum(of.poundage),0)) as income,
+		IFNULL(sum(of.poundage),0) as poundage
 	from payment_account_info p
 	left join order_fund_settlement of on p.payment_account_id = of.payment_account_id
 	left join order_info o on of.order_number = o.order_number
@@ -541,7 +541,7 @@
   
   <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
   <select id="getOrderAmounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select sum(ofs.pay_amount_actual)
+    select IFNULL(sum(ofs.pay_amount_actual),0)
 	from order_info o
 	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
@@ -554,7 +554,7 @@
   
   <!-- 获取对应人员在指定时间段的出售藏品件数（定时器使用） -->
   <select id="getOrderGoodsCounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select sum(od.amount) 
+    select IFNULL(sum(od.amount),0)
 	from order_detail_info od 
 	left join order_info o on od.order_id = o.id
 	left join customer_info c on o.customer_id = c.id

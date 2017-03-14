@@ -133,7 +133,7 @@
 		    </if>
 		) as visit_count,
         count(o.id) as out_order_count,
-        sum(ofs.pay_amount_actual) as out_prices,
+        IFNULL(sum(ofs.pay_amount_actual),0) as out_prices,
 		concat(
 			round(
 				count(o.id)/
@@ -148,7 +148,7 @@
 					)*100,2),'%') as out_rate,
 		concat(
 			round(
-				sum(ofs.pay_amount_actual)/(
+				IFNULL(sum(ofs.pay_amount_actual),0)/(
 										select SUM(of.pay_amount_actual) 
 										from order_info oi
 										left join order_fund_settlement of on oi.order_number = of.order_number
@@ -178,7 +178,7 @@
 		    </if>
 		) as visit_count,
         count(o.id) as out_order_count,
-        sum(ofs.pay_amount_actual) as out_prices,
+        IFNULL(sum(ofs.pay_amount_actual),0) as out_prices,
 		concat(
 			round(
 				count(o.id)/
@@ -193,7 +193,7 @@
 					)*100,2),'%') as out_rate,
 		concat(
 			round(
-				sum(ofs.pay_amount_actual)/(
+				IFNULL(sum(ofs.pay_amount_actual),0)/(
 										select SUM(of.pay_amount_actual) 
 										from order_info oi
 										left join order_fund_settlement of on oi.order_number = of.order_number
@@ -223,7 +223,7 @@
 		    </if>
 		) as visit_count,
         count(o.id) as out_order_count,
-        sum(ofs.pay_amount_actual) as out_prices,
+        IFNULL(sum(ofs.pay_amount_actual),0) as out_prices,
 		concat(
 			round(
 				count(o.id)/
@@ -238,7 +238,7 @@
 					)*100,2),'%') as out_rate,
 		concat(
 			round(
-				sum(ofs.pay_amount_actual)/(
+				IFNULL(sum(ofs.pay_amount_actual),0)/(
 										select SUM(of.pay_amount_actual) 
 										from order_info oi
 										left join order_fund_settlement of on oi.order_number = of.order_number
@@ -268,7 +268,7 @@
 		    </if>
 		) as visit_count,
         count(o.id) as out_order_count,
-        sum(ofs.pay_amount_actual) as out_prices,
+        IFNULL(sum(ofs.pay_amount_actual),0) as out_prices,
 		concat(
 			round(
 				count(o.id)/
@@ -283,7 +283,7 @@
 					)*100,2),'%') as out_rate,
 		concat(
 			round(
-				sum(ofs.pay_amount_actual)/(
+				IFNULL(sum(ofs.pay_amount_actual),0)/(
 										select SUM(of.pay_amount_actual) 
 										from order_info oi
 										left join order_fund_settlement of on oi.order_number = of.order_number
@@ -313,7 +313,7 @@
 		    </if>
 		) as visit_count,
         count(o.id) as out_order_count,
-        sum(ofs.pay_amount_actual) as out_prices,
+        IFNULL(sum(ofs.pay_amount_actual),0) as out_prices,
 		concat(
 			round(
 				count(o.id)/
@@ -328,7 +328,7 @@
 					)*100,2),'%') as out_rate,
 		concat(
 			round(
-				sum(ofs.pay_amount_actual)/(
+				IFNULL(sum(ofs.pay_amount_actual),0)/(
 										select SUM(of.pay_amount_actual) 
 										from order_info oi
 										left join order_fund_settlement of on oi.order_number = of.order_number
