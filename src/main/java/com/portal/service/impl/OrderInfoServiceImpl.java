@@ -591,9 +591,10 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         if (StringUtils.isEmpty(goodStr)) {
             return false;
         }
+        String count = (String) request.getParameter("count");
         for (String goodId : goodStr.split(",")) {
             insertPresentDetailInfo(
-                    getOrderDetailInfo(goodId, request.getParameter("count").toString(), uuid,
+                    getOrderDetailInfo(goodId, StringUtils.isEmpty(count) ? "1" : count, uuid,
                             isVIP ? "6" : "4"));
         }
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
