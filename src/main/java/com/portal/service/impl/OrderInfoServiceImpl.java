@@ -1084,7 +1084,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         } else {
             // 获取销售商品信息
             List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
-            // 获取销售结算明细(获取收款账户对应收款方式的统计)
+            // 获取销售结算明细(获取收款账户对应收款方式的统计) 
             List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
             // 获取定金退款
             List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
