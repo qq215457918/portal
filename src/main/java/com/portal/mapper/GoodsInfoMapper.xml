@@ -23,6 +23,12 @@
   </resultMap>
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+      <if test="condition.type != null" >
+         and type = #{condition.type,jdbcType=VARCHAR}
+      </if>
+     <if test="condition.moreAmount != null" >
+         and IFNULL(amount,0) > #{condition.moreAmount,jdbcType=INTEGER}
+      </if>
       <if test="condition.sortId != null" >
          and sort_id = #{condition.sortId,jdbcType=VARCHAR}
       </if>

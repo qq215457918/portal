@@ -1,10 +1,10 @@
 package com.portal.action.reception;
 
 import com.portal.bean.CustomerInfo;
-import com.portal.common.util.DateUtil;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerCultureInfoService;
 import com.portal.service.CustomerInfoService;
+import com.portal.service.EmployeeInfoService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +24,8 @@ public class CustomerAction {
 
     @Autowired
     protected CustomerCultureInfoService cultureInfoService;
+    @Autowired
+    protected EmployeeInfoService employeeService;
 
     /**
      * 修改基础信息
@@ -36,6 +38,7 @@ public class CustomerAction {
         getBasePath(request, response);
         ModelAndView model = new ModelAndView();
         model.addObject("customerInfo", customerInfoService.selectByPrimaryKey(request.getParameter("cId")));
+        model.addObject("phoneEmp", employeeService.getPhoneEmpByOrganization());
         model.setViewName("reception/customer_modify");
         return model;
     }
@@ -48,11 +51,12 @@ public class CustomerAction {
      */
     @RequestMapping(value = "basic/save")
     public String saveCustomerInfo(CustomerInfo customerInfo, HttpServletRequest request) {
-        customerInfo
-                .setBirthday(DateUtil.parseDate(customerInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
+        //        customerInfo
+        //                .setBirthday(DateUtil.parseDate(customerInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
+        String cId = (String) request.getSession().getAttribute("cId");
+        customerInfo.setId(cId);
         customerInfoService.updateByPrimaryKeySelective(customerInfo);
-        return "redirect:/visit/second?cId="
-                + request.getSession().getAttribute("cId");
+        return "redirect:/visit/second?cId=" + cId;
     }
 
     /**

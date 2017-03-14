@@ -62,7 +62,7 @@
 	                </div>     
 	               <div class="form-group">
 	                  <label>性别</label>
-	                  <select class="form-control" id="sex" name="sex" checked="${customerInfo.sex}"> 
+	                  <select class="form-control" id="sex" name="sex"> 
 		                  <option value="1">男</option>
 		                  <option value="2">女</option>
 	                  </select>
@@ -71,17 +71,21 @@
 	                  <label>身份证</label>
 	                  <input class="form-control" id="idCard" name="idCard" type="text" value=${customerInfo.idCard}>
 	                </div>                 
-	                <div class="form-group">
-	                  <label>生日</label>
-	                  <div class="input-group date datepicker" data-date-autoclose="true" data-date-format="yyyy-mm-dd">
-		                  <input class="form-control" type="text" id="birthdayStr" name="birthdayStr" value=${customerInfo.birthday} >
-		                  <span class="input-group-addon"><i class="icon-calendar"></i></span>
-	           		</div>
+	             <div class="form-group">
+                  <label>客服</label><!-- <input class="form-control" id="phone2" name="phone2" type="text"> -->
+                  <select id="phoneStaffId" name="phoneStaffId" class="form-control" style="width: 100%;">
+                       <c:forEach items="${phoneEmp}" var="emp">
+                       <option value="${emp.id}">${emp.name}</option>	
+                       </c:forEach>
+                   </select>
+                </div>
 	           		<div class="form-group" style="margin-top:20px">
 			            <label class="checkbox"><input type="checkbox" id="blacklistFlag" name="blacklistFlag"><span>加入黑名单</span></label>  		              
 			        </div>     		
 	           </div>
             </div>
+            <input type="hidden" id="phoneStaffIdValue" value="${customerInfo.phoneStaffId}">
+            <input type="hidden" id="sexValue" value="${customerInfo.sex}">
             <input class="btn btn-primary" type="submit" style="margin-left:20px"value="提交新用户">
             </div>
           </fieldset>
@@ -95,6 +99,10 @@
   </div>
   	<script>
 		$(function(){
+			var phoneStaffId = $("#phoneStaffIdValue").val();
+			var sex = $("#sexValue").val();
+			 $("#phoneStaffId  option[value='"+phoneStaffId+"'] ").attr("selected",true)
+			 $("#sex  option[value='"+sex+"'] ").attr("selected",true)
 			init_city_select($("#address"));
 		});
 	</script>
