@@ -274,6 +274,7 @@ function initData(){
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
 			        {"mData": "receiverStaffName"},
+			        {"mData": "phoneStaffName"},
 			        {"mData": "customerName"},
 		            {"mData": "orderNumber"},
 		            {"mData": "orderTypeName"},
@@ -303,7 +304,7 @@ function initData(){
 				
 				return operation;
 			},
-			"targets" : 8
+			"targets" : 9
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
