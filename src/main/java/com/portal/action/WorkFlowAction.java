@@ -896,8 +896,9 @@ public class WorkFlowAction {
     		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
     			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
     			sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
-    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).get("price"))));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("pay_amount"))));
+    			sheet.addCell(new Label(2, i, String.valueOf(Double.valueOf(String.valueOf(result.get(j).get("pay_amount_actual"))) + 
+    					Double.valueOf(String.valueOf(result.get(j).get("poundage"))))));
+    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("unit"))));
     			sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
     			sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
     			sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));

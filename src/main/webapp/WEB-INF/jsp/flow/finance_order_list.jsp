@@ -202,6 +202,7 @@
               		<input type="hidden" name="orderNumber"/>
               		<input type="hidden" name="orderId"/>
               		<input type="hidden" name="payType"/>
+              		<input type="hidden" name="operate"/>
               		<div class="row">
 	              		<div class="form-group">
 				            <div class="col-md-7">
@@ -215,11 +216,11 @@
 				            <div class="col-md-1">
 				            	<select name="orderDetailId" id="orderDetailId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款账户</label>
+				            <label class="control-label col-md-1" name="account" style="width:6%;">收款账户</label>
 				            <div class="col-md-1">
 				            	<select name="paymentAccountId" id="paymentAccountId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款方式</label>
+				            <label class="control-label col-md-1" name="payType" style="width:6%;">收款方式</label>
 				            <div class="col-md-1">
 				            	<select name="customerPayType" id="customerPayType" class="form-control">
 				            		<option value="">--请选择--</option>
@@ -228,13 +229,14 @@
 				            		<option value="3">储蓄卡（不封顶）</option>
 				            		<option value="4">支付宝</option>
 				            		<option value="5">微信</option>
+				            		<option value="6">现金</option>
 				            	</select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>
+				            <label class="control-label col-md-1" name="amount" style="width:6%;">收款金额</label>
 				            <div class="col-md-1">
 				            	<input class="form-control" name="payAmount" id="payAmount" type="text">
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">实际收款金额</label>
+				            <label class="control-label col-md-1" name="amountActual" style="width:6%;">实际收款金额</label>
 				            <div class="col-md-1">
 				            	<input class="form-control" name="payAmountActual" id="payAmountActual" type="text">
 				            </div>

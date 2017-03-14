@@ -330,7 +330,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param payType 
-     *            支付类型  0全额支付 1定金支付 2派送支付
+     *            支付类型  0全额支付 1定金支付 2派送支付 3尾款支付
      */
     public void setPayType(String payType) {
         this.payType = payType;
@@ -341,6 +341,8 @@ public class OrderInfo implements Serializable {
             this.payTypeName = "订金支付";
         } else if ("2".equals(payType)) {
             this.payTypeName = "派送支付";
+        } else if ("3".equals(payType)) {
+            this.payTypeName = "尾款支付";
         }
 
     }
