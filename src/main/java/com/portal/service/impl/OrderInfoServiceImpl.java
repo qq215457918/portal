@@ -280,6 +280,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setFinanceOperatorId("");
         orderCriteria.setFinanceFlag("0");
         orderCriteria.setFinanceType("");
+        orderCriteria.setWarehouseFlag("");
+        orderCriteria.setCultureFlag("");
         orderCriteria.setDeleteFlag("0");
         Long depositPrice = orderInfoDao.selectByPrimaryKey(orderId).getPayPrice();
         orderCriteria.setPayPrice(getCountPrice4Deposit(orderId) - depositPrice);
