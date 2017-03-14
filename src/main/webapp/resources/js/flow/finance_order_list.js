@@ -69,7 +69,11 @@ $(document).ready(function(){
 	
 	// 添加收款条目
 	$('a[name=addSettlement]').click(function(){
-		$('#updateCivi .base-column:first').clone().appendTo('#updateCivi').find('a[name=delete]').show();
+		var col = $('#updateCivi .base-column:first').clone();
+		col.find('#payAmount').val('');
+		col.find('#payAmountActual').val('');
+		col.find('#poundage').val('');
+		col.appendTo('#updateCivi').find('a[name=delete]').show();
 	});
 	
 	$('#commitForm').click(function(){
@@ -80,17 +84,17 @@ $(document).ready(function(){
 		});
 		$('#updateCivi').submit();
 	});
-	
-	$('#payAmount,#payAmountActual').bind('blur',function(){
-		var obj = $(this).closest('.base-column');
-		var total = obj.find('#payAmount').val();
-		var actual = obj.find('#payAmountActual').val();
-		if('' == total || '' == actual || isNaN(total) || isNaN(actual)){
-			return;
-		}
-		obj.find('#poundage').val(total - actual);
-	});
 }); 
+
+$(document).delegate('input[name=payAmount],input[name=payAmountActual]','blur',function(){
+	var obj = $(this).closest('.base-column');
+	var total = obj.find('#payAmount').val();
+	var actual = obj.find('#payAmountActual').val();
+	if('' == total || '' == actual || isNaN(total) || isNaN(actual)){
+		return;
+	}
+	obj.find('#poundage').val(total - actual);
+});
 
 $(document).on('click', 'a[name=delete]', function(){
 	$(this).closest('.base-column').remove();
@@ -99,10 +103,27 @@ $(document).on('click', 'a[name=delete]', function(){
 $(document).on('click', '#confirmReceipt', function () { 
 	var operate = $(this).attr('data-operate-id');
 	
+	if(1 == operate){
+		$('#orderSettlement .modal-title').html('付款');
+		$('#orderSettlement a[name=addSettlement]').html('添加付款');
+		$('#orderSettlement label[name=addSettlement]').html('付款账户');
+		$('#orderSettlement label[name=payType]').html('付款方式');
+		$('#orderSettlement label[name=amount]').html('付款金额');
+		$('#orderSettlement label[name=amountActual]').html('实际付款金额');
+	}else {
+		$('#orderSettlement .modal-title').html('收款');
+		$('#orderSettlement a[name=addSettlement]').html('添加收款');
+		$('#orderSettlement label[name=addSettlement]').html('收款账户');
+		$('#orderSettlement label[name=payType]').html('收款方式');
+		$('#orderSettlement label[name=amount]').html('收款金额');
+		$('#orderSettlement label[name=amountActual]').html('实际收款金额');
+	}
+	
 	$('input[name=orderNumber]').val($(this).attr('data-order-number'));
 	var orderId = $(this).attr('data-order-id');
 	$('input[name=orderId]').val(orderId);
 	$('input[name=payType]').val($(this).attr('data-pay-type'));
+	$('input[name=operate]').val(operate);
 	
 	// 初始化支付类型
 	$('#updateCivi .base-column:not(:first)').remove();
@@ -266,7 +287,7 @@ function initData(){
 				var operation = '<a href="#orderSettlement" data-toggle="modal" data-order-id="' + row.id + '" data-pay-type="' + row.payType + '"  data-order-number="' + row.orderNumber + '" id="confirmReceipt">确认收款</a>&nbsp;&nbsp;' + 
 					'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				if(row.warehouseFlag == -1){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '" data-operate-id="1" id="confirmReceipt1">确认付款</a>&nbsp;&nbsp;' + 
+					operation = '<a href="#orderSettlement" data-toggle="modal" data-order-id="' + row.id + '" data-pay-type="' + row.payType + '"  data-order-number="' + row.orderNumber + '" data-operate-id="1" id="confirmReceipt">确认付款</a>&nbsp;&nbsp;' + 
 						'<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				}
 				if(row.financeFlag == 1){
