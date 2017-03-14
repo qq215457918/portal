@@ -57,7 +57,6 @@ $(function() {
 		var goodName = $('#normalGoodsName').val();
 		var detailId = $('#normalGoodsId').val();
 		var price = $('#normalPrice').val();
-		alert(price)
 		$.ajax({
 			method : "POST",
 			url : base+"/repurchase/normal",

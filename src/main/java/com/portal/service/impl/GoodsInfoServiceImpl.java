@@ -77,6 +77,8 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
         criteria.clear();
         criteria.put("type", "1");
         criteria.put("deleteFlag", "0");
+        //moreAmount-> amount > 0
+        criteria.put("moreAmount", "0");
         criteria.setOrderByClause("seq desc");
         return selectByExample(criteria);
     }
