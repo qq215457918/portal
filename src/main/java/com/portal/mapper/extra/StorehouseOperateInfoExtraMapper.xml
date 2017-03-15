@@ -87,7 +87,7 @@
   <select id="getGoodsAndGiftCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
   	select 
 		distinct
-		(select sum(s.amount)
+		(select IFNULL(sum(s.amount),0)
 			from storehouse_operate_info s
 			left join order_info o on s.order_id = o.id
 			left join customer_info c on o.customer_id = c.id
@@ -96,7 +96,7 @@
 	    </if>
 			and s.good_sort_id != 27
 		) as commodity,
-		(select sum(s.amount)
+		(select IFNULL(sum(s.amount),0)
 			from storehouse_operate_info s
 			left join order_info o on s.order_id = o.id
 			left join customer_info c on o.customer_id = c.id

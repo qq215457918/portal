@@ -141,7 +141,7 @@
         odi.good_name as good_name,
         (
             select 
-                sum(amount)
+                IFNULL(sum(amount),0)
             from order_detail_info od 
             left join order_info o on od.order_id = o.id
             left join customer_info c on o.customer_id = c.id
@@ -153,7 +153,7 @@
         ) as visit_gift_counts,
         (
             select 
-                sum(amount)
+                IFNULL(sum(amount),0)
             from order_detail_info od 
             left join order_info o on od.order_id = o.id
             left join customer_info c on o.customer_id = c.id

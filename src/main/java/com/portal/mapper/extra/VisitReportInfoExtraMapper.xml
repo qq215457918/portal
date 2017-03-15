@@ -109,11 +109,11 @@
   	SELECT 
   		receiver_staff_id,
 		receiver_staff_name,
-		SUM(locked_counts) as locked_counts,
-		SUM(finish_order_counts) as finish_order_counts,
-		SUM(roadshow_counts) as roadshow_counts,
-		SUM(repeat_counts) as repeat_counts,
-		SUM(new_counts) as new_counts
+		IFNULL(sum(locked_counts),0) as locked_counts,
+		IFNULL(sum(finish_order_counts),0) as finish_order_counts,
+		IFNULL(sum(roadshow_counts),0) as roadshow_counts,
+		IFNULL(sum(repeat_counts),0) as repeat_counts,
+		IFNULL(sum(new_counts),0) as new_counts
     from visit_report_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -127,13 +127,13 @@
   
   <!-- 根据条件查询对应客户数量 -->
   <select id="getCustomerCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
-  	select sum(customer_counts) as total_counts,
-	  	(select sum(customer_counts) from visit_report_info
+  	select IFNULL(sum(customer_counts),0) as total_counts,
+	  	(select IFNULL(sum(customer_counts),0) from visit_report_info
 	  	<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
 	  	and receiver_area = '1') as dl_counts,
-	  	(select sum(customer_counts) from visit_report_info
+	  	(select IFNULL(sum(customer_counts),0) from visit_report_info
 	  	<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
@@ -146,11 +146,12 @@
   
   <!-- 获取所有各种分类对应的客户数量 -->
   <select id="getAllCategoryCustomer" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
-  	select SUM(r.locked_counts) as '锁定',
-		SUM(r.new_counts) as '新客户',
-		SUM(r.repeat_counts) as '重复登门',
-		SUM(r.roadshow_counts) as '说明会',
-		SUM(r.finish_order_counts) as '成单'
+  	select 
+  		IFNULL(sum(r.locked_counts),0) as '锁定',
+		IFNULL(sum(r.new_counts),0) as '新客户',
+		IFNULL(sum(r.repeat_counts),0) as '重复登门',
+		IFNULL(sum(r.roadshow_counts),0) as '说明会',
+		IFNULL(sum(r.finish_order_counts),0) as '成单'
 		from visit_report_info r
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
@@ -177,24 +178,24 @@
   	select 
         e.id as receiver_staff_id,
         e.`name` as receiver_staff_name,
-        sum(v.locked_counts) as locked_counts,
-        sum(v.locked_orders) as locked_orders,
-        sum(v.locked_amounts) as locked_amounts,
-        sum(v.finish_order_counts) as finish_order_counts,
-        sum(v.finish_orders) as finish_orders,
-        sum(v.finish_amounts) as finish_amounts,
-        sum(v.repeat_counts) as repeat_counts,
-        sum(v.repeat_orders) as repeat_orders,
-        sum(v.repeat_amounts) as repeat_amounts,
-        sum(v.roadshow_counts) as roadshow_counts,
-        sum(v.roadshow_orders) as roadshow_orders,
-        sum(v.roadshow_amounts) as roadshow_amounts,
-		sum(v.new_counts) as new_counts,
-		sum(v.new_orders) as new_orders,
-        sum(v.new_amounts) as new_amounts,
-        (sum(v.locked_counts) + sum(v.finish_order_counts) + sum(v.repeat_counts) + sum(v.roadshow_counts) + sum(v.new_counts)) as total_counts,
-        (sum(v.locked_orders) + sum(v.finish_orders) + sum(v.repeat_orders) + sum(v.roadshow_orders) + sum(v.new_orders)) as total_orders,
-        (sum(v.locked_amounts) + sum(v.finish_amounts) + sum(v.repeat_amounts) + sum(v.roadshow_amounts) + sum(v.new_amounts)) as total_amounts
+        IFNULL(sum(v.locked_counts),0) as locked_counts,
+        IFNULL(sum(v.locked_orders),0) as locked_orders,
+        IFNULL(sum(v.locked_amounts),0) as locked_amounts,
+        IFNULL(sum(v.finish_order_counts),0) as finish_order_counts,
+        IFNULL(sum(v.finish_orders),0) as finish_orders,
+        IFNULL(sum(v.finish_amounts),0) as finish_amounts,
+        IFNULL(sum(v.repeat_counts),0) as repeat_counts,
+        IFNULL(sum(v.repeat_orders),0) as repeat_orders,
+        IFNULL(sum(v.repeat_amounts),0) as repeat_amounts,
+        IFNULL(sum(v.roadshow_counts),0) as roadshow_counts,
+        IFNULL(sum(v.roadshow_orders),0) as roadshow_orders,
+        IFNULL(sum(v.roadshow_amounts),0) as roadshow_amounts,
+		IFNULL(sum(v.new_counts),0) as new_counts,
+		IFNULL(sum(v.new_orders),0) as new_orders,
+        IFNULL(sum(v.new_amounts),0) as new_amounts,
+        (IFNULL(sum(v.locked_counts),0) + IFNULL(sum(v.finish_order_counts),0) + IFNULL(sum(v.repeat_counts),0) + IFNULL(sum(v.roadshow_counts),0) + IFNULL(sum(v.new_counts),0)) as total_counts,
+        (IFNULL(sum(v.locked_orders),0) + IFNULL(sum(v.finish_orders),0) + IFNULL(sum(v.repeat_orders),0) + IFNULL(sum(v.roadshow_orders),0) + IFNULL(sum(v.new_orders),0)) as total_orders,
+        (IFNULL(sum(v.locked_amounts),0) + IFNULL(sum(v.finish_amounts),0) + IFNULL(sum(v.repeat_amounts),0) + IFNULL(sum(v.roadshow_amounts),0) + IFNULL(sum(v.new_amounts),0)) as total_amounts
     from employee_info e
     left join visit_report_info v on e.id = v.receiver_staff_id
     <if test="_parameter != null" >
@@ -208,7 +209,7 @@
   </select>
   
   <!-- 定时器判断客户是否为新客户 -->
-  <select id="checkIsNewCount" parameterType="com.portal.bean.Criteria">
+  <select id="checkIsNewCount" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer">
   	select count(1) from (
   		select o.customer_id from order_info o 
   		where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
@@ -225,12 +226,12 @@
   <!-- 定时器获取每周对接业绩中的成单/锁定的接待数/出单数 -->
   <select id="getRecevieCountsAndOrders" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
   	select
-  		sum(v.finish_order_counts) as finishOrderCounts,
-  		sum(v.finish_orders) as finishOrders,
-  		sum(v.finish_amounts) as finishAmounts,
-  		sum(v.locked_counts) as lockedCounts,
-  		sum(v.locked_orders) as lockedOrders,
-  		sum(v.locked_amounts) as lockedAmounts
+  		IFNULL(sum(v.finish_order_counts),0) as finishOrderCounts,
+  		IFNULL(sum(v.finish_orders),0) as finishOrders,
+  		IFNULL(sum(v.finish_amounts),0) as finishAmounts,
+  		IFNULL(sum(v.locked_counts),0) as lockedCounts,
+  		IFNULL(sum(v.locked_orders),0) as lockedOrders,
+  		IFNULL(sum(v.locked_amounts),0) as lockedAmounts
   	from visit_report_info v
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
