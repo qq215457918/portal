@@ -2,9 +2,12 @@
 package com.portal.action;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +29,7 @@ public class LoginController {
      * @return
      */
     @RequestMapping(value = "/login")
-    public String showLoginForm(HttpServletRequest req, Model model, HttpServletResponse response) {
+    public String showLoginForm(HttpServletRequest req, Model model, String loginName, String password) {
         String exceptionClassName = (String) req.getAttribute("shiroLoginFailure");
         String error = null;
         if (UnknownAccountException.class.getName().equals(exceptionClassName)) {
@@ -37,7 +40,17 @@ public class LoginController {
             error = "其他错误：" + exceptionClassName;
         }
         model.addAttribute("error", error);
-        return "login";
+        Subject user = SecurityUtils.getSubject();
+        UsernamePasswordToken token =
+                new UsernamePasswordToken(loginName,
+                        password);
+        if (StringUtils.isEmpty(loginName)) {
+            token.clear();
+            return "login";
+        } else {
+            token.setRememberMe(true);
+            user.login(token);
+            return "";
+        }
     }
-
 }
