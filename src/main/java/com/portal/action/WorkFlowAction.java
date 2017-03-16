@@ -96,6 +96,8 @@ public class WorkFlowAction {
     @RequestMapping("/achieveExamList")
     public String achieveExamList(HttpServletRequest request, HttpServletResponse response)
             throws ParseException {
+    	request.setAttribute("active", request.getParameter("active"));
+    	
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInfo = null == request.getParameter("dateInfo") ? sdf.format(new Date())
                 : request.getParameter("dateInfo");
@@ -315,6 +317,8 @@ public class WorkFlowAction {
      */
     @RequestMapping("clerkEverydayAchievenment")
     public String clerkEverydayAchievenment(HttpServletRequest request, HttpServletResponse response) {
+    	request.setAttribute("active", request.getParameter("active"));
+    	
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         String employeeId = request.getParameter("employeeId");
@@ -492,7 +496,8 @@ public class WorkFlowAction {
      * @throws
      */
     @RequestMapping("/financeOrderList")
-    public String financeOrderList() {
+    public String financeOrderList(HttpServletRequest request) {
+    	request.setAttribute("active", request.getParameter("active"));
         return "flow/finance_order_list";
     }
 
@@ -518,6 +523,7 @@ public class WorkFlowAction {
      */
     @RequestMapping("/storeOrderinfo")
     public String storeOrderinfo(HttpServletRequest request) {
+    	request.setAttribute("active", request.getParameter("active"));
         return "flow/store_order_info";
     }
 
@@ -705,6 +711,7 @@ public class WorkFlowAction {
      */
     @RequestMapping("civilizationExchangeIndex")
     public String civilizationExchangeIndex(HttpServletRequest request, HttpServletResponse response) {
+    	request.setAttribute("active", request.getParameter("active"));
         return "flow/civilization_exchange_list";
     }
 

@@ -36,10 +36,10 @@
 			  	<span aria-hidden="true" class="se7en-tables"></span>客户信息<b class="caret"></b>
 			  </a>
 			  <ul class="dropdown-menu">
-				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=0">空白客户</a></li>
-				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=1">重复登门客户</a></li>
-				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=3">成单客户</a></li>
-				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=4">锁定客户</a></li>
+				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=0&active=1">空白客户</a></li>
+				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=1&active=2">重复登门客户</a></li>
+				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=3&active=3">成单客户</a></li>
+				<li><a name="tab" href="${base}customerInfo/costomerInfoIndex?type=4&active=4">锁定客户</a></li>
 			  </ul>
 			</li>
 		</shiro:hasPermission>
@@ -50,17 +50,17 @@
 			  </a>
 			  <ul class="dropdown-menu">
 				  <shiro:hasPermission name="job:dailyachieve">
-					<li><a name="tab" href="${base}workflow/clerkEverydayAchievenment">个人业绩审核</a></li>
+					<li><a name="tab" href="${base}workflow/clerkEverydayAchievenment?active=5">个人业绩审核</a></li>
 				  </shiro:hasPermission>
 				  <shiro:hasPermission name="job:dailybossachieve">
-					<li><a name="tab" href="${base}workflow/achieveExamList">主管业绩审核</a></li>
+					<li><a name="tab" href="${base}workflow/achieveExamList?active=6">主管业绩审核</a></li>
 				  </shiro:hasPermission>
 			  </ul>
 			</li>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="job:modifyorder">
 			<li>
-			  <a name="tab" href="${base}order/orderModifyIndex" > <span aria-hidden="true" class="se7en-tables"></span>订单修改</a>
+			  <a name="tab" href="${base}order/orderModifyIndex?active=7" > <span aria-hidden="true" class="se7en-tables"></span>订单修改</a>
 			</li>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="job:finance">
@@ -69,19 +69,19 @@
 			  	<span aria-hidden="true" class="se7en-tables"></span>财务订单<b class="caret"></b>
 			  </a>
 			  <ul class="dropdown-menu">
-				<li><a name="tab" href="${base}workflow/financeOrderList">财务订单列表</a></li>
+				<li><a name="tab" href="${base}workflow/financeOrderList?active=8">财务订单列表</a></li>
 	<%-- 			<li><a name="tab" href="${base}workflow/financeOrderEveryday">财务对账</a></li> --%>
 			  </ul>
 			</li>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="job:culture">
 			<li>
-			  <a name="tab" href="${base}workflow/civilizationExchangeIndex" > <span aria-hidden="true" class="se7en-tables"></span>文交所管理</a>
+			  <a name="tab" href="${base}workflow/civilizationExchangeIndex?active=9" > <span aria-hidden="true" class="se7en-tables"></span>文交所管理</a>
 			</li>
 		</shiro:hasPermission>
 		<shiro:hasPermission name="job:warehouse">
 			<li>
-			  <a name="tab" href="${base}workflow/storeOrderinfo" > <span aria-hidden="true" class="se7en-tables"></span>仓库管理</a>
+			  <a name="tab" href="${base}workflow/storeOrderinfo?active=10" > <span aria-hidden="true" class="se7en-tables"></span>仓库管理</a>
 			</li>
 		</shiro:hasPermission>
 	  </ul>

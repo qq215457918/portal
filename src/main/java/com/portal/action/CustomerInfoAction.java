@@ -55,6 +55,7 @@ public class CustomerInfoAction {
 		String result = request.getParameter("result");
 		
 		request.setAttribute("importResult", result);
+		request.setAttribute("active", request.getParameter("active"));
 		if("0".equals(type)){
 			return "customer/blank_info_index";
 		}else if("1".equals(type)){
