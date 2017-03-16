@@ -50,7 +50,7 @@ public class LoginController {
         } else {
             token.setRememberMe(true);
             user.login(token);
-            return "";
+            return "main";
         }
     }
 }
