@@ -96,6 +96,7 @@ function initData() {
 			var clearing = data.clearing;
 			var depositRefund = data.depositRefund;
 			var depositReturn = data.depositReturn;
+			var payOutAmounts = data.payOutAmounts;
 			$("#sellDaily").empty();
 			$("#printTable").empty();
 			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositRefund.length > 0 || depositReturn.length > 0)) {
@@ -215,6 +216,8 @@ function initData() {
 						payType = "支付宝";
 					}else if(clearing[int].customerPayType == 5) {
 						payType = "微信";
+					}else if(clearing[int].customerPayType == 6) {
+						payType = "现金";
 					}
 					
 					contents = "<tr>" + 
@@ -247,6 +250,8 @@ function initData() {
 						payType = "支付宝";
 					}else if(clearing[int].customerPayType == 5) {
 						payType = "微信";
+					}else if(clearing[int].customerPayType == 6) {
+						payType = "现金";
 					}
 					
 					rows = int;
@@ -323,6 +328,31 @@ function initData() {
 					total += depositReturn[int];
 					income += 0;
 					poundages += 0;
+					html += contents;
+					printHtml += printContents;
+				}
+				// 回显回购藏品费用
+				if(payOutAmounts < 0) {
+					if(rows > 0) {
+						rows += 1;						
+					}
+					contents = "<tr>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly'/></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' value='" + payOutAmounts + "' readonly='readonly' /></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+									"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='回购藏品费用'/></td>" + 
+								"<tr>";
+					printContents = "<tr>" + 
+										"<td></td>" + 
+										"<td></td>" + 
+										"<td></td>" + 
+										"<td>" + payOutAmounts + "</td>" + 
+										"<td></td>" + 
+										"<td>回购藏品费用</td>" + 
+									"<tr>";
+					income += payOutAmounts;
 					html += contents;
 					printHtml += printContents;
 				}
