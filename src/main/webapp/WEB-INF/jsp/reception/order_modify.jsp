@@ -19,26 +19,49 @@
 			<div class="col-lg-12">
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
-						<div class="form-group">
-							<label class="control-label col-md-2 swidth">商品名称</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" id="goodsName" type="text">
-				            </div>
+						<div class="row">
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">订单编号</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" id="orderNumber" type="text">
+					            </div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">商品名称</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" id="goodsName" type="text">
+					            </div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">客户姓名</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" id="customerName" type="text">
+					            </div>
+							</div>
 						</div>
-						<div class="form-group">
-							<label class="control-label col-md-2 swidth">客户名称</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" id="customerName" type="text">
+						<div class="row">
+							<div class="form-group">
+								<label class="control-label col-md-2 swidth">客户电话</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" id="customerPhone" type="text">
+					            </div>
 				            </div>
-						</div>
-						<div class="form-group" id="listInfo">
-							<div class="col-md-7">
-								<label class="radio-inline">
-									<input name="orderType" type="radio" value="1"><span>已售商品</span>
-								</label>
-								<label class="radio-inline">
-									<input name="orderType" type="radio" value="2"><span>退还商品</span>
-								</label>
+				            <div class="form-group">
+					            <label class="control-label col-md-2 swidth">接待人员</label>
+								<div class="col-sm-2">
+					            	<input class="form-control" id="receiverName" type="text">
+					            </div>
+					        </div>
+							
+							<div class="form-group" id="listInfo">
+								<div class="col-md-7">
+									<label class="radio-inline">
+										<input name="orderType" type="radio" value="1"><span>已售商品</span>
+									</label>
+									<label class="radio-inline">
+										<input name="orderType" type="radio" value="2"><span>退还商品</span>
+									</label>
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -52,7 +75,8 @@
 								<th>序号</th>
 								<th>订单编号</th>
 								<th>客户名称</th>
-								<th>电话号码</th>
+								<th>客户电话</th>
+								<th>接待姓名</th>
 								<th>已购商品</th>
 								<th>订单金额</th>
 								<th>商品类型</th>

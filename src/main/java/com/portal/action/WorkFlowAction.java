@@ -549,6 +549,9 @@ public class WorkFlowAction {
         criteria.put("financeOrder", "1");
         criteria.put("createDate", request.getParameter("createDate"));
         criteria.put("deleteFlag", 0);
+        criteria.put("customerPhone", request.getParameter("customerPhone"));
+        criteria.put("customerName", request.getParameter("customerName"));
+        criteria.put("receiverName", request.getParameter("receiverName"));
         criteria.put("areaFlag", empInfo.getOrganizationId());
         criteria.setOrderByClause("create_date desc");
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
@@ -734,6 +737,9 @@ public class WorkFlowAction {
         paramMap.put("orderNumber", request.getParameter("orderNumber"));
         paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
         paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
+        paramMap.put("customerPhone", request.getParameter("customerPhone"));
+        paramMap.put("customerName", request.getParameter("customerName"));
+        paramMap.put("receiverName", request.getParameter("receiverName"));
 
         List<Map<String, Object>> resultList = workFlowService.selectCivilizationOrderList(paramMap);
 

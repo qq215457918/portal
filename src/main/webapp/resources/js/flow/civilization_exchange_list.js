@@ -2,10 +2,11 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchList').click(function(){
-		if('' == $('#orderNumber').val()){
+		if('' == $('#orderNumber').val() && '' == $('#customerPhone').val()
+				&& '' == $('#customerName').val() && '' == $('#receiverName').val()){
 			return;
 		}
-		$('#financeOrderExam').dataTable().fnDraw();
+		$('#civilizationOrderList').dataTable().fnDraw();
 	});
 	
 	$('#outNoTake').click(function(){
@@ -177,6 +178,9 @@ function initData(){
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
 		            {"mData": "order_number"},
+		            {"mData": "receiverStaffname"},
+		            {"mData": "customerPhone"},
+		            {"mData": "customerName"},
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
 		            {"mData": "culture_flag"}, 
@@ -189,7 +193,7 @@ function initData(){
 				var operation = '<a href="#goodsDetailList" data-toggle="modal" data-order-id="' + row.id + '" id="orderDetailInfo">详情</a>';
 				return operation;
 			},
-			"targets" : 7
+			"targets" : 10
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
@@ -199,8 +203,12 @@ function initData(){
    		},
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderNumber = $('#orderNumber').val();
+							var customerPhone = $('#customerPhone').val();
+							var customerName = $('#customerName').val();
+							var receiverName = $('#receiverName').val();
 							
-							aoData.push({'name':'orderNumber','value':orderNumber});
+							aoData.push({'name':'orderNumber','value':orderNumber},	{'name':'receiverName','value':receiverName},
+									{'name':'customerPhone','value':customerPhone}, {'name':'customerName','value':customerName});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",
