@@ -137,6 +137,7 @@ public class OrderAction {
     @RequestMapping("orderModifyIndex")
     public String orderModifyIndex(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("orderId", request.getParameter("orderId"));
+        request.setAttribute("active", request.getParameter("active"));
         return "reception/order_modify";
     }
 

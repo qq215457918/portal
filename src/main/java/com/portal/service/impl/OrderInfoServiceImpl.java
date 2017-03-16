@@ -387,12 +387,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
     /**
     * 根绝类型获取订单信息 
-    *    `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成',
-    *     `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货 3换货 4赠品',
-    *     `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付',
-    *     `pay_price` decimal(10,0) DEFAULT NULL COMMENT '订单金额',
-    *     `actual_price` decimal(10,0) DEFAULT NULL COMMENT '实际支付金额',
-    *     `finance_flag` varchar(45) COLLATE utf8_bin DEFAULT NULL COMMENT '支付状态(财务审核标志)\n0 未支付\n1已支付',
+    * `status` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单状态 : 0未支付 1已支付 2已出库 3文交所已审核 4 已完成 5待审批',
+    * `order_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '订单类型 1正常 2退货(detail) 3换货(去掉) 4赠品 5回购 6VIP赠品 7回购待确认',
+    * `pay_type` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '支付类型  0全额支付 1定金支付 2派送支付 3尾款支付',
     *     
     *  isToday==1? createDay=now() : createDay=null   
     * @param customerId
@@ -436,14 +433,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     /**
-     * 查看已经支付的定金订单
+     * 回购商品
      * @param customerId
      * @return
      * @throws InvocationTargetException 
      * @throws IllegalAccessException 
      */
     public List<OrderInfoForm> queryRevokeDepositInfo(String customerId) {
-        return getNormalOrderInfo(customerId, 1, 1);
+        return getNormalOrderInfo(customerId, 5, 0);
     }
 
     /**
@@ -454,7 +451,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @throws IllegalAccessException 
      */
     public List<OrderInfoForm> queryReturnGoodsInfo(String customerId) {
-        return getNormalOrderInfo(customerId, 2, 1);
+        return getNormalOrderInfo(customerId, 2, 0);
     }
 
     /**
@@ -842,14 +839,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         Map<String, Integer> counts = orderInfoExtraDao.getClinchPerfors(criteria);
 
         //查询出大连指定日期内的业绩
-        criteria.put("area", "1");
+        criteria.put("areaFlag", "1");
         List<OrderInfoForm> dlAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
 
         //生成大连业绩
         List<Integer> dlAmounts = generateAmountsList(dates, dlAmountsList);
 
         // 查询出沈阳指定日期内的业绩
-        criteria.put("area", "0");
+        criteria.put("areaFlag", "0");
         List<OrderInfoForm> syAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
 
         //生成沈阳业绩
@@ -946,14 +943,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
 
         //查询出大连客服的业绩
-        criteria.put("area", "1");
+        criteria.put("areaFlag", "1");
         // 获取大连区域下对应职位类型的所有员工名称
         List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取大连区域下员工业绩
         List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
 
         // 查询出沈阳客服的业绩
-        criteria.put("area", "0");
+        criteria.put("areaFlag", "0");
         // 获取沈阳区域下对应职位类型的所有员工名称
         List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取沈阳区域下员工业绩
@@ -1055,7 +1052,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
-            criteria.put("area", area);
+            // 获取销售商品信息/定金回款/定金退款的条件
+            // criteria.put("area", area);
+            // 获取销售结算明细条件
+            // criteria.put("organizationId", area);
+            // 获取回购支付金额条件
+            criteria.put("areaFlag", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
@@ -1090,19 +1092,21 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
             // 获取定金回款
             List<Integer> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
-            // 获取现金收款金额
+            // 获取回购支出的金额
+            double payOutAmounts = orderInfoExtraDao.getPayOutAmounts(criteria);
 
             result.put("type", "compile");
             result.put("goodsList", goodsList);
             result.put("clearing", clearingList);
             result.put("depositRefund", depositRefund);
             result.put("depositReturn", depositReturn);
+            result.put("payOutAmounts", payOutAmounts);
         }
         return result;
     }
 
     public JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results) {
-        logger.info("获取各地区的销售日报表数据");
+        logger.info("获取各地区当日刷卡定金明细");
         // 所属区域
         String area = request.getParameter("area");
         // 查询日期
@@ -1110,7 +1114,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
-            criteria.put("area", area);
+            criteria.put("areaFlag", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);

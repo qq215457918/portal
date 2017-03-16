@@ -51,17 +51,17 @@
 	              </li>
               </shiro:hasPermission>
               <shiro:hasPermission name="job:culture">
-	              <li><a name="tab" href="${base}workflow/civilizationExchangeIndex">
+	              <li><a name="tab" href="${base}workflow/civilizationExchangeIndex?active=9">
 	                	<span aria-hidden="true" class="icon-file-text"></span>文交所管理</a>
 	              </li>
               </shiro:hasPermission>
               <shiro:hasPermission name="job:finance">
-	              <li><a name="tab" href="${base}workflow/financeOrderList">
+	              <li><a name="tab" href="${base}workflow/financeOrderList?active=8">
 	                	<span aria-hidden="true" class="icon-file-text"></span>财务审批</a>
 	              </li>
               </shiro:hasPermission>
               <shiro:hasPermission name="job:warehouse">
-	              <li><a name="tab" href="${base}workflow/storeOrderinfo">
+	              <li><a name="tab" href="${base}workflow/storeOrderinfo?active=10">
 	                	<span aria-hidden="true" class="icon-file-text"></span>库房审批</a>
 	              </li>
               </shiro:hasPermission>

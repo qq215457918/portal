@@ -55,7 +55,7 @@ function initData() {
 		"bServerSide": true, // 后台请求
 		"bInfo" : true,		 // Showing 1 to 10 of 23 entries 总记录数没也显示多少等信息
 		"bRetrieve": true,
-		"sAjaxSource": "reception/query", // 地址
+		"sAjaxSource": "reception/queryAll", // 地址
 		"aoColumns": [ 
 		            {"mData": null, "target": 0},	//序列号         
 		            {"mData": "customerName"},
@@ -70,7 +70,7 @@ function initData() {
 							var startReportDate = $('#startReportDate').val();
 							var endReportDate = $('#endReportDate').val();  //isReceiver
 							var isReceiver = $('#isReceiver').is(":checked");
-							aoData.push({'name':'isReceiver','value':isReceiver},{'name':'receiverStaffName','value':receiverStaffName},{'name':'startReportDate','value':startReportDate},{'name':'endReportDate','value':endReportDate});
+							aoData.push({'name':'receiverStaffName','value':receiverStaffName},{'name':'startReportDate','value':startReportDate},{'name':'endReportDate','value':endReportDate});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

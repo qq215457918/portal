@@ -49,21 +49,10 @@
 	          	</div>
 	          	<div style="width: 65%; float: left;">
 	          	  <div class="col-md-7" style="width: 100%;">
-		            <input class="form-control" placeholder="客服姓名、接待员姓名" id="receiverStaffName" type="text" style="width: 100%;">
+		            <input class="form-control" placeholder="接待员姓名" id="receiverStaffName" type="text" style="width: 100%;">
 		          </div>
 	          	</div>
 	          </div>
-	          <div style="height: 50px; float: left; width: 40%;">
-	          	<div style="width: 35%; float: left;">
-	          		<label class="control-label col-md-2" id="isReceiver" style=" width: 100%;">接待状态</label>
-	          	</div>
-	       	  	<div style="width: 65%; float: left;">
-	          	  <div class="col-md-7" style="width: 100%;">
-		           <label class="checkbox"><input type="checkbox"><span>是否正在接待</span></label>
-		          </div>
-	          	</div>
-	          </div>
-
 	          <div style="height: 50px; float: left; width: 20%; margin-left:20px;">
 		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
 		        <button class="btn btn-default" id="back" style="float: left;">返&nbsp;回</button>

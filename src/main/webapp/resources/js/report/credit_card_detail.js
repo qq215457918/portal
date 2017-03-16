@@ -65,6 +65,7 @@ function initData() {
 		"aoColumns": [ 
 		            {"mData": null, "target": 0},	//序列号         
 		            {"mData": "paymentAccountName"},
+		            {"mData": "customerPayType"},
 		            {"mData": "orderNumber"},
 		            {"mData": "payAmount"},             
 		            {"mData": "payAmountActual"},
