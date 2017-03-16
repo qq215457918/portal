@@ -31,7 +31,7 @@ public interface ReceptionInfoService {
      * @param date
      * @return
      */
-    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response);
+    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response, String cId);
 
     /**
      * 查询客户接待记录的前5条
@@ -95,7 +95,7 @@ public interface ReceptionInfoService {
      * @version V1.0
      */
     JSONObject ajaxOutOrderDetail(HttpServletRequest request);
-    
+
     /**
      * @Title: getByConditions 
      * @Description: 定时器获取每日接待信息

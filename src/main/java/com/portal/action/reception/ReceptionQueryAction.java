@@ -46,10 +46,25 @@ public class ReceptionQueryAction {
      * @param response
      */
     @RequestMapping("/query")
+    public void queryReceptionByCId(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        // 向前端输出
+        JsonUtils.outJsonString(receptionInfoService
+                .receptionING(request, response, (String) request.getSession().getAttribute("cId")).toString(),
+                response);
+    }
+
+    /**
+     * 异步查询
+     * @param request
+     * @param response
+     */
+    @RequestMapping("/queryAll")
     public void queryReception(HttpServletRequest request, HttpServletResponse response) {
         getBasePath(request, response);
         // 向前端输出
-        JsonUtils.outJsonString(receptionInfoService.receptionING(request, response).toString(), response);
+        JsonUtils.outJsonString(receptionInfoService.receptionING(request, response, null).toString(),
+                response);
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

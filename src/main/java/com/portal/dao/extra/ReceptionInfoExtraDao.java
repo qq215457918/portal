@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReceptionInfoExtraDao {
 
+    int countByExample(Criteria example);
+
     /**
      * 根据条件查询记录集
      */
@@ -92,7 +94,7 @@ public interface ReceptionInfoExtraDao {
      * @return
      */
     int updatePresentOrderId(Criteria criteria);
-    
+
     /**
      * @Title: getByConditions 
      * @Description: 定时器获取每日接待信息

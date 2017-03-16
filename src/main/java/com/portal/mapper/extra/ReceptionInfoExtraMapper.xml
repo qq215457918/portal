@@ -29,6 +29,16 @@
   
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+    	<if test="condition.endtimeflag != null" >
+	    	 and end_time is null
+	    </if>
+	    <if test="condition.staffName != null" >  
+	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR}, "%")
+	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR}, "%"))
+	    </if>
+	    <if test="condition.cId != null" >  
+	      	 and c.id = #{condition.cId,jdbcType=VARCHAR}
+	    </if>
       <if test="condition.area != null" >
       	 and c.area = #{condition.area,jdbcType=VARCHAR}
       </if>
@@ -81,19 +91,7 @@
 		date_format(r.end_time, '%H:%i') as end_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
-    left join customer_info c on r.customer_id = c.id
-    <trim prefix="where" prefixOverrides="and|or" >
-	    <if test="condition.endtimeflag != null" >
-	    	 and end_time is null
-	    </if>
-	    <if test="condition.staff_name != null" >  
-	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%")
-	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%"))
-	    </if>
-	    <if test="condition.cId != null" >  
-	      	 and c.id = #{condition.cId,jdbcType=VARCHAR}
-	    </if>
-    </trim> 
+    left join customer_info c on r.customer_id = c.id 
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -101,6 +99,16 @@
       order by ${orderByClause}
     </if>
     <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+ <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select 
+       count(*)
+    from reception_info r
+    left join customer_info c on r.customer_id = c.id 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
   </select>
   
   
