@@ -24,6 +24,9 @@ function showTab() {
 		var activeIndex = windowHref.indexOf("active=");
 		// 获取当前访问的菜单
 		var index = windowHref.substring(activeIndex + 7, windowHref.length);
+		if(index.indexOf('&') >= 0) {
+			index = index.substring(0, index.indexOf('&'));
+		}
 		// 回显菜单
 		$("a[name='tab']").each(function(){
 			// 获取该菜单的href属性
@@ -32,6 +35,9 @@ function showTab() {
 			var menuIndex = hrefs.indexOf("active=");
 			// 获取当前访问的菜单
 			var nowMenu = hrefs.substring(menuIndex + 7, hrefs.length);
+			if(nowMenu.indexOf('&') >= 0) {
+				nowMenu = nowMenu.substring(0, nowMenu.indexOf('&'));
+			}
 			// 如果相等, 则表示为同一个
 			if(nowMenu == index) {
 				// 为菜单添加高亮属性
