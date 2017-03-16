@@ -49,7 +49,7 @@
                 </div>
     	        <div class="form-group">
 	              <label>地址</label>
-	              <input id="area" name="area"  type="text" value="辽宁省-大连市-中山区" class="form-control city_input" readonly="readonly">
+	              <input id="address" name="address"  type="text" value="辽宁省-大连市-中山区" class="form-control city_input" readonly="readonly">
 	            </div>  
                 <div class="form-group">
                   <label>客服</label><!-- <input class="form-control" id="phone2" name="phone2" type="text"> -->

@@ -133,12 +133,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
         String UUid = UUidUtil.getUUId();
         setDeleteFlag(orderInfo);
-        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "5");
+
+        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "5", orderInfo.getAreaFlag());
         detailInfo.setOldOrderId(detailInfo.getId());
         detailInfo.setOrderId(UUid);
         detailInfo.setOrderType("5");// 5回购订单类型
         detailInfo.setOldPrice(detailInfo.getPrice());
         detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
+        deleteOldOrder(orderInfo);
         return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
     }
 
@@ -151,7 +153,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoDao.updateByPrimaryKeySelective(orderInfo);
     }
 
-    public void addNewOrder(HttpServletRequest request, String UUid, String phoneStaffId, String OrderType) {
+    public void addNewOrder(HttpServletRequest request, String UUid, String phoneStaffId, String OrderType,
+            String areaFlag) {
         String employeeId = (String) request.getSession().getAttribute("userId");
         OrderInfo orderInfoNew = new OrderInfo();
         orderInfoNew.setId(UUid);
@@ -170,6 +173,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setCreateId(employeeId);
         orderInfoNew.setDeleteFlag("0");
         orderInfoNew.setOrderNumber(StringUtil.getOrderNo());
+        orderInfoNew.setAreaFlag(areaFlag);
         orderInfoDao.insertSelective(orderInfoNew);
     }
 
@@ -183,13 +187,15 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         OrderDetailInfo detailInfo = orderDetailInfoDao.selectByPrimaryKey(request.getParameter("detailId"));
         OrderInfo orderInfo = orderInfoDao.selectByPrimaryKey(detailInfo.getOrderId());
         String UUid = UUidUtil.getUUId();
-        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "7");
+
+        addNewOrder(request, UUid, orderInfo.getPhoneStaffId(), "7", orderInfo.getAreaFlag());
         detailInfo.setOldOrderId(detailInfo.getOrderId());
         detailInfo.setOrderId(UUid);
         detailInfo.setOrderType("7");
         detailInfo.setOldPrice(detailInfo.getPrice());
         detailInfo.setPrice(Long.valueOf(request.getParameter("price")));
         detailInfo.setAmount(Integer.valueOf(request.getParameter("count")));
+        deleteOldOrder(orderInfo);
         return orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo);
     }
 
@@ -230,9 +236,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setOrderId(UUid);
         detailInfo.setOrderType("2");
         detailInfo.setOldOrderId(orderInfo.getId());
-        //        detailInfo.setAmount(~detailInfo.getAmount() + 1);//数量为负数
-        //        result = orderDetailInfoDao.updateByPrimaryKey(detailInfo) > 0 ? true : false;
-
         result = orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo) > 0 ? true : false;
 
         OrderInfo orderInfoNew = new OrderInfo();
@@ -251,8 +254,13 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setDeleteFlag("0");
         orderInfoNew.setAreaFlag(orderInfo.getAreaFlag());
         result = orderInfoDao.insertSelective(orderInfoNew) > 0 ? true : false;
-
+        deleteOldOrder(orderInfo);
         return result;
+    }
+
+    public void deleteOldOrder(OrderInfo orderInfo) {
+        orderInfo.setDeleteFlag("1");
+        orderInfoDao.updateByPrimaryKeySelective(orderInfo);
     }
 
     public void updateReturnDetail(String orderId) {
@@ -280,6 +288,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setFinanceOperatorId("");
         orderCriteria.setFinanceFlag("0");
         orderCriteria.setFinanceType("");
+        orderCriteria.setWarehouseFlag("");
+        orderCriteria.setCultureFlag("");
         orderCriteria.setDeleteFlag("0");
         Long depositPrice = orderInfoDao.selectByPrimaryKey(orderId).getPayPrice();
         orderCriteria.setPayPrice(getCountPrice4Deposit(orderId) - depositPrice);
@@ -516,6 +526,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), puuid,
                                     "6"));//6 为VIP赠品
+                    updateGoodsCount(goodID);
                     presentNameList.append(goodsInfo.getName() + ",");
                     giftNameList.append(goodsInfo.getName() + "\\n");
                 } else {//其他类型单独插入goodType
@@ -523,6 +534,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
                     insertPresentDetailInfo(//查询商品信息插入到订单详情表中                    
                             getOrderDetailInfo(goodID, job.get("num").toString().trim(), uuid,
                                     "1"));//1 为正常订单
+                    updateGoodsCount(goodID);
                     productNameList.append(goodsInfo.getName() + "\\n");
                 }
             }
@@ -551,6 +563,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
         }
         return true;
+    }
+
+    //减少商品的购买数量
+    void updateGoodsCount(String goodID) {
+        goodsDao.updateGoodsCount(goodID);
     }
 
     /**
@@ -596,6 +613,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             insertPresentDetailInfo(
                     getOrderDetailInfo(goodId, StringUtils.isEmpty(count) ? "1" : count, uuid,
                             isVIP ? "6" : "4"));
+            updateGoodsCount(goodId);
         }
         insertSelective(getPresentOrderInfo(request, uuid, normalFlag, isVIP));
         customerInfoService.updateGift(request.getSession().getAttribute("cId").toString(),
@@ -824,14 +842,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         Map<String, Integer> counts = orderInfoExtraDao.getClinchPerfors(criteria);
 
         //查询出大连指定日期内的业绩
-        criteria.put("area", "1");
+        criteria.put("areaFlag", "1");
         List<OrderInfoForm> dlAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
 
         //生成大连业绩
         List<Integer> dlAmounts = generateAmountsList(dates, dlAmountsList);
 
         // 查询出沈阳指定日期内的业绩
-        criteria.put("area", "0");
+        criteria.put("areaFlag", "0");
         List<OrderInfoForm> syAmountsList = orderInfoExtraDao.getDayAndPerfors(criteria);
 
         //生成沈阳业绩
@@ -928,14 +946,14 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         }
 
         //查询出大连客服的业绩
-        criteria.put("area", "1");
+        criteria.put("areaFlag", "1");
         // 获取大连区域下对应职位类型的所有员工名称
         List<String> dlStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取大连区域下员工业绩
         List<OrderInfoForm> dlAmounts = orderInfoExtraDao.getStaffPerfors(criteria);
 
         // 查询出沈阳客服的业绩
-        criteria.put("area", "0");
+        criteria.put("areaFlag", "0");
         // 获取沈阳区域下对应职位类型的所有员工名称
         List<String> syStaffNames = orderInfoExtraDao.getEmployeeInfos(criteria);
         // 获取沈阳区域下员工业绩
@@ -1037,7 +1055,12 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
-            criteria.put("area", area);
+            // 获取销售商品信息/定金回款/定金退款的条件
+            // criteria.put("area", area);
+            // 获取销售结算明细条件
+            // criteria.put("organizationId", area);
+            // 获取回购支付金额条件
+            criteria.put("areaFlag", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);
@@ -1066,24 +1089,27 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         } else {
             // 获取销售商品信息
             List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
-            // 获取销售结算明细
+            // 获取销售结算明细(获取收款账户对应收款方式的统计) 
             List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
             // 获取定金退款
             List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
             // 获取定金回款
             List<Integer> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
+            // 获取回购支出的金额
+            double payOutAmounts = orderInfoExtraDao.getPayOutAmounts(criteria);
 
             result.put("type", "compile");
             result.put("goodsList", goodsList);
             result.put("clearing", clearingList);
             result.put("depositRefund", depositRefund);
             result.put("depositReturn", depositReturn);
+            result.put("payOutAmounts", payOutAmounts);
         }
         return result;
     }
 
     public JSONObject ajaxCreditCardDepositDetail(HttpServletRequest request, JSONObject results) {
-        logger.info("获取各地区的销售日报表数据");
+        logger.info("获取各地区当日刷卡定金明细");
         // 所属区域
         String area = request.getParameter("area");
         // 查询日期
@@ -1091,7 +1117,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
-            criteria.put("area", area);
+            criteria.put("areaFlag", area);
         }
         if (StringUtil.isNotBlank(startDate)) {
             criteria.put("startDate", startDate);

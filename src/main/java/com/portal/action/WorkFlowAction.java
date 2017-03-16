@@ -975,7 +975,7 @@ public class WorkFlowAction {
     			sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
     			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getUnit())));
     			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).getAmount())));
-    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).getPrice())));
+    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).getPrice()*result.get(j).getAmount())));
     		}
     		
     		os.flush();
@@ -1064,7 +1064,7 @@ public class WorkFlowAction {
             if (null != orderInfo.getPayPrice()) {
                 double orderPirce = orderInfo.getPayPrice() * 100;
                 String[] bigOrderPrice = numberToStr(orderPirce);
-                sheet.addCell(new Label(1, 13, "                                 " + bigOrderPrice[0] +
+                sheet.addCell(new Label(1, 13, "                          " + bigOrderPrice[0] +
                         "   " + bigOrderPrice[1] + "   " + bigOrderPrice[2] + "   " + bigOrderPrice[3] +
                         "   " + bigOrderPrice[4] + "   " + bigOrderPrice[5] + "   " + bigOrderPrice[6] +
                         "   " + bigOrderPrice[7] + "   " + bigOrderPrice[8]));

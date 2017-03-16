@@ -93,6 +93,17 @@ public interface OrderInfoExtraDao {
     List<OrderInfoForm> getSellclearingDetail(Criteria criteria);
     
     /**
+     * @Title: getPayOutAmounts 
+     * @Description: 销售日报表-获取回购付出的金额
+     * @param criteria
+     * @return double
+     * @author Xia ZhengWei
+     * @date 2017年3月15日 下午6:59:42 
+     * @version V1.0
+     */
+    double getPayOutAmounts(Criteria criteria);
+    
+    /**
      * @Title: getCountsCardDetail 
      * @Description: 获取当日刷卡定金明细数据总条数
      * @param criteria

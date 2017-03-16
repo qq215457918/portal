@@ -14,7 +14,7 @@
     <div class="login-container" style="top:60%;height: 400px;">
 	  <img width="150" height="150" src="resources/images/logo.png" style="margin:0px">
 
-      <form action=""  id="validate-form" method="post" novalidate="novalidate">
+      <form action="login"  id="validate-form" method="post" novalidate="novalidate">
         <div class="form-group"  style="margin-top:20px">
             <input class="form-control" placeholder="登录名" type="text" id="loginName" name="loginName" value="<shiro:principal/>">
             <input class="form-control" placeholder="密码" type="password" id="password" name="password">

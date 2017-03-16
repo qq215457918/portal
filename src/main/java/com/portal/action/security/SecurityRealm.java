@@ -7,6 +7,7 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -43,23 +44,20 @@ public class SecurityRealm extends AuthorizingRealm {
      * 修改为使用SimpleAuthenticationInfo 进行密码匹配。
      */
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token)
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
             throws AuthenticationException {
-        String username = (String) token.getPrincipal();
-        EmployeeInfo employeeInfo = employeeService.selectByUserName(username);
-
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        EmployeeInfo employeeInfo = employeeService.selectByUserName((String) token.getUsername());
         if (employeeInfo == null) {
             throw new UnknownAccountException();//没找到帐号
         }
-
-        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配，如果觉得人家的不好可以自定义实现
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
+        //交给AuthenticatingRealm使用CredentialsMatcher进行密码匹配
+        return new SimpleAuthenticationInfo(
                 employeeInfo.getLoginName(), //用户名
                 employeeInfo.getPassword(), //密码
                 // ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt
                 getName()  //realm name
         );
-        return authenticationInfo;
 
     }
 

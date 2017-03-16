@@ -89,7 +89,7 @@
 		                            	定金支付
 		                          </td>
 	                          <td>
-	                            <input class="form-control" placeholder="定金金额" type="text" id="deposit-amount">
+	                            <input class="form-control" placeholder="定金金额" type="number" id="deposit-amount">
 	                          </td>
 	                        </tr>
 	                        </tbody>
