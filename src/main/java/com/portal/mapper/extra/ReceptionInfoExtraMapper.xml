@@ -125,7 +125,7 @@
     from reception_info r
 	left join customer_info c on r.customer_id = c.id
     where customer_id =#{condition.customerId,jdbcType=VARCHAR}
-    order by create_date desc limit 0,5
+    order by r.create_date desc limit 0,5
   </select>
   
     <select id="queryRecordBeginbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
