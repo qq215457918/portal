@@ -6,9 +6,10 @@
 		select
 			COUNT(1) achieveCount,
 			SUM(pay_price) payPrice,
-			SUM(actual_price) actualPrice,
+			SUM(pay_amount_actual) actualPrice,
 			group_concat(distinct ei.name) phoneStaffName
 		from order_info oi
+		left join order_fund_settlement ofs on ofs.order_number = oi.order_number
 		left join employee_info ei on oi.phone_staff_id = ei.id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">
