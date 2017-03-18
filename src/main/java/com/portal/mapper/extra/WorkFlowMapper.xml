@@ -6,9 +6,10 @@
 		select
 			COUNT(1) achieveCount,
 			SUM(pay_price) payPrice,
-			SUM(actual_price) actualPrice,
+			SUM(pay_amount_actual) actualPrice,
 			group_concat(distinct ei.name) phoneStaffName
 		from order_info oi
+		left join order_fund_settlement ofs on ofs.order_number = oi.order_number
 		left join employee_info ei on oi.phone_staff_id = ei.id
 		<trim prefix="where" prefixOverrides="and|or">
 			<if test="userId != null">
@@ -184,11 +185,25 @@
 			oi.culture_operator_id, oi.culture_date, oi.Remarks, 
 			oi.create_date, oi.create_id, oi.update_date, oi.update_id, oi.delete_flag,
 			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=2) as saleCount,
-			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=3) as freeCount
+			(select count(1) from order_detail_info a where a.order_id = oi.id and a.good_type=3) as freeCount,
+			ifnull(ei.name, ' ') as receiverStaffname,
+			ifnull(ci.phone, ' ') as customerPhone,
+			ifnull(ci.name, ' ') as customerName
 		from order_info oi inner join order_detail_info odi on oi.id = odi.order_id
+		left join employee_info ei on oi.receiver_staff_id = ei.id
+		left join customer_info ci on ci.id = oi.customer_id
 		where odi.good_type in (2,3) and oi.finance_flag = 1 and odi.delete_flag != 1 and oi.delete_flag != 1 and oi.status != 4
 		<if test="orderNumber != null and orderNumber != ''">
-			and oi.order_number = #{orderNumber}
+		   and oi.order_number = #{orderNumber}
+		</if>
+		<if test="customerPhone != null and customerPhone != ''" >
+		   and ci.phone like concat('%', #{customerPhone, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="customerName != null and customerName != ''" >
+		   and ci.name like concat('%', #{customerName, jdbcType=VARCHAR}, '%')
+		</if>
+		<if test="receiverName != null and receiverName != ''" >
+		   and ei.name like concat('%', #{receiverName, jdbcType=VARCHAR}, '%')
 		</if>
 		group by oi.id 
 		order by culture_flag asc, oi.create_date desc

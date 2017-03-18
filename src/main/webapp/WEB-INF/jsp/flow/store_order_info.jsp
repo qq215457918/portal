@@ -24,6 +24,20 @@
 							<div class="col-sm-2">
 				            	<input class="form-control" placeholder="订单编号" type="text" id="orderNumber" name="orderNumber">
 				            </div>
+				            <label class="control-label col-md-2 swidth">客户电话</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerPhone" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">客户姓名</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerName" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">接待人员</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="receiverName" type="text">
+				            </div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-7">

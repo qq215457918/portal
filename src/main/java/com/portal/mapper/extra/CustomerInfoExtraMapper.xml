@@ -82,7 +82,7 @@
   </sql>
   <update id="updateVisitCount" parameterType="com.portal.bean.Criteria" >
     update customer_info 
-    set visit_count = ifnull(visit_count,0) + 1
+    set visit_count = ifnull(visit_count,0) + 1,recent_visit_date = now()
     where id =#{condition.cid,jdbcType=VARCHAR};
   </update>
   

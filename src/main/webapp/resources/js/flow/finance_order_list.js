@@ -15,7 +15,8 @@ $(document).ready(function(){
 	}).data("datepicker");
 	
 	$('#searchList').click(function(){
-		if('' == $('#orderNumber').val() && '' == $('#createDate').val()){
+		if('' == $('#orderNumber').val() && '' == $('#customerPhone').val()
+				&& '' == $('#customerName').val() && '' == $('#receiverName').val()){
 			return;
 		}
 		$('#financeOrderExam').dataTable().fnDraw();
@@ -315,10 +316,14 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var orderId = $('#orderId').val();
 							var orderNumber = $('#orderNumber').val();
-							var createDate = $('#createDate').val();
+							
+							var customerPhone = $('#customerPhone').val();
+							var customerName = $('#customerName').val();
+							var receiverName = $('#receiverName').val();
 							
 							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber},
-									{'name':'createDate','value':createDate});
+									{'name':'customerPhone','value':customerPhone}, {'name':'customerName','value':customerName},
+									{'name':'receiverName','value':receiverName});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

@@ -2,7 +2,8 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchList').click(function(){
-		if('' == $('#orderNumber').val()){
+		if('' == $('#orderNumber').val() && '' == $('#customerPhone').val()
+				&& '' == $('#customerName').val() && '' == $('#receiverName').val()){
 			return;
 		}
 		$('#financeOrderDate').dataTable().fnDraw();
@@ -273,8 +274,14 @@ function initData(){
 							var orderNumber = $('#orderNumber').val();
 							var userId = $('#hiddenUserId').val();
 							
+							var customerPhone = $('#customerPhone').val();
+							var customerName = $('#customerName').val();
+							var receiverName = $('#receiverName').val();
+							
 							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber}, 
-									{'name':'userId','value':userId}, {'name':'store','value':1});
+									{'name':'userId','value':userId}, {'name':'store','value':1},
+									{'name':'customerPhone','value':customerPhone}, {'name':'customerName','value':customerName},
+									{'name':'receiverName','value':receiverName});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

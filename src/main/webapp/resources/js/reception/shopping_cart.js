@@ -58,7 +58,7 @@ function submitOrder(){
 	}
 	var goodInfo = getCheckGoods();
 	if(goodInfo !="[]"){
-		window.location.href=base+"/order/submit?goodInfo=" + goodInfo + "&submitType="+submitType+"&amount="+amount;
+		window.location.href=base+"/order/submit?goodInfo=" + encodeURI(goodInfo) + "&submitType="+submitType+"&amount="+amount;
 	}
 }
 

@@ -181,6 +181,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         }
         cSimpleForm.setHisReceiverStaffName(staffName);
         cSimpleForm.setVisitCount(Integer.valueOf(cInfo.getVisitCount() == null ? "0" : cInfo.getVisitCount()));
+        cSimpleForm.setRecentVisitDate(cInfo.getRecentVisitDate());
         return cSimpleForm;
     }
 

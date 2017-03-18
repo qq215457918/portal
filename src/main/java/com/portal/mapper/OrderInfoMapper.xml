@@ -133,6 +133,15 @@
       <if test="condition.areaFlag != null" >
          and area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
       </if>
+      <if test="condition.customerPhone != null" >
+         and ci.phone like concat('%', #{condition.customerPhone, jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.customerName != null" >
+         and ci.name like concat('%', #{condition.customerName, jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.receiverName != null" >
+         and ei.name like concat('%', #{condition.receiverName, jdbcType=VARCHAR}, '%')
+      </if>
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -450,6 +459,11 @@
   </insert>
   <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
     select count(*) from order_info
+    <if test="condition.financeOrder == 1" >
+	    left join employee_info ei on ei.id = order_info.receiver_staff_id
+	    left join employee_info eip on eip.id = order_info.phone_staff_id
+	    left join customer_info ci on ci.id = order_info.customer_id
+    </if>
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -763,6 +777,7 @@
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
+         and oi.status != 5
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
@@ -772,6 +787,12 @@
       </if>
       <if test="condition.deleteFlag != null" >
          and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerPhone != null" >
+         and ci.phone like concat('%', #{condition.customerPhone, jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.receiverName != null" >
+         and eir.name like concat('%', #{condition.receiverName, jdbcType=VARCHAR}, '%')
       </if>
     </trim>
     group by id
@@ -815,6 +836,7 @@
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
+         and oi.status != 5
       </if>
       <if test="condition.areaFlag != null" >
          and oi.area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
@@ -824,6 +846,12 @@
       </if>
       <if test="condition.deleteFlag != null" >
          and oi.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.customerPhone != null" >
+         and ci.phone like concat('%', #{condition.customerPhone, jdbcType=VARCHAR}, '%')
+      </if>
+      <if test="condition.receiverName != null" >
+         and eir.name like concat('%', #{condition.receiverName, jdbcType=VARCHAR}, '%')
       </if>
     </trim>
     group by id

@@ -32,7 +32,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
+import jxl.format.UnderlineStyle;
 import jxl.write.Label;
+import jxl.write.NumberFormat;
+import jxl.write.WritableCellFormat;
+import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import net.sf.json.JSONArray;
@@ -545,6 +549,9 @@ public class WorkFlowAction {
         criteria.put("financeOrder", "1");
         criteria.put("createDate", request.getParameter("createDate"));
         criteria.put("deleteFlag", 0);
+        criteria.put("customerPhone", request.getParameter("customerPhone"));
+        criteria.put("customerName", request.getParameter("customerName"));
+        criteria.put("receiverName", request.getParameter("receiverName"));
         criteria.put("areaFlag", empInfo.getOrganizationId());
         criteria.setOrderByClause("create_date desc");
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
@@ -730,6 +737,9 @@ public class WorkFlowAction {
         paramMap.put("orderNumber", request.getParameter("orderNumber"));
         paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
         paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
+        paramMap.put("customerPhone", request.getParameter("customerPhone"));
+        paramMap.put("customerName", request.getParameter("customerName"));
+        paramMap.put("receiverName", request.getParameter("receiverName"));
 
         List<Map<String, Object>> resultList = workFlowService.selectCivilizationOrderList(paramMap);
 
@@ -1034,6 +1044,12 @@ public class WorkFlowAction {
             System.out.println();//得到年
             System.out.println();//由于月份是从0开始的所以加1
             System.out.println(a.get(Calendar.DATE));
+            
+            // 设置单元格格式
+            WritableFont font = new WritableFont(WritableFont.createFont("宋体"),11,WritableFont.NO_BOLD);
+	        WritableCellFormat totalx2Format = new WritableCellFormat(font);
+	        totalx2Format.setAlignment(jxl.format.Alignment.RIGHT); 
+	        totalx2Format.setVerticalAlignment(jxl.format.VerticalAlignment.CENTRE);
 
             sheet.addCell(new Label(2, 14, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
             sheet.addCell(new Label(7, 14, String.valueOf(a.get(Calendar.YEAR))));
@@ -1042,7 +1058,7 @@ public class WorkFlowAction {
 
             for (int i = 6, j = 0; j < result.size(); i ++, j ++) {
                 sheet.addCell(new Label(1, i, result.get(j).getGoodName()));
-                sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount())));
+                sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount()), totalx2Format));
                 sheet.addCell(new Label(3, i, result.get(j).getUnit()));
                 sheet.addCell(new Label(4, i, String.valueOf(result.get(j).getPrice())));
                 double payPrice = Double.valueOf(String.valueOf(null==result.get(j).getPrice()?0:result.get(j).getPrice())) * 100;
@@ -1050,13 +1066,13 @@ public class WorkFlowAction {
                 String[] sMoney = format.format(payPrice).split("");
                 int k = (sMoney.length - 1);
                 for (int l = 13; k >= 0; k--, l--) {
-                    sheet.addCell(new Label(l, i, sMoney[k]));
+                    sheet.addCell(new Label(l, i, sMoney[k], totalx2Format));
                 }
                 int count = 0;
                 if ((9 - sMoney.length) > 0) {
                     count = 9 - sMoney.length;
                     for (int m = 0, n = 5; m < count; m ++, n ++) {
-                        sheet.addCell(new Label(n, i, "0"));
+                        sheet.addCell(new Label(n, i, "0", totalx2Format));
                     }
                 }
             }
