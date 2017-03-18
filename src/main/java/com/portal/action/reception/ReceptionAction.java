@@ -96,12 +96,13 @@ public class ReceptionAction {
         	System.out.println("lastReceptionInfo.getEndTime():"+lastReceptionInfo.getEndTime());
         	if(lastReceptionInfo.getEndTime()!=null&&lastReceptionInfo.getEndTime().length()>0){
                 receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+                customerInfoService.updateVisitCount(customerId);
         	}
         }else{
             receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+            customerInfoService.updateVisitCount(customerId);
         }
         //add end
-        customerInfoService.updateVisitCount(customerId);
         //修改客户类型 登门客户类型为1
         customerInfoService.updateType(customerId, "1");
         if (StringUtils.isEmpty((String) request.getAttribute("receiverStaffName"))) {//receiverStaffName
