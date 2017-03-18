@@ -4,11 +4,15 @@ package com.portal.action.reception;
 import com.portal.bean.CustomerInfo;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.CustomerSimpleInfoForm;
+import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.common.util.WebUtils;
 import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
+
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -85,7 +89,18 @@ public class ReceptionAction {
         }
         //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
-        receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+        //ADD by xdx for filter repeatedly visit log with out end action. 
+        List<ReceptionInfoForm> receptions = receptionInfoService.queryRecordListbyId(customerId);
+        if(receptions.size()>0){
+        	ReceptionInfoForm lastReceptionInfo = receptions.get(0);
+        	System.out.println("lastReceptionInfo.getEndTime():"+lastReceptionInfo.getEndTime());
+        	if(lastReceptionInfo.getEndTime()!=null&&lastReceptionInfo.getEndTime().length()>0){
+                receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+        	}
+        }else{
+            receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+        }
+        //add end
         customerInfoService.updateVisitCount(customerId);
         //修改客户类型 登门客户类型为1
         customerInfoService.updateType(customerId, "1");

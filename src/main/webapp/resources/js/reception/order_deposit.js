@@ -67,7 +67,7 @@ function initData() {
 						"render": function(data, type, full) {
 							if(full.status=='4'){
 								return "<button class='btn btn-xs btn-warning' id='cId"+data+"' onclick='cancelDeposit("+data+");'>  撤销定金   </button>"+
-							      "<button class='btn btn-xs btn-warning' id='pId"+data+"' onclick='payDeposit("+data+");'>  支付定金   </button>";
+							      "<button class='btn btn-xs btn-warning' id='pId"+data+"' onclick='payDeposit("+data+");'>  支付余款   </button>";
 							}
 							return " ";
 						}
