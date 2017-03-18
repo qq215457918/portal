@@ -777,6 +777,7 @@
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
+         and oi.status != 5
       </if>
       <if test="condition.orderId != null" >
          and oi.id = #{condition.orderId,jdbcType=VARCHAR}
@@ -835,6 +836,7 @@
       <if test="condition.store != null and condition.store == 1" >
          and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
          and warehouse_flag != -2
+         and oi.status != 5
       </if>
       <if test="condition.areaFlag != null" >
          and oi.area_flag = #{condition.areaFlag,jdbcType=VARCHAR}

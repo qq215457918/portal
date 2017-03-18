@@ -277,9 +277,11 @@ public class OrderInfo implements Serializable {
         } else if ("2".equals(status)) {
             statusName = "已出库";
         } else if ("3".equals(status)) {
-            statusName = "文交所审核";
+            statusName = "文交所已审核";
         } else if ("4".equals(status)) {
             statusName = "已完成";
+        } else if ("5".equals(status)) {
+            statusName = "待审批";
         }
     }
 
