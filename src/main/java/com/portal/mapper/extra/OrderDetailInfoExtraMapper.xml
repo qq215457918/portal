@@ -68,7 +68,10 @@
       	 <![CDATA[and o.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
       <if test="condition.area != null" >
-         and c.area = #{condition.area,jdbcType=VARCHAR}
+         and o.area_flag = #{condition.area,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and o.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -126,7 +129,6 @@
 		select odi.good_name
 		from order_detail_info odi 
 		left join order_info o on odi.order_id = o.id
-		left join customer_info c on o.customer_id = c.id
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
@@ -144,7 +146,6 @@
                 IFNULL(sum(amount),0)
             from order_detail_info od 
             left join order_info o on od.order_id = o.id
-            left join customer_info c on o.customer_id = c.id
             <if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
@@ -156,7 +157,6 @@
                 IFNULL(sum(amount),0)
             from order_detail_info od 
             left join order_info o on od.order_id = o.id
-            left join customer_info c on o.customer_id = c.id
             <if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
@@ -165,7 +165,6 @@
         ) as vip_gift_counts
     from order_detail_info odi 
     left join order_info o on odi.order_id = o.id
-    left join customer_info c on o.customer_id = c.id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>

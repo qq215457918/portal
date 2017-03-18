@@ -352,7 +352,7 @@
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and o.area_flag = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+			and o.area_flag = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
 		) as dl_amounts,
 		(select IFNULL(sum(ofs.pay_amount_actual),0) 
 			from order_info o
@@ -360,14 +360,14 @@
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and o.area_flag = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+			and o.area_flag = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
 		) as sy_amounts
 	from order_info o
 	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
   </select>
   
   <!-- 获取每日业绩统计线形图数据 -->
@@ -381,6 +381,7 @@
       <include refid="Example_Where_Clause" />
     </if>
 	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+	and o.delete_flag = '0'
 	group by DATE_FORMAT(o.create_date, '%Y%m%d')
 	ORDER BY o.create_date
   </select>
@@ -432,6 +433,7 @@
 	      <include refid="Example_Where_Clause" />
 	    </if>
 		and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+		and o.delete_flag = '0'
 		group by e.`name`
 		
 		UNION
@@ -465,6 +467,7 @@
     </if>
     and od.good_sort_id != '27'
     and o.finance_flag = '1'
+    and o.delete_flag = '0'
     and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
     group by od.good_name
   </select>
@@ -474,8 +477,8 @@
   	select 
 		p.payment_account_name as payment_account_name,
 		of.customer_pay_type as customer_pay_type,
-		IFNULL(sum(of.pay_amount_actual),0) as pay_amount_actual,
-		(IFNULL(sum(of.pay_amount_actual),0) - IFNULL(sum(of.poundage),0)) as income,
+		IFNULL(sum(of.pay_amount),0) as pay_amount_actual,
+		(IFNULL(sum(of.pay_amount),0) - IFNULL(sum(of.poundage),0)) as income,
 		IFNULL(sum(of.poundage),0) as poundage
 	from payment_account_info p
 	left join order_fund_settlement of on p.payment_account_id = of.payment_account_id
@@ -484,6 +487,7 @@
         <include refid="Example_Where_Clause" />
     </if>
 	and o.finance_flag = '1'
+	and o.delete_flag = '0'
 	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
 	and of.pay_amount_actual > 0
 	group by p.payment_account_name, of.customer_pay_type
@@ -500,6 +504,7 @@
         <include refid="Example_Where_Clause" />
     </if>
 	and o.order_type = '5'
+	and o.delete_flag = '0'
   </select>
   <!--
   	获取每日的回购支付金额 
@@ -533,6 +538,7 @@
 	      <include refid="Example_Where_Clause" />
 	    </if>
 		and o.pay_type = '1'
+		and o.delete_flag = '0'
 		and f.customer_pay_type in ('1','2','3')
     ) a
   </select>
@@ -557,6 +563,7 @@
       <include refid="Example_Where_Clause" />
     </if>
 	and o.pay_type = '1'
+	and o.delete_flag = '0'
 	and f.customer_pay_type in ('1','2','3')
     <if test="orderByClause != null" >
       order by ${orderByClause}
@@ -574,6 +581,7 @@
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
  	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
+ 	and o.delete_flag = '0'
   </select>
   
   <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
@@ -587,6 +595,7 @@
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
  	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
+ 	and o.delete_flag = '0'
   </select>
   
   <!-- 获取对应人员在指定时间段的出售藏品件数（定时器使用） -->
@@ -602,6 +611,7 @@
        and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
        and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
+    and o.delete_flag = '0'
   </select>
   
   <!-- 获取每天的定金退款数据（销售日报表使用） -->
@@ -610,6 +620,7 @@
     from order_info o
     left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '1' and o.order_type = '2'
+    and o.delete_flag = '0'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[
      and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}
@@ -623,6 +634,7 @@
     from order_info o
     left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '3'
+    and o.delete_flag = '0'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[
      and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}

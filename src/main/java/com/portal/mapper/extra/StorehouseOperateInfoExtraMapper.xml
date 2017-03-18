@@ -58,7 +58,7 @@
          and s.operate_id = #{condition.operateId,jdbcType=VARCHAR}
       </if>
       <if test="condition.area != null" >
-         and c.area = #{condition.area,jdbcType=VARCHAR}
+         and o.area_flag = #{condition.area,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderNumber != null" >
          and o.order_number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
@@ -67,13 +67,16 @@
          and o.warehouse_flag = #{condition.warehouseFlag,jdbcType=VARCHAR}
       </if>
       <if test="condition.startDate != null" >
-         <![CDATA[and s.operate_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+         <![CDATA[and o.warehouse_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>
       <if test="condition.endDate != null" >
-         <![CDATA[and s.operate_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+         <![CDATA[and o.warehouse_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
       <if test="condition.goodsName != null" >
-         and s.good_name like CONCAT("%", #{condition.goodsName,jdbcType=VARCHAR}, "%")
+         and g.name like CONCAT("%", #{condition.goodsName,jdbcType=VARCHAR}, "%")
+      </if>
+      <if test="condition.deleteFlag != null" >
+         and o.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
       </if>
     </trim>
   </sql>
@@ -87,52 +90,59 @@
   <select id="getGoodsAndGiftCounts" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
   	select 
 		distinct
-		(select IFNULL(sum(s.amount),0)
-			from storehouse_operate_info s
-			left join order_info o on s.order_id = o.id
-			left join customer_info c on o.customer_id = c.id
-		<if test="_parameter != null" >
-	      	<include refid="Example_Where_Clause" />
-	    </if>
-			and s.good_sort_id != 27
+		(select IFNULL(sum(od.amount),0)
+			from order_detail_info od
+			left join order_info o on od.order_id = o.id
+			<if test="_parameter != null" >
+		      	<include refid="Example_Where_Clause" />
+		    </if>
+			and od.good_sort_id != 27
 		) as commodity,
-		(select IFNULL(sum(s.amount),0)
-			from storehouse_operate_info s
-			left join order_info o on s.order_id = o.id
-			left join customer_info c on o.customer_id = c.id
-		<if test="_parameter != null" >
-	      	<include refid="Example_Where_Clause" />
-	    </if>
-			and s.good_sort_id = 27
+		(select IFNULL(sum(od.amount),0)
+			from order_detail_info od
+			left join order_info o on od.order_id = o.id
+			<if test="_parameter != null" >
+		      	<include refid="Example_Where_Clause" />
+		    </if>
+			and od.good_sort_id = 27
 		) as gift
-	from storehouse_operate_info
+	from order_info
   </select>
   
   <!-- 根据条件查询出库明细记录总数 -->
   <select id="getCountsByCondition" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
-    select count(s.good_sort_name)
-	from storehouse_operate_info s
-	left join order_info o on s.order_id = o.id
-	left join customer_info c on o.customer_id = c.id
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+  	select count(1) 
+	from (
+		select 
+			o.order_number
+		from order_detail_info od
+		left join order_info o on od.order_id = o.id
+		left join goods_info g on od.good_id = g.id
+		left join goods_sort gs on g.sort_id = gs.id
+	    <if test="_parameter != null" >
+	      <include refid="Example_Where_Clause" />
+	    </if>
+	) a 
   </select>
 
   <!-- 根据条件查询出库明细记录集 -->
   <select id="getOrganiPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
   	select
- 	<if test="distinct" >
-		distinct
-    </if>
-	<include refid="Base_Column_List" />
-	from storehouse_operate_info s
-	left join order_info o on s.order_id = o.id
-	left join customer_info c on o.customer_id = c.id
-    <if test="_parameter != null" >
+		o.order_number as order_number,
+		gs.`name` as good_sort_name,
+		g.`name` as good_name,
+		g.type as good_type,
+		g.price as price,
+		od.amount as amount,
+		o.warehouse_date as operate_date
+	from order_detail_info od
+	left join order_info o on od.order_id = o.id
+	left join goods_info g on od.good_id = g.id
+	left join goods_sort gs on g.sort_id = gs.id
+	<if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
-    <if test="orderByClause != null" >
+	<if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
     <include refid="common.Mysql_Pagination_Limit" />

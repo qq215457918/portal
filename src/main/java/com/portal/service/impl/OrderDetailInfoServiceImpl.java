@@ -106,6 +106,7 @@ public class OrderDetailInfoServiceImpl implements OrderDetailInfoService {
         
         // 订单支付状态为已支付
         criteria.put("financeFlag", "1");
+        criteria.put("deleteFlag", "0");
         if(StringUtil.isNotBlank(startDate)){
             criteria.put("startDate", startDate);
         }
