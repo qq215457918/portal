@@ -59,7 +59,7 @@
       </if>
       <if test="condition.area != null" >
          and o.area_flag = #{condition.area,jdbcType=VARCHAR}
-      </if>
+      </if> 
       <if test="condition.orderNumber != null" >
          and o.order_number like CONCAT("%", #{condition.orderNumber,jdbcType=VARCHAR}, "%")
       </if>
