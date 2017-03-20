@@ -71,8 +71,7 @@
             <div class="widget-content padded">
               <a class="btn btn-primary btn" onclick='openDelivery();'>配 送</a>
               <a class="btn btn-warning btn" onclick='openPlacing();'>配 售</a>
-              <a class="btn btn-default btn" onclick='openGifts();'>赠 品</a>
-              <a class="btn btn-default btn"  data-toggle="modal" href="#presentModal">特批赠品</a>
+              <a class="btn btn-default btn" onclick='openGifts();'>VIP赠 品</a>
             </div>
             <div class="modal fade" id="myGoods">
               <div class="modal-dialog">
