@@ -235,6 +235,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         detailInfo.setOldOrderId(detailInfo.getOrderId());
         detailInfo.setOrderId(UUid);
         detailInfo.setOrderType("2");
+        detailInfo.setAmount(detailInfo.getAmount());
         detailInfo.setOldOrderId(orderInfo.getId());
         result = orderDetailInfoDao.updateByPrimaryKeySelective(detailInfo) > 0 ? true : false;
 
@@ -247,7 +248,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setReceiverStaffId(receiverStaffId);
         orderInfoNew.setPhoneStaffId(orderInfo.getPhoneStaffId());
         orderInfoNew.setStatus("0");
-        orderInfoNew.setPayPrice(detailInfo.getPrice());
+        orderInfoNew.setPayPrice(detailInfo.getPrice()*detailInfo.getAmount());
         orderInfoNew.setActualPrice(0L);
         orderInfoNew.setCreateDate(new Date());
         orderInfoNew.setCreateId(receiverStaffId);
@@ -537,7 +538,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
 
             if (hasPresent) {
-                insertSelective(insertOrderInfo(cid, deposit ? "1" : "0", puuid, 0L, request));//礼品的订单金额为0
+                insertSelective(insertOrderInfo("6",cid, deposit ? "1" : "0", puuid, 0L, request));//礼品的订单金额为0
                 //在接待表中添加赠品订单 puuid
                 receptionInfoService.updatePresentOrderID(puuid, presentNameList.toString(), cid);
                 //在客户信息中家赠品信息
@@ -550,7 +551,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (hasGoods) {
                 amount = Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
-                insertSelective(insertOrderInfo(cid, deposit ? "1" : "0", uuid, amount, request));
+                insertSelective(insertOrderInfo("1",cid, deposit ? "1" : "0", uuid, amount, request));
                 //在接待表中添加赠品订单 uuid
                 receptionInfoService.updateOrderID(uuid, cid);
                 if (!deposit) {
@@ -573,7 +574,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * @param uuid
      * @return
      */
-    OrderInfo insertOrderInfo(String cid, String payType, String uuid, Long amount,
+    OrderInfo insertOrderInfo(String orderType, String cid, String payType, String uuid, Long amount,
             HttpServletRequest request) {
         OrderInfo orderInfo = new OrderInfo();
         orderInfo.setId(uuid);
@@ -581,7 +582,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfo.setPayType(payType);
         orderInfo.setPayPrice(amount);
         orderInfo.setCustomerId(cid);
-        orderInfo.setOrderType("1");
+        orderInfo.setOrderType(orderType);
         orderInfo.setStatus("0");
         orderInfo.setCreateDate(new Date());
         String[] staff = getStaffInfo(cid, request);

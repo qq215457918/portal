@@ -205,10 +205,10 @@
 			 		var financeFlag ;
 					var orderList = data.result;				
 					$.each(data.result, function(n, value) {
-						if(value.financeFlag==1){
-							financeFlag="已经审批通过";
+						if(value.status==5){
+							financeFlag="正在审批";
 						}else{
-							financeFlag="未通过审核";
+							financeFlag="正常";
 						}
 						item += "<tr><td>"+Number(n+1)+"</td>";		
 						var goodName = "<td>";
