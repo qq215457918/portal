@@ -22,7 +22,7 @@ public class SellDailyInfoForm extends SellDailyInfo {
     private List<SellGoodsDetail> sellGoodsDetails = new ArrayList<SellGoodsDetail>();
     
     /**
-     * 显示的统计时间 
+     * 显示的统计时间
      */
     private String viewReportData;
 
