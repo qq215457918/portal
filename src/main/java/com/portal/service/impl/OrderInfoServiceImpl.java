@@ -1077,9 +1077,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<SellDailyInfoForm> sellDailies = sellDailyInfoExreaDao.getSellDailiesByCondition(criteria);
         if (sellDailies != null && sellDailies.size() > 0) {
             // 获取销售商品信息
-            List<SellGoodsDetail> goodsDetail = sellDailies.get(0).getSellGoodsDetails();
+            List<SellGoodsDetail> goodsDetail = sellDailyInfoExreaDao.getSellGoodsDetails(sellDailies.get(0).getId());
             // 获取销售结算明细
-            List<SellDailyDetail> dailyDetail = sellDailies.get(0).getSellDailyDetails();
+            List<SellDailyDetail> dailyDetail = sellDailyInfoExreaDao.getSellDailyDetails(sellDailies.get(0).getId());
             result.put("type", "search");
             result.put("goodsList", goodsDetail);
             result.put("clearing", dailyDetail);

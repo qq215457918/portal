@@ -51,6 +51,7 @@
 			<div style="clear: both;"></div>
 			<form id="form" action="report/saveSellDaily" method="post">
 				<input type="hidden" name="area" />
+				<input type="hidden" name="viewReportData" id="viewReportData"/>
 				<table class="table table-bordered" id="sellDaily">
 				
 				</table>

@@ -70,9 +70,9 @@
       <if test="condition.area != null" >
          and o.area_flag = #{condition.area,jdbcType=VARCHAR}
       </if>
-    <!--   <if test="condition.deleteFlag != null" >
-         and o.delete_flag = #{condition.deleteFlag,jdbcType=VARCHAR}
-      </if> -->
+      <if test="condition.orderDeleteFlag != null" >
+         and o.delete_flag = #{condition.orderDeleteFlag,jdbcType=VARCHAR}
+      </if>
     </trim>
   </sql>
   

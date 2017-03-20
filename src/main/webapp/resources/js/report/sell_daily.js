@@ -81,6 +81,7 @@ $(function() {
 function initData() {
 	// 给隐藏域赋值
 	$("input[name='area']").val($("#area").find("option:selected").val());
+	$("#viewReportData").val($('#startDate').val());
 	$.ajax({
 		"dataType": 'json',
 		"type": "POST",
@@ -101,6 +102,8 @@ function initData() {
 			$("#printTable").empty();
 			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositRefund.length > 0 || depositReturn.length > 0)) {
 				$("#saveSell").show();
+			}else {
+				$("#saveSell").hide();
 			}
 			var printHtml = "";
 			var html =  "<tr><td colspan='6' style='background: #CCDDFF; font-size: 20px; font-weight: bold;'>" + area + "销售日报表</td></tr>" +
@@ -205,21 +208,7 @@ function initData() {
 			var payType = "";
 			if(type == "search") {
 				for (var int = 0; int < clearing.length; int++) {
-					// 判断客户支付方式
-					if(clearing[int].customerPayType == 1) {
-						payType = "信用卡";
-					}else if(clearing[int].customerPayType == 2) {
-						payType = "储蓄卡（封顶）";
-					}else if(clearing[int].customerPayType == 3) {
-						payType = "储蓄卡（不封顶）";
-					}else if(clearing[int].customerPayType == 4) {
-						payType = "支付宝";
-					}else if(clearing[int].customerPayType == 5) {
-						payType = "微信";
-					}else if(clearing[int].customerPayType == 6) {
-						payType = "现金";
-					}
-					
+					payType = clearing[int].customerPayType;
 					contents = "<tr>" + 
 								"<td>" + clearing[int].paymentAccountName + "</td>" + 
 								"<td>" + payType + "</td>" + 
@@ -271,9 +260,9 @@ function initData() {
 										"<td>" + clearing[int].poundage + "</td>" + 
 										"<td></td>" + 
 									"<tr>";
-					total += clearing[int].payAmountActual;
-					income += clearing[int].income;
-					poundages += clearing[int].poundage;
+					total = (total + clearing[int].payAmountActual).toFixed(2)*1;
+					income = (income + clearing[int].income).toFixed(2)*1;
+					poundages = (poundages + clearing[int].poundage).toFixed(2)*1;
 					html += contents;
 					printHtml += printContents;
 				}
@@ -298,7 +287,7 @@ function initData() {
 										"<td></td>" + 
 										"<td>定金退款</td>" + 
 									"<tr>";
-					total += depositRefund[int];
+					total = (total + depositRefund[int]).toFixed(2)*1;
 					income += 0;
 					poundages += 0;
 					html += contents;
@@ -325,7 +314,7 @@ function initData() {
 										"<td></td>" + 
 										"<td>定金回款</td>" + 
 									"<tr>";
-					total += depositReturn[int];
+					total = (total + depositReturn[int]).toFixed(2)*1;
 					income += 0;
 					poundages += 0;
 					html += contents;
@@ -352,7 +341,7 @@ function initData() {
 										"<td></td>" + 
 										"<td>回购藏品费用</td>" + 
 									"<tr>";
-					income += payOutAmounts;
+					income = (income + payOutAmounts).toFixed(2)*1;
 					html += contents;
 					printHtml += printContents;
 				}

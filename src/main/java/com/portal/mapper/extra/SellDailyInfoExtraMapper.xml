@@ -9,8 +9,6 @@
     <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="VARCHAR" />
     <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
-    <collection property="sellDailyDetails" resultMap="sellDailyResultMap" />
-    <collection property="sellGoodsDetails" resultMap="sellGoodsResultMap" />
   </resultMap>
   
   <!-- 资金结算明细 -->
@@ -54,15 +52,22 @@
   <!-- 根据条件获取记录 -->
   <select id="getSellDailiesByCondition" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select * from sell_daily_info d
-    left join sell_daily_detail dd on d.id = dd.sell_daily_id
-	left join sell_goods_detail gd on d.id = gd.sell_daily_id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
-    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <!-- 根据条件获取销售商品信息 -->
+  <select id="getSellGoodsDetails" resultMap="sellGoodsResultMap" parameterType="java.lang.String" >
+    select * from sell_goods_detail gd where gd.sell_daily_id = #{sellDailyId,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 根据条件获取获取销售结算明细 -->
+  <select id="getSellDailyDetails" resultMap="sellDailyResultMap" parameterType="java.lang.String" >
+    select * from sell_daily_detail dd where dd.sell_daily_id = #{sellDailyId,jdbcType=VARCHAR}
   </select>
   
 </mapper>

@@ -20,6 +20,11 @@ public class SellDailyInfoForm extends SellDailyInfo {
      * 销售藏品明细
      */
     private List<SellGoodsDetail> sellGoodsDetails = new ArrayList<SellGoodsDetail>();
+    
+    /**
+     * 显示的统计时间
+     */
+    private String viewReportData;
 
     public List<SellDailyDetail> getSellDailyDetails() {
         return sellDailyDetails;
@@ -35,6 +40,14 @@ public class SellDailyInfoForm extends SellDailyInfo {
 
     public void setSellGoodsDetails(List<SellGoodsDetail> sellGoodsDetails) {
         this.sellGoodsDetails = sellGoodsDetails;
+    }
+
+    public String getViewReportData() {
+        return viewReportData;
+    }
+
+    public void setViewReportData(String viewReportData) {
+        this.viewReportData = viewReportData;
     }
 
 }
