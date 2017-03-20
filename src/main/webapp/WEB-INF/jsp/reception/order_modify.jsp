@@ -72,15 +72,17 @@
 						<!-- DataTables Example -->
 						<table class="table table-bordered" id="orderModify">
 							<thead>
+							  <tr>
 								<th>序号</th>
 								<th>订单编号</th>
 								<th>客户名称</th>
 								<th>客户电话</th>
 								<th>接待姓名</th>
-								<th>已购商品</th>
+								<th>订单商品</th>
 								<th>订单金额</th>
 								<th>商品类型</th>
 								<th>操作</th>
+								</tr>
 							</thead>
 							<tbody>
 							</tbody>

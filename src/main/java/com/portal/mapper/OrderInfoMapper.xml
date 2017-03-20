@@ -58,7 +58,7 @@
          and order_info.status = #{condition.status,jdbcType=VARCHAR}
       </if>
       <if test="condition.orderType != null" >
-         and order_type = #{condition.orderType,jdbcType=VARCHAR}
+         and order_info.order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
       <if test="condition.payType != null" >
          and pay_type = #{condition.payType,jdbcType=VARCHAR}
@@ -126,9 +126,9 @@
       </if>
       <!-- 财务查询订单为正常的或者订单为退货换货仓库为已入库的订单 -->
       <if test="condition.financeOrder != null and condition.financeOrder == 1" >
-         and (order_type = 1 or ((order_type = 2 or order_type = 3 or order_type = 5) and warehouse_flag = -1) or culture_flag = -1 or pay_type = 1 or pay_type = 3)
-         and order_type != 4
-         and order_type != 6
+         and (order_info.order_type = 1 or ((order_info.order_type = 2 or order_info.order_type = 3 or order_info.order_type = 5) and warehouse_flag = -1) or culture_flag = -1 or pay_type = 1 or pay_type = 3)
+         and order_info.order_type != 4
+         and order_info.order_type != 6
       </if>
       <if test="condition.areaFlag != null" >
          and area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
@@ -231,7 +231,7 @@
     order_info.warehouse_operator_id, order_info.warehouse_date, order_info.culture_flag, 
     order_info.culture_operator_id, order_info.culture_date,order_info.area_flag, order_info.create_date, 
     order_info.create_id, order_info.update_date, order_info.update_id, order_info.delete_flag, 
-    order_info.culture_remark
+    order_info.culture_remark,group_concat(concat('&lt;br&gt;',od.good_name,' * ', od.amount)) goodsQuantity
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -245,6 +245,7 @@
     	,eip.name as phone_staff_name
     </if>
     from order_info
+    left join order_detail_info od on order_info.id = od.order_id
     <if test="condition.financeOrder == 1" >
     left join employee_info ei on ei.id = order_info.receiver_staff_id
     left join employee_info eip on eip.id = order_info.phone_staff_id
@@ -253,6 +254,7 @@
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
+     group by order_info.id
     <if test="orderByClause != null" >
       order by ${orderByClause}
     </if>
@@ -704,7 +706,7 @@
 		oi.create_id, oi.update_date, oi.update_id, oi.delete_flag, ei.name as receiver_staff_name, 
 		group_concat(odi.good_name, '&amp;', odi.amount) good_name
 	from order_info oi
-	left join order_detail_info odi on oi.id = odi.order_id
+	left join order_detail_info oi on oi.id = odi.order_id
 	left join employee_info ei on oi.receiver_staff_id = ei.id
 	<trim prefix="where" prefixOverrides="and|or" >
       <if test="customerId != null" >
@@ -743,8 +745,8 @@
   </select>
   
   <select id="selectOrderModifyList" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria">
-  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(concat(od.good_name, '(', od.good_id, ')')) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
-  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat(od.good_name, '(', od.good_id, ')', '&amp;', od.amount)) goodsQuantity,
+  	SELECT oi.id, ci.name customer_name, ci.phone customer_phone, group_concat(concat('&lt;br&gt;',od.good_name)) good_name, oi.pay_price, oi.order_type, oi.finance_flag,
+  		eip.name as phone_staff_name, eir.name as receiver_staff_name, group_concat(concat('&lt;br&gt;',od.good_name,' * ', od.amount)) goodsQuantity,
   		oi.order_number,oi.finance_date, oi.warehouse_flag
 	FROM order_info oi 
 	left join order_detail_info od on oi.id = od.order_id
