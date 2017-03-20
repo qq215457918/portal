@@ -274,10 +274,11 @@ function initData(){
 		"sAjaxSource": "workflow/selectFinanceOrder", // 地址
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
+		            {"mData": "orderNumber"},
 			        {"mData": "receiverStaffName"},
 			        {"mData": "phoneStaffName"},
 			        {"mData": "customerName"},
-		            {"mData": "orderNumber"},
+		            {"mData": "goodsQuantity"},//goodsName
 		            {"mData": "orderTypeName"},
 		            {"mData": "payTypeName"}, 
 		            {"mData": "payPrice"}, 
@@ -305,7 +306,7 @@ function initData(){
 				
 				return operation;
 			},
-			"targets" : 9
+			"targets" : 10
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();

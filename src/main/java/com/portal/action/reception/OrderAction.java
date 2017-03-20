@@ -179,7 +179,7 @@ public class OrderAction {
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("orderNumber", request.getParameter("orderNumber"));
         criteria.put("customerName", request.getParameter("customerName"));
-        criteria.put("orderType", request.getParameter("orderType"));
+        criteria.put("order_info.orderType", request.getParameter("orderType"));
         criteria.put("areaFlag", empInfo.getOrganizationId());
         criteria.put("customerPhone", request.getParameter("customerPhone"));
         criteria.put("customerName", request.getParameter("customerName"));

@@ -49,10 +49,10 @@
       	 and c.name like CONCAT("%", #{condition.name,jdbcType=VARCHAR}, "%")
       </if>
       <if test="condition.startDate != null" >
-      	 <![CDATA[and r.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
+      	 <![CDATA[and DATE(create_date) >= #{condition.startDate,jdbcType=TIMESTAMP}]]>
       </if>
       <if test="condition.endDate != null" >
-      	 <![CDATA[and r.create_date <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
+      	 <![CDATA[and DATE(create_date) <= #{condition.endDate,jdbcType=TIMESTAMP}]]>
       </if>
       <!-- 定时器查询条件 -->
       <if test="condition.receiverStaffId != null" >

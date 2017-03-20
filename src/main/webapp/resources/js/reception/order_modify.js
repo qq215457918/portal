@@ -52,7 +52,7 @@ function initData(){
 		            {"mData": "customerName"},
 		            {"mData": "customerPhone"},
 		            {"mData": "receiverStaffName"},
-		            {"mData": "goodsName"},
+		            {"mData": "goodsQuantity"},//goodsName
 		            {"mData": "payPrice"}, 
 		            {"mData": "orderTypeName"},    
 		            {"mData": ""},             

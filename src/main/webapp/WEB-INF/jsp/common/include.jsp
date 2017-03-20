@@ -3,6 +3,7 @@
 
 <!-- 浏览器标签左侧小图标（公司LOGO小图标） -->
 <link rel="shortcut icon" type="image/x-icon" href="${basePath}resources/images/logo.png">
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%> 
 
 <!-- 引入css颜色样式 -->
 <link type="text/css" rel="stylesheet" href="${basePath}resources/css/color/gray.css" />

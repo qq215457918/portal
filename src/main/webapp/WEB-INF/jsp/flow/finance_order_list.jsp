@@ -49,10 +49,11 @@
 						<table class="table table-bordered" id="financeOrderExam">
 							<thead>
 								<th>序号</th>
+								<th>订单编号</th>
 								<th>接待人员</th>
 								<th>客服人员</th>
 								<th>客户姓名</th>
-								<th>订单编号</th>
+								<th>订单商品</th>
 								<th>订单类型</th>
 								<th>支付类型</th>
 								<th>订单金额</th>
