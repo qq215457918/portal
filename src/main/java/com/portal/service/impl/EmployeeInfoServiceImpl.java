@@ -70,7 +70,11 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         if (user == null) {
             return Collections.EMPTY_SET;
         }
-        String roleIdStr[] = user.getRoleIds().split(",");
+        String roleIds = user.getRoleIds();
+        if(roleIds.indexOf(',') == 0) {
+            roleIds = roleIds.substring(1, roleIds.length());
+        }
+        String roleIdStr[] = roleIds.split(",");
         Long roleIdsLong[] = new Long[roleIdStr.length];
         for (int i = 0; i < roleIdStr.length; i ++) {
             roleIdsLong[i] = Long.valueOf(roleIdStr[i]);
@@ -176,7 +180,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     public JSONObject deleteEmployeeInfo(String employeeId, JSONObject result) {
         EmployeeInfo employeeInfo = this.selectByPrimaryKey(employeeId);
-        if ("1".equals(employeeInfo.getDeleteFlag())) {
+        if("0".equals(employeeInfo.getDeleteFlag())) {
             // 逻辑删除--修改删除状态
             employeeInfo.setDeleteFlag("1");
             int count = this.updateByPrimaryKey(employeeInfo);
@@ -200,7 +204,8 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
                         }
                     }
                 }
-            } else {
+                result = JsonUtils.setSuccess();
+            }else {
                 result = JsonUtils.setError();
                 result.put("text", "系统异常,请刷新后重试");
             }
@@ -256,7 +261,21 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             // 过滤特殊字符
             employeeInfo.setStaffNumber(StringUtil.tstr(employeeInfo.getStaffNumber().trim()));
         }
-        if (StringUtil.isNotBlank(employeeInfo.getId())) {
+        
+        String roleIds = employeeInfo.getRoleIds();
+        if(StringUtil.isNotBlank(roleIds)) {
+            StringBuilder builder = new StringBuilder();
+            String[] roles = roleIds.split(",");
+            for (String string : roles) {
+                if(StringUtil.isNotBlank(string)) {
+                    builder.append(",").append(string);
+                }
+            }
+            builder.append(",");
+            employeeInfo.setRoleIds(builder.toString());
+        }
+        
+        if(StringUtil.isNotBlank(employeeInfo.getId())) {
             // 修改
             count = employeeInfoDao.updateByPrimaryKey(employeeInfo);
         } else {

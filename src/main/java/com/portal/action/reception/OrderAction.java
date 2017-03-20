@@ -137,6 +137,7 @@ public class OrderAction {
     @RequestMapping("orderModifyIndex")
     public String orderModifyIndex(HttpServletRequest request, HttpServletResponse response) {
         request.setAttribute("orderId", request.getParameter("orderId"));
+        request.setAttribute("active", request.getParameter("active"));
         return "reception/order_modify";
     }
 
@@ -180,6 +181,9 @@ public class OrderAction {
         criteria.put("customerName", request.getParameter("customerName"));
         criteria.put("orderType", request.getParameter("orderType"));
         criteria.put("areaFlag", empInfo.getOrganizationId());
+        criteria.put("customerPhone", request.getParameter("customerPhone"));
+        criteria.put("customerName", request.getParameter("customerName"));
+        criteria.put("receiverName", request.getParameter("receiverName"));
         //        criteria.put("financeDate", null==request.getParameter("financeDate")?new Date():request.getParameter("financeDate"));
         String userId = request.getParameter("userId");
         if (StringUtils.isNotBlank(userId) && !"1".equals(request.getParameter("store"))) {

@@ -223,7 +223,7 @@ function gotoAccount(){
 	});
 	var goodInfoJson = JSON.stringify(result);
 	//alert(goodInfoJson)
-	window.location.href=base+"/order/account?goodInfo="+goodInfoJson;
+	window.location.href=base+"/order/account?goodInfo="+encodeURI(goodInfoJson);
 }
 
 //新增内存

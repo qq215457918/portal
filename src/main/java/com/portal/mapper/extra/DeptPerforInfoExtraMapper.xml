@@ -62,9 +62,9 @@
   	select count(1) from 
   	(
 		select
-			sum(dp.performance) as performance,
+			IFNULL(sum(dp.performance),0) as performance,
 			g.`name` as organization_name,
-		 	sum(dp.new_customer_counts) as new_customer_counts
+		 	IFNULL(sum(dp.new_customer_counts),0) as new_customer_counts
 		from dept_performance_info dp
 		left join employee_info e on dp.employee_id = e.id
 		left join group_info g on e.organization_id = g.id
@@ -79,9 +79,9 @@
   <!-- 报表系统中查询机构业绩 -->
   <select id="getOrganiPerformance" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
 	select
-			sum(dp.performance) as performance,
+			IFNULL(sum(dp.performance),0) as performance,
 			g.`name` as organization_name,
-		 	sum(dp.new_customer_counts) as new_customer_counts
+		 	IFNULL(sum(dp.new_customer_counts),0) as new_customer_counts
 		from dept_performance_info dp
 		left join employee_info e on dp.employee_id = e.id
 		left join group_info g on e.organization_id = g.id
@@ -105,9 +105,9 @@
 			(select g.`name` from group_info g where g.id = e.group_id) as group_name,
 			(select g.`name` from group_info g where g.id = e.department_id) as department_name,
 			(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
-			sum(dp.performance) as performance,
-			sum(dp.order_amounts) as order_amounts,
-			sum(dp.new_customer_counts) as new_customer_counts
+			IFNULL(sum(dp.performance),0) as performance,
+			IFNULL(sum(dp.order_amounts),0) as order_amounts,
+			IFNULL(sum(dp.new_customer_counts),0) as new_customer_counts
 		from dept_performance_info dp
 		left join employee_info e on dp.employee_id = e.id
 		<if test="_parameter != null" >
@@ -127,9 +127,9 @@
 		(select g.`name` from group_info g where g.id = e.group_id) as group_name,
 		(select g.`name` from group_info g where g.id = e.department_id) as department_name,
 		(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
-		sum(dp.performance) as performance,
-		sum(dp.order_amounts) as order_amounts,
-		sum(dp.new_customer_counts) as new_customer_counts
+		IFNULL(sum(dp.performance),0) as performance,
+		IFNULL(sum(dp.order_amounts),0) as order_amounts,
+		IFNULL(sum(dp.new_customer_counts),0) as new_customer_counts
 	from dept_performance_info dp
 	left join employee_info e on dp.employee_id = e.id
 	<if test="_parameter != null" >
@@ -149,9 +149,9 @@
 		(select g.`name` from group_info g where g.id = e.group_id) as group_name,
 		(select g.`name` from group_info g where g.id = e.department_id) as department_name,
 		(select g.`name` from group_info g where g.id = e.organization_id) as organization_name,
-		sum(dp.performance) as performance,
-		sum(dp.order_amounts) as order_amounts,
-		sum(dp.new_customer_counts) as new_customer_counts
+		IFNULL(sum(dp.performance),0) as performance,
+		IFNULL(sum(dp.order_amounts),0) as order_amounts,
+		IFNULL(sum(dp.new_customer_counts),0) as new_customer_counts
 	from dept_performance_info dp
 	left join employee_info e on dp.employee_id = e.id
 	<if test="_parameter != null" >
@@ -167,8 +167,9 @@
   	select 
 		e.id as employee_id,
 		(
-		select sum(o.actual_price) 
-		from order_info o 
+		select IFNULL(sum(of.pay_amount_actual),0)
+		from order_info o
+		left join order_fund_settlement of on o.order_number = of.order_number 
 		where e.id = o.receiver_staff_id 
 		<![CDATA[
 	     and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
@@ -176,7 +177,7 @@
 	    ]]>
 		) as performance,
 		(
-		select sum(od.amount) 
+		select IFNULL(sum(od.amount),0)
 		from order_detail_info od 
 		where od.order_id in (
 			select o.id from order_info o 

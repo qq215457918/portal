@@ -39,13 +39,20 @@ $(function() {
     	}
     });
     
+    // 添加关联角色
+    $(".add").click(function(){
+    	var modelHtmls = $(".model").html();
+    	var htmls = '<div><select class="form-control" name="roleIds" style="width: 90%; float: left;">' + modelHtmls + '</select></div>' +
+    				'<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删&nbsp;&nbsp;除</span></a>';
+    	$(".roles").append(htmls);
+    });
+    
     // 保存信息
     $("#saveEmployee").click(function(){
     	var name = $("#name").val();
     	var loginName = $("#loginName").val();
     	var password = $("#password").val();
     	var organizationId = $("#organizationId").val();
-    	var roleIds = $("#roleIds").val();
     	
     	if(name == null || name == "") {
     		$("#name").css({"border": "1px solid red"});
@@ -70,12 +77,6 @@ $(function() {
     		return false;
     	}else {
     		$("#organizationId").removeAttr("style");
-    	}
-    	if(roleIds == null || roleIds == "") {
-    		$("#roleIds").css({"border": "1px solid red"});
-    		return false;
-    	}else {
-    		$("#roleIds").removeAttr("style");
     	}
     	
     	var options = {
@@ -106,3 +107,11 @@ $(function() {
 	})
 
 });
+
+// 删除关联角色
+function deleteRoles(event) {
+	var _this = $(event);
+	_this.prev().remove();
+	_this.remove();
+}
+

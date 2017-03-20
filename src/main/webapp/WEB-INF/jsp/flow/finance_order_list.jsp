@@ -25,9 +25,19 @@
 				            	<input class="form-control" id="orderNumber" type="text">
 				            </div>
 				            
-				            <label class="control-label col-md-2 swidth">创建日期</label>
+				            <label class="control-label col-md-2 swidth">客户电话</label>
 							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="createDate" type="text">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerPhone" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">客户姓名</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerName" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">接待人员</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="receiverName" type="text">
 				            </div>
 						</div>
 						<div class="form-group">
@@ -40,6 +50,7 @@
 							<thead>
 								<th>序号</th>
 								<th>接待人员</th>
+								<th>客服人员</th>
 								<th>客户姓名</th>
 								<th>订单编号</th>
 								<th>订单类型</th>
@@ -202,6 +213,7 @@
               		<input type="hidden" name="orderNumber"/>
               		<input type="hidden" name="orderId"/>
               		<input type="hidden" name="payType"/>
+              		<input type="hidden" name="operate"/>
               		<div class="row">
 	              		<div class="form-group">
 				            <div class="col-md-7">
@@ -215,11 +227,11 @@
 				            <div class="col-md-1">
 				            	<select name="orderDetailId" id="orderDetailId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款账户</label>
+				            <label class="control-label col-md-1" name="account" style="width:6%;">收款账户</label>
 				            <div class="col-md-1">
 				            	<select name="paymentAccountId" id="paymentAccountId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款方式</label>
+				            <label class="control-label col-md-1" name="payType" style="width:6%;">收款方式</label>
 				            <div class="col-md-1">
 				            	<select name="customerPayType" id="customerPayType" class="form-control">
 				            		<option value="">--请选择--</option>
@@ -228,13 +240,14 @@
 				            		<option value="3">储蓄卡（不封顶）</option>
 				            		<option value="4">支付宝</option>
 				            		<option value="5">微信</option>
+				            		<option value="6">现金</option>
 				            	</select>
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">收款金额</label>
+				            <label class="control-label col-md-1" name="amount" style="width:6%;">收款金额</label>
 				            <div class="col-md-1">
 				            	<input class="form-control" name="payAmount" id="payAmount" type="text">
 				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">实际收款金额</label>
+				            <label class="control-label col-md-1" name="amountActual" style="width:6%;">实际收款金额</label>
 				            <div class="col-md-1">
 				            	<input class="form-control" name="payAmountActual" id="payAmountActual" type="text">
 				            </div>

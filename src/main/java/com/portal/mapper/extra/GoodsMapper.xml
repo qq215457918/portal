@@ -44,7 +44,7 @@
          and price = #{condition.payPrice,jdbcType=DECIMAL}
       </if>
       <if test="condition.moreAmount != null" >
-         and amount > #{condition.moreAmount,jdbcType=INTEGER}
+         and IFNULL(amount,0) > #{condition.moreAmount,jdbcType=INTEGER}
       </if>
       <if test="condition.goodInfo != null" >
          and ( i.name like CONCAT("%", #{condition.goodInfo,jdbcType=VARCHAR} ,"%")
@@ -116,6 +116,13 @@
     repurchase_starttime, repurchase_endtime, create_date, update_date, create_userid, 
     update_userid, delete_flag
   </sql>
+  
+   <update id="updateGoodsCount" parameterType="java.lang.String" >
+    update goods_info 
+    set amount = ifnull(amount,0) - 1
+    where id =#{id,jdbcType=VARCHAR}
+    and ifnull(amount,0) > 0
+  </update>
 
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

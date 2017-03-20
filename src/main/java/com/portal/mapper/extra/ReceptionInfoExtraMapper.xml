@@ -29,6 +29,16 @@
   
   <sql id="Example_Where_Clause" >
     <trim prefix="where" prefixOverrides="and|or" >
+    	<if test="condition.endtimeflag != null" >
+	    	 and end_time is null
+	    </if>
+	    <if test="condition.staffName != null" >  
+	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR}, "%")
+	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staffName,jdbcType=VARCHAR}, "%"))
+	    </if>
+	    <if test="condition.cId != null" >  
+	      	 and c.id = #{condition.cId,jdbcType=VARCHAR}
+	    </if>
       <if test="condition.area != null" >
       	 and c.area = #{condition.area,jdbcType=VARCHAR}
       </if>
@@ -81,19 +91,7 @@
 		date_format(r.end_time, '%H:%i') as end_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
-    left join customer_info c on r.customer_id = c.id
-    <trim prefix="where" prefixOverrides="and|or" >
-	    <if test="condition.endtimeflag != null" >
-	    	 and end_time is null
-	    </if>
-	    <if test="condition.staff_name != null" >  
-	      	 and ((select e.`name` from employee_info e where e.id = r.phone_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%")
-	         or (select e.`name` from employee_info e where e.id = r.receiver_staff_id) like CONCAT("%", #{condition.staff_name,jdbcType=VARCHAR}, "%"))
-	    </if>
-	    <if test="condition.cId != null" >  
-	      	 and c.id = #{condition.cId,jdbcType=VARCHAR}
-	    </if>
-    </trim> 
+    left join customer_info c on r.customer_id = c.id 
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -101,6 +99,16 @@
       order by ${orderByClause}
     </if>
     <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+ <select id="countByExample" parameterType="com.portal.bean.Criteria" resultType="java.lang.Integer" >
+    select 
+       count(*)
+    from reception_info r
+    left join customer_info c on r.customer_id = c.id 
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
   </select>
   
   
@@ -111,13 +119,13 @@
         (select e.`name` from employee_info e where e.id = r.phone_staff_id) as phone_staff_name,
         (select e.`name` from employee_info e where e.id = r.receiver_staff_id) as receiver_staff_name,
         c.type as type,
-	    date_format(r.start_time, '%h:%i') as start_time,
-		date_format(r.end_time, '%h:%i') as end_time,
+	    date_format(r.start_time, '%H:%i') as start_time,
+		date_format(r.end_time, '%H:%i') as end_time,
         date_format(r.create_date, '%Y-%m-%d') as create_date
     from reception_info r
 	left join customer_info c on r.customer_id = c.id
     where customer_id =#{condition.customerId,jdbcType=VARCHAR}
-    order by create_date desc limit 0,5
+    order by r.create_date desc limit 0,5
   </select>
   
     <select id="queryRecordBeginbyId" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
@@ -214,6 +222,7 @@
   <!-- 获取定时器需要的数据 -->
   <select id="getByConditions" resultType="java.lang.String" parameterType="com.portal.bean.Criteria">
   	select 
+  		distinct
     	r.customer_id
     from reception_info r
     <if test="_parameter != null" >

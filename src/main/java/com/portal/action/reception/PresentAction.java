@@ -43,7 +43,6 @@ public class PresentAction {
         ModelAndView model = new ModelAndView();
         List<GoodsInfo> goodsInfoList = goodsInfoService.selectPresentInfo(request);
         model.setViewName("reception/present_info");
-        model.addObject("cId", request.getParameter("cId"));
         model.addObject("goodsInfoList", goodsInfoList);
         return model;
     }
@@ -58,7 +57,8 @@ public class PresentAction {
         getBasePath(request, response);
         JSONObject resultJson = new JSONObject();
         resultJson.put("result",
-                orderInfoService.insertPresentOrder(request, 1, request.getParameter("isVIP") == "true") ? true
+                orderInfoService.insertPresentOrder(request, 1, request.getParameter("isVIP").equals("true"))
+                        ? true
                         : false);
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
@@ -81,7 +81,7 @@ public class PresentAction {
      * 查询需要确认的礼品单
      * order_type = 4 赠品  6 VIP赠品
      * finance_flag = 0
-     * 审批完毕审批finance_flag为 1 
+     * status 5 待审批
      * @param request
      * @param response
      */
@@ -92,8 +92,7 @@ public class PresentAction {
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
 
         criteria.put("deleteFlag", "0");
-        criteria.put("financeFlag", "0");
-        criteria.put("status", "0");
+        criteria.put("status", "5");
         criteria.put("presentCheck", "true");//4赠品  6VIP赠品
         criteria.setOrderByClause("create_date desc");
 
@@ -103,7 +102,7 @@ public class PresentAction {
     }
 
     /**
-     * 审批确认 修改 finance_flag 0 -》 1
+     * 审批确认 修改 status 5 -》 0
      * @param request
      * @param response
      */
@@ -113,12 +112,10 @@ public class PresentAction {
         JSONObject resultJson = new JSONObject();
         OrderInfo record = new OrderInfo();
         Criteria criteria = new Criteria();
-        criteria.put("orderNumber", request.getParameter("orderId"));
-        record.setFinanceFlag("1");
-        record.setStatus("1");
+        criteria.put("orderNumber", request.getParameter("orderNum"));
+        record.setStatus("0");
         resultJson.put("result",
                 orderInfoService.updateByExampleSelective(record, criteria) > 0 ? true : false);
-        //  orderInfoService.selectTodayPresentList(request.getSession().getAttribute("cId").toString()));
         JsonUtils.outJsonString(resultJson.toString(), response);
     }
 

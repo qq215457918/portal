@@ -45,6 +45,10 @@
       <if test="condition.endCreateDate != null" >
          <![CDATA[and e.create_date <= #{condition.endCreateDate,jdbcType=VARCHAR}]]>
       </if>
+      <if test="condition.roleIds != null" >
+         and e.role_ids like CONCAT("%", #{condition.roleIds,jdbcType=VARCHAR}, "%")
+      </if>
+       
       <!-- 定时器执行查询条件 -->
       <if test="condition.employeeId != null" >
          and e.id = #{condition.employeeId,jdbcType=VARCHAR}
@@ -81,6 +85,22 @@
         (CASE e.position_type WHEN '1' THEN "客服" WHEN '2' THEN "接待" END) as position_type,
         (CASE e.reception_flag WHEN '0' THEN "未接待" WHEN '1' THEN "正在接待" END) as reception_flag,
         e.create_date
+    from employee_info e
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <include refid="common.Mysql_Pagination_Limit" />
+  </select>
+  
+  <select id="selectByExamples" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
     from employee_info e
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />

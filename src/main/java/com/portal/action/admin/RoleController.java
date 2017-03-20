@@ -1,8 +1,11 @@
 package com.portal.action.admin;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +15,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.portal.bean.Criteria;
 import com.portal.bean.Role;
+import com.portal.bean.result.EmployeeInfoForm;
+import com.portal.common.util.JsonUtils;
+import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;
+import com.portal.service.EmployeeInfoService;
 import com.portal.service.ResourceService;
 import com.portal.service.RoleService;
+
+import net.sf.json.JSONObject;
 
 /**
  * @ClassName: RoleController 
@@ -32,6 +42,11 @@ public class RoleController {
 
     @Autowired
     private ResourceService resourceService;
+    
+    @Autowired
+    private EmployeeInfoService employeeService;
+    
+    Criteria criteria = new Criteria();
 
     /**
      * @Title: list 
@@ -133,6 +148,33 @@ public class RoleController {
             HttpServletResponse response) {
         roleService.updateRole(role);
         return "redirect:/admin/role";
+    }
+    
+    /**
+     * @Title: checkHasPromi 
+     * @Description: 删除前校验是否存在关联关系
+     * @param request
+     * @param response 
+     * @return void
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午9:59:56 
+     * @version V1.0
+     */
+    @RequestMapping("/checkHasPromi")
+    public void checkHasPromi(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject result = new JSONObject();
+        String roleId = request.getParameter("roleId");
+        if(StringUtil.isNotBlank(roleId)) {
+            criteria.clear();
+            criteria.put("roleIds", "," + roleId + ",");
+            List<EmployeeInfoForm> list = employeeService.selectByConditions(criteria);
+            if(CollectionUtils.isNotEmpty(list)) {
+                result.put("status", 1);
+            }else {
+                result.put("status", 0);
+            }
+        }
+        JsonUtils.outJsonString(result.toString(), response);
     }
 
     /**

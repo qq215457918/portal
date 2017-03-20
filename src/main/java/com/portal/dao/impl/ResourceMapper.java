@@ -1,6 +1,8 @@
 package com.portal.dao.impl;
 
 import com.portal.bean.Resource;
+import com.portal.bean.Role;
+
 import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -34,7 +36,7 @@ public interface ResourceMapper {
     public int updateResource(@Param("resource") Resource resource);
 
     @Delete("delete from sys_resource where id=#{roleId}")
-    public void deleteResource(Long roleId);
+    public int deleteResource(Long roleId);
 
     @Select("select id, name, type, url, permission, parent_id, parent_ids, available from sys_resource where id=#{roleId}")
     @Results({
@@ -59,4 +61,26 @@ public interface ResourceMapper {
             @Result(column = "available", property = "available")
     })
     public List<Resource> findAll();
+    
+    // 获取所有子菜单数量
+    @Select("select id, name, type, url, permission, parent_id, parent_ids from sys_resource where parent_id = #{parentId}")
+    @Results({
+        @Result(id = true, column = "id", property = "id"),
+        @Result(column = "name", property = "name"),
+        @Result(column = "type", property = "type"),
+        @Result(column = "url", property = "url"),
+        @Result(column = "parent_id", property = "parentId"),
+        @Result(column = "parent_ids", property = "parentIds")
+    })
+    public List<Resource> getChildCounts(Long parentId);
+    
+    @Select("select id, role, description, resource_ids from sys_role where resource_ids like CONCAT('%', #{resourcesId} ,'%')")
+    @Results({
+        @Result(id = true, column = "id", property = "id"),
+        @Result(column = "role", property = "role"),
+        @Result(column = "description", property = "description"),
+        @Result(column = "resource_ids", property = "resourceIdsStr")
+    })
+    public List<Role> getPromissionCounts(String resourcesId);
+    
 }

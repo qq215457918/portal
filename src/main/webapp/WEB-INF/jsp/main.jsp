@@ -54,7 +54,7 @@
 			                    <div class="number" style="font-size: 50px;margin-top: 20px;">
 			                      	数据管理
 			                    </div>
-			                    <a class="btn btn-lg btn-warning" href="customerInfo/costomerInfoIndex?type=0" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
+			                    <a class="btn btn-lg btn-warning" href="customerInfo/costomerInfoIndex?type=0&active=1" style="margin-top:20px"><i class="icon-phone-sign"></i>点击登陆</a>
 			              </div>
 			            </div>
 		          </div>

@@ -12,6 +12,8 @@ import net.sf.json.JSONObject;
 
 public interface CustomerInfoService {
 
+    public void updateVisitCount(String cid);
+
     /**
      * 修改客户类型
      * @param cid
@@ -42,7 +44,7 @@ public interface CustomerInfoService {
      * @param phone
      * @return
      */
-    public CustomerSimpleInfoForm getCutomerInfoById(String id);
+    public CustomerSimpleInfoForm getCutomerInfoById(String id, EmployeeInfo employeeInfo);
 
     /**
      * 查询客户基本信息-frist

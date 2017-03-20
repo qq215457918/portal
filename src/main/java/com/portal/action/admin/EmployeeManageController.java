@@ -2,6 +2,7 @@ package com.portal.action.admin;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +41,6 @@ import net.sf.json.JSONObject;
 @Controller
 @RequestMapping("admin/employeeManage")
 public class EmployeeManageController {
-    
     
     @Autowired
     private EmployeeInfoService employeeService;
@@ -87,7 +87,7 @@ public class EmployeeManageController {
      * @Title: ajaxDeptOrGroupDataByParentsId 
      * @Description: 根据父级ID获取子级部门或组数据
      * @param request
-     * @param response 
+     * @param response
      * @return void
      * @author Xia ZhengWei
      * @date 2016年12月22日 下午9:34:14 
@@ -126,7 +126,7 @@ public class EmployeeManageController {
         int perpage = StringUtil.getIntValue(request.getParameter("iDisplayLength"));
         String sEcho = request.getParameter("sEcho");
         
-        // 获取查询条件
+        // 获取查询条件 
         String name = request.getParameter("name");
         String sex = request.getParameter("sex");
         String organizationId = request.getParameter("organizationId");
@@ -141,6 +141,7 @@ public class EmployeeManageController {
         criteria.setMysqlLength(perpage);
         criteria.setOrderByClause("department_id asc");
         
+        criteria.put("deleteFlag", "0");
         if(StringUtil.isNotBlank(name)) {
             criteria.put("name", name.trim());
         }
@@ -205,6 +206,14 @@ public class EmployeeManageController {
                     criteria.put("parentsId", employeeInfo.getDepartmentId());
                     groupList = groupService.selectByExample(criteria);
                 }
+                String roleIds = employeeInfo.getRoleIds();
+                if(StringUtil.isNotBlank(roleIds)) {
+                    roleIds = roleIds.substring(1, roleIds.length());
+                    String[] ids = roleIds.split(",");
+                    List<String> idsList = Arrays.asList(ids);
+                    request.setAttribute("idsList", idsList);
+                }
+                
                 // 向域中存储对象信息
                 request.setAttribute("employee", employeeInfo);
                 request.setAttribute("departmentList", departmentList);

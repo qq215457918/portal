@@ -31,7 +31,7 @@ public interface RoleMapper {
     public int updateRole(@Param("role") Role role, @Param("resourceIdsStr") String resourceIdsStr);
 
     @Delete("delete from sys_role where id=#{roleId}")
-    public void deleteRole(Long roleId);
+    public int deleteRole(Long roleId);
 
     @Select("select id, role, description, resource_ids, available from sys_role where id=#{roleId}")
     @Results({

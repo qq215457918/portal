@@ -24,6 +24,20 @@
 							<div class="col-sm-2">
 				            	<input class="form-control" id="orderNumber" type="text">
 				            </div>
+				            <label class="control-label col-md-2 swidth">客户电话</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" id="customerPhone" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">客户姓名</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" id="customerName" type="text">
+				            </div>
+				            
+				            <label class="control-label col-md-2 swidth">接待人员</label>
+							<div class="col-sm-2">
+				            	<input class="form-control" id="receiverName" type="text">
+				            </div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-7">
@@ -35,6 +49,9 @@
 							<thead>
 								<th>序号</th>
 								<th>订单编号</th>
+								<th>接待人员</th>
+								<th>客户电话</th>
+								<th>客户姓名</th>
 								<th>订单类型</th>
 								<th>支付类型</th>
 								<th>审核状态</th>

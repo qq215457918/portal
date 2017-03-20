@@ -141,7 +141,7 @@ function normal(detailId){
  * @returns
  */
 function approved(detailId , goodName , amount , price ,customerId){
-	alert(detailId+'_'+goodName+'_'+amount+'_'+price+'_'+customerId)
+//	alert(detailId+'_'+goodName+'_'+amount+'_'+price+'_'+customerId)
 	$('#applyGoodsName').val(goodName);
 	$('#applyCount').val(amount);
 	$('#applyPrice').val(price);

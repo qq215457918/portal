@@ -1,14 +1,14 @@
 package com.portal.dao.extra;
 
-import java.util.List;
-
-import org.springframework.stereotype.Repository;
-
 import com.portal.bean.Criteria;
 import com.portal.bean.result.GoodsInfoForm;
+import java.util.List;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GoodsDao {
+
+    void updateGoodsCount(String id);
 
     /**
      * 根据主键查询记录
@@ -16,7 +16,7 @@ public interface GoodsDao {
     GoodsInfoForm selectByPrimaryKey(String id);
 
     List<GoodsInfoForm> selectByExample(Criteria criteria);
-    
+
     /**
      * @Title: countByConditions 
      * @Description: 根据条件获取总记录数
@@ -27,7 +27,7 @@ public interface GoodsDao {
      * @version V1.0
      */
     int countByConditions(Criteria criteria);
-    
+
     /**
      * @Title: selectByConditions 
      * @Description: 根据条件获取数据

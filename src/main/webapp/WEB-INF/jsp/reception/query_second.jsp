@@ -199,10 +199,13 @@
        				客服人员
                 </th>
                 <th>
-                	来访时间
+       				开始接待时间
                 </th>
                 <th>
-                	领取赠品
+       				结束接待时间
+                </th>
+                <th>
+                	来访日期
                 </th>
               </tr></thead>
               <tbody>
@@ -218,10 +221,13 @@
 	                   ${status.phoneStaffName }
 	                </td>
 	                <td>
-	                    ${status.createDate }
+	                   ${status.startTime }
 	                </td>
 	                <td>
-	                    ${status.presentName }
+	                   ${status.endTime }
+	                </td>
+	                <td>
+	                    ${status.createDate }
 	                </td>
 	              </tr>
               </c:forEach>

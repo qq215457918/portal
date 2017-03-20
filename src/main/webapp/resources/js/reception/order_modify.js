@@ -2,10 +2,11 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchList').click(function(){
-		if('' == $('#phone').val() &&
-			'' == $('#phoneStage').val() &&
-			'' == $('#type option:selected').val() &&
-			'' == $('#updateDate').val()){
+		if('' == $('#goodsName').val() &&
+			'' == $('#customerName').val() &&
+			'' == $('#receiverName').val() &&
+			'' == $('#customerPhone').val() &&
+			'' == $('#orderNumber').val()){
 			return;
 		}
 		$('#orderModify').dataTable().fnDraw();
@@ -50,6 +51,7 @@ function initData(){
 			        {"mData": "orderNumber"},
 		            {"mData": "customerName"},
 		            {"mData": "customerPhone"},
+		            {"mData": "receiverStaffName"},
 		            {"mData": "goodsName"},
 		            {"mData": "payPrice"}, 
 		            {"mData": "orderTypeName"},    
@@ -63,7 +65,7 @@ function initData(){
 					'id="modifyItem">修改</a>'+
 					'&nbsp;&nbsp;<a href="#" data-toggle="modal" ' + 'data-customer-id="' + row.id  + '" id="delItem">删除</a>';
 			},
-			"targets" : 7
+			"targets" : 8
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
@@ -74,10 +76,17 @@ function initData(){
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var goodsName = $('#goodsName').val();
 							var orderId = $('#orderId').val();
-							var customerName = $('#customerName').val();
 							var orderType = $('#listInfo input[name=orderType]:checked').val();
+							var orderNumber = $('#orderNumber').val();
+							
+							var customerPhone = $('#customerPhone').val();
+							var customerName = $('#customerName').val();
+							var receiverName = $('#receiverName').val();
+							
 							aoData.push({'name':'goodsName','value':goodsName},{'name':'customerName','value':customerName},
-									{'name':'orderType','value':orderType},{'name':'orderId','value':orderId});
+									{'name':'orderType','value':orderType},{'name':'orderId','value':orderId}, 
+									{'name':'orderNumber','value':orderNumber}, {'name':'customerPhone','value':customerPhone}, 
+									{'name':'receiverName','value':receiverName});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

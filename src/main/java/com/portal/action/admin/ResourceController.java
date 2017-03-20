@@ -1,8 +1,16 @@
 package com.portal.action.admin;
 
 import com.portal.bean.Resource;
+import com.portal.bean.Role;
+import com.portal.common.util.JsonUtils;
+import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;
 import com.portal.service.ResourceService;
+
+import net.sf.json.JSONObject;
+
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -48,6 +56,17 @@ public class ResourceController {
         return Resource.ResourceType.values();
     }
 
+    /**
+     * @Title: list 
+     * @Description: 进入权限菜单管理页面
+     * @param model
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午1:22:28 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:view")
     @RequestMapping(method = RequestMethod.GET)
     public String list(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -57,54 +76,149 @@ public class ResourceController {
         return "admin/resource/list";
     }
 
+    /**
+     * @Title: showAppendChildForm 
+     * @Description: 进入新增页面
+     * @param parentId
+     * @param model
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午1:22:00 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.GET)
     public String showAppendChildForm(@PathVariable("parentId") Long parentId, Model model,
             HttpServletRequest request, HttpServletResponse response) {
-        Resource parent = resourceService.findOne(parentId);
-        model.addAttribute("parent", parent);
-        Resource child = new Resource();
-        child.setParentId(parentId);
-        child.setParentIds(parent.makeSelfAsParentIds());
-        model.addAttribute("resource", child);
-        model.addAttribute("op", "新增子节点");
+        if(parentId > 0) {
+            // 新增子菜单
+            Resource parent = resourceService.findOne(parentId);
+            model.addAttribute("parent", parent);
+            Resource child = new Resource();
+            child.setParentId(parentId);
+            model.addAttribute("resource", child);
+            model.addAttribute("op", "新增子菜单");
+        }else {
+            // 新增
+            model.addAttribute("resource", new Resource());
+            model.addAttribute("op", "新增菜单");
+        }
+        // 获取所有权限菜单
+        List<Resource> resourcesList = resourceService.findAll();
+        model.addAttribute("resourcesList", resourcesList);
         return "admin/resource/edit";
     }
 
+    /**
+     * @Title: create 
+     * @Description: 新增
+     * @param resource
+     * @param redirectAttributes
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午1:34:34 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:create")
     @RequestMapping(value = "/{parentId}/appendChild", method = RequestMethod.POST)
     public String create(Resource resource, RedirectAttributes redirectAttributes, HttpServletRequest request,
             HttpServletResponse response) {
-        resourceService.insertResource(resource);
-        redirectAttributes.addFlashAttribute("msg", "新增子节点成功");
-        return "redirect:/resource";
+        if(resource != null) {
+            Resource parent = resourceService.findOne(resource.getParentId());
+            resource.setParentIds(parent.getParentIds() + resource.getParentId() + "/");
+            resourceService.insertResource(resource);
+        }
+        return "redirect:/admin/resource";
     }
 
+    /**
+     * @Title: showUpdateForm 
+     * @Description: 进入修改页面
+     * @param id
+     * @param model
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午1:35:05 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.GET)
     public String showUpdateForm(@PathVariable("id") Long id, Model model, HttpServletRequest request,
             HttpServletResponse response) {
         model.addAttribute("resource", resourceService.findOne(id));
+        model.addAttribute("parent", resourceService.findOne(resourceService.findOne(id).getParentId()));
+        // 获取所有权限菜单
+        List<Resource> resourcesList = resourceService.findAll();
+        model.addAttribute("resourcesList", resourcesList);
         model.addAttribute("op", "修改");
         return "admin/resource/edit";
     }
 
+    /**
+     * @Title: update 
+     * @Description: 修改
+     * @param resource
+     * @param redirectAttributes
+     * @param request
+     * @param response
+     * @return String
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午3:06:39 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:update")
     @RequestMapping(value = "/{id}/update", method = RequestMethod.POST)
     public String update(Resource resource, RedirectAttributes redirectAttributes, HttpServletRequest request,
             HttpServletResponse response) {
-        resourceService.updateResource(resource);
-        redirectAttributes.addFlashAttribute("msg", "修改成功");
-        return "redirect:/resource";
+        if(resource != null) {
+            Resource parent = resourceService.findOne(resource.getParentId());
+            resource.setParentIds(parent.getParentIds() + resource.getParentId() + "/");
+            resourceService.updateResource(resource);
+        }
+        return "redirect:/admin/resource";
+    }
+    
+    @RequestMapping("/checkHasChildAndPromi")
+    public void checkHasChildAndPromi(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject result = new JSONObject();
+        String parentId = request.getParameter("parentId");
+        if(StringUtil.isNotBlank(parentId)) {
+            int count = resourceService.checkHasChildAndPromi(Long.parseLong(parentId));
+            if(count > 0) {
+                result.put("status", 1);
+            }else {
+                result.put("status", 0);
+            }
+        }
+        JsonUtils.outJsonString(result.toString(), response);
     }
 
+    /**
+     * @Title: delete 
+     * @Description: 删除
+     * @param id
+     * @param redirectAttributes
+     * @param request
+     * @param response
+     * @return 
+     * @return String
+     * @throws 
+     * @author Xia ZhengWei
+     * @date 2017年3月11日 下午3:08:22 
+     * @version V1.0
+     */
     @RequiresPermissions("resource:delete")
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.GET)
     public String delete(@PathVariable("id") Long id, RedirectAttributes redirectAttributes,
             HttpServletRequest request, HttpServletResponse response) {
         resourceService.deleteResource(id);
-        redirectAttributes.addFlashAttribute("msg", "删除成功");
-        return "redirect:/resource";
+        return "redirect:/admin/resource";
     }
 
     public void getBasePath(HttpServletRequest request, HttpServletResponse response) {

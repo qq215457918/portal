@@ -49,7 +49,7 @@ function initData() {
 		           ],
 		// 自定义第一列的字段内容, 格式化为a标签
 		"aoColumnDefs": [{"aTargets":[1],"mRender":function(data,type,full){
-            return '<a href="report/toDeptPerformance?organiName=' + data + '&startReportDate=' + $('#startReportDate').val() + '&endReportDate=' + $('#endReportDate').val() + '" data-toggle="modal">' + data + '</a>';
+            return '<a href="report/toDeptPerformance?active=4&organiName=' + data + '&startReportDate=' + $('#startReportDate').val() + '&endReportDate=' + $('#endReportDate').val() + '" data-toggle="modal">' + data + '</a>';
         }}],
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var startReportDate = $('#startReportDate').val();

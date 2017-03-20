@@ -197,9 +197,8 @@ function deleteEmployee(id, name) {
 		        },
 		        "success": function(data){
 		            if(data.status == '1') {
-		            	alert("操作成功", function(){
-		            		location.reload();
-		            	});
+		            	alert("操作成功");
+		            	location.reload();
 		            }else {
 		            	if(data.text) {
 		            		alert(data.text);

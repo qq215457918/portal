@@ -105,6 +105,8 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         
         // 库房已审批通过的订单
         criteria.put("warehouseFlag", "1");
+        criteria.put("deleteFlag", "0");
+        criteria.setOrderByClause("gs.id asc");
         if(StringUtil.isNotBlank(orderNumber)){
             criteria.put("orderNumber", orderNumber);
         }

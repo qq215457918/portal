@@ -47,9 +47,10 @@
 				<thead>
 					<th>序&nbsp;&nbsp;号</th>
                    	<th>收款账户名称</th>
+                   	<th>刷卡类别</th>
                    	<th>出单号</th>
                    	<th>需要支付金额</th>
-                   	<th>支付金额</th>
+                   	<th>实际入账金额</th>
                    	<th>手续费</th>
 				</thead>
 				<tbody>

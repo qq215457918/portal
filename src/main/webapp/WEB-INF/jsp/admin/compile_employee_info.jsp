@@ -101,18 +101,47 @@
                                      </select>
                                  </div>
                                  <div class="form-group">
-                                     <label>关联角色</label><i class="icon-star"></i>
-                                     <select class="form-control" id="roleIds" name="roleIds">
-                                         <option value="">请选择</option>
-                                         <c:forEach items="${roleList}" var="role">
-                                             <option value="${role.id}" <c:if test="${employee.roleIds eq role.id }">selected="selected"</c:if>>${role.description}</option>
-                                         </c:forEach>
-                                     </select>
+                                     <label>关联角色</label>
+                                     <a class="add" href="javascript:;" style="margin-left: 10px;"><span>添&nbsp;&nbsp;加</span></a>
+                                     <div class="roles">
+	                                     <c:if test="${empty employee.roleIds}">
+	                                     	 <div>
+		                                     	 <select class="form-control" name="roleIds">
+			                                         <option value="">请选择</option>
+			                                         <c:forEach items="${roleList}" var="role">
+			                                             <option value="${role.id}">${role.description}</option>
+			                                         </c:forEach>
+			                                     </select>
+		                                     </div>
+	                                     </c:if>
+	                                     <c:if test="${not empty idsList}">
+	                                     	<c:forEach items="${idsList }" var="ids" varStatus="index">
+	                                     		 <div>
+		                                     		 <select class="form-control" name="roleIds" style="width: 90%; float: left;">
+				                                         <option value="">请选择</option>
+				                                         <c:forEach items="${roleList}" var="role">
+				                                             <option value="${role.id}" <c:if test="${ids eq role.id }">selected="selected"</c:if>>${role.description}</option>
+				                                         </c:forEach>
+				                                     </select>
+				                                     <c:if test="${index.index > 0 }">
+				                                     	<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删&nbsp;&nbsp;除</span></a>
+				                                     </c:if>
+			                                     </div>
+	                                     	</c:forEach>
+	                                     </c:if>
+                                     </div>
                                  </div>
                               </div>
-	                         <button class="btn btn-default-outline" id="back" style="float:right;">返回</button>
-	                         <button class="btn btn-primary" id="saveEmployee" style="float:right;">保存</button>
+	                         <button class="btn btn-default-outline" id="back" style="float:right; margin-top: 20px;">返回</button>
+	                         <button class="btn btn-primary" id="saveEmployee" style="float:right; margin-top: 20px;">保存</button>
 	                      </form>
+	                      <!-- 角色数据模版 -->
+	                      <select class="model" style="display: none;">
+	                      	<option value="">请选择</option>
+                            <c:forEach items="${roleList}" var="role">
+                                <option value="${role.id}">${role.description}</option>
+                            </c:forEach>
+	                      </select>
                        </div>
                   </div>
                 </div>

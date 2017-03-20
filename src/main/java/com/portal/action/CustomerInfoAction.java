@@ -55,6 +55,7 @@ public class CustomerInfoAction {
 		String result = request.getParameter("result");
 		
 		request.setAttribute("importResult", result);
+		request.setAttribute("active", request.getParameter("active"));
 		if("0".equals(type)){
 			return "customer/blank_info_index";
 		}else if("1".equals(type)){
@@ -207,7 +208,7 @@ public class CustomerInfoAction {
 		
 		int i = 1;
 		
-		data[0] = new Object[]{"第一级","第二级","第三级","第四级","姓名","客服","接待","赠品","商务电话","手机","登门时间","地区","变成本类型客户时间","其它电话2","关联亲友","QQ","MSN","网页","身份证","产品","金额"};
+		data[0] = new Object[]{"第一级","第二级","第三级","第四级","姓名","客服","接待","赠品","商务电话","手机","登门时间","地区","变成本类型客户时间","其它电话2","关联亲友","回购","退货","网页","身份证","产品","金额"};
 		for(CustomerInfo ci : paramList){
 			data[i][0] = typeName;
 			data[i][1] = null == ci.getSeason2()?"":ci.getSeason2();

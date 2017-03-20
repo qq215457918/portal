@@ -277,9 +277,11 @@ public class OrderInfo implements Serializable {
         } else if ("2".equals(status)) {
             statusName = "已出库";
         } else if ("3".equals(status)) {
-            statusName = "文交所审核";
+            statusName = "文交所已审核";
         } else if ("4".equals(status)) {
             statusName = "已完成";
+        } else if ("5".equals(status)) {
+            statusName = "待审批";
         }
     }
 
@@ -330,7 +332,7 @@ public class OrderInfo implements Serializable {
 
     /**
      * @param payType 
-     *            支付类型  0全额支付 1定金支付 2派送支付
+     *            支付类型  0全额支付 1定金支付 2派送支付 3尾款支付
      */
     public void setPayType(String payType) {
         this.payType = payType;
@@ -341,6 +343,8 @@ public class OrderInfo implements Serializable {
             this.payTypeName = "订金支付";
         } else if ("2".equals(payType)) {
             this.payTypeName = "派送支付";
+        } else if ("3".equals(payType)) {
+            this.payTypeName = "尾款支付";
         }
 
     }

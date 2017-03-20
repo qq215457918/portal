@@ -17,6 +17,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,22 +112,23 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
     /**
      * 接待记录查询类
      */
-    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response) {
+    public JSONObject receptionING(HttpServletRequest request, HttpServletResponse response, String cId) {
         criteria = setPageCriteria(request);//isReceiver
         criteria.put("startDate", request.getParameter("startReportDate"));
         criteria.put("endDate", request.getParameter("endReportDate"));
-        criteria.put("staff_name", request.getParameter("staff_name"));
+        criteria.put("staffName", request.getParameter("receiverStaffName"));
         //cId
-        criteria.put("cId", request.getSession().getAttribute("cId"));
-        //        criteria.put("receiverStaffIdNew", (String) request.getSession().getAttribute("userId"));
-        if (request.getParameter("isReceiver") == "true") {
-            criteria.put("endtimeflag", true);
+        if (StringUtils.isNotEmpty(cId)) {
+            criteria.put("cId", cId);
         }
+        //        if (request.getParameter("isReceiver") == "true") {
+        //            criteria.put("endtimeflag", true);
+        //        }
         List<ReceptionInfoForm> list = receptionInfoExtraDao.selectByExample(criteria);
         JSONObject resultJson = new JSONObject();
         resultJson.put("sEcho", request.getParameter("sEcho"));
-        resultJson.put("iTotalRecords", countByExample(criteria));
-        resultJson.put("iTotalDisplayRecords", countByExample(criteria));
+        resultJson.put("iTotalRecords", receptionInfoExtraDao.countByExample(criteria));
+        resultJson.put("iTotalDisplayRecords", receptionInfoExtraDao.countByExample(criteria));
         resultJson.put("aaData", list);
         return resultJson;
     }

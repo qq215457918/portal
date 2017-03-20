@@ -2,7 +2,8 @@ $(document).ready(function(){
 	initData();
 	
 	$('#searchList').click(function(){
-		if('' == $('#orderNumber').val()){
+		if('' == $('#orderNumber').val() && '' == $('#customerPhone').val()
+				&& '' == $('#customerName').val() && '' == $('#receiverName').val()){
 			return;
 		}
 		$('#financeOrderDate').dataTable().fnDraw();
@@ -223,6 +224,8 @@ function initData(){
 		"aoColumns": [ 
 			        {"mData": null, "target": 0},	//序列号   
 			        {"mData": "receiverStaffName"},  
+			        {"mData": "phoneStaffName"},  
+			        {"mData": "customerName"},  
 		            {"mData": "orderNumber"},
 		            {"mData": "goodsQuantity"},
 		            {"mData": "payPrice"}, 
@@ -234,7 +237,7 @@ function initData(){
 			"render" : function(data, type, row) {
 				return formatDate(data);
 			},
-			"targets" : 6
+			"targets" : 8
 			},
 			{
 			"render" : function(data, type, row) {
@@ -258,7 +261,7 @@ function initData(){
 				operation += '&nbsp;&nbsp;<a href="#printInfo" data-toggle="modal" data-order-id="' + row.id + '" id="toPrint">打印</a>';
 				return operation;
 			},
-			"targets" : 7
+			"targets" : 9
 			}],
 		"fnDrawCallback": function(){
    			var api = this.api();
@@ -271,8 +274,14 @@ function initData(){
 							var orderNumber = $('#orderNumber').val();
 							var userId = $('#hiddenUserId').val();
 							
+							var customerPhone = $('#customerPhone').val();
+							var customerName = $('#customerName').val();
+							var receiverName = $('#receiverName').val();
+							
 							aoData.push({'name':'orderId','value':orderId}, {'name':'orderNumber','value':orderNumber}, 
-									{'name':'userId','value':userId}, {'name':'store','value':1});
+									{'name':'userId','value':userId}, {'name':'store','value':1},
+									{'name':'customerPhone','value':customerPhone}, {'name':'customerName','value':customerName},
+									{'name':'receiverName','value':receiverName});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

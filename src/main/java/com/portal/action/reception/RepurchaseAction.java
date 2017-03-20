@@ -60,6 +60,7 @@ public class RepurchaseAction {
         criteria.put("deleteFlag", "0");
         criteria.put("goodName", request.getParameter("goodName"));
         criteria.put("customerId", request.getSession().getAttribute("cId"));
+        criteria.setOrderByClause("i.order_number desc");
         //criteria.put("typeList", request.getParameter("typeList").split(","));
         //List<OrderInfoFormNew> getOrderInfoNew
         List<OrderInfoFormNew> resultList = orderInfoService.getOrderInfoNew(criteria);

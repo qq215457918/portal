@@ -210,8 +210,16 @@
       <if test="condition.viewStaffName != null" >
          and e.`name` like CONCAT("%", #{condition.viewStaffName,jdbcType=VARCHAR} ,"%")
       </if>
-      <if test="condition.area != null" >
+      <!-- <if test="condition.area != null" >
          and c.area = #{condition.area,jdbcType=VARCHAR}
+      </if> -->
+      <!-- 获取销售日报表对应的收款账户所属区域 -->
+      <!-- <if test="condition.organizationId != null" >
+         and p.organization_id = #{condition.organizationId,jdbcType=VARCHAR}
+      </if> -->
+      <!-- 获取销售日报表回购支付对应的订单所属区域 -->
+      <if test="condition.areaFlag != null" >
+         and o.area_flag = #{condition.areaFlag,jdbcType=VARCHAR}
       </if>
       <if test="condition.positionType != null" >
          and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
@@ -335,43 +343,45 @@
 	    <include refid="common.Mysql_Pagination_Limit" />
   </select>
   
-  
   <!-- 根据条件查询对应业绩 -->
   <select id="getClinchPerfors" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
-  	select sum(o.actual_price) as total_amounts,
-		(select sum(o.actual_price) 
+  	select IFNULL(sum(ofs.pay_amount_actual),0) as total_amounts,
+		(select IFNULL(sum(ofs.pay_amount_actual),0) 
 			from order_info o
-			left join customer_info c on o.customer_id = c.id
+			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as dl_amounts,
-		(select sum(o.actual_price) 
+			and o.area_flag = '1' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
+		) as dl_amounts,
+		(select IFNULL(sum(ofs.pay_amount_actual),0) 
 			from order_info o
-			left join customer_info c on o.customer_id = c.id
+			left join order_fund_settlement ofs on o.order_number = ofs.order_number
 			<if test="_parameter != null" >
 		      <include refid="Example_Where_Clause" />
 		    </if>
-			and c.area = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')) as sy_amounts
+			and o.area_flag = '0' and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
+		) as sy_amounts
 	from order_info o
-	left join customer_info c on o.customer_id = c.id
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
-	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0') and o.delete_flag = '0'
   </select>
   
   <!-- 获取每日业绩统计线形图数据 -->
   <select id="getDayAndPerfors" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
   	select 
 		DATE_FORMAT(o.create_date, '%Y-%m-%d') as create_date,
-		sum(o.actual_price) as performance
+		IFNULL(sum(ofs.pay_amount_actual),0) as performance
 	from order_info o 
-	left join customer_info c on o.customer_id = c.id
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	<if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
 	and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+	and o.delete_flag = '0'
 	group by DATE_FORMAT(o.create_date, '%Y%m%d')
 	ORDER BY o.create_date
   </select>
@@ -415,14 +425,15 @@
 		select 
 	  		e.id as staff_id,
 	  		e.`name` as staff_name,
-	  		sum(o.actual_price) as performance
+	  		IFNULL(sum(ofs.pay_amount_actual),0) as performance
 		from employee_info e
 		left join order_info o on e.id = <if test="condition.conditionId != null" >${condition.conditionId}</if>
-		left join customer_info c on o.customer_id = c.id
+		left join order_fund_settlement ofs on o.order_number = ofs.order_number
 		<if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
 		and (o.status = '4' or o.pay_type = '1' or o.pay_type = '0')
+		and o.delete_flag = '0'
 		group by e.`name`
 		
 		UNION
@@ -431,12 +442,12 @@
 	    	e.id as staff_id, e.`name` as staff_name, 0 as performance
 	    from employee_info e
 	    where 1=1
-		    <if test="condition.area != null" >
-	         and e.organization_id = #{condition.area,jdbcType=VARCHAR}
-	      	</if>
-			<if test="condition.positionType != null" >
-	         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
-	      	</if>
+	    <if test="condition.area != null" >
+         and e.organization_id = #{condition.area,jdbcType=VARCHAR}
+      	</if>
+		<if test="condition.positionType != null" >
+         and e.position_type = #{condition.positionType,jdbcType=VARCHAR}
+      	</if>
 	    group by e.`name`
 	) a group by a.staff_name
   </select>
@@ -445,18 +456,18 @@
   <select id="getSellGoods" parameterType="com.portal.bean.Criteria" resultMap="SellGoodsResultMap">
     select 
         od.good_name as good_name,
-        sum(od.amount) as amount,
+        IFNULL(sum(od.amount),0) as amount,
         od.price as price,
-        sum(od.amount)*od.price as total_price,
+        IFNULL(sum(od.amount),0)*od.price as total_price,
         o.Remarks as remarks
     from order_detail_info od
     left join order_info o on od.order_id = o.id
-    left join customer_info c on o.customer_id = c.id
     <if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
     </if>
     and od.good_sort_id != '27'
     and o.finance_flag = '1'
+    and o.delete_flag = '0'
     and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
     group by od.good_name
   </select>
@@ -466,23 +477,54 @@
   	select 
 		p.payment_account_name as payment_account_name,
 		of.customer_pay_type as customer_pay_type,
-		sum(of.pay_amount_actual) as pay_amount_actual,
-		(sum(of.pay_amount_actual) - sum(of.poundage)) as income,
-		sum(of.poundage) as poundage
+		IFNULL(sum(of.pay_amount),0) as pay_amount_actual,
+		(IFNULL(sum(of.pay_amount),0) - IFNULL(sum(of.poundage),0)) as income,
+		IFNULL(sum(of.poundage),0) as poundage
 	from payment_account_info p
 	left join order_fund_settlement of on p.payment_account_id = of.payment_account_id
 	left join order_info o on of.order_number = o.order_number
-	left join order_detail_info od on o.id = od.order_id
-	left join customer_info c on o.customer_id = c.id
 	<if test="_parameter != null" >
         <include refid="Example_Where_Clause" />
     </if>
-	and od.good_sort_id != '27'
 	and o.finance_flag = '1'
+	and o.delete_flag = '0'
 	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
-	group by p.payment_account_name
+	and of.pay_amount_actual > 0
+	group by p.payment_account_name, of.customer_pay_type
 	order by p.payment_account_name
   </select>
+  
+  <!-- 销售日报表中获取回购支付金额 -->
+  <select id="getPayOutAmounts" parameterType="com.portal.bean.Criteria" resultType="java.lang.Double">
+  	select 
+		IFNULL(sum(of.pay_amount_actual),0) as pay_amount_actual
+	from order_fund_settlement of
+	left join order_info o on of.order_number = o.order_number
+	<if test="_parameter != null" >
+        <include refid="Example_Where_Clause" />
+    </if>
+	and o.order_type = '5'
+	and o.delete_flag = '0'
+  </select>
+  <!--
+  	获取每日的回购支付金额 
+  	select 
+		p.payment_account_name as payment_account_name,
+		of.customer_pay_type as customer_pay_type,
+		IFNULL(sum(of.pay_amount_actual),0) as pay_amount_actual,
+		(IFNULL(sum(of.pay_amount_actual),0) - IFNULL(sum(of.poundage),0)) as income,
+		IFNULL(sum(of.poundage),0) as poundage
+	from payment_account_info p
+	left join order_fund_settlement of on p.payment_account_id = of.payment_account_id
+	left join order_info o on of.order_number = o.order_number
+	where o.create_date >= '2017-03-02'
+  	and o.create_date <= '2017-03-14 23:59:59'
+	and p.organization_id = '1'
+	and o.order_type = '5'
+	group by p.payment_account_name, of.customer_pay_type
+	order by p.payment_account_name
+	-->
+  
   
   <!-- 获取当日刷卡定金明细数据条数 -->
   <select id="getCountsCardDetail" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
@@ -492,11 +534,11 @@
 		from order_fund_settlement f
 		left join payment_account_info p on f.payment_account_id = p.payment_account_id
 		left join order_info o on f.order_number = o.order_number
-		left join customer_info c on o.customer_id = c.id
 	    <if test="_parameter != null" >
 	      <include refid="Example_Where_Clause" />
 	    </if>
 		and o.pay_type = '1'
+		and o.delete_flag = '0'
 		and f.customer_pay_type in ('1','2','3')
     ) a
   </select>
@@ -504,16 +546,24 @@
   <!-- 获取当日刷卡定金明细数据  1,2,3为信用卡、储蓄卡（封顶及不封顶） -->
   <select id="getCreditCardDepositDetail" resultMap="OrderFundResultMap" parameterType="com.portal.bean.Criteria" >
     select 
-		f.*,
+		f.id,
+		f.order_number,
+		f.payment_account_id,
+		(CASE f.customer_pay_type WHEN '1' THEN '信用卡' WHEN '2' THEN '储蓄卡（封顶）' WHEN '3' THEN '储蓄卡（不封顶）' END) as customer_pay_type,
+		f.pay_amount,
+		f.pay_amount_actual,
+		f.poundage,
+		f.remark,
+		f.order_detail_id,
 		p.payment_account_name
 	from order_fund_settlement f
 	left join payment_account_info p on f.payment_account_id = p.payment_account_id
 	left join order_info o on f.order_number = o.order_number
-	left join customer_info c on o.customer_id = c.id
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
 	and o.pay_type = '1'
+	and o.delete_flag = '0'
 	and f.customer_pay_type in ('1','2','3')
     <if test="orderByClause != null" >
       order by ${orderByClause}
@@ -531,23 +581,26 @@
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
  	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
+ 	and o.delete_flag = '0'
   </select>
   
   <!-- 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用） -->
   <select id="getOrderAmounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select sum(o.actual_price)
+    select IFNULL(sum(ofs.pay_amount_actual),0)
 	from order_info o
+	left join order_fund_settlement ofs on o.order_number = ofs.order_number
 	where o.customer_id = #{condition.customerId,jdbcType=VARCHAR}
     <![CDATA[
      and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
      and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
  	and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
+ 	and o.delete_flag = '0'
   </select>
   
   <!-- 获取对应人员在指定时间段的出售藏品件数（定时器使用） -->
   <select id="getOrderGoodsCounts" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select sum(od.amount) 
+    select IFNULL(sum(od.amount),0)
 	from order_detail_info od 
 	left join order_info o on od.order_id = o.id
 	left join customer_info c on o.customer_id = c.id
@@ -558,13 +611,16 @@
        and o.create_date >= #{condition.startTime,jdbcType=TIMESTAMP}
        and o.create_date <= #{condition.endTime,jdbcType=TIMESTAMP}
     ]]>
+    and o.delete_flag = '0'
   </select>
   
-  <!-- 获取每天的定金退款数据（定时器使用） -->
+  <!-- 获取每天的定金退款数据（销售日报表使用） -->
   <select id="getDepositRefund" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select actual_price 
-    from order_info o 
+    select ofs.pay_amount_actual 
+    from order_info o
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '1' and o.order_type = '2'
+    and o.delete_flag = '0'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[
      and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}
@@ -572,11 +628,13 @@
     ]]>
   </select>
   
-  <!-- 获取每天的定金回款数据（定时器使用） -->
+  <!-- 获取每天的定金回款数据（销售日报表使用） -->
   <select id="getDepositReturn" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
-    select actual_price 
-    from order_info o 
+    select ofs.pay_amount_actual  
+    from order_info o
+    left join order_fund_settlement ofs on o.order_number = ofs.order_number
     where o.pay_type = '3'
+    and o.delete_flag = '0'
     and o.area_flag = #{condition.area,jdbcType=TIMESTAMP}
     <![CDATA[
      and o.create_date >= #{condition.startDate,jdbcType=TIMESTAMP}

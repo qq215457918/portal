@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CustomerInfoExtraDao {
 
+    int updateVisitCount(Criteria criteria);
+
     /**
      * 更新客户类型
      * @param criteria
