@@ -9,6 +9,8 @@ public class ReceptionInfo implements Serializable {
     private String id;
 
     private String customerId;
+    
+    private String phoneStaffId;
 
     private String receiverStaffId;
 
@@ -22,7 +24,15 @@ public class ReceptionInfo implements Serializable {
 
     private Date createDate;
 
-    public String getOrderId() {
+    public String getPhoneStaffId() {
+		return phoneStaffId;
+	}
+
+	public void setPhoneStaffId(String phoneStaffId) {
+		this.phoneStaffId = phoneStaffId;
+	}
+
+	public String getOrderId() {
         return orderId;
     }
 

@@ -1,11 +1,13 @@
 package com.portal.service.impl;
 
 import com.portal.bean.Criteria;
+import com.portal.bean.CustomerInfo;
 import com.portal.bean.ReceptionInfo;
 import com.portal.bean.result.ReceptionInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
+import com.portal.dao.CustomerInfoDao;
 import com.portal.dao.ReceptionInfoDao;
 import com.portal.dao.extra.CustomerInfoExtraDao;
 import com.portal.dao.extra.ReceptionInfoExtraDao;
@@ -30,6 +32,9 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
 
     @Autowired
     private CustomerInfoExtraDao customerInfoExtraDao;
+    
+    @Autowired
+    private CustomerInfoDao customerInfoDao;
 
     private static final Logger logger = LoggerFactory.getLogger(ReceptionInfoServiceImpl.class);
 
@@ -59,8 +64,10 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
      */
     public boolean insertReceptionTime(String customerId, String receiverStaffId, String receiverStaffName) {
         ReceptionInfo receptionInfo = new ReceptionInfo();
+        CustomerInfo cInfo = customerInfoDao.selectByPrimaryKey(customerId);
         receptionInfo.setId(UUidUtil.getUUId());
         receptionInfo.setCustomerId(customerId);
+        receptionInfo.setPhoneStaffId(cInfo.getPhoneStaffId());
         receptionInfo.setReceiverStaffId(receiverStaffId);
         receptionInfo.setCreateDate(new Date());
         receptionInfo.setStartTime(new Date());
