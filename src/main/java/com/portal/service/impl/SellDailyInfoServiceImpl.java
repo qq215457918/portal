@@ -18,6 +18,7 @@ import com.portal.bean.SellDailyInfo;
 import com.portal.bean.SellGoodsDetail;
 import com.portal.bean.result.SellDailyInfoForm;
 import com.portal.common.exception.DBException;
+import com.portal.common.util.DateUtil;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.UUidUtil;
@@ -96,7 +97,7 @@ public class SellDailyInfoServiceImpl implements SellDailyInfoService {
                 BeanUtils.copyProperties(sellDaily, info);
                 String sellDailyId = UUidUtil.getUUId();
                 info.setId(sellDailyId);
-                info.setReportDate(new Date());
+                info.setReportDate(DateUtil.parseDate(sellDaily.getViewReportData()+ " 00:00:00", "yyyy-MM-dd HH:mm:ss"));
                 info.setCreateUserId(employeeInfo.getId());
                 info.setCreateDate(new Date());
                 info.setUpdateUserId(employeeInfo.getId());
@@ -153,4 +154,5 @@ public class SellDailyInfoServiceImpl implements SellDailyInfoService {
         }
         return results;
     }
+    
 }
