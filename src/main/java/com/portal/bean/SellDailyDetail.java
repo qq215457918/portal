@@ -28,6 +28,11 @@ public class SellDailyDetail implements Serializable {
     private String customerPayType;
 
     /**
+     * 出单支付类型 0全额支付 1定金支付 2派送支付 3余款支付
+     */
+    private String orderPayType;
+
+    /**
      * 需要支付金额
      */
     private BigDecimal payAmount;
@@ -115,6 +120,21 @@ public class SellDailyDetail implements Serializable {
      */
     public void setCustomerPayType(String customerPayType) {
         this.customerPayType = customerPayType;
+    }
+
+    /**
+     * @return 出单支付类型 0全额支付 1定金支付 2派送支付 3余款支付
+     */
+    public String getOrderPayType() {
+        return orderPayType;
+    }
+
+    /**
+     * @param orderPayType 
+	 *            出单支付类型 0全额支付 1定金支付 2派送支付 3余款支付
+     */
+    public void setOrderPayType(String orderPayType) {
+        this.orderPayType = orderPayType;
     }
 
     /**

@@ -36,6 +36,7 @@
     <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
     <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
     <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
+    <result column="order_pay_type" property="orderPayType" jdbcType="VARCHAR" />
   </resultMap>
   
     <resultMap id="BaseResultMapNew" type="com.portal.bean.result.OrderInfoFormNew" >
@@ -91,6 +92,8 @@
   <!-- 销售日报表-获取销售商品信息 -->
   <resultMap id="SellGoodsResultMap" type="com.portal.bean.result.OrderDetailInfoForm" >
     <result column="good_name" property="goodName" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="INTEGER" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="total_price" property="totalPrice" jdbcType="VARCHAR" />
@@ -456,6 +459,8 @@
   <select id="getSellGoods" parameterType="com.portal.bean.Criteria" resultMap="SellGoodsResultMap">
     select 
         od.good_name as good_name,
+		(case od.good_type when '0' then '常规商品' when '2' then '配售' when '3' then '配送' when '4' then '兑换' END) as good_type,
+		(case o.order_type when '1' then '正常' when '2' then '退货' when '5' then '回购' END) as order_type,
         IFNULL(sum(od.amount),0) as amount,
         od.price as price,
         IFNULL(sum(od.amount),0)*od.price as total_price,
@@ -468,8 +473,11 @@
     and od.good_sort_id != '27'
     and o.finance_flag = '1'
     and o.delete_flag = '0'
+	and od.delete_flag = '0'
+	and o.order_type in ('1','2','5')
     and (o.`status` = '4' or o.pay_type = '1' or o.pay_type = '0')
-    group by od.good_name
+    group by od.good_name, o.order_type
+	order by od.good_name, o.order_type
   </select>
   
   <!-- 销售日报表-获取销售结算明细(信用卡千分之6/储蓄卡千分之5) -->
@@ -477,6 +485,7 @@
   	select 
 		p.payment_account_name as payment_account_name,
 		of.customer_pay_type as customer_pay_type,
+		(case o.pay_type when '0' then '全额支付' when '1' then '定金支付' when '2' then '派送支付' when '3' then '余款支付' end) as order_pay_type,
 		IFNULL(sum(of.pay_amount),0) as pay_amount_actual,
 		(IFNULL(sum(of.pay_amount),0) - IFNULL(sum(of.poundage),0)) as income,
 		IFNULL(sum(of.poundage),0) as poundage

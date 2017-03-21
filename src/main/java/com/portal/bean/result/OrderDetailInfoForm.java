@@ -30,6 +30,32 @@ public class OrderDetailInfoForm extends OrderDetailInfo {
      * 赠品明细表-VIP领取赠品数量
      */
     private Integer vipGiftCounts;
+    
+    /**
+     * 藏品类型 0-常规商品 2-配售 3-配送 4-兑换
+     */
+    private String goodType;
+    
+    /**
+     * 出单类型 1-正常 2-退货 5-回购
+     */
+    private String orderType;
+
+    public String getGoodType() {
+        return goodType;
+    }
+
+    public void setGoodType(String goodType) {
+        this.goodType = goodType;
+    }
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
     public String getCreateDate() {
         return createDate;

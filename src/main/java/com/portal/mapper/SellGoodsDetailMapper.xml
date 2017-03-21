@@ -5,6 +5,8 @@
     <id column="id" property="id" jdbcType="VARCHAR" />
     <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
     <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="good_type" property="goodType" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="VARCHAR" />
     <result column="count" property="count" jdbcType="INTEGER" />
     <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
     <result column="total_prices" property="totalPrices" jdbcType="DECIMAL" />
@@ -19,6 +21,12 @@
       </if>
       <if test="condition.goodsName != null" >
          and goods_name = #{condition.goodsName,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.goodType != null" >
+         and good_type = #{condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderType != null" >
+         and order_type = #{condition.orderType,jdbcType=VARCHAR}
       </if>
       <if test="condition.count != null" >
          and count = #{condition.count,jdbcType=INTEGER}
@@ -48,6 +56,12 @@
       <if test="example.condition.goodsName != null" >
          and goods_name = #{example.condition.goodsName,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.goodType != null" >
+         and good_type = #{example.condition.goodType,jdbcType=VARCHAR}
+      </if>
+      <if test="example.condition.orderType != null" >
+         and order_type = #{example.condition.orderType,jdbcType=VARCHAR}
+      </if>
       <if test="example.condition.count != null" >
          and count = #{example.condition.count,jdbcType=INTEGER}
       </if>
@@ -69,8 +83,8 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, sell_daily_id, goods_name, count, unit_price, total_prices, remark, create_user_id, 
-    create_date
+    id, sell_daily_id, goods_name, good_type, order_type, count, unit_price, total_prices, 
+    remark, create_user_id, create_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -105,13 +119,13 @@
   </delete>
   <insert id="insert" parameterType="com.portal.bean.SellGoodsDetail" >
     insert into sell_goods_detail (id, sell_daily_id, goods_name, 
-      count, unit_price, total_prices, 
-      remark, create_user_id, create_date
-      )
+      good_type, order_type, count, 
+      unit_price, total_prices, remark, 
+      create_user_id, create_date)
     values (#{id,jdbcType=VARCHAR}, #{sellDailyId,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
-      #{count,jdbcType=INTEGER}, #{unitPrice,jdbcType=DECIMAL}, #{totalPrices,jdbcType=DECIMAL}, 
-      #{remark,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}
-      )
+      #{goodType,jdbcType=VARCHAR}, #{orderType,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER}, 
+      #{unitPrice,jdbcType=DECIMAL}, #{totalPrices,jdbcType=DECIMAL}, #{remark,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.SellGoodsDetail" >
     insert into sell_goods_detail
@@ -124,6 +138,12 @@
       </if>
       <if test="goodsName != null" >
         goods_name,
+      </if>
+      <if test="goodType != null" >
+        good_type,
+      </if>
+      <if test="orderType != null" >
+        order_type,
       </if>
       <if test="count != null" >
         count,
@@ -153,6 +173,12 @@
       </if>
       <if test="goodsName != null" >
         #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodType != null" >
+        #{goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        #{orderType,jdbcType=VARCHAR},
       </if>
       <if test="count != null" >
         #{count,jdbcType=INTEGER},
@@ -192,6 +218,12 @@
       <if test="record.goodsName != null" >
         goods_name = #{record.goodsName,jdbcType=VARCHAR},
       </if>
+      <if test="record.goodType != null" >
+        good_type = #{record.goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderType != null" >
+        order_type = #{record.orderType,jdbcType=VARCHAR},
+      </if>
       <if test="record.count != null" >
         count = #{record.count,jdbcType=INTEGER},
       </if>
@@ -220,6 +252,8 @@
     set id = #{record.id,jdbcType=VARCHAR},
       sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
       goods_name = #{record.goodsName,jdbcType=VARCHAR},
+      good_type = #{record.goodType,jdbcType=VARCHAR},
+      order_type = #{record.orderType,jdbcType=VARCHAR},
       count = #{record.count,jdbcType=INTEGER},
       unit_price = #{record.unitPrice,jdbcType=DECIMAL},
       total_prices = #{record.totalPrices,jdbcType=DECIMAL},
@@ -238,6 +272,12 @@
       </if>
       <if test="goodsName != null" >
         goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodType != null" >
+        good_type = #{goodType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderType != null" >
+        order_type = #{orderType,jdbcType=VARCHAR},
       </if>
       <if test="count != null" >
         count = #{count,jdbcType=INTEGER},
@@ -264,6 +304,8 @@
     update sell_goods_detail
     set sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
       goods_name = #{goodsName,jdbcType=VARCHAR},
+      good_type = #{goodType,jdbcType=VARCHAR},
+      order_type = #{orderType,jdbcType=VARCHAR},
       count = #{count,jdbcType=INTEGER},
       unit_price = #{unitPrice,jdbcType=DECIMAL},
       total_prices = #{totalPrices,jdbcType=DECIMAL},

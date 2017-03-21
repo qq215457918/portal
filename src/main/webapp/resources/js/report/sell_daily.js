@@ -106,11 +106,13 @@ function initData() {
 				$("#saveSell").hide();
 			}
 			var printHtml = "";
-			var html =  "<tr><td colspan='6' style='background: #CCDDFF; font-size: 20px; font-weight: bold;'>" + area + "销售日报表</td></tr>" +
-						"<tr><td colspan='6' style='text-align: left;'><div style='width: 20%; margin-left: 10%;'>日&nbsp;&nbsp;&nbsp;&nbsp;期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
-						"<tr><td colspan='6' style='font-weight: bold;'>销售藏品明细</td></tr>" +
+			var html =  "<tr><td colspan='8' style='background: #CCDDFF; font-size: 20px; font-weight: bold;'>" + area + "销售日报表</td></tr>" +
+						"<tr><td colspan='8' style='text-align: left;'><div style='width: 20%; margin-left: 10%;'>日&nbsp;&nbsp;&nbsp;&nbsp;期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
+						"<tr><td colspan='8' style='font-weight: bold;'>销售藏品明细</td></tr>" +
 						"<tr>" +
 							"<td>藏品名称</td>" +
+							"<td>藏品类型</td>" +
+							"<td>出单类型</td>" +
 				           	"<td>数&nbsp;&nbsp;量</td>" +
 							"<td>单&nbsp;&nbsp;价</td>" +
 				           	"<td>总计金额</td>" +
@@ -126,6 +128,8 @@ function initData() {
 				for (var int = 0; int < goodsList.length; int++) {
 					contents = "<tr>" + 
 									"<td>" + goodsList[int].goodsName + "</td>" + 
+									"<td>" + goodsList[int].goodType + "</td>" + 
+									"<td>" + goodsList[int].orderType + "</td>" + 
 									"<td>" + goodsList[int].count + "</td>" + 
 									"<td>" + goodsList[int].unitPrice + "</td>" + 
 									"<td>" + goodsList[int].totalPrices + "</td>" + 
@@ -133,6 +137,8 @@ function initData() {
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td>" + goodsList[int].goodsName + "</td>" + 
+										"<td>" + goodsList[int].goodType + "</td>" + 
+										"<td>" + goodsList[int].orderType + "</td>" + 
 										"<td>" + goodsList[int].count + "</td>" + 
 										"<td>" + goodsList[int].unitPrice + "</td>" + 
 										"<td>" + goodsList[int].totalPrices + "</td>" + 
@@ -155,14 +161,18 @@ function initData() {
 			}else if(type == "compile") {
 				for (var int = 0; int < goodsList.length; int++) {
 					contents = "<tr>" + 
-									"<td><input type='text' name='sellGoodsDetails["+int+"].goodsName' readonly='readonly' value='" + goodsList[int].goodName + "'/></td>" + 
-									"<td><input type='text' name='sellGoodsDetails["+int+"].count' readonly='readonly' value='" + goodsList[int].amount + "'/></td>" + 
-									"<td><input type='text' name='sellGoodsDetails["+int+"].unitPrice' readonly='readonly' value='" + goodsList[int].price + "'/></td>" + 
-									"<td><input type='text' name='sellGoodsDetails["+int+"].totalPrices' readonly='readonly' value='" + goodsList[int].totalPrice + "'/></td>" + 
-									"<td colspan='2'><input type='text' name='sellGoodsDetails["+int+"].remark' readonly='readonly' value='" + goodsList[int].viewRemark + "'/></td>" +
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].goodsName' readonly='readonly' value='" + goodsList[int].goodName + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].goodType' readonly='readonly' value='" + goodsList[int].goodType + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].orderType' readonly='readonly' value='" + goodsList[int].orderType + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].count' readonly='readonly' value='" + goodsList[int].amount + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].unitPrice' readonly='readonly' value='" + goodsList[int].price + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].totalPrices' readonly='readonly' value='" + goodsList[int].totalPrice + "'/></td>" + 
+									"<td colspan='2'><input type='text' style='border: 0px;' name='sellGoodsDetails["+int+"].remark' readonly='readonly' value='" + goodsList[int].viewRemark + "'/></td>" +
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td>" + goodsList[int].goodName + "</td>" + 
+										"<td>" + goodsList[int].goodType + "</td>" + 
+										"<td>" + goodsList[int].orderType + "</td>" + 
 										"<td>" + goodsList[int].amount + "</td>" + 
 										"<td>" + goodsList[int].price + "</td>" + 
 										"<td>" + goodsList[int].totalPrice + "</td>" + 
@@ -184,19 +194,22 @@ function initData() {
 			}
 			contents = "<tr style='background: #CCDDFF;'>" + 
 							"<td>合&nbsp;&nbsp;计</td>" + 
+							"<td></td>" + 
+							"<td></td>" + 
 							"<td>" + totalCount + "</td>" + 
 							"<td></td>" + 
 							"<td>" + total + "</td>" + 
 							"<td colspan='2'></td>" +
 						"<tr>" +
-						"<tr><td colspan='6' style='font-weight: bold;'>资金结算明细</td></tr>" +
+						"<tr><td colspan='8' style='font-weight: bold;'>资金结算明细</td></tr>" +
 						"<tr>" +
 						"<td>账&nbsp;&nbsp;户</td>" +
 						"<td>收款方式</td>" +
+						"<td>支付情况</td>" +
 						"<td>金&nbsp;&nbsp;额</td>" +
 						"<td>实际入账</td>" +
 						"<td>手续费</td>" +
-						"<td>备&nbsp;&nbsp;注</td>" +
+						"<td colspan='2'>备&nbsp;&nbsp;注</td>" +
 						"</tr>";
 			printContents = contents;
 			html += contents;
@@ -212,10 +225,11 @@ function initData() {
 					contents = "<tr>" + 
 								"<td>" + clearing[int].paymentAccountName + "</td>" + 
 								"<td>" + payType + "</td>" + 
+								"<td>" + clearing[int].orderPayType + "</td>" + 
 								"<td>" + clearing[int].payAmount + "</td>" + 
 								"<td>" + clearing[int].payAmountActual + "</td>" + 
 								"<td>" + clearing[int].poundage + "</td>" + 
-								"<td>" + clearing[int].remarks + "</td>" + 
+								"<td colspan='2'>" + clearing[int].remarks + "</td>" + 
 							"<tr>";
 					printContents = contents;
 					total += clearing[int].payAmount;
@@ -245,20 +259,22 @@ function initData() {
 					
 					rows = int;
 					contents = "<tr>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].paymentAccountName' readonly='readonly' value='" + clearing[int].paymentAccountName + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].customerPayType' readonly='readonly' value='" + payType + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].payAmount' readonly='readonly' value='" + clearing[int].payAmountActual + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].payAmountActual' readonly='readonly' value='" + clearing[int].income + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].poundage' readonly='readonly' value='" + clearing[int].poundage + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+int+"].remarks'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].paymentAccountName' readonly='readonly' value='" + clearing[int].paymentAccountName + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].customerPayType' readonly='readonly' value='" + payType + "'/></td>" +
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].orderPayType' readonly='readonly' value='" + clearing[int].orderPayType + "'/></td>" +
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].payAmount' readonly='readonly' value='" + clearing[int].payAmountActual + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].payAmountActual' readonly='readonly' value='" + clearing[int].income + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+int+"].poundage' readonly='readonly' value='" + clearing[int].poundage + "'/></td>" + 
+									"<td colspan='2'><input type='text' name='sellDailyDetails["+int+"].remarks'/></td>" + 
 								"<tr>";
 					printContents = "<tr>" + 
-										"<td>" + clearing[int].paymentAccountName + "</td>" + 
+										"<td colspan='2'>" + clearing[int].paymentAccountName + "</td>" + 
 										"<td>" + payType + "</td>" + 
+										"<td>" + clearing[int].orderPayType + "</td>" + 
 										"<td>" + clearing[int].payAmountActual + "</td>" + 
 										"<td>" + clearing[int].income + "</td>" + 
 										"<td>" + clearing[int].poundage + "</td>" + 
-										"<td></td>" + 
+										"<td colspan='2'></td>" + 
 									"<tr>";
 					total = (total + clearing[int].payAmountActual).toFixed(2)*1;
 					income = (income + clearing[int].income).toFixed(2)*1;
@@ -269,23 +285,25 @@ function initData() {
 				// 回显定金退款
 				for (var int = 0; int < depositRefund.length; int++) {
 					if(rows > 0) {
-						rows += 1;						
+						rows += 1;
 					}
 					contents = "<tr>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositRefund[int] + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金退款'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].orderPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositRefund[int] + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+									"<td colspan='2'><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金退款'/></td>" + 
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td></td>" + 
 										"<td></td>" + 
+										"<td>定金退款</td>" +
 										"<td>" + depositRefund[int] + "</td>" + 
 										"<td></td>" + 
 										"<td></td>" + 
-										"<td>定金退款</td>" + 
+										"<td colspan='2'>定金退款</td>" + 
 									"<tr>";
 					total = (total + depositRefund[int]).toFixed(2)*1;
 					income += 0;
@@ -296,23 +314,25 @@ function initData() {
 				// 回显定金回款
 				for (var int = 0; int < depositReturn.length; int++) {
 					if(rows > 0) {
-						rows += 1;						
+						rows += 1;
 					}
 					contents = "<tr>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositReturn[int] + "'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金回款'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].orderPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositReturn[int] + "'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+									"<td colspan='2'><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金回款'/></td>" + 
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td></td>" + 
 										"<td></td>" + 
+										"<td>定金回款</td>" + 
 										"<td>" + depositReturn[int] + "</td>" + 
 										"<td></td>" + 
 										"<td></td>" + 
-										"<td>定金回款</td>" + 
+										"<td colspan='2'>定金回款</td>" + 
 									"<tr>";
 					total = (total + depositReturn[int]).toFixed(2)*1;
 					income += 0;
@@ -323,23 +343,25 @@ function initData() {
 				// 回显回购藏品费用
 				if(payOutAmounts < 0) {
 					if(rows > 0) {
-						rows += 1;						
+						rows += 1;
 					}
 					contents = "<tr>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly'/></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].payAmountActual' value='" + payOutAmounts + "' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
-									"<td><input type='text' name='sellDailyDetails["+rows+"].remarks' value='回购藏品费用'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].orderPayType' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly'/></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmountActual' value='" + payOutAmounts + "' readonly='readonly' /></td>" + 
+									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
+									"<td colspan='2'><input type='text' name='sellDailyDetails["+rows+"].remarks' value='回购藏品费用'/></td>" + 
 								"<tr>";
 					printContents = "<tr>" + 
 										"<td></td>" + 
 										"<td></td>" + 
 										"<td></td>" + 
+										"<td></td>" + 
 										"<td>" + payOutAmounts + "</td>" + 
 										"<td></td>" + 
-										"<td>回购藏品费用</td>" + 
+										"<td colspan='2'>回购藏品费用</td>" + 
 									"<tr>";
 					income = (income + payOutAmounts).toFixed(2)*1;
 					html += contents;
@@ -350,10 +372,11 @@ function initData() {
 			contents = "<tr style='background: #CCDDFF;'>" + 
 							"<td>合&nbsp;&nbsp;计</td>" + 
 							"<td></td>" +
+							"<td></td>" +
 							"<td>" + total + "</td>" + 
 							"<td>" + income + "</td>" + 
 							"<td>" + poundages + "</td>" + 
-							"<td></td>" +
+							"<td colspan='2'></td>" +
 						"<tr>";
 			printContents = contents;
 			html += contents;

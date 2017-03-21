@@ -6,6 +6,7 @@
     <result column="sell_daily_id" property="sellDailyId" jdbcType="VARCHAR" />
     <result column="payment_account_name" property="paymentAccountName" jdbcType="VARCHAR" />
     <result column="customer_pay_type" property="customerPayType" jdbcType="VARCHAR" />
+    <result column="order_pay_type" property="orderPayType" jdbcType="VARCHAR" />
     <result column="pay_amount" property="payAmount" jdbcType="DECIMAL" />
     <result column="pay_amount_actual" property="payAmountActual" jdbcType="DECIMAL" />
     <result column="poundage" property="poundage" jdbcType="DECIMAL" />
@@ -23,6 +24,9 @@
       </if>
       <if test="condition.customerPayType != null" >
          and customer_pay_type = #{condition.customerPayType,jdbcType=VARCHAR}
+      </if>
+      <if test="condition.orderPayType != null" >
+         and order_pay_type = #{condition.orderPayType,jdbcType=VARCHAR}
       </if>
       <if test="condition.payAmount != null" >
          and pay_amount = #{condition.payAmount,jdbcType=DECIMAL}
@@ -55,6 +59,9 @@
       <if test="example.condition.customerPayType != null" >
          and customer_pay_type = #{example.condition.customerPayType,jdbcType=VARCHAR}
       </if>
+      <if test="example.condition.orderPayType != null" >
+         and order_pay_type = #{example.condition.orderPayType,jdbcType=VARCHAR}
+      </if>
       <if test="example.condition.payAmount != null" >
          and pay_amount = #{example.condition.payAmount,jdbcType=DECIMAL}
       </if>
@@ -76,8 +83,8 @@
     </trim>
   </sql>
   <sql id="Base_Column_List" >
-    id, sell_daily_id, payment_account_name, customer_pay_type, pay_amount, pay_amount_actual, 
-    poundage, remarks, create_user_id, create_date
+    id, sell_daily_id, payment_account_name, customer_pay_type, order_pay_type, pay_amount, 
+    pay_amount_actual, poundage, remarks, create_user_id, create_date
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.portal.bean.Criteria" >
     select
@@ -112,13 +119,13 @@
   </delete>
   <insert id="insert" parameterType="com.portal.bean.SellDailyDetail" >
     insert into sell_daily_detail (id, sell_daily_id, payment_account_name, 
-      customer_pay_type, pay_amount, pay_amount_actual, 
-      poundage, remarks, create_user_id, 
-      create_date)
+      customer_pay_type, order_pay_type, pay_amount, 
+      pay_amount_actual, poundage, remarks, 
+      create_user_id, create_date)
     values (#{id,jdbcType=VARCHAR}, #{sellDailyId,jdbcType=VARCHAR}, #{paymentAccountName,jdbcType=VARCHAR}, 
-      #{customerPayType,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL}, #{payAmountActual,jdbcType=DECIMAL}, 
-      #{poundage,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, #{createUserId,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP})
+      #{customerPayType,jdbcType=VARCHAR}, #{orderPayType,jdbcType=VARCHAR}, #{payAmount,jdbcType=DECIMAL}, 
+      #{payAmountActual,jdbcType=DECIMAL}, #{poundage,jdbcType=DECIMAL}, #{remarks,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.portal.bean.SellDailyDetail" >
     insert into sell_daily_detail
@@ -134,6 +141,9 @@
       </if>
       <if test="customerPayType != null" >
         customer_pay_type,
+      </if>
+      <if test="orderPayType != null" >
+        order_pay_type,
       </if>
       <if test="payAmount != null" >
         pay_amount,
@@ -166,6 +176,9 @@
       </if>
       <if test="customerPayType != null" >
         #{customerPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayType != null" >
+        #{orderPayType,jdbcType=VARCHAR},
       </if>
       <if test="payAmount != null" >
         #{payAmount,jdbcType=DECIMAL},
@@ -208,6 +221,9 @@
       <if test="record.customerPayType != null" >
         customer_pay_type = #{record.customerPayType,jdbcType=VARCHAR},
       </if>
+      <if test="record.orderPayType != null" >
+        order_pay_type = #{record.orderPayType,jdbcType=VARCHAR},
+      </if>
       <if test="record.payAmount != null" >
         pay_amount = #{record.payAmount,jdbcType=DECIMAL},
       </if>
@@ -237,6 +253,7 @@
       sell_daily_id = #{record.sellDailyId,jdbcType=VARCHAR},
       payment_account_name = #{record.paymentAccountName,jdbcType=VARCHAR},
       customer_pay_type = #{record.customerPayType,jdbcType=VARCHAR},
+      order_pay_type = #{record.orderPayType,jdbcType=VARCHAR},
       pay_amount = #{record.payAmount,jdbcType=DECIMAL},
       pay_amount_actual = #{record.payAmountActual,jdbcType=DECIMAL},
       poundage = #{record.poundage,jdbcType=DECIMAL},
@@ -258,6 +275,9 @@
       </if>
       <if test="customerPayType != null" >
         customer_pay_type = #{customerPayType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderPayType != null" >
+        order_pay_type = #{orderPayType,jdbcType=VARCHAR},
       </if>
       <if test="payAmount != null" >
         pay_amount = #{payAmount,jdbcType=DECIMAL},
@@ -285,6 +305,7 @@
     set sell_daily_id = #{sellDailyId,jdbcType=VARCHAR},
       payment_account_name = #{paymentAccountName,jdbcType=VARCHAR},
       customer_pay_type = #{customerPayType,jdbcType=VARCHAR},
+      order_pay_type = #{orderPayType,jdbcType=VARCHAR},
       pay_amount = #{payAmount,jdbcType=DECIMAL},
       pay_amount_actual = #{payAmountActual,jdbcType=DECIMAL},
       poundage = #{poundage,jdbcType=DECIMAL},

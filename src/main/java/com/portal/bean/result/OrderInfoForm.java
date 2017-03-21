@@ -215,6 +215,19 @@ public class OrderInfoForm implements Serializable {
      */
     private String customerPayType;
     
+    /**
+     * 销售日报表--出单支付类型 0全额支付 1定金支付 2派送支付 3余款支付
+     */
+    private String orderPayType;
+    
+    public String getOrderPayType() {
+        return orderPayType;
+    }
+
+    public void setOrderPayType(String orderPayType) {
+        this.orderPayType = orderPayType;
+    }
+
     public List<OrderDetailInfo> getOrderDetailInfoList() {
         return orderDetailInfoList;
     }

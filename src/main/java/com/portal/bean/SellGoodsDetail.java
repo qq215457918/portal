@@ -23,6 +23,16 @@ public class SellGoodsDetail implements Serializable {
     private String goodsName;
 
     /**
+     * 藏品类型 0-常规商品 2-配售 3-配送 4-兑换
+     */
+    private String goodType;
+
+    /**
+     * 出单类型 1-正常 2-退货 5-回购
+     */
+    private String orderType;
+
+    /**
      * 数量
      */
     private Integer count;
@@ -95,6 +105,36 @@ public class SellGoodsDetail implements Serializable {
      */
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
+    }
+
+    /**
+     * @return 藏品类型 0-常规商品 2-配售 3-配送 4-兑换
+     */
+    public String getGoodType() {
+        return goodType;
+    }
+
+    /**
+     * @param goodType 
+	 *            藏品类型 0-常规商品 2-配售 3-配送 4-兑换
+     */
+    public void setGoodType(String goodType) {
+        this.goodType = goodType;
+    }
+
+    /**
+     * @return 出单类型 1-正常 2-退货 5-回购
+     */
+    public String getOrderType() {
+        return orderType;
+    }
+
+    /**
+     * @param orderType 
+	 *            出单类型 1-正常 2-退货 5-回购
+     */
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
     }
 
     /**
