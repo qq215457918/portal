@@ -14,15 +14,18 @@
 <body>
 	<div class="modal-shiftfix">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-xs-12">
 				<div class="widget-container fluid-height clearfix">
-					<div class="col-md-6">
-						<div class="heading">
-							<i class="icon-tags"></i>用户详细信息
-						</div>
+					<div class="heading">
+						<i class="icon-tags"></i>用户详细信息
+						<button class="btn btn-xs btn-primary pull-right" id="modifyInfo">修改基本信息</button>
+						<button class="btn btn-xs btn-warning pull-right"
+							id="modifyExchange">修改文交所信息</button>
+					</div>
+					<div class="col-xs-6">
 						<div class="widget-content padded">
 							<dl>
-								<dd>
+								<dd class="text-danger">
 									<strong> 客户类型： </strong>${info.type }
 								</dd>
 								<dd>
@@ -31,29 +34,34 @@
 								<dd>
 									<strong> 电话：</strong>${info.encryptPhone }
 								</dd>
-							</dl>
-							<button class="btn btn-primary" id="modifyInfo">修改基本信息</button>
-							<button class="btn btn-warning" id="modifyExchange">修改文交所信息</button>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="heading"></div>
-						<div class="widget-content padded">
-							<dl>
 								<dd>
-									<strong> 客服人员：</strong>${info.phoneStaffName }
-								</dd>
-								<dd>
-									<strong>接待人员：</strong>${info.receiverStaffName }
+									<strong>累计登门次数：</strong>${info.visitCount}
 								</dd>
 								<dd>
 									<strong>最近登门时间：</strong>
 									<fmt:formatDate value="${info.recentVisitDate}"
 										pattern="yyyy-MM-dd HH:mm:ss" />
 								</dd>
+							</dl>
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="widget-content padded">
+							<dl>
+								<dd>
+									<strong>累计金额：</strong>${info.transactionAmount }
+								</dd>
+								<dd>
+									<strong> 客服人员：</strong>${info.phoneStaffName }
+								</dd>
+								<dd>
+									<strong>接待人员：</strong>${info.receiverStaffName }
+								</dd>
+
 								<dd>
 									<strong>是否黑名单：</strong>${info.blacklistFlag }
 								</dd>
+
 							</dl>
 						</div>
 					</div>
@@ -62,41 +70,6 @@
 		</div>
 
 
-		<div class="row">
-			<div class="col-md-12">
-				<div class="widget-container fluid-height clearfix">
-					<div class="heading">
-						<i class="icon-table"></i>历史信息
-					</div>
-					<div class="widget-content padded clearfix">
-						<table class="table table-striped">
-							<thead>
-								<tr>
-									<th>重复登门次数</th>
-									<th>登门历史</th>
-									<th>历史接待人员</th>
-									<th>购买商品</th>
-									<th>领取赠品</th>
-									<th>购买金额总计</th>
-									<th>拨打记录</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td>${info.visitCount}</td>
-									<td>${info.receiverStaffDate}</td>
-									<td>${info.hisReceiverStaffName}</td>
-									<td>${info.product }</td>
-									<td>${info.gift }</td>
-									<td>${info.transactionAmount }</td>
-									<td>${info.callDates}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<!-- 购买历史 -->
 		<div class="row">
@@ -255,6 +228,43 @@
 										<td>${status.payPrice }</td>
 									</tr>
 								</c:forEach>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="widget-container fluid-height clearfix">
+					<div class="heading">
+						<i class="icon-table"></i>历史信息
+					</div>
+					<div class="widget-content padded clearfix">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>重复登门次数</th>
+									<th>登门历史</th>
+									<th>历史接待人员</th>
+									<th>购买商品</th>
+									<th>领取赠品</th>
+									<th>购买金额总计</th>
+									<th>拨打记录</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>${info.visitCount}</td>
+									<td>${info.receiverStaffDate}</td>
+									<td>${info.hisReceiverStaffName}</td>
+									<td>${info.product }</td>
+									<td>${info.gift }</td>
+									<td>${info.transactionAmount }</td>
+									<td>${info.callDates}</td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

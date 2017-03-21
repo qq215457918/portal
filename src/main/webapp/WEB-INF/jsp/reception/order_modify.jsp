@@ -42,6 +42,23 @@
 								<label for="receiverName">接待人员</label> <input
 									class="form-control" id="receiverName" type="text">
 							</div>
+							<div class="form-group col-xs-2">
+								<label for="startDate">开始日期</label>
+								<div class="input-group date datepicker">
+									<input class="form-control" type="text" id="startDate"
+										value="${startDate }" readonly="readonly"><span
+										class="input-group-addon"><i class="icon-calendar"></i></span>
+								</div>
+							</div>
+
+							<div class="form-group col-xs-2">
+								<label for="endDate">截止日期</label>
+								<div class="input-group date datepicker">
+									<input class="form-control" type="text" id="endDate"
+										value="${startDate }" readonly="readonly"><span
+										class="input-group-addon"><i class="icon-calendar"></i></span>
+								</div>
+							</div>
 							<div class="form-group col-xs-3" id="listInfo">
 								<label class="radio-inline"> <input name="orderType"
 									type="radio" value="1"><span>已售商品</span>

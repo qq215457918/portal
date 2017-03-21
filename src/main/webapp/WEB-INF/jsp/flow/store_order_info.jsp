@@ -21,21 +21,38 @@
 			<div class="col-lg-12">
 				<div class="widget-container fluid-height clearfix">
 					<div class="widget-content padded">
-						<div class="form-group">
+						<div class="form-group col-xs-2">
 							<label for="orderNumber">订单编号</label> <input class="form-control"
 								type="text" id="orderNumber">
 						</div>
-						<div class="form-group">
+						<div class="form-group col-xs-1">
 							<label for="customerPhone">客户电话</label> <input
 								class="form-control" id="customerPhone" type="text">
 						</div>
-						<div class="form-group">
+						<div class="form-group col-xs-1">
 							<label for="customerName">客户姓名</label> <input
 								class="form-control" id="customerName" type="text">
 						</div>
-						<div class="form-group">
+						<div class="form-group col-xs-1">
 							<label for="receiverName">接待人员</label> <input
 								class="form-control" id="receiverName" type="text">
+						</div>
+						<div class="form-group col-xs-2">
+							<label for="startDate">开始日期</label>
+							<div class="input-group date datepicker">
+								<input class="form-control" type="text" id="startDate"
+									value="${startDate }" readonly="readonly"><span
+									class="input-group-addon"><i class="icon-calendar"></i></span>
+							</div>
+						</div>
+
+						<div class="form-group col-xs-2">
+							<label for="endDate">截止日期</label>
+							<div class="input-group date datepicker">
+								<input class="form-control" type="text" id="endDate"
+									value="${startDate }" readonly="readonly"><span
+									class="input-group-addon"><i class="icon-calendar"></i></span>
+							</div>
 						</div>
 						<div class="form-group">
 							<button class="btn btn-primary" id="searchList">搜索</button>

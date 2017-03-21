@@ -14,7 +14,7 @@
 	      </li>
 	  </ul>
 	</div>
-	<img width="40" height="40" src="${basePath}resources/images/logo.png" style="margin:1px">
+	<a href="<%=request.getContextPath()%>/"><img width="40" height="40" src="${basePath}resources/images/logo.png" style="margin:1px"></a>
 	<button class="navbar-toggle">
 	  <span class="icon-bar"></span>
 	  <span class="icon-bar"></span>

@@ -51,14 +51,14 @@
 			<div style="clear: both;"></div>
 
 			<table class="table table-striped" id="inquiryTable">
-				<thead>
+				<thead><tr>
 					<th>序号</th>
                    	<th>客户名称</th>
                    	<th>接待员姓名</th>
                    	<th>客服姓名</th>
                    	<th>开始接待时间</th>
                    	<th>结束接待时间</th>
-                   	<th>接待日期</th>
+                   	<th>接待日期</th></tr>
 				</thead>
 				<tbody>
 				</tbody>
