@@ -10,9 +10,7 @@ import com.portal.service.CustomerInfoService;
 import com.portal.service.EmployeeInfoService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.ReceptionInfoService;
-
 import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
@@ -87,18 +85,18 @@ public class ReceptionAction {
         if (StringUtils.isEmpty(customerId)) {
             customerId = request.getAttribute("cId").toString();
         }
-        //查询接待表
         EmployeeInfo employeeInfo = (EmployeeInfo) request.getAttribute("employeeInfo");
         //ADD by xdx for filter repeatedly visit log with out end action. 
         List<ReceptionInfoForm> receptions = receptionInfoService.queryRecordListbyId(customerId);
-        if(receptions.size()>0){
-        	ReceptionInfoForm lastReceptionInfo = receptions.get(0);
-        	System.out.println("lastReceptionInfo.getEndTime():"+lastReceptionInfo.getEndTime());
-        	if(lastReceptionInfo.getEndTime()!=null&&lastReceptionInfo.getEndTime().length()>0){
-                receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
+        if (receptions.size() > 0) {
+            ReceptionInfoForm lastReceptionInfo = receptions.get(0);
+            System.out.println("lastReceptionInfo.getEndTime():" + lastReceptionInfo.getEndTime());
+            if (lastReceptionInfo.getEndTime() != null && lastReceptionInfo.getEndTime().length() > 0) {
+                receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(),
+                        employeeInfo.getName());
                 customerInfoService.updateVisitCount(customerId);
-        	}
-        }else{
+            }
+        } else {
             receptionInfoService.insertReceptionTime(customerId, employeeInfo.getId(), employeeInfo.getName());
             customerInfoService.updateVisitCount(customerId);
         }

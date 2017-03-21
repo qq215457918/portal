@@ -28,7 +28,7 @@ function getGoodsInfo(){
 		item+="<tr><td><label><input name='checkGroup' type='checkbox'id="+value.id+"><span></span></label></td>";
 		item+="<td>"+value.name+"</td>";
 		item+="<td name='goodPrice'>"+value.price+" </td>";
-		item+='<td><div class="gw_num" style="float:left; "><em class="jian">-</em><input type="text" value='+value.amount+' class="num" name="goodNum"/><em class="add">+</em></div></td>';
+		item+='<td><div class="gw_num" style="float:left; "><em class="jian">-</em><input type="text" readonly="readonly" value='+value.amount+' class="num" name="goodNum"/><em class="add">+</em></div></td>';
 		item+="<td name='totalPrice'></td></tr>";
 	});
 	$('#cart-good-list').append(item);
@@ -49,16 +49,22 @@ function getCheckGoods(){
 function submitOrder(){
 	var submitType;
 	var amount;
+	var totalAmount = $("#total-amount").text()
+	var depositAmount =$("#deposit-amount").val();
 	if($("input[name=optionsRadios]:checked").attr("id")=="option-amount"){
 		submitType = "whole";
-		amount =$("#total-amount").text();
+		amount = totalAmount;
 	}else{
 		submitType = "deposit";
-		amount =$("#deposit-amount").val();
+		amount = depositAmount;
 	}
-	var goodInfo = getCheckGoods();
-	if(goodInfo !="[]"){
-		window.location.href=base+"/order/submit?goodInfo=" + encodeURI(goodInfo) + "&submitType="+submitType+"&amount="+amount;
+	if(totalAmount < depositAmount){
+		alert("定金大于付款总额，请重新输入")
+	}else{
+		var goodInfo = getCheckGoods();
+		if(goodInfo !="[]"){
+			window.location.href=base+"/order/submit?goodInfo=" + encodeURI(goodInfo) + "&submitType="+submitType+"&amount="+amount;
+		}
 	}
 }
 

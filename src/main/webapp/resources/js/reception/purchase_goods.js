@@ -23,7 +23,6 @@ $(function() {
 		var cartObj = JSON.parse( cartValue );	
 	});	
 	numControl();
-	
 	// 特殊审批
 	$("#appConfirm").click(function(){
 		var count = $('#applyCount').val();
@@ -176,7 +175,7 @@ function getModalContent(type){
 				item+="<td>"+goodsForm.price+"</td>";
 				item+="<td>"+goodsForm.unit+"</td>";
 				item+="<td>"+goodsForm.amount+"</td>";
-				item+="<td><label class='checkbox-inline' style='padding-top:0px;margin-right:0px'><input type='checkbox' name='row_checkbox' id='check"+goodsForm.id+"'><span></span></label></td></tr>";
+				item+="<td><label class='checkbox-inline' style='padding-top:0px;margin-right:0px'><input type='checkbox' name='row_checkbox'  id='check"+goodsForm.id+"'><span></span></label></td></tr>";
 			});
 			$('#modal-data').append(item);
 			$('#myGoods').modal('show');
@@ -226,24 +225,8 @@ function gotoAccount(){
 	window.location.href=base+"/order/account?goodInfo="+encodeURI(goodInfoJson);
 }
 
-//新增内存
-function addSession(key,value){
-	sessionStorage.setItem(cartPrefix + key , value );
-}
-
-//移除内存
-function removeSession(key){
-	sessionStorage.removeItem(cartPrefix + key );
-}
-
-//销毁内存
-function clearSession(key){
-	sessionStorage.clear();
-}
-
 //添加购物车
 function addGoods(id) {
-	addSession (id, id);
 	addGoodsDiv(id,$("#addId"+id).parent().prev().prev().prev().prev().prev().html(),$("#addId"+id).parent().prev().prev().prev().prev().html());
 }
 
@@ -251,7 +234,7 @@ function addGoods(id) {
 function addGoodsDiv(id, name,price){
 	var item= "<tr id=tr"+id+"><td name='goodName'>商品名称："+name+" </td><td>商品售价：<em name='goodPrice'>"+price+" </em>￥ </td>";
 	item+='<td> <div style="float:left;margin-right:10px;">购买数量：</div>';
-	item+='<div class="gw_num" style="float:left; "><em class="jian">-</em><input type="text" value="1" class="num" name="goodNum"/><em class="add">+</em></div> '
+	item+='<div class="gw_num" style="float:left; "><em class="jian">-</em><input type="text" value="1" class="num" name="goodNum" readonly="readonly" /><em class="add">+</em></div> '
 	item+=" <span class='label label-danger' style='float: right' onclick='delGoods("+id+");'>删除</span>";
 	item+="</td></tr>";
 	$("#shoppingList").append(item);

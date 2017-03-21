@@ -179,10 +179,13 @@
 				success : function(data) {
 					if(data.result==true){
 						alert("礼物订单已经提交，请到库房进行领取");
-						$("#presentReceive").attr('disabled',"true");
+/* 						$("#presentReceive").attr('disabled',"true");
 						//$("#applyGoods").attr('disabled',"true");
-						$("#presentReceive").attr('value',"请到库房领取赠品");
+						$("#presentReceive").attr('value',"请到库房领取赠品"); */
 						getPresent();
+						$("input[name=row_checkbox]:checked").each(function(){ 
+							$(this).attr("checked",false)
+						}); 
 				    }
 				}
 			});	
