@@ -69,6 +69,7 @@ public class DepositAction {
         criteria.put("customerId", (String) request.getSession().getAttribute("cId"));
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("goodCode", request.getParameter("goodCode"));
+        criteria.setOrderByClause("create_date DESC");
         List<OrderInfoForm> resultList = orderInfoService.getDepositInfo(criteria);
         int count = orderInfoService.countByExample(criteria);
         JsonUtils.resultJson(resultList, count, response, request);

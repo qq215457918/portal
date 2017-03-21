@@ -64,10 +64,7 @@ public class OrderManageAction {
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
         criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
         criteria.put("customerId", request.getSession().getAttribute("cId"));//从session中获取cid
-        //        criteria.put("status", "4");
-        criteria.put("payType", "0");
-        //criteria.put("orderType", "1");
-        //        criteria.put("deleteFlag", "0");
+        criteria.put("payTypeOrderManage", "true");
         criteria.put("goodsName", request.getParameter("goodsName"));
         criteria.put("staffName", request.getParameter("staffName"));
         criteria.setOrderByClause("create_date desc");

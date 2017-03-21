@@ -248,7 +248,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderInfoNew.setReceiverStaffId(receiverStaffId);
         orderInfoNew.setPhoneStaffId(orderInfo.getPhoneStaffId());
         orderInfoNew.setStatus("0");
-        orderInfoNew.setPayPrice(detailInfo.getPrice()*detailInfo.getAmount());
+        orderInfoNew.setPayPrice(detailInfo.getPrice() * detailInfo.getAmount());
         orderInfoNew.setActualPrice(0L);
         orderInfoNew.setCreateDate(new Date());
         orderInfoNew.setCreateId(receiverStaffId);
@@ -538,7 +538,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
 
             if (hasPresent) {
-                insertSelective(insertOrderInfo("6",cid, deposit ? "1" : "0", puuid, 0L, request));//礼品的订单金额为0
+                insertSelective(insertOrderInfo("6", cid, deposit ? "1" : "0", puuid, 0L, request));//礼品的订单金额为0
                 //在接待表中添加赠品订单 puuid
                 receptionInfoService.updatePresentOrderID(puuid, presentNameList.toString(), cid);
                 //在客户信息中家赠品信息
@@ -551,7 +551,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             }
             if (hasGoods) {
                 amount = Long.valueOf(request.getParameter("amount")); //累加订单详情的金额
-                insertSelective(insertOrderInfo("1",cid, deposit ? "1" : "0", uuid, amount, request));
+                insertSelective(insertOrderInfo("1", cid, deposit ? "1" : "0", uuid, amount, request));
                 //在接待表中添加赠品订单 uuid
                 receptionInfoService.updateOrderID(uuid, cid);
                 if (!deposit) {
@@ -1078,9 +1078,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         List<SellDailyInfoForm> sellDailies = sellDailyInfoExreaDao.getSellDailiesByCondition(criteria);
         if (sellDailies != null && sellDailies.size() > 0) {
             // 获取销售商品信息
-            List<SellGoodsDetail> goodsDetail = sellDailyInfoExreaDao.getSellGoodsDetails(sellDailies.get(0).getId());
+            List<SellGoodsDetail> goodsDetail =
+                    sellDailyInfoExreaDao.getSellGoodsDetails(sellDailies.get(0).getId());
             // 获取销售结算明细
-            List<SellDailyDetail> dailyDetail = sellDailyInfoExreaDao.getSellDailyDetails(sellDailies.get(0).getId());
+            List<SellDailyDetail> dailyDetail =
+                    sellDailyInfoExreaDao.getSellDailyDetails(sellDailies.get(0).getId());
             result.put("type", "search");
             result.put("goodsList", goodsDetail);
             result.put("clearing", dailyDetail);

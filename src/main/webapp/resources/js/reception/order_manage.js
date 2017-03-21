@@ -64,6 +64,7 @@ function initData() {
 							{
 							case "1": type ="正常";break;
 							case "2": type ="退货";break;
+							case "3": type ="尾款支付";break;
 							case "4": type ="赠品";break;
 							case "5": type ="回购";break;
 							case "6": type ="vip赠品";break;
