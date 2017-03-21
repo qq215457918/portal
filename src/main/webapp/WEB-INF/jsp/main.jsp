@@ -26,9 +26,9 @@
 					<div class="col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail" style="height: 352px;">
 							<div class="row text-center">
-								<div class="number" style="font-size: 50px; margin-top: 20px;">
+								<div class="number" style="font-size: 50px; margin-top: 50px;">
 									我的工作</div>
-								<a class="btn btn-lg btn-info" style="margin-top: 50px"
+								<a class="btn btn-lg btn-info" style="margin-top: 150px"
 									href="<%=request.getContextPath()%>/job/init?active=1"><i
 									class="icon-briefcase"></i>进入</a>
 							</div>
@@ -40,9 +40,9 @@
 					<div class="col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail" style="height: 352px;">
 							<div class="row text-center">
-								<div class="number" style="font-size: 50px; margin-top: 20px;">
+								<div class="number" style="font-size: 50px; margin-top: 50px;">
 									接待管理</div>
-								<a class="btn btn-lg btn-info" style="margin-top: 50px"
+								<a class="btn btn-lg btn-info" style="margin-top: 150px"
 									href="<%=request.getContextPath()%>/visit/query?active=1"><i
 									class="icon-glass"></i>进入</a>
 							</div>
@@ -53,9 +53,9 @@
 					<div class="col-sm-6 col-md-4 col-lg-3">
 						<div class="thumbnail" style="height: 352px;">
 							<div class="row text-center">
-								<div class="number" style="font-size: 50px; margin-top: 20px;">
+								<div class="number" style="font-size: 50px; margin-top: 50px;">
 									数据管理</div>
-								<a class="btn btn-lg btn-info" style="margin-top: 50px"
+								<a class="btn btn-lg btn-info" style="margin-top: 150px"
 									href="customerInfo/costomerInfoIndex?type=0&active=1"
 									style="margin-top: 20px"><i class="icon-phone-sign"></i>进入</a>
 							</div>
@@ -69,9 +69,9 @@
 						<div class="thumbnail" style="height: 352px;">
 
 							<div class="row text-center">
-								<div class="number" style="font-size: 50px; margin-top: 20px;">
+								<div class="number" style="font-size: 50px; margin-top: 50px;">
 									统计/报表</div>
-								<a class="btn btn-lg btn-info" style="margin-top: 50px"
+								<a class="btn btn-lg btn-info" style="margin-top: 150px"
 									href="report/toSalesmanStatement?active=1"
 									style="margin-top: 20px"><i class="icon-qrcode"></i>进入</a>
 							</div>
@@ -84,11 +84,10 @@
 						<div class="thumbnail" style="height: 352px;">
 
 							<div class="row text-center">
-								<div class="number" style="font-size: 50px; margin-top: 20px;">
+								<div class="number" style="font-size: 50px; margin-top: 50px;">
 									后台管理</div>
-								<a class="btn btn-lg btn-info" style="margin-top: 50px"
-									href="admin/resource/init?active=1" style="margin-top: 20px"><i
-									class="icon-laptop"></i>进入</a>
+								<a class="btn btn-lg btn-info" style="margin-top: 150px"
+									href="admin/resource/init?active=1"><i class="icon-laptop"></i>进入</a>
 							</div>
 						</div>
 
@@ -100,15 +99,15 @@
 						<div class="row text-center">
 							<div class="number" style="font-size: 50px; margin-top: 20px;">
 								退出</div>
-							<a class="btn btn-lg btn-danger" style="margin-top: 50px"
+							<a class="btn btn-lg btn-danger" style="margin-top: 150px"
 								href="<%=request.getContextPath()%>/logout"><i
 								class="icon-mail-forward"></i>退出</a>
 						</div>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>
