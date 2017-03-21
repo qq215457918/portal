@@ -14,12 +14,12 @@
 <body>
 	<div class="modal-shiftfix">
 		<div class="row">
-			<div class="col-md-12">
+			<div class="col-xs-12">
 				<div class="widget-container fluid-height clearfix">
-					<div class="col-md-6">
-						<div class="heading">
-							<i class="icon-tags"></i>用户详细信息
-						</div>
+					<div class="heading">
+						<i class="icon-tags"></i>用户详细信息
+					</div>
+					<div class="col-xs-6">
 						<div class="widget-content padded">
 							<dl>
 								<dd>
@@ -34,14 +34,19 @@
 								<dd>
 									<strong> 备用电话：</strong>${result.encryptPhone2 }
 								</dd>
+								<dd>
+									<strong>最近登门时间：</strong>
+									<fmt:formatDate value="${result.recentVisitDate}"
+										pattern="yyyy-MM-dd HH:mm:ss" />
+								</dd>
 							</dl>
+							<button class="btn btn-lg btn-primary" id="receiveId">开始接待</button>
+
 						</div>
 					</div>
-					<div class="col-md-6">
-						<div class="heading"></div>
+					<div class="col-xs-6">
 						<div class="widget-content padded">
 							<dl>
-
 								<dd>
 									<strong> 关联亲友：</strong>${result.relationId }
 								</dd>
@@ -52,14 +57,15 @@
 									<strong> 接待人员：</strong>${result.receiverStaffName }
 								</dd>
 								<dd>
-									<strong>最近登门时间：</strong>
-									<fmt:formatDate value="${result.recentVisitDate}"
-										pattern="yyyy-MM-dd HH:mm:ss" />
-								</dd>
-								<dd>
 									<strong>是否黑名单：</strong>${result.blacklistFlag }
 								</dd>
+								<dd>
+									<strong> </strong>&nbsp
+								</dd>
+
 							</dl>
+							<button class="btn btn-lg btn-default" id="quit">退出</button>
+
 						</div>
 					</div>
 					<input type="hidden" name="cid" id="cid" value="${result.id }" />
@@ -67,13 +73,9 @@
 						value="${result.phone }" /> <input type="hidden"
 						name="receiverStaffName" id="receiverStaffName"
 						value="${result.receiverStaffName}" />
-					<div class="col-md-2">
-						<button class="btn btn-lg btn-primary" id="receiveId">开始接待</button>
-					</div>
-					<div class="col-md-3">
-						<button class="btn btn-lg btn-default" id="quit">退 出</button>
-					</div>
+
 				</div>
+				<div class="widget-container fluid-height clearfix"></div>
 			</div>
 		</div>
 	</div>

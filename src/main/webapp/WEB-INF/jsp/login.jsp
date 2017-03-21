@@ -11,7 +11,7 @@
   <body class="login1 signup">
 <!-- Login Screen -->
   <div class="login-wrapper">
-    <div class="login-container" style="top:60%;height: 400px;">
+    <div class="login-container" style="top:40%;height: 400px;">
 	  <img width="150" height="150" src="resources/images/logo.png" style="margin:0px">
 
       <form action="login"  id="validate-form" method="post" novalidate="novalidate">
@@ -21,7 +21,7 @@
         </div>     
         <div style="color:#F00">${error}</div>
        	<div class="social-login clearfix" style="margin:40px 0">
-        	<button class="btn btn-primary" type="submit">登&nbsp;&nbsp;&nbsp;&nbsp;录</button>
+        	<button class="btn btn-primary" type="submit">登录</button>
       	</div>
       </form>
     </div>

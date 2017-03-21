@@ -170,11 +170,11 @@ function initData(){
 			},
 			{
 			"render" : function(data, type, row) {
-				var operation = '<a data-toggle="modal" data-order-id="' + row.id + '" id="examPass">审核通过</a>&nbsp;&nbsp;' + 
+				var operation = '<a data-toggle="modal" data-order-id="' + row.id + '" id="examPass">审核通过</a>' + 
 					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
 				
 				if(row.financeFlag == 1){
-					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已审核</a>&nbsp;&nbsp;' + 
+					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">已审核</a>' + 
 					'<a data-toggle="modal" data-order-id="' + row.id + '" id="examError">审核错误</a>';
 				}else if(row.financeFlag == -1){
 					operation = '<a data-toggle="modal" data-order-id="' + row.id + '">详情</a>';

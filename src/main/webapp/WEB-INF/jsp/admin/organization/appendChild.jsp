@@ -21,7 +21,7 @@
             <form:input path="name"/>
         </div>
 
-        <form:button id="appendChildBtn">保&nbsp;&nbsp;存</form:button>
+        <form:button id="appendChildBtn">保存</form:button>
     </form:form>
     
     <script src="${basePath}resources/js/jquery-1.11.0.min.js"></script>

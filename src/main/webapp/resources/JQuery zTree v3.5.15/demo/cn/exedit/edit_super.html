@@ -58,24 +58,24 @@
 		}
 		function beforeEditName(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" beforeEditName ] " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
 			return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
 		}
 		function beforeRemove(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" beforeRemove ] " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
 			return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
 		}
 		function onRemove(e, treeId, treeNode) {
-			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" onRemove ] " + treeNode.name);
 		}
 		function beforeRename(treeId, treeNode, newName, isCancel) {
 			className = (className === "dark" ? "":"dark");
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ] " + treeNode.name + (isCancel ? "</span>":""));
 			if (newName.length == 0) {
 				alert("节点名称不能为空.");
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
@@ -85,7 +85,7 @@
 			return true;
 		}
 		function onRename(e, treeId, treeNode, isCancel) {
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ] " + treeNode.name + (isCancel ? "</span>":""));
 		}
 		function showRemoveBtn(treeId, treeNode) {
 			return !treeNode.isFirstNode;
@@ -151,7 +151,7 @@
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1、beforeEditName<br/>&nbsp;&nbsp;beforeRemove / onRemove<br/>&nbsp;&nbsp;beforeRename / onRename 事件回调函数控制</h2>
+			<li class="title"><h2>1、beforeEditName<br/>beforeRemove / onRemove<br/>beforeRename / onRename 事件回调函数控制</h2>
 				<ul class="list">
 				<li>此 Demo 演示合理利用自定义控件、事件回调函数配合以增强用户体验，操作时可以对比"基本 增 / 删 / 改 节点"的 Demo</li>
 				<li>此 Demo 实现增加节点按钮</li>
@@ -160,8 +160,8 @@
 				<li>此 Demo 利用 showRemoveBtn 对 isFirstNode = true 的节点不显示删除按钮 </li>
 				<li class="highlight_red">可以利用 beforeEditName 触发自定义的编辑操作</li>
 				<li><p><span class="highlight_red">在对这些灵活的配置熟悉以后，相信你能够做出更加合理的编辑界面！</span><br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="selectAll" checked /> 编辑名称时是否全选 text<br/>
-					remove / rename log:&nbsp;&nbsp;<span style="color:red">红色</span> 表示取消编辑操作 (v3.5.13+)<br/>
+					<input type="checkbox" id="selectAll" checked /> 编辑名称时是否全选 text<br/>
+					remove / rename log:<span style="color:red">红色</span> 表示取消编辑操作 (v3.5.13+)<br/>
 					<ul id="log" class="log"></ul></p>
 				</li>
 				</ul>

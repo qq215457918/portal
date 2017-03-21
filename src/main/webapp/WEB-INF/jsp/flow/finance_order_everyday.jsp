@@ -31,7 +31,7 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="financeOrderDate">
+						<table class="table table-striped" id="financeOrderDate">
 							<thead>
 								<th>序号</th>
 								<th>订单编号</th>

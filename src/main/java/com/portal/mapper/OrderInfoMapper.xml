@@ -142,6 +142,9 @@
       <if test="condition.receiverName != null" >
          and ei.name like concat('%', #{condition.receiverName, jdbcType=VARCHAR}, '%')
       </if>
+      <if test="condition.payTypeOrderManage != null" >
+         and pay_type in ('0','3')
+      </if> 
     </trim>
   </sql>
   <sql id="Update_By_Example_Where_Clause" >
@@ -223,6 +226,17 @@
       </if>
     </trim>
   </sql>
+    <sql id="Base_Column_List_Old" >
+    order_info.id, order_info.order_number, order_info.customer_id, order_info.phone_staff_id, 
+    order_info.receiver_staff_id, order_info.status, order_info.order_type, order_info.pay_type, 
+    order_info.pay_price, order_info.actual_price, order_info.finance_flag, order_info.finance_type, 
+    order_info.finance_operator_id, order_info.finance_date, order_info.warehouse_flag, 
+    order_info.warehouse_operator_id, order_info.warehouse_date, order_info.culture_flag, 
+    order_info.culture_operator_id, order_info.culture_date,order_info.area_flag, order_info.create_date, 
+    order_info.create_id, order_info.update_date, order_info.update_id, order_info.delete_flag, 
+    order_info.culture_remark
+  </sql>
+  
   <sql id="Base_Column_List" >
     order_info.id, order_info.order_number, order_info.customer_id, order_info.phone_staff_id, 
     order_info.receiver_staff_id, order_info.status, order_info.order_type, order_info.pay_type, 
@@ -262,7 +276,7 @@
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
-    <include refid="Base_Column_List" />
+    <include refid="Base_Column_List_Old" />
     from order_info
     where id = #{id,jdbcType=VARCHAR}
   </select>

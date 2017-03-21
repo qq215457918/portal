@@ -72,8 +72,8 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="customerInfo">
-							<thead>
+						<table class="table table-striped" id="customerInfo">
+							<thead><tr>
 								<th>序号</th>
 								<th>客服姓名</th>
 								<th>用户姓名</th>
@@ -82,7 +82,7 @@
 								<th>地址</th>
 								<th>出单总额</th>
 								<th>最近出单时间</th>
-								<th>操作</th>
+								<th>操作</th></tr>
 							</thead>
 							<tbody>
 							</tbody>

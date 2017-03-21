@@ -39,12 +39,13 @@ public class LoginController {
         } else if (exceptionClassName != null) {
             error = "其他错误：" + exceptionClassName;
         }
+
         model.addAttribute("error", error);
         Subject user = SecurityUtils.getSubject();
         UsernamePasswordToken token =
                 new UsernamePasswordToken(loginName,
                         password);
-        if (StringUtils.isEmpty(loginName)) {
+        if (StringUtils.isEmpty(loginName) || StringUtils.isNoneEmpty(error)) {
             token.clear();
             return "login";
         } else {

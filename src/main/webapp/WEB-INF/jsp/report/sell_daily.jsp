@@ -52,8 +52,7 @@
 			<form id="form" action="report/saveSellDaily" method="post">
 				<input type="hidden" name="area" />
 				<input type="hidden" name="viewReportData" id="viewReportData"/>
-				<table class="table table-bordered" id="sellDaily">
-				
+				<table class="table table-striped" id="sellDaily">
 				</table>
 				<div style="float: right;">
 			        <button class="btn btn-primary" id="saveSell" style="display: none;">保&nbsp;存</button>
@@ -64,7 +63,7 @@
 	  </div>
     </div>
   </div>
-  <table class="table table-bordered" id="printTable" style="display: none;">
+  <table class="table table-striped" id="printTable" style="display: none;">
   </table>
 </body>
 </html>

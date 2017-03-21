@@ -58,24 +58,24 @@
 		}
 		function beforeEditName(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" beforeEditName ] " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
 			return confirm("Start node '" + treeNode.name + "' editorial status?");
 		}
 		function beforeRemove(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" beforeRemove ] " + treeNode.name);
 			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 			zTree.selectNode(treeNode);
 			return confirm("Confirm delete node '" + treeNode.name + "' it?");
 		}
 		function onRemove(e, treeId, treeNode) {
-			showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+			showLog("[ "+getTime()+" onRemove ] " + treeNode.name);
 		}
 		function beforeRename(treeId, treeNode, newName, isCancel) {
 			className = (className === "dark" ? "":"dark");
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ] " + treeNode.name + (isCancel ? "</span>":""));
 			if (newName.length == 0) {
 				alert("Node name can not be empty.");
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
@@ -85,7 +85,7 @@
 			return true;
 		}
 		function onRename(e, treeId, treeNode, isCancel) {
-			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
+			showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ] " + treeNode.name + (isCancel ? "</span>":""));
 		}
 		function showRemoveBtn(treeId, treeNode) {
 			return !treeNode.isFirstNode;
@@ -151,7 +151,7 @@
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1, 'beforeDrag / onDrag'<br/>&nbsp;&nbsp;'beforeEditName'<br/>&nbsp;&nbsp;'beforeRemove / onRemove'<br/>&nbsp;&nbsp;'beforeRename / onRename' callback function</h2>
+			<li class="title"><h2>1, 'beforeDrag / onDrag'<br/>'beforeEditName'<br/>'beforeRemove / onRemove'<br/>'beforeRename / onRename' callback function</h2>
 				<ul class="list">
 				<li>This demo shows the use of custom controls, the callback function to enhance the user experience, the operation can be compared with "Basic Edit Nodes" example.</li>
 				<li>This demo achieve the Add nodes button.</li>
@@ -160,8 +160,8 @@
 				<li>This demo use the 'showRemoveBtn' to hide the delete button, when the treeNode's isFirstNode = true</li>
 				<li class="highlight_red">Can use 'beforeEditName' callback trigger custom editing.</li>
 				<li><p><span class="highlight_red">After be familiar with these configurations, I think you can design a more flexible and rational rules!</span><br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="selectAll" checked /> Whether select all text, when edit node's name.<br/>
-					remove / rename log:&nbsp;&nbsp;<span style="color:red">RED</span> is cancel edit (v3.5.13+)<br/>
+					<input type="checkbox" id="selectAll" checked /> Whether select all text, when edit node's name.<br/>
+					remove / rename log:<span style="color:red">RED</span> is cancel edit (v3.5.13+)<br/>
 					<ul id="log" class="log"></ul></p>
 				</li>
 				</ul>

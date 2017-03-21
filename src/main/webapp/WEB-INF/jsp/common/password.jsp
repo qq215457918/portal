@@ -20,8 +20,8 @@
         </div>     
         <div style="color:#F00">${error}</div>
        	<div class="social-login clearfix" style="margin:40px 0">
-       	    <a class="btn btn-default" href="<%=request.getContextPath() %>/">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
-        	<button class="btn btn-primary" type="submit">保&nbsp;&nbsp;&nbsp;&nbsp;存</button>
+       	    <a class="btn btn-default" href="<%=request.getContextPath() %>/">返回</a>
+        	<button class="btn btn-primary" type="submit">保存</button>
       	</div>
       </form>
     

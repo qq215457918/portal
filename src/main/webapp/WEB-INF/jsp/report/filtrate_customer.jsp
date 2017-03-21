@@ -55,7 +55,7 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="filtrateCustomer">
+			<table class="table table-striped" id="filtrateCustomer">
 				<thead>
                    	<th>客户类型</th>
                    	<th>登门量</th>

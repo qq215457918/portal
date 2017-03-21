@@ -48,27 +48,27 @@
 		var log, className = {down:"dark", up:"dark", right:"dark"};
 		function beforeMouseDown(treeId, treeNode) {
 			className.down = (className.down === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeMouseDown ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "down" );
+			showLog("[ "+getTime()+" beforeMouseDown ]" + (treeNode?treeNode.name:"root"), "down" );
 			return (!treeNode || treeNode.down != false);
 		}
 		function onMouseDown(event, treeId, treeNode) {
-			showLog("[ "+getTime()+" onMouseDown ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "down" );
+			showLog("[ "+getTime()+" onMouseDown ]" + (treeNode?treeNode.name:"root"), "down" );
 		}
 		function beforeMouseUp(treeId, treeNode) {
 			className.up = (className.up === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeMouseUp ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "up" );
+			showLog("[ "+getTime()+" beforeMouseUp ]" + (treeNode?treeNode.name:"root"), "up" );
 			return (!treeNode || treeNode.up != false);
 		}
 		function onMouseUp(event, treeId, treeNode) {
-			showLog("[ "+getTime()+" onMouseUp ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "up" );
+			showLog("[ "+getTime()+" onMouseUp ]" + (treeNode?treeNode.name:"root"), "up" );
 		}
 		function beforeRightClick(treeId, treeNode) {
 			className.right = (className.right === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeRightClick ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "right" );
+			showLog("[ "+getTime()+" beforeRightClick ]" + (treeNode?treeNode.name:"root"), "right" );
 			return (!treeNode || treeNode.right != false);
 		}
 		function onRightClick(event, treeId, treeNode) {
-			showLog("[ "+getTime()+" onRightClick ]&nbsp;&nbsp;" + (treeNode?treeNode.name:"root"), "right" );
+			showLog("[ "+getTime()+" onRightClick ]" + (treeNode?treeNode.name:"root"), "right" );
 		}
 		function showLog(str, logType) {
 			log = $("#log" + "_" + logType);

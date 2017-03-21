@@ -47,7 +47,7 @@
               </div>
             </div>
             <div class="widget-content padded clearfix">
-              <table class="table table-bordered table-bordered" id ="depositTable">
+              <table class="table table-striped" id ="depositTable">
                 <thead>
                 <tr>
                   <th>接待人员</th>

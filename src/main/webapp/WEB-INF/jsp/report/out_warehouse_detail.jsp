@@ -81,14 +81,14 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="OutWarehouse">
+			<table class="table table-striped" id="OutWarehouse">
 				<thead>
 					<th>出单号</th>
                    	<th>藏品分类</th>
 					<th>藏品名称</th>
                    	<th>藏品类型</th>
                    	<th>藏品价格</th>
-                   	<th>数&nbsp;&nbsp;量</th>
+                   	<th>数量</th>
                    	<th>出库日期</th>
 				</thead>
 				<tbody>

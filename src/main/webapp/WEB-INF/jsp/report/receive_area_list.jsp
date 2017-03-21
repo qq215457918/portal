@@ -66,9 +66,9 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="receiveCustomer">
+			<table class="table table-striped" id="receiveCustomer">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
+					<th>序号</th>
                    	<th>接待名称</th>
                    	<th>锁定客户</th>
                    	<th>成单客户</th>

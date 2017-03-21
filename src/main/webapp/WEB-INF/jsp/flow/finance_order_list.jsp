@@ -7,69 +7,83 @@
 <title>财务订单列表</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<script src="resources/js/flow/finance_order_list.js" type="text/javascript"></script>
+<script src="resources/js/flow/finance_order_list.js"
+	type="text/javascript"></script>
 <script src="resources/js/jQuery.print.js" type="text/javascript"></script>
-<link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
+<link rel="stylesheet"
+	href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
 	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
 	<jsp:include page="/WEB-INF/jsp/customer/head.jsp" />
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
-			<div class="col-lg-12">
-				<div class="widget-container fluid-height clearfix">
-					<div class="widget-content padded">
-						<div class="form-group">
-							<label class="control-label col-md-2 swidth">订单号</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" id="orderNumber" type="text">
-				            </div>
-				            
-				            <label class="control-label col-md-2 swidth">客户电话</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerPhone" type="text">
-				            </div>
-				            
-				            <label class="control-label col-md-2 swidth">客户姓名</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="customerName" type="text">
-				            </div>
-				            
-				            <label class="control-label col-md-2 swidth">接待人员</label>
-							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="receiverName" type="text">
-				            </div>
+			<div class="widget-container fluid-height clearfix">
+				<div class="widget-content padded">
+					<div class="form-inline">
+						<div class="form-group col-xs-2">
+							<label for="orderNumber">订单号</label> <input class="form-control"
+								id="orderNumber" type="text">
 						</div>
-						<div class="form-group">
-							<div class="col-md-7">
-								<button class="btn btn-primary" id="searchList">搜索</button>
+						<div class="form-group col-xs-1">
+							<label for="customerPhone">客户电话</label> <input
+								class="form-control" id="customerPhone" type="text">
+						</div>
+						<div class="form-group col-xs-1">
+							<label for="customerName">客户姓名</label> <input
+								class="form-control" id="customerName" type="text">
+						</div>
+						<div class="form-group col-xs-1">
+							<label for="receiverName">接待人员</label> <input
+								class="form-control" id="receiverName" type="text">
+						</div>
+						<div class="form-group col-xs-2">
+							<label for="startDate">开始日期</label>
+							<div class="input-group date datepicker">
+								<input class="form-control" type="text" id="startDate"
+									value="${startDate }" readonly="readonly"><span
+									class="input-group-addon"><i class="icon-calendar"></i></span>
 							</div>
 						</div>
-						<!-- DataTables Example -->
-						<table class="table table-bordered" id="financeOrderExam">
-							<thead>
-								<th>序号</th>
-								<th>订单编号</th>
-								<th>接待人员</th>
-								<th>客服人员</th>
-								<th>客户姓名</th>
-								<th>订单商品</th>
-								<th>订单类型</th>
-								<th>支付类型</th>
-								<th>订单金额</th>
-								<th>库房审核状态</th>
-								<th>操作</th>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-						<!-- end DataTables Example -->
+
+						<div class="form-group col-xs-2">
+							<label for="endDate">截止日期</label><div class="input-group date datepicker">
+								<input class="form-control" type="text" id="endDate"
+									value="${startDate }" readonly="readonly"><span
+									class="input-group-addon"><i class="icon-calendar"></i></span>
+							</div>
+						</div>
+						<button class="btn btn-primary" id="searchList">搜索</button>
+
 					</div>
+
+
+					<!-- DataTables Example -->
+					<table class="table table-striped" id="financeOrderExam">
+						<thead>
+							<tr>
+								<th>序号</th>
+								<th>编号</th>
+								<th>接待</th>
+								<th>客服</th>
+								<th>客户</th>
+								<th>商品</th>
+								<th>类型</th>
+								<th>支付</th>
+								<th>金额</th>
+								<th>库房</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+					</table>
+					<!-- end DataTables Example -->
 				</div>
 			</div>
 		</div>
 	</div>
-	
+
 	<div class="modal fade" id="printInfo">
 		<div class="modal-dialog">
 			<div class="modal-content">
@@ -79,56 +93,62 @@
 					<h4 class="modal-title">打印</h4>
 				</div>
 				<div class="modal-body">
-					<h4>
-						选择单一模版
-                    </h4>
-                    <p>
-                    	<button class="btn btn-primary" type="button" id="outgoing">出库单</button>
-<!-- 						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button> -->
+					<h4>选择单一模版</h4>
+					<p>
+						<button class="btn btn-primary" type="button" id="outgoing">出库单</button>
+						<!-- 						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button> -->
 						<button class="btn btn-primary" type="button" id="receiveMoney">定金收据</button>
-                    </p>
+					</p>
 				</div>
 				<div class="modal-footer">
-					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+					<button class="btn btn-default-outline" data-dismiss="modal"
+						type="button">关闭</button>
 				</div>
 			</div>
 		</div>
 	</div>
-	
-	<div id="outgoingInfo" style="display:none;margin-top: 12px;">
-<!-- 		<div class="tc"><h3>出库单</h3></div> -->
-<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
-<!-- 		<div class="table-margin"> -->
-<!-- 			<table border="1"> -->
-<!-- 				<tr> -->
-<!-- 					<th>商品名称</th> -->
-<!-- 					<th>数量</th> -->
-<!-- 					<th>单价</th> -->
-<!-- 					<th class="print-width50">金额</th> -->
-<!-- 					<th>支付方式</th> -->
-<!-- 					<th>手续费</th> -->
-<!-- 					<th class="print-width50">备注</th> -->
-<!-- 				</tr> -->
-<!-- 				<tbody name="detail"></tbody> -->
-<!-- 				<tr> -->
-<!-- 					<td>备注：</td> -->
-<!-- 					<td colspan="7" name="remark"></td> -->
-<!-- 				</tr> -->
-<!-- 			</table> -->
-<!-- 		</div> -->
-<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
-		<div class="tc"><h3></h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
+
+	<div id="outgoingInfo" style="display: none; margin-top: 12px;">
+		<!-- 		<div class="tc"><h3>出库单</h3></div> -->
+		<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
+		<!-- 		<div class="table-margin"> -->
+		<!-- 			<table border="1"> -->
+		<!-- 				<tr> -->
+		<!-- 					<th>商品名称</th> -->
+		<!-- 					<th>数量</th> -->
+		<!-- 					<th>单价</th> -->
+		<!-- 					<th class="print-width50">金额</th> -->
+		<!-- 					<th>支付方式</th> -->
+		<!-- 					<th>手续费</th> -->
+		<!-- 					<th class="print-width50">备注</th> -->
+		<!-- 				</tr> -->
+		<!-- 				<tbody name="detail"></tbody> -->
+		<!-- 				<tr> -->
+		<!-- 					<td>备注：</td> -->
+		<!-- 					<td colspan="7" name="remark"></td> -->
+		<!-- 				</tr> -->
+		<!-- 			</table> -->
+		<!-- 		</div> -->
+		<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
+		<div class="tc">
+			<h3></h3>
+		</div>
+		<div class="text-left">
+			<span name="customerName">客户：</span>
+		</div>
+		<div style="margin-bottom: 48px;">
+			<span name="today">日期：</span>
+		</div>
 		<div class="table-margin">
 			<table border="0">
 				<tr>
-					<th style="width:150px;"></th>
-					<th style="width:40px;"></th>
-					<th style="width:40px;"></th>
-					<th style="width:40px;"></th>
-					<th style="width:70px;"></th>
-					<th style="width:70px;"></th>
-					<th style="width:40px;"></th>
+					<th style="width: 150px;"></th>
+					<th style="width: 40px;"></th>
+					<th style="width: 40px;"></th>
+					<th style="width: 40px;"></th>
+					<th style="width: 70px;"></th>
+					<th style="width: 70px;"></th>
+					<th style="width: 40px;"></th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
@@ -137,39 +157,51 @@
 				</tr>
 			</table>
 		</div>
-		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div>
+		<div class="text-left">
+			<span name="receiverStaffName">接待：</span>
+		</div>
+		<div>
+			<span name="phoneStaffName">客服：</span>
+		</div>
 	</div>
-	
-	<div id="receiveMoneyInfo" style="display:none;">
-<!-- 		<div class="tc"><h3>定金 收 据</h3></div> -->
-<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
-<!-- 		<div class="table-margin"> -->
-<!-- 			<table border="1"> -->
-<!-- 				<tr> -->
-<!-- 					<th>商品名称</th> -->
-<!-- 					<th>数量</th> -->
-<!-- 					<th>单位</th> -->
-<!-- 					<th>单价</th> -->
-<!-- 					<th>订 金</th> -->
-<!-- 				</tr> -->
-<!-- 				<tbody name="detail"></tbody> -->
-<!-- 				<tr> -->
-<!-- 					<td>大写金额：</td> -->
-<!-- 					<td colspan="4" name="priceCn"></td> -->
-<!-- 				</tr> -->
-<!-- 			</table> -->
-<!-- 		</div> -->
-<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
-		<div class="tc"><h3></h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
+
+	<div id="receiveMoneyInfo" style="display: none;">
+		<!-- 		<div class="tc"><h3>定金 收 据</h3></div> -->
+		<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
+		<!-- 		<div class="table-margin"> -->
+		<!-- 			<table border="1"> -->
+		<!-- 				<tr> -->
+		<!-- 					<th>商品名称</th> -->
+		<!-- 					<th>数量</th> -->
+		<!-- 					<th>单位</th> -->
+		<!-- 					<th>单价</th> -->
+		<!-- 					<th>订 金</th> -->
+		<!-- 				</tr> -->
+		<!-- 				<tbody name="detail"></tbody> -->
+		<!-- 				<tr> -->
+		<!-- 					<td>大写金额：</td> -->
+		<!-- 					<td colspan="4" name="priceCn"></td> -->
+		<!-- 				</tr> -->
+		<!-- 			</table> -->
+		<!-- 		</div> -->
+		<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
+		<div class="tc">
+			<h3></h3>
+		</div>
+		<div class="text-left">
+			<span name="customerName">客户：</span>
+		</div>
+		<div style="margin-bottom: 48px;">
+			<span name="today">日期：</span>
+		</div>
 		<div class="table-margin">
 			<table border="0">
 				<tr>
-					<th style="width:135px;"></th>
-					<th style="width:135px;"></th>
-					<th style="width:135px;"></th>
-					<th style="width:135px;"></th>
-					<th style="width:135px;"></th>
+					<th style="width: 135px;"></th>
+					<th style="width: 135px;"></th>
+					<th style="width: 135px;"></th>
+					<th style="width: 135px;"></th>
+					<th style="width: 135px;"></th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
@@ -178,19 +210,31 @@
 				</tr>
 			</table>
 		</div>
-		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div>
+		<div class="text-left">
+			<span name="receiverStaffName">接待：</span>
+		</div>
+		<div>
+			<span name="phoneStaffName">客服：</span>
+		</div>
 	</div>
-	
-	<div id="hasPayInfo" style="display:none;">
-		<div class="tc"><h3>全款已付货未取</h3></div>
-		<div class="text-left"><span name="customerName">客户：</span></div><div style="margin-bottom: 48px;"><span name="today">日期：</span></div>
+
+	<div id="hasPayInfo" style="display: none;">
+		<div class="tc">
+			<h3>全款已付货未取</h3>
+		</div>
+		<div class="text-left">
+			<span name="customerName">客户：</span>
+		</div>
+		<div style="margin-bottom: 48px;">
+			<span name="today">日期：</span>
+		</div>
 		<div class="table-margin">
 			<table border="1">
 				<tr>
-					<th style="width:150px;">商品名称</th>
-					<th style="width:150px;">单位</th>
-					<th style="width:150px;">数量</th>
-					<th style="width:150px;">金额</th>
+					<th style="width: 150px;">商品名称</th>
+					<th style="width: 150px;">单位</th>
+					<th style="width: 150px;">数量</th>
+					<th style="width: 150px;">金额</th>
 				</tr>
 				<tbody name="detail"></tbody>
 				<tr>
@@ -199,74 +243,99 @@
 				</tr>
 			</table>
 		</div>
-		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div>
+		<div class="text-left">
+			<span name="receiverStaffName">接待：</span>
+		</div>
+		<div>
+			<span name="phoneStaffName">客服：</span>
+		</div>
 	</div>
-	
+
 	<div class="modal fade" id="orderSettlement">
-		<div class="modal-dialog" style="width:1300px;">
+		<div class="modal-dialog" style="width: 1300px;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button aria-hidden="true" class="close" data-dismiss="modal"
 						type="button">&times;</button>
 					<h4 class="modal-title">收款</h4>
 				</div>
-              	<form id="updateCivi" action="workflow/updateOrderAndInsert" method="post">
-              		<input type="hidden" name="orderNumber"/>
-              		<input type="hidden" name="orderId"/>
-              		<input type="hidden" name="payType"/>
-              		<input type="hidden" name="operate"/>
-              		<div class="row">
-	              		<div class="form-group">
-				            <div class="col-md-7">
-				            	<a name="addSettlement">添加收款</a>
-				            </div>
-				    	</div>
-			    	</div>
-              		<div class="row base-column">
-		              	<div class="form-group form-data">
-		              		<label class="control-label col-md-1" style="width:6%;">商品</label>
-				            <div class="col-md-1">
-				            	<select name="orderDetailId" id="orderDetailId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
-				            </div>
-				            <label class="control-label col-md-1" name="account" style="width:6%;">收款账户</label>
-				            <div class="col-md-1">
-				            	<select name="paymentAccountId" id="paymentAccountId" class="form-control"><option value="Category 1">Option 1</option><option value="Category 2">Option 2</option><option value="Category 3">Option 3</option><option value="Category 4">Option 4</option></select>
-				            </div>
-				            <label class="control-label col-md-1" name="payType" style="width:6%;">收款方式</label>
-				            <div class="col-md-1">
-				            	<select name="customerPayType" id="customerPayType" class="form-control">
-				            		<option value="">--请选择--</option>
-				            		<option value="1">信用卡</option>
-				            		<option value="2">储蓄卡（封顶）</option>
-				            		<option value="3">储蓄卡（不封顶）</option>
-				            		<option value="4">支付宝</option>
-				            		<option value="5">微信</option>
-				            		<option value="6">现金</option>
-				            	</select>
-				            </div>
-				            <label class="control-label col-md-1" name="amount" style="width:6%;">收款金额</label>
-				            <div class="col-md-1">
-				            	<input class="form-control" name="payAmount" id="payAmount" type="text">
-				            </div>
-				            <label class="control-label col-md-1" name="amountActual" style="width:6%;">实际收款金额</label>
-				            <div class="col-md-1">
-				            	<input class="form-control" name="payAmountActual" id="payAmountActual" type="text">
-				            </div>
-				            <label class="control-label col-md-1" style="width:6%;">手续费</label>
-				            <div class="col-md-1">
-				            	<input class="form-control" name="poundage" id="poundage" type="text">
-				            </div>
-				    	</div>
-				    	<div class="form-group">
-				            <div class="col-md-1">
-				            	<a name="delete" style="display:none;">删除</a>
-				            </div>
-				    	</div>
-			    	</div>
-              	</form>
+				<form id="updateCivi" action="workflow/updateOrderAndInsert"
+					method="post">
+					<input type="hidden" name="orderNumber" /> <input type="hidden"
+						name="orderId" /> <input type="hidden" name="payType" /> <input
+						type="hidden" name="operate" />
+					<div class="row">
+						<div class="form-group">
+							<div class="col-md-7">
+								<a name="addSettlement">添加收款</a>
+							</div>
+						</div>
+					</div>
+					<div class="row base-column">
+						<div class="form-group form-data">
+							<label class="control-label col-md-1" style="width: 6%;">商品</label>
+							<div class="col-md-1">
+								<select name="orderDetailId" id="orderDetailId"
+									class="form-control"><option value="Category 1">Option
+										1</option>
+									<option value="Category 2">Option 2</option>
+									<option value="Category 3">Option 3</option>
+									<option value="Category 4">Option 4</option></select>
+							</div>
+							<label class="control-label col-md-1" name="account"
+								style="width: 6%;">收款账户</label>
+							<div class="col-md-1">
+								<select name="paymentAccountId" id="paymentAccountId"
+									class="form-control"><option value="Category 1">Option
+										1</option>
+									<option value="Category 2">Option 2</option>
+									<option value="Category 3">Option 3</option>
+									<option value="Category 4">Option 4</option></select>
+							</div>
+							<label class="control-label col-md-1" name="payType"
+								style="width: 6%;">收款方式</label>
+							<div class="col-md-1">
+								<select name="customerPayType" id="customerPayType"
+									class="form-control">
+									<option value="">--请选择--</option>
+									<option value="1">信用卡</option>
+									<option value="2">储蓄卡（封顶）</option>
+									<option value="3">储蓄卡（不封顶）</option>
+									<option value="4">支付宝</option>
+									<option value="5">微信</option>
+									<option value="6">现金</option>
+								</select>
+							</div>
+							<label class="control-label col-md-1" name="amount"
+								style="width: 6%;">收款金额</label>
+							<div class="col-md-1">
+								<input class="form-control" name="payAmount" id="payAmount"
+									type="text">
+							</div>
+							<label class="control-label col-md-1" name="amountActual"
+								style="width: 6%;">实际收款金额</label>
+							<div class="col-md-1">
+								<input class="form-control" name="payAmountActual"
+									id="payAmountActual" type="text">
+							</div>
+							<label class="control-label col-md-1" style="width: 6%;">手续费</label>
+							<div class="col-md-1">
+								<input class="form-control" name="poundage" id="poundage"
+									type="text">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-1">
+								<a name="delete" style="display: none;">删除</a>
+							</div>
+						</div>
+					</div>
+				</form>
 				<div class="modal-footer">
-					<button class="btn btn-primary" type="button" id="commitForm" data-flag="1">确认</button>
-					<button class="btn btn-default-outline" data-dismiss="modal" type="button">关闭</button>
+					<button class="btn btn-primary" type="button" id="commitForm"
+						data-flag="1">确认</button>
+					<button class="btn btn-default-outline" data-dismiss="modal"
+						type="button">关闭</button>
 				</div>
 			</div>
 		</div>

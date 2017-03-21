@@ -65,10 +65,10 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="statement">
+			<table class="table table-striped" id="statement">
 				<thead>
 					<tr>
-						<th rowspan="2">接&nbsp;&nbsp;待</th>
+						<th rowspan="2">接待</th>
 	                   	<th colspan="3">锁定个数</th>
 	                   	<th colspan="3">成单个数</th>
 	                   	<th colspan="3">重复个数</th>

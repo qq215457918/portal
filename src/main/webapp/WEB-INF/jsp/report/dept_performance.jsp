@@ -65,14 +65,14 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="deptPerformance">
+			<table class="table table-striped" id="deptPerformance">
 				<thead>
-                   	<th>机&nbsp;&nbsp;构</th>
-                   	<th>部&nbsp;&nbsp;门</th>
-                   	<th>小&nbsp;&nbsp;组</th>
-                   	<th>人&nbsp;&nbsp;员</th>
-                   	<th>业&nbsp;&nbsp;绩</th>
-                   	<th>件&nbsp;&nbsp;数</th>
+                   	<th>机构</th>
+                   	<th>部门</th>
+                   	<th>小组</th>
+                   	<th>人员</th>
+                   	<th>业绩</th>
+                   	<th>件数</th>
                    	<th>新客户数量</th>
 				</thead>
 				<tbody>

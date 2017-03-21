@@ -26,7 +26,7 @@
             <div class="form-group condition-group">
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">姓&nbsp;&nbsp;名</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">姓名</label>
                   </div>
                   <div class="condition-control fl">
                     <div class="col-md-7" style="width: 100%;">
@@ -36,7 +36,7 @@
               </div>
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">部&nbsp;&nbsp;门</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">部门</label>
                   </div>
                   <div class="condition-control fl">
                       <div class="col-md-7" style="width: 100%;">
@@ -51,7 +51,7 @@
               </div>
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">小&nbsp;&nbsp;组</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">小组</label>
                   </div>
                   <div class="condition-control fl">
                       <div class="col-md-7" style="width: 100%;">
@@ -63,7 +63,7 @@
               </div>
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">性&nbsp;&nbsp;别</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">性别</label>
                   </div>
                   <div class="condition-control fl">
                       <div class="col-md-7" style="width: 100%;">
@@ -107,18 +107,18 @@
             </div>
             <div style="clear: both;"></div>
             
-            <table class="table table-bordered" id="employee">
+            <table class="table table-striped" id="employee">
                 <thead>
-                    <th>序&nbsp;&nbsp;号</th>
+                    <th>序号</th>
                     <th>员工姓名</th>
-                    <th>性&nbsp;&nbsp;别</th>
+                    <th>性别</th>
                     <th>登录名</th>
                     <th>部门名称</th>
                     <th>小组名称</th>
                     <th>职位类型</th>
                     <th>接待状态</th>
                     <th>创建日期</th>
-                    <th>操&nbsp;&nbsp;作</th>
+                    <th>操作</th>
                 </thead>
                 <tbody>
                 </tbody>

@@ -264,6 +264,9 @@
       </if>
       <if test="condition.payType != null" >
          and i.pay_type = #{condition.payType,jdbcType=VARCHAR}
+      </if> 
+      <if test="condition.payTypeOrderManage != null" >
+         and i.pay_type in('0','3')
       </if>   
      <if test="condition.customerId != null" >
          and i.customer_id = #{condition.customerId,jdbcType=VARCHAR}

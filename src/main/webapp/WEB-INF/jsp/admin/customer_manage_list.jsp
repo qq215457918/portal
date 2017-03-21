@@ -26,7 +26,7 @@
             <div class="form-group condition-group">
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">姓&nbsp;&nbsp;名</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">姓名</label>
                   </div>
                   <div class="condition-control fl">
                     <div class="col-md-7" style="width: 100%;">
@@ -46,7 +46,7 @@
               </div>
               <div class="condition fl">
                   <div class="condition-label fl">
-                      <label class="control-label col-md-2" style=" width: 100%;">性&nbsp;&nbsp;别</label>
+                      <label class="control-label col-md-2" style=" width: 100%;">性别</label>
                   </div>
                   <div class="condition-control fl">
                       <div class="col-md-7" style="width: 100%;">
@@ -82,15 +82,15 @@
             </div>
             <div style="clear: both;"></div>
             
-            <table class="table table-bordered" id="customer">
-                <thead>
-                    <th>序&nbsp;&nbsp;号</th>
+            <table class="table table-striped" id="customer">
+                <thead><tr>
+                    <th>序号</th>
                     <th>客户姓名</th>
-                    <th>地&nbsp;&nbsp;区</th>
-                    <th>性&nbsp;&nbsp;别</th>
+                    <th>地区</th>
+                    <th>性别</th>
                     <th>客户分类</th>
                     <th>会员卡号</th>
-                    <th>操&nbsp;&nbsp;作</th>
+                    <th>操作</th></tr>
                 </thead>
                 <tbody>
                 </tbody>

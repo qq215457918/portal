@@ -102,7 +102,7 @@
                                  </div>
                                  <div class="form-group">
                                      <label>关联角色</label>
-                                     <a class="add" href="javascript:;" style="margin-left: 10px;"><span>添&nbsp;&nbsp;加</span></a>
+                                     <a class="add" href="javascript:;" style="margin-left: 10px;"><span>添加</span></a>
                                      <div class="roles">
 	                                     <c:if test="${empty employee.roleIds}">
 	                                     	 <div>
@@ -124,7 +124,7 @@
 				                                         </c:forEach>
 				                                     </select>
 				                                     <c:if test="${index.index > 0 }">
-				                                     	<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删&nbsp;&nbsp;除</span></a>
+				                                     	<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删除</span></a>
 				                                     </c:if>
 			                                     </div>
 	                                     	</c:forEach>

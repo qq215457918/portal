@@ -43,7 +43,7 @@ $(function() {
     $(".add").click(function(){
     	var modelHtmls = $(".model").html();
     	var htmls = '<div><select class="form-control" name="roleIds" style="width: 90%; float: left;">' + modelHtmls + '</select></div>' +
-    				'<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删&nbsp;&nbsp;除</span></a>';
+    				'<a onclick="deleteRoles(this);" href="javascript:;" style="float: left; margin-top: 6px; margin-left: 10px;"><span>删除</span></a>';
     	$(".roles").append(htmls);
     });
     

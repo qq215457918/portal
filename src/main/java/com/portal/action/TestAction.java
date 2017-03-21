@@ -22,7 +22,6 @@ public class TestAction {
         String basePath = WebUtils.getBasePath(request, response);
         //供页面和后台引用项目路径使用
         request.getSession().setAttribute("basePath", basePath); 
-        System.out.println("fx test");
 	    return "index";
 		//testUserService.insertUserInfo();
 	}

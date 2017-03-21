@@ -120,7 +120,7 @@
 			        </div>
 					<div class="widget-content padded">
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="examHistoryInfo">
+						<table class="table table-striped" id="examHistoryInfo">
 							<thead>
 								<th>序号</th>
 								<th>审核人</th>
@@ -147,7 +147,7 @@
 			        </div>
 					<div class="widget-content padded">
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="clerkOrderInfo">
+						<table class="table table-striped" id="clerkOrderInfo">
 							<thead>
 								<th>序号</th>
 								<th>出单编号</th>
@@ -178,7 +178,7 @@
 			        </div>
 					<div class="widget-content padded">
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="clerkReceiveInfo">
+						<table class="table table-striped" id="clerkReceiveInfo">
 							<thead>
 								<th>序号</th>
 								<th>客户姓名</th>

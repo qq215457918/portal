@@ -115,7 +115,7 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="visitCustomer">
+			<table class="table table-striped" id="visitCustomer">
 				<thead>
 					<th>日&nbsp;期</th>
 					<th>客&nbsp;户</th>

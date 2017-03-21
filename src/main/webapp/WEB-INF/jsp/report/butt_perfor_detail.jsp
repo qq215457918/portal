@@ -75,10 +75,10 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="buttPerforDetail">
+			<table class="table table-striped" id="buttPerforDetail">
 				<thead>
-                   	<th>客&nbsp;&nbsp;服</th>
-                   	<th>接&nbsp;&nbsp;待</th>
+                   	<th>客服</th>
+                   	<th>接待</th>
                    	<th>所属机构</th>
                    	<th>成单接待数</th>
                    	<th>成单出单数</th>

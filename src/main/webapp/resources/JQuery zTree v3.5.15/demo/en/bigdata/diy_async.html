@@ -74,7 +74,7 @@
 				endTime = new Date();
 				var usedTime = (endTime.getTime() - startTime.getTime())/1000;
 				className = (className === "dark" ? "":"dark");
-				showLog("[ "+getTime()+" ]&nbsp;&nbsp;treeNode:" + treeNode.name );
+				showLog("[ "+getTime()+" ]treeNode:" + treeNode.name );
 				showLog("Child node has finished loading, a total of "+ (treeNode.times-1) +" times the asynchronous load, elapsed time: "+ usedTime + " seconds ");
 			}
 		}
@@ -122,7 +122,7 @@
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul>
-			<li class="highlight_red">&nbsp;&nbsp;&nbsp;&nbsp;Demo for testing load data in batches, each node needs to re-start to load.</li>
+			<li class="highlight_red">Demo for testing load data in batches, each node needs to re-start to load.</li>
 		</ul>
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>

@@ -30,7 +30,7 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="achieveExam">
+						<table class="table table-striped" id="achieveExam">
 							<thead>
 								<th>序号</th>
 								<th>时间</th>

@@ -84,7 +84,7 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="visitOutOrder">
+			<table class="table table-striped" id="visitOutOrder">
 				<thead>
 					<th>客户ID</th>
                    	<th>日期</th>

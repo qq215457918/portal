@@ -56,7 +56,7 @@
 						<div class="heading">
 							<i class="icon-table"></i>流程部署信息列表
 						</div>
-						<table class="table table-bordered" id="flowDepInfo">
+						<table class="table table-striped" id="flowDepInfo">
 							<thead>
 								<th>序号</th>
 								<th>ID</th>
@@ -72,7 +72,7 @@
 						<div class="heading">
 							<i class="icon-table"></i>流程定义信息列表
 						</div>
-						<table class="table table-bordered" id="flowPdInfo">
+						<table class="table table-striped" id="flowPdInfo">
 							<thead>
 								<th>序号</th>
 								<th>ID</th>
