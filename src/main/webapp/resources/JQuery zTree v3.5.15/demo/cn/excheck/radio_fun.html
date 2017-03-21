@@ -53,11 +53,11 @@
 		var code, log, className = "dark";
 		function beforeCheck(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" beforeCheck ]" + treeNode.name );
 			return (treeNode.doCheck !== false);
 		}
 		function onCheck(e, treeId, treeNode) {
-			showLog("[ "+getTime()+" onCheck ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" onCheck ]" + treeNode.name );
 		}		
 		function showLog(str) {
 			if (!log) log = $("#log");
@@ -125,9 +125,9 @@
 				<ul class="list">
 				<li>利用 beforeCheck / onCheck 事件回调函数 可以控制是否允许 更改 节点勾选状态，这里简单演示如何监控此事件</li>
 				<li><p>试试看：<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> checkNode 方法是否触发 callback<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkTrue" href="#" title="不想勾选我就不勾选你..." onclick="return false;">勾选</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="checkFalse" href="#" title="不想取消勾选我就不取消你..." onclick="return false;">取消勾选</a> ]</p>
+					<input type="checkbox" id="callbackTrigger" checked /> checkNode 方法是否触发 callback<br/>
+					[ <a id="checkTrue" href="#" title="不想勾选我就不勾选你..." onclick="return false;">勾选</a> ]
+					[ <a id="checkFalse" href="#" title="不想取消勾选我就不取消你..." onclick="return false;">取消勾选</a> ]</p>
 				<li><p><span class="highlight_red">使用 zTreeObj.checkNode 方法，详细请参见 API 文档中的相关内容</span><br/>
 					beforeCheck / onCheck log:<br/>
 					<ul id="log" class="log" style="height:130px;"></ul></p>

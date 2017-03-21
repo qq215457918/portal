@@ -65,19 +65,19 @@
 		}
 		function beforeCollapse(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeCollapse ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" beforeCollapse ]" + treeNode.name );
 			return (treeNode.collapse !== false);
 		}
 		function onCollapse(event, treeId, treeNode) {
-			showLog("[ "+getTime()+" onCollapse ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+			showLog("[ "+getTime()+" onCollapse ]" + treeNode.name);
 		}		
 		function beforeExpand(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" beforeExpand ]" + treeNode.name );
 			return (treeNode.expand !== false);
 		}
 		function onExpand(event, treeId, treeNode) {
-			showLog("[ "+getTime()+" onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+			showLog("[ "+getTime()+" onExpand ]" + treeNode.name);
 		}
 		function showLog(str) {
 			if (!log) log = $("#log");
@@ -149,19 +149,19 @@
 	</div>
 	<div class="right">
 		<ul class="info">
-			<li class="title"><h2>1, 'beforeCollapse / onCollapse'<br/>&nbsp;&nbsp;'beforeExpand / onExpand' callback function</h2>
+			<li class="title"><h2>1, 'beforeCollapse / onCollapse'<br/>'beforeExpand / onExpand' callback function</h2>
 				<ul class="list">
 				<li>Use 'beforeCollapse / onCollapse' and 'beforeExpand / onExpand' callback function can control whether to allow expand or collapse the parent node
 					. This simple demo shows how to monitor the collapse and expand event.</li>
 				<li><p>Try: <br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" id="callbackTrigger" checked /> Whether trigger the callback when execution expandNode() method.<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;Single Node --[ <a id="expandBtn" href="#" title="expand..." onclick="return false;">expand</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="collapseBtn" href="#" title="collapse..." onclick="return false;">collapse</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="toggleBtn" href="#" title="what do you want?..." onclick="return false;">toggle</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;Single Node (including child) --[ <a id="expandSonBtn" href="#" title="expand (including child)..." onclick="return false;">expand</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="collapseSonBtn" href="#" title="collapse (including child)..." onclick="return false;">collapse</a> ]<br/>
-					&nbsp;&nbsp;&nbsp;&nbsp;All Nodes --[ <a id="expandAllBtn" href="#" title="expand All!!" onclick="return false;">expand All</a> ]
-					&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="collapseAllBtn" href="#" title="collapse All!!" onclick="return false;">collapse All</a> ]</p>
+					<input type="checkbox" id="callbackTrigger" checked /> Whether trigger the callback when execution expandNode() method.<br/>
+					Single Node --[ <a id="expandBtn" href="#" title="expand..." onclick="return false;">expand</a> ]
+					[ <a id="collapseBtn" href="#" title="collapse..." onclick="return false;">collapse</a> ]
+					[ <a id="toggleBtn" href="#" title="what do you want?..." onclick="return false;">toggle</a> ]<br/>
+					Single Node (including child) --[ <a id="expandSonBtn" href="#" title="expand (including child)..." onclick="return false;">expand</a> ]
+					[ <a id="collapseSonBtn" href="#" title="collapse (including child)..." onclick="return false;">collapse</a> ]<br/>
+					All Nodes --[ <a id="expandAllBtn" href="#" title="expand All!!" onclick="return false;">expand All</a> ]
+					[ <a id="collapseAllBtn" href="#" title="collapse All!!" onclick="return false;">collapse All</a> ]</p>
 				<li><p><span class="highlight_red">How to use zTreeObj.updateNode method,  please see the API documentation.</span><br/>
 					collapse / expand log:<br/>
 					<ul id="log" class="log"></ul></p>

@@ -7,11 +7,13 @@
 <title>说明会客户信息查询</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<script src="resources/js/customer/explanation_info_index.js" type="text/javascript"></script>
-<link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
+<script src="resources/js/customer/explanation_info_index.js"
+	type="text/javascript"></script>
+<link rel="stylesheet"
+	href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
 	<jsp:include page="head.jsp" />
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
@@ -60,15 +62,17 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="customerInfo">
+						<table class="table table-striped" id="customerInfo">
 							<thead>
-								<th>序号</th>
-								<th>电话</th>
-								<th>电话2</th>
-								<th>访问时间</th>
-								<th>客户类型</th>
-								<th class="hidden-xs">上次访问时间</th>
-								<th class="hidden-xs">上次导出时间</th>
+								<tr>
+									<th>序号</th>
+									<th>电话</th>
+									<th>电话2</th>
+									<th>访问时间</th>
+									<th>客户类型</th>
+									<th class="hidden-xs">上次访问时间</th>
+									<th class="hidden-xs">上次导出时间</th>
+								</tr>
 							</thead>
 							<tbody>
 							</tbody>

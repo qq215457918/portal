@@ -37,14 +37,14 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="outOrderDetail">
+			<table class="table table-striped" id="outOrderDetail">
 				<thead>
 					<th>生成出单日期</th>
                    	<th>藏品名称</th>
                    	<th>藏品种类</th>
-                   	<th>单&nbsp;&nbsp;价</th>
-                   	<th>数&nbsp;&nbsp;量</th>
-                   	<th>合&nbsp;&nbsp;计</th>
+                   	<th>单价</th>
+                   	<th>数量</th>
+                   	<th>合计</th>
 				</thead>
 				<tbody>
 				</tbody>

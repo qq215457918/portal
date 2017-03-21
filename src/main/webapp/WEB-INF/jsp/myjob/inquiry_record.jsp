@@ -15,7 +15,7 @@
         <div class="col-md-12">
           <div class="widget-container fluid-height clearfix">
 	      <div class="heading" style="color:#666666; font-weight: bold;">
-	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;">&nbsp;&nbsp;接待业务查询表</i>
+	        <i class="icon-reorder" style="float: left; margin-top: 0.8%; cursor: default;">接待业务查询表</i>
 	      </div>
 	      <div class="widget-content padded">
           <div class="form-group" style="margin-left: 9.2%; height: 35px;">
@@ -60,9 +60,9 @@
 			</div>
 			<div style="clear: both;"></div>
 
-			<table class="table table-bordered table-bordered" id="inquiryTable">
+			<table class="table table-striped" id="inquiryTable">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
+					<th>序号</th>
                    	<th>客户名称</th>
                    	<th>接待员姓名</th>
                    	<th>客服姓名</th>

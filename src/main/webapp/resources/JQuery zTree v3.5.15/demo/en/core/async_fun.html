@@ -48,14 +48,14 @@
 		var log, className = "dark";
 		function beforeAsync(treeId, treeNode) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeAsync ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+			showLog("[ "+getTime()+" beforeAsync ]" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
 			return true;
 		}
 		function onAsyncError(event, treeId, treeNode, XMLHttpRequest, textStatus, errorThrown) {
-			showLog("[ "+getTime()+" onAsyncError ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+			showLog("[ "+getTime()+" onAsyncError ]" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
 		}
 		function onAsyncSuccess(event, treeId, treeNode, msg) {
-			showLog("[ "+getTime()+" onAsyncSuccess ]&nbsp;&nbsp;&nbsp;&nbsp;" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
+			showLog("[ "+getTime()+" onAsyncSuccess ]" + ((!!treeNode && !!treeNode.name) ? treeNode.name : "root") );
 		}
 
 		function showLog(str) {
@@ -113,10 +113,10 @@
 				<ul class="list">
 				<li class="highlight_red">How to use zTreeObj.reAsyncChildNodes method,  please see the API documentation.</li>
 				<li><p>This Demo can only select one parent node<br/>
-					Try: [ <a id="refreshNode" href="#" onclick="return false;">reload</a> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addNode" href="#" onclick="return false;">append</a> ]</p>
+					Try: [ <a id="refreshNode" href="#" onclick="return false;">reload</a> ][ <a id="addNode" href="#" onclick="return false;">append</a> ]</p>
 				</li>
 				<li><p><span class="highlight_red">'isSilent' parameter is only for the collapsed state of the parent node.</span><br/>
-					Try: [ <a id="refreshNodeSilent" href="#" onclick="return false;">Quietly reloaded</a> ]&nbsp;&nbsp;&nbsp;&nbsp;[ <a id="addNodeSilent" href="#" onclick="return false;">Quietly append</a> ]<br/>
+					Try: [ <a id="refreshNodeSilent" href="#" onclick="return false;">Quietly reloaded</a> ][ <a id="addNodeSilent" href="#" onclick="return false;">Quietly append</a> ]<br/>
 					async log:<br/>
 					<ul id="log" class="log"></ul></p>
 				</li>

@@ -44,11 +44,11 @@
 		var log, className = "dark";
 		function beforeClick(treeId, treeNode, clickFlag) {
 			className = (className === "dark" ? "":"dark");
-			showLog("[ "+getTime()+" beforeClick ]&nbsp;&nbsp;" + treeNode.name );
+			showLog("[ "+getTime()+" beforeClick ]" + treeNode.name );
 			return (treeNode.click != false);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
-			showLog("[ "+getTime()+" onClick ]&nbsp;&nbsp;clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "single selected": (clickFlag===0 ? "<b>cancel selected</b>" : "<b>multi selected</b>")) + ")");
+			showLog("[ "+getTime()+" onClick ]clickFlag = " + clickFlag + " (" + (clickFlag===1 ? "single selected": (clickFlag===0 ? "<b>cancel selected</b>" : "<b>multi selected</b>")) + ")");
 		}		
 		function showLog(str) {
 			if (!log) log = $("#log");

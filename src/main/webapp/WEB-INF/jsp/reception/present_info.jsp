@@ -66,7 +66,7 @@
 		          </div>
 		          <div class="widget-content padded clearfix">
 		          	<a class="btn btn-primary btn"  data-toggle="modal" href="#presentModal">特殊审批</a>
-		            <table class="table table-bordered">
+		            <table class="table table-striped">
 		              <thead>
 		              <tr>
 		                <th>

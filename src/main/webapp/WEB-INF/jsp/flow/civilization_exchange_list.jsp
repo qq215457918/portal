@@ -45,7 +45,7 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="civilizationOrderList">
+						<table class="table table-striped" id="civilizationOrderList">
 							<thead>
 								<th>序号</th>
 								<th>订单编号</th>
@@ -78,7 +78,7 @@
 					<h4 class="modal-title">商品详情</h4>
 				</div>
 				<div class="widget-content padded clearfix">
-	                <table class="table table-bordered">
+	                <table class="table table-striped">
 	                  <thead>
 	                    <tr>
 	                    	<th>商品名称</th>

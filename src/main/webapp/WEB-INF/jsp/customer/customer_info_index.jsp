@@ -7,11 +7,13 @@
 <title>客户信息查询</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<script src="resources/js/customer/blank_info_index.js" type="text/javascript"></script>
-<link rel="stylesheet" href="resources/css/customer/customer_info_index.css" />
+<script src="resources/js/customer/blank_info_index.js"
+	type="text/javascript"></script>
+<link rel="stylesheet"
+	href="resources/css/customer/customer_info_index.css" />
 </head>
 <body>
-<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
+	<%-- 	<jsp:include page="/WEB-INF/jsp/common/head.jsp" /> --%>
 	<jsp:include page="head.jsp" />
 	<div class="modal-shiftfix">
 		<div class="container-fluid main-content">
@@ -30,7 +32,7 @@
 								<input class="form-control" placeholder="号码段" type="text"
 									id="phoneStage">
 							</div>
-							
+
 							<label class="control-label col-md-2 swidth">导出数量</label>
 							<div class="col-md-2">
 								<input class="form-control" placeholder="导出数量" type="text"
@@ -45,14 +47,18 @@
 									</input>
 								</div>
 							</div>
-							
+
 							<label class="control-label col-md-2 swidth">上次电联时间</label>
 							<div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd1" placeholder="开始时间" type="text">
-				            </div>
-				            <div class="col-sm-2">
-				            	<input class="form-control" data-date-autoclose="true" data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间" type="text">
-				            </div>
+								<input class="form-control" data-date-autoclose="true"
+									data-date-format="yyyy-mm-dd" id="dpd1" placeholder="开始时间"
+									type="text">
+							</div>
+							<div class="col-sm-2">
+								<input class="form-control" data-date-autoclose="true"
+									data-date-format="yyyy-mm-dd" id="dpd2" placeholder="结束时间"
+									type="text">
+							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-md-7">
@@ -61,15 +67,17 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="customerInfo">
+						<table class="table table-striped" id="customerInfo">
 							<thead>
-								<th>序号</th>
-								<th>电话</th>
-								<th>电话2</th>
-								<th>访问时间</th>
-								<th>客户类型</th>
-								<th>上次电联时间</th>
-								<th>上次导出时间</th>
+								<tr>
+									<th>序号</th>
+									<th>电话</th>
+									<th>电话2</th>
+									<th>访问时间</th>
+									<th>客户类型</th>
+									<th>上次电联时间</th>
+									<th>上次导出时间</th>
+								</tr>
 							</thead>
 							<tbody>
 							</tbody>
@@ -79,7 +87,6 @@
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 </html>

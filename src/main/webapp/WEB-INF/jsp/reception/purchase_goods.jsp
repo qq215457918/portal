@@ -50,7 +50,7 @@
           <div class="widget-container fluid-height clearfix">
             <div class="widget-content padded clearfix">
   			<!-- DataTables Example -->
-			<table class="table table-bordered" id="goodsInfo">
+			<table class="table table-striped" id="goodsInfo">
 				<thead>
 				  <th>序号</th>
 				  <th>商品编码</th>
@@ -82,7 +82,7 @@
                     </h4>
                   </div>
                   <div class="modal-body">
-	             <table class="table table-bordered">
+	             <table class="table table-striped">
 	              <thead>
 	              <tr>
 	                <th>

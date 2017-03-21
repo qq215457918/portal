@@ -45,7 +45,7 @@
               </div>
             </div>
             <div class="widget-content padded clearfix">
-              <table  class="table table-bordered" id ="orderTable">
+              <table  class="table table-striped" id ="orderTable">
                 <thead>
                 <tr>
                   <th>回购订单</th>

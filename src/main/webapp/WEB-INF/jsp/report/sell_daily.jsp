@@ -51,7 +51,7 @@
 			<div style="clear: both;"></div>
 			<form id="form" action="report/saveSellDaily" method="post">
 				<input type="hidden" name="area" />
-				<table class="table table-bordered" id="sellDaily">
+				<table class="table table-striped" id="sellDaily">
 				
 				</table>
 				<div style="float: right;">
@@ -63,7 +63,7 @@
 	  </div>
     </div>
   </div>
-  <table class="table table-bordered" id="printTable" style="display: none;">
+  <table class="table table-striped" id="printTable" style="display: none;">
   </table>
 </body>
 </html>

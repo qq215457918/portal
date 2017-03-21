@@ -69,7 +69,7 @@
 						<i class="icon-table"></i>历史信息
 					</div>
 					<div class="widget-content padded clearfix">
-						<table class="table table-bordered">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>重复登门次数</th>
@@ -108,7 +108,7 @@
 							class="icon-table"></i>购买历史</a>
 					</div>
 					<div class="widget-content padded clearfix">
-						<table class="table table-bordered">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -124,8 +124,8 @@
 										<td>${var.index+1}</td>
 										<td><c:forEach var="detail"
 												items="${status.orderDetailInfoList}">
-	                    ${detail.goodName } &nbsp;&nbsp;—
-	                    ${detail.amount } <b>件</b>  &nbsp;&nbsp;—
+	                    ${detail.goodName } —
+	                    ${detail.amount } <b>件</b>  —
 	                    ${detail.price } <i class="icon-yen"></i>
 
 												<br />
@@ -150,7 +150,7 @@
 							class="icon-table"></i>来访记录</a>
 					</div>
 					<div class="widget-content padded clearfix">
-						<table class="table table-bordered">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -188,7 +188,7 @@
 							class="icon-table"></i>回购商品</a>
 					</div>
 					<div class="widget-content padded clearfix">
-						<table class="table table-bordered">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -203,8 +203,8 @@
 										<td>${var.index+1}</td>
 										<td><c:forEach var="detail"
 												items="${status.orderDetailInfoList}">
-												<b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
-	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+												<b>名称 : </b>${detail.goodName } 
+	                    <b>数量 : </b>${detail.amount } 件  
 	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
 
 												<br />
@@ -230,7 +230,7 @@
 						</a>
 					</div>
 					<div class="widget-content padded clearfix">
-						<table class="table table-bordered">
+						<table class="table table-striped">
 							<thead>
 								<tr>
 									<th>序号</th>
@@ -245,8 +245,8 @@
 										<td>${var.index+1}</td>
 										<td><c:forEach var="detail"
 												items="${status.orderDetailInfoList}">
-												<b>名称 : </b>${detail.goodName } &nbsp;&nbsp;
-	                    <b>数量 : </b>${detail.amount } 件  &nbsp;&nbsp;
+												<b>名称 : </b>${detail.goodName } 
+	                    <b>数量 : </b>${detail.amount } 件  
 	                    <b>价格 : </b> ${detail.price } <i class="icon-yen"></i>
 
 												<br />

@@ -6,7 +6,7 @@
 		<div class="pull-right">
 			<ul class="nav navbar-nav pull-right">
 				<li class="dropdown user hidden-xs"><a data-toggle="dropdown"
-					class="dropdown-toggle" href="#"> 你好：<shiro:principal /> <b
+					class="dropdown-toggle" href="#">你好：<shiro:principal /> <b
 						class="caret"></b></a>
 					<ul class="dropdown-menu">
 						<li><a href="<%=request.getContextPath()%>/"> <i

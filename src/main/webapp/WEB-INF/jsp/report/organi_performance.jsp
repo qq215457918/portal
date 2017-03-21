@@ -49,11 +49,11 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="organiPerformance">
+			<table class="table table-striped" id="organiPerformance">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
-                   	<th>机&nbsp;&nbsp;构</th>
-                   	<th>业&nbsp;&nbsp;绩</th>
+					<th>序号</th>
+                   	<th>机构</th>
+                   	<th>业绩</th>
                    	<th>新客户数量</th>
 				</thead>
 				<tbody>

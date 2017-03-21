@@ -43,9 +43,9 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="creditCard">
+			<table class="table table-striped" id="creditCard">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
+					<th>序号</th>
                    	<th>收款账户名称</th>
                    	<th>刷卡类别</th>
                    	<th>出单号</th>

@@ -74,7 +74,7 @@
 				endTime = new Date();
 				var usedTime = (endTime.getTime() - startTime.getTime())/1000;
 				className = (className === "dark" ? "":"dark");
-				showLog("[ "+getTime()+" ]&nbsp;&nbsp;treeNode:" + treeNode.name );
+				showLog("[ "+getTime()+" ]treeNode:" + treeNode.name );
 				showLog("加载完毕，共进行 "+ (treeNode.times-1) +" 次异步加载, 耗时："+ usedTime + " 秒");
 			}
 		}
@@ -122,7 +122,7 @@
 <div class="content_wrap">
 	<div class="zTreeDemoBackground left">
 		<ul>
-			<li class="highlight_red">&nbsp;&nbsp;&nbsp;&nbsp;此 Demo 专门用于测试分批异步加载，每次展开节点都要重新进行异步加载。</li>
+			<li class="highlight_red">此 Demo 专门用于测试分批异步加载，每次展开节点都要重新进行异步加载。</li>
 		</ul>
 		<ul id="treeDemo" class="ztree"></ul>
 	</div>

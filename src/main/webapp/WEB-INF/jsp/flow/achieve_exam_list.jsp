@@ -106,7 +106,7 @@
 							</div>
 						</div>
 						<!-- DataTables Example -->
-						<table class="table table-bordered" id="achieveExam">
+						<table class="table table-striped" id="achieveExam">
 							<thead>
 								<th><label><input id="checkAll" name="checkAll" type="checkbox"><span></span></label></th>
 								<th>业务员姓名</th>

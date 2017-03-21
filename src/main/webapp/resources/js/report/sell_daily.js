@@ -104,14 +104,14 @@ function initData() {
 			}
 			var printHtml = "";
 			var html =  "<tr><td colspan='6' style='background: #CCDDFF; font-size: 20px; font-weight: bold;'>" + area + "销售日报表</td></tr>" +
-						"<tr><td colspan='6' style='text-align: left;'><div style='width: 20%; margin-left: 10%;'>日&nbsp;&nbsp;&nbsp;&nbsp;期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
+						"<tr><td colspan='6' style='text-align: left;'><div style='width: 20%; margin-left: 10%;'>日期 <span style='margin-left: 20%;'>" + $('#startDate').val() + "</span></div></td></tr>" +
 						"<tr><td colspan='6' style='font-weight: bold;'>销售藏品明细</td></tr>" +
 						"<tr>" +
 							"<td>藏品名称</td>" +
-				           	"<td>数&nbsp;&nbsp;量</td>" +
-							"<td>单&nbsp;&nbsp;价</td>" +
+				           	"<td>数量</td>" +
+							"<td>单价</td>" +
 				           	"<td>总计金额</td>" +
-				           	"<td colspan='2'>备&nbsp;&nbsp;注</td>" +
+				           	"<td colspan='2'>备注</td>" +
 						"</tr>";
 			printHtml = html;
 			var contents = "";
@@ -180,7 +180,7 @@ function initData() {
 				}
 			}
 			contents = "<tr style='background: #CCDDFF;'>" + 
-							"<td>合&nbsp;&nbsp;计</td>" + 
+							"<td>合计</td>" + 
 							"<td>" + totalCount + "</td>" + 
 							"<td></td>" + 
 							"<td>" + total + "</td>" + 
@@ -188,12 +188,12 @@ function initData() {
 						"<tr>" +
 						"<tr><td colspan='6' style='font-weight: bold;'>资金结算明细</td></tr>" +
 						"<tr>" +
-						"<td>账&nbsp;&nbsp;户</td>" +
+						"<td>账户</td>" +
 						"<td>收款方式</td>" +
-						"<td>金&nbsp;&nbsp;额</td>" +
+						"<td>金额</td>" +
 						"<td>实际入账</td>" +
 						"<td>手续费</td>" +
-						"<td>备&nbsp;&nbsp;注</td>" +
+						"<td>备注</td>" +
 						"</tr>";
 			printContents = contents;
 			html += contents;
@@ -359,7 +359,7 @@ function initData() {
 			}
 			
 			contents = "<tr style='background: #CCDDFF;'>" + 
-							"<td>合&nbsp;&nbsp;计</td>" + 
+							"<td>合计</td>" + 
 							"<td></td>" +
 							"<td>" + total + "</td>" + 
 							"<td>" + income + "</td>" + 

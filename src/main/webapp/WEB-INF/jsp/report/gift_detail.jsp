@@ -55,11 +55,11 @@
 			</div>
 			<div style="clear: both;"></div>
 			
-			<table class="table table-bordered" id="giftCounts">
+			<table class="table table-striped" id="giftCounts">
 				<thead>
-					<th>序&nbsp;&nbsp;号</th>
+					<th>序号</th>
                    	<th>赠品名称</th>
-                   	<th>数&nbsp;&nbsp;量</th>
+                   	<th>数量</th>
                    	<th>VIP</th>
 				</thead>
 				<tbody>
