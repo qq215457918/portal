@@ -93,7 +93,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         String goodsName = request.getParameter("goodsName");
         // 所属区域
         String area = request.getParameter("area");
-        // 开始日期
+        // 开始日期 
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
