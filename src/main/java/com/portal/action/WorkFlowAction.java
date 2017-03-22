@@ -32,9 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import jxl.Workbook;
 import jxl.WorkbookSettings;
-import jxl.format.UnderlineStyle;
 import jxl.write.Label;
-import jxl.write.NumberFormat;
 import jxl.write.WritableCellFormat;
 import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
@@ -100,8 +98,8 @@ public class WorkFlowAction {
     @RequestMapping("/achieveExamList")
     public String achieveExamList(HttpServletRequest request, HttpServletResponse response)
             throws ParseException {
-    	request.setAttribute("active", request.getParameter("active"));
-    	
+        request.setAttribute("active", request.getParameter("active"));
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String dateInfo = null == request.getParameter("dateInfo") ? sdf.format(new Date())
                 : request.getParameter("dateInfo");
@@ -321,8 +319,8 @@ public class WorkFlowAction {
      */
     @RequestMapping("clerkEverydayAchievenment")
     public String clerkEverydayAchievenment(HttpServletRequest request, HttpServletResponse response) {
-    	request.setAttribute("active", request.getParameter("active"));
-    	
+        request.setAttribute("active", request.getParameter("active"));
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
         String employeeId = request.getParameter("employeeId");
@@ -501,7 +499,7 @@ public class WorkFlowAction {
      */
     @RequestMapping("/financeOrderList")
     public String financeOrderList(HttpServletRequest request) {
-    	request.setAttribute("active", request.getParameter("active"));
+        request.setAttribute("active", request.getParameter("active"));
         return "flow/finance_order_list";
     }
 
@@ -527,7 +525,7 @@ public class WorkFlowAction {
      */
     @RequestMapping("/storeOrderinfo")
     public String storeOrderinfo(HttpServletRequest request) {
-    	request.setAttribute("active", request.getParameter("active"));
+        request.setAttribute("active", request.getParameter("active"));
         return "flow/store_order_info";
     }
 
@@ -615,20 +613,20 @@ public class WorkFlowAction {
     public String updateOrderAndInsert(HttpServletRequest request, HttpServletResponse response,
             OrderInfo orderInfo) {
         String userId = (String) request.getSession().getAttribute("userId");
-
+        orderInfo.setStatus("1");
         orderInfo.setFinanceOperatorId(userId);
         orderInfo.setFinanceDate(new Date());
-        orderInfo.setFinanceFlag("1");
+        //        orderInfo.setFinanceFlag("1");
         if ("1".equals(request.getParameter("operate"))) {//进行付款
             orderInfo.setFinanceFlag("-1");
             orderInfo.setStatus("4");
         }
         orderInfo.setId(request.getParameter("orderId"));
-        
+
         // 定金支付则财务确认完成后订单结束,设置库房为-2(不能查看该数据)
-        if("1".equals(request.getParameter("payType"))){
-        	orderInfo.setStatus("4");
-        	orderInfo.setWarehouseFlag("-2");
+        if ("1".equals(request.getParameter("payType"))) {
+            orderInfo.setStatus("4");
+            orderInfo.setWarehouseFlag("-2");
         }
 
         //如果订单没有配售配送商品将订单的文交所审批直接置为1
@@ -666,6 +664,7 @@ public class WorkFlowAction {
         orderInfo.setFinanceOperatorId(userId);
         orderInfo.setFinanceDate(new Date());
         orderInfo.setFinanceFlag("1");
+        orderInfo.setStatus("1");
         if ("1".equals(request.getParameter("operate"))) {//进行付款
             orderInfo.setFinanceFlag("-1");
             orderInfo.setStatus("4");
@@ -718,7 +717,7 @@ public class WorkFlowAction {
      */
     @RequestMapping("civilizationExchangeIndex")
     public String civilizationExchangeIndex(HttpServletRequest request, HttpServletResponse response) {
-    	request.setAttribute("active", request.getParameter("active"));
+        request.setAttribute("active", request.getParameter("active"));
         return "flow/civilization_exchange_list";
     }
 
@@ -864,7 +863,6 @@ public class WorkFlowAction {
         }
     }
 
-
     /**
      * @Title: updateCivilizationInfo 
      * @Description: 下载打印模版
@@ -876,63 +874,68 @@ public class WorkFlowAction {
      */
     @RequestMapping("downloadExcel")
     public void downloadExcel(HttpServletRequest request, HttpServletResponse response) {
-    	String orderId = request.getParameter("orderId");
-    	
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	
-    	OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
-    	
-    	List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
-    	
-    	try {
-    		@SuppressWarnings("deprecation")
-    		String path = request.getRealPath("/resources/excel/print_template.xls");
-    		OutputStream os = response.getOutputStream();// 取得输出流
-    		response.reset();// 清空输出流
-    		
-    		// 设定输出文件头
-    		response.setContentType("application/vnd.ms-excel");
-    		response.setHeader("Content-Disposition",
-    				"attachment; filename=" + orderId + ".xls");
-    		
-    		File file = new File(path);
-    		
-    		Workbook wb = Workbook.getWorkbook(file);
-    		WorkbookSettings settings = new WorkbookSettings();
-    		settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
-    		WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
-    		
-    		WritableSheet sheet = workbook.getSheet(0);
-    		
-    		sheet.addCell(new Label(0, 1, "           " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
-    		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "           " + (orderInfo.getReceiverStaffName() == null ? "":orderInfo.getReceiverStaffName())));
-    		sheet.addCell(new Label(6, 12, "    " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
-    		sheet.addCell(new Label(0, 10, "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
-    		
-    		for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
-    			sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
-    			sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
-    			sheet.addCell(new Label(2, i, String.valueOf(Double.valueOf(String.valueOf(result.get(j).get("pay_amount_actual"))) + 
-    					Double.valueOf(String.valueOf(result.get(j).get("poundage"))))));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("unit"))));
-    			sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
-    			sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
-    			sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
-    			sheet.addCell(new Label(7, i, result.get(j).get("remark")));
-    		}
-    		
-    		os.flush();
-    		workbook.write();
-    		wb.close();
-    		workbook.close();
-    		os.close();
-    		response.flushBuffer();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
+        String orderId = request.getParameter("orderId");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
+
+        List<Map<String, String>> result = orderFundSettlementService.getOrderFundInfo(orderId);
+
+        try {
+            @SuppressWarnings("deprecation")
+            String path = request.getRealPath("/resources/excel/print_template.xls");
+            OutputStream os = response.getOutputStream();// 取得输出流
+            response.reset();// 清空输出流
+
+            // 设定输出文件头
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=" + orderId + ".xls");
+
+            File file = new File(path);
+
+            Workbook wb = Workbook.getWorkbook(file);
+            WorkbookSettings settings = new WorkbookSettings();
+            settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+            WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+
+            WritableSheet sheet = workbook.getSheet(0);
+
+            sheet.addCell(new Label(0, 1,
+                    "           " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
+            sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
+            sheet.addCell(new Label(0, 12, "           "
+                    + (orderInfo.getReceiverStaffName() == null ? "" : orderInfo.getReceiverStaffName())));
+            sheet.addCell(new Label(6, 12,
+                    "    " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
+            sheet.addCell(new Label(0, 10,
+                    "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
+
+            for (int i = 5, j = 0; j < result.size(); i ++, j ++) {
+                sheet.addCell(new Label(0, i, result.get(j).get("good_name")));
+                sheet.addCell(new Label(1, i, String.valueOf(result.get(j).get("amount"))));
+                sheet.addCell(new Label(2, i,
+                        String.valueOf(Double.valueOf(String.valueOf(result.get(j).get("pay_amount_actual"))) +
+                                Double.valueOf(String.valueOf(result.get(j).get("poundage"))))));
+                sheet.addCell(new Label(3, i, String.valueOf(result.get(j).get("unit"))));
+                sheet.addCell(new Label(4, i, result.get(j).get("payment_account_name")));
+                sheet.addCell(new Label(5, i, result.get(j).get("pay_type_name")));
+                sheet.addCell(new Label(6, i, String.valueOf(result.get(j).get("poundage"))));
+                sheet.addCell(new Label(7, i, result.get(j).get("remark")));
+            }
+
+            os.flush();
+            workbook.write();
+            wb.close();
+            workbook.close();
+            os.close();
+            response.flushBuffer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /**
      * @Title: downloadExcelPay 
      * @Description: 下载打印模版
@@ -944,61 +947,66 @@ public class WorkFlowAction {
      */
     @RequestMapping("downloadExcelPay")
     public void downloadExcelPay(HttpServletRequest request, HttpServletResponse response) {
-    	String orderId = request.getParameter("orderId");
-    	
-    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-    	
-    	OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
-    	
-    	Criteria criteria = new Criteria();
-    	criteria.put("orderId", orderId);
-    	criteria.put("printInfo", "1");
-    	List<OrderDetailInfo> result = orderDetailInfoService.selectByExample(criteria);
-    	
-    	try {
-    		@SuppressWarnings("deprecation")
-    		String path = request.getRealPath("/resources/excel/print_template_pay.xls");
-    		OutputStream os = response.getOutputStream();// 取得输出流
-    		response.reset();// 清空输出流
-    		
-    		// 设定输出文件头
-    		response.setContentType("application/vnd.ms-excel");
-    		response.setHeader("Content-Disposition",
-    				"attachment; filename=" + orderId + ".xls");
-    		
-    		File file = new File(path);
-    		
-    		Workbook wb = Workbook.getWorkbook(file);
-    		WorkbookSettings settings = new WorkbookSettings();
-    		settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
-    		WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
-    		
-    		WritableSheet sheet = workbook.getSheet(0);
-    		
-    		sheet.addCell(new Label(0, 1,"              " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
-    		sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-    		sheet.addCell(new Label(0, 12, "       " + (orderInfo.getReceiverStaffName() == null ? "":orderInfo.getReceiverStaffName())));
-    		sheet.addCell(new Label(5, 12, "            " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
-    		sheet.addCell(new Label(0, 10, "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
-    		
-    		for (int i = 5, j = 0; j < result.size(); i=i+2, j ++) {
-    			sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
-    			sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getUnit())));
-    			sheet.addCell(new Label(3, i, String.valueOf(result.get(j).getAmount())));
-    			sheet.addCell(new Label(5, i, "       " + String.valueOf(result.get(j).getPrice()*result.get(j).getAmount())));
-    		}
-    		
-    		os.flush();
-    		workbook.write();
-    		wb.close();
-    		workbook.close();
-    		os.close();
-    		response.flushBuffer();
-    	} catch (Exception e) {
-    		e.printStackTrace();
-    	}
+        String orderId = request.getParameter("orderId");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        OrderInfo orderInfo = orderInfoService.selectPirntInfoById(orderId);
+
+        Criteria criteria = new Criteria();
+        criteria.put("orderId", orderId);
+        criteria.put("printInfo", "1");
+        List<OrderDetailInfo> result = orderDetailInfoService.selectByExample(criteria);
+
+        try {
+            @SuppressWarnings("deprecation")
+            String path = request.getRealPath("/resources/excel/print_template_pay.xls");
+            OutputStream os = response.getOutputStream();// 取得输出流
+            response.reset();// 清空输出流
+
+            // 设定输出文件头
+            response.setContentType("application/vnd.ms-excel");
+            response.setHeader("Content-Disposition",
+                    "attachment; filename=" + orderId + ".xls");
+
+            File file = new File(path);
+
+            Workbook wb = Workbook.getWorkbook(file);
+            WorkbookSettings settings = new WorkbookSettings();
+            settings.setEncoding("GB18030"); //关键代码，解决中文乱码 
+            WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
+
+            WritableSheet sheet = workbook.getSheet(0);
+
+            sheet.addCell(new Label(0, 1, "              "
+                    + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
+            sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
+            sheet.addCell(new Label(0, 12, "       "
+                    + (orderInfo.getReceiverStaffName() == null ? "" : orderInfo.getReceiverStaffName())));
+            sheet.addCell(new Label(5, 12, "            "
+                    + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
+            sheet.addCell(new Label(0, 10,
+                    "              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
+
+            for (int i = 5, j = 0; j < result.size(); i = i + 2, j ++) {
+                sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
+                sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getUnit())));
+                sheet.addCell(new Label(3, i, String.valueOf(result.get(j).getAmount())));
+                sheet.addCell(new Label(5, i,
+                        "       " + String.valueOf(result.get(j).getPrice() * result.get(j).getAmount())));
+            }
+
+            os.flush();
+            workbook.write();
+            wb.close();
+            workbook.close();
+            os.close();
+            response.flushBuffer();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
-    
+
     /**
      * @Title: updateCivilizationInfo 
      * @Description: 下载打印模版
@@ -1044,14 +1052,15 @@ public class WorkFlowAction {
             System.out.println();//得到年
             System.out.println();//由于月份是从0开始的所以加1
             System.out.println(a.get(Calendar.DATE));
-            
-            // 设置单元格格式
-            WritableFont font = new WritableFont(WritableFont.createFont("宋体"),11,WritableFont.NO_BOLD);
-	        WritableCellFormat totalx2Format = new WritableCellFormat(font);
-	        totalx2Format.setAlignment(jxl.format.Alignment.RIGHT); 
-	        totalx2Format.setVerticalAlignment(jxl.format.VerticalAlignment.CENTRE);
 
-            sheet.addCell(new Label(2, 14, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
+            // 设置单元格格式
+            WritableFont font = new WritableFont(WritableFont.createFont("宋体"), 11, WritableFont.NO_BOLD);
+            WritableCellFormat totalx2Format = new WritableCellFormat(font);
+            totalx2Format.setAlignment(jxl.format.Alignment.RIGHT);
+            totalx2Format.setVerticalAlignment(jxl.format.VerticalAlignment.CENTRE);
+
+            sheet.addCell(
+                    new Label(2, 14, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
             sheet.addCell(new Label(7, 14, String.valueOf(a.get(Calendar.YEAR))));
             sheet.addCell(new Label(9, 14, String.valueOf(a.get(Calendar.MONTH) + 1)));
             sheet.addCell(new Label(10, 14, String.valueOf(a.get(Calendar.DATE))));
@@ -1061,11 +1070,12 @@ public class WorkFlowAction {
                 sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount()), totalx2Format));
                 sheet.addCell(new Label(3, i, result.get(j).getUnit()));
                 sheet.addCell(new Label(4, i, String.valueOf(result.get(j).getPrice())));
-                double payPrice = Double.valueOf(String.valueOf(null==result.get(j).getPrice()?0:result.get(j).getPrice())) * 100;
+                double payPrice = Double.valueOf(
+                        String.valueOf(null == result.get(j).getPrice() ? 0 : result.get(j).getPrice())) * 100;
                 DecimalFormat format = new DecimalFormat("#");
                 String[] sMoney = format.format(payPrice).split("");
                 int k = (sMoney.length - 1);
-                for (int l = 13; k >= 0; k--, l--) {
+                for (int l = 13; k >= 0; k --, l --) {
                     sheet.addCell(new Label(l, i, sMoney[k], totalx2Format));
                 }
                 int count = 0;
