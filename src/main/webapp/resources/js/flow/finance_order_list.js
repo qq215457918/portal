@@ -411,7 +411,7 @@ function initData() {
 						"columnDefs" : [
 								{
 									"render" : function(data, type, row) {
-										var operation = '<a class="btn btn-danger btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
+										var operation = '<a class="btn btn-warning btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
 												+ row.id
 												+ '" data-pay-type="'
 												+ row.payType
@@ -432,6 +432,18 @@ function initData() {
 													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 													+ row.id
 													+ '" id="toPrint">打印</a>';
+										}
+										if (row.orderType == 2) {
+											var operation = '<a class="btn btn-danger btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
+												+ row.id
+												+ '" data-pay-type="'
+												+ row.payType
+												+ '"  data-order-number="'
+												+ row.orderNumber
+												+ '" id="confirmReceipt">确认付款</a>'
+												+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
+												+ row.id
+												+ '" id="toPrint">打印</a>';
 										}
 										if (row.financeFlag == 1) {
 											operation = '<a class="btn btn-success btn-block" href="javascript:;" data-toggle="modal">已收款</a>'
