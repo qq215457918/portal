@@ -59,7 +59,8 @@ $(function() {
 
 function numControl() {
 	// 加的效果
-	$(".add").click(function() {
+	$(document).on("click",'.add',function(){
+//	$(".add").click(function() {
 		var n = $(this).prev().val();
 		var num = parseInt(n) + 1;
 		if (num == 0) {
@@ -69,7 +70,8 @@ function numControl() {
 		modifyTotalAmount();
 	});
 	// 减的效果
-	$(".jian").click(function() {
+	$(document).on("click",'.jian',function(){
+//	$(".jian").click(function() {
 		var n = $(this).next().val();
 		var num = parseInt(n) - 1;
 		if (num == 0) {
@@ -296,7 +298,7 @@ function addGoodsDiv(id, name, price) {
 	item += "</td></tr>";
 	$("#shoppingList").append(item);
 	modifyTotalAmount();
-	numControl();
+//	numControl();
 }
 
 /**
@@ -316,7 +318,6 @@ function modifyTotalAmount() {
 }
 
 function delGoods(id) {
-	removeSession(id);
 	$("#tr" + id).remove();
 	modifyTotalAmount();
 }
