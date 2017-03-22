@@ -281,7 +281,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
      * 修改订单定金为正常订单
      */
     public boolean updatePayDeposit(String orderId) {
-        OrderInfo orderCriteria = new OrderInfo();
+        OrderInfo orderCriteria = orderInfoDao.selectByPrimaryKey(orderId);
+        //        OrderInfo orderCriteria = new OrderInfo();
         orderCriteria.setId(orderId);
         //pay_type=3 3余款支付
         orderCriteria.setPayType("3");
@@ -292,9 +293,31 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         orderCriteria.setWarehouseFlag("");
         orderCriteria.setCultureFlag("");
         orderCriteria.setDeleteFlag("0");
-        Long depositPrice = orderInfoDao.selectByPrimaryKey(orderId).getPayPrice();
-        orderCriteria.setPayPrice(getCountPrice4Deposit(orderId) - depositPrice);
+        orderCriteria.setPayPrice(getCountPrice4Deposit(orderId) - orderCriteria.getPayPrice());
+        //        Long depositPrice = orderInfoDao.selectByPrimaryKey(orderId).getPayPrice();
+        String[] productArr = productArr(orderId);
+        customerInfoService.updateProduct(orderCriteria.getCustomerId(), productArr[0],
+                productArr[1]);
         return orderInfoDao.updateByPrimaryKeySelective(orderCriteria) > 0 ? true : false;
+    }
+
+    public String[] productArr(String orderId) {
+        criteria.clear();
+        criteria.put("orderId", orderId);
+        String[] resultArr = new String[2];
+        StringBuffer product = new StringBuffer();
+        int amount = 0;
+
+        List<OrderDetailInfo> orderDetailInfo = orderDetailInfoService.selectByExample(criteria);
+        if (orderDetailInfo != null && orderDetailInfo.size() > 0) {
+            for (OrderDetailInfo value : orderDetailInfo) {
+                amount += Integer.valueOf(value.getAmount()).intValue();
+                product.append(value.getGoodName());
+            }
+        }
+        resultArr[0] = product.toString();
+        resultArr[1] = String.valueOf(amount);
+        return resultArr;
     }
 
     public Long getCountPrice4Deposit(String orderId) {
