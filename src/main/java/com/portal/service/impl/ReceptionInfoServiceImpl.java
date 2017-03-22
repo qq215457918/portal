@@ -117,6 +117,8 @@ public class ReceptionInfoServiceImpl implements ReceptionInfoService {
         criteria.put("startDate", request.getParameter("startReportDate"));
         criteria.put("endDate", request.getParameter("endReportDate"));
         criteria.put("staffName", request.getParameter("receiverStaffName"));
+        criteria.setOrderByClause("create_date desc,start_time desc");
+
         //cId
         if (StringUtils.isNotEmpty(cId)) {
             criteria.put("cId", cId);
