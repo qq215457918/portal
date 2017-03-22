@@ -97,7 +97,6 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
-        
         criteria.clear();
         // 分页参数
         criteria.setMysqlOffset(currentPage);
