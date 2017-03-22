@@ -58,8 +58,6 @@ function submitOrder(){
 		submitType = "deposit";
 		amount = depositAmount;
 	}
-	alert("totalAmount"+totalAmount)
-	alert("depositAmount"+depositAmount)
 	if(parseInt(totalAmount) < parseInt(depositAmount)){
 		alert("定金大于付款总额，请重新输入")
 	}else{
