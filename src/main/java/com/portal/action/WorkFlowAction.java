@@ -616,7 +616,7 @@ public class WorkFlowAction {
         orderInfo.setStatus("1");
         orderInfo.setFinanceOperatorId(userId);
         orderInfo.setFinanceDate(new Date());
-        //        orderInfo.setFinanceFlag("1");
+        orderInfo.setFinanceFlag("1");
         if ("1".equals(request.getParameter("operate"))) {//进行付款
             orderInfo.setFinanceFlag("-1");
             orderInfo.setStatus("4");
