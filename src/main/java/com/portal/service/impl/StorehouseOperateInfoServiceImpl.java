@@ -101,7 +101,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         // 分页参数
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
-        // 库房已审批通过的订单
+        // 库房已审批通过的订单 
         criteria.put("warehouseFlag", "1");
         criteria.put("deleteFlag", "0");
         criteria.setOrderByClause("gs.id, o.warehouse_date desc");
