@@ -177,8 +177,7 @@
 								} else {
 									alert("请选择至少一个赠品");
 								}
-								$
-										.ajax({
+								$.ajax({
 											method : "POST",
 											url : base + "/present/receive",
 											data : {
@@ -224,35 +223,31 @@
 								var item;
 								var financeFlag;
 								var orderList = data.result;
-								$
-										.each(
-												data.result,
-												function(n, value) {
-													if (value.status == 5) {
-														financeFlag = "正在审批";
-													} else {
-														financeFlag = "正常";
-													}
-													item += "<tr><td>"
-															+ Number(n + 1)
-															+ "</td>";
-													var goodName = "<td>";
-													$
-															.each(
-																	value.orderDetailInfoList,
-																	function(n,
-																			value) {
-																		goodName += value.goodName
-																				+ "/";
-																	});
-													item += goodName + "</td>";
-													item += "<td>"
-															+ value.createDateString
-															+ "</td>";
-													item += "<td>"
-															+ financeFlag
-															+ "</td></tr>";
-												});
+							$.each(data.result,
+										function(n, value) {
+											if (value.status == 5) {
+												financeFlag = "等待审批";
+											} else if(value.warehouseFlag == '') {
+												financeFlag = "等待领取";
+											} else{
+												financeFlag = "已领取";
+											}
+											item += "<tr><td>"+ Number(n + 1)+ "</td>";
+											var goodName = "<td>";
+											$.each(
+													value.orderDetailInfoList,
+													function(n,value) {
+														goodName += value.goodName
+																+ "&nbsp;&nbsp;";
+													});
+											item += goodName + "</td>";
+											item += "<td>"
+													+ value.createDateString
+													+ "</td>";
+											item += "<td>"
+													+ financeFlag
+													+ "</td></tr>";
+										});
 							} else {
 								item += "<tr><td align='center' colspan='4'>没有赠品领取记录</td></tr>";
 							}

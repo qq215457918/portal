@@ -45,7 +45,7 @@
               </div>
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="phone">电话号码</label><i class="icon-star"></i><input class="form-control" id="phone" name="phone" value=${phone} data-inputmask="'mask': ['19999999999']" type="text">
+                  <label for="phone">电话号码</label><i class="icon-star"></i><input class="form-control" id="phone" name="phone" value=${phone} type="text">
                 </div>
     	        <div class="form-group">
 	              <label>地址</label>
