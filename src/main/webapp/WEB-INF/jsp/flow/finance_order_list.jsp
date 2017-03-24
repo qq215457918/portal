@@ -7,7 +7,7 @@
 <title>财务订单列表</title>
 <base href="${basePath}" />
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<script src="resources/js/flow/finance_order_list.js"
+<script src="resources/js/flow/finance_order_list.js?123"
 	type="text/javascript"></script>
 <script src="resources/js/jQuery.print.js" type="text/javascript"></script>
 <link rel="stylesheet"
@@ -330,6 +330,7 @@
 							</div>
 						</div>
 					</div>
+					<input name="totalAmount" id="totalAmount" type="hidden">
 				</form>
 				<div class="modal-footer">
 					<button class="btn btn-primary" type="button" id="commitForm"
