@@ -1,7 +1,7 @@
 package com.portal.bean;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
+import java.math.BigDecimal; 
 import java.util.Date;
 
 public class VisitReportInfo implements Serializable {
