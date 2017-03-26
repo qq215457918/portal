@@ -1,6 +1,7 @@
 package com.portal.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class VisitReportInfo implements Serializable {
@@ -49,7 +50,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * 新客户订单金额
      */
-    private Integer newAmounts;
+    private BigDecimal newAmounts;
 
     /**
      * 重复登门客户数量
@@ -64,7 +65,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * 重复登门订单金额
      */
-    private Integer repeatAmounts;
+    private BigDecimal repeatAmounts;
 
     /**
      * 说明会客户数量
@@ -79,7 +80,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * 说明会订单金额
      */
-    private Integer roadshowAmounts;
+    private BigDecimal roadshowAmounts;
 
     /**
      * 成单客户数量
@@ -94,7 +95,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * 成单客户订单金额
      */
-    private Integer finishAmounts;
+    private BigDecimal finishAmounts;
 
     /**
      * 锁定客户数量
@@ -109,7 +110,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * 锁定客户订单金额
      */
-    private Integer lockedAmounts;
+    private BigDecimal lockedAmounts;
 
     /**
      * @return 主键ID
@@ -234,7 +235,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * @return 新客户订单金额
      */
-    public Integer getNewAmounts() {
+    public BigDecimal getNewAmounts() {
         return newAmounts;
     }
 
@@ -242,7 +243,7 @@ public class VisitReportInfo implements Serializable {
      * @param newAmounts 
 	 *            新客户订单金额
      */
-    public void setNewAmounts(Integer newAmounts) {
+    public void setNewAmounts(BigDecimal newAmounts) {
         this.newAmounts = newAmounts;
     }
 
@@ -279,7 +280,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * @return 重复登门订单金额
      */
-    public Integer getRepeatAmounts() {
+    public BigDecimal getRepeatAmounts() {
         return repeatAmounts;
     }
 
@@ -287,7 +288,7 @@ public class VisitReportInfo implements Serializable {
      * @param repeatAmounts 
 	 *            重复登门订单金额
      */
-    public void setRepeatAmounts(Integer repeatAmounts) {
+    public void setRepeatAmounts(BigDecimal repeatAmounts) {
         this.repeatAmounts = repeatAmounts;
     }
 
@@ -324,7 +325,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * @return 说明会订单金额
      */
-    public Integer getRoadshowAmounts() {
+    public BigDecimal getRoadshowAmounts() {
         return roadshowAmounts;
     }
 
@@ -332,7 +333,7 @@ public class VisitReportInfo implements Serializable {
      * @param roadshowAmounts 
 	 *            说明会订单金额
      */
-    public void setRoadshowAmounts(Integer roadshowAmounts) {
+    public void setRoadshowAmounts(BigDecimal roadshowAmounts) {
         this.roadshowAmounts = roadshowAmounts;
     }
 
@@ -369,7 +370,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * @return 成单客户订单金额
      */
-    public Integer getFinishAmounts() {
+    public BigDecimal getFinishAmounts() {
         return finishAmounts;
     }
 
@@ -377,7 +378,7 @@ public class VisitReportInfo implements Serializable {
      * @param finishAmounts 
 	 *            成单客户订单金额
      */
-    public void setFinishAmounts(Integer finishAmounts) {
+    public void setFinishAmounts(BigDecimal finishAmounts) {
         this.finishAmounts = finishAmounts;
     }
 
@@ -414,7 +415,7 @@ public class VisitReportInfo implements Serializable {
     /**
      * @return 锁定客户订单金额
      */
-    public Integer getLockedAmounts() {
+    public BigDecimal getLockedAmounts() {
         return lockedAmounts;
     }
 
@@ -422,7 +423,7 @@ public class VisitReportInfo implements Serializable {
      * @param lockedAmounts 
 	 *            锁定客户订单金额
      */
-    public void setLockedAmounts(Integer lockedAmounts) {
+    public void setLockedAmounts(BigDecimal lockedAmounts) {
         this.lockedAmounts = lockedAmounts;
     }
 }

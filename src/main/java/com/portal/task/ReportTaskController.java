@@ -1,5 +1,6 @@
 package com.portal.task;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,9 @@ import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GroupInfo;
 import com.portal.bean.VisitEverydayInfo;
 import com.portal.bean.VisitReportInfo;
+import com.portal.bean.result.EmployeeInfoForm;
 import com.portal.bean.result.VisitEverydayInfoForm;
+import com.portal.bean.result.VisitReportInfoForm;
 import com.portal.common.util.DateUtil;
 import com.portal.common.util.UUidUtil;
 import com.portal.service.ButtPerforDetailInfoService;
@@ -259,19 +262,19 @@ public class ReportTaskController {
             info.setCustomerCounts(customerCounts);
             info.setNewCounts(newCounts);
             info.setNewOrders(newOrders);
-            info.setNewAmounts(newAmounts);
+            info.setNewAmounts(new BigDecimal(newAmounts));
             info.setRepeatCounts(repeatCounts);
             info.setRepeatOrders(repeatOrders);
-            info.setRepeatAmounts(repeatAmounts);
+            info.setRepeatAmounts(new BigDecimal(repeatAmounts));
             info.setRoadshowCounts(roadshowCounts);
             info.setRoadshowOrders(roadshowOrders);
-            info.setRoadshowAmounts(roadshowAmounts);
+            info.setRoadshowAmounts(new BigDecimal(roadshowAmounts));
             info.setFinishOrderCounts(finishOrderCounts);
             info.setFinishOrders(finishOrders);
-            info.setFinishAmounts(finishAmounts);
+            info.setFinishAmounts(new BigDecimal(finishAmounts));
             info.setLockedCounts(lockedCounts);
             info.setLockedOrders(lockedOrders);
-            info.setLockedAmounts(lockedAmounts);
+            info.setLockedAmounts(new BigDecimal(lockedAmounts));
             // 插入数据
             count += visitReportService.insert(info);
         }
@@ -347,6 +350,11 @@ public class ReportTaskController {
         logger.info("启动每周日19点20分的定时任务, 操作内容：统计向对接业绩表中插入数据-------------------");
         
         int count = 0;
+        List<EmployeeInfoForm> receiveNameList = null;
+        EmployeeInfo info = null;
+        GroupInfo groupInfo = null;
+        List<VisitReportInfoForm> countsAndOrders = null;
+        VisitReportInfoForm reportInfoForm = null;
         // 先获取所有客服信息, 根据客服ID获取其他数据
         // 获取所有客服人员
         criteria.clear();
@@ -368,113 +376,116 @@ public class ReportTaskController {
                 criteria.put("employeeId", employeeId);
                 criteria.put("startTime", startTime);
                 criteria.put("endTime", endTime);
-                Map<String, String> receiveNameAndId = employeeService.getReceiveNameByPhoneId(criteria);
+                receiveNameList = employeeService.getReceiveNameByPhoneId(criteria);
                 // 如果接待信息为空则略过跳至下一个
-                if(receiveNameAndId != null) {
-                    buttPerforInfo = new ButtPerforDetailInfo();
-                    // 设置客服ID
-                    buttPerforInfo.setPhoneStaffId(employeeId);
-                    // 根据客服ID获取客服信息
-                    EmployeeInfo info = employeeService.selectByPrimaryKey(employeeId);
-                    // 设置客服姓名
-                    buttPerforInfo.setPhoneStaffName(info.getName());
-                    // 根据客服信息中的组织机构ID获取对应信息
-                    GroupInfo groupInfo = groupInfoService.selectByPrimaryKey(info.getOrganizationId());
-                    // 设置机构名称
-                    buttPerforInfo.setPhoneStaffGroupName(groupInfo.getName());
-                    
-                    // 设置接待姓名
-                    buttPerforInfo.setReceiveStaffName(receiveNameAndId.get("name"));
-                    // 获取成单/锁定-接待数/出单数
-                    criteria.clear();
-                    criteria.put("receiverStaffId", receiveNameAndId.get("id"));
-                    criteria.put("startDate", startTime);
-                    criteria.put("endDate", endTime);
-                    Map<String, Integer> countsAndOrders = visitReportService.getRecevieCountsAndOrders(criteria);
-                    // 成单出单率=接待数/出单数
-                    // 锁定出单率=接待数/出单数
-                    if(countsAndOrders != null) {
-                        Integer finishOrderCounts = countsAndOrders.get("finishOrderCounts");
-                        Integer finishOrders = countsAndOrders.get("finishOrders");
-                        Integer finishAmounts = countsAndOrders.get("finishAmounts");
-                        Integer lockedCounts = countsAndOrders.get("lockedCounts");
-                        Integer lockedOrders = countsAndOrders.get("lockedOrders");
-                        Integer lockedAmounts = countsAndOrders.get("lockedAmounts");
-                        // 设置成单接待数
-                        buttPerforInfo.setReceiveFinishedCounts(finishOrderCounts);
-                        // 设置成单出单数
-                        buttPerforInfo.setOutOrdersOfFinished(finishOrders);
-                        // 设置成单业绩
-                        buttPerforInfo.setPerformanceOfFinished(finishAmounts.longValue());
-                        // 设置锁定接待数
-                        buttPerforInfo.setReceiveLockedCounts(lockedCounts);
-                        // 设置锁定出单数
-                        buttPerforInfo.setOutOrdersOfLocked(lockedOrders);
-                        // 设置锁定业绩
-                        buttPerforInfo.setPerformanceOfLocked(lockedAmounts.longValue());
-                        // 设置成单出单率
-                        if(finishOrderCounts == 0 || finishOrders == 0) {
-                            buttPerforInfo.setOutOrderRateOfFinished("0");
-                        }else {
-                            buttPerforInfo.setOutOrderRateOfFinished(String.format("%.2f", finishOrderCounts/finishOrders) + "%");
-                            // 设置成单单均
-                            buttPerforInfo.setOrderAvgOfFinished(String.format("%.2f", finishAmounts/finishOrders));
-                        }
-                        // 设置锁定出单率
-                        if(lockedCounts == 0 || lockedOrders == 0) {
-                            buttPerforInfo.setOutOrderRateOfLocked("0");
-                        }else {
-                            buttPerforInfo.setOutOrderRateOfLocked(String.format("%.2f", lockedCounts/lockedOrders) + "%");
-                            // 设置锁定单均
-                            buttPerforInfo.setOrderAvgOfLocked(String.format("%.2f", lockedAmounts/lockedOrders));
-                        }
-                        // 获取成单件数
+                if(CollectionUtils.isNotEmpty(receiveNameList)) {
+                    for (EmployeeInfoForm employeeInfoForm : receiveNameList) {
+                        buttPerforInfo = new ButtPerforDetailInfo();
+                        // 设置客服ID
+                        buttPerforInfo.setPhoneStaffId(employeeId);
+                        // 根据客服ID获取客服信息
+                        info = employeeService.selectByPrimaryKey(employeeId);
+                        // 设置客服姓名
+                        buttPerforInfo.setPhoneStaffName(info.getName());
+                        // 根据客服信息中的组织机构ID获取对应信息
+                        groupInfo = groupInfoService.selectByPrimaryKey(info.getOrganizationId());
+                        // 设置机构名称
+                        buttPerforInfo.setPhoneStaffGroupName(groupInfo.getName());
+                        
+                        // 设置接待姓名
+                        buttPerforInfo.setReceiveStaffName(employeeInfoForm.getName());
+                        // 获取成单/锁定-接待数/出单数
                         criteria.clear();
-                        criteria.put("type", "3");
-                        criteria.put("employeeId", employeeId);
+                        criteria.put("receiverStaffId", employeeInfoForm.getId());
                         criteria.put("startDate", startTime);
                         criteria.put("endDate", endTime);
-                        int finishOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
-                        // 获取锁定件数
-                        criteria.put("type", "4");
-                        int lockedOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
-                        
-                        // 设置成单/锁定-件均=订单金额/件数
-                        if(finishOrderGoodsCounts == 0) {
+                        countsAndOrders = visitReportService.getRecevieCountsAndOrders(criteria);
+                        // 成单出单率=接待数/出单数
+                        // 锁定出单率=接待数/出单数
+                        if(CollectionUtils.isNotEmpty(countsAndOrders)) {
+                            reportInfoForm = countsAndOrders.get(0);
+                            Integer finishOrderCounts = reportInfoForm.getFinishOrderCounts();
+                            Integer finishOrders = reportInfoForm.getFinishOrders();
+                            BigDecimal finishAmounts = reportInfoForm.getFinishAmounts();
+                            Integer lockedCounts = reportInfoForm.getLockedCounts();
+                            Integer lockedOrders = reportInfoForm.getLockedOrders();
+                            BigDecimal lockedAmounts = reportInfoForm.getLockedAmounts();
+                            // 设置成单接待数
+                            buttPerforInfo.setReceiveFinishedCounts(finishOrderCounts);
+                            // 设置成单出单数
+                            buttPerforInfo.setOutOrdersOfFinished(finishOrders);
+                            // 设置成单业绩
+                            buttPerforInfo.setPerformanceOfFinished(finishAmounts.longValue());
+                            // 设置锁定接待数
+                            buttPerforInfo.setReceiveLockedCounts(lockedCounts);
+                            // 设置锁定出单数
+                            buttPerforInfo.setOutOrdersOfLocked(lockedOrders);
+                            // 设置锁定业绩
+                            buttPerforInfo.setPerformanceOfLocked(lockedAmounts.longValue());
+                            // 设置成单出单率
+                            if(finishOrderCounts == 0 || finishOrders == 0) {
+                                buttPerforInfo.setOutOrderRateOfFinished("0");
+                            }else {
+                                buttPerforInfo.setOutOrderRateOfFinished(String.format("%.2f", finishOrderCounts/finishOrders) + "%");
+                                // 设置成单单均
+                                buttPerforInfo.setOrderAvgOfFinished(String.format("%.2f", finishAmounts.divide(new BigDecimal(finishOrders))));
+                            }
+                            // 设置锁定出单率
+                            if(lockedCounts == 0 || lockedOrders == 0) {
+                                buttPerforInfo.setOutOrderRateOfLocked("0");
+                            }else {
+                                buttPerforInfo.setOutOrderRateOfLocked(String.format("%.2f", lockedCounts/lockedOrders) + "%");
+                                // 设置锁定单均
+                                buttPerforInfo.setOrderAvgOfLocked(String.format("%.2f", lockedAmounts.divide(new BigDecimal(lockedOrders))));
+                            }
+                            // 获取成单件数
+                            criteria.clear();
+                            criteria.put("type", "3");
+                            criteria.put("employeeId", employeeId);
+                            criteria.put("startDate", startTime);
+                            criteria.put("endDate", endTime);
+                            int finishOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
+                            // 获取锁定件数
+                            criteria.put("type", "4");
+                            int lockedOrderGoodsCounts = orderService.getOrderGoodsCounts(criteria);
+                            
+                            // 设置成单/锁定-件均=订单金额/件数
+                            if(finishOrderGoodsCounts == 0) {
+                                buttPerforInfo.setPieceAvgOfFinished("0");
+                            }else {
+                                buttPerforInfo.setPieceAvgOfFinished(String.format("%.2f", finishAmounts.divide(new BigDecimal(finishOrderGoodsCounts))));
+                            }
+                            if(lockedOrderGoodsCounts == 0) {
+                                buttPerforInfo.setPieceAvgOfLocked("0");
+                            }else {
+                                buttPerforInfo.setPieceAvgOfLocked(String.format("%.2f", lockedAmounts.divide(new BigDecimal(lockedOrderGoodsCounts))));
+                            }
+                            
+                            // 单均产品件数=成单锁定的总件数/成单锁定的总单数
+                            if((finishOrders == 0 & lockedOrders == 0) || (finishOrderGoodsCounts == 0 & lockedOrderGoodsCounts == 0)) {
+                                buttPerforInfo.setOrderAvgOfGoodsCounts("0");
+                            }else {
+                                buttPerforInfo.setOrderAvgOfGoodsCounts(String.format("%.2f", (finishOrderGoodsCounts + lockedOrderGoodsCounts) / (finishOrders + lockedOrders)));
+                            }
+                        }else {
+                            buttPerforInfo.setReceiveFinishedCounts(0);
+                            buttPerforInfo.setOutOrdersOfFinished(0);
+                            buttPerforInfo.setPerformanceOfFinished(0L);
+                            buttPerforInfo.setReceiveLockedCounts(0);
+                            buttPerforInfo.setOutOrdersOfLocked(0);
+                            buttPerforInfo.setPerformanceOfLocked(0L);
+                            buttPerforInfo.setOutOrderRateOfFinished("0");
+                            buttPerforInfo.setOutOrderRateOfLocked("0");
+                            buttPerforInfo.setOrderAvgOfFinished("0");
+                            buttPerforInfo.setOrderAvgOfLocked("0");
                             buttPerforInfo.setPieceAvgOfFinished("0");
-                        }else {
-                            buttPerforInfo.setPieceAvgOfFinished(String.format("%.2f", finishAmounts/finishOrderGoodsCounts));
-                        }
-                        if(lockedOrderGoodsCounts == 0) {
                             buttPerforInfo.setPieceAvgOfLocked("0");
-                        }else {
-                            buttPerforInfo.setPieceAvgOfLocked(String.format("%.2f", lockedAmounts/lockedOrderGoodsCounts));
-                        }
-                        
-                        // 单均产品件数=成单锁定的总件数/成单锁定的总单数
-                        if((finishOrders == 0 & lockedOrders == 0) || (finishOrderGoodsCounts == 0 & lockedOrderGoodsCounts == 0)) {
                             buttPerforInfo.setOrderAvgOfGoodsCounts("0");
-                        }else {
-                            buttPerforInfo.setOrderAvgOfGoodsCounts(String.format("%.2f", (finishOrderGoodsCounts + lockedOrderGoodsCounts) / (finishOrders + lockedOrders)));
                         }
-                    }else {
-                        buttPerforInfo.setReceiveFinishedCounts(0);
-                        buttPerforInfo.setOutOrdersOfFinished(0);
-                        buttPerforInfo.setPerformanceOfFinished(0L);
-                        buttPerforInfo.setReceiveLockedCounts(0);
-                        buttPerforInfo.setOutOrdersOfLocked(0);
-                        buttPerforInfo.setPerformanceOfLocked(0L);
-                        buttPerforInfo.setOutOrderRateOfFinished("0");
-                        buttPerforInfo.setOutOrderRateOfLocked("0");
-                        buttPerforInfo.setOrderAvgOfFinished("0");
-                        buttPerforInfo.setOrderAvgOfLocked("0");
-                        buttPerforInfo.setPieceAvgOfFinished("0");
-                        buttPerforInfo.setPieceAvgOfLocked("0");
-                        buttPerforInfo.setOrderAvgOfGoodsCounts("0");
+                        buttPerforInfo.setId(UUidUtil.getUUId());
+                        buttPerforInfo.setReportDate(new Date());
+                        count += buttperforService.insert(buttPerforInfo);
                     }
-                    buttPerforInfo.setId(UUidUtil.getUUId());
-                    buttPerforInfo.setReportDate(new Date());
-                    count += buttperforService.insert(buttPerforInfo);
                 }else {
                     // 没有对接接待人员, 继续向下执行
                     continue;

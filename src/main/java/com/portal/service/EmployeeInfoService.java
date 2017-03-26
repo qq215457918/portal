@@ -1,11 +1,12 @@
 package com.portal.service;
 
+import java.util.List;
+import java.util.Set;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.result.EmployeeInfoForm;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import net.sf.json.JSONObject;
 
 public interface EmployeeInfoService {
@@ -118,10 +119,10 @@ public interface EmployeeInfoService {
      * @Title: getReceiveNameByPhoneId 
      * @Description: 统计每周对接业绩根据客服ID获取接待信息
      * @param criteria
-     * @return Map<String, String>
+     * @return List<EmployeeInfoForm> 
      * @author Xia ZhengWei
      * @date 2017年2月13日 下午9:55:26 
      * @version V1.0
      */
-    Map<String, String> getReceiveNameByPhoneId(Criteria criteria);
+    List<EmployeeInfoForm>  getReceiveNameByPhoneId(Criteria criteria);
 }

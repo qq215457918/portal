@@ -10,23 +10,23 @@
     <result column="customer_counts" property="customerCounts" jdbcType="INTEGER" />
     <result column="new_counts" property="newCounts" jdbcType="INTEGER" />
     <result column="new_orders" property="newOrders" jdbcType="INTEGER" />
-    <result column="new_amounts" property="newAmounts" jdbcType="INTEGER" />
+    <result column="new_amounts" property="newAmounts" jdbcType="DECIMAL" />
     <result column="repeat_counts" property="repeatCounts" jdbcType="INTEGER" />
     <result column="repeat_orders" property="repeatOrders" jdbcType="INTEGER" />
-    <result column="repeat_amounts" property="repeatAmounts" jdbcType="INTEGER" />
+    <result column="repeat_amounts" property="repeatAmounts" jdbcType="DECIMAL" />
     <result column="roadshow_counts" property="roadshowCounts" jdbcType="INTEGER" />
     <result column="roadshow_orders" property="roadshowOrders" jdbcType="INTEGER" />
-    <result column="roadshow_amounts" property="roadshowAmounts" jdbcType="INTEGER" />
+    <result column="roadshow_amounts" property="roadshowAmounts" jdbcType="DECIMAL" />
     <result column="finish_order_counts" property="finishOrderCounts" jdbcType="INTEGER" />
     <result column="finish_orders" property="finishOrders" jdbcType="INTEGER" />
-    <result column="finish_amounts" property="finishAmounts" jdbcType="INTEGER" />
+    <result column="finish_amounts" property="finishAmounts" jdbcType="DECIMAL" />
     <result column="locked_counts" property="lockedCounts" jdbcType="INTEGER" />
     <result column="locked_orders" property="lockedOrders" jdbcType="INTEGER" />
-    <result column="locked_amounts" property="lockedAmounts" jdbcType="INTEGER" />
+    <result column="locked_amounts" property="lockedAmounts" jdbcType="DECIMAL" />
     <!-- 各项总数字段 -->
     <result column="total_counts" property="totalCounts" jdbcType="INTEGER" />
     <result column="total_orders" property="totalOrders" jdbcType="INTEGER" />
-    <result column="total_amounts" property="totalAmounts" jdbcType="INTEGER" />
+    <result column="total_amounts" property="totalAmounts" jdbcType="DECIMAL" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -224,14 +224,14 @@
   </select>
   
   <!-- 定时器获取每周对接业绩中的成单/锁定的接待数/出单数 -->
-  <select id="getRecevieCountsAndOrders" parameterType="com.portal.bean.Criteria" resultType="java.util.Map">
+  <select id="getRecevieCountsAndOrders" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap">
   	select
-  		IFNULL(sum(v.finish_order_counts),0) as finishOrderCounts,
-  		IFNULL(sum(v.finish_orders),0) as finishOrders,
-  		IFNULL(sum(v.finish_amounts),0) as finishAmounts,
-  		IFNULL(sum(v.locked_counts),0) as lockedCounts,
-  		IFNULL(sum(v.locked_orders),0) as lockedOrders,
-  		IFNULL(sum(v.locked_amounts),0) as lockedAmounts
+  		IFNULL(sum(v.finish_order_counts),0) as finish_order_counts,
+  		IFNULL(sum(v.finish_orders),0) as finish_orders,
+  		IFNULL(sum(v.finish_amounts),0) as finish_amounts,
+  		IFNULL(sum(v.locked_counts),0) as locked_counts,
+  		IFNULL(sum(v.locked_orders),0) as locked_orders,
+  		IFNULL(sum(v.locked_amounts),0) as locked_amounts
   	from visit_report_info v
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
