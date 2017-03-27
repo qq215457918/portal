@@ -17,36 +17,21 @@ $(document)
 						}
 					}).data("datepicker");
 
-					$('#searchList').click(
-							function() {
-								if ('' == $('#orderNumber').val()
-										&& '' == $('#customerPhone').val()
-										&& '' == $('#customerName').val()
-										&& '' == $('#receiverName').val()) {
-									return;
-								}
-								$('#financeOrderExam').dataTable().fnDraw();
-							});
+					$('#searchList').click(function() {
+						// if ('' == $('#orderNumber').val()
+						// && '' == $('#customerPhone').val()
+						// && '' == $('#customerName').val()
+						// && '' == $('#receiverName').val()
+						// && '' == $('#createDate').val()
+						// && '' == $('#payType').val()) {
+						// return;
+						// }
+						$('#financeOrderExam').dataTable().fnDraw();
+					});
 
 					$('#outgoing')
 							.click(
 									function() {
-										// $('#outgoingInfo').show();
-										// // $('#outgoingInfo').jqprint();
-										// $("#outgoingInfo").print({
-										// globalStyles: true,
-										// mediaPrint: false,
-										// stylesheet: null,
-										// noPrintSelector: ".no-print",
-										// iframe: true,
-										// append: null,
-										// prepend: null,
-										// manuallyCopyFormValues: true,
-										// deferred: $.Deferred(),
-										// timeout: 750,
-										// title: null,
-										// doctype: '<!doctype html>'
-										// });
 										window.location.href = "workflow/downloadExcel?orderId="
 												+ $('input[name=orderId]')
 														.val();
@@ -55,22 +40,6 @@ $(document)
 					$('#receiveMoney')
 							.click(
 									function() {
-										// $('#receiveMoneyInfo').show();
-										// // $('#outgoingInfo').jqprint();
-										// $("#receiveMoneyInfo").print({
-										// globalStyles: true,
-										// mediaPrint: false,
-										// stylesheet: null,
-										// noPrintSelector: ".no-print",
-										// iframe: true,
-										// append: null,
-										// prepend: null,
-										// manuallyCopyFormValues: true,
-										// deferred: $.Deferred(),
-										// timeout: 750,
-										// title: null,
-										// doctype: '<!doctype html>'
-										// });
 										window.location.href = "workflow/downloadExcel?orderId="
 												+ $('input[name=orderId]')
 														.val();
@@ -370,6 +339,13 @@ $(document)
 function commitExam(suggestion) {
 	$('#examModel inout[name=suggestion]').val(suggestion);
 }
+$(document).on(
+		'click',
+		'#orderPaymentInfo',
+		function() {
+			window.location.href = 'order/orderPaymentInfo?orderNumber='
+					+ $(this).attr('data-order-number');
+		});
 
 function initData() {
 	$('#financeOrderExam')
@@ -385,8 +361,7 @@ function initData() {
 						"aoColumns" : [ {
 							"mData" : null,
 							"target" : 0
-						}, // 序列号
-						{
+						}, {
 							"mData" : "orderNumber"
 						}, {
 							"mData" : "receiverStaffName"
@@ -396,8 +371,7 @@ function initData() {
 							"mData" : "customerName"
 						}, {
 							"mData" : "goodsQuantity"
-						},// goodsName
-						{
+						}, {
 							"mData" : "orderTypeName"
 						}, {
 							"mData" : "payTypeName"
@@ -435,29 +409,43 @@ function initData() {
 										}
 										if (row.orderType == 2) {
 											var operation = '<a class="btn btn-danger btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
-												+ row.id
-												+ '" data-pay-type="'
-												+ row.payType
-												+ '"  data-order-number="'
-												+ row.orderNumber
-												+ '" id="confirmReceipt">确认付款</a>'
-												+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
-												+ row.id
-												+ '" id="toPrint">打印</a>';
+													+ row.id
+													+ '" data-pay-type="'
+													+ row.payType
+													+ '"  data-order-number="'
+													+ row.orderNumber
+													+ '" id="confirmReceipt">确认付款</a>'
+													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
+													+ row.id
+													+ '" id="toPrint">打印</a>';
 										}
 										if (row.financeFlag == 1) {
-											operation = '<a class="btn btn-success btn-block" href="javascript:;" data-toggle="modal">已收款</a>'
-													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
+											if (row.orderType == 2
+													|| row.orderType == 5) {
+												operation = '<a class="btn btn-info btn-block" href="javascript:;" data-toggle="modal">已付款</a>'
+											} else {
+												operation = '<a class="btn btn-success btn-block" href="javascript:;" data-toggle="modal">已收款</a>'
+											}
+											operation += '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 													+ row.id
 													+ '" id="toPrint">打印</a>';
+											operation += '<a class="btn btn-default btn-block" data-toggle="modal" data-order-number="'
+													+ row.orderNumber
+													+ '" id="orderPaymentInfo">支付详情</a>';
+
 										}
 										if (row.financeFlag == -1) {
+
 											operation = '<a class="btn btn-success btn-block" href="javascript:;" data-toggle="modal">已付款</a>'
+
+											operation
 													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 													+ row.id
 													+ '" id="toPrint">打印</a>';
+											operation += '<a class="btn btn-default btn-block" data-toggle="modal" data-order-number="'
+													+ row.orderNumber
+													+ '" id="orderPaymentInfo">支付详情</a>';
 										}
-
 										operation += '<a class="btn btn-default btn-block" data-toggle="modal" data-order-id="'
 												+ row.id
 												+ '" id="orderDetailInfo">订单详情</a>';
@@ -484,6 +472,8 @@ function initData() {
 							var customerPhone = $('#customerPhone').val();
 							var customerName = $('#customerName').val();
 							var receiverName = $('#receiverName').val();
+							var createDate = $('#createDate').val();
+							var payType = $('#payType').val();
 
 							aoData.push({
 								'name' : 'orderId',
@@ -500,6 +490,12 @@ function initData() {
 							}, {
 								'name' : 'receiverName',
 								'value' : receiverName
+							}, {
+								'name' : 'createDate',
+								'value' : createDate
+							}, {
+								'name' : 'payType',
+								'value' : payType
 							});
 							$.ajax({
 								"dataType" : 'json',

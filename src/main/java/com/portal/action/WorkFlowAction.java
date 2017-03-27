@@ -550,6 +550,7 @@ public class WorkFlowAction {
         criteria.put("customerPhone", request.getParameter("customerPhone"));
         criteria.put("customerName", request.getParameter("customerName"));
         criteria.put("receiverName", request.getParameter("receiverName"));
+        criteria.put("payType", request.getParameter("payType"));
         criteria.put("areaFlag", empInfo.getOrganizationId());
         criteria.setOrderByClause("create_date desc");
         criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));

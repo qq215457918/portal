@@ -37,21 +37,25 @@
 							<label for="receiverName">接待人员</label> <input
 								class="form-control" id="receiverName" type="text">
 						</div>
+
 						<div class="form-group col-xs-2">
-							<label for="startDate">开始日期</label>
+							<label for="createDate">订单日期</label>
 							<div class="input-group date datepicker">
-								<input class="form-control" type="text" id="startDate"
-									value="${startDate }" readonly="readonly"><span
+								<input class="form-control" type="text" id="createDate"
+									value="${createDate }" readonly="readonly"><span
 									class="input-group-addon"><i class="icon-calendar"></i></span>
 							</div>
 						</div>
 
 						<div class="form-group col-xs-2">
-							<label for="endDate">截止日期</label><div class="input-group date datepicker">
-								<input class="form-control" type="text" id="endDate"
-									value="${startDate }" readonly="readonly"><span
-									class="input-group-addon"><i class="icon-calendar"></i></span>
-							</div>
+							<label for="payType">付款类型</label> <select id="payType"
+								class="form-control">
+								<option value="">全部</option>
+								<option value="0">全额支付</option>
+								<option value="1">订金支付</option>
+								<option value="2">派送支付</option>
+								<option value="3">尾款支付</option>
+							</select>
 						</div>
 						<button class="btn btn-primary" id="searchList">搜索</button>
 
@@ -166,25 +170,6 @@
 	</div>
 
 	<div id="receiveMoneyInfo" style="display: none;">
-		<!-- 		<div class="tc"><h3>定金 收 据</h3></div> -->
-		<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
-		<!-- 		<div class="table-margin"> -->
-		<!-- 			<table border="1"> -->
-		<!-- 				<tr> -->
-		<!-- 					<th>商品名称</th> -->
-		<!-- 					<th>数量</th> -->
-		<!-- 					<th>单位</th> -->
-		<!-- 					<th>单价</th> -->
-		<!-- 					<th>订 金</th> -->
-		<!-- 				</tr> -->
-		<!-- 				<tbody name="detail"></tbody> -->
-		<!-- 				<tr> -->
-		<!-- 					<td>大写金额：</td> -->
-		<!-- 					<td colspan="4" name="priceCn"></td> -->
-		<!-- 				</tr> -->
-		<!-- 			</table> -->
-		<!-- 		</div> -->
-		<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
 		<div class="tc">
 			<h3></h3>
 		</div>
