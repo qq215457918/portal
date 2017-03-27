@@ -515,7 +515,7 @@ public class ReportController {
         request.setAttribute("startReportDate", DateUtil.formatDate(DateUtil.getLastWeekMonday(new Date()), "yyyy-MM-dd"));
         request.setAttribute("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd"));
         return "report/butt_perfor_detail";
-    } 
+    }
     
     /**
      * @Title: ajaxButtPerforDetail 
