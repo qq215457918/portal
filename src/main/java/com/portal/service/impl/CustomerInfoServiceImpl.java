@@ -196,6 +196,7 @@ public class CustomerInfoServiceImpl implements CustomerInfoService {
         cInfo.setType("1");
         cInfo.setBirthday(DateUtil.parseDate(cInfo.getBirthdayStr(), DateUtil.DATE_FMT_YYYY_MM_DD));
         cInfo.setRecentVisitDate(new Date());
+        cInfo.setArea(employeeInfo.getOrganizationId());
         cInfo.setReceiverStaffId(employeeInfo.getId());
         cInfo.setReceiverStaffName(employeeInfo.getName());
         insertSelective(cInfo);

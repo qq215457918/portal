@@ -1094,7 +1094,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
 
-        // 如果根据传递的日期从数据库表中查询数据，查到了直接显示，差不多则统计;
+        // 如果根据传递的日期从数据库表中查询数据，查到了直接显示，差不到则统计;
         // 查询之前统计的数据
         criteria.put("reportDate", startDate);
         // 获取数据库中之前保存的数据
@@ -1114,17 +1114,17 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             List<OrderDetailInfoForm> goodsList = orderInfoExtraDao.getSellGoods(criteria);
             // 获取销售结算明细(获取收款账户对应收款方式的统计) 
             List<OrderInfoForm> clearingList = orderInfoExtraDao.getSellclearingDetail(criteria);
-            // 获取定金退款
-            List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
+            // 获取定金退款(不在这个里面体现-转移到当日刷卡定金明细中)
+            // List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
             // 获取定金回款
-            List<Integer> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
+            List<OrderInfoForm> depositReturn = orderInfoExtraDao.getDepositReturn(criteria);
             // 获取回购支出的金额
             double payOutAmounts = orderInfoExtraDao.getPayOutAmounts(criteria);
 
             result.put("type", "compile");
             result.put("goodsList", goodsList);
             result.put("clearing", clearingList);
-            result.put("depositRefund", depositRefund);
+            // result.put("depositRefund", depositRefund);
             result.put("depositReturn", depositReturn);
             result.put("payOutAmounts", payOutAmounts);
         }
@@ -1157,6 +1157,11 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         int totalRecord = orderInfoExtraDao.getCountsCardDetail(criteria);
         // 获取数据
         List<OrderFundSettlementForm> depositDetail = orderInfoExtraDao.getCreditCardDepositDetail(criteria);
+        
+        // 获取定金退款数据
+        // List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
+        
+        
 
         results.put("sEcho", request.getParameter("sEcho"));
         results.put("iTotalRecords", totalRecord);

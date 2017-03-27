@@ -112,7 +112,7 @@
 		        	<li><a name="tab" href="${base}report/toSellDaily?active=12">销售日报表</a></li>
 	            </shiro:hasPermission>
 				<shiro:hasPermission name="creditCardDepositDetail:view">
-		        	<li><a name="tab" href="${base}report/toCreditCardDepositDetail?active=13">当日刷卡定金明细表</a></li>
+		        	<li><a name="tab" href="${base}report/toCreditCardDepositDetail?active=13">当日定金明细表</a></li>
 	            </shiro:hasPermission>
 				<shiro:hasPermission name="outwarehouseDetail:view">
 		        	<li><a name="tab" href="${base}report/toOutwarehouseDetail?active=14">出库明细统计</a></li>

@@ -1,5 +1,19 @@
 package com.portal.service.impl;
 
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.beanutils.ConvertUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.portal.bean.Criteria;
 import com.portal.bean.DailyEmployeeAudit;
 import com.portal.bean.DailyEmployeeAuditHistory;
@@ -15,18 +29,8 @@ import com.portal.dao.EmployeeInfoDao;
 import com.portal.dao.extra.EmployeeInfoExtraDao;
 import com.portal.service.EmployeeInfoService;
 import com.portal.service.RoleService;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import net.sf.json.JSONObject;
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeInfoServiceImpl implements EmployeeInfoService {
@@ -71,7 +75,10 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             return Collections.EMPTY_SET;
         }
         String roleIds = user.getRoleIds();
-        if(roleIds.indexOf(',') == 0) {
+        if (StringUtils.isEmpty(roleIds)) {
+            return null;
+        }
+        if (roleIds.indexOf(',') == 0) {
             roleIds = roleIds.substring(1, roleIds.length());
         }
         String roleIdStr[] = roleIds.split(",");
@@ -180,7 +187,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
 
     public JSONObject deleteEmployeeInfo(String employeeId, JSONObject result) {
         EmployeeInfo employeeInfo = this.selectByPrimaryKey(employeeId);
-        if("0".equals(employeeInfo.getDeleteFlag())) {
+        if ("0".equals(employeeInfo.getDeleteFlag())) {
             // 逻辑删除--修改删除状态
             employeeInfo.setDeleteFlag("1");
             int count = this.updateByPrimaryKey(employeeInfo);
@@ -205,7 +212,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
                     }
                 }
                 result = JsonUtils.setSuccess();
-            }else {
+            } else {
                 result = JsonUtils.setError();
                 result.put("text", "系统异常,请刷新后重试");
             }
@@ -261,21 +268,21 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
             // 过滤特殊字符
             employeeInfo.setStaffNumber(StringUtil.tstr(employeeInfo.getStaffNumber().trim()));
         }
-        
+
         String roleIds = employeeInfo.getRoleIds();
-        if(StringUtil.isNotBlank(roleIds)) {
+        if (StringUtil.isNotBlank(roleIds)) {
             StringBuilder builder = new StringBuilder();
             String[] roles = roleIds.split(",");
             for (String string : roles) {
-                if(StringUtil.isNotBlank(string)) {
+                if (StringUtil.isNotBlank(string)) {
                     builder.append(",").append(string);
                 }
             }
             builder.append(",");
             employeeInfo.setRoleIds(builder.toString());
         }
-        
-        if(StringUtil.isNotBlank(employeeInfo.getId())) {
+
+        if (StringUtil.isNotBlank(employeeInfo.getId())) {
             // 修改
             count = employeeInfoDao.updateByPrimaryKey(employeeInfo);
         } else {

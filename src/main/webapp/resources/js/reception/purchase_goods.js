@@ -190,8 +190,7 @@ function openGifts() {
 }
 
 function getModalContent(type) {
-	$
-			.ajax({
+	$.ajax({
 				method : "POST",
 				url : base + "/order/receive",
 				data : {

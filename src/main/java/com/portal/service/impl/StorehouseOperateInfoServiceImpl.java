@@ -93,7 +93,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         String goodsName = request.getParameter("goodsName");
         // 所属区域
         String area = request.getParameter("area");
-        // 开始日期
+        // 开始日期 
         String startDate = request.getParameter("startDate");
         // 结束日期
         String endDate = request.getParameter("endDate");
@@ -104,7 +104,7 @@ public class StorehouseOperateInfoServiceImpl implements StorehouseOperateInfoSe
         // 库房已审批通过的订单 
         criteria.put("warehouseFlag", "1");
         criteria.put("deleteFlag", "0");
-        criteria.setOrderByClause("gs.id, o.warehouse_date desc");
+        criteria.setOrderByClause("o.warehouse_date desc");
         if(StringUtil.isNotBlank(orderNumber)){
             criteria.put("orderNumber", orderNumber);
         }

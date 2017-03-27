@@ -50,10 +50,7 @@
 	                  <label>关联亲友</label>
 	                  <input class="form-control" id="relationId" name="relationId" type="text" value=${customerInfo.relationId}>
 	                </div>  
-	               <div class="form-group">
-	                  <label>地址</label>
-	                  <input id="address" name="address"  type="text" value="${customerInfo.address}" class="form-control city_input" readonly="readonly" onchange="addressChange();">
-	                </div>   
+ 
                 </div>
                <div class="col-md-6">
 	               <div class="form-group">
@@ -70,15 +67,11 @@
 	                <div class="form-group">
 	                  <label>身份证</label>
 	                  <input class="form-control" id="idCard" name="idCard" type="text" value=${customerInfo.idCard}>
-	                </div>                 
-	             <div class="form-group">
-                  <label>客服</label><!-- <input class="form-control" id="phone2" name="phone2" type="text"> -->
-                  <select id="phoneStaffId" name="phoneStaffId" class="form-control" style="width: 100%;">
-                       <c:forEach items="${phoneEmp}" var="emp">
-                       <option value="${emp.id}">${emp.name}</option>	
-                       </c:forEach>
-                   </select>
-                </div>
+	                </div>      
+	                <div class="form-group">
+	                  <label>地址</label>
+	                  <input id="address" name="address"  type="text" value="${customerInfo.address}" class="form-control city_input" readonly="readonly" onchange="addressChange();">
+	                </div>             
 	           		<div class="form-group" style="margin-top:20px">
 			            <label class="checkbox"><input type="checkbox" id="blacklistFlag" name="blacklistFlag"><span>加入黑名单</span></label>  		              
 			        </div>     		

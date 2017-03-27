@@ -4,7 +4,7 @@
 <html>
 <head>
 <jsp:include page="/WEB-INF/jsp/common/include.jsp" />
-<title>当日刷卡定金明细</title>
+<title>当日定金明细</title>
 <base href="${basePath}">
 <link type="text/css" rel="stylesheet" href="resources/css/report/receive_report.css" />
 <script type="text/javascript" src="resources/js/report/credit_card_detail.js"></script>
@@ -47,7 +47,7 @@
 				<thead>
 					<th>序号</th>
                    	<th>收款账户名称</th>
-                   	<th>刷卡类别</th>
+                   	<th>支付类别</th>
                    	<th>出单号</th>
                    	<th>需要支付金额</th>
                    	<th>实际入账金额</th>

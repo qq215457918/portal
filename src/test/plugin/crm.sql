@@ -215,7 +215,7 @@ CREATE TABLE `order_info` (
   `culture_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '文交所审批标志 \n0未审核\n1 已审核',
   `culture_operator_id` varchar(16) COLLATE utf8_bin DEFAULT NULL COMMENT '文交所人员id',
   `culture_date` datetime DEFAULT NULL COMMENT '文交所审批日期',
-  `Remarks` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '备注信息',
+  `remarks` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '备注信息',
   `area_flag` varchar(1) COLLATE utf8_bin DEFAULT NULL COMMENT '地区：0大连、1沈阳',
   `create_date` datetime DEFAULT NULL,
   `create_id` varchar(16) COLLATE utf8_bin DEFAULT NULL,

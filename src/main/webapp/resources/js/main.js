@@ -896,11 +896,20 @@
 
     $("#validate-form").validate({
       rules: {
-        name: "required",
+        name: {
+        	 required: true,
+        	 rangelength:[2,10]
+        },
+        qq: {
+         number:true,
+       	 rangelength:[1,15]
+       },
         lastname: "required",
         phone: {
 	        required: true,
-	        tel: true
+	        number:true,
+	        maxlength:15
+//	        tel: true
         },
         username: {
           required: true,
@@ -921,11 +930,19 @@
         }
       },
       messages: {
-    	name: "请输入您的名称",
+      	qq: {
+    		rangelength:"请输入正确的QQ号码",
+    		number:"请输入正确的QQ号码",
+    	},
+    	name: {
+    		required: "请输入您的名称",
+    		rangelength:"名称不超过10个字"
+    	},
         lastname: "Please enter your last name",
         phone: {
             required: "请输入您的电话号码",
-            minlength: "标准手机号码为11位"
+            maxlength: "请输入正确的手机号码或座机",
+            number: "只能输入数字类型"
           },
         username: {
           required: "请输入用户名",
