@@ -517,7 +517,7 @@ public class ReportController {
         return "report/butt_perfor_detail";
     }  
     
-    /** 
+    /**
      * @Title: ajaxButtPerforDetail 
      * @Description: 异步获取展厅客服对接业绩详细数据
      * @param request
