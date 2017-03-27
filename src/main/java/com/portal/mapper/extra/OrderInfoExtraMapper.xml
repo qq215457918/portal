@@ -467,7 +467,7 @@
         IFNULL(sum(od.amount),0) as amount,
         od.price as price,
         IFNULL(sum(od.amount),0)*od.price as total_price,
-        o.Remarks as remarks
+        o.remarks as remarks
     from order_detail_info od
     left join order_info o on od.order_id = o.id
     <if test="_parameter != null" >

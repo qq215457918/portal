@@ -49,8 +49,6 @@
 								<i class="icon-table"></i>购买商品
 							</div>
 							<div class="widget-content padded">
-								<form action="#" class="form-horizontal">
-									<div class="form-group">
 										<div class="col-xs-6">
 											<label class="control-label col-xs-4">商品信息</label>
 											<div class="col-xs-6">
@@ -58,20 +56,7 @@
 													type="text" id="goodInfo">
 											</div>
 										</div>
-										<div class="col-xs-6">
-											<label class="control-label col-xs-4">售卖金额</label>
-											<div class="col-xs-4">
-												<input class="form-control" type="text" placeholder="最低金额"
-													id="lowPrice">
-											</div>
-											<div class="col-xs-4">
-												<input class="form-control" type="text" placeholder="最高金额"
-													id="highPrice">
-											</div>
-										</div>
-									</div>
 									<button class="btn btn-primary" id="searchGoods">查 询</button>
-								</form>
 							</div>
 							<div class="widget-container fluid-height clearfix">
 								<div class="widget-content padded clearfix">
