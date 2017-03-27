@@ -794,11 +794,11 @@ public class ReportController {
         JsonUtils.outJsonString(results.toString(), response);
     }
     
-    // ------------------------- 当日刷卡定金明细统计 入口：toCreditCardDepositDetail ---------------------------------
+    // ------------------------- 当日定金明细统计 入口：toCreditCardDepositDetail ---------------------------------
     
     /**
      * @Title: toCreditCardDepositDetail 
-     * @Description: 当日刷卡定金明细统计
+     * @Description: 当日定金明细统计
      * @param request
      * @param response
      * @return String
@@ -818,7 +818,7 @@ public class ReportController {
     
     /**
      * @Title: ajaxCreditCardDepositDetail 
-     * @Description: 异步获取当日刷卡定金明细数据
+     * @Description: 异步获取当日定金明细数据
      * @param request
      * @param response 
      * @return void

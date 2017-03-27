@@ -115,10 +115,10 @@ public class ButtPerforDetailInfoServiceImpl implements ButtPerforDetailInfoServ
             criteria.put("endReportDate", DateUtil.formatDate(DateUtil.getLastWeekSunday(new Date()), "yyyy-MM-dd 23:59:59"));
         }
         if(StringUtil.isNotBlank(viewPhoneStaffName)){
-            criteria.put("viewPhoneStaffName", viewPhoneStaffName);
+            criteria.put("viewPhoneStaffName", viewPhoneStaffName.trim());
         }
         if(StringUtil.isNotBlank(viewReceiveStaffName)){
-            criteria.put("viewReceiveStaffName", viewReceiveStaffName);
+            criteria.put("viewReceiveStaffName", viewReceiveStaffName.trim());
         }
         if(StringUtil.isNotBlank(viewPhoneStaffGroupName)){
             criteria.put("viewPhoneStaffGroupName", viewPhoneStaffGroupName);

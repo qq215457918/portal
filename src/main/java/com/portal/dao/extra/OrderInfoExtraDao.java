@@ -160,7 +160,7 @@ public interface OrderInfoExtraDao {
     
     /**
      * @Title: getDepositRefund 
-     * @Description: 获取每天的定金退款数据（定时器使用）
+     * @Description: 获取每天的定金退款数据
      * @param criteria
      * @return List<Integer>
      * @author Xia ZhengWei
@@ -171,13 +171,13 @@ public interface OrderInfoExtraDao {
     
     /**
      * @Title: getDepositReturn 
-     * @Description: 获取每天的定金回款数据（定时器使用）
+     * @Description: 获取每天的定金回款数据
      * @param criteria
      * @return List<Integer>
      * @author Xia ZhengWei
      * @date 2016年12月12日 下午10:47:21 
      * @version V1.0
      */
-    List<Integer> getDepositReturn(Criteria criteria);
+    List<OrderInfoForm> getDepositReturn(Criteria criteria);
     
 }

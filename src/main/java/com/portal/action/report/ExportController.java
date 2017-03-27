@@ -455,19 +455,20 @@ public class ExportController {
     private void makeCreditCardData(String area, List<OrderFundSettlementForm> list, ExportBean excelBean){
         Object[][] data = new Object[list.size()+1][6];
         int i = 1;
-        data[0] = new Object[]{"序号","收款账户名称","出单号","需要支付金额","支付金额","手续费"};
+        data[0] = new Object[]{"序号","收款账户名称","支付类别","出单号","需要支付金额","支付金额","手续费"};
         for(OrderFundSettlementForm e : list){
             data[i][0] = i;
             data[i][1] = (null == e.getPaymentAccountName() ? "" : e.getPaymentAccountName());
-            data[i][2] = (null == e.getOrderNumber() ? "" : e.getOrderNumber());
-            data[i][3] = (null == e.getPayAmount() ? "" : e.getPayAmount());
-            data[i][4] = (null == e.getPayAmountActual() ? "" : e.getPayAmountActual());
-            data[i][5] = (null == e.getPoundage() ? "" : e.getPoundage());
+            data[i][2] = (null == e.getCustomerPayType() ? "" : e.getCustomerPayType());
+            data[i][3] = (null == e.getOrderNumber() ? "" : e.getOrderNumber());
+            data[i][4] = (null == e.getPayAmount() ? "" : e.getPayAmount());
+            data[i][5] = (null == e.getPayAmountActual() ? "" : e.getPayAmountActual());
+            data[i][6] = (null == e.getPoundage() ? "" : e.getPoundage());
             i++;
         }
         excelBean.setData(data);
-        excelBean.setExcelName(area + "当日刷卡定金");
-        excelBean.setSheetName(area + "当日刷卡定金");
+        excelBean.setExcelName(area + "当日定金");
+        excelBean.setSheetName(area + "当日定金");
     }
     
     //------------------------------ 导出出库明细 ------------------------------

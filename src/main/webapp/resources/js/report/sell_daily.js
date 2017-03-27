@@ -95,12 +95,13 @@ function initData() {
 			var type = data.type;
 			var goodsList = data.goodsList;
 			var clearing = data.clearing;
-			var depositRefund = data.depositRefund;
+			// 刷卡定金转移到当日刷卡定金明细中
+			// var depositRefund = data.depositRefund;
 			var depositReturn = data.depositReturn;
 			var payOutAmounts = data.payOutAmounts;
 			$("#sellDaily").empty();
 			$("#printTable").empty();
-			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositRefund.length > 0 || depositReturn.length > 0)) {
+			if(type == "compile" & (goodsList.length > 0 || clearing.length > 0 || depositReturn.length > 0)) {
 				$("#saveSell").show();
 			}else {
 				$("#saveSell").hide();
@@ -217,6 +218,7 @@ function initData() {
 			total = parseInt(0);
 			var income = parseInt(0);
 			var poundages = parseInt(0);
+			var remarks = "";
 			
 			var payType = "";
 			if(type == "search") {
@@ -268,7 +270,7 @@ function initData() {
 									"<td colspan='2'><input type='text' name='sellDailyDetails["+int+"].remarks'/></td>" + 
 								"<tr>";
 					printContents = "<tr>" + 
-										"<td colspan='2'>" + clearing[int].paymentAccountName + "</td>" + 
+										"<td>" + clearing[int].paymentAccountName + "</td>" + 
 										"<td>" + payType + "</td>" + 
 										"<td>" + clearing[int].orderPayType + "</td>" + 
 										"<td>" + clearing[int].payAmountActual + "</td>" + 
@@ -283,7 +285,7 @@ function initData() {
 					printHtml += printContents;
 				}
 				// 回显定金退款
-				for (var int = 0; int < depositRefund.length; int++) {
+				/*for (var int = 0; int < depositRefund.length; int++) {
 					if(rows > 0) {
 						rows += 1;
 					}
@@ -310,35 +312,38 @@ function initData() {
 					poundages += 0;
 					html += contents;
 					printHtml += printContents;
-				}
+				}*/
 				// 回显定金回款
 				for (var int = 0; int < depositReturn.length; int++) {
-					if(rows > 0) {
-						rows += 1;
-					}
-					contents = "<tr>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].orderPayType' readonly='readonly' /></td>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositReturn[int] + "'/></td>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' /></td>" + 
-									"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' /></td>" + 
-									"<td colspan='2'><input type='text' name='sellDailyDetails["+rows+"].remarks' value='定金回款'/></td>" + 
-								"<tr>";
-					printContents = "<tr>" + 
-										"<td></td>" + 
-										"<td></td>" + 
-										"<td>定金回款</td>" + 
-										"<td>" + depositReturn[int] + "</td>" + 
-										"<td></td>" + 
-										"<td></td>" + 
-										"<td colspan='2'>定金回款</td>" + 
+					if(depositReturn[int] != null) {
+						if(rows > 0) {
+							rows += 1;
+						}
+						remarks = depositReturn[int].orderNumber.substring(0, 8) + "定金回款";
+						contents = "<tr>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].paymentAccountName' readonly='readonly' /></td>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].customerPayType' readonly='readonly' /></td>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].orderPayType' readonly='readonly' /></td>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmount' readonly='readonly' value='" + depositReturn[int].payPrice + "'/></td>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].payAmountActual' readonly='readonly' value='" + depositReturn[int].actualPrice + "'/></td>" + 
+										"<td><input type='text' style='border: 0px;' name='sellDailyDetails["+rows+"].poundage' readonly='readonly' value='" + (depositReturn[int].payPrice - depositReturn[int].actualPrice).toFixed(2) + "'/></td>" + 
+										"<td colspan='2'><input type='text' name='sellDailyDetails["+rows+"].remarks' value='" + remarks + "'/></td>" + 
 									"<tr>";
-					total = (total + depositReturn[int]).toFixed(2)*1;
-					income += 0;
-					poundages += 0;
-					html += contents;
-					printHtml += printContents;
+						printContents = "<tr>" + 
+											"<td></td>" + 
+											"<td></td>" + 
+											"<td></td>" + 
+											"<td>" + depositReturn[int].payPrice + "</td>" + 
+											"<td>" + depositReturn[int].actualPrice + "</td>" + 
+											"<td>" + (depositReturn[int].payPrice - depositReturn[int].actualPrice).toFixed(2) + "</td>" + 
+											"<td colspan='2'>" + remarks + "</td>" + 
+										"<tr>";
+						total = (total + depositReturn[int].payPrice).toFixed(2) * 1;
+						income += depositReturn[int].actualPrice * 1;
+						poundages += (depositReturn[int].payPrice - depositReturn[int].actualPrice).toFixed(2) * 1;
+						html += contents;
+						printHtml += printContents;
+					}
 				}
 				// 回显回购藏品费用
 				if(payOutAmounts < 0) {
