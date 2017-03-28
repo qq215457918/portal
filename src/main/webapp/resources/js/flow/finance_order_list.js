@@ -64,24 +64,46 @@ $(document)
 							});
 
 					$('#commitForm')
-							.click(function() {
-								$('.base-column .form-data').each(function(i) {
-									$(this).find('select,input').each(function() {
-											$(this).attr('name','paymentList['+ i+ '].'+ $(this).attr('id'));
-										});
-									
+							.click(
+									function() {
+										$('.base-column .form-data')
+												.each(
+														function(i) {
+															$(this)
+																	.find(
+																			'select,input')
+																	.each(
+																			function() {
+																				$(
+																						this)
+																						.attr(
+																								'name',
+																								'paymentList['
+																										+ i
+																										+ '].'
+																										+ $(
+																												this)
+																												.attr(
+																														'id'));
+																			});
+
+														});
+										var payAmount = $('#payAmount').val()
+										var payAmountActual = $(
+												'#payAmountActual').val()
+										// var totalAmount =
+										// $('#totalAmount').val()
+										if (payAmountActual == ''
+												|| payAmount == ''
+												|| isNaN(payAmountActual)
+												|| isNaN(payAmount)) {
+											alert("请输入‘收款金额’和‘实收金额’");
+										} else if (parseInt(payAmount) < parseInt(payAmountActual)) {
+											alert("‘实收金额’不得大于‘收款金额’");
+										} else {
+											$('#updateCivi').submit();
+										}
 									});
-								var payAmount = $('#payAmount').val()
-								var payAmountActual = $('#payAmountActual').val()
-//								var totalAmount = $('#totalAmount').val()
-								if(payAmountActual=='' || payAmount=='' ||isNaN(payAmountActual) || isNaN(payAmount)){
-									alert("请输入‘收款金额’和‘实收金额’");
-								}else if(parseInt(payAmount) < parseInt(payAmountActual)) {
-									alert("‘实收金额’不得大于‘收款金额’");
-								}else{
-									$('#updateCivi').submit();
-								}
-							});
 				});
 
 $(document).delegate('input[name=payAmount],input[name=payAmountActual]',
@@ -129,7 +151,7 @@ $(document)
 					}
 					$('input[name=totalAmount]').val(
 							$(this).attr('data-order-amount'));
-					
+
 					$('input[name=orderNumber]').val(
 							$(this).attr('data-order-number'));
 					var orderId = $(this).attr('data-order-id');
@@ -381,7 +403,14 @@ function initData() {
 								{
 									"render" : function(data, type, row) {
 										var operation = '<a class="btn btn-warning btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
-												+ row.id+ '" data-pay-type="'+ row.payType+ '"  data-order-number="'+ row.orderNumber+ '"data-order-amount="'+ row.payPrice+ '" id="confirmReceipt">确认收款</a>'
+												+ row.id
+												+ '" data-pay-type="'
+												+ row.payType
+												+ '"  data-order-number="'
+												+ row.orderNumber
+												+ '"data-order-amount="'
+												+ row.payPrice
+												+ '" id="confirmReceipt">确认收款</a>'
 												+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 												+ row.id
 												+ '" id="toPrint">打印</a>';
@@ -392,7 +421,8 @@ function initData() {
 													+ row.payType
 													+ '"  data-order-number="'
 													+ row.orderNumber
-													+ '"  data-order-amount="'+ row.payPrice
+													+ '"  data-order-amount="'
+													+ row.payPrice
 													+ '" data-operate-id="1" id="confirmReceipt">确认付款</a>'
 													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 													+ row.id
@@ -400,26 +430,17 @@ function initData() {
 										}
 										if (row.orderType == 2) {
 											var operation = '<a class="btn btn-danger btn-block" href="#orderSettlement" data-toggle="modal" data-order-id="'
-<<<<<<< HEAD
 													+ row.id
 													+ '" data-pay-type="'
 													+ row.payType
 													+ '"  data-order-number="'
 													+ row.orderNumber
+													+ '"  data-order-amount="'
+													+ row.payPrice
 													+ '" id="confirmReceipt">确认付款</a>'
 													+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 													+ row.id
 													+ '" id="toPrint">打印</a>';
-=======
-												+ row.id
-												+ '" data-pay-type="'+ row.payType
-												+ '"  data-order-number="'+ row.orderNumber
-												+ '"  data-order-amount="'+ row.payPrice
-												+ '" id="confirmReceipt">确认付款</a>'
-												+ '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
-												+ row.id
-												+ '" id="toPrint">打印</a>';
->>>>>>> 3856357639ba5b578ac4c6071f91d7a2581027fb
 										}
 										if (row.financeFlag == 1) {
 											if (row.orderType == 2
