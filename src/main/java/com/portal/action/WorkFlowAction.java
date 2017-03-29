@@ -4,6 +4,7 @@ import com.portal.bean.Criteria;
 import com.portal.bean.DailyEmployeeAudit;
 import com.portal.bean.DailyEmployeeAuditHistory;
 import com.portal.bean.EmployeeInfo;
+import com.portal.bean.GoodsInfo;
 import com.portal.bean.OrderDetailInfo;
 import com.portal.bean.OrderFundSettlement;
 import com.portal.bean.OrderInfo;
@@ -12,6 +13,7 @@ import com.portal.common.util.JsonUtils;
 import com.portal.service.DailyEmployeeAuditHistoryService;
 import com.portal.service.DailyEmployeeAuditService;
 import com.portal.service.EmployeeInfoService;
+import com.portal.service.GoodsInfoService;
 import com.portal.service.OrderDetailInfoService;
 import com.portal.service.OrderFundSettlementService;
 import com.portal.service.OrderInfoService;
@@ -79,6 +81,9 @@ public class WorkFlowAction {
 
 	@Autowired
 	private PaymentAccountInfoService paymentAccountInfoService;
+
+	@Autowired
+	private GoodsInfoService goodsInfoService;
 
 	/**
 	 * @Title: flowInfoIndex @Description: 流程部署页面 @return @return String @throws
@@ -765,6 +770,8 @@ public class WorkFlowAction {
 	@RequestMapping("downloadExcel")
 	public void downloadExcel(HttpServletRequest request, HttpServletResponse response) {
 		String orderId = request.getParameter("orderId");
+		int type = Integer.parseInt(request.getParameter("type"));
+
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(orderId);
 		OrderInfo orderInfoPrint = orderInfoService.selectPirntInfoById(orderId);
@@ -775,7 +782,6 @@ public class WorkFlowAction {
 
 		Criteria criteriaOrderInfo = new Criteria();
 		criteriaOrderInfo.put("orderNumber", orderInfo.getOrderNumber());
-		System.out.println("orderNumber:" + orderInfo.getOrderNumber());
 		List<OrderFundSettlement> orderFundSettlements = orderFundSettlementService.selectByExample(criteriaOrderInfo);
 
 		Criteria criteriaPaymentAccount = new Criteria();
@@ -808,7 +814,7 @@ public class WorkFlowAction {
 			response.reset();// 清空输出流
 
 			response.setContentType("application/vnd.ms-excel");
-			response.setHeader("Content-Disposition", "attachment; filename=" + "ck" + orderId + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=" + "a" + orderId + ".xls");
 
 			File file = new File(path);
 			Workbook wb = Workbook.getWorkbook(file);
@@ -856,25 +862,40 @@ public class WorkFlowAction {
 
 			index++;
 			index++;
-
-			sheet.addCell(new Label(0, index, "支付方式:"));
-			sheet.addCell(new Label(1, index, "支付账户:"));
-			sheet.addCell(new Label(2, index, "支付金额:"));
-			sheet.addCell(new Label(3, index, "手续费:"));
-			sheet.addCell(new Label(4, index, "备注:"));
+			int col = 0;
+			sheet.addCell(new Label(col++, index, "支付方式:"));
+			sheet.addCell(new Label(col++, index, "支付账户:"));
+			sheet.addCell(new Label(col++, index, "支付金额:"));
+			if (type == 0) {
+				sheet.addCell(new Label(col++, index, "实收金额:"));
+				sheet.addCell(new Label(col++, index, "手续费:"));
+			}
+			sheet.addCell(new Label(col++, index, "备注:"));
 
 			index++;
-
+			total = 0;
+			col = 0;
 			for (OrderFundSettlement orderFundSettlement : orderFundSettlements) {
-				sheet.addCell(new Label(0, index, orderFundSettlement.getCustomerPayType()));
-				sheet.addCell(new Label(1, index, orderFundSettlement.getPaymentAccountId()));
-				sheet.addCell(new Label(2, index, String.valueOf(orderFundSettlement.getPayAmountActual().intValue())));
-				sheet.addCell(new Label(3, index, String.valueOf(orderFundSettlement.getPoundage() == null ? ""
-						: orderFundSettlement.getPoundage().intValue())));
-				sheet.addCell(new Label(4, index, String
+				sheet.addCell(new Label(col++, index, orderFundSettlement.getCustomerPayType()));
+				sheet.addCell(new Label(col++, index, orderFundSettlement.getPaymentAccountId()));
+				sheet.addCell(new Label(col++, index, String.valueOf(orderFundSettlement.getPayAmount().intValue())));
+				if (type == 0) {
+					sheet.addCell(
+							new Label(col++, index, String.valueOf(orderFundSettlement.getPayAmountActual() == null ? ""
+									: orderFundSettlement.getPayAmountActual().intValue())));
+					sheet.addCell(new Label(col++, index, String.valueOf(orderFundSettlement.getPoundage() == null ? ""
+							: orderFundSettlement.getPoundage().intValue())));
+				}
+
+				sheet.addCell(new Label(col++, index, String
 						.valueOf(orderFundSettlement.getRemark() == null ? "" : orderFundSettlement.getRemark())));
+				total += orderFundSettlement.getPayAmount().intValue();
 				index++;
+
 			}
+			sheet.addCell(new Label(2, index, "总计付款:"));
+			sheet.addCell(new Label(3, index, String.valueOf(total)));
+
 			index++;
 
 			sheet.addCell(new Label(0, index, "接待:" + receiverStaff));
@@ -916,7 +937,7 @@ public class WorkFlowAction {
 
 			// 设定输出文件头
 			response.setContentType("application/vnd.ms-excel");
-			response.setHeader("Content-Disposition", "attachment; filename=" + orderId + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=b" + orderId + ".xls");
 
 			File file = new File(path);
 
@@ -965,6 +986,7 @@ public class WorkFlowAction {
 		String orderId = request.getParameter("orderId");
 
 		OrderInfo orderInfo = orderInfoService.selectByPrimaryKey(orderId);
+		OrderInfo orderInfoPrint = orderInfoService.selectPirntInfoById(orderId);
 
 		Criteria criteria = new Criteria();
 		criteria.put("orderId", orderId);
@@ -980,7 +1002,7 @@ public class WorkFlowAction {
 
 			// 设定输出文件头
 			response.setContentType("application/vnd.ms-excel");
-			response.setHeader("Content-Disposition", "attachment; filename=" + orderId + ".xls");
+			response.setHeader("Content-Disposition", "attachment; filename=c" + orderId + ".xls");
 
 			File file = new File(path);
 
@@ -999,41 +1021,40 @@ public class WorkFlowAction {
 			totalx2Format.setAlignment(jxl.format.Alignment.RIGHT);
 			totalx2Format.setVerticalAlignment(jxl.format.VerticalAlignment.CENTRE);
 
+			sheet.addCell(new Label(1, 0, orderInfoPrint.getCustomerName()));
+
 			sheet.addCell(new Label(2, 14, ((EmployeeInfo) request.getSession().getAttribute("userInfo")).getName()));
 			sheet.addCell(new Label(7, 14, String.valueOf(a.get(Calendar.YEAR))));
 			sheet.addCell(new Label(9, 14, String.valueOf(a.get(Calendar.MONTH) + 1)));
 			sheet.addCell(new Label(10, 14, String.valueOf(a.get(Calendar.DATE))));
 
-			for (int i = 6, j = 0; j < result.size(); i++, j++) {
-				sheet.addCell(new Label(1, i, result.get(j).getGoodName()));
-				sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getAmount()), totalx2Format));
-				sheet.addCell(new Label(3, i, result.get(j).getUnit()));
-				sheet.addCell(new Label(4, i, String.valueOf(result.get(j).getPrice())));
-				double payPrice = Double
-						.valueOf(String.valueOf(null == result.get(j).getPrice() ? 0 : result.get(j).getPrice())) * 100;
-				DecimalFormat format = new DecimalFormat("#");
-				String[] sMoney = format.format(payPrice).split("");
-				int k = (sMoney.length - 1);
-				for (int l = 13; k >= 0; k--, l--) {
-					sheet.addCell(new Label(l, i, sMoney[k], totalx2Format));
-				}
-				int count = 0;
-				if ((9 - sMoney.length) > 0) {
-					count = 9 - sMoney.length;
-					for (int m = 0, n = 5; m < count; m++, n++) {
-						sheet.addCell(new Label(n, i, "0", totalx2Format));
+			int row = 6;
+			for (OrderDetailInfo orderDetailInfo : result) {
+				GoodsInfo goodsinfo = goodsInfoService.selectByPrimaryKey(orderDetailInfo.getGoodId());
+				if (goodsinfo.getType().equals("0")) {
+
+					sheet.addCell(new Label(1, row, orderDetailInfo.getGoodName() + "(" + goodsinfo.getCode() + ")"));
+					sheet.addCell(new Label(2, row, String.valueOf(orderDetailInfo.getAmount()), totalx2Format));
+					sheet.addCell(new Label(3, row, orderDetailInfo.getUnit()));
+					sheet.addCell(new Label(4, row, String.valueOf(orderDetailInfo.getPrice())));
+					long payPrice = orderDetailInfo.getPrice() * orderDetailInfo.getAmount() * 100;
+
+					DecimalFormat format = new DecimalFormat("#");
+					String[] sMoney = format.format(payPrice).split("");
+					for (int l = 13, k = (sMoney.length - 1); k >= 0; l--, k--) {
+						sheet.addCell(new Label(l, row, sMoney[k], totalx2Format));
 					}
+					row++;
 				}
 			}
 
-			if (null != orderInfo.getPayPrice()) {
-				double orderPirce = orderInfo.getPayPrice() * 100;
-				String[] bigOrderPrice = numberToStr(orderPirce);
-				sheet.addCell(new Label(1, 13,
-						"                          " + bigOrderPrice[0] + "   " + bigOrderPrice[1] + "   "
-								+ bigOrderPrice[2] + "   " + bigOrderPrice[3] + "   " + bigOrderPrice[4] + "   "
-								+ bigOrderPrice[5] + "   " + bigOrderPrice[6] + "   " + bigOrderPrice[7] + "   "
-								+ bigOrderPrice[8]));
+			if (orderInfo.getPayPrice() != null) {
+				String[] bigOrderPrice = numberToStr(orderInfo.getPayPrice() * 100);
+				String contant = "                          ";
+				for (String num : bigOrderPrice) {
+					contant += num + "   ";
+				}
+				sheet.addCell(new Label(1, 13, contant));
 			}
 
 			os.flush();
@@ -1052,11 +1073,11 @@ public class WorkFlowAction {
 		String[] str = { "零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖" };
 		DecimalFormat format = new DecimalFormat("#");
 		String[] sMoney = format.format(p).split("");
-		if ((9 - sMoney.length) > 0) {
-			for (int j = 0; j < 9 - sMoney.length; j++) {
-				sb.append("零");
-			}
-		}
+		// if ((9 - sMoney.length) > 0) {
+		// for (int j = 0; j < 9 - sMoney.length; j++) {
+		// sb.append("零");
+		// }
+		// }
 		for (int i = 0; i < sMoney.length; i++) {
 			sb.append(str[Integer.valueOf(sMoney[i])]);
 		}

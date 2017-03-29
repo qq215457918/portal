@@ -32,7 +32,7 @@ $(document)
 					$('#outgoing')
 							.click(
 									function() {
-										window.location.href = "workflow/downloadExcel?orderId="
+										window.location.href = "workflow/downloadExcel?type=0&&orderId="
 												+ $('input[name=orderId]')
 														.val();
 									});
@@ -40,15 +40,13 @@ $(document)
 					$('#receiveMoney')
 							.click(
 									function() {
-										window.location.href = "workflow/downloadExcel?orderId="
+										window.location.href = "workflow/downloadExcel?type=1&&orderId="
 												+ $('input[name=orderId]')
 														.val();
 									});
 
-					// 关闭madel窗口隐藏打印条目
 					$('#printInfo').on('hidden.bs.modal', function() {
-						// $('#outgoingInfo').hide();
-						// $('#receiveMoneyInfo').hide();
+
 					});
 
 					// 添加收款条目

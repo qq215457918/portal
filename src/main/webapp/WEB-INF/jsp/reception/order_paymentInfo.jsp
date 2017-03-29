@@ -31,6 +31,7 @@
 									<th>应收</th>
 									<th>实收</th>
 									<th>手续费</th>
+									<th></th>
 								</tr>
 							</thead>
 							<tbody>
