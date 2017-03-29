@@ -119,7 +119,7 @@
   </select>
   
   <!-- 统计每周对接业绩根据客服ID获取接待名称 -->
-  <select id="getReceiveNameByPhoneId" parameterType="com.portal.bean.Criteria" resultType="java.util.Map" >
+  <select id="getReceiveNameByPhoneId" parameterType="com.portal.bean.Criteria" resultMap="BaseResultMap" >
     select 
     	DISTINCT 
 		ei.id as id,

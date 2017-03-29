@@ -3,7 +3,6 @@ package com.portal.service.impl;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.ConvertUtils;
@@ -304,7 +303,7 @@ public class EmployeeInfoServiceImpl implements EmployeeInfoService {
         return results;
     }
 
-    public Map<String, String> getReceiveNameByPhoneId(Criteria criteria) {
+    public List<EmployeeInfoForm> getReceiveNameByPhoneId(Criteria criteria) {
         return employeeExtraDao.getReceiveNameByPhoneId(criteria);
     }
 
