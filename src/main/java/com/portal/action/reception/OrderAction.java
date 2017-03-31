@@ -16,6 +16,7 @@ import com.portal.service.OrderFundSettlementService;
 import com.portal.service.OrderInfoService;
 import com.portal.service.PaymentAccountInfoService;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -223,16 +224,41 @@ public class OrderAction {
 
 		Criteria cr = new Criteria();
 		List<PaymentAccountInfo> paymentAccountInfos = paymentAccountInfoService.selectByExample(cr);
-		for (OrderFundSettlement item: orderFundSettlements) {
-			for(PaymentAccountInfo p:paymentAccountInfos){
-				System.out.println("p.getPaymentAccountId():"+p.getPaymentAccountId());
-				System.out.println("p.getPaymentAccountName()():"+p.getPaymentAccountName());
-				if(p.getPaymentAccountId().equals(item.getPaymentAccountId())){
+		for (OrderFundSettlement item : orderFundSettlements) {
+			for (PaymentAccountInfo p : paymentAccountInfos) {
+				System.out.println("p.getPaymentAccountId():" + p.getPaymentAccountId());
+				System.out.println("p.getPaymentAccountName()():" + p.getPaymentAccountName());
+				if (p.getPaymentAccountId().equals(item.getPaymentAccountId())) {
 					item.setPaymentAccountId(p.getPaymentAccountName());
 				}
 			}
 		}
 		JsonUtils.resultJson(orderFundSettlements, orderFundSettlements.size(), response, request);
+	}
+
+	@RequestMapping("paymentInfpUpdate")
+	public String paymentInfpUpdate(HttpServletRequest request, HttpServletResponse response) {
+		
+		String orderId = request.getParameter("orderId");
+		String orderNumber = request.getParameter("orderNumber");
+		String paymentAccountId = request.getParameter("paymentAccountId");
+		String customerPayType = request.getParameter("payType");
+
+		String payAmount = request.getParameter("amount");
+		String payAmountActual = request.getParameter("amountActual");
+		String poundage = request.getParameter("poundage");
+
+		Criteria criteria = new Criteria();
+		criteria.put("id", orderId);
+		OrderFundSettlement record = new OrderFundSettlement();
+		record.setCustomerPayType(customerPayType);
+		record.setPaymentAccountId(paymentAccountId);
+		record.setPayAmount(BigDecimal.valueOf(Long.valueOf(payAmount)));
+		record.setPayAmountActual(BigDecimal.valueOf(Long.valueOf(payAmountActual)));
+		record.setPoundage(BigDecimal.valueOf(Long.valueOf(poundage)));
+		orderFundSettlementService.updateByExampleSelective(record,criteria);
+		
+		return "redirect:orderPaymentInfo?orderNumber="+orderNumber;
 	}
 
 	/**
