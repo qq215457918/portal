@@ -438,7 +438,7 @@ public class ExportController {
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
         if (StringUtil.isNotBlank(customerPayType)) {
-            criteria.put("customerPayType", customerPayType); 
+            criteria.put("customerPayType", customerPayType);
         }
         criteria.setOrderByClause("p.payment_account_name");
         
