@@ -809,9 +809,9 @@ public class WorkFlowAction {
 		}
 		try {
 			@SuppressWarnings("deprecation")
-			String path = request.getRealPath("/resources/excel/blank_excel.xls");
+			String path = request.getRealPath("/resources/excel/print_template.xls");
 			OutputStream os = response.getOutputStream();// 取得输出流
-			response.reset();// 清空输出流
+			response.reset();
 
 			response.setContentType("application/vnd.ms-excel");
 			response.setHeader("Content-Disposition", "attachment; filename=" + "a" + orderId + ".xls");
@@ -829,77 +829,76 @@ public class WorkFlowAction {
 			String phoneStaff = orderInfoPrint.getPhoneStaffName() == null ? "" : orderInfoPrint.getPhoneStaffName();
 			String remarks = orderInfoPrint.getRemarks() == null ? "" : orderInfoPrint.getRemarks();
 
-			int index = 1;
+			int row = 1;
 
-			sheet.addCell(new Label(0, index, "客户:" + customer));
-			sheet.addCell(new Label(3, index, "日期:" + sdf.format(orderInfo.getCreateDate())));
-			sheet.addCell(new Label(4, index, remarks));
+			sheet.addCell(new Label(0, row, "客户:" + customer));
+			sheet.addCell(new Label(3, row, "日期:" + sdf.format(orderInfo.getCreateDate())));
+			sheet.addCell(new Label(4, row, remarks));
 
-			index++;
-			index++;
+			row++;
+			row++;
 
-			sheet.addCell(new Label(0, index, "内容:"));
-			sheet.addCell(new Label(1, index, "数量:"));
-			sheet.addCell(new Label(2, index, "单价:"));
-			sheet.addCell(new Label(3, index, "总金额:"));
-			sheet.addCell(new Label(4, index, "备注:"));
-			index++;
+			sheet.addCell(new Label(0, row, "内容:"));
+			sheet.addCell(new Label(1, row, "数量:"));
+			sheet.addCell(new Label(2, row, "单价:"));
+			sheet.addCell(new Label(3, row, "总金额:"));
+			sheet.addCell(new Label(4, row, "备注:"));
+			row++;
 			int total = 0;
 			for (OrderDetailInfo orderDetailInfo : orderDetailInfos) {
-				sheet.addCell(new Label(0, index, orderDetailInfo.getGoodName()));
-				sheet.addCell(new Label(1, index, String.valueOf(orderDetailInfo.getAmount())));
-				sheet.addCell(new Label(2, index, String.valueOf(orderDetailInfo.getPrice())));
+				sheet.addCell(new Label(0, row, orderDetailInfo.getGoodName()));
+				sheet.addCell(new Label(1, row, String.valueOf(orderDetailInfo.getAmount())));
+				sheet.addCell(new Label(2, row, String.valueOf(orderDetailInfo.getPrice())));
 				sheet.addCell(
-						new Label(3, index, String.valueOf(orderDetailInfo.getAmount() * orderDetailInfo.getPrice())));
+						new Label(3, row, String.valueOf(orderDetailInfo.getAmount() * orderDetailInfo.getPrice())));
 				sheet.addCell(
-						new Label(4, index, orderDetailInfo.getRemark() == null ? "" : orderDetailInfo.getRemark()));
+						new Label(4, row, orderDetailInfo.getRemark() == null ? "" : orderDetailInfo.getRemark()));
 				total += orderDetailInfo.getAmount() * orderDetailInfo.getPrice();
-				index++;
+				row++;
 			}
 
-			sheet.addCell(new Label(2, index, "总计:"));
-			sheet.addCell(new Label(3, index, String.valueOf(total)));
+			sheet.addCell(new Label(2, row, "总计:"));
+			sheet.addCell(new Label(3, row, String.valueOf(total)));
 
-			index++;
-			index++;
+			row++;
+			row++;
 			int col = 0;
-			sheet.addCell(new Label(col++, index, "支付方式:"));
-			sheet.addCell(new Label(col++, index, "支付账户:"));
-			sheet.addCell(new Label(col++, index, "支付金额:"));
+			sheet.addCell(new Label(col++, row, "支付方式:"));
+			sheet.addCell(new Label(col++, row, "支付账户:"));
+			sheet.addCell(new Label(col++, row, "支付金额:"));
 			if (type == 0) {
-				sheet.addCell(new Label(col++, index, "实收金额:"));
-				sheet.addCell(new Label(col++, index, "手续费:"));
+				sheet.addCell(new Label(col++, row, "实收金额:"));
+				sheet.addCell(new Label(col++, row, "手续费:"));
 			}
-			sheet.addCell(new Label(col++, index, "备注:"));
+			sheet.addCell(new Label(col++, row, "备注:"));
 
-			index++;
+			row++;
 			total = 0;
 			col = 0;
 			for (OrderFundSettlement orderFundSettlement : orderFundSettlements) {
-				sheet.addCell(new Label(col++, index, orderFundSettlement.getCustomerPayType()));
-				sheet.addCell(new Label(col++, index, orderFundSettlement.getPaymentAccountId()));
-				sheet.addCell(new Label(col++, index, String.valueOf(orderFundSettlement.getPayAmount().intValue())));
+				sheet.addCell(new Label(col++, row, orderFundSettlement.getCustomerPayType()));
+				sheet.addCell(new Label(col++, row, orderFundSettlement.getPaymentAccountId()));
+				sheet.addCell(new Label(col++, row, String.valueOf(orderFundSettlement.getPayAmount().intValue())));
 				if (type == 0) {
-					sheet.addCell(
-							new Label(col++, index, String.valueOf(orderFundSettlement.getPayAmountActual() == null ? ""
-									: orderFundSettlement.getPayAmountActual().intValue())));
-					sheet.addCell(new Label(col++, index, String.valueOf(orderFundSettlement.getPoundage() == null ? ""
+					sheet.addCell(new Label(col++, row, String.valueOf(orderFundSettlement.getPayAmountActual() == null
+							? "" : orderFundSettlement.getPayAmountActual().intValue())));
+					sheet.addCell(new Label(col++, row, String.valueOf(orderFundSettlement.getPoundage() == null ? ""
 							: orderFundSettlement.getPoundage().intValue())));
 				}
 
-				sheet.addCell(new Label(col++, index, String
+				sheet.addCell(new Label(col++, row, String
 						.valueOf(orderFundSettlement.getRemark() == null ? "" : orderFundSettlement.getRemark())));
 				total += orderFundSettlement.getPayAmount().intValue();
-				index++;
+				row++;
 
 			}
-			sheet.addCell(new Label(2, index, "总计付款:"));
-			sheet.addCell(new Label(3, index, String.valueOf(total)));
+			sheet.addCell(new Label(2, row, "总计付款:"));
+			sheet.addCell(new Label(3, row, String.valueOf(total)));
 
-			index++;
+			row++;
 
-			sheet.addCell(new Label(0, index, "接待:" + receiverStaff));
-			sheet.addCell(new Label(3, index, "客服:" + phoneStaff));
+			sheet.addCell(new Label(0, row, "接待:" + receiverStaff));
+			sheet.addCell(new Label(3, row, "客服:" + phoneStaff));
 
 			os.flush();
 			workbook.write();
@@ -940,31 +939,39 @@ public class WorkFlowAction {
 			response.setHeader("Content-Disposition", "attachment; filename=b" + orderId + ".xls");
 
 			File file = new File(path);
-
+			String customerName = orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName();
+			String phoneStaffName = orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName();
+			String createDate = sdf.format(orderInfo.getCreateDate());
+			String receiverStaffName = orderInfo.getReceiverStaffName() == null ? "" : orderInfo.getReceiverStaffName();
+			String remarks = orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks();
 			Workbook wb = Workbook.getWorkbook(file);
 			WorkbookSettings settings = new WorkbookSettings();
 			settings.setEncoding("GB18030"); // 关键代码，解决中文乱码
 			WritableWorkbook workbook = Workbook.createWorkbook(os, wb, settings);
-
 			WritableSheet sheet = workbook.getSheet(0);
 
-			sheet.addCell(new Label(0, 1,
-					"              " + (orderInfo.getCustomerName() == null ? "" : orderInfo.getCustomerName())));
-			sheet.addCell(new Label(5, 1, "          " + sdf.format(orderInfo.getCreateDate())));
-			sheet.addCell(new Label(0, 12,
-					"       " + (orderInfo.getReceiverStaffName() == null ? "" : orderInfo.getReceiverStaffName())));
-			sheet.addCell(new Label(5, 12,
-					"            " + (orderInfo.getPhoneStaffName() == null ? "" : orderInfo.getPhoneStaffName())));
-			sheet.addCell(new Label(0, 10,
-					"              " + (orderInfo.getRemarks() == null ? "" : orderInfo.getRemarks())));
+			int row = 0;
+			sheet.addCell(new Label(0, row, "客户:" + customerName));
+			sheet.addCell(new Label(3, row, "日期:" + createDate));
+			row += 2;
 
-			for (int i = 5, j = 0; j < result.size(); i = i + 2, j++) {
-				sheet.addCell(new Label(0, i, result.get(j).getGoodName()));
-				sheet.addCell(new Label(2, i, String.valueOf(result.get(j).getUnit())));
-				sheet.addCell(new Label(3, i, String.valueOf(result.get(j).getAmount())));
-				sheet.addCell(new Label(5, i,
-						"       " + String.valueOf(result.get(j).getPrice() * result.get(j).getAmount())));
+			sheet.addCell(new Label(0, row, "商品名称"));
+			sheet.addCell(new Label(1, row, "单位"));
+			sheet.addCell(new Label(2, row, "数量"));
+			sheet.addCell(new Label(3, row, "金额"));
+			row++;
+
+			for (OrderDetailInfo info : result) {
+				sheet.addCell(new Label(0, row, info.getGoodName()));
+				sheet.addCell(new Label(1, row, String.valueOf(info.getUnit())));
+				sheet.addCell(new Label(2, row, String.valueOf(info.getAmount())));
+				sheet.addCell(new Label(3, row, String.valueOf(info.getPrice() * info.getAmount())));
+				row++;
 			}
+			sheet.addCell(new Label(0, row, "备注:" + remarks));
+			row++;
+			sheet.addCell(new Label(0, row, "接待:" + receiverStaffName));
+			sheet.addCell(new Label(3, row, "客服:" + phoneStaffName));
 
 			os.flush();
 			workbook.write();

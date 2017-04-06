@@ -72,7 +72,7 @@ function initData() {
 										+ '"'
 										+ row.orderNumber
 										+ '"'
-										+ 'data-order-id="'
+										+ 'data-paymentInfo-id="'
 										+ row.id
 										+ '" '
 										+ 'data-pay-type="'
@@ -116,14 +116,14 @@ $(document)
 				'#modifyItem',
 				function() {
 					var orderNumber = $(this).attr('data-order-number');
-					var orderId = $(this).attr('data-order-id');
+					var paymentInfoId = $(this).attr('data-paymentInfo-id');
 					var amount = $(this).attr('data-pay-amount');
 					var amountActual = $(this).attr('data-pay-amountActual');
 					var poundage = $(this).attr('data-pay-poundage');
 
 					$('#paymentInfpUpdate input[name=orderNumber]').val(
 							orderNumber);
-					$('#paymentInfpUpdate input[name=orderId]').val(orderId);
+					$('#paymentInfpUpdate input[name=orderId]').val(paymentInfoId);
 					$('#paymentInfpUpdate input[name=amount]').val(amount);
 					$('#paymentInfpUpdate input[name=amountActual]').val(
 							amountActual);
@@ -141,7 +141,7 @@ $(document)
 								"type" : "POST",
 								"url" : 'workflow/getAccountAndPayTypeInfo',
 								"data" : {
-									'orderId' : orderId
+									'orderId' : paymentInfoId
 								},
 								"success" : function(data) {
 									var accountHtml = '';
