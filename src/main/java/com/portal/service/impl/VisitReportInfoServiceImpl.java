@@ -208,7 +208,7 @@ public class VisitReportInfoServiceImpl implements VisitReportInfoService {
         // 分页参数
         criteria.setMysqlOffset(currentPage);
         criteria.setMysqlLength(perpage);
-        criteria.setOrderByClause("e.`name` asc");
+        criteria.setOrderByClause("total_amounts desc");
         
         // 查询职位类型为业务员
         criteria.put("positionType", "2");

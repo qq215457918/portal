@@ -97,43 +97,16 @@
 					<h4 class="modal-title">打印</h4>
 				</div>
 				<div class="modal-body">
-					<h4>选择单一模版</h4>
-					<p>
-						<button class="btn btn-primary" type="button" id="outgoing">出库单</button>
-						<!-- 						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button> -->
-						<button class="btn btn-primary" type="button" id="receiveMoney">定金收据</button>
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-default-outline" data-dismiss="modal"
-						type="button">关闭</button>
+					<button class="btn btn-primary btn-block" type="button"
+						id="outgoing">出库单</button>
+					<button class="btn btn-primary btn-block" type="button"
+						id="receiveMoney">定金收据</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<div id="outgoingInfo" style="display: none; margin-top: 12px;">
-		<!-- 		<div class="tc"><h3>出库单</h3></div> -->
-		<!-- 		<div class="text-left"><span name="customerName">客户：</span></div><div><span name="today">日期：</span></div> -->
-		<!-- 		<div class="table-margin"> -->
-		<!-- 			<table border="1"> -->
-		<!-- 				<tr> -->
-		<!-- 					<th>商品名称</th> -->
-		<!-- 					<th>数量</th> -->
-		<!-- 					<th>单价</th> -->
-		<!-- 					<th class="print-width50">金额</th> -->
-		<!-- 					<th>支付方式</th> -->
-		<!-- 					<th>手续费</th> -->
-		<!-- 					<th class="print-width50">备注</th> -->
-		<!-- 				</tr> -->
-		<!-- 				<tbody name="detail"></tbody> -->
-		<!-- 				<tr> -->
-		<!-- 					<td>备注：</td> -->
-		<!-- 					<td colspan="7" name="remark"></td> -->
-		<!-- 				</tr> -->
-		<!-- 			</table> -->
-		<!-- 		</div> -->
-		<!-- 		<div class="text-left"><span name="receiverStaffName">接待：</span></div><div><span name="phoneStaffName">客服：</span></div> -->
 		<div class="tc">
 			<h3></h3>
 		</div>

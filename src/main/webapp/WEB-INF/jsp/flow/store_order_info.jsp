@@ -94,16 +94,8 @@
 					<h4 class="modal-title">打印</h4>
 				</div>
 				<div class="modal-body">
-					<h4>选择单一模版</h4>
-					<p>
-						<button class="btn btn-primary" type="button" id="collect">收藏票</button>
-						<button class="btn btn-primary" type="button" id="outNoTake">全款已付货未取</button>
-						<!-- 						<button class="btn btn-primary" type="button" id="receiveMoney">收款收据</button> -->
-					</p>
-				</div>
-				<div class="modal-footer">
-					<button class="btn btn-default-outline" data-dismiss="modal"
-						type="button">关闭</button>
+						<button class="btn btn-primary btn-block" type="button" id="collect">收藏票</button>
+						<button class="btn btn-primary btn-block" type="button" id="outNoTake">全款已付货未取</button>
 				</div>
 			</div>
 		</div>
