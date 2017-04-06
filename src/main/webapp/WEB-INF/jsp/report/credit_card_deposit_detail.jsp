@@ -36,6 +36,23 @@
 		          </div>
 	          	</div>
 	          </div>
+	          
+	          <div class="condition fl">
+	          	<div class="condition-label fl">
+	          		<label class="control-label col-md-2" style=" width: 100%;">支付类别</label>
+	          	</div>
+	          	<div class="condition-control fl">
+	          	  <div class="col-md-7" style="width: 100%;">
+		            <select id="customerPayType" class="form-control" style="width: 100%; height: 34px;">
+		            	<option value="" selected="selected">--请选择--</option>
+						<option value="1">信用卡</option>
+						<option value="2">储蓄卡（封顶）</option>
+						<option value="3">储蓄卡（不封顶）</option>
+						<option value="6">现金</option>
+		            </select>
+		          </div>
+	          	</div>
+	          </div>
 	          <div class="condition fl">
 		        <button class="btn btn-success" style="margin-left: 1%; float: left;">查&nbsp;询</button>
 		        <button class="btn btn-primary" id="export" style="float: left;">导&nbsp;出</button>

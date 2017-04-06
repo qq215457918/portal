@@ -543,7 +543,7 @@
   <!-- 获取当日刷卡定金明细数据条数 -->
   <select id="getCountsCardDetail" resultType="java.lang.Integer" parameterType="com.portal.bean.Criteria" >
       select count(1) from (
-        SELECT
+        select 
             f.id
         from order_fund_settlement f
         left join payment_account_info p on f.payment_account_id = p.payment_account_id
@@ -553,7 +553,29 @@
         </if>
         and o.pay_type = '1'
         and o.delete_flag = '0'
-        and f.customer_pay_type in ('1','2','3')
+        <if test="condition.customerPayType != null" >
+	       and f.customer_pay_type = #{condition.customerPayType, jdbcType=VARCHAR}
+      	</if>
+      	<if test="condition.customerPayType == null" >
+	       and f.customer_pay_type in ('1','2','3','6')
+      	</if>
+        
+        UNION
+        
+        (select 
+            ofs.id
+        from order_info o
+        left join order_fund_settlement ofs on o.order_number = ofs.order_number
+        left join payment_account_info p on ofs.payment_account_id = p.payment_account_id
+        <if test="_parameter != null" >
+          <include refid="Example_Where_Clause" />
+        </if>
+        and o.pay_type = '1'
+        and o.order_type = '2'
+        and o.delete_flag = '0'
+        <if test="orderByClause != null" >
+          order by ${orderByClause}
+        </if>)
     ) a
   </select>
   
@@ -579,7 +601,12 @@
         </if>
         and o.pay_type = '1'
         and o.delete_flag = '0'
-        and f.customer_pay_type in ('1','2','3','6')
+        <if test="condition.customerPayType != null" >
+	       and f.customer_pay_type = #{condition.customerPayType, jdbcType=VARCHAR}
+      	</if>
+      	<if test="condition.customerPayType == null" >
+	       and f.customer_pay_type in ('1','2','3','6')
+      	</if>
         
         UNION
         
