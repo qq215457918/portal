@@ -1137,6 +1137,8 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         String area = request.getParameter("area");
         // 查询日期
         String startDate = request.getParameter("startDate");
+        // 客户支付类型
+        String customerPayType = request.getParameter("customerPayType");
 
         criteria.clear();
         if (StringUtil.isNotBlank(area)) {
@@ -1151,6 +1153,9 @@ public class OrderInfoServiceImpl implements OrderInfoService {
             criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
+        if (StringUtil.isNotBlank(customerPayType)) {
+            criteria.put("customerPayType", customerPayType);
+        }
         // 设置排序
         criteria.setOrderByClause("p.payment_account_name");
         // 获取总条数
@@ -1160,8 +1165,6 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         
         // 获取定金退款数据
         // List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
-        
-        
 
         results.put("sEcho", request.getParameter("sEcho"));
         results.put("iTotalRecords", totalRecord);

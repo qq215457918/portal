@@ -34,12 +34,14 @@ $(function() {
 	$("#export").click(function(){
 		var area = $('#receiverArea').val();
 		var startDate = $('#startDate').val();
+		var customerPayType = $('#customerPayType').val();
 		
 		if($('#exportExcel')){
 			$('#exportExcel').remove();
 		}
 		var exportHtml = '<form id="exportExcel" action="reportExport/exportCreditCard" style="display:none;">' +
 							'<input type="hidden" name="area" value="' + area + '"/>' +
+							'<input type="hidden" name="customerPayType" value="' + customerPayType + '"/>' +
 							'<input type="hidden" name="startDate" value="' + startDate + '"/>';
 						'</form>';
 		$('body').append(exportHtml);
@@ -63,18 +65,19 @@ function initData() {
 		"bRetrieve": true,
 		"sAjaxSource": "report/ajaxCreditCardDepositDetail", // 地址
 		"aoColumns": [ 
-		            {"mData": null, "target": 0},	//序列号         
+		            {"mData": null, "target": 0},	//序列号
 		            {"mData": "paymentAccountName"},
 		            {"mData": "customerPayType"},
 		            {"mData": "orderNumber"},
-		            {"mData": "payAmount"},             
+		            {"mData": "payAmount"},
 		            {"mData": "payAmountActual"},
 		            {"mData": "poundage"}
 		           ],
 		"fnServerData": function (sSource, aoData, fnCallback) {
 							var area = $('#receiverArea').val();
 							var startDate = $('#startDate').val();
-							aoData.push({'name':'area','value':area},{'name':'startDate','value':startDate});
+							var customerPayType = $('#customerPayType').val();
+							aoData.push({'name':'area','value':area},{'name':'startDate','value':startDate},{'name':'customerPayType','value':customerPayType});
 							$.ajax({
 								"dataType": 'json',
 								"type": "POST",

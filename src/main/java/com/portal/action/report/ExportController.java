@@ -417,6 +417,7 @@ public class ExportController {
         Criteria criteria = new Criteria();
         String area = request.getParameter("area");
         String startDate = request.getParameter("startDate");
+        String customerPayType = request.getParameter("customerPayType");
         // 查询未被删除的
         String areaText = "";
         if(StringUtil.isNotBlank(area)){
@@ -436,6 +437,9 @@ public class ExportController {
             criteria.put("startDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd"));
             criteria.put("endDate", DateUtil.formatDate(new Date(), "yyyy-MM-dd 23:59:59"));
         }
+        if (StringUtil.isNotBlank(customerPayType)) {
+            criteria.put("customerPayType", customerPayType);
+        }
         criteria.setOrderByClause("p.payment_account_name");
         
         List<OrderFundSettlementForm> list = orderService.getCreditCardDepositDetail(criteria);
@@ -453,7 +457,7 @@ public class ExportController {
     }
     
     private void makeCreditCardData(String area, List<OrderFundSettlementForm> list, ExportBean excelBean){
-        Object[][] data = new Object[list.size()+1][6];
+        Object[][] data = new Object[list.size()+1][7];
         int i = 1;
         data[0] = new Object[]{"序号","收款账户名称","支付类别","出单号","需要支付金额","支付金额","手续费"};
         for(OrderFundSettlementForm e : list){
