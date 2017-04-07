@@ -3,7 +3,6 @@ package com.fr.web.core;
 import com.fr.base.ConfigManager;
 import com.fr.base.FRContext;
 import com.fr.file.ClusterConfigManager;
-import com.fr.general.FRLogger;
 import com.fr.general.Inter;
 import com.fr.json.JSONArray;
 import com.fr.json.JSONException;
@@ -24,7 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -47,9 +45,9 @@ public class SessionDealWith
   private static int MAXADDRESS_COUNT = 2;
   private static final long __INIT_TIME__ = System.currentTimeMillis();
   private static final Object SESSION_ID_MAP_LOCK;
-  private static Map sessionIDMap;
+  private static Map<String, SessionProvider> sessionIDMap;
   private static final Object ADDRESS_MANAGER_LOCK;
-  private static ConcurrentHashMap addressManager;
+  private static ConcurrentHashMap<String, Object> addressManager;
 
   private static void authenticateLicense()
   {

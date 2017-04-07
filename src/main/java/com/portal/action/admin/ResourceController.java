@@ -1,7 +1,6 @@
 package com.portal.action.admin;
 
 import com.portal.bean.Resource;
-import com.portal.bean.Role;
 import com.portal.common.util.JsonUtils;
 import com.portal.common.util.StringUtil;
 import com.portal.common.util.WebUtils;

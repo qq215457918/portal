@@ -70,6 +70,8 @@
 								<button class="btn btn-primary" data-toggle="modal"
 									data-target="#importExcel" self="0" name="importExcel">导入</button>
 								<button class="btn btn-primary" data-toggle="modal"
+									data-target="#importExcel" self="2" name="importExcel">更新客服信息</button>
+								<button class="btn btn-primary" data-toggle="modal"
 									data-target="#importExcel" self="1" name="importExcel">导入（累计）</button>
 							</div>
 						</div>

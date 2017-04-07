@@ -8,13 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.portal.common.util.WebUtils;
-import com.portal.service.TestUserService;
 
 @Controller
 public class TestAction {
 	
 	@Autowired
-	private TestUserService testUserService;
 	
 	@RequestMapping("/user")
 	public String insertUserinfo(HttpServletRequest request, HttpServletResponse response){

@@ -27,7 +27,7 @@ import com.portal.service.CustomerInfoService;
 import jxl.read.biff.BiffException;
 
 /**
- * @ClassName: CustomerInfoAction 
+ * @ClassName: CustomerInfoAction
  * @Description: 电联客户管理
  * @author Miao Wenqiang
  * @date 2016年9月25日 下午2:35:32
@@ -35,55 +35,51 @@ import jxl.read.biff.BiffException;
 @Controller
 @RequestMapping("customerInfo")
 public class CustomerInfoAction {
-	
+
 	@Autowired
 	private CustomerInfoService customerInfoService;
-	
+
 	@Autowired
 	private ImportExcelUtil importExcelUtil;
-	
+
 	/**
-	 * @Title: selectCostomerInfoList 
+	 * @Title: selectCostomerInfoList
 	 * @Description: 用户信息首页
 	 * @param request
-	 * @return 
+	 * @return
 	 * @return String
 	 */
 	@RequestMapping("costomerInfoIndex")
-	public String costomerInfoIndex(HttpServletRequest request){
+	public String costomerInfoIndex(HttpServletRequest request) {
 		String type = request.getParameter("type");
 		String result = request.getParameter("result");
-		
+
 		request.setAttribute("importResult", result);
 		request.setAttribute("active", request.getParameter("active"));
-		if("0".equals(type)){
+		if ("0".equals(type)) {
 			return "customer/blank_info_index";
-		}else if("1".equals(type)){
+		} else if ("1".equals(type)) {
 			return "customer/back_info_index";
-		}else if("2".equals(type)){
+		} else if ("2".equals(type)) {
 			return "customer/explanation_info_index";
-		}else if("3".equals(type)){
+		} else if ("3".equals(type)) {
 			return "customer/complete_info_index";
-		}else if("4".equals(type)){
+		} else if ("4".equals(type)) {
 			return "customer/lock_info_index";
 		}
 		return null;
 	}
-	
+
 	/**
-	 * @Title: selectCustomerInfoList 
-	 * @Description: 查询列表
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @Title: selectCustomerInfoList @Description: 查询列表 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("selectCustomerInfoList")
-	public void selectCustomerInfoList(HttpServletRequest request, HttpServletResponse response){
+	public void selectCustomerInfoList(HttpServletRequest request, HttpServletResponse response) {
 		Criteria criteria = new Criteria();
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
-		
+
 		criteria.put("type", request.getParameter("costomerType"));
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
 		criteria.put("startTime", request.getParameter("startTime"));
@@ -97,33 +93,29 @@ public class CustomerInfoAction {
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
 		criteria.put("area", request.getParameter("area"));
-		
+
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("type", request.getParameter("type"));
 		criteria.put("updateDate", request.getParameter("updateDate"));
 		criteria.put("blackUser", "1");
-		
+
 		List<CustomerInfo> resultList = customerInfoService.selectByExample(criteria);
-		
+
 		int count = customerInfoService.countByExample(criteria);
-		
+
 		JsonUtils.resultJson(resultList, count, response, request);
 	}
-	
+
 	/**
-	 * @Title: selectCustomerInfoList 
-	 * @Description: 查询列表
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @Title: selectCustomerInfoList @Description: 查询列表 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("selectCustomerExList")
-	public void selectCustomerExList(HttpServletRequest request, HttpServletResponse response){
+	public void selectCustomerExList(HttpServletRequest request, HttpServletResponse response) {
 		Criteria criteria = new Criteria();
 		criteria.setMysqlLength(Integer.valueOf(request.getParameter("iDisplayLength")));
 		criteria.setMysqlOffset(Integer.valueOf(request.getParameter("iDisplayStart")));
-		
+
 		criteria.put("type", request.getParameter("type"));
 		criteria.put("payPriceS", request.getParameter("payPriceS"));
 		criteria.put("payPriceE", request.getParameter("payPriceE"));
@@ -131,29 +123,25 @@ public class CustomerInfoAction {
 		criteria.put("createDateE", request.getParameter("createDateE"));
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
 		criteria.put("area", request.getParameter("area"));
-		
+
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExList(criteria);
-		
+
 		int count = customerInfoService.countCustomerEx(criteria);
-		
+
 		JsonUtils.resultJson(resultList, count, response, request);
 	}
-	
+
 	/**
-	 * @throws IOException 
-	 * @Title: exportCustomer 
-	 * @Description: 导出用户
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @throws IOException
+	 * @Title: exportCustomer @Description: 导出用户 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("exportCustomer")
-	public void exportCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException{
+	public void exportCustomer(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		Criteria criteria = new Criteria();
-		
+
 		String type = request.getParameter("type");
-		
+
 		criteria.put("type", type);
 		criteria.put("phoneStage", request.getParameter("phoneStage"));
 		criteria.put("startTime", request.getParameter("startTime"));
@@ -167,238 +155,247 @@ public class CustomerInfoAction {
 		criteria.put("visiteDate1", request.getParameter("visiteDate1"));
 		criteria.put("visiteDate2", request.getParameter("visiteDate2"));
 		criteria.put("area", request.getParameter("area"));
-		
+
 		criteria.put("phone", request.getParameter("phone"));
 		criteria.put("updateDate", request.getParameter("updateDate"));
-		
+
 		List<CustomerInfo> resultList = customerInfoService.selectCustomerExportList(criteria);
-		
-		try{
+
+		try {
 			@SuppressWarnings("deprecation")
 			String filePath = request.getRealPath("resources/excel");
-			
+
 			ExportBean excelBean = new ExportBean();
 			makeData(type, resultList, excelBean);
 			excelBean.setExportMode(0);
 			excelBean.setSourceFile(filePath + "\\customer_excel.xls");
 			new ExportExcelJxl(response, excelBean);
-			
-			if(null != resultList && resultList.size() > 0){
+
+			if (null != resultList && resultList.size() > 0) {
 				customerInfoService.updateExportDate(resultList);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    }
-	
-	private void makeData(String type, List<CustomerInfo> paramList, ExportBean excelBean){
+	}
+
+	private void makeData(String type, List<CustomerInfo> paramList, ExportBean excelBean) {
 		String typeName = "";
-		if("0".equals(type)){
+		if ("0".equals(type)) {
 			typeName = "空白用户";
-		}else if("1".equals(type)){
+		} else if ("1".equals(type)) {
 			typeName = "登门用户";
-		}else if("2".equals(type)){
+		} else if ("2".equals(type)) {
 			typeName = "说明会用户";
-		}else if("3".equals(type)){
+		} else if ("3".equals(type)) {
 			typeName = "成单用户";
-		}else if("4".equals(type)){
+		} else if ("4".equals(type)) {
 			typeName = "锁定用户";
 		}
-		Object[][] data = new Object[paramList.size()+1][22];
-		
+		Object[][] data = new Object[paramList.size() + 1][22];
+
 		int i = 1;
-		
-		data[0] = new Object[]{"第一级","第二级","第三级","第四级","姓名","客服","接待","赠品","商务电话","手机","登门时间","地区","变成本类型客户时间","其它电话2","关联亲友","回购","退货","网页","身份证","产品","金额"};
-		for(CustomerInfo ci : paramList){
+
+		data[0] = new Object[] { "第一级", "第二级", "第三级", "第四级", "姓名", "客服", "接待", "赠品", "商务电话", "手机", "登门时间", "地区",
+				"变成本类型客户时间", "其它电话2", "关联亲友", "回购", "退货", "网页", "身份证", "产品", "金额" };
+		for (CustomerInfo ci : paramList) {
 			data[i][0] = typeName;
-			data[i][1] = null == ci.getSeason2()?"":ci.getSeason2();
-			data[i][2] = null == ci.getSeason3()?"":ci.getSeason3();
-			data[i][3] = null == ci.getSeason4()?"":ci.getSeason4();
-			data[i][4] = null == ci.getName()?"":ci.getName();
-			data[i][5] = null == ci.getPhoneStaffName()?"":ci.getPhoneStaffName();
-			data[i][6] = (null == ci.getReceiverStaffName()?"":ci.getReceiverStaffName()).replace("\\n", "\n");
-			data[i][7] = (null == ci.getGift()?"":ci.getGift()).replace("\\n", "\n");
-			data[i][8] = null == ci.getBusinessPhone()?"":ci.getBusinessPhone();
-			data[i][9] = null == ci.getPhone()?"":ci.getPhone();
-			data[i][10] = (null == ci.getReceiverStaffDate()?"":ci.getReceiverStaffDate()).replace("\\n", "\n");
-			data[i][11] = null == ci.getArea()?"":ci.getArea();
-			data[i][12] = null == ci.getUpdateDate()?"":ci.getUpdateDate();
-			data[i][13] = null == ci.getPhone2()?"":ci.getPhone2();
-			data[i][14] = null == ci.getRelationId()?"":ci.getRelationId();
-			data[i][15] = null == ci.getQq()?"":ci.getQq();
-			data[i][16] = null == ci.getMsn()?"":ci.getMsn();
-			data[i][17] = null == ci.getSite()?"":ci.getSite();
-			data[i][18] = null == ci.getIdCard()?"":ci.getIdCard();
-			data[i][19] = (null == ci.getProduct()?"":ci.getProduct()).replace("\\n", "\n");
-			data[i][20] = null == ci.getTransactionAmount()?"":ci.getTransactionAmount();
+			data[i][1] = null == ci.getSeason2() ? "" : ci.getSeason2();
+			data[i][2] = null == ci.getSeason3() ? "" : ci.getSeason3();
+			data[i][3] = null == ci.getSeason4() ? "" : ci.getSeason4();
+			data[i][4] = null == ci.getName() ? "" : ci.getName();
+			data[i][5] = null == ci.getPhoneStaffName() ? "" : ci.getPhoneStaffName();
+			data[i][6] = (null == ci.getReceiverStaffName() ? "" : ci.getReceiverStaffName()).replace("\\n", "\n");
+			data[i][7] = (null == ci.getGift() ? "" : ci.getGift()).replace("\\n", "\n");
+			data[i][8] = null == ci.getBusinessPhone() ? "" : ci.getBusinessPhone();
+			data[i][9] = null == ci.getPhone() ? "" : ci.getPhone();
+			data[i][10] = (null == ci.getReceiverStaffDate() ? "" : ci.getReceiverStaffDate()).replace("\\n", "\n");
+			data[i][11] = null == ci.getArea() ? "" : ci.getArea();
+			data[i][12] = null == ci.getUpdateDate() ? "" : ci.getUpdateDate();
+			data[i][13] = null == ci.getPhone2() ? "" : ci.getPhone2();
+			data[i][14] = null == ci.getRelationId() ? "" : ci.getRelationId();
+			data[i][15] = null == ci.getQq() ? "" : ci.getQq();
+			data[i][16] = null == ci.getMsn() ? "" : ci.getMsn();
+			data[i][17] = null == ci.getSite() ? "" : ci.getSite();
+			data[i][18] = null == ci.getIdCard() ? "" : ci.getIdCard();
+			data[i][19] = (null == ci.getProduct() ? "" : ci.getProduct()).replace("\\n", "\n");
+			data[i][20] = null == ci.getTransactionAmount() ? "" : ci.getTransactionAmount();
 			i++;
 		}
 		excelBean.setData(data);
 		excelBean.setExcelName(typeName);
 		excelBean.setSheetName(typeName);
-	
-//		}else if("1".equals(type)){
-//			Object[][] data = new Object[paramList.size()+1][6];
-//			
-//			int i = 1;
-//			data[0] = new Object[]{"序号", "电话", "电话1", "姓名", "登门次数", "最近登门时间"};
-//			for(CustomerInfo ci : paramList){
-//				data[i][0] = String.valueOf(i);
-//				data[i][1] = null == ci.getPhone()?"":ci.getPhone();
-//				data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
-//				data[i][3] = null == ci.getName()?"":ci.getName();
-//				data[i][4] = null == ci.getVisitCount()?"":ci.getVisitCount();
-//				data[i][5] = null == ci.getRecentVisitDate()?"":ci.getRecentVisitDate();
-//				i++;
-//			}
-//			excelBean.setData(data);
-//			excelBean.setExcelName("登门用户");
-//			excelBean.setSheetName("登门用户");
-//		}else if("2".equals(type)){
-//			Object[][] data = new Object[paramList.size()+1][7];
-//			
-//			int i = 1;
-//			data[0] = new Object[]{"序号", "电话", "电话1", "访问时间", "客户类型", "上次访问时间", "上次倒出时间"};
-//			for(CustomerInfo ci : paramList){
-//				data[i][0] = String.valueOf(i);
-//				data[i][1] = null == ci.getPhone()?"":ci.getPhone();
-//				data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
-//				data[i][3] = null == ci.getVisitDate()?"":ci.getVisitDate();
-//				data[i][4] = "说明会用户";
-//				data[i][5] = null == ci.getRecentVisitDate()?"":ci.getRecentVisitDate();
-//				data[i][6] = null == ci.getRecentExportDate()?"":ci.getRecentExportDate();
-//				i++;
-//			}
-//			excelBean.setData(data);
-//			excelBean.setExcelName("说明会用户");
-//			excelBean.setSheetName("说明会用户");
-//		}else if("3".equals(type)){
-//			Object[][] data = new Object[paramList.size()+1][5];
-//			
-//			int i = 1;
-//			data[0] = new Object[]{"序号", "电话", "电话1", "订单总金额", "最后成单时间"};
-//			for(CustomerInfo ci : paramList){
-//				data[i][0] = String.valueOf(i);
-//				data[i][1] = null == ci.getPhone()?"":ci.getPhone();
-//				data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
-//				data[i][3] = null == ci.getPayPrice()?"":ci.getPayPrice();
-//				data[i][4] = null == ci.getRecentCreateDate()?"":ci.getRecentCreateDate();
-//				i++;
-//			}
-//			excelBean.setData(data);
-//			excelBean.setExcelName("成单用户");
-//			excelBean.setSheetName("成单用户");
-//		}else if("4".equals(type)){
-//			Object[][] data = new Object[paramList.size()+1][5];
-//			
-//			int i = 1;
-//			data[0] = new Object[]{"序号", "电话", "电话1", "订单总金额", "最后成单时间"};
-//			for(CustomerInfo ci : paramList){
-//				data[i][0] = String.valueOf(i);
-//				data[i][1] = null == ci.getPhone()?"":ci.getPhone();
-//				data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
-//				data[i][3] = null == ci.getPayPrice()?"":ci.getPayPrice();
-//				data[i][4] = null == ci.getRecentCreateDate()?"":ci.getRecentCreateDate();
-//				i++;
-//			}
-//			excelBean.setData(data);
-//			excelBean.setExcelName("锁定用户");
-//			excelBean.setSheetName("锁定用户");
-//		}
+
+		// }else if("1".equals(type)){
+		// Object[][] data = new Object[paramList.size()+1][6];
+		//
+		// int i = 1;
+		// data[0] = new Object[]{"序号", "电话", "电话1", "姓名", "登门次数", "最近登门时间"};
+		// for(CustomerInfo ci : paramList){
+		// data[i][0] = String.valueOf(i);
+		// data[i][1] = null == ci.getPhone()?"":ci.getPhone();
+		// data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
+		// data[i][3] = null == ci.getName()?"":ci.getName();
+		// data[i][4] = null == ci.getVisitCount()?"":ci.getVisitCount();
+		// data[i][5] = null ==
+		// ci.getRecentVisitDate()?"":ci.getRecentVisitDate();
+		// i++;
+		// }
+		// excelBean.setData(data);
+		// excelBean.setExcelName("登门用户");
+		// excelBean.setSheetName("登门用户");
+		// }else if("2".equals(type)){
+		// Object[][] data = new Object[paramList.size()+1][7];
+		//
+		// int i = 1;
+		// data[0] = new Object[]{"序号", "电话", "电话1", "访问时间", "客户类型", "上次访问时间",
+		// "上次倒出时间"};
+		// for(CustomerInfo ci : paramList){
+		// data[i][0] = String.valueOf(i);
+		// data[i][1] = null == ci.getPhone()?"":ci.getPhone();
+		// data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
+		// data[i][3] = null == ci.getVisitDate()?"":ci.getVisitDate();
+		// data[i][4] = "说明会用户";
+		// data[i][5] = null ==
+		// ci.getRecentVisitDate()?"":ci.getRecentVisitDate();
+		// data[i][6] = null ==
+		// ci.getRecentExportDate()?"":ci.getRecentExportDate();
+		// i++;
+		// }
+		// excelBean.setData(data);
+		// excelBean.setExcelName("说明会用户");
+		// excelBean.setSheetName("说明会用户");
+		// }else if("3".equals(type)){
+		// Object[][] data = new Object[paramList.size()+1][5];
+		//
+		// int i = 1;
+		// data[0] = new Object[]{"序号", "电话", "电话1", "订单总金额", "最后成单时间"};
+		// for(CustomerInfo ci : paramList){
+		// data[i][0] = String.valueOf(i);
+		// data[i][1] = null == ci.getPhone()?"":ci.getPhone();
+		// data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
+		// data[i][3] = null == ci.getPayPrice()?"":ci.getPayPrice();
+		// data[i][4] = null ==
+		// ci.getRecentCreateDate()?"":ci.getRecentCreateDate();
+		// i++;
+		// }
+		// excelBean.setData(data);
+		// excelBean.setExcelName("成单用户");
+		// excelBean.setSheetName("成单用户");
+		// }else if("4".equals(type)){
+		// Object[][] data = new Object[paramList.size()+1][5];
+		//
+		// int i = 1;
+		// data[0] = new Object[]{"序号", "电话", "电话1", "订单总金额", "最后成单时间"};
+		// for(CustomerInfo ci : paramList){
+		// data[i][0] = String.valueOf(i);
+		// data[i][1] = null == ci.getPhone()?"":ci.getPhone();
+		// data[i][2] = null == ci.getPhone2()?"":ci.getPhone2();
+		// data[i][3] = null == ci.getPayPrice()?"":ci.getPayPrice();
+		// data[i][4] = null ==
+		// ci.getRecentCreateDate()?"":ci.getRecentCreateDate();
+		// i++;
+		// }
+		// excelBean.setData(data);
+		// excelBean.setExcelName("锁定用户");
+		// excelBean.setSheetName("锁定用户");
+		// }
 	}
-	
+
 	/**
-	 * @throws IOException 
-	 * @Title: importCustomer 
-	 * @Description: 导入用户
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @throws IOException
+	 * @Title: importCustomer @Description: 导入用户 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("importCustomer")
 	public String importCustomer(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="importFile", required=false) MultipartFile file) {
+			@RequestParam(value = "importFile", required = false) MultipartFile file) {
 		String type = "";
 		String result = "";
 		try {
-			//如果导入模版修改需要修改第二和第三个参数
+			// 如果导入模版修改需要修改第二和第三个参数
 			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
-			
+
 			type = request.getParameter("type");
-			
-//			if(StringUtils.isBlank(type) || "0".equals(type)){
+
+			// if(StringUtils.isBlank(type) || "0".equals(type)){
 			result = customerInfoService.insertAndUpdateCustomerInfo(data);
-//			}else {
-//				customerInfoService.updateCustomerInfo(data);
-//			}
-			
+			// }else {
+			// customerInfoService.updateCustomerInfo(data);
+			// }
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
 	}
-	
+
+	@RequestMapping("updateCustomerPhoneStaff")
+	public String updateCustomerPhoneStaff(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "importFile", required = false) MultipartFile file) {
+		System.out.println("-----------------updateCustomerInfo---------------");
+		String type = "";
+		String result = "0";
+		try {
+			// 如果导入模版修改需要修改第二和第三个参数
+			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
+			type = request.getParameter("type");
+			customerInfoService.updateCustomerInfo(data);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
+	}
+
 	/**
-	 * @throws IOException 
-	 * @Title: importCustomer 
-	 * @Description: 导入用户
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @throws IOException
+	 * @Title: importCustomer @Description: 导入用户 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("importCustomerAdd")
 	public String importCustomerAdd(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam(value="importFile", required=false) MultipartFile file) {
+			@RequestParam(value = "importFile", required = false) MultipartFile file) {
 		String type = "";
 		String result = "";
 		try {
-			//如果导入模版修改需要修改第二和第三个参数
+			// 如果导入模版修改需要修改第二和第三个参数
 			List<Map<String, Object>> data = importExcelUtil.readXLSDocument(file.getInputStream(), 1, 21);
-			
+
 			type = request.getParameter("type");
-			
-//			if(StringUtils.isBlank(type) || "0".equals(type)){
+
+			// if(StringUtils.isBlank(type) || "0".equals(type)){
 			result = customerInfoService.insertAndUpdateCustomerInfoAdd(data);
-//			}else {
-//				customerInfoService.updateCustomerInfo(data);
-//			}
-			
+			// }else {
+			// customerInfoService.updateCustomerInfo(data);
+			// }
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return "redirect:costomerInfoIndex?type=" + type + "&result=" + result;
 	}
-	
+
 	/**
-	 * @Title: customerOrderInfoIndex 
-	 * @Description: 用户订单详情
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @Title: customerOrderInfoIndex @Description: 用户订单详情 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("customerOrderInfoIndex")
-	public String customerOrderInfoIndex(HttpServletRequest request, HttpServletResponse response){
+	public String customerOrderInfoIndex(HttpServletRequest request, HttpServletResponse response) {
 		request.setAttribute("customerId", request.getParameter("customerId"));
 		return "customer/customer_order_info";
 	}
-	
+
 	/**
-	 * @Title: customerOrderInfoList 
-	 * @Description: 用户订单详情
-	 * @param request
-	 * @param response 
-	 * @return void
-	 * @throws
+	 * @Title: customerOrderInfoList @Description: 用户订单详情 @param request @param
+	 *         response @return void @throws
 	 */
 	@RequestMapping("customerOrderInfoList")
-	public void customerOrderInfoList(HttpServletRequest request, HttpServletResponse response){
+	public void customerOrderInfoList(HttpServletRequest request, HttpServletResponse response) {
 		String customerId = request.getParameter("customerId");
 		String receiverStaffId = request.getParameter("receiverStaffId");
 		String createDate = request.getParameter("createDate");
-		
+
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("mysqlLength", Integer.valueOf(request.getParameter("iDisplayLength")));
 		paramMap.put("mysqlOffset", Integer.valueOf(request.getParameter("iDisplayStart")));
@@ -406,37 +403,37 @@ public class CustomerInfoAction {
 		paramMap.put("createDate", createDate);
 		paramMap.put("receiverStaffId", receiverStaffId);
 		List<OrderInfo> resultList = customerInfoService.selectCustomerOrderList(paramMap);
-		
+
 		int count = customerInfoService.selectCustomerOrderCount(paramMap);
-		
+
 		JsonUtils.resultJson(resultList, count, response, request);
 	}
-	
+
 	/**
-	 * @Title: importEmptyCustomer 
+	 * @Title: importEmptyCustomer
 	 * @Description: 后台导入空白客户时调用的方法(不需要时可先将页面上的内容注释掉)
 	 * @param request
 	 * @param response
 	 * @param file
 	 * @return String
 	 * @author Xia ZhengWei
-	 * @date 2017年2月18日 下午10:18:36 
+	 * @date 2017年2月18日 下午10:18:36
 	 * @version V1.0
-	 * @throws SystemException 
+	 * @throws SystemException
 	 */
 	@RequestMapping("/importEmptyCustomer")
-    public String importEmptyCustomer(HttpServletRequest request, HttpServletResponse response,
-            @RequestParam(value="eptyCustomerFile", required=false) MultipartFile[] files) throws SystemException {
-	    if(files[0].getSize() > 0) {
-	        // 获取客户所属区域
-	        String area = request.getParameter("area");
-	        try {
-	            // 解析空白客户Excel并存储到数据库中
-	            importExcelUtil.readXLSDocument(files, area);
-	        } catch (BiffException | IOException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    return "redirect:costomerInfoIndex?type=0";
-    }
+	public String importEmptyCustomer(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value = "eptyCustomerFile", required = false) MultipartFile[] files) throws SystemException {
+		if (files[0].getSize() > 0) {
+			// 获取客户所属区域
+			String area = request.getParameter("area");
+			try {
+				// 解析空白客户Excel并存储到数据库中
+				importExcelUtil.readXLSDocument(files, area);
+			} catch (BiffException | IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return "redirect:costomerInfoIndex?type=0";
+	}
 }
