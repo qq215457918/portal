@@ -320,6 +320,8 @@ public class OrderInfo implements Serializable {
             this.orderTypeName = "VIP赠品";
         } else if ("7".equals(orderType)) {
             this.orderTypeName = "回购待确认";
+        } else if ("8".equals(orderType)) {
+            this.orderTypeName = "兑换";
         }
     }
 

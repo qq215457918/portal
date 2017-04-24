@@ -4,16 +4,14 @@ import com.portal.bean.Criteria;
 import com.portal.bean.EmployeeInfo;
 import com.portal.bean.GoodsInfo;
 import com.portal.bean.result.GoodsInfoForm;
-
-import net.sf.json.JSONObject;
-
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import net.sf.json.JSONObject;
 
 public interface GoodsInfoService {
 
     //获取赠品信息
-    public List<GoodsInfo> selectPresentInfo(HttpServletRequest request);
+    public List<GoodsInfo> selectPresentInfo(HttpServletRequest request, String goodsType);
 
     public List<String> checkGoodsInfo(HttpServletRequest request);
 
@@ -47,7 +45,7 @@ public interface GoodsInfoService {
     int insert(GoodsInfo record);
 
     int insertSelective(GoodsInfo record);
-    
+
     /**
      * @Title: selectByConditions 
      * @Description: 根据条件查询数据
@@ -58,7 +56,7 @@ public interface GoodsInfoService {
      * @version V1.0
      */
     List<GoodsInfoForm> selectByConditions(Criteria criteria);
-    
+
     /**
      * @Title: ajaxGoodsData 
      * @Description: 异步获取商品信息
@@ -70,7 +68,7 @@ public interface GoodsInfoService {
      * @version V1.0
      */
     JSONObject ajaxGoodsData(Criteria criteria, String sEcho);
-    
+
     /**
      * @Title: saveGoodsInfo 
      * @Description: 保存商品信息
@@ -83,7 +81,7 @@ public interface GoodsInfoService {
      * @version V1.0
      */
     JSONObject saveGoodsInfo(GoodsInfoForm goodsInfoForm, EmployeeInfo employee, JSONObject result);
-    
+
     /**
      * @Title: deleteGoodsInfo 
      * @Description: 删除商品信息

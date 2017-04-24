@@ -50,6 +50,11 @@
 	                	<span aria-hidden="true" class="icon-file-text"></span>礼品审批</a>
 	              </li>
               </shiro:hasPermission>
+              <shiro:hasPermission name="job:present">
+	              <li><a name="tab" href="${base}job/exchange?active=5">
+	                	<span aria-hidden="true" class="icon-file-text"></span>兑换审批</a>
+	              </li>
+              </shiro:hasPermission>
               <shiro:hasPermission name="job:culture">
 	              <li><a name="tab" href="${base}workflow/civilizationExchangeIndex?active=9">
 	                	<span aria-hidden="true" class="icon-file-text"></span>文交所管理</a>

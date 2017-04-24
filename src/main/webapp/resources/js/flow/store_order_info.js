@@ -321,6 +321,14 @@ function initData() {
 												operation = '<a class="btn btn-success btn-block" data-toggle="modal" data-order-id="'
 														+ row.id + '">已领取</a>';
 											}
+										}else if (row.orderType == 8) {
+											operation = '<a class="btn btn-info btn-block" data-toggle="modal" data-order-id="'
+													+ row.id
+													+ '" onclick="doStoreOp(3, this)">兑换领取</a>';
+											if (row.warehouseFlag == 3) {
+												operation = '<a class="btn btn-success btn-block" data-toggle="modal" data-order-id="'
+														+ row.id + '">已领取</a>';
+											}
 										}
 										operation += '<a class="btn btn-primary btn-block" href="#printInfo" data-toggle="modal" data-order-id="'
 												+ row.id

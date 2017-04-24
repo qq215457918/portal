@@ -71,11 +71,12 @@ public class GoodsInfoServiceImpl implements GoodsInfoService {
 
     /**
      * 获取赠品信息
-     * 修改mapper 里面的 amount>0
+     * 修改mapper 里面的 amount>0=
+     * 4:兑换
      */
-    public List<GoodsInfo> selectPresentInfo(HttpServletRequest request) {
+    public List<GoodsInfo> selectPresentInfo(HttpServletRequest request, String goodsType) {
         criteria.clear();
-        criteria.put("type", "1");
+        criteria.put("type", goodsType);
         criteria.put("deleteFlag", "0");
         //moreAmount-> amount > 0
         criteria.put("moreAmount", "0");

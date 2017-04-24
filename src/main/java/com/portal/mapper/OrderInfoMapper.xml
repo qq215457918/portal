@@ -797,7 +797,7 @@
       </if>
       <!-- 仓库查看财务已审核或者退货换货仓库未审核的订单 -->
       <if test="condition.store != null and condition.store == 1" >
-         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6))
+         and (culture_flag = 1 or ((oi.order_type = 2 or oi.order_type = 3 or oi.order_type = 5) and (warehouse_flag = '' or warehouse_flag = 0)) or (oi.order_type = 4 or oi.order_type = 6 or oi.order_type = 8))
          and warehouse_flag != -2
          and oi.status != 5
       </if>

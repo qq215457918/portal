@@ -24,6 +24,8 @@ public interface OrderInfoService {
 
     public boolean updateCancelDeposit(String orderId);
 
+    public List<OrderInfoForm> selectExchangeList(String customerId);
+
     /**
      * 退货订单
      * @param orderId
@@ -91,6 +93,12 @@ public interface OrderInfoService {
      * @return
      */
     boolean insertPresentOrder(HttpServletRequest request, int normalFlag, Boolean isVIP);
+
+    /**
+     * 新增兑换订单，需要审批，才能通过。
+     * @param request
+     */
+    boolean insertExchangeOrder(HttpServletRequest request);
 
     /**
      * 当天赠品记录查询
@@ -221,7 +229,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     List<OrderFundSettlementForm> getCreditCardDepositDetail(Criteria criteria);
-    
+
     /**
      * @Title: getOrderCounts 
      * @Description: 获取对应客户指定时间段的出单数（定时器使用, 其他地方也可以使用）
@@ -232,7 +240,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     int getOrderCounts(Criteria criteria);
-    
+
     /**
      * @Title: getOrderAmounts 
      * @Description: 获取对应客户指定时间段的实际出单金额（定时器使用, 其他地方也可以使用）
@@ -243,7 +251,7 @@ public interface OrderInfoService {
      * @version V1.0
      */
     int getOrderAmounts(Criteria criteria);
-    
+
     /**
      * @Title: getOrderGoodsCounts 
      * @Description: 获取对应人员在指定时间段的出售藏品件数（定时器使用）
@@ -261,6 +269,6 @@ public interface OrderInfoService {
      * @param criteria
      * @return OrderInfo
      */
-	public OrderInfo selectPirntInfoById(String orderId);
+    public OrderInfo selectPirntInfoById(String orderId);
 
 }

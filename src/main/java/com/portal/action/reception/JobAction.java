@@ -48,6 +48,14 @@ public class JobAction {
         return "myjob/present_check";
     }
 
+    @RequiresPermissions("job:exchange")
+    @RequestMapping(value = "exchange")
+    public String exchangeList(HttpServletRequest request, HttpServletResponse response) {
+        getBasePath(request, response);
+        WebUtils.setAttributeToSession(request);
+        return "myjob/exchange_check";
+    }
+
     /**
      * job:repurchasec= job:repurchase check
      * 进入回购审批页面

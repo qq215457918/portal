@@ -15,9 +15,12 @@
 			<div class="col-lg-12">
 				<div class="widget-container fluid-height clearfix">
 					<div class="heading">
-						<i class="icon-tags"></i>赠品管理 <a
-							class="btn btn-primary btn pull-right" data-toggle="modal"
+						<i class="icon-tags"></i>
+						赠品管理
+						 <a class="btn btn-primary btn pull-right" data-toggle="modal"
 							href="#presentModal">特殊审批</a>
+						 <a class="btn btn-primary btn pull-right" data-toggle="modal"
+							href="#exchangeModal">兑换申请</a>	
 					</div>
 
 					<div class="widget-content text-center">
@@ -62,7 +65,7 @@
 		</div>
 		<!-- 购买历史 -->
 		<div class="row">
-			<div class="col-lg-12">
+			<div class="col-lg-6">
 				<div class="widget-container fluid-height clearfix">
 					<div class="heading">
 						<i class="icon-table"></i>礼品领取列表
@@ -79,6 +82,28 @@
 								</tr>
 							</thead>
 							<tbody id="presentListTbody">
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6">
+				<div class="widget-container fluid-height clearfix">
+					<div class="heading">
+						<i class="icon-table"></i>兑换记录列表
+					</div>
+					<div class="widget-content padded clearfix">
+
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>序号</th>
+									<th>兑换名称</th>
+									<th>申请时间</th>
+									<th>审核状态</th>
+								</tr>
+							</thead>
+							<tbody id="exchangeListTbody">
 							</tbody>
 						</table>
 					</div>
@@ -115,10 +140,40 @@
 		</div>
 	</div>
 	<!-- modal end -->
+	
+	<!-- modal Start -->
+	<div class="modal fade" id="exchangeModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button aria-hidden="true" class="close" data-dismiss="modal"
+						type="button">&times;</button>
+					<h4 class="modal-title">请输入兑换商品</h4>
+				</div>
+				<div class="modal-body">
+					兑换名称：<select class="form-control" id="exchangeGoods">
+						<c:forEach var="list" items="${exchangeInfoList}">
+							<option value="${list.id}">${list.name}</option>
+						</c:forEach>
+					</select> 兑换数量： <input class="form-control" value="1" type="text"
+						id="exchangeCount"> 兑换原因：
+					<textarea class="form-control" rows="3" id="exchangeReason"></textarea>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="exchangeConfirm">确
+						认</button>
+					<button class="btn btn-default-outline" data-dismiss="modal"
+						type="button">取 消</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- modal end -->
 	<script>
 		$(function() {
 			base = $("base").attr('href');
 			getPresent();
+			getExchange();
 			// 特殊申请
 			$("#appConfirm").click(
 					function() {
@@ -136,14 +191,46 @@
 								"count" : count,
 								"goodId" : goodId,
 								"goodName" : goodName,
-								"isVIP" : false,
-								"customerId" : "1"
+								"isVIP" : false
 							},
 							dataType : "JSON",
 							success : function(data) {
 								if (data.result == true) {
 									alert("提交成功，等待审批人进行审批");
 									$('#presentModal').modal('hide');
+									getPresent();
+								}
+							},
+							error : function(XMLHttpRequest, textStatus,
+									errorThrown) {
+								console.log('XMLHttpRequest.status :'
+										+ XMLHttpRequest.status);
+								console.log('XMLHttpRequest.readyState :'
+										+ XMLHttpRequest.readyState);
+								console.log('textStatus:' + textStatus);
+							}
+						});
+					});
+			// 兑换申请
+			$("#exchangeConfirm").click(
+					function() {
+						var goodId = $('#exchangeGoods').find("option:selected")
+								.val();
+						var count = $('#exchangeCount').val();
+						var reason = $('#exchangeReason').val();
+						$.ajax({
+							method : "POST",
+							url : base + "/exchange/review",
+							data : {
+								"reason" : reason,
+								"count" : count,
+								"goodId" : goodId
+							},
+							dataType : "JSON",
+							success : function(data) {
+								if (data.result == true) {
+									alert("提交成功，等待审批人进行审批");
+									$('#exchangeModal').modal('hide');
 									getPresent();
 								}
 							},
@@ -207,12 +294,9 @@
 							});
 
 		});
-
 		function getPresent() {
 			$("#presentListTbody").html("");
-			$
-					.ajax({
-						method : "POST",
+			$.ajax({method : "POST",
 						url : base + "/present/record",
 						/* data : {
 							"customerId":"1"
@@ -252,6 +336,56 @@
 								item += "<tr><td align='center' colspan='4'>没有赠品领取记录</td></tr>";
 							}
 							$("#presentListTbody").append(item);
+						},
+						error : function(XMLHttpRequest, textStatus,
+								errorThrown) {
+							console.log('XMLHttpRequest.status :'
+									+ XMLHttpRequest.status);
+							console.log('XMLHttpRequest.readyState :'
+									+ XMLHttpRequest.readyState);
+							console.log('textStatus:' + textStatus);
+						}
+					});
+		}
+		function getExchange() {
+			$("#exchangeListTbody").html("");
+			$.ajax({method : "POST",
+						url : base + "/exchange/record",
+						dataType : "JSON",
+						success : function(data) {
+							if (data.result.length > 0) {
+								var item;
+								var financeFlag;
+								var orderList = data.result;
+							$.each(data.result,
+										function(n, value) {
+											if (value.status == 5) {
+												financeFlag = "等待审批";
+											} else if(value.warehouseFlag == '') {
+												financeFlag = "等待领取";
+											} else{
+												financeFlag = "已领取";
+											}
+											item += "<tr><td>"+ Number(n + 1)+ "</td>";
+											var goodName = "<td>";
+											$.each(
+													value.orderDetailInfoList,
+													function(n,value) {
+														goodName += value.goodName
+																+ "&nbsp;&nbsp;";
+													});
+											item += goodName + "</td>";
+											item += "<td>"
+													+ value.createDateString
+													+ "</td>";
+											item += "<td>"
+													+ financeFlag
+													+ "</td></tr>";
+										});
+							} else {
+								item += "<tr><td align='center' colspan='4'>没有记录</td></tr>";
+							}
+							$("#exchangeListTbody").append(item);
 						},
 						error : function(XMLHttpRequest, textStatus,
 								errorThrown) {

@@ -643,6 +643,19 @@ public class OrderInfoServiceImpl implements OrderInfoService {
     }
 
     /**
+     * 提交兑换的商品，需要审批的status=5 、兑换商品类型 type=4
+     * @param request
+     */
+    public boolean insertExchangeOrder(HttpServletRequest request) {
+        String uuid = UUidUtil.getUUId();
+        String goodId = request.getParameter("goodId");
+        String count = (String) request.getParameter("count");
+        insertPresentDetailInfo(
+                getOrderDetailInfo(goodId, StringUtils.isEmpty(count) ? "1" : count, uuid, "8"));
+        return insertSelective(getExchangeOrderInfo(request, uuid)) > 0 ? true : false;
+    }
+
+    /**
      * ready for orderdetailInfo
      * add goodID count
      */
@@ -703,6 +716,26 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         return orderInfo;
     }
 
+    OrderInfo getExchangeOrderInfo(HttpServletRequest request, String uuid) {
+        String cid = request.getSession().getAttribute("cId").toString();
+        OrderInfo orderInfo = new OrderInfo();
+        orderInfo.setId(uuid);
+        orderInfo.setOrderNumber(StringUtil.getOrderNo());
+        orderInfo.setCustomerId(cid);
+        orderInfo.setStatus("5");//status = 5 审批标志
+        orderInfo.setCreateDate(new Date());
+        String[] staff = getStaffInfo(cid, request);
+        orderInfo.setReceiverStaffId(staff[0]);
+        orderInfo.setPhoneStaffId(staff[1]);
+        orderInfo.setPayType("0");//礼品订单,兑换都是全额支付
+        orderInfo.setOrderType("8");//兑换
+        orderInfo.setPayPrice(0l);
+        orderInfo.setDeleteFlag("0");
+        orderInfo.setRemarks(request.getParameter("reason"));
+        orderInfo.setAreaFlag(staff[2]);
+        return orderInfo;
+    }
+
     /**
      * 获取接待人员信息
      * 加判断，如果customer的没有接待人员则获取当前session登陆的employeeInfo
@@ -756,6 +789,30 @@ public class OrderInfoServiceImpl implements OrderInfoService {
 
         return orderInfoResult;
         // return getOrderInfoByDate(customerId, 1, 4, 0);
+    }
+
+    /**
+     * 当天赠品记录查询
+     * order_type='8'and create_date=now()
+     */
+    public List<OrderInfoForm> selectExchangeList(String customerId) {
+        criteria.clear();
+        criteria.put("customerId", customerId);
+        criteria.put("payType", 0);
+        criteria.put("deleteFlag", "0");
+        criteria.put("orderType", "8");
+        criteria.setOrderByClause("create_date desc");
+        List<OrderInfoForm> orderInfoResult =
+                orderInfoExtraDao
+                        .selectByExample4Page(criteria);
+        //把商品详情信息放入到form中
+        orderInfoResult.forEach(value -> {
+            value.setOrderDetailInfoList(queryDetaiInfo(value.getId()));
+            value.setCreateDateString(
+                    DateUtil.formatDate(value.getCreateDate(), DateUtil.DATE_FMT_YYYYMMDDHHMMSS));
+        });
+
+        return orderInfoResult;
     }
 
     /**
@@ -1162,7 +1219,7 @@ public class OrderInfoServiceImpl implements OrderInfoService {
         int totalRecord = orderInfoExtraDao.getCountsCardDetail(criteria);
         // 获取数据
         List<OrderFundSettlementForm> depositDetail = orderInfoExtraDao.getCreditCardDepositDetail(criteria);
-        
+
         // 获取定金退款数据
         // List<Integer> depositRefund = orderInfoExtraDao.getDepositRefund(criteria);
 
